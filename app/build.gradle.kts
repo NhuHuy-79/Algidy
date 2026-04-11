@@ -16,6 +16,7 @@ dependencies {
     implementation(project(":core:common"))
     implementation(project(":core:data"))
     implementation(project(":core:model"))
+    implementation(project(":core:database"))
 
     implementation(project(":feature:inventory"))
     implementation(project(":feature:scanner"))

@@ -10,4 +10,6 @@ dependencies {
     implementation(project(":core:database"))
     implementation(project(":core:ai"))
     implementation(project(":core:model"))
+
+    implementation(libs.kotlinx.coroutines.android)
 }
