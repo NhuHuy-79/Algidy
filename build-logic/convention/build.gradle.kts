@@ -4,11 +4,15 @@ plugins {
 
 group = "com.nhuhuy.algidy.buildlogic"
 
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
 dependencies {
     compileOnly(libs.android.gradlePlugin)
     compileOnly(libs.kotlin.gradlePlugin)
     compileOnly(libs.compose.gradlePlugin)
-    // Bổ sung thêm để đảm bảo classpath hoàn thiện cho KSP và các công cụ khác nếu cần
     implementation(libs.android.gradlePlugin)
     implementation(libs.kotlin.gradlePlugin)
 }

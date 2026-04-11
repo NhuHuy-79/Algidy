@@ -7,6 +7,8 @@ android {
 }
 
 dependencies {
-    implementation(libs.androidx.material3)
-    implementation(libs.androidx.material3.android)
+    api(libs.androidx.material3)
+    api(libs.androidx.material3.android)
+    api(libs.androidx.material.icons.extended)
+    api(libs.coil.compose)
 }
