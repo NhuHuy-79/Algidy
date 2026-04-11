@@ -13,7 +13,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 class AndroidApplicationConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
-            val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
+            extensions.getByType<VersionCatalogsExtension>().named("libs")
 
             with(pluginManager) {
                 apply("com.android.application")
@@ -22,10 +22,10 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
             }
 
             extensions.configure<BaseAppModuleExtension> {
-                compileSdk = libs.findVersion("compileSdk").get().requiredVersion.toInt()
+                compileSdk = 36
                 defaultConfig {
-                    targetSdk = libs.findVersion("targetSdk").get().requiredVersion.toInt()
-                    minSdk = libs.findVersion("minSdk").get().requiredVersion.toInt()
+                    targetSdk = 36
+                    minSdk = 30
                     versionCode = 1
                     versionName = "1.0"
                     testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
