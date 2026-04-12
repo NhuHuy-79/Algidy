@@ -1,6 +1,7 @@
 plugins {
     id("algidy.android.application")
     id("org.jetbrains.kotlin.plugin.compose")
+    alias(libs.plugins.jetbrains.kotlin.serialization)
 }
 
 android {
@@ -37,6 +38,14 @@ dependencies {
     implementation(libs.koin.android)
     implementation(libs.koin.compose)
     implementation(libs.androidx.navigation.compose)
+
+    // Navigation 3
+    implementation(libs.androidx.navigation3.runtime)
+    implementation(libs.androidx.navigation3.ui)
+    implementation(libs.androidx.lifecycle.viewmodel.navigation3)
+
+    //Serialization
+    implementation(libs.kotlinx.serialization.core)
 
     // Testing
     testImplementation(libs.junit)
