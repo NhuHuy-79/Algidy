@@ -1,5 +1,7 @@
 package com.nhuhuy.algidy.core.model
 
+import kotlin.math.abs
+
 data class FoodItem(
     val id: String = "",
     val name: String = "",
@@ -24,6 +26,37 @@ data class FoodItem(
             daysRemaining <= 3 -> Freshness.URGENT
             daysRemaining <= 7 -> Freshness.WARNING
             else -> Freshness.FRESH
+        }
+    }
+
+    fun calculateFreshnessProgress(): Float {
+        if (expiryDate == -1L) return 1f
+
+        val currentTime = System.currentTimeMillis()
+
+        if (currentTime >= expiryDate) return 0f
+
+        if (currentTime <= purchaseDate) return 1f
+
+        val totalDuration = (expiryDate - purchaseDate).toFloat()
+        val remainingDuration = (expiryDate - currentTime).toFloat()
+
+        return (remainingDuration / totalDuration).coerceIn(0f, 1f)
+    }
+
+    fun getRemainingDaysText(): String {
+        if (expiryDate == -1L) return "No expiry"
+
+        val currentTime = System.currentTimeMillis()
+        val diff = expiryDate - currentTime
+        val days = (diff / (24 * 60 * 60 * 1000)).toInt()
+
+        return when {
+            days < 0 -> "Expired ${abs(days)}d ago"
+            days == 0 -> "Expires today"
+            days == 1 -> "1 day left"
+            days < 30 -> "$days days left"
+            else -> "${days / 30} months left"
         }
     }
 }

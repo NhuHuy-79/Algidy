@@ -36,7 +36,7 @@ fun AppBottomBar(
     HorizontalFloatingToolbar(
         modifier = modifier,
         expanded = true,
-        colors = FloatingToolbarDefaults.vibrantFloatingToolbarColors(),
+        colors = FloatingToolbarDefaults.standardFloatingToolbarColors(),
         floatingActionButton = {
             FloatingActionButton(
                 onClick = onScannerPress,

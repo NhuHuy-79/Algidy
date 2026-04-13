@@ -45,7 +45,7 @@ class MainActivity : ComponentActivity() {
                         AppGraph(backStack = backStack)
 
                         AnimatedVisibility(
-                            visible = currentRoute != Route.ScannerRoute,
+                            visible = routes.contains(currentRoute),
                             enter = slideInVertically(
                                 initialOffsetY = { it },
                                 animationSpec = tween(durationMillis = 400, easing = EaseInOut)

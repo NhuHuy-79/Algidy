@@ -13,7 +13,6 @@ fun InventoryScreen(
     InventoryContent(
         categories = StorageLocation.entries.map { location -> location.name },
         onBackPress = {},
-        onFilterPress = {},
         onItemClick = {}
     )
 }

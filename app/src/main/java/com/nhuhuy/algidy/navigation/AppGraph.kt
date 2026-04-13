@@ -1,9 +1,7 @@
 package com.nhuhuy.algidy.navigation
 
 import androidx.compose.animation.EnterTransition
-import androidx.compose.animation.ExitTransition
-import androidx.compose.animation.core.EaseInOut
-import androidx.compose.animation.core.EaseOutExpo
+import androidx.compose.animation.core.EaseInCubic
 import androidx.compose.animation.core.EaseOutQuart
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
@@ -87,18 +85,22 @@ fun AppGraph(
                 metadata = NavDisplay.transitionSpec {
                     slideInVertically(
                         initialOffsetY = { it },
-                        animationSpec = tween(500, easing = EaseOutExpo)
-                    ) togetherWith ExitTransition.KeepUntilTransitionsFinished
+                        animationSpec = tween(400, easing = EaseOutQuart)
+                    ) + fadeIn(animationSpec = tween(300)) togetherWith
+                            fadeOut(animationSpec = tween(300))
+
                 } + NavDisplay.popTransitionSpec {
                     EnterTransition.None togetherWith slideOutVertically(
                         targetOffsetY = { it },
-                        animationSpec = tween(450, easing = EaseInOut)
+                        animationSpec = tween(400, easing = EaseInCubic)
+                    ) + fadeOut(
+                        animationSpec = tween(300)
                     )
                 } + NavDisplay.predictivePopTransitionSpec {
                     EnterTransition.None togetherWith slideOutVertically(
                         targetOffsetY = { it },
-                        animationSpec = tween(450, easing = EaseInOut)
-                    )
+                        animationSpec = tween(400, easing = EaseInCubic)
+                    ) + fadeOut(animationSpec = tween(300))
                 }
             ) {
                 ScannerScreen()

@@ -30,7 +30,6 @@ sealed interface Route : NavKey {
 
 val routes = listOf(
     Route.InventoryRoute,
-    Route.DetailRoute,
     Route.AnalyticsRoute,
     Route.ReviewRoute,
 )
