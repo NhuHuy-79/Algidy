@@ -18,12 +18,12 @@ import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDe
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
-import com.nhuhuy.aldidy.feature.inventory.presentation.InventoryScreen
-import com.nhuhuy.aldidy.feature.inventory.presentation.viewmodel.InventoryUiState
+import com.nhuhuy.aldidy.feature.inventory.presentation.InventoryRoute
 import com.nhuhuy.algidy.feature.analytics.presentation.component.AnalyticsScreen
 import com.nhuhuy.algidy.feature.detail.presentation.component.DetailScreen
 import com.nhuhuy.algidy.feature.review.ReviewScreen
 import com.nhuhuy.algidy.feature.scanner.ScannerScreen
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun AppGraph(
@@ -64,8 +64,12 @@ fun AppGraph(
         onBack = { backStack.removeLastOrNull() },
         entryProvider = entryProvider {
             entry<Route.InventoryRoute> {
-                InventoryScreen(
-                    uiState = InventoryUiState.Empty
+                InventoryRoute(
+                    viewModel = koinViewModel(),
+                    onNavigateBack = { backStack.removeLastOrNull() },
+                    onNavigateToReview = {
+                        backStack.add(Route.ReviewRoute)
+                    }
                 )
             }
 
