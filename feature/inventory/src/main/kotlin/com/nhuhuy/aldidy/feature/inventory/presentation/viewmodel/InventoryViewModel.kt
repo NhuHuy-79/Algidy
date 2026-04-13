@@ -3,9 +3,10 @@ package com.nhuhuy.aldidy.feature.inventory.presentation.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nhuhuy.algidy.core.data.repository.FoodRepository
-import com.nhuhuy.algidy.core.model.FoodItem
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
@@ -13,11 +14,16 @@ class InventoryViewModel(
     private val repository: FoodRepository
 ) : ViewModel() {
 
-    val uiState: StateFlow<List<FoodItem>> = repository.getInventory()
+    val uiState: StateFlow<InventoryUiState> = repository.getInventory()
+        .map { items ->
+            if (items.isEmpty()) InventoryUiState.Empty
+            else InventoryUiState.Success(items = items)
+        }
+        .onStart { emit(InventoryUiState.Loading) }
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5000),
-            initialValue = emptyList()
+            initialValue = InventoryUiState.Loading
         )
 
     fun removeItem(id: String) {

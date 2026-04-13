@@ -1,0 +1,11 @@
+package com.nhuhuy.aldidy.feature.inventory.presentation.viewmodel
+
+import androidx.compose.runtime.Stable
+import com.nhuhuy.algidy.core.model.FoodItem
+
+@Stable
+sealed interface InventoryUiState {
+    object Loading : InventoryUiState
+    data class Success(val items: List<FoodItem>) : InventoryUiState
+    object Empty : InventoryUiState
+}

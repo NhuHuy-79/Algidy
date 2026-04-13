@@ -1,14 +1,14 @@
 package com.nhuhuy.algidy.core.model
 
 data class FoodItem(
-    val id: String,
-    val name: String,
-    val categoryId: String,
-    val location: StorageLocation,
-    val quantity: Double,
-    val itemUnit: ItemUnit,
+    val id: String = "",
+    val name: String = "",
+    val categoryId: String = "",
+    val location: StorageLocation = StorageLocation.FRIDGE,
+    val quantity: Double = 0.0,
+    val itemUnit: ItemUnit = ItemUnit.KG,
     val purchaseDate: Long = System.currentTimeMillis(),
-    val expiryDate: Long,
+    val expiryDate: Long = -1,
     val imageUri: String? = null,
     val isFavorite: Boolean = false,
     val notes: String = ""
