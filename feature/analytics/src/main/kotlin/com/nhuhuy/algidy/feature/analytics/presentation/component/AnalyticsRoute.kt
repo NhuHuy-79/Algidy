@@ -6,7 +6,7 @@ import androidx.compose.ui.Modifier
 import com.nhuhuy.algidy.core.designsystem.component.BoxLayout
 
 @Composable
-fun AnalyticsScreen(
+fun AnalyticsRoute(
     modifier: Modifier = Modifier
 ) {
     BoxLayout {

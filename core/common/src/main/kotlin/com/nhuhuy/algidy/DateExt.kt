@@ -13,3 +13,11 @@ fun Long.toReadableDate(): String {
     val format = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
     return format.format(date)
 }
+
+fun Long.formatMillisToDate(): String {
+    val date = java.time.Instant.ofEpochMilli(this)
+        .atZone(java.time.ZoneId.systemDefault())
+        .toLocalDate()
+    val formatter = java.time.format.DateTimeFormatter.ofPattern("MMM dd")
+    return date.format(formatter)
+}

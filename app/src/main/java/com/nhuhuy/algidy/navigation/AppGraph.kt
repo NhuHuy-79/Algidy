@@ -19,15 +19,16 @@ import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
 import com.nhuhuy.aldidy.feature.inventory.presentation.InventoryRoute
-import com.nhuhuy.algidy.feature.analytics.presentation.component.AnalyticsScreen
-import com.nhuhuy.algidy.feature.detail.presentation.component.DetailScreen
-import com.nhuhuy.algidy.feature.review.ReviewScreen
-import com.nhuhuy.algidy.feature.scanner.ScannerScreen
+import com.nhuhuy.algidy.feature.analytics.presentation.component.AnalyticsRoute
+import com.nhuhuy.algidy.feature.detail.presentation.navigation.DetailRoute
+import com.nhuhuy.algidy.feature.review.ReviewRoute
+import com.nhuhuy.algidy.feature.scanner.ScannerRoute
 import org.koin.androidx.compose.koinViewModel
+import org.koin.core.parameter.parametersOf
 
 @Composable
 fun AppGraph(
-    backStack: SnapshotStateList<Route>,
+    backStack: SnapshotStateList<Destination>,
 ) {
     NavDisplay(
         backStack = backStack,
@@ -45,7 +46,6 @@ fun AppGraph(
                         animationSpec = tween(400)
                     ) + fadeOut())
         },
-
         popTransitionSpec = {
             (slideInHorizontally(
                 initialOffsetX = { -it / 3 },
@@ -56,36 +56,40 @@ fun AppGraph(
                         animationSpec = tween(400, easing = EaseOutQuart)
                     ) + fadeOut())
         },
-
         predictivePopTransitionSpec = {
             (slideInHorizontally(initialOffsetX = { -it / 3 }) + fadeIn() + scaleIn(initialScale = 0.9f)) togetherWith
                     (slideOutHorizontally(targetOffsetX = { it }) + fadeOut())
         },
         onBack = { backStack.removeLastOrNull() },
         entryProvider = entryProvider {
-            entry<Route.InventoryRoute> {
+            entry<Destination.Inventory> {
                 InventoryRoute(
                     viewModel = koinViewModel(),
                     onNavigateBack = { backStack.removeLastOrNull() },
-                    onNavigateToReview = {
-                        backStack.add(Route.ReviewRoute)
+                    onNavigateToDetail = { foodItemId ->
+                        backStack.add(Destination.Detail(foodItemId = foodItemId))
                     }
                 )
             }
 
-            entry<Route.DetailRoute> {
-                DetailScreen()
+            entry<Destination.Detail> { destinationDetail ->
+                DetailRoute(
+                    viewModel = koinViewModel(
+                        parameters = { parametersOf(destinationDetail.foodItemId) }
+                    ),
+                    onNavigateBack = { backStack.removeLastOrNull() }
+                )
             }
 
-            entry<Route.AnalyticsRoute> {
-                AnalyticsScreen()
+            entry<Destination.Analytics> {
+                AnalyticsRoute()
             }
 
-            entry<Route.ReviewRoute> {
-                ReviewScreen()
+            entry<Destination.Review> {
+                ReviewRoute()
             }
 
-            entry<Route.ScannerRoute>(
+            entry<Destination.Scanner>(
                 metadata = NavDisplay.transitionSpec {
                     slideInVertically(
                         initialOffsetY = { it },
@@ -107,7 +111,7 @@ fun AppGraph(
                     ) + fadeOut(animationSpec = tween(300))
                 }
             ) {
-                ScannerScreen()
+                ScannerRoute()
             }
         }
     )

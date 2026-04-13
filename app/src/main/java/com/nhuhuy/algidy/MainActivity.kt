@@ -22,16 +22,16 @@ import com.nhuhuy.algidy.component.AppBottomBar
 import com.nhuhuy.algidy.core.designsystem.component.BoxLayout
 import com.nhuhuy.algidy.core.designsystem.theme.AlgidyTheme
 import com.nhuhuy.algidy.navigation.AppGraph
-import com.nhuhuy.algidy.navigation.Route
-import com.nhuhuy.algidy.navigation.routes
+import com.nhuhuy.algidy.navigation.Destination
+import com.nhuhuy.algidy.navigation.destinations
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            val backStack = remember { mutableStateListOf<Route>(Route.InventoryRoute) }
-            val currentRoute = backStack.lastOrNull() ?: Route.InventoryRoute
+            val backStack = remember { mutableStateListOf<Destination>(Destination.Inventory) }
+            val currentDestination = backStack.lastOrNull() ?: Destination.Inventory
 
             AlgidyTheme {
                 Scaffold(
@@ -45,7 +45,7 @@ class MainActivity : ComponentActivity() {
                         AppGraph(backStack = backStack)
 
                         AnimatedVisibility(
-                            visible = routes.contains(currentRoute),
+                            visible = destinations.contains(currentDestination),
                             enter = slideInVertically(
                                 initialOffsetY = { it },
                                 animationSpec = tween(durationMillis = 400, easing = EaseInOut)
@@ -57,17 +57,17 @@ class MainActivity : ComponentActivity() {
                             modifier = Modifier.align(Alignment.BottomCenter)
                         ) {
                             AppBottomBar(
-                                currentRoute = currentRoute,
-                                bottomBarIcons = routes,
+                                currentDestination = currentDestination,
+                                bottomBarIcons = destinations,
                                 onRouteSelected = { route ->
-                                    if (currentRoute != route) {
+                                    if (currentDestination != route) {
                                         if (backStack.contains(route)) {
                                             backStack.remove(route)
                                         }
                                         backStack.add(route)
                                     }
                                 },
-                                onScannerPress = { backStack.add(Route.ScannerRoute) },
+                                onScannerPress = { backStack.add(Destination.Scanner) },
                             )
                         }
                     }

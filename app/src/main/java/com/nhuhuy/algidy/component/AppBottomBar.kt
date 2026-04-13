@@ -21,15 +21,15 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.nhuhuy.algidy.navigation.Route
+import com.nhuhuy.algidy.navigation.Destination
 import com.nhuhuy.algidy.navigation.toBottomBarIcon
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun AppBottomBar(
-    currentRoute: Route,
-    bottomBarIcons: List<Route>,
-    onRouteSelected: (Route) -> Unit,
+    currentDestination: Destination,
+    bottomBarIcons: List<Destination>,
+    onRouteSelected: (Destination) -> Unit,
     onScannerPress: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -49,7 +49,7 @@ fun AppBottomBar(
         },
     ) {
         bottomBarIcons.forEach { route ->
-            val isSelected = currentRoute == route
+            val isSelected = currentDestination == route
             IconButton(
                 onClick = { onRouteSelected(route) },
                 modifier = Modifier.padding(horizontal = 4.dp)

@@ -12,13 +12,13 @@ import com.nhuhuy.algidy.core.model.StorageLocation
 fun InventoryRoute(
     viewModel: InventoryViewModel,
     onNavigateBack: () -> Unit,
-    onNavigateToReview: (id: String) -> Unit,
+    onNavigateToDetail: (id: String) -> Unit,
 ) = BoxLayout {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     InventoryContent(
         uiState = uiState,
         categories = StorageLocation.entries.map { location -> location.name },
         onBackPress = onNavigateBack,
-        onItemClick = onNavigateToReview
+        onItemClick = onNavigateToDetail
     )
 }

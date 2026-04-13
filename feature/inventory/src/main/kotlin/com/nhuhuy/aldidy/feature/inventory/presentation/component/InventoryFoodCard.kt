@@ -22,7 +22,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -40,8 +39,8 @@ fun InventoryFoodCard(
     val freshness = item.getFreshnessStatus()
     val statusColor = when (freshness) {
         Freshness.EXPIRED -> MaterialTheme.colorScheme.error
-        Freshness.URGENT -> Color(0xFFFFB74D) // Cam (Deep Orange)
-        Freshness.WARNING -> Color(0xFFFFF176) // Vàng (Yellow)
+        Freshness.URGENT -> MaterialTheme.colorScheme.tertiary
+        Freshness.WARNING -> MaterialTheme.colorScheme.secondary
         Freshness.FRESH -> MaterialTheme.colorScheme.primary
     }
 
@@ -50,7 +49,7 @@ fun InventoryFoodCard(
     Card(
         onClick = onClick,
         modifier = modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(28.dp), // M3 chuẩn thường dùng 28dp
+        shape = RoundedCornerShape(28.dp),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surfaceContainerHigh
         )
@@ -93,7 +92,7 @@ fun InventoryFoodCard(
                     contentAlignment = Alignment.Center
                 ) {
                     Icon(
-                        imageVector = Icons.Rounded.Icecream, // Sau này thay bằng AsyncImage
+                        imageVector = Icons.Rounded.Icecream,
                         contentDescription = null,
                         tint = MaterialTheme.colorScheme.onSecondaryContainer,
                         modifier = Modifier.size(28.dp)
