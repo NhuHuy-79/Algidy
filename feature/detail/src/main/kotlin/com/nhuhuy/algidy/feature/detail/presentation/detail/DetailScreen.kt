@@ -1,4 +1,4 @@
-package com.nhuhuy.algidy.feature.detail.presentation
+package com.nhuhuy.algidy.feature.detail.presentation.detail
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
@@ -16,26 +16,30 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.nhuhuy.algidy.feature.detail.presentation.component.DetailFabMenu
-import com.nhuhuy.algidy.feature.detail.presentation.component.DetailHeroCard
-import com.nhuhuy.algidy.feature.detail.presentation.component.DetailImage
-import com.nhuhuy.algidy.feature.detail.presentation.component.DetailNoteSection
-import com.nhuhuy.algidy.feature.detail.presentation.component.DetailStatsRow
-import com.nhuhuy.algidy.feature.detail.presentation.viewModel.DetailUiState
+import com.nhuhuy.algidy.feature.detail.presentation.detail.component.DetailFabMenu
+import com.nhuhuy.algidy.feature.detail.presentation.detail.component.DetailHeroCard
+import com.nhuhuy.algidy.feature.detail.presentation.detail.component.DetailImage
+import com.nhuhuy.algidy.feature.detail.presentation.detail.component.DetailNoteSection
+import com.nhuhuy.algidy.feature.detail.presentation.detail.component.DetailStatsRow
+import com.nhuhuy.algidy.feature.detail.presentation.detail.viewModel.DetailUiState
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun DetailScreen(
     uiState: DetailUiState,
     onBackPress: () -> Unit,
+    openEditSheet: () -> Unit,
+    openWastedDialog: () -> Unit,
+    openConsumedDialog: () -> Unit
 ) {
-
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
     Scaffold(
         modifier = Modifier
-            .fillMaxSize(),
+            .fillMaxSize()
+            .nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             MediumFlexibleTopAppBar(
                 title = {
@@ -62,9 +66,9 @@ fun DetailScreen(
         },
         floatingActionButton = {
             DetailFabMenu(
-                onEditClick = { /* TODO */ },
-                onWastedClick = { /* TODO */ },
-                onConsumedClick = { /* TODO */ }
+                onEditClick = openEditSheet,
+                onWastedClick = openWastedDialog,
+                onConsumedClick = openConsumedDialog
             )
         }
     ) { paddingValues ->

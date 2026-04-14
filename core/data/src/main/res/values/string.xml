@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="err_empty_field">This field cannot be empty</string>
+    <string name="err_invalid_number">Please enter a valid number</string>
+    <string name="err_negative_value">Value must be greater than zero</string>
+    <string name="err_past_date">Expiry date cannot be in the past</string>
+    <string name="err_text_too_short">Input is too short</string>
+
+    <string name="label_edit_information">Edit Information</string>
+    <string name="label_food_name">Food Name</string>
+    <string name="label_quantity">Quantity</string>
+    <string name="label_expiry_date">Expiry Date</string>
+    <string name="label_storage_location">Storage Location</string>
+    <string name="label_notes">Notes</string>
+
+    <string name="action_save_changes">Save Changes</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="action_ok">OK</string>
+</resources>

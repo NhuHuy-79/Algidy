@@ -1,4 +1,4 @@
-package com.nhuhuy.algidy.feature.detail.presentation.component
+package com.nhuhuy.algidy.feature.detail.presentation.detail.component
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -21,6 +21,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -77,7 +78,7 @@ private fun StatItem(
     icon: ImageVector,
     label: String,
     value: String,
-    containerColor: androidx.compose.ui.graphics.Color,
+    containerColor: Color,
     modifier: Modifier = Modifier
 ) {
     Surface(

@@ -1,3 +1,5 @@
+package com.nhuhuy.algidy.di
+
 import androidx.room.Room
 import com.nhuhuy.algidy.core.database.AlgidyDatabase
 import org.koin.android.ext.koin.androidContext

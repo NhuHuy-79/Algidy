@@ -1,4 +1,4 @@
-package com.nhuhuy.algidy.feature.detail.presentation.component
+package com.nhuhuy.algidy.feature.detail.presentation.detail.component
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
