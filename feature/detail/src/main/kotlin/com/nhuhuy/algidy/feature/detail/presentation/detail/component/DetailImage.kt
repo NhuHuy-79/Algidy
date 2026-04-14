@@ -40,7 +40,7 @@ fun DetailImage(
                     model = imageUri,
                     contentDescription = "Food Image",
                     modifier = Modifier.fillMaxSize(),
-                    contentScale = ContentScale.Crop, // Cắt ảnh cho đầy khung nhưng giữ tỷ lệ
+                    contentScale = ContentScale.Crop,
                     alignment = Alignment.Center
                 )
             } else {

@@ -11,5 +11,6 @@ fun ValidationResult.toErrorMessage(): Int? {
         ValidationResult.NEGATIVE_VALUE -> (R.string.err_negative_value)
         ValidationResult.PAST_DATE -> (R.string.err_past_date)
         ValidationResult.TEXT_TOO_SHORT -> (R.string.err_text_too_short)
+        ValidationResult.IDLE -> null
     }
 }

@@ -24,6 +24,7 @@ fun AppTextField(
     onValueChange: (String) -> Unit,
     label: String,
     modifier: Modifier = Modifier,
+    readOnly: Boolean = false,
     placeholder: String? = null,
     leadingIcon: ImageVector? = null,
     trailingIcon: @Composable (() -> Unit)? = null,
@@ -39,6 +40,7 @@ fun AppTextField(
             value = value,
             onValueChange = onValueChange,
             modifier = Modifier.fillMaxWidth(),
+            readOnly = readOnly,
             shape = RoundedCornerShape(20.dp),
             label = {
                 Text(

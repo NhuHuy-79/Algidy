@@ -28,14 +28,29 @@ data class EditEntryUiState(
 
 @Immutable
 data class EditEntryError(
-    val nameError: ValidationResult = ValidationResult.SUCCESS,
-    val quantityError: ValidationResult = ValidationResult.SUCCESS,
-    val expiryDateError: ValidationResult = ValidationResult.SUCCESS
+    val nameValidation: ValidationResult = ValidationResult.IDLE,
+    val quantityValidation: ValidationResult = ValidationResult.IDLE,
+    val expiryDateValidation: ValidationResult = ValidationResult.IDLE
 ) {
-    val allError: Boolean
-        get() = nameError == ValidationResult.SUCCESS &&
-                quantityError == ValidationResult.SUCCESS &&
-                expiryDateError == ValidationResult.SUCCESS
+    val isNameError: Boolean
+        get() = nameValidation !in listOf(
+            ValidationResult.SUCCESS,
+            ValidationResult.IDLE
+        )
+    val isQuantityError: Boolean
+        get() = quantityValidation !in listOf(
+            ValidationResult.SUCCESS,
+            ValidationResult.IDLE
+        )
+    val isExpiryDateError: Boolean
+        get() = expiryDateValidation !in listOf(
+            ValidationResult.SUCCESS,
+            ValidationResult.IDLE
+        )
+    val valid: Boolean
+        get() = nameValidation == ValidationResult.SUCCESS &&
+                quantityValidation == ValidationResult.SUCCESS &&
+                expiryDateValidation == ValidationResult.SUCCESS
 
 }
 

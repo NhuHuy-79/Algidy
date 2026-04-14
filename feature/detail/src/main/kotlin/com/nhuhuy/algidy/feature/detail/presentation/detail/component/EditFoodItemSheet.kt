@@ -36,10 +36,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import com.nhuhuy.algidy.capitalize
 import com.nhuhuy.algidy.core.data.toErrorMessage
 import com.nhuhuy.algidy.core.designsystem.component.AppTextField
 import com.nhuhuy.algidy.core.model.StorageLocation
-import com.nhuhuy.algidy.core.model.ValidationResult
 import com.nhuhuy.algidy.feature.detail.presentation.detail.viewModel.EditEntryError
 import com.nhuhuy.algidy.feature.detail.presentation.detail.viewModel.EditEntryUiState
 import java.text.SimpleDateFormat
@@ -86,8 +86,8 @@ fun EditFoodBottomSheet(
                 value = editEntry.name,
                 onValueChange = { text -> onNameChange(text) },
                 label = "Food Name",
-                isError = errorState.nameError != ValidationResult.SUCCESS,
-                errorMessage = errorState.nameError.toErrorMessage()
+                isError = errorState.isNameError,
+                errorMessage = errorState.nameValidation.toErrorMessage()
                     ?.let { stringResource(id = it) }
             )
 
@@ -102,8 +102,8 @@ fun EditFoodBottomSheet(
                 },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
                 label = "Quantity",
-                isError = errorState.quantityError != ValidationResult.SUCCESS,
-                errorMessage = errorState.quantityError.toErrorMessage()
+                isError = errorState.isQuantityError,
+                errorMessage = errorState.quantityValidation.toErrorMessage()
                     ?.let { stringResource(id = it) }
             )
 
@@ -116,9 +116,9 @@ fun EditFoodBottomSheet(
                     onValueChange = {},
                     label = "Expiry Date",
                     leadingIcon = Icons.Rounded.CalendarToday,
-                    enabled = false,
-                    isError = errorState.expiryDateError != ValidationResult.SUCCESS,
-                    errorMessage = errorState.expiryDateError.toErrorMessage()
+                    readOnly = false,
+                    isError = errorState.isExpiryDateError,
+                    errorMessage = errorState.expiryDateValidation.toErrorMessage()
                         ?.let { stringResource(id = it) }
                 )
                 Box(
@@ -154,10 +154,7 @@ fun EditFoodBottomSheet(
                                 index = index,
                                 count = StorageLocation.entries.size
                             ),
-                            label = {
-                                Text(
-                                    loc.name.lowercase().replaceFirstChar { it.uppercase() })
-                            }
+                            label = { Text(loc.name.capitalize()) }
                         )
                     }
                 }
@@ -168,7 +165,7 @@ fun EditFoodBottomSheet(
                     onSave()
                     onDismiss()
                 },
-                enabled = !errorState.allError,
+                enabled = errorState.valid,
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(56.dp),

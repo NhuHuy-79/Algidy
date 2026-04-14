@@ -81,7 +81,7 @@ class DetailViewModel(
             entryUiState.copy(name = name)
         }
         _errorState.update { error ->
-            error.copy(nameError = FoodValidator.validateName(name))
+            error.copy(nameValidation = FoodValidator.validateName(name))
         }
     }
 
@@ -90,7 +90,7 @@ class DetailViewModel(
             entryUiState.copy(quantity = quantity)
         }
         _errorState.update { error ->
-            error.copy(quantityError = FoodValidator.validateQuantity(quantity))
+            error.copy(quantityValidation = FoodValidator.validateQuantity(quantity))
         }
     }
 
@@ -111,7 +111,7 @@ class DetailViewModel(
             entryUiState.copy(expiryDate = expiryDate)
         }
         _errorState.update { error ->
-            error.copy(expiryDateError = FoodValidator.validateExpiryDate(expiryDate))
+            error.copy(expiryDateValidation = FoodValidator.validateExpiryDate(expiryDate))
         }
     }
 

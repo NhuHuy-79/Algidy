@@ -29,6 +29,7 @@ object FoodValidator {
 
 enum class ValidationResult {
     SUCCESS,
+    IDLE,
     EMPTY_FIELD,
     INVALID_NUMBER,
     NEGATIVE_VALUE,

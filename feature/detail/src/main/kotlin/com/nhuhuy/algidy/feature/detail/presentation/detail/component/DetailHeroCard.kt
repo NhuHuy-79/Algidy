@@ -53,7 +53,7 @@ fun DetailHeroCard(
         modifier = modifier.fillMaxWidth(),
         shape = MaterialTheme.shapes.extraLarge,
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceContainer // Nền dịu mắt
+            containerColor = MaterialTheme.colorScheme.surfaceContainer
         )
     ) {
         Row(
