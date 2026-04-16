@@ -14,7 +14,8 @@ fun FoodEntity.asExternalModel() = FoodItem(
     expiryDate = expiryDate,
     imageUri = imageUri,
     isFavorite = isFavorite,
-    notes = notes
+    notes = notes,
+    foodCategory = category
 )
 
 fun FoodItem.asEntity() = FoodEntity(
@@ -28,5 +29,6 @@ fun FoodItem.asEntity() = FoodEntity(
     expiryDate = expiryDate,
     imageUri = imageUri,
     isFavorite = isFavorite,
-    notes = notes
+    notes = notes,
+    category = foodCategory
 )

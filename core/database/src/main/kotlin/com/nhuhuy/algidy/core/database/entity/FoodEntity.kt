@@ -3,6 +3,7 @@ package com.nhuhuy.algidy.core.database.entity
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.nhuhuy.algidy.core.model.FoodCategory
 import com.nhuhuy.algidy.core.model.ItemUnit
 import com.nhuhuy.algidy.core.model.StorageLocation
 
@@ -39,5 +40,8 @@ data class FoodEntity(
     val isFavorite: Boolean,
 
     @ColumnInfo(name = "notes")
-    val notes: String
+    val notes: String,
+
+    @ColumnInfo(name = "food_category")
+    val category: FoodCategory
 )

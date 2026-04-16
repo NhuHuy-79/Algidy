@@ -6,6 +6,7 @@ data class FoodItem(
     val id: String = "",
     val name: String = "",
     val categoryId: String = "",
+    val foodCategory: FoodCategory = FoodCategory.OTHERS,
     val location: StorageLocation = StorageLocation.FRIDGE,
     val quantity: Double = 0.0,
     val itemUnit: ItemUnit = ItemUnit.KG,
@@ -71,8 +72,6 @@ enum class ItemUnit(val type: UnitType) {
     OTHER(UnitType.UNDEFINED),
     BOTTLE(UnitType.PACKAGING)
 }
-
-enum class Category
 
 enum class Freshness {
     EXPIRED, URGENT, WARNING, FRESH

@@ -9,7 +9,7 @@ import com.nhuhuy.algidy.core.database.entity.WasteEntity
 
 @Database(
     entities = [FoodEntity::class, WasteEntity::class],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 abstract class AlgidyDatabase : RoomDatabase() {

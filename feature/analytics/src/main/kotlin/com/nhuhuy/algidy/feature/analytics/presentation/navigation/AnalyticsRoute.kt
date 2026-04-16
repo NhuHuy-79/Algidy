@@ -1,4 +1,4 @@
-package com.nhuhuy.algidy.feature.analytics.presentation.component
+package com.nhuhuy.algidy.feature.analytics.presentation.navigation
 
 import androidx.compose.runtime.Composable
 import com.nhuhuy.algidy.core.designsystem.component.BoxLayout
