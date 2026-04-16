@@ -72,6 +72,8 @@ enum class ItemUnit(val type: UnitType) {
     BOTTLE(UnitType.PACKAGING)
 }
 
+enum class Category
+
 enum class Freshness {
     EXPIRED, URGENT, WARNING, FRESH
 }

@@ -1,17 +1,12 @@
 package com.nhuhuy.algidy.feature.analytics.presentation.component
 
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import com.nhuhuy.algidy.core.designsystem.component.BoxLayout
+import com.nhuhuy.algidy.feature.analytics.presentation.AnalyticsScreen
 
 @Composable
-fun AnalyticsRoute(
-    modifier: Modifier = Modifier
-) {
+fun AnalyticsRoute() {
     BoxLayout {
-        Text(
-            text = "Analytics Screen"
-        )
+        AnalyticsScreen()
     }
 }
