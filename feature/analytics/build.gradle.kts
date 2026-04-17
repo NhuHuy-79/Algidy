@@ -7,5 +7,5 @@ android {
 }
 
 dependencies{
-    implementation(libs.charts.stacked.bar)
+    implementation(libs.chart)
 }

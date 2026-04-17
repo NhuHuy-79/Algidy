@@ -4,7 +4,6 @@ import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,10 +13,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.HeatPump
 import androidx.compose.material.icons.rounded.Menu
 import androidx.compose.material3.Card
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
@@ -31,6 +28,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.nhuhuy.algidy.capitalize
+import com.nhuhuy.algidy.core.model.StorageLocation
 
 @Composable
 fun WastedCategoryCard(modifier: Modifier = Modifier) {
@@ -40,7 +39,7 @@ fun WastedCategoryCard(modifier: Modifier = Modifier) {
     ) {
         Column(
             modifier = Modifier.fillMaxSize()
-                .padding(16.dp),
+                .padding(24.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             Row(
@@ -53,21 +52,19 @@ fun WastedCategoryCard(modifier: Modifier = Modifier) {
                     contentDescription = null
                 )
                 Text(
-                    text = "Category Progress",
+                    text = "Fridge Summary",
                     style = MaterialTheme.typography.titleLarge.copy(
                         fontWeight = FontWeight.Bold
                     )
                 )
             }
-
-            repeat(5){
+            StorageLocation.entries.forEach { location ->
                 CategoryItem(
-                    label = "Meat",
+                    label = location.name.capitalize(),
                     progress = 0.5,
                     color = MaterialTheme.colorScheme.primary
                 )
             }
-
         }
     }
 }
@@ -115,7 +112,7 @@ fun CategoryItem(
                 .height(10.dp)
                 .clip(CircleShape),
             color = color,
-            trackColor = color.copy(alpha = 0.15f),
+            trackColor = MaterialTheme.colorScheme.surfaceContainer,
             strokeCap = StrokeCap.Round
         )
     }

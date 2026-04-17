@@ -46,10 +46,10 @@ fun OverallCard(
     title: String = "48% Consumed",
     shape: Shape = RoundedCornerShape(topEnd = 24.dp, topStart = 24.dp, bottomEnd = 8.dp, bottomStart = 8.dp),
     icon: ImageVector = Icons.Rounded.Restaurant,
-    backgroundColor: Color = MaterialTheme.colorScheme.primary,
-    iconColor: Color = MaterialTheme.colorScheme.onPrimary,
-    containerColor: Color = MaterialTheme.colorScheme.primaryContainer,
-    contentColor: Color = MaterialTheme.colorScheme.onPrimaryContainer
+    backgroundColor: Color = MaterialTheme.colorScheme.onPrimary,
+    iconColor: Color = MaterialTheme.colorScheme.primary,
+    containerColor: Color = MaterialTheme.colorScheme.onPrimaryContainer,
+    contentColor: Color = MaterialTheme.colorScheme.primaryContainer
 ) {
     Card(
         onClick = {},

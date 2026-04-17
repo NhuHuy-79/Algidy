@@ -1,5 +1,6 @@
 [versions]
 agp = "8.12.3"
+chart = "1.1.0"
 chartsStackedBar = "2.2.0"
 composeCharts = "0.2.5"
 kotlin = "2.1.10"
@@ -28,11 +29,14 @@ mockk = "1.13.16"
 coroutines = "1.10.1"
 turbine = "1.2.0"
 coil = "3.1.0"
-
+vico = "3.1.0"
 [libraries]
+vico-compose = { group = "com.patrykandpatrick.vico", name = "compose", version.ref = "vico" }
+vico-compose-m3 = { group = "com.patrykandpatrick.vico", name = "compose-m3", version.ref = "vico" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-navigation3-runtime = { module = "androidx.navigation3:navigation3-runtime", version.ref = "navigation3Runtime" }
 androidx-navigation3-ui = { module = "androidx.navigation3:navigation3-ui", version.ref = "navigation3Runtime" }
+chart = { module = "io.github.thechance101:chart", version.ref = "chart" }
 charts-stacked-bar = { module = "io.github.dautovicharis:charts-stacked-bar", version.ref = "chartsStackedBar" }
 compose-charts = { module = "io.github.ehsannarmani:compose-charts", version.ref = "composeCharts" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
