@@ -1,9 +1,10 @@
 package com.nhuhuy.algidy.core.model
 
+import java.util.UUID
 import kotlin.math.abs
 
 data class FoodItem(
-    val id: String = "",
+    val id: String = UUID.randomUUID().toString(),
     val name: String = "",
     val categoryId: String = "",
     val foodCategory: FoodCategory = FoodCategory.OTHERS,

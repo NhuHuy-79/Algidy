@@ -27,6 +27,7 @@ import com.aay.compose.barChart.BarChart
 import com.aay.compose.barChart.model.BarParameters
 import com.aay.compose.baseComponents.model.LegendPosition
 import com.nhuhuy.algidy.capitalize
+import com.nhuhuy.algidy.core.designsystem.component.CardLayout
 import com.nhuhuy.algidy.core.model.Freshness
 
 
@@ -56,70 +57,43 @@ fun ExpiryChart() {
         ),
     )
 
-    Card(
-        modifier = Modifier
-            .wrapContentHeight(),
-        shape = RoundedCornerShape(16.dp)
+    CardLayout(
+        icon = Icons.Rounded.BarChart,
+        title = "Weekly Freshness"
     ) {
-        Column(
+        Box(
             modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
+                .height(400.dp),
+            contentAlignment = Alignment.Center
         ) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                Icon(
-                    imageVector = Icons.Rounded.BarChart,
-                    contentDescription = null
-                )
-                Text(
-                    text = "Weekly Freshness",
-                    style = MaterialTheme.typography.titleLarge.copy(
-                        fontWeight = FontWeight.Bold
-                    )
-                )
-            }
-
-            Box(
-                modifier = Modifier
-                    .height(400.dp),
-                contentAlignment = Alignment.Center
-            ) {
-                BarChart(
-                    chartParameters = testBarParameters,
-                    gridColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                    xAxisData = xAxisData,
-                    isShowGrid = true,
-                    animateChart = true,
-                    showGridWithSpacer = true,
-                    yAxisStyle = TextStyle(
-                        fontSize = 14.sp,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    ),
-                    xAxisStyle = TextStyle(
-                        fontSize = 14.sp,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        fontWeight = FontWeight.Black
-                    ),
-                    yAxisRange = 4,
-                    barWidth = 8.dp,
-                    barCornerRadius = 16.dp,
-                    spaceBetweenBars = 2.dp,
-                    spaceBetweenGroups = 20.dp,
-                    descriptionStyle = TextStyle(
-                        fontSize = 14.sp,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        fontWeight = FontWeight.Black
-                    ),
-                    legendPosition = LegendPosition.TOP
-                )
-            }
+            BarChart(
+                chartParameters = testBarParameters,
+                gridColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                xAxisData = xAxisData,
+                isShowGrid = true,
+                animateChart = true,
+                showGridWithSpacer = true,
+                yAxisStyle = TextStyle(
+                    fontSize = 14.sp,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                ),
+                xAxisStyle = TextStyle(
+                    fontSize = 14.sp,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    fontWeight = FontWeight.Black
+                ),
+                yAxisRange = 4,
+                barWidth = 8.dp,
+                barCornerRadius = 16.dp,
+                spaceBetweenBars = 2.dp,
+                spaceBetweenGroups = 20.dp,
+                descriptionStyle = TextStyle(
+                    fontSize = 14.sp,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    fontWeight = FontWeight.Black
+                ),
+                legendPosition = LegendPosition.TOP
+            )
         }
     }
-
-
 }

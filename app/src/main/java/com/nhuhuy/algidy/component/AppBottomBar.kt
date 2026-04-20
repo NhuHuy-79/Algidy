@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Camera
+import androidx.compose.material.icons.rounded.CameraAlt
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingToolbarDefaults
@@ -40,9 +41,11 @@ fun AppBottomBar(
         floatingActionButton = {
             FloatingActionButton(
                 onClick = onScannerPress,
+                containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                contentColor = MaterialTheme.colorScheme.onSecondaryContainer
             ) {
                 Icon(
-                    imageVector = Icons.Rounded.Camera,
+                    imageVector = Icons.Rounded.CameraAlt,
                     contentDescription = "Scan",
                 )
             }

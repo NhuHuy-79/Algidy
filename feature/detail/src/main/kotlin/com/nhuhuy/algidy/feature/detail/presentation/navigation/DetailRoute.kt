@@ -72,6 +72,9 @@ fun DetailRoute(
                             )
                         )
                     },
+                    onUnitItemChange = { unit ->
+                        onAction(DetailAction.EditEntryAction.OnItemUnitChange(unit))
+                    },
                     onNoteChange = { note -> onAction(DetailAction.EditEntryAction.OnNoteChange(note)) },
                     onLocationChange = { location ->
                         onAction(DetailAction.EditEntryAction.OnStorageLocationChange(location))

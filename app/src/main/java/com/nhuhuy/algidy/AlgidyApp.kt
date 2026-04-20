@@ -3,6 +3,7 @@ package com.nhuhuy.algidy
 import android.app.Application
 import com.nhuhuy.algidy.di.dataModule
 import com.nhuhuy.algidy.di.databaseModule
+import com.nhuhuy.algidy.di.networkModule
 import com.nhuhuy.algidy.di.viewModelModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -20,9 +21,17 @@ class AlgidyApp : Application() {
                 listOf(
                     databaseModule,
                     dataModule,
-                    viewModelModule
+                    viewModelModule,
+                    networkModule
                 )
             )
         }
     }
+
+    private fun plantTimber(){
+        if (BuildConfig.DEBUG) {
+            Timber.plant(Timber.DebugTree())
+        }
+    }
 }
+

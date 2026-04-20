@@ -1,9 +1,31 @@
 package com.nhuhuy.algidy.core.data.mapper
 
-import com.nhuhuy.algidy.core.database.entity.FoodEntity
+import com.nhuhuy.algidy.capitalize
+import com.nhuhuy.algidy.core.database.entity.FoodItemEntity
+import com.nhuhuy.algidy.core.model.FoodCategory
 import com.nhuhuy.algidy.core.model.FoodItem
+import com.nhuhuy.algidy.core.model.ItemUnit
+import com.nhuhuy.algidy.core.model.StorageLocation
+import com.nhuhuy.algidy.core.network.model.FoodApiResponse
+import java.util.UUID
 
-fun FoodEntity.asExternalModel() = FoodItem(
+
+fun FoodApiResponse.toEntity() = FoodItemEntity(
+    id = UUID.randomUUID().toString(),
+    name = product?.productName.orEmpty(),
+    categoryId = product?.categories?.firstOrNull()?.capitalize().orEmpty(),
+    location = StorageLocation.OTHER,
+    quantity = 0.0,
+    itemUnit = ItemUnit.OTHER,
+    purchaseDate = System.currentTimeMillis(),
+    expiryDate = -1,
+    imageUri = null,
+    isFavorite = false,
+    notes = "",
+    category = FoodCategory.OTHERS,
+)
+
+fun FoodItemEntity.toDomain() = FoodItem(
     id = id,
     name = name,
     categoryId = categoryId,
@@ -18,7 +40,7 @@ fun FoodEntity.asExternalModel() = FoodItem(
     foodCategory = category
 )
 
-fun FoodItem.asEntity() = FoodEntity(
+fun FoodItem.toEntity() = FoodItemEntity(
     id = id,
     name = name,
     categoryId = categoryId,

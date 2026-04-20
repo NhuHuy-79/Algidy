@@ -6,16 +6,11 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Menu
-import androidx.compose.material3.Card
-import androidx.compose.material3.Icon
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -29,42 +24,22 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.nhuhuy.algidy.capitalize
+import com.nhuhuy.algidy.core.designsystem.component.CardLayout
 import com.nhuhuy.algidy.core.model.StorageLocation
 
 @Composable
 fun WastedCategoryCard(modifier: Modifier = Modifier) {
-    Card(
+    CardLayout(
         modifier = modifier,
-        shape = RoundedCornerShape(16.dp),
+        icon = Icons.Rounded.Menu,
+        title = "Wasted Items"
     ) {
-        Column(
-            modifier = Modifier.fillMaxSize()
-                .padding(24.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
-            ){
-                Icon(
-                    imageVector = Icons.Rounded.Menu,
-                    contentDescription = null
-                )
-                Text(
-                    text = "Fridge Summary",
-                    style = MaterialTheme.typography.titleLarge.copy(
-                        fontWeight = FontWeight.Bold
-                    )
-                )
-            }
-            StorageLocation.entries.forEach { location ->
-                CategoryItem(
-                    label = location.name.capitalize(),
-                    progress = 0.5,
-                    color = MaterialTheme.colorScheme.primary
-                )
-            }
+        StorageLocation.entries.forEach { location ->
+            CategoryItem(
+                label = location.name.capitalize(),
+                progress = 0.5,
+                color = MaterialTheme.colorScheme.primary
+            )
         }
     }
 }

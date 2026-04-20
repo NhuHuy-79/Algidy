@@ -33,6 +33,7 @@ include(":core:database")
 include(":core:ai")
 include(":core:data")
 include(":core:common")
+include(":core:network")
 
 // Feature modules
 include(":feature:inventory")

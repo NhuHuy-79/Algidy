@@ -10,7 +10,6 @@ import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
 import androidx.camera.core.TorchState
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
@@ -20,19 +19,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Camera
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.FlashOff
 import androidx.compose.material.icons.rounded.FlashOn
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FilledTonalIconButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SegmentedButton
-import androidx.compose.material3.SegmentedButtonDefaults
-import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
@@ -54,15 +48,19 @@ import com.nhuhuy.algidy.feature.scanner.presentation.component.CameraPreviewCon
 import com.nhuhuy.algidy.feature.scanner.presentation.component.CaptureButton
 import com.nhuhuy.algidy.feature.scanner.presentation.component.ScannerMode
 import com.nhuhuy.algidy.feature.scanner.presentation.component.SelectImageButton
+import com.nhuhuy.algidy.feature.scanner.viewmodel.ScannerUiState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ScannerScreen(
+    uiState: ScannerUiState,
+    onFlashPress: (Boolean) -> Unit,
+    onAutoScanPress: (Boolean) -> Unit,
+    onResultDetected: (String) -> Unit,
+    onScannerModePress: (ScannerMode) -> Unit,
     onClosePress: () -> Unit
 ) {
-    var scannerMode by remember { mutableStateOf(ScannerMode.BARCODE_SCANNER) }
     var camera by remember { mutableStateOf<Camera?>(null) }
-    var isFlashOn by remember { mutableStateOf(false) }
     val lifecycleOwner = LocalLifecycleOwner.current
     val context = LocalContext.current
     val imageCapture = remember { ImageCapture.Builder().build() }
@@ -70,7 +68,7 @@ fun ScannerScreen(
 
     LaunchedEffect(camera) {
         camera?.cameraInfo?.torchState?.observe(lifecycleOwner) { state ->
-            isFlashOn = state == TorchState.ON
+            onFlashPress(state == TorchState.ON)
         }
     }
 
@@ -81,7 +79,7 @@ fun ScannerScreen(
                 modifier = Modifier.fillMaxWidth(),
                 title = {
                     Text(
-                        text = when (scannerMode) {
+                        text = when (uiState.scannerMode) {
                             ScannerMode.BARCODE_SCANNER -> "Barcode Scanner"
                             ScannerMode.FOOD_SCANNER -> "Food Scanner"
                         },
@@ -95,7 +93,7 @@ fun ScannerScreen(
                 navigationIcon = {
                     IconButton(
                         onClick = onClosePress,
-                    ){
+                    ) {
                         Icon(
                             imageVector = Icons.Rounded.Close,
                             contentDescription = null,
@@ -104,10 +102,10 @@ fun ScannerScreen(
                 },
                 actions = {
                     IconButton(
-                        onClick = { camera?.cameraControl?.enableTorch(!isFlashOn) }
+                        onClick = { camera?.cameraControl?.enableTorch(!uiState.isFlashOn) }
                     ) {
                         Icon(
-                            imageVector = if (isFlashOn) Icons.Rounded.FlashOff else Icons.Rounded.FlashOn,
+                            imageVector = if (uiState.isFlashOn) Icons.Rounded.FlashOff else Icons.Rounded.FlashOn,
                             contentDescription = null
                         )
                     }
@@ -117,11 +115,13 @@ fun ScannerScreen(
         contentWindowInsets = WindowInsets.safeDrawing,
     ) { innerPadding ->
         Column(
-            modifier = Modifier.fillMaxSize().padding(innerPadding),
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             CameraPreviewContent(
-                mode = scannerMode,
+                mode = uiState.scannerMode,
                 context = context,
                 lifecycleOwner = lifecycleOwner,
                 modifier = Modifier.weight(0.8f),
@@ -129,9 +129,7 @@ fun ScannerScreen(
                 onCameraReady = { cameraInstance ->
                     camera = cameraInstance
                 },
-                onResultDetected = { label ->
-                    detectedFood = label
-                }
+                onResultDetected = onResultDetected
             )
 
             Row(
@@ -143,19 +141,26 @@ fun ScannerScreen(
             ) {
                 SelectImageButton(
                     modifier = Modifier.size(56.dp),
-                    onClick = { },
+                    onClick = {
+                        //openImage
+                    },
                     containerColor = MaterialTheme.colorScheme.primary,
                     contentColor = MaterialTheme.colorScheme.onPrimary
                 )
 
                 CaptureButton(
                     modifier = Modifier.size(96.dp),
-                    onCapturePress = {},
+                    onCapturePress = {
+                        //capture Image
+                    },
                     contentColor = MaterialTheme.colorScheme.onSurfaceVariant
                 )
 
                 AutoScanButton(
-                    onClick = {},
+                    autoScanning = uiState.isAutoScanned,
+                    onClick = { autoScanned: Boolean ->
+                        onAutoScanPress(autoScanned)
+                    },
                     enableContainerColor = MaterialTheme.colorScheme.primary,
                     disableContainerColor = MaterialTheme.colorScheme.onSurface
                 )
@@ -176,7 +181,11 @@ private fun takePhoto(
     }
 
     val outputOptions = ImageCapture.OutputFileOptions
-        .Builder(context.contentResolver, MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
+        .Builder(
+            context.contentResolver,
+            MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+            contentValues
+        )
         .build()
 
     imageCapture.takePicture(

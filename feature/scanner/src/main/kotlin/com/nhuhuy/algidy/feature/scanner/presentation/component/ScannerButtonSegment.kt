@@ -99,12 +99,12 @@ fun SelectImageButton(
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun AutoScanButton(
+    autoScanning: Boolean,
     modifier: Modifier = Modifier,
     onClick: (Boolean) -> Unit,
     enableContainerColor: Color = Color.White,
     disableContainerColor: Color = Color.Gray.copy(alpha = 0.3f),
 ) {
-    var isPressed by remember { mutableStateOf(false) }
     val infiniteTransition = rememberInfiniteTransition(label = "Indeterminate")
 
     val rotation by infiniteTransition.animateFloat(
@@ -122,13 +122,13 @@ fun AutoScanButton(
         targetValue = 0.8f,
         animationSpec = infiniteRepeatable(
             animation = tween(1500, easing = LinearOutSlowInEasing),
-            repeatMode = RepeatMode.Reverse // Đảo ngược để nó co giãn liên tục
+            repeatMode = RepeatMode.Reverse
         ),
         label = "ProgressLength"
     )
 
     val innerShapeCorner by animateDpAsState(
-        targetValue = if (isPressed) 4.dp else 16.dp,
+        targetValue = if (autoScanning) 4.dp else 16.dp,
         label = "ShapeMorph"
     )
 
@@ -139,13 +139,12 @@ fun AutoScanButton(
                 interactionSource = remember { MutableInteractionSource() },
                 indication = null,
                 onClick = {
-                    isPressed = !isPressed
-                    onClick(isPressed)
+                    onClick(!autoScanning)
                 }
             ),
         contentAlignment = Alignment.Center
     ) {
-        if (isPressed) {
+        if (autoScanning) {
             CircularWavyProgressIndicator(
                 modifier = Modifier
                     .fillMaxSize()
@@ -172,7 +171,7 @@ fun AutoScanButton(
             modifier = Modifier
                 .size(16.dp)
                 .background(
-                    color = if (isPressed) enableContainerColor else disableContainerColor,
+                    color = if (autoScanning) enableContainerColor else disableContainerColor,
                     shape = RoundedCornerShape(size = innerShapeCorner)
                 )
         )

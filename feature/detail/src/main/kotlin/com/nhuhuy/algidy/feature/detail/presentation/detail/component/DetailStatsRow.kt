@@ -11,9 +11,12 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.AcUnit
 import androidx.compose.material.icons.rounded.CalendarToday
+import androidx.compose.material.icons.rounded.Fastfood
 import androidx.compose.material.icons.rounded.Inventory2
 import androidx.compose.material.icons.rounded.Kitchen
 import androidx.compose.material.icons.rounded.Scale
+import androidx.compose.material.icons.rounded.ShoppingCart
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -28,6 +31,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.nhuhuy.algidy.capitalize
+import com.nhuhuy.algidy.core.designsystem.component.CardLayout
 import com.nhuhuy.algidy.core.designsystem.theme.AlgidyTheme
 import com.nhuhuy.algidy.core.model.FoodItem
 import com.nhuhuy.algidy.core.model.ItemUnit
@@ -39,37 +43,46 @@ fun DetailStatsRow(
     item: FoodItem,
     modifier: Modifier = Modifier
 ) {
-    Row(
-        modifier = modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.spacedBy(12.dp)
+    CardLayout(
+        icon = Icons.Rounded.Fastfood,
+        title = "Food Stats",
+        cardColors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
+            contentColor = MaterialTheme.colorScheme.onSurface
+        )
     ) {
-        StatItem(
-            icon = Icons.Rounded.Scale,
-            label = "Quantity",
-            value = "${item.quantity} ${item.itemUnit.name.lowercase()}",
-            modifier = Modifier.weight(1f),
-            containerColor = MaterialTheme.colorScheme.surfaceContainerLow
-        )
+        Row(
+            modifier = modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            StatItem(
+                icon = Icons.Rounded.Scale,
+                label = "Quantity",
+                value = "${item.quantity} ${item.itemUnit.name.lowercase()}",
+                modifier = Modifier.weight(1f),
+                containerColor = MaterialTheme.colorScheme.surfaceContainerLow
+            )
 
-        StatItem(
-            icon = when (item.location) {
-                StorageLocation.FRIDGE -> Icons.Rounded.AcUnit
-                StorageLocation.FREEZER -> Icons.Rounded.Kitchen
-                else -> Icons.Rounded.Inventory2
-            },
-            label = "Location",
-            value = item.location.name.capitalize(),
-            modifier = Modifier.weight(1f),
-            containerColor = MaterialTheme.colorScheme.surfaceContainerLow
-        )
+            StatItem(
+                icon = when (item.location) {
+                    StorageLocation.FRIDGE -> Icons.Rounded.AcUnit
+                    StorageLocation.FREEZER -> Icons.Rounded.Kitchen
+                    else -> Icons.Rounded.Inventory2
+                },
+                label = "Location",
+                value = item.location.name.capitalize(),
+                modifier = Modifier.weight(1f),
+                containerColor = MaterialTheme.colorScheme.surfaceContainerLow
+            )
 
-        StatItem(
-            icon = Icons.Rounded.CalendarToday,
-            label = "Bought",
-            value = item.purchaseDate.formatMillisToDate(),
-            modifier = Modifier.weight(1f),
-            containerColor = MaterialTheme.colorScheme.surfaceContainerLow
-        )
+            StatItem(
+                icon = Icons.Rounded.CalendarToday,
+                label = "Bought",
+                value = item.purchaseDate.formatMillisToDate(),
+                modifier = Modifier.weight(1f),
+                containerColor = MaterialTheme.colorScheme.surfaceContainerLow
+            )
+        }
     }
 }
 
@@ -84,7 +97,7 @@ private fun StatItem(
     Surface(
         modifier = modifier,
         color = containerColor,
-        shape = RoundedCornerShape(24.dp)
+        shape = RoundedCornerShape(16.dp)
     ) {
         Column(
             modifier = Modifier.padding(12.dp),

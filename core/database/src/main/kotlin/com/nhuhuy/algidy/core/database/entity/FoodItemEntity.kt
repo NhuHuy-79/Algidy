@@ -8,7 +8,7 @@ import com.nhuhuy.algidy.core.model.ItemUnit
 import com.nhuhuy.algidy.core.model.StorageLocation
 
 @Entity(tableName = "food_items")
-data class FoodEntity(
+data class FoodItemEntity(
     @PrimaryKey
     val id: String,
 

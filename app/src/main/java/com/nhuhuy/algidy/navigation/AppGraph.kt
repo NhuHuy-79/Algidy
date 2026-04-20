@@ -116,6 +116,7 @@ fun AppGraph(
                 }
             ) {
                 ScannerRoute(
+                    viewModel = koinViewModel(),
                     onNavigateBack = { backStack.removeLastOrNull() }
                 )
             }

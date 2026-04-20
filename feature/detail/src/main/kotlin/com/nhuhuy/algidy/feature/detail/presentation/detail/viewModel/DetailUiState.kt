@@ -9,7 +9,7 @@ import com.nhuhuy.algidy.core.model.ValidationResult
 @Immutable
 data class DetailUiState(
     val foodItem: FoodItem = FoodItem(),
-    val actionState: DetailActionState = DetailActionState.None
+    val actionState: DetailActionState = DetailActionState.None,
 )
 
 @Immutable
