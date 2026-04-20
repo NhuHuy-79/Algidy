@@ -5,8 +5,12 @@ import com.nhuhuy.algidy.core.designsystem.component.BoxLayout
 import com.nhuhuy.algidy.feature.analytics.presentation.AnalyticsScreen
 
 @Composable
-fun AnalyticsRoute() {
+fun AnalyticsRoute(
+    onNavigateBack: () -> Unit
+) {
     BoxLayout {
-        AnalyticsScreen()
+        AnalyticsScreen(
+            onBackPress = onNavigateBack
+        )
     }
 }

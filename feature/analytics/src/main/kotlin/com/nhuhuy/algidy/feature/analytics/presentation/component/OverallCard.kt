@@ -88,8 +88,8 @@ fun OverallCard(
 
             Text(
                 text = title,
-                style = MaterialTheme.typography.headlineSmall.copy(
-                    fontWeight = FontWeight.ExtraBold,
+                style = MaterialTheme.typography.headlineLarge.copy(
+                    fontWeight = FontWeight.Bold,
                     letterSpacing = 0.5.sp
                 ),
                 color = contentColor

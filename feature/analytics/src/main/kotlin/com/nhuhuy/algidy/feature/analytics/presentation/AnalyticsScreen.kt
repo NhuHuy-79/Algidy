@@ -1,8 +1,9 @@
 package com.nhuhuy.algidy.feature.analytics.presentation
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -27,27 +28,35 @@ import com.nhuhuy.algidy.feature.analytics.presentation.component.WastedCategory
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
 @Composable
-fun AnalyticsScreen() {
+fun AnalyticsScreen(
+    onBackPress: () -> Unit
+) {
     Scaffold(
         modifier = Modifier.fillMaxSize(), topBar = {
-            MediumFlexibleTopAppBar(navigationIcon = {
-                IconButton(
-                    onClick = {}) {
-                    Icon(
-                        imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
-                        contentDescription = null
+            MediumFlexibleTopAppBar(
+                navigationIcon = {
+                    IconButton(
+                        onClick = onBackPress
+                    ) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
+                            contentDescription = null
+                        )
+                    }
+                },
+                title = {
+                    Text(
+                        text = "Analytics Screen"
+                    )
+                },
+                subtitle = {
+                    Text(
+                        text = "Overview of waste and impact"
                     )
                 }
-            }, title = {
-                Text(
-                    text = "Analytics Screen"
-                )
-            }, subtitle = {
-                Text(
-                    text = "Overview of waste and impact"
-                )
-            })
-        }) { paddingValues ->
+            )
+        }
+    ) { paddingValues ->
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
@@ -56,24 +65,40 @@ fun AnalyticsScreen() {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            item { OverallCard(
-                shape = RoundedCornerShape(16.dp)
-            ) }
-//            item {
-//                OverallCard(
-//                    icon = Icons.Rounded.Delete,
-//                    iconColor = MaterialTheme.colorScheme.onError,
-//                    backgroundColor = MaterialTheme.colorScheme.error,
-//                    contentColor = MaterialTheme.colorScheme.errorContainer,
-//                    containerColor = MaterialTheme.colorScheme.onErrorContainer,
-//                    shape = RoundedCornerShape(
-//                        bottomEnd = 24.dp,
-//                        bottomStart = 24.dp,
-//                        topEnd = 8.dp,
-//                        topStart = 8.dp
-//                    )
-//                )
-//            }
+            item {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(4.dp)
+                ) {
+                    OverallCard(
+                        title = "60%",
+                        modifier = Modifier.weight(1f),
+                        shape = RoundedCornerShape(
+                            topStart = 32.dp,
+                            bottomStart = 32.dp,
+                            topEnd = 8.dp,
+                            bottomEnd = 8.dp
+                        )
+                    )
+                    OverallCard(
+                        title = "40%",
+                        modifier = Modifier.weight(1f),
+                        icon = Icons.Rounded.Delete,
+                        iconColor = MaterialTheme.colorScheme.error,
+                        backgroundColor = MaterialTheme.colorScheme.onError,
+                        contentColor = MaterialTheme.colorScheme.errorContainer,
+                        containerColor = MaterialTheme.colorScheme.onErrorContainer,
+                        shape = RoundedCornerShape(
+                            bottomEnd = 32.dp,
+                            bottomStart = 8.dp,
+                            topEnd = 32.dp,
+                            topStart = 8.dp
+                        )
+                    )
+                }
+
+            }
 
             item {
                 ExpiryChart()

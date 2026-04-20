@@ -82,7 +82,11 @@ fun AppGraph(
             }
 
             entry<Destination.Analytics> {
-                AnalyticsRoute()
+                AnalyticsRoute(
+                    onNavigateBack = {
+                        backStack.removeLastOrNull()
+                    }
+                )
             }
 
             entry<Destination.Review> {
@@ -111,7 +115,9 @@ fun AppGraph(
                     ) + fadeOut(animationSpec = tween(300))
                 }
             ) {
-                ScannerRoute()
+                ScannerRoute(
+                    onNavigateBack = { backStack.removeLastOrNull() }
+                )
             }
         }
     )

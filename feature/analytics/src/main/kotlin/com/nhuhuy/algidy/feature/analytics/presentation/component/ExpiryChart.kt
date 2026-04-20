@@ -77,7 +77,7 @@ fun ExpiryChart() {
                     contentDescription = null
                 )
                 Text(
-                    text = "Freshness In Week",
+                    text = "Weekly Freshness",
                     style = MaterialTheme.typography.titleLarge.copy(
                         fontWeight = FontWeight.Bold
                     )
