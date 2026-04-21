@@ -5,8 +5,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class FoodApiResponse(
-    @SerialName("code") val code: String,
-    @SerialName("status") val status: Int,
+    @SerialName("code") val code: String?,
+    @SerialName("status") val status: Int = 0,
     @SerialName("status_verbose") val statusVerbose: String? = null,
     @SerialName("product") val product: ProductDetail? = null
 )

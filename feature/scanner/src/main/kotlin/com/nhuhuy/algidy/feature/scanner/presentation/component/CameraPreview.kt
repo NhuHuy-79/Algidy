@@ -1,6 +1,5 @@
 package com.nhuhuy.algidy.feature.scanner.presentation.component
 
-import android.content.Context
 import androidx.camera.core.Camera
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageAnalysis
@@ -8,65 +7,92 @@ import androidx.camera.core.ImageCapture
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.DocumentScanner
+import androidx.compose.material.icons.rounded.PhotoCamera
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.compose.LocalLifecycleOwner
+import com.google.mlkit.common.MlKit
+import com.nhuhuy.algidy.core.designsystem.component.AppLabel
 import com.nhuhuy.algidy.feature.scanner.presentation.component.analyzer.BarcodeAnalyzer
 import com.nhuhuy.algidy.feature.scanner.presentation.component.analyzer.FoodAnalyzer
+import kotlinx.coroutines.delay
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.seconds
+
+const val LABEL_LENGTH : Long = 1000L
 
 @Composable
 fun CameraPreviewContent(
-    context: Context, // Giữ nguyên theo yêu cầu của bạn
-    lifecycleOwner: LifecycleOwner, // Giữ nguyên theo yêu cầu của bạn
+    modifier: Modifier = Modifier,
+    isAutoScanned: Boolean = true,
     mode: ScannerMode,
     imageCapture: ImageCapture,
     onCameraReady: (Camera) -> Unit,
     onResultDetected: (String) -> Unit,
-    modifier: Modifier = Modifier,
 ) {
+    var showLabel by remember { mutableStateOf(false) }
+    val context = LocalContext.current
+    val lifecycleOwner = LocalLifecycleOwner.current
     val mainExecutor = remember(context) { ContextCompat.getMainExecutor(context) }
     val previewView = remember { PreviewView(context) }
 
-    // 1. Chỉ khởi tạo ImageAnalysis duy nhất một lần
+    val barcodeAnalyzer = remember {
+        BarcodeAnalyzer { barcode -> onResultDetected(barcode) }
+    }
+
+    val foodAnalyzer = remember {
+        FoodAnalyzer { label, confidence ->
+            if (confidence > 0.75f) onResultDetected(label)
+        }
+    }
+
     val imageAnalysis = remember {
         ImageAnalysis.Builder()
             .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
-            // Bạn có thể set ResolutionSelector ở đây nếu cần độ phân giải cụ thể
             .build()
     }
 
-    // 2. Cập nhật logic xử lý (Analyzer) khi mode thay đổi
-    // Việc này không làm bind lại Camera, chỉ thay đổi logic xử lý frame hình
-    LaunchedEffect(mode) {
+    LaunchedEffect(isAutoScanned) {
+        showLabel = true
+        delay(LABEL_LENGTH)
+        showLabel = false
+    }
+
+    LaunchedEffect(mode, isAutoScanned) {
+        if (!isAutoScanned) {
+            imageAnalysis.clearAnalyzer()
+            return@LaunchedEffect
+        }
         imageAnalysis.setAnalyzer(mainExecutor) { imageProxy ->
             when (mode) {
                 ScannerMode.BARCODE_SCANNER -> {
-                    // Logic BarcodeAnalyzer của bạn
-                    val analyzer = BarcodeAnalyzer { barcode ->
-                        onResultDetected(barcode)
-                    }
-                    analyzer.analyze(imageProxy)
+                    barcodeAnalyzer.analyze(imageProxy)
                 }
                 ScannerMode.FOOD_SCANNER -> {
-                    // Logic FoodAnalyzer hoặc Gemini-pre-scan
-                    val analyzer = FoodAnalyzer { label, confidence ->
-                        if (confidence > 0.75f) onResultDetected(label)
-                    }
-                    analyzer.analyze(imageProxy)
+                    foodAnalyzer.analyze(imageProxy)
                 }
             }
         }
     }
 
-    // 3. Khởi tạo và Bind Camera vào Lifecycle
-    // Chạy 1 lần duy nhất khi Composable được mount
     LaunchedEffect(Unit) {
         val cameraProviderFuture = ProcessCameraProvider.getInstance(context)
 
@@ -80,10 +106,7 @@ fun CameraPreviewContent(
             val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
 
             try {
-                // Hủy các ràng buộc cũ trước khi bind mới
                 cameraProvider.unbindAll()
-
-                // Bind tất cả use cases: Preview, Capture (cho Gemini), và Analysis (cho Barcode)
                 val cameraInstance = cameraProvider.bindToLifecycle(
                     lifecycleOwner,
                     cameraSelector,
@@ -98,9 +121,48 @@ fun CameraPreviewContent(
         }, mainExecutor)
     }
 
-    // Hiển thị Camera lên UI
+    DisposableEffect(Unit) {
+        onDispose {
+            barcodeAnalyzer.release()
+        }
+    }
+
     AndroidView(
         factory = { previewView },
-        modifier = modifier.fillMaxSize()
+        modifier = Modifier.fillMaxSize()
     )
+}
+
+
+@Composable
+fun CameraLabel(
+    key: Boolean,
+    modifier: Modifier = Modifier,
+    duration: Duration = 1.5.seconds,
+
+){
+    var showLabel by remember { mutableStateOf(false) }
+    val text = remember(key) {
+        if (key) "Scanning..." else "Auto-scanning is OFF"
+    }
+    val icon = remember(key) {
+        if (key) Icons.Rounded.DocumentScanner else Icons.Rounded.PhotoCamera
+    }
+
+    LaunchedEffect(key) {
+        showLabel = true
+        delay(duration)
+        showLabel = false
+    }
+
+    if (showLabel){
+        AppLabel(
+            text = text,
+            icon = icon,
+            containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
+            contentColor = MaterialTheme.colorScheme.onSurface,
+            modifier = modifier
+        )
+    }
+
 }

@@ -1,6 +1,6 @@
 package com.nhuhuy.algidy.core.data
 
-import com.nhuhuy.algidy.core.network.model.NetworkResult
+import com.nhuhuy.algidy.core.model.NetworkResult
 import java.io.IOException
 
 sealed interface UiStateResult<out T> {

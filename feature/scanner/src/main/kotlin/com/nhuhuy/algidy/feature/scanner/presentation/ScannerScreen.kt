@@ -10,6 +10,7 @@ import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
 import androidx.camera.core.TorchState
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
@@ -18,6 +19,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.FlashOff
@@ -44,6 +46,7 @@ import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.nhuhuy.algidy.feature.scanner.presentation.component.AutoScanButton
+import com.nhuhuy.algidy.feature.scanner.presentation.component.CameraLabel
 import com.nhuhuy.algidy.feature.scanner.presentation.component.CameraPreviewContent
 import com.nhuhuy.algidy.feature.scanner.presentation.component.CaptureButton
 import com.nhuhuy.algidy.feature.scanner.presentation.component.ScannerMode
@@ -62,9 +65,7 @@ fun ScannerScreen(
 ) {
     var camera by remember { mutableStateOf<Camera?>(null) }
     val lifecycleOwner = LocalLifecycleOwner.current
-    val context = LocalContext.current
     val imageCapture = remember { ImageCapture.Builder().build() }
-    var detectedFood by remember { mutableStateOf("") }
 
     LaunchedEffect(camera) {
         camera?.cameraInfo?.torchState?.observe(lifecycleOwner) { state ->
@@ -120,17 +121,29 @@ fun ScannerScreen(
                 .padding(innerPadding),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            CameraPreviewContent(
-                mode = uiState.scannerMode,
-                context = context,
-                lifecycleOwner = lifecycleOwner,
+            Box(
                 modifier = Modifier.weight(0.8f),
-                imageCapture = imageCapture,
-                onCameraReady = { cameraInstance ->
-                    camera = cameraInstance
-                },
-                onResultDetected = onResultDetected
-            )
+                contentAlignment = Alignment.Center
+            ) {
+                CameraPreviewContent(
+                    isAutoScanned = uiState.isAutoScanned,
+                    mode = uiState.scannerMode,
+                    modifier = Modifier.fillMaxSize(),
+                    imageCapture = imageCapture,
+                    onCameraReady = { cameraInstance ->
+                        camera = cameraInstance
+                    },
+                    onResultDetected = onResultDetected
+                )
+
+                CameraLabel(
+                    key = uiState.isAutoScanned,
+                    modifier = Modifier
+                        .wrapContentSize()
+                        .align(Alignment.BottomCenter)
+                        .padding(vertical = 8.dp)
+                )
+            }
 
             Row(
                 modifier = Modifier

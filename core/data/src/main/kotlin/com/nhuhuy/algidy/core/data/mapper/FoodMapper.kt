@@ -25,6 +25,21 @@ fun FoodApiResponse.toEntity() = FoodItemEntity(
     category = FoodCategory.OTHERS,
 )
 
+fun FoodApiResponse.toDomain() = FoodItem(
+    id = UUID.randomUUID().toString(),
+    name = product?.productName.orEmpty(),
+    categoryId = product?.categories?.firstOrNull()?.capitalize().orEmpty(),
+    location = StorageLocation.OTHER,
+    quantity = 0.0,
+    itemUnit = ItemUnit.OTHER,
+    purchaseDate = System.currentTimeMillis(),
+    expiryDate = -1,
+    imageUri = null,
+    isFavorite = false,
+    notes = "",
+    foodCategory = FoodCategory.OTHERS,
+)
+
 fun FoodItemEntity.toDomain() = FoodItem(
     id = id,
     name = name,

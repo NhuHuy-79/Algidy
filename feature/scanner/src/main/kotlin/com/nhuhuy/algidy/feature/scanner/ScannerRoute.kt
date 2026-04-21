@@ -7,6 +7,7 @@ import com.nhuhuy.algidy.core.designsystem.component.BoxLayout
 import com.nhuhuy.algidy.feature.scanner.presentation.ScannerScreen
 import com.nhuhuy.algidy.feature.scanner.presentation.component.ScannerMode
 import com.nhuhuy.algidy.feature.scanner.viewmodel.ScannerAction
+import com.nhuhuy.algidy.feature.scanner.viewmodel.ScannerUiState
 import com.nhuhuy.algidy.feature.scanner.viewmodel.ScannerViewModel
 import java.util.Scanner
 
@@ -15,7 +16,8 @@ fun ScannerRoute(
     viewModel: ScannerViewModel,
     onNavigateBack: () -> Unit
 ) {
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val uiState : ScannerUiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val barcodeEvents : String by viewModel.barcodeEvents.collectAsStateWithLifecycle("")
     val onAction = viewModel::onAction
 
     BoxLayout {

@@ -1,6 +1,6 @@
 package com.nhuhuy.algidy.core.data.util
 
-import com.nhuhuy.algidy.core.network.model.NetworkResult
+import com.nhuhuy.algidy.core.model.NetworkResult
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
@@ -21,4 +21,22 @@ suspend fun <T>safeCallInIO(
             NetworkResult.Failure(e)
         }
     }
+}
+
+fun <T>NetworkResult<T>.onSuccess(
+    action: (T) -> Unit
+) : NetworkResult<T>{
+    if (this is NetworkResult.Success){
+        action(data)
+    }
+    return this
+}
+
+fun <T>NetworkResult<T>.onFailure(
+    action: (Throwable) -> Unit
+) : NetworkResult<T>{
+    if (this is NetworkResult.Failure){
+        action(throwable)
+    }
+    return this
 }
