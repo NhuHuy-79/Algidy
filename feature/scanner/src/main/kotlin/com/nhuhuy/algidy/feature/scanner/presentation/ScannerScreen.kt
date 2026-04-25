@@ -210,7 +210,6 @@ private fun takePhoto(
             }
 
             override fun onError(exception: ImageCaptureException) {
-                Log.e("CameraX", "Cannot take pictures: ${exception.message}")
             }
         }
     )
