@@ -14,7 +14,10 @@ interface FoodDao {
     @Query("SELECT * FROM food_items ORDER BY expiry_date ASC")
     fun getAllFoodItems(): Flow<List<FoodItemEntity>>
 
-    // Lấy thực phẩm theo vị trí (Ngăn đông, Ngăn mát...)
+    @Query("SELECT * FROM food_items WHERE id = :id")
+    suspend fun getFoodById(id: String): FoodItemEntity?
+
+
     @Query("SELECT * FROM food_items WHERE location = :location")
     fun getFoodItemsByLocation(location: StorageLocation): Flow<List<FoodItemEntity>>
 

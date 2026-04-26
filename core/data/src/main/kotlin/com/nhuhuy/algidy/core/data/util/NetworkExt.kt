@@ -32,6 +32,15 @@ fun <T>NetworkResult<T>.onSuccess(
     return this
 }
 
+suspend fun <T> NetworkResult<T>.onSuspendSuccess(
+    action: suspend (T) -> Unit
+): NetworkResult<T> {
+    if (this is NetworkResult.Success) {
+        action(data)
+    }
+    return this
+}
+
 fun <T>NetworkResult<T>.onFailure(
     action: (Throwable) -> Unit
 ) : NetworkResult<T>{

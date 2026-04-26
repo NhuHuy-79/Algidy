@@ -8,19 +8,20 @@ import com.nhuhuy.algidy.core.data.UiStateResult
 import com.nhuhuy.algidy.core.data.repository.FoodRepository
 import com.nhuhuy.algidy.core.data.toUiStateResult
 import com.nhuhuy.algidy.core.data.util.onFailure
-import com.nhuhuy.algidy.core.data.util.onSuccess
+import com.nhuhuy.algidy.core.data.util.onSuspendSuccess
 import com.nhuhuy.algidy.feature.scanner.presentation.ScannerMode
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.channels.BufferOverflow
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -30,6 +31,8 @@ import kotlin.time.Duration.Companion.seconds
 class ScannerViewModel(
     private val foodRepository: FoodRepository
 ) : ViewModel() {
+    private val _scannerEvent: Channel<ScannerEvent> = Channel(Channel.BUFFERED)
+    val scannerEvent = _scannerEvent.receiveAsFlow()
     private val _uiSate = MutableStateFlow(ScannerUiState())
     val uiState = _uiSate.asStateFlow()
     private val stateValue: ScannerUiState get() = uiState.value
@@ -37,7 +40,6 @@ class ScannerViewModel(
         extraBufferCapacity = 1,
         onBufferOverflow = BufferOverflow.DROP_OLDEST
     )
-    val barcodeEvents = _barcodeEvents.asSharedFlow()
 
     private var lastProcessedBarcode: String? = null
 
@@ -98,13 +100,10 @@ class ScannerViewModel(
                 )
             }
             val result = foodRepository.scanFoodBarcode(barcodeString)
-                .onSuccess { foodItem ->
-                    _uiSate.update {
-                        it.copy(
-                            foodItemResult = foodItem,
-                            overlay = ScannerOverlay.SUCCESS_SHEET
-                        )
-                    }
+                .onSuspendSuccess { foodItem ->
+                    foodRepository.addFoodItem(foodItem)
+                    _uiSate.update { it.copy(overlay = ScannerOverlay.NONE) }
+                    _scannerEvent.trySend(ScannerEvent.OnSuccess(foodId = foodItem.id))
                 }
                 .onFailure {
 

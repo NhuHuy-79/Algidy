@@ -20,6 +20,7 @@ import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
 import com.nhuhuy.aldidy.feature.inventory.presentation.InventoryRoute
 import com.nhuhuy.algidy.feature.analytics.presentation.navigation.AnalyticsRoute
+import com.nhuhuy.algidy.feature.confirm.ConfirmRoute
 import com.nhuhuy.algidy.feature.detail.presentation.navigation.DetailRoute
 import com.nhuhuy.algidy.feature.review.ReviewRoute
 import com.nhuhuy.algidy.feature.scanner.ScannerRoute
@@ -117,7 +118,19 @@ fun AppGraph(
             ) {
                 ScannerRoute(
                     viewModel = koinViewModel(),
-                    onNavigateBack = { backStack.removeLastOrNull() }
+                    onNavigateBack = { backStack.removeLastOrNull() },
+                    onNavigateToConfirm = { id ->
+                        backStack.add(Destination.Confirm(foodId = id))
+                    }
+                )
+            }
+
+            entry<Destination.Confirm> { screen ->
+                ConfirmRoute(
+                    onNavigateBack = { backStack.removeLastOrNull() },
+                    viewModel = koinViewModel(
+                        parameters = { parametersOf(screen.foodId) }
+                    )
                 )
             }
         }

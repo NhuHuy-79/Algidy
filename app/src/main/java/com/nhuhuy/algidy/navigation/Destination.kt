@@ -4,6 +4,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.AcUnit
 import androidx.compose.material.icons.rounded.Analytics
 import androidx.compose.material.icons.rounded.Camera
+import androidx.compose.material.icons.rounded.Checklist
 import androidx.compose.material.icons.rounded.Inventory
 import androidx.compose.material.icons.rounded.Reviews
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -14,7 +15,6 @@ import kotlinx.serialization.Serializable
 sealed interface Destination : NavKey {
     @Serializable
     data object Inventory : Destination
-
     @Serializable
     data class Detail(val foodItemId: String) : Destination
 
@@ -26,6 +26,9 @@ sealed interface Destination : NavKey {
 
     @Serializable
     data object Scanner : Destination
+
+    @Serializable
+    data class Confirm(val foodId: String) : Destination
 }
 
 val destinations = listOf(
@@ -41,5 +44,6 @@ fun Destination.toBottomBarIcon(): ImageVector {
         Destination.Inventory -> Icons.Rounded.Inventory
         Destination.Review -> Icons.Rounded.Reviews
         Destination.Scanner -> Icons.Rounded.Camera
+        is Destination.Confirm -> Icons.Rounded.Checklist
     }
 }

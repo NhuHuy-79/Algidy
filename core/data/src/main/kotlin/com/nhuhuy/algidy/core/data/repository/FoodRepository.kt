@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.Flow
 interface FoodRepository {
     suspend fun scanFoodBarcode(barcodeString: String) : NetworkResult<FoodItem>
     fun getInventory(): Flow<List<FoodItem>>
+    suspend fun getFoodById(id: String): FoodItem?
     suspend fun addFoodItem(item: FoodItem)
     suspend fun removeFoodItem(id: String)
 }
