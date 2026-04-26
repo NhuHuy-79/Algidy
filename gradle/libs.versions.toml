@@ -1,6 +1,6 @@
 [versions]
 agp = "8.12.3"
-chartsStackedBar = "2.2.0"
+chartsStackedBar = "2.1.0"
 composeCharts = "0.2.5"
 kotlin = "2.1.10"
 coreKtx = "1.18.0"

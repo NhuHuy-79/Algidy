@@ -7,5 +7,6 @@ android {
 }
 
 dependencies{
-    implementation(libs.charts.stacked.bar)
+    implementation("io.github.ehsannarmani:compose-charts:0.2.5")
+
 }
