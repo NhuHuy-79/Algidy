@@ -7,10 +7,7 @@ import androidx.camera.core.ImageCapture
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.DocumentScanner
 import androidx.compose.material.icons.rounded.PhotoCamera
@@ -22,15 +19,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.compose.LocalLifecycleOwner
-import com.google.mlkit.common.MlKit
 import com.nhuhuy.algidy.core.designsystem.component.AppLabel
+import com.nhuhuy.algidy.feature.scanner.presentation.ScannerMode
 import com.nhuhuy.algidy.feature.scanner.presentation.component.analyzer.BarcodeAnalyzer
 import com.nhuhuy.algidy.feature.scanner.presentation.component.analyzer.FoodAnalyzer
 import kotlinx.coroutines.delay

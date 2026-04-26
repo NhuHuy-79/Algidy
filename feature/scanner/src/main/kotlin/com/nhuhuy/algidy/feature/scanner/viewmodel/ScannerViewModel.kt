@@ -9,9 +9,10 @@ import com.nhuhuy.algidy.core.data.repository.FoodRepository
 import com.nhuhuy.algidy.core.data.toUiStateResult
 import com.nhuhuy.algidy.core.data.util.onFailure
 import com.nhuhuy.algidy.core.data.util.onSuccess
-import com.nhuhuy.algidy.feature.scanner.presentation.component.ScannerMode
+import com.nhuhuy.algidy.feature.scanner.presentation.ScannerMode
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.channels.BufferOverflow
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -23,6 +24,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import kotlin.time.Duration.Companion.seconds
 
 
 class ScannerViewModel(
@@ -30,7 +32,7 @@ class ScannerViewModel(
 ) : ViewModel() {
     private val _uiSate = MutableStateFlow(ScannerUiState())
     val uiState = _uiSate.asStateFlow()
-    private val stateValue : ScannerUiState get() = uiState.value
+    private val stateValue: ScannerUiState get() = uiState.value
     private val _barcodeEvents = MutableSharedFlow<String>(
         extraBufferCapacity = 1,
         onBufferOverflow = BufferOverflow.DROP_OLDEST
@@ -56,15 +58,27 @@ class ScannerViewModel(
                     }
                 }
             }
+
+            ScannerAction.OnDismissRequest -> {
+                _uiSate.update { state ->
+                    state.copy(overlay = ScannerOverlay.NONE)
+                }
+            }
+
+            is ScannerAction.OnFoodItemSaved -> {
+                _uiSate.update { state ->
+                    state.copy(foodItemResult = action.foodItem)
+                }
+            }
         }
     }
 
-    private fun observeBarcodeEvents(){
+    private fun observeBarcodeEvents() {
         _barcodeEvents
             .filter { barcode ->
-                val isNotLoading = stateValue.scanResult !is UiStateResult.Loading
+                val isIdle = stateValue.overlay == ScannerOverlay.NONE
                 val isNewItem = barcode != lastProcessedBarcode
-                isNotLoading && isNewItem
+                isIdle && isNewItem
             }
             .distinctUntilChanged()
             .onEach { barcode ->
@@ -77,16 +91,36 @@ class ScannerViewModel(
     private fun onBarcodeScan(barcodeString: String) {
         viewModelScope.launch {
             lastProcessedBarcode = barcodeString
-            _uiSate.update { it.copy(scanResult = UiStateResult.Loading) }
+            _uiSate.update {
+                it.copy(
+                    scanResult = UiStateResult.Loading,
+                    overlay = ScannerOverlay.LOADING_DIALOG
+                )
+            }
             val result = foodRepository.scanFoodBarcode(barcodeString)
-                .onSuccess {  }
-                .onFailure {}
-            _uiSate.update { it.copy(scanResult = result.toUiStateResult()) }
+                .onSuccess { foodItem ->
+                    _uiSate.update {
+                        it.copy(
+                            foodItemResult = foodItem,
+                            overlay = ScannerOverlay.SUCCESS_SHEET
+                        )
+                    }
+                }
+                .onFailure {
+
+                }
+            delay(1.seconds)
+            _uiSate.update {
+                it.copy(
+                    scanResult = result.toUiStateResult(),
+                    overlay = ScannerOverlay.NONE
+                )
+            }
         }
     }
 
 
-    private fun onBarcodeDetect(barcodeString: String){
+    private fun onBarcodeDetect(barcodeString: String) {
         _barcodeEvents.tryEmit(barcodeString)
     }
 

@@ -4,7 +4,7 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
 import com.nhuhuy.algidy.core.data.UiStateResult
 import com.nhuhuy.algidy.core.model.FoodItem
-import com.nhuhuy.algidy.feature.scanner.presentation.component.ScannerMode
+import com.nhuhuy.algidy.feature.scanner.presentation.ScannerMode
 
 @Immutable
 data class ScannerUiState(
@@ -13,7 +13,8 @@ data class ScannerUiState(
     val isAutoScanned: Boolean = true,
     val isFlashOn: Boolean = false,
     val scanResult: UiStateResult<FoodItem> = UiStateResult.Idle,
-    val overlay: ScannerOverlay = ScannerOverlay.NONE
+    val foodItemResult: FoodItem = FoodItem(),
+    val overlay: ScannerOverlay = ScannerOverlay.NONE,
 )
 
 
@@ -22,6 +23,4 @@ enum class ScannerOverlay{
 }
 
 @Stable
-sealed interface ScannerSideEffect{
-
-}
+sealed interface ScannerSideEffect

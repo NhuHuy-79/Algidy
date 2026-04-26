@@ -1,4 +1,4 @@
-package com.nhuhuy.algidy.feature.scanner.presentation.component
+package com.nhuhuy.algidy.feature.confirm.presentation.component
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -60,7 +60,6 @@ fun ScanResultBottomSheet(
     onDismiss: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    // State quản lý thông tin nhập liệu (Khởi tạo từ foodItem nhận được)
     var name by remember { mutableStateOf(foodItem.name) }
     var quantity by remember { mutableStateOf(if (foodItem.quantity == 0.0) "" else foodItem.quantity.toString()) }
     var selectedUnit by remember { mutableStateOf(foodItem.itemUnit) }
@@ -70,7 +69,6 @@ fun ScanResultBottomSheet(
     var location by remember { mutableStateOf(foodItem.location) }
     var notes by remember { mutableStateOf(foodItem.notes) }
 
-    // State điều khiển UI
     var showDatePicker by remember { mutableStateOf(false) }
     var showUnitMenu by remember { mutableStateOf(false) }
     val dateFormatter = remember { SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()) }
