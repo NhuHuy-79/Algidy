@@ -12,6 +12,9 @@ pluginManagement {
         gradlePluginPortal()
     }
 }
+plugins {
+    id("org.gradle.toolchains.foojay-resolver-convention") version "0.10.0"
+}
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
@@ -30,6 +33,7 @@ include(":core:database")
 include(":core:ai")
 include(":core:data")
 include(":core:common")
+include(":core:network")
 
 // Feature modules
 include(":feature:inventory")

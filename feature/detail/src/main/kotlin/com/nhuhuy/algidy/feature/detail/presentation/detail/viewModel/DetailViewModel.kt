@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.nhuhuy.algidy.core.data.repository.FoodRepository
 import com.nhuhuy.algidy.core.model.FoodItem
 import com.nhuhuy.algidy.core.model.FoodValidator
+import com.nhuhuy.algidy.core.model.ItemUnit
 import com.nhuhuy.algidy.core.model.StorageLocation
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -34,7 +35,6 @@ class DetailViewModel(
     fun onAction(action: DetailAction) {
         when (action) {
             DetailAction.OnWastedItem -> {
-
                 updateActionState(DetailActionState.Wasted)
             }
 
@@ -67,12 +67,12 @@ class DetailViewModel(
             is DetailAction.EditEntryAction.OnExpiryDateChange -> onExpiryDateChange(action.expiryDate)
             is DetailAction.EditEntryAction.OnNameChange -> onNameChange(action.name)
             is DetailAction.EditEntryAction.OnQuantityChange -> onQuantityChange(action.quantity)
+            is DetailAction.EditEntryAction.OnStorageLocationChange -> onLocationChange(action.location)
+            is DetailAction.EditEntryAction.OnNoteChange -> onNoteChange(action.note)
+            is DetailAction.EditEntryAction.OnItemUnitChange -> onItemUnitChange(action.unit)
             DetailAction.EditEntryAction.OnSave -> {
 
             }
-
-            is DetailAction.EditEntryAction.OnStorageLocationChange -> onLocationChange(action.location)
-            is DetailAction.EditEntryAction.OnNoteChange -> onNoteChange(action.note)
         }
     }
 
@@ -82,6 +82,12 @@ class DetailViewModel(
         }
         _errorState.update { error ->
             error.copy(nameValidation = FoodValidator.validateName(name))
+        }
+    }
+
+    fun onItemUnitChange(unit: ItemUnit) {
+        _editEntry.update { entryUiState ->
+            entryUiState.copy(itemUnit = unit)
         }
     }
 

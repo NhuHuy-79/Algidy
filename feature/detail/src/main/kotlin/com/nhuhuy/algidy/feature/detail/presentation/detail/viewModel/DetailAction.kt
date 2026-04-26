@@ -1,6 +1,7 @@
 package com.nhuhuy.algidy.feature.detail.presentation.detail.viewModel
 
 import androidx.compose.runtime.Stable
+import com.nhuhuy.algidy.core.model.ItemUnit
 import com.nhuhuy.algidy.core.model.StorageLocation
 
 @Stable
@@ -11,6 +12,7 @@ sealed interface DetailAction {
         data class OnStorageLocationChange(val location: StorageLocation) : EditEntryAction
         data class OnExpiryDateChange(val expiryDate: Long) : EditEntryAction
         data class OnNoteChange(val note: String) : EditEntryAction
+        data class OnItemUnitChange(val unit: ItemUnit) : EditEntryAction
         data object OnSave : EditEntryAction
     }
 

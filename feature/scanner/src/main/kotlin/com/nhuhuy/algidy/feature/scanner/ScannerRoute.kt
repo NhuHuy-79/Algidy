@@ -1,15 +1,41 @@
 package com.nhuhuy.algidy.feature.scanner
 
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
+import androidx.compose.runtime.getValue
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.nhuhuy.algidy.core.designsystem.component.BoxLayout
+import com.nhuhuy.algidy.feature.scanner.presentation.ScannerScreen
+import com.nhuhuy.algidy.feature.scanner.presentation.component.ScannerMode
+import com.nhuhuy.algidy.feature.scanner.viewmodel.ScannerAction
+import com.nhuhuy.algidy.feature.scanner.viewmodel.ScannerUiState
+import com.nhuhuy.algidy.feature.scanner.viewmodel.ScannerViewModel
+import java.util.Scanner
 
 @Composable
-fun ScannerRoute(modifier: Modifier = Modifier) {
+fun ScannerRoute(
+    viewModel: ScannerViewModel,
+    onNavigateBack: () -> Unit
+) {
+    val uiState : ScannerUiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val barcodeEvents : String by viewModel.barcodeEvents.collectAsStateWithLifecycle("")
+    val onAction = viewModel::onAction
+
     BoxLayout {
-        Text(
-            text = "Scanner Screen"
+        ScannerScreen(
+            uiState = uiState,
+            onClosePress = onNavigateBack,
+            onFlashPress = { isFlashOn: Boolean ->
+                onAction(ScannerAction.OnFlashChange(isFlashOn))
+            },
+            onAutoScanPress = { autoScanned: Boolean ->
+                onAction(ScannerAction.OnAutoScanChange(autoScanned))
+            },
+            onScannerModePress = { mode: ScannerMode ->
+                onAction(ScannerAction.OnScannerModeChange(mode))
+            },
+            onResultDetected = { barcodeString: String ->
+                onAction(ScannerAction.OnResultDetected(barcodeString))
+            }
         )
     }
 }

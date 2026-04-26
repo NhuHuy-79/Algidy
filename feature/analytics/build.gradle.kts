@@ -7,6 +7,5 @@ android {
 }
 
 dependencies{
-    implementation("io.github.ehsannarmani:compose-charts:0.2.5")
-
+    implementation(libs.chart)
 }

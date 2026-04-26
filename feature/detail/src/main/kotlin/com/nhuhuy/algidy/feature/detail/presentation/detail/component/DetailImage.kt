@@ -30,8 +30,8 @@ fun DetailImage(
         modifier = modifier
             .fillMaxWidth()
             .size(260.dp),
-        shape = RoundedCornerShape(38.dp),
-        color = MaterialTheme.colorScheme.surfaceContainerHighest,
+        shape = RoundedCornerShape(16.dp),
+        color = MaterialTheme.colorScheme.surfaceContainerLow,
         tonalElevation = 2.dp
     ) {
         Box(modifier = Modifier.fillMaxSize()) {
@@ -46,15 +46,14 @@ fun DetailImage(
             } else {
                 Box(
                     modifier = Modifier
-                        .fillMaxSize()
-                        .background(MaterialTheme.colorScheme.surfaceContainerHighest),
+                        .fillMaxSize(),
                     contentAlignment = Alignment.Center
                 ) {
                     Icon(
                         imageVector = placeholderIcon,
                         contentDescription = "No image available",
                         modifier = Modifier.size(80.dp),
-                        tint = MaterialTheme.colorScheme.primary.copy(alpha = 0.3f)
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
             }

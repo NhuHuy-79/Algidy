@@ -4,6 +4,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
@@ -39,6 +40,7 @@ import androidx.compose.ui.unit.dp
 import com.nhuhuy.algidy.capitalize
 import com.nhuhuy.algidy.core.data.toErrorMessage
 import com.nhuhuy.algidy.core.designsystem.component.AppTextField
+import com.nhuhuy.algidy.core.model.ItemUnit
 import com.nhuhuy.algidy.core.model.StorageLocation
 import com.nhuhuy.algidy.feature.detail.presentation.detail.viewModel.EditEntryError
 import com.nhuhuy.algidy.feature.detail.presentation.detail.viewModel.EditEntryUiState
@@ -53,6 +55,7 @@ fun EditFoodBottomSheet(
     errorState: EditEntryError,
     onLocationChange: (StorageLocation) -> Unit,
     onNameChange: (String) -> Unit,
+    onUnitItemChange: (ItemUnit) -> Unit,
     onQuantityChange: (Double) -> Unit,
     onNoteChange: (String) -> Unit,
     onExpiryDateChange: (Long) -> Unit,
@@ -61,6 +64,9 @@ fun EditFoodBottomSheet(
 ) {
     var showDatePicker by remember { mutableStateOf(false) }
     val dateFormatter = remember { SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()) }
+    var menuExpanded by remember { mutableStateOf(false) }
+    val units = ItemUnit.entries
+
 
     ModalBottomSheet(
         onDismissRequest = onDismiss,
@@ -91,21 +97,59 @@ fun EditFoodBottomSheet(
                     ?.let { stringResource(id = it) }
             )
 
-            AppTextField(
-                value = if (editEntry.quantity == 0.0) "" else "${editEntry.quantity}",
-                onValueChange = { text ->
-                    if (text.isEmpty()) {
-                        onQuantityChange(0.0)
-                    } else {
-                        text.toDoubleOrNull()?.let { onQuantityChange(it) }
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                AppTextField(
+                    modifier = Modifier.weight(0.6f),
+                    value = if (editEntry.quantity == 0.0) "" else "${editEntry.quantity}",
+                    onValueChange = { text ->
+                        if (text.isEmpty()) {
+                            onQuantityChange(0.0)
+                        } else {
+                            text.toDoubleOrNull()?.let { onQuantityChange(it) }
+                        }
+                    },
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
+                    label = "Quantity",
+                    isError = errorState.isQuantityError,
+                    errorMessage = errorState.quantityValidation.toErrorMessage()
+                        ?.let { stringResource(id = it) }
+                )
+
+                Box(modifier = Modifier.weight(0.4f)) {
+                    AppTextField(
+                        value = editEntry.itemUnit.name.capitalize(),
+                        onValueChange = {},
+                        label = "Unit",
+                        readOnly = true,
+                        trailingIcon = null,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                    Box(
+                        modifier = Modifier
+                            .matchParentSize()
+                            .clickable { menuExpanded = true }
+                    )
+
+                    androidx.compose.material3.DropdownMenu(
+                        expanded = menuExpanded,
+                        onDismissRequest = { menuExpanded = false },
+                        modifier = Modifier.fillMaxWidth(0.3f)
+                    ) {
+                        units.forEach { unit ->
+                            androidx.compose.material3.DropdownMenuItem(
+                                text = { Text(unit.name.capitalize()) },
+                                onClick = {
+                                    onUnitItemChange(unit)
+                                    menuExpanded = false
+                                }
+                            )
+                        }
                     }
-                },
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
-                label = "Quantity",
-                isError = errorState.isQuantityError,
-                errorMessage = errorState.quantityValidation.toErrorMessage()
-                    ?.let { stringResource(id = it) }
-            )
+                }
+            }
 
 
             Box(modifier = Modifier.fillMaxWidth()) {

@@ -50,7 +50,6 @@ fun DetailFabMenu(
                 Icon(
                     imageVector = if (expanded) Icons.Rounded.Close else Icons.Rounded.Edit,
                     contentDescription = "Menu Actions",
-                    modifier = Modifier.size(24.dp)
                 )
             }
         }
@@ -62,8 +61,8 @@ fun DetailFabMenu(
             },
             icon = { Icon(Icons.Rounded.Restaurant, contentDescription = null) },
             text = { Text(text = "I Consumed This") },
-            containerColor = MaterialTheme.colorScheme.secondaryContainer,
-            contentColor = MaterialTheme.colorScheme.onSecondaryContainer
+            containerColor = MaterialTheme.colorScheme.secondary,
+            contentColor = MaterialTheme.colorScheme.onSecondary
         )
 
         FloatingActionButtonMenuItem(
@@ -73,8 +72,8 @@ fun DetailFabMenu(
             },
             icon = { Icon(Icons.Rounded.Edit, contentDescription = null) },
             text = { Text(text = "Edit Details") },
-            containerColor = MaterialTheme.colorScheme.primaryContainer,
-            contentColor = MaterialTheme.colorScheme.onPrimaryContainer
+            containerColor = MaterialTheme.colorScheme.primary,
+            contentColor = MaterialTheme.colorScheme.onPrimary
         )
 
         FloatingActionButtonMenuItem(
@@ -84,8 +83,8 @@ fun DetailFabMenu(
             },
             icon = { Icon(Icons.Rounded.DeleteOutline, contentDescription = null) },
             text = { Text(text = "Mark as Wasted") },
-            containerColor = MaterialTheme.colorScheme.tertiaryContainer,
-            contentColor = MaterialTheme.colorScheme.onTertiaryContainer
+            containerColor = MaterialTheme.colorScheme.error,
+            contentColor = MaterialTheme.colorScheme.onError
         )
     }
 }

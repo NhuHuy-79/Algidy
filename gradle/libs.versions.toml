@@ -1,6 +1,7 @@
 [versions]
 agp = "8.12.3"
-chartsStackedBar = "2.1.0"
+chart = "1.1.0"
+chartsStackedBar = "2.2.0"
 composeCharts = "0.2.5"
 kotlin = "2.1.10"
 coreKtx = "1.18.0"
@@ -20,6 +21,7 @@ material3Android = "1.5.0-alpha16"
 lifecycleViewmodelNav3 = "2.11.0-alpha03"
 kotlinSerialization = "2.2.21"
 kotlinxSerializationCore = "1.9.0"
+kotlinxSerializationJson = "1.8.0"
 # New dependencies
 koin = "4.1.0-Beta1"
 navigation3 = "2.9.0-alpha05"
@@ -28,11 +30,18 @@ mockk = "1.13.16"
 coroutines = "1.10.1"
 turbine = "1.2.0"
 coil = "3.1.0"
-
+vico = "3.1.0"
+retrofit = "2.11.0"
+okhttp = "4.12.0"
+logger = "2.2.0"
+timber = "5.0.1"
 [libraries]
+vico-compose = { group = "com.patrykandpatrick.vico", name = "compose", version.ref = "vico" }
+vico-compose-m3 = { group = "com.patrykandpatrick.vico", name = "compose-m3", version.ref = "vico" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-navigation3-runtime = { module = "androidx.navigation3:navigation3-runtime", version.ref = "navigation3Runtime" }
 androidx-navigation3-ui = { module = "androidx.navigation3:navigation3-ui", version.ref = "navigation3Runtime" }
+chart = { module = "io.github.thechance101:chart", version.ref = "chart" }
 charts-stacked-bar = { module = "io.github.dautovicharis:charts-stacked-bar", version.ref = "chartsStackedBar" }
 compose-charts = { module = "io.github.ehsannarmani:compose-charts", version.ref = "composeCharts" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -55,11 +64,16 @@ room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "
 room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 google-ai-client = { group = "com.google.ai.client.generativeai", name = "generativeai", version.ref = "googleAi" }
+retrofit-core = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
+retrofit-kotlin-serialization = { group = "com.squareup.retrofit2", name = "converter-kotlinx-serialization", version.ref = "retrofit" }
+okhttp-logging = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp" }
+logger = { group = "com.orhanobut", name = "logger", version.ref = "logger" }
+timber = { group = "com.jakewharton.timber", name = "timber", version.ref = "timber" }
 
 #Navigation 3 (extra)
 androidx-lifecycle-viewmodel-navigation3 = { module = "androidx.lifecycle:lifecycle-viewmodel-navigation3", version.ref = "lifecycleViewmodelNav3" }
 kotlinx-serialization-core = { module = "org.jetbrains.kotlinx:kotlinx-serialization-core", version.ref = "kotlinxSerializationCore" }
-
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
 # Coil
 coil-compose = { group = "io.coil-kt.coil3", name = "coil-compose", version.ref = "coil" }
 

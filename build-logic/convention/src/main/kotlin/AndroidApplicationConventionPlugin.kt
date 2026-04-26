@@ -13,7 +13,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 class AndroidApplicationConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
-            extensions.getByType<VersionCatalogsExtension>().named("libs")
+            val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
 
             with(pluginManager) {
                 apply("com.android.application")
@@ -47,6 +47,7 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
 
             dependencies {
                 add("testImplementation", kotlin("test"))
+                add("implementation", libs.findLibrary("logger").get())
             }
         }
     }

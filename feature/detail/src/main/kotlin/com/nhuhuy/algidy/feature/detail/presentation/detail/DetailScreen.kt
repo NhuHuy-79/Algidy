@@ -80,18 +80,17 @@ fun DetailScreen(
                 start = 16.dp,
                 end = 16.dp
             ),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
+            verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             item {
                 DetailImage(imageUri = uiState.foodItem.imageUri)
             }
-
             item {
-                DetailHeroCard(item = uiState.foodItem)
+                DetailStatsRow(item = uiState.foodItem)
             }
 
             item {
-                DetailStatsRow(item = uiState.foodItem)
+                DetailHeroCard(item = uiState.foodItem)
             }
 
             item {
