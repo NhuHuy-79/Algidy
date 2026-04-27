@@ -1,11 +1,27 @@
 package com.nhuhuy.algidy.feature.confirm
 
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.WarningAmber
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.nhuhuy.algidy.core.designsystem.component.AlgidyAlertDialog
 import com.nhuhuy.algidy.feature.confirm.presentation.ConfirmDatePickerDialog
 import com.nhuhuy.algidy.feature.confirm.presentation.ConfirmScreen
-import com.nhuhuy.algidy.feature.confirm.viewmodel.ConfirmAction
+import com.nhuhuy.algidy.feature.confirm.viewmodel.ConfirmAction.OnDismissRequest
+import com.nhuhuy.algidy.feature.confirm.viewmodel.ConfirmAction.OnExitAlertDialog
+import com.nhuhuy.algidy.feature.confirm.viewmodel.ConfirmAction.OnExpiryDateChange
+import com.nhuhuy.algidy.feature.confirm.viewmodel.ConfirmAction.OnLocationChange
+import com.nhuhuy.algidy.feature.confirm.viewmodel.ConfirmAction.OnNameChange
+import com.nhuhuy.algidy.feature.confirm.viewmodel.ConfirmAction.OnNotesChange
+import com.nhuhuy.algidy.feature.confirm.viewmodel.ConfirmAction.OnPurchaseDateChange
+import com.nhuhuy.algidy.feature.confirm.viewmodel.ConfirmAction.OnQuantityChange
+import com.nhuhuy.algidy.feature.confirm.viewmodel.ConfirmAction.OnSaveClick
+import com.nhuhuy.algidy.feature.confirm.viewmodel.ConfirmAction.OnToggleExpiryDatePicker
+import com.nhuhuy.algidy.feature.confirm.viewmodel.ConfirmAction.OnTogglePurchaseDatePicker
+import com.nhuhuy.algidy.feature.confirm.viewmodel.ConfirmAction.OnToggleUnitMenu
+import com.nhuhuy.algidy.feature.confirm.viewmodel.ConfirmAction.OnUnitSelected
 import com.nhuhuy.algidy.feature.confirm.viewmodel.ConfirmOverlay
 import com.nhuhuy.algidy.feature.confirm.viewmodel.ConfirmViewModel
 
@@ -20,33 +36,35 @@ fun ConfirmRoute(
     ConfirmScreen(
         uiState = uiState,
         onNameChange = { name ->
-            onAction(ConfirmAction.OnNameChange(name))
+            onAction(OnNameChange(name))
         },
         onQuantityChange = { qty ->
-            onAction(ConfirmAction.OnQuantityChange(qty))
+            onAction(OnQuantityChange(qty))
         },
         onUnitSelected = { unit ->
-            onAction(ConfirmAction.OnUnitSelected(unit))
+            onAction(OnUnitSelected(unit))
         },
         onToggleUnitMenu = { isOpen ->
-            onAction(ConfirmAction.OnToggleUnitMenu(isOpen))
+            onAction(OnToggleUnitMenu(isOpen))
         },
         onTogglePurchaseDatePicker = { isOpen ->
-            onAction(ConfirmAction.OnTogglePurchaseDatePicker(isOpen))
+            onAction(OnTogglePurchaseDatePicker(isOpen))
         },
         onToggleExpiryDatePicker = { isOpen ->
-            onAction(ConfirmAction.OnToggleExpiryDatePicker(isOpen))
+            onAction(OnToggleExpiryDatePicker(isOpen))
         },
         onLocationChange = { loc ->
-            onAction(ConfirmAction.OnLocationChange(loc))
+            onAction(OnLocationChange(loc))
         },
         onNotesChange = { notes ->
-            onAction(ConfirmAction.OnNotesChange(notes))
+            onAction(OnNotesChange(notes))
         },
         onSaveClick = {
-            onAction(ConfirmAction.OnSaveClick)
+            onAction(OnSaveClick)
         },
-        onBackClick = onNavigateBack
+        onBackClick = {
+            onAction(OnExitAlertDialog)
+        }
     )
 
 
@@ -55,19 +73,34 @@ fun ConfirmRoute(
         ConfirmOverlay.EXPIRY_DATE_PICKER -> ConfirmDatePickerDialog(
             initialDate = uiState.foodItem.purchaseDate,
             onDateSelected = { date ->
-                onAction(ConfirmAction.OnExpiryDateChange(date))
+                onAction(OnExpiryDateChange(date))
             },
-            onDismiss = { onAction(ConfirmAction.OnDismissRequest) }
+            onDismiss = { onAction(OnDismissRequest) }
         )
 
         ConfirmOverlay.PURCHASE_DATE_PICKER -> ConfirmDatePickerDialog(
             initialDate = uiState.foodItem.purchaseDate,
             onDateSelected = { date ->
-                onAction(ConfirmAction.OnPurchaseDateChange(date))
+                onAction(OnPurchaseDateChange(date))
             },
-            onDismiss = { onAction(ConfirmAction.OnDismissRequest) }
+            onDismiss = { onAction(OnDismissRequest) }
         )
 
         ConfirmOverlay.ERROR_DIALOG -> Unit
+        ConfirmOverlay.EXIT_DIALOG -> AlgidyAlertDialog(
+            onDismissRequest = {
+                onAction(OnDismissRequest)
+            },
+            onConfirm = {
+                onNavigateBack()
+            },
+            title = "Discard Changes?",
+            text = "Are you sure you want to go back? All food information you've entered will be lost and won't be saved to your pantry.",
+            confirmText = "Discard",
+            dismissText = "Keep Editing",
+            icon = Icons.Rounded.WarningAmber,
+            confirmButtonColor = MaterialTheme.colorScheme.error,
+            isDestructive = true,
+        )
     }
 }

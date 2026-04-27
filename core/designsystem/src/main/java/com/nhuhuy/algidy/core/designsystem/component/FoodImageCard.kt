@@ -31,7 +31,7 @@ fun FoodImageCard(
         modifier = modifier
             .fillMaxWidth()
             .height(260.dp),
-        shape = RoundedCornerShape(24.dp), // Bo góc lớn chuẩn Expressive
+        shape = RoundedCornerShape(24.dp),
         color = MaterialTheme.colorScheme.surfaceContainerLow,
     ) {
         SubcomposeAsyncImage(

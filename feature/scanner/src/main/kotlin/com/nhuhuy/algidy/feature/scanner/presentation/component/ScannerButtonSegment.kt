@@ -20,8 +20,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.AddPhotoAlternate
-import androidx.compose.material.icons.rounded.AddPhotoAlternate
-import androidx.compose.material.icons.rounded.Image
 import androidx.compose.material3.CircularWavyProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.FilledTonalIconButton
@@ -29,9 +27,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -42,6 +38,7 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun CaptureButton(
     modifier: Modifier = Modifier,
+    enable: Boolean = true,
     contentColor: Color,
     onCapturePress: () -> Unit,
 ) {
@@ -64,10 +61,7 @@ fun CaptureButton(
                     color = contentColor,
                     shape = CircleShape
                 )
-
-                .clickable{
-                    onCapturePress()
-                },
+                .clickable(enabled = enable, onClick = onCapturePress),
         )
     }
 }

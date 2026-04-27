@@ -5,10 +5,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
@@ -19,6 +17,7 @@ import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.ArrowDropDown
 import androidx.compose.material.icons.rounded.CalendarToday
 import androidx.compose.material.icons.rounded.CheckCircleOutline
+import androidx.compose.material.icons.rounded.EditNote
 import androidx.compose.material.icons.rounded.EventAvailable
 import androidx.compose.material.icons.rounded.Fastfood
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -217,6 +216,7 @@ fun ConfirmScreen(
                 value = foodItem.notes,
                 onValueChange = onNotesChange,
                 label = "Notes",
+                leadingIcon = Icons.Rounded.EditNote,
                 placeholder = "E.g. Brand, open date...",
                 singleLine = false,
                 modifier = Modifier.heightIn(min = 100.dp)
@@ -229,7 +229,6 @@ fun ConfirmScreen(
                 onClick = onSaveClick,
                 modifier = Modifier.fillMaxWidth()
             )
-            Spacer(modifier = Modifier.height(16.dp))
         }
     }
 

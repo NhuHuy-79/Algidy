@@ -18,6 +18,6 @@ sealed interface ConfirmAction {
     data class OnPurchaseDateChange(val timestamp: Long) : ConfirmAction
     data class OnExpiryDateChange(val timestamp: Long) : ConfirmAction
 
-
+    data object OnExitAlertDialog : ConfirmAction
     data object OnSaveClick : ConfirmAction
 }

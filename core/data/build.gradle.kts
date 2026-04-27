@@ -14,4 +14,5 @@ dependencies {
     implementation(project(":core:network"))
     implementation(project(":core:common"))
     implementation(libs.kotlinx.coroutines.android)
+    api(libs.kotlinx.coroutines.play.services)
 }

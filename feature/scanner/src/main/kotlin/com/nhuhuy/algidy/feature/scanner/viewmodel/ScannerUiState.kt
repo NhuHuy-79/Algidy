@@ -1,5 +1,6 @@
 package com.nhuhuy.algidy.feature.scanner.viewmodel
 
+import android.net.Uri
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
 import com.nhuhuy.algidy.core.data.UiStateResult
@@ -15,7 +16,10 @@ data class ScannerUiState(
     val scanResult: UiStateResult<FoodItem> = UiStateResult.Idle,
     val foodItemResult: FoodItem = FoodItem(),
     val overlay: ScannerOverlay = ScannerOverlay.NONE,
-)
+    val stagedImageUri: Uri? = null,
+) {
+    val isWaitingForConfirmation: Boolean get() = stagedImageUri != null
+}
 
 
 enum class ScannerOverlay{

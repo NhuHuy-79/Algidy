@@ -50,6 +50,12 @@ fun ScannerRoute(
             },
             onResultDetected = { barcodeString: String ->
                 onAction(ScannerAction.OnResultDetected(barcodeString))
+            },
+            onImageStaged = { uri ->
+                onAction(ScannerAction.OnImageStaged(uri))
+            },
+            onProcessImageClick = { uri ->
+                onAction(ScannerAction.OnProcessStagedImage(uri))
             }
         )
 

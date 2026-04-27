@@ -9,6 +9,7 @@ import com.nhuhuy.algidy.core.data.repository.FoodRepository
 import com.nhuhuy.algidy.core.data.toUiStateResult
 import com.nhuhuy.algidy.core.data.util.onFailure
 import com.nhuhuy.algidy.core.data.util.onSuspendSuccess
+import com.nhuhuy.algidy.core.data.util.product
 import com.nhuhuy.algidy.feature.scanner.presentation.ScannerMode
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.channels.BufferOverflow
@@ -71,6 +72,16 @@ class ScannerViewModel(
                 _uiSate.update { state ->
                     state.copy(foodItemResult = action.foodItem)
                 }
+            }
+
+            is ScannerAction.OnImageStaged -> {
+                _uiSate.product {
+                    copy(stagedImageUri = action.uri)
+                }
+            }
+
+            is ScannerAction.OnProcessStagedImage -> {
+
             }
         }
     }

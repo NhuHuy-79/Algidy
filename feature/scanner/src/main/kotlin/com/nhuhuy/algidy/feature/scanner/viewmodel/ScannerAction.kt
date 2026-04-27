@@ -1,5 +1,6 @@
 package com.nhuhuy.algidy.feature.scanner.viewmodel
 
+import android.net.Uri
 import com.nhuhuy.algidy.core.model.FoodItem
 import com.nhuhuy.algidy.feature.scanner.presentation.ScannerMode
 
@@ -10,4 +11,6 @@ sealed interface ScannerAction {
     data class OnAutoScanChange(val isAutoScanned: Boolean) : ScannerAction
     data class OnResultDetected(val barcodeString: String) : ScannerAction
     data class OnFoodItemSaved(val foodItem: FoodItem) : ScannerAction
+    data class OnImageStaged(val uri: Uri?) : ScannerAction
+    data class OnProcessStagedImage(val uri: Uri) : ScannerAction
 }

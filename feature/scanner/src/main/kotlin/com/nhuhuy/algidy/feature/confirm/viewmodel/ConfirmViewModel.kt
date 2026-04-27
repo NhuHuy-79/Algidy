@@ -64,7 +64,6 @@ class ConfirmViewModel(
                 it.copy(foodItem = it.foodItem.copy(expiryDate = action.timestamp))
             }
 
-            // --- Điều khiển Trạng thái UI (Toggles) ---
             is ConfirmAction.OnToggleUnitMenu -> _uiState.update {
                 it.copy(expandedUnitMenu = action.isOpen)
             }
@@ -85,6 +84,10 @@ class ConfirmViewModel(
 
             ConfirmAction.OnDismissRequest -> _uiState.update {
                 it.copy(overlay = ConfirmOverlay.NONE)
+            }
+
+            ConfirmAction.OnExitAlertDialog -> _uiState.update {
+                it.copy(overlay = ConfirmOverlay.EXIT_DIALOG)
             }
         }
     }
