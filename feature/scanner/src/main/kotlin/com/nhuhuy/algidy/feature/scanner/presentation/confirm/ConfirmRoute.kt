@@ -1,0 +1,92 @@
+package com.nhuhuy.algidy.feature.scanner.presentation.confirm
+
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.WarningAmber
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.nhuhuy.algidy.core.designsystem.component.AlgidyAlertDialog
+import com.nhuhuy.algidy.feature.scanner.presentation.confirm.viewmodel.ConfirmAction
+import com.nhuhuy.algidy.feature.scanner.presentation.confirm.viewmodel.ConfirmOverlay
+import com.nhuhuy.algidy.feature.scanner.presentation.confirm.viewmodel.ConfirmViewModel
+
+@Composable
+fun ConfirmRoute(
+    onNavigateBack: () -> Unit,
+    viewModel: ConfirmViewModel
+) {
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val onAction = viewModel::onAction
+
+    ConfirmScreen(
+        uiState = uiState,
+        onNameChange = { name ->
+            onAction(ConfirmAction.OnNameChange(name))
+        },
+        onQuantityChange = { qty ->
+            onAction(ConfirmAction.OnQuantityChange(qty))
+        },
+        onUnitSelected = { unit ->
+            onAction(ConfirmAction.OnUnitSelected(unit))
+        },
+        onToggleUnitMenu = { isOpen ->
+            onAction(ConfirmAction.OnToggleUnitMenu(isOpen))
+        },
+        onTogglePurchaseDatePicker = { isOpen ->
+            onAction(ConfirmAction.OnTogglePurchaseDatePicker(isOpen))
+        },
+        onToggleExpiryDatePicker = { isOpen ->
+            onAction(ConfirmAction.OnToggleExpiryDatePicker(isOpen))
+        },
+        onLocationChange = { loc ->
+            onAction(ConfirmAction.OnLocationChange(loc))
+        },
+        onNotesChange = { notes ->
+            onAction(ConfirmAction.OnNotesChange(notes))
+        },
+        onSaveClick = {
+            onAction(ConfirmAction.OnSaveClick)
+        },
+        onBackClick = {
+            onAction(ConfirmAction.OnExitAlertDialog)
+        }
+    )
+
+
+    when (uiState.overlay) {
+        ConfirmOverlay.NONE -> Unit
+        ConfirmOverlay.EXPIRY_DATE_PICKER -> ConfirmDatePickerDialog(
+            initialDate = uiState.foodItem.purchaseDate,
+            onDateSelected = { date ->
+                onAction(ConfirmAction.OnExpiryDateChange(date))
+            },
+            onDismiss = { onAction(ConfirmAction.OnDismissRequest) }
+        )
+
+        ConfirmOverlay.PURCHASE_DATE_PICKER -> ConfirmDatePickerDialog(
+            initialDate = uiState.foodItem.purchaseDate,
+            onDateSelected = { date ->
+                onAction(ConfirmAction.OnPurchaseDateChange(date))
+            },
+            onDismiss = { onAction(ConfirmAction.OnDismissRequest) }
+        )
+
+        ConfirmOverlay.ERROR_DIALOG -> Unit
+        ConfirmOverlay.EXIT_DIALOG -> AlgidyAlertDialog(
+            onDismissRequest = {
+                onAction(ConfirmAction.OnDismissRequest)
+            },
+            onConfirm = {
+                onNavigateBack()
+            },
+            title = "Discard Changes?",
+            text = "Are you sure you want to go back? All food information you've entered will be lost and won't be saved to your pantry.",
+            confirmText = "Discard",
+            dismissText = "Keep Editing",
+            icon = Icons.Rounded.WarningAmber,
+            confirmButtonColor = MaterialTheme.colorScheme.error,
+            isDestructive = true,
+        )
+    }
+}
