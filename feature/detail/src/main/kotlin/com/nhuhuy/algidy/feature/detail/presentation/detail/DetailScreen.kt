@@ -19,9 +19,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.nhuhuy.algidy.core.designsystem.component.FoodImageCard
 import com.nhuhuy.algidy.feature.detail.presentation.detail.component.DetailFabMenu
 import com.nhuhuy.algidy.feature.detail.presentation.detail.component.DetailHeroCard
-import com.nhuhuy.algidy.feature.detail.presentation.detail.component.DetailImage
 import com.nhuhuy.algidy.feature.detail.presentation.detail.component.DetailNoteSection
 import com.nhuhuy.algidy.feature.detail.presentation.detail.component.DetailStatsRow
 import com.nhuhuy.algidy.feature.detail.presentation.detail.viewModel.DetailUiState
@@ -83,7 +83,7 @@ fun DetailScreen(
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             item {
-                DetailImage(imageUri = uiState.foodItem.imageUri)
+                FoodImageCard(imageUri = uiState.foodItem.imageUri)
             }
             item {
                 DetailStatsRow(item = uiState.foodItem)

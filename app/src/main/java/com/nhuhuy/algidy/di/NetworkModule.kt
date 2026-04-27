@@ -1,7 +1,7 @@
 package com.nhuhuy.algidy.di
 
 import com.nhuhuy.algidy.core.network.api.FoodDetailService
-import com.nhuhuy.algidy.core.network.api.OPEN_FOOD_FACT_URL
+import com.nhuhuy.algidy.core.network.api.FoodDetailService.Companion.BASE_URL
 import com.nhuhuy.algidy.core.network.data_source.FoodRemoteDataSource
 import com.nhuhuy.algidy.core.network.data_source.FoodRemoteDataSourceImpl
 import kotlinx.serialization.json.Json
@@ -19,7 +19,7 @@ val networkModule = module {
         val json: Json = get()
         val contentType = "application/json".toMediaType()
         Retrofit.Builder()
-            .baseUrl(OPEN_FOOD_FACT_URL)
+            .baseUrl(BASE_URL)
             .addConverterFactory(json.asConverterFactory(contentType))
             .build()
     }

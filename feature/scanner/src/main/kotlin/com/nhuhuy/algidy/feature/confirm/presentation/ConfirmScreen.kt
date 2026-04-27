@@ -46,6 +46,7 @@ import androidx.compose.ui.unit.dp
 import com.nhuhuy.algidy.capitalize
 import com.nhuhuy.algidy.core.designsystem.component.AppButton
 import com.nhuhuy.algidy.core.designsystem.component.AppTextField
+import com.nhuhuy.algidy.core.designsystem.component.FoodImageCard
 import com.nhuhuy.algidy.core.model.ItemUnit
 import com.nhuhuy.algidy.core.model.StorageLocation
 import com.nhuhuy.algidy.feature.confirm.viewmodel.ConfirmUiState
@@ -97,7 +98,10 @@ fun ConfirmScreen(
                 .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.spacedBy(20.dp)
         ) {
-            Spacer(modifier = Modifier.height(4.dp))
+            FoodImageCard(
+                imageUri = foodItem.imageUri,
+                modifier = Modifier.fillMaxWidth()
+            )
 
             // 1. Tên thực phẩm
             AppTextField(
@@ -222,7 +226,8 @@ fun ConfirmScreen(
             AppButton(
                 text = "Add to Pantry",
                 icon = Icons.Rounded.CheckCircleOutline,
-                onClick = onSaveClick
+                onClick = onSaveClick,
+                modifier = Modifier.fillMaxWidth()
             )
             Spacer(modifier = Modifier.height(16.dp))
         }

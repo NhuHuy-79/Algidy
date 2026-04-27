@@ -101,6 +101,7 @@ class ScannerViewModel(
             }
             val result = foodRepository.scanFoodBarcode(barcodeString)
                 .onSuspendSuccess { foodItem ->
+                    Timber.e("Success: $foodItem")
                     foodRepository.addFoodItem(foodItem)
                     _uiSate.update { it.copy(overlay = ScannerOverlay.NONE) }
                     _scannerEvent.trySend(ScannerEvent.OnSuccess(foodId = foodItem.id))

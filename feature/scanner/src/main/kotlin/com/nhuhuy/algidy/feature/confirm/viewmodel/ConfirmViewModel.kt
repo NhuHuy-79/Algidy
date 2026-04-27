@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 
 class ConfirmViewModel(
     private val foodId: String,
-    private val repository: FoodRepository,
+    private val foodRepository: FoodRepository,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(ConfirmUiState())
     val uiState: StateFlow<ConfirmUiState> = _uiState.asStateFlow()
@@ -22,7 +22,7 @@ class ConfirmViewModel(
 
     init {
         viewModelScope.launch {
-            val foodItem = repository.getFoodById(foodId) ?: FoodItem()
+            val foodItem = foodRepository.getFoodById(foodId) ?: FoodItem()
             _uiState.update { it.copy(foodItem = foodItem) }
         }
     }
@@ -79,7 +79,7 @@ class ConfirmViewModel(
 
             ConfirmAction.OnSaveClick -> {
                 viewModelScope.launch {
-                    repository.addFoodItem(stateValue.foodItem)
+                    foodRepository.addFoodItem(stateValue.foodItem)
                 }
             }
 
