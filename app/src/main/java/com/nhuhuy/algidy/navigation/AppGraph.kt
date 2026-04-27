@@ -21,9 +21,9 @@ import androidx.navigation3.ui.NavDisplay
 import com.nhuhuy.aldidy.feature.inventory.presentation.InventoryRoute
 import com.nhuhuy.algidy.feature.analytics.presentation.navigation.AnalyticsRoute
 import com.nhuhuy.algidy.feature.detail.presentation.navigation.DetailRoute
-import com.nhuhuy.algidy.feature.presentation.confirm.ConfirmRoute
-import com.nhuhuy.algidy.feature.presentation.scanner.ScannerRoute
 import com.nhuhuy.algidy.feature.review.ReviewRoute
+import com.nhuhuy.algidy.feature.scanner.presentation.confirm.ConfirmRoute
+import com.nhuhuy.algidy.feature.scanner.presentation.scanner.ScannerRoute
 import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
 

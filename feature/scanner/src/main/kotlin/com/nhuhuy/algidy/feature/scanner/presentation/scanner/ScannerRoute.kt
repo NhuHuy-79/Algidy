@@ -6,7 +6,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.nhuhuy.algidy.core.designsystem.component.BoxLayout
 import com.nhuhuy.algidy.core.model.UiResult
 import com.nhuhuy.algidy.core.presentation.ObserveEffect
-import com.nhuhuy.algidy.feature.scanner.presentation.confirm.component.ScanResultBottomSheet
 import com.nhuhuy.algidy.feature.scanner.presentation.scanner.component.dialog.ImageProcessingDialog
 import com.nhuhuy.algidy.feature.scanner.presentation.scanner.component.dialog.ScannerLoadingDialog
 import com.nhuhuy.algidy.feature.scanner.presentation.scanner.viewmodel.ScannerAction
@@ -56,36 +55,16 @@ fun ScannerRoute(
             },
             onImageStaged = { uri ->
                 onAction(ScannerAction.OnImageStaged(uri))
-            },
-            onProcessImageClick = { uri ->
-                onAction(ScannerAction.OnProcessStagedImage(uri))
             }
         )
 
         when (uiState.overlay) {
             ScannerOverlay.NONE -> Unit
-            ScannerOverlay.SUCCESS_SHEET -> {
-                ScanResultBottomSheet(
-                    foodItem = uiState.foodItemResult,
-                    onSave = { foodItem ->
-                        onAction(ScannerAction.OnFoodItemSaved(foodItem))
-                    },
-                    onDismiss = {
-                        onAction(ScannerAction.OnDismissRequest)
-                    },
-                )
-            }
-
             ScannerOverlay.LOADING_DIALOG -> {
                 ScannerLoadingDialog(
                     onDismissRequest = { onAction(ScannerAction.OnDismissRequest) }
                 )
             }
-
-            ScannerOverlay.ERROR_DIALOG -> {
-
-            }
-
             ScannerOverlay.PROCESSING_DIALOG -> {
                 ImageProcessingDialog(
                     imageUri = uiState.stagedImageUri!!,
@@ -94,7 +73,7 @@ fun ScannerRoute(
                         onAction(ScannerAction.OnDismissRequest)
                     },
                     onScanClick = {
-                        //
+                        onAction(ScannerAction.OnProcessStagedImage(uiState.stagedImageUri!!))
                     }
                 )
             }

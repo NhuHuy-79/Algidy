@@ -2,15 +2,18 @@
 
 package com.nhuhuy.algidy.feature.scanner.presentation.scanner.viewmodel
 
+import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nhuhuy.algidy.core.data.repository.FoodRepository
 import com.nhuhuy.algidy.core.data.util.onFailure
+import com.nhuhuy.algidy.core.data.util.onSuccess
 import com.nhuhuy.algidy.core.data.util.onSuspendSuccess
 import com.nhuhuy.algidy.core.data.util.product
 import com.nhuhuy.algidy.core.model.UiResult
 import com.nhuhuy.algidy.core.model.toUiError
 import com.nhuhuy.algidy.core.model.toUiStateResult
+import com.nhuhuy.algidy.feature.scanner.domain.BarcodeScanner
 import com.nhuhuy.algidy.feature.scanner.presentation.scanner.ScannerMode
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.channels.BufferOverflow
@@ -24,13 +27,13 @@ import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import kotlin.time.Duration.Companion.seconds
 
 
 class ScannerViewModel(
+    private val barcodeScanner: BarcodeScanner,
     private val foodRepository: FoodRepository
 ) : ViewModel() {
     private val _scannerEvent: Channel<ScannerEvent> = Channel(Channel.BUFFERED)
@@ -64,30 +67,50 @@ class ScannerViewModel(
             }
 
             ScannerAction.OnDismissRequest -> {
-                _uiSate.update { state ->
-                    state.copy(overlay = ScannerOverlay.NONE)
-                }
+                _uiSate.product { copy(overlay = ScannerOverlay.NONE) }
             }
 
             is ScannerAction.OnFoodItemSaved -> {
-                _uiSate.update { state ->
-                    state.copy(foodItemResult = action.foodItem)
-                }
+                _uiSate.product { copy(foodItemResult = action.foodItem) }
             }
 
             is ScannerAction.OnImageStaged -> {
                 if (action.uri != null) {
                     _uiSate.product {
                         copy(
-                            stagedImageUri = action.uri,
-                            overlay = ScannerOverlay.PROCESSING_DIALOG
+                            stagedImageUri = action.uri, overlay = ScannerOverlay.PROCESSING_DIALOG
                         )
                     }
                 }
             }
 
-            is ScannerAction.OnProcessStagedImage -> {
+            is ScannerAction.OnProcessStagedImage -> analyzeBarcodeFromUri(action.uri)
+        }
+    }
 
+    private fun analyzeBarcodeFromUri(uri: Uri) {
+        viewModelScope.launch {
+            _uiSate.product { copy(scanResult = UiResult.Loading) }
+
+            val barcodeString = barcodeScanner.scanFromImage(uri)
+            if (barcodeString != null) {
+                foodRepository.scanFoodBarcode(barcodeString)
+                    .onSuccess { foodItem ->
+                        _uiSate.product { copy(overlay = ScannerOverlay.NONE) }
+                        _scannerEvent.trySend(ScannerEvent.OnSuccess(foodId = foodItem.id))
+                    }
+                    .onFailure {
+                        _uiSate.product {
+                            copy(overlay = ScannerOverlay.NONE, labelEvent = LabelEvent.FAILURE)
+                        }
+                    }
+            } else {
+                _uiSate.product {
+                    copy(
+                        overlay = ScannerOverlay.NONE,
+                        labelEvent = LabelEvent.FAILURE
+                    )
+                }
             }
         }
     }
@@ -137,7 +160,6 @@ class ScannerViewModel(
             }
         }
     }
-
 
     private fun onBarcodeDetect(barcodeString: String) {
         _barcodeEvents.tryEmit(barcodeString)

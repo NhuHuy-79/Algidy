@@ -4,9 +4,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nhuhuy.algidy.core.data.repository.FoodRepository
 import com.nhuhuy.algidy.core.model.FoodItem
+import kotlinx.coroutines.channels.BufferOverflow
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -15,6 +18,9 @@ class ConfirmViewModel(
     private val foodId: String,
     private val foodRepository: FoodRepository,
 ) : ViewModel() {
+    private val _confirmEvent = Channel<ConfirmEvent>(onBufferOverflow = BufferOverflow.SUSPEND)
+    val confirmEvent = _confirmEvent.receiveAsFlow()
+
     private val _uiState = MutableStateFlow(ConfirmUiState())
     val uiState: StateFlow<ConfirmUiState> = _uiState.asStateFlow()
 
@@ -24,6 +30,7 @@ class ConfirmViewModel(
         viewModelScope.launch {
             val foodItem = foodRepository.getFoodById(foodId) ?: FoodItem()
             _uiState.update { it.copy(foodItem = foodItem) }
+            foodRepository.removeFoodItem(id = foodItem.id)
         }
     }
 
@@ -79,6 +86,7 @@ class ConfirmViewModel(
             ConfirmAction.OnSaveClick -> {
                 viewModelScope.launch {
                     foodRepository.addFoodItem(stateValue.foodItem)
+                    _confirmEvent.trySend(ConfirmEvent.OnSaveSuccessfully)
                 }
             }
 

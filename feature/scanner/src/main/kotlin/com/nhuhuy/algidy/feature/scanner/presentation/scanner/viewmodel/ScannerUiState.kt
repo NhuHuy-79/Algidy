@@ -15,17 +15,15 @@ data class ScannerUiState(
     val scanResult: UiResult<FoodItem> = UiResult.Idle,
     val foodItemResult: FoodItem = FoodItem(),
     val overlay: ScannerOverlay = ScannerOverlay.NONE,
-    val labelEvent: LabelEvent = LabelEvent.NONE,
+    val labelEvent: LabelEvent = LabelEvent.SCANNING,
     val stagedImageUri: Uri? = null,
-) {
-    val isWaitingForConfirmation: Boolean get() = stagedImageUri != null
-}
+)
 
 enum class LabelEvent {
     NONE, AUTO_OFF, SCANNING, FAILURE
 }
 
 enum class ScannerOverlay{
-    NONE, SUCCESS_SHEET, LOADING_DIALOG, ERROR_DIALOG, PROCESSING_DIALOG
+    NONE, LOADING_DIALOG, PROCESSING_DIALOG
 }
 

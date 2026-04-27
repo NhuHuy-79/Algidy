@@ -7,7 +7,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.nhuhuy.algidy.core.designsystem.component.AlgidyAlertDialog
+import com.nhuhuy.algidy.core.presentation.ObserveEffect
 import com.nhuhuy.algidy.feature.scanner.presentation.confirm.viewmodel.ConfirmAction
+import com.nhuhuy.algidy.feature.scanner.presentation.confirm.viewmodel.ConfirmEvent
 import com.nhuhuy.algidy.feature.scanner.presentation.confirm.viewmodel.ConfirmOverlay
 import com.nhuhuy.algidy.feature.scanner.presentation.confirm.viewmodel.ConfirmViewModel
 
@@ -18,6 +20,12 @@ fun ConfirmRoute(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val onAction = viewModel::onAction
+
+    ObserveEffect(viewModel.confirmEvent) { event ->
+        when (event) {
+            ConfirmEvent.OnSaveSuccessfully -> onNavigateBack()
+        }
+    }
 
     ConfirmScreen(
         uiState = uiState,

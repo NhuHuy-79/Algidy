@@ -37,7 +37,7 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun InventoryContent(
+fun InventoryScreen(
     uiState: InventoryUiState,
     categories: List<String>,
     onBackPress: () -> Unit,
@@ -92,24 +92,24 @@ fun InventoryContent(
                 .padding(paddingValues),
             verticalAlignment = Alignment.Top
         ) { pageIndex ->
-            val currentItems = remember(pageIndex, foodList, sortMode, showExpiredOnly) {
-                foodList.getFilteredAndSortedList(
-                    pageIndex = pageIndex,
-                    sortMode = sortMode,
-                    showExpiredOnly = showExpiredOnly
-                )
-            }
             when (uiState) {
                 InventoryUiState.Loading -> LoadingPage()
-                is InventoryUiState.Success, InventoryUiState.Empty -> {
-                    if (currentItems.isEmpty()) {
-                        EmptyPage(modifier = Modifier.fillMaxSize())
-                    } else {
-                        InventoryGridList(
-                            items = currentItems,
-                            onItemClick = { foodItem -> onItemClick(foodItem.id) },
+                is InventoryUiState.Empty -> EmptyPage()
+                is InventoryUiState.Success -> {
+                    val currentItems = remember(pageIndex, foodList, sortMode, showExpiredOnly) {
+                        uiState.items.getFilteredAndSortedList(
+                            pageIndex = pageIndex,
+                            sortMode = sortMode,
+                            showExpiredOnly = showExpiredOnly
                         )
                     }
+
+                    InventoryGridList(
+                        items = currentItems,
+                        onItemClick = { foodItem ->
+                            onItemClick(foodItem.id)
+                        }
+                    )
                 }
             }
 

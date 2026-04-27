@@ -3,6 +3,7 @@ package com.nhuhuy.algidy.feature.detail.presentation.detail.viewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nhuhuy.algidy.core.data.repository.FoodRepository
+import com.nhuhuy.algidy.core.data.util.product
 import com.nhuhuy.algidy.core.model.FoodItem
 import com.nhuhuy.algidy.core.model.FoodValidator
 import com.nhuhuy.algidy.core.model.ItemUnit
@@ -16,7 +17,6 @@ class DetailViewModel(
     private val foodItemId: String,
     private val foodRepository: FoodRepository,
 ) : ViewModel() {
-
     private val _uiState = MutableStateFlow(DetailUiState())
     val uiState = _uiState.asStateFlow()
 
@@ -28,7 +28,8 @@ class DetailViewModel(
 
     init {
         viewModelScope.launch {
-
+            val foodItem = foodRepository.getFoodById(id = foodItemId) ?: FoodItem()
+            _uiState.product { copy(foodItem = foodItem) }
         }
     }
 

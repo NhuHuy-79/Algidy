@@ -12,15 +12,12 @@ import javax.inject.Inject
 class MLKitBarcodeScanner @Inject constructor(
     private val context: Context
 ) : BarcodeScanner {
-
     private val scanner = BarcodeScanning.getClient()
 
     override suspend fun scanFromImage(uri: Uri): String? {
         return try {
             val image = InputImage.fromFilePath(context, uri)
-
             val result = scanner.process(image).await()
-
             result.firstOrNull()?.rawValue
         } catch (e: kotlinx.coroutines.CancellationException) {
             throw e

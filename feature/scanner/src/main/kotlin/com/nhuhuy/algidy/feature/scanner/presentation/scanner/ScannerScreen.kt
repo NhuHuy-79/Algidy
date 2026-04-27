@@ -59,8 +59,7 @@ fun ScannerScreen(
     onFlashPress: (Boolean) -> Unit,
     onAutoScanPress: (Boolean) -> Unit,
     onResultDetected: (String) -> Unit,
-    onImageStaged: (Uri?) -> Unit, // Action mới: Khi có ảnh chờ
-    onProcessImageClick: (Uri) -> Unit, // Action mới: Khi bấm vào thumbnail để scan
+    onImageStaged: (Uri?) -> Unit,
     onClosePress: () -> Unit
 ) {
     val context = LocalContext.current
@@ -190,7 +189,6 @@ fun ScannerScreen(
     }
 }
 
-// Giữ nguyên hàm takePhoto như của bạn, chỉ thêm Timber log cho chuyên nghiệp
 private fun takePhoto(
     context: Context,
     imageCapture: ImageCapture,
