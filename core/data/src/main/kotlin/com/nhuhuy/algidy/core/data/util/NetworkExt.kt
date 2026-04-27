@@ -6,9 +6,9 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 
-suspend fun <T>safeCallInIO(
+suspend inline fun <T> safeCallInIO(
     ioDispatcher: CoroutineDispatcher,
-    apiCall: suspend () -> T,
+    crossinline apiCall: suspend () -> T,
 ) : NetworkResult<T>{
     return withContext(ioDispatcher){
         try {
@@ -23,7 +23,7 @@ suspend fun <T>safeCallInIO(
     }
 }
 
-fun <T>NetworkResult<T>.onSuccess(
+inline fun <T> NetworkResult<T>.onSuccess(
     action: (T) -> Unit
 ) : NetworkResult<T>{
     if (this is NetworkResult.Success){
@@ -32,7 +32,7 @@ fun <T>NetworkResult<T>.onSuccess(
     return this
 }
 
-suspend fun <T> NetworkResult<T>.onSuspendSuccess(
+suspend inline fun <T> NetworkResult<T>.onSuspendSuccess(
     action: suspend (T) -> Unit
 ): NetworkResult<T> {
     if (this is NetworkResult.Success) {
@@ -41,7 +41,7 @@ suspend fun <T> NetworkResult<T>.onSuspendSuccess(
     return this
 }
 
-fun <T>NetworkResult<T>.onFailure(
+inline fun <T> NetworkResult<T>.onFailure(
     action: (Throwable) -> Unit
 ) : NetworkResult<T>{
     if (this is NetworkResult.Failure){

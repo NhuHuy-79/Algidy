@@ -1,9 +1,9 @@
 package com.nhuhuy.algidy.di
 
 import com.nhuhuy.aldidy.feature.inventory.presentation.viewmodel.InventoryViewModel
-import com.nhuhuy.algidy.feature.confirm.viewmodel.ConfirmViewModel
 import com.nhuhuy.algidy.feature.detail.presentation.detail.viewModel.DetailViewModel
-import com.nhuhuy.algidy.feature.scanner.viewmodel.ScannerViewModel
+import com.nhuhuy.algidy.feature.presentation.confirm.viewmodel.ConfirmViewModel
+import com.nhuhuy.algidy.feature.presentation.scanner.viewmodel.ScannerViewModel
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 
