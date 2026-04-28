@@ -29,6 +29,9 @@ fun ConfirmRoute(
 
     ConfirmScreen(
         uiState = uiState,
+        onImageChange = { uri ->
+            onAction(ConfirmAction.OnImageChange(uri))
+        },
         onNameChange = { name ->
             onAction(ConfirmAction.OnNameChange(name))
         },

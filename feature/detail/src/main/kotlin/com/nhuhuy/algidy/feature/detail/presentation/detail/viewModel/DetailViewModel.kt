@@ -1,5 +1,6 @@
 package com.nhuhuy.algidy.feature.detail.presentation.detail.viewModel
 
+import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nhuhuy.algidy.core.data.repository.FoodRepository
@@ -63,6 +64,9 @@ class DetailViewModel(
             is DetailAction.EditEntryAction.OnItemUnitChange -> onItemUnitChange(action.unit)
             is DetailAction.EditEntryAction.OnPurchaseDateChange -> onPurchaseDateChange(action.purchaseDate)
             DetailAction.EditEntryAction.OnSave -> onUpdateFoodItem()
+            is DetailAction.EditEntryAction.OnImageChange -> action.uri?.let {
+                onImageChange(action.uri)
+            }
         }
     }
 
@@ -73,6 +77,14 @@ class DetailViewModel(
         }
         _errorState.update { error ->
             error.copy(nameValidation = FoodValidator.validateName(name))
+        }
+    }
+
+    private fun onImageChange(uri: Uri) {
+        viewModelScope.launch {
+            val newFoodItem = stateValue.detailFoodItem.copy(imageUri = uri.toString())
+            _uiState.product { copy(detailFoodItem = newFoodItem) }
+            foodRepository.addFoodItem(newFoodItem)
         }
     }
 
@@ -144,11 +156,11 @@ class DetailViewModel(
                 isFavorite = _editEntry.value.isFavorite,
                 notes = _editEntry.value.notes
             )
-
+            _uiState.product { copy(detailFoodItem = newFoodItem) }
+            updateActionState(DetailActionState.None)
             foodRepository.addFoodItem(item = newFoodItem)
         }
     }
-
     private fun updateActionState(actionState: DetailActionState) {
         _uiState.update { state -> state.copy(actionState = actionState) }
     }

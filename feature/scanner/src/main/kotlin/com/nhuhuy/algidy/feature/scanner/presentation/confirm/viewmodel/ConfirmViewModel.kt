@@ -1,5 +1,6 @@
 package com.nhuhuy.algidy.feature.scanner.presentation.confirm.viewmodel
 
+import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nhuhuy.algidy.core.data.repository.FoodRepository
@@ -64,6 +65,7 @@ class ConfirmViewModel(
             ConfirmAction.OnSaveClick -> onSave()
             ConfirmAction.OnDismissRequest -> _uiState.update { it.copy(overlay = ConfirmOverlay.NONE) }
             ConfirmAction.OnExitAlertDialog -> _uiState.update { it.copy(overlay = ConfirmOverlay.EXIT_DIALOG) }
+            is ConfirmAction.OnImageChange -> onImageChange(action.uri)
         }
     }
 
@@ -137,6 +139,14 @@ class ConfirmViewModel(
                     )
                 )
             )
+        }
+    }
+
+    private fun onImageChange(uri: Uri?) {
+        uri?.let { uri ->
+            _uiState.update {
+                it.copy(foodItem = it.foodItem.copy(imageUri = uri.toString()))
+            }
         }
     }
 

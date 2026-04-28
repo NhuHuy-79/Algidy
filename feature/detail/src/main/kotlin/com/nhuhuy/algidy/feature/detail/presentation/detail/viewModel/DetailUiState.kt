@@ -54,10 +54,7 @@ data class EditEntryError(
             ValidationResult.IDLE
         )
     val valid: Boolean
-        get() = nameValidation == ValidationResult.SUCCESS &&
-                quantityValidation == ValidationResult.SUCCESS &&
-                expiryDateValidation == ValidationResult.SUCCESS &&
-                purchaseDateValidation == ValidationResult.SUCCESS
+        get() = !isPurchaseDateError && !isExpiryDateError && !isNameError && !isQuantityError
 
 }
 

@@ -1,5 +1,6 @@
 package com.nhuhuy.algidy.feature.detail.presentation.detail.viewModel
 
+import android.net.Uri
 import androidx.compose.runtime.Stable
 import com.nhuhuy.algidy.core.model.ItemUnit
 import com.nhuhuy.algidy.core.model.StorageLocation
@@ -7,6 +8,7 @@ import com.nhuhuy.algidy.core.model.StorageLocation
 @Stable
 sealed interface DetailAction {
     sealed interface EditEntryAction : DetailAction {
+        data class OnImageChange(val uri: Uri?) : EditEntryAction
         data class OnNameChange(val name: String) : EditEntryAction
         data class OnQuantityChange(val quantity: Double) : EditEntryAction
         data class OnStorageLocationChange(val location: StorageLocation) : EditEntryAction

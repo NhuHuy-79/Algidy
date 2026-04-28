@@ -1,10 +1,13 @@
 package com.nhuhuy.algidy.feature.scanner.presentation.confirm.viewmodel
 
+import android.net.Uri
 import com.nhuhuy.algidy.core.model.ItemUnit
 import com.nhuhuy.algidy.core.model.StorageLocation
 
 sealed interface ConfirmAction {
     data object OnDismissRequest : ConfirmAction
+
+    data class OnImageChange(val uri: Uri?) : ConfirmAction
     data class OnNameChange(val name: String) : ConfirmAction
     data class OnQuantityChange(val quantity: String) : ConfirmAction
     data class OnUnitSelected(val unit: ItemUnit) : ConfirmAction

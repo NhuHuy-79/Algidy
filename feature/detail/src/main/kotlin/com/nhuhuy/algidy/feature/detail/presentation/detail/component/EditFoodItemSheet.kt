@@ -146,6 +146,7 @@ fun EditFoodBottomSheet(
                     AppTextField(
                         value = dateFormatter.format(Date(editEntry.purchaseDate)),
                         onValueChange = {},
+                        isError = errorState.isPurchaseDateError,
                         errorMessage = errorState.purchaseDateValidation.asString(),
                         label = "Purchase Date",
                         leadingIcon = Icons.Rounded.CalendarToday,
