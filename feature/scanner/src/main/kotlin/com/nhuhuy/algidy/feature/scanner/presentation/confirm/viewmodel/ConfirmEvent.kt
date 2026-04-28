@@ -5,4 +5,5 @@ import androidx.compose.runtime.Stable
 @Stable
 sealed interface ConfirmEvent {
     data object OnSaveSuccessfully : ConfirmEvent
+    data object OnImageChangeFailed : ConfirmEvent
 }

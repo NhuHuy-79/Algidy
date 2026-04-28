@@ -5,10 +5,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nhuhuy.algidy.core.data.LocalMediaStorage
 import com.nhuhuy.algidy.core.data.repository.FoodRepository
+import com.nhuhuy.algidy.core.data.util.onFailure
+import com.nhuhuy.algidy.core.data.util.onSuccess
 import com.nhuhuy.algidy.core.model.FoodItem
 import com.nhuhuy.algidy.core.model.FoodValidator
 import com.nhuhuy.algidy.core.model.ItemUnit
-import com.nhuhuy.algidy.core.model.Resource
 import com.nhuhuy.algidy.core.model.StorageLocation
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.channels.Channel
@@ -156,19 +157,23 @@ class ConfirmViewModel(
     private fun onSave() {
         if (stateValue.errorState.valid) {
             viewModelScope.launch {
-                val imageUri = stateValue.foodItem.imageUri
-                val finalImageUri = if (imageUri != null && imageUri.startsWith("content://")) {
-                    when (val result = localMediaStorage.copyImageToInternalStorage(imageUri)) {
-                        is Resource.Success -> result.data
-                        else -> imageUri
-                    }
-                } else {
-                    imageUri
-                }
+                val currentFoodItem = stateValue.foodItem
+                val imageUri = currentFoodItem.imageUri
 
-                val finalFoodItem = stateValue.foodItem.copy(imageUri = finalImageUri)
-                foodRepository.addFoodItem(finalFoodItem)
-                _confirmEvent.trySend(ConfirmEvent.OnSaveSuccessfully)
+                if (imageUri != null) {
+                    localMediaStorage.copyImageToInternalStorage(imageUri)
+                        .onSuccess { persistentUri ->
+                            val finalFoodItem = currentFoodItem.copy(imageUri = persistentUri)
+                            foodRepository.addFoodItem(finalFoodItem)
+                            _confirmEvent.trySend(ConfirmEvent.OnSaveSuccessfully)
+                        }
+                        .onFailure {
+                            _confirmEvent.trySend(ConfirmEvent.OnImageChangeFailed)
+                        }
+                } else {
+                    foodRepository.addFoodItem(currentFoodItem)
+                    _confirmEvent.trySend(ConfirmEvent.OnSaveSuccessfully)
+                }
             }
         }
     }

@@ -5,13 +5,17 @@ import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.Restaurant
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.nhuhuy.algidy.core.designsystem.component.AlgidyAlertDialog
 import com.nhuhuy.algidy.core.designsystem.component.BoxLayout
+import com.nhuhuy.algidy.core.presentation.ObserveEffect
+import com.nhuhuy.algidy.core.presentation.component.showShortToast
 import com.nhuhuy.algidy.feature.detail.presentation.detail.DetailScreen
 import com.nhuhuy.algidy.feature.detail.presentation.detail.component.EditFoodBottomSheet
 import com.nhuhuy.algidy.feature.detail.presentation.detail.viewModel.DetailAction
 import com.nhuhuy.algidy.feature.detail.presentation.detail.viewModel.DetailActionState
+import com.nhuhuy.algidy.feature.detail.presentation.detail.viewModel.DetailEvent
 import com.nhuhuy.algidy.feature.detail.presentation.detail.viewModel.DetailViewModel
 
 @Composable
@@ -23,6 +27,14 @@ fun DetailRoute(
     val errorState by viewModel.errorState.collectAsStateWithLifecycle()
     val editEntry by viewModel.editEntry.collectAsStateWithLifecycle()
     val onAction = viewModel::onAction
+
+    val applicationContext = LocalContext.current.applicationContext
+
+    ObserveEffect(viewModel.detailEvent) { event ->
+        when (event) {
+            DetailEvent.OnImageChangeFailed -> applicationContext.showShortToast("Failed to change image")
+        }
+    }
 
     BoxLayout {
         DetailScreen(

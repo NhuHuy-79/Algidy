@@ -23,11 +23,13 @@ class LocalMediaStorageImpl(
     override suspend fun copyImageToInternalStorage(uriPath: String): Resource<String> {
         return safeCallInIO(ioDispatcher = appDispatchers.io) {
             val originalUri = uriPath.toUri()
-            val extension = getFileExtension(originalUri) ?: "jpg"
+            if (originalUri.scheme == "file" && uriPath.contains(context.packageName)) {
+                return@safeCallInIO uriPath
+            }
 
+            val extension = getFileExtension(originalUri) ?: "jpg"
             val uniqueFileName = "IMG_${UUID.randomUUID()}.$extension"
 
-            // 3. Tạo thư mục chứa ảnh (nếu chưa có)
             val directory = File(context.filesDir, FOLDER_NAME)
             if (!directory.exists()) {
                 directory.mkdirs()
@@ -39,7 +41,8 @@ class LocalMediaStorageImpl(
                 destinationFile.outputStream().use { outputStream ->
                     inputStream.copyTo(outputStream)
                 }
-            } ?: throw IllegalArgumentException("Cannot open input stream for the given URI")
+            }
+                ?: throw IllegalArgumentException("Cannot open input stream for the given URI: $uriPath")
 
             Uri.fromFile(destinationFile).toString()
         }

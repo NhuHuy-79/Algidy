@@ -5,9 +5,11 @@ import androidx.compose.material.icons.rounded.WarningAmber
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.nhuhuy.algidy.core.designsystem.component.AlgidyAlertDialog
 import com.nhuhuy.algidy.core.presentation.ObserveEffect
+import com.nhuhuy.algidy.core.presentation.component.showShortToast
 import com.nhuhuy.algidy.feature.scanner.presentation.confirm.viewmodel.ConfirmAction
 import com.nhuhuy.algidy.feature.scanner.presentation.confirm.viewmodel.ConfirmEvent
 import com.nhuhuy.algidy.feature.scanner.presentation.confirm.viewmodel.ConfirmOverlay
@@ -20,10 +22,12 @@ fun ConfirmRoute(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val onAction = viewModel::onAction
+    val applicationContext = LocalContext.current.applicationContext
 
     ObserveEffect(viewModel.confirmEvent) { event ->
         when (event) {
             ConfirmEvent.OnSaveSuccessfully -> onNavigateBack()
+            ConfirmEvent.OnImageChangeFailed -> applicationContext.showShortToast("Failed to save image")
         }
     }
 

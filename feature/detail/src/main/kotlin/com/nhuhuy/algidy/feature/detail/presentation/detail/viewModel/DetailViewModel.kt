@@ -3,20 +3,27 @@ package com.nhuhuy.algidy.feature.detail.presentation.detail.viewModel
 import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.nhuhuy.algidy.core.data.LocalMediaStorage
 import com.nhuhuy.algidy.core.data.repository.FoodRepository
+import com.nhuhuy.algidy.core.data.util.onFailure
+import com.nhuhuy.algidy.core.data.util.onSuccess
 import com.nhuhuy.algidy.core.data.util.product
 import com.nhuhuy.algidy.core.model.FoodItem
 import com.nhuhuy.algidy.core.model.FoodValidator
 import com.nhuhuy.algidy.core.model.ItemUnit
 import com.nhuhuy.algidy.core.model.StorageLocation
+import kotlinx.coroutines.channels.BufferOverflow
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class DetailViewModel(
     private val foodItemId: String,
     private val foodRepository: FoodRepository,
+    private val localMediaStorage: LocalMediaStorage
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(DetailUiState())
     val uiState = _uiState.asStateFlow()
@@ -26,6 +33,9 @@ class DetailViewModel(
 
     private val _errorState = MutableStateFlow(EditEntryError())
     val errorState = _errorState.asStateFlow()
+
+    private val _detailEvent = Channel<DetailEvent>(onBufferOverflow = BufferOverflow.SUSPEND)
+    val detailEvent = _detailEvent.receiveAsFlow()
 
     init {
         viewModelScope.launch {
@@ -82,9 +92,17 @@ class DetailViewModel(
 
     private fun onImageChange(uri: Uri) {
         viewModelScope.launch {
-            val newFoodItem = stateValue.detailFoodItem.copy(imageUri = uri.toString())
-            _uiState.product { copy(detailFoodItem = newFoodItem) }
-            foodRepository.addFoodItem(newFoodItem)
+            localMediaStorage.copyImageToInternalStorage(uri.toString())
+                .onSuccess { persistentUri ->
+                    val newFoodItem = stateValue.detailFoodItem.copy(imageUri = persistentUri)
+                    _uiState.product { copy(detailFoodItem = newFoodItem) }
+                    _editEntry.update { it.copy(imageUri = persistentUri) }
+
+                    foodRepository.addFoodItem(newFoodItem)
+                }
+                .onFailure {
+                    _detailEvent.trySend(DetailEvent.OnImageChangeFailed)
+                }
         }
     }
 
@@ -143,6 +161,8 @@ class DetailViewModel(
     }
 
     private fun onUpdateFoodItem() {
+        if (!_errorState.value.valid) return
+
         viewModelScope.launch {
             val oldFoodItem: FoodItem = stateValue.detailFoodItem
             val newFoodItem = oldFoodItem.copy(
