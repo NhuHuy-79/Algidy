@@ -34,8 +34,6 @@ import kotlinx.coroutines.delay
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
 
-const val LABEL_LENGTH: Long = 1000L
-
 @Composable
 fun CameraPreviewContent(
     modifier: Modifier = Modifier,

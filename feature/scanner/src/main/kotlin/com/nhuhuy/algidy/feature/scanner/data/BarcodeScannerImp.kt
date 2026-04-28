@@ -7,9 +7,9 @@ import com.google.mlkit.vision.common.InputImage
 import com.nhuhuy.algidy.feature.scanner.domain.BarcodeScanner
 import kotlinx.coroutines.tasks.await
 import timber.log.Timber
-import javax.inject.Inject
 
-class MLKitBarcodeScanner @Inject constructor(
+
+class MLKitBarcodeScanner(
     private val context: Context
 ) : BarcodeScanner {
     private val scanner = BarcodeScanning.getClient()

@@ -5,9 +5,6 @@ import android.content.ContentValues
 import android.content.Context
 import android.net.Uri
 import android.provider.MediaStore
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.PickVisualMediaRequest
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.camera.core.Camera
 import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
@@ -67,16 +64,6 @@ fun ScannerScreen(
     val lifecycleOwner = LocalLifecycleOwner.current
     val imageCapture = remember { ImageCapture.Builder().build() }
 
-    val photoPickerLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.PickVisualMedia(),
-        onResult = { uri ->
-            if (uri != null) {
-                Timber.d("Photo picked: $uri")
-                onImageStaged(uri)
-            }
-        }
-    )
-
     LaunchedEffect(camera) {
         camera?.cameraInfo?.torchState?.observe(lifecycleOwner) { state ->
             onFlashPress(state == TorchState.ON)
@@ -133,11 +120,6 @@ fun ScannerScreen(
             ScannerControlBar(
                 isAutoScanned = uiState.isAutoScanned,
                 stagedImageUri = uiState.stagedImageUri,
-                onSelectImageClick = {
-                    photoPickerLauncher.launch(
-                        PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
-                    )
-                },
                 onCaptureClick = {
                     takePhoto(
                         context = context,
@@ -148,7 +130,8 @@ fun ScannerScreen(
                         }
                     )
                 },
-                onAutoScanChange = onAutoScanPress
+                onAutoScanChange = onAutoScanPress,
+                onImageStaged = onImageStaged
             )
         }
     ) { innerPadding ->

@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.nhuhuy.algidy.core.presentation.PhotoPickerContainer
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
@@ -19,7 +20,7 @@ fun ScannerControlBar(
     modifier: Modifier = Modifier,
     isAutoScanned: Boolean,
     stagedImageUri: Uri?,
-    onSelectImageClick: () -> Unit,
+    onImageStaged: (Uri?) -> Unit,
     onCaptureClick: () -> Unit,
     onAutoScanChange: (Boolean) -> Unit
 ) {
@@ -30,12 +31,16 @@ fun ScannerControlBar(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        SelectImageButton(
-            modifier = Modifier.size(56.dp),
-            onClick = onSelectImageClick,
-            containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
-            contentColor = MaterialTheme.colorScheme.primary
-        )
+        PhotoPickerContainer(
+            onImagePicked = onImageStaged
+        ) { launcher ->
+            SelectImageButton(
+                modifier = Modifier.size(56.dp),
+                onClick = launcher,
+                containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+                contentColor = MaterialTheme.colorScheme.primary
+            )
+        }
 
         CaptureButton(
             modifier = Modifier.size(96.dp),
