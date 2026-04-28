@@ -11,6 +11,7 @@ sealed interface DetailAction {
         data class OnQuantityChange(val quantity: Double) : EditEntryAction
         data class OnStorageLocationChange(val location: StorageLocation) : EditEntryAction
         data class OnExpiryDateChange(val expiryDate: Long) : EditEntryAction
+        data class OnPurchaseDateChange(val purchaseDate: Long) : EditEntryAction
         data class OnNoteChange(val note: String) : EditEntryAction
         data class OnItemUnitChange(val unit: ItemUnit) : EditEntryAction
         data object OnSave : EditEntryAction

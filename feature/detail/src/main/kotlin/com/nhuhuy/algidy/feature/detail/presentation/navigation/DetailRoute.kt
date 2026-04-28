@@ -23,6 +23,7 @@ fun DetailRoute(
     val errorState by viewModel.errorState.collectAsStateWithLifecycle()
     val editEntry by viewModel.editEntry.collectAsStateWithLifecycle()
     val onAction = viewModel::onAction
+
     BoxLayout {
         DetailScreen(
             uiState = uiState,
@@ -37,7 +38,10 @@ fun DetailRoute(
             DetailActionState.Wasted -> {
                 AlgidyAlertDialog(
                     onDismissRequest = { onAction(DetailAction.OnDismiss) },
-                    onConfirm = { onAction(DetailAction.OnWastedItem) },
+                    onConfirm = {
+                        // Implementation for Wasted logic in ViewModel
+                        onAction(DetailAction.OnWastedItem)
+                    },
                     title = "Mark as Wasted?",
                     text = "Are you sure this food is no longer usable? It will be moved to your waste history for tracking.",
                     confirmText = "Mark as Wasted",
@@ -50,7 +54,10 @@ fun DetailRoute(
             DetailActionState.Consume -> {
                 AlgidyAlertDialog(
                     onDismissRequest = { onAction(DetailAction.OnDismiss) },
-                    onConfirm = { onAction(DetailAction.OnConsumeItem) },
+                    onConfirm = {
+                        // Implementation for Consume logic in ViewModel
+                        onAction(DetailAction.OnConsumeItem)
+                    },
                     title = "Finished Eating?",
                     text = "Great! We'll update your inventory and move this item to your consumption history.",
                     confirmText = "I Consumed It",
@@ -64,30 +71,7 @@ fun DetailRoute(
                 EditFoodBottomSheet(
                     editEntry = editEntry,
                     errorState = errorState,
-                    onNameChange = { name -> onAction(DetailAction.EditEntryAction.OnNameChange(name)) },
-                    onQuantityChange = { quantity ->
-                        onAction(
-                            DetailAction.EditEntryAction.OnQuantityChange(
-                                quantity
-                            )
-                        )
-                    },
-                    onUnitItemChange = { unit ->
-                        onAction(DetailAction.EditEntryAction.OnItemUnitChange(unit))
-                    },
-                    onNoteChange = { note -> onAction(DetailAction.EditEntryAction.OnNoteChange(note)) },
-                    onLocationChange = { location ->
-                        onAction(DetailAction.EditEntryAction.OnStorageLocationChange(location))
-                    },
-                    onExpiryDateChange = { expiryDate ->
-                        onAction(
-                            DetailAction.EditEntryAction.OnExpiryDateChange(
-                                expiryDate
-                            )
-                        )
-                    },
-                    onDismiss = { onAction(DetailAction.OnDismiss) },
-                    onSave = { onAction(DetailAction.EditEntryAction.OnSave) }
+                    onAction = onAction
                 )
             }
         }

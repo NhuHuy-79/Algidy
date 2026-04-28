@@ -20,6 +20,7 @@ import com.nhuhuy.algidy.core.designsystem.theme.AlgidyTheme
 
 @Composable
 fun AppButton(
+    enabled: Boolean = true,
     text: String,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
@@ -30,6 +31,7 @@ fun AppButton(
     )
 ) {
     Button(
+        enabled = enabled,
         onClick = onClick,
         modifier = modifier,
         shape = RoundedCornerShape(32.dp),

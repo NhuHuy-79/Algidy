@@ -6,10 +6,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
+import androidx.compose.material.icons.rounded.Image
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MediumFlexibleTopAppBar
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -19,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.nhuhuy.algidy.core.designsystem.component.CardLayout
 import com.nhuhuy.algidy.core.designsystem.component.FoodImageCard
 import com.nhuhuy.algidy.feature.detail.presentation.detail.component.DetailFabMenu
 import com.nhuhuy.algidy.feature.detail.presentation.detail.component.DetailHeroCard
@@ -83,18 +87,27 @@ fun DetailScreen(
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             item {
-                FoodImageCard(imageUri = uiState.foodItem.imageUri)
+                CardLayout(
+                    icon = Icons.Rounded.Image,
+                    title = uiState.detailFoodItem.name,
+                    cardColors = CardDefaults.cardColors(
+                        containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
+                        contentColor = MaterialTheme.colorScheme.onSurface
+                    )
+                ) {
+                    FoodImageCard(imageUri = uiState.detailFoodItem.imageUri)
+                }
             }
             item {
-                DetailStatsRow(item = uiState.foodItem)
+                DetailStatsRow(item = uiState.detailFoodItem)
             }
 
             item {
-                DetailHeroCard(item = uiState.foodItem)
+                DetailHeroCard(item = uiState.detailFoodItem)
             }
 
             item {
-                DetailNoteSection(item = uiState.foodItem)
+                DetailNoteSection(item = uiState.detailFoodItem)
             }
         }
     }

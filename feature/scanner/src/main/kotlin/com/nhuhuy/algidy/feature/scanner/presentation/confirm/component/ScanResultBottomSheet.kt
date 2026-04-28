@@ -16,8 +16,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowDropDown
 import androidx.compose.material.icons.rounded.CalendarToday
 import androidx.compose.material3.Button
-import androidx.compose.material3.DatePicker
-import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -28,8 +26,6 @@ import androidx.compose.material3.SegmentedButton
 import androidx.compose.material3.SegmentedButtonDefaults
 import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
-import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -48,9 +44,12 @@ import com.nhuhuy.algidy.core.designsystem.theme.AlgidyTheme
 import com.nhuhuy.algidy.core.model.FoodItem
 import com.nhuhuy.algidy.core.model.ItemUnit
 import com.nhuhuy.algidy.core.model.StorageLocation
+import com.nhuhuy.algidy.core.presentation.component.AppDatePickerDialog
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+
+private enum class ActiveDatePicker { NONE, PURCHASE, EXPIRY }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -65,11 +64,10 @@ fun ScanResultBottomSheet(
     var selectedUnit by remember { mutableStateOf(foodItem.itemUnit) }
     var expiryDate by remember { mutableLongStateOf(foodItem.expiryDate) }
     var purchaseDate by remember { mutableLongStateOf(foodItem.purchaseDate) }
-    var showPurchaseDatePicker by remember { mutableStateOf(false) }
     var location by remember { mutableStateOf(foodItem.location) }
     var notes by remember { mutableStateOf(foodItem.notes) }
 
-    var showDatePicker by remember { mutableStateOf(false) }
+    var activeDatePicker by remember { mutableStateOf(ActiveDatePicker.NONE) }
     var showUnitMenu by remember { mutableStateOf(false) }
     val dateFormatter = remember { SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()) }
 
@@ -93,7 +91,6 @@ fun ScanResultBottomSheet(
                 fontWeight = FontWeight.ExtraBold
             )
 
-            // 1. Tên thực phẩm (Nhận từ API)
             AppTextField(
                 value = name,
                 onValueChange = { name = it },
@@ -101,7 +98,6 @@ fun ScanResultBottomSheet(
                 placeholder = "Enter food name..."
             )
 
-            // 2. Hàng ngang: Số lượng và Đơn vị
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(12.dp)
@@ -114,7 +110,6 @@ fun ScanResultBottomSheet(
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal)
                 )
 
-                // Dropdown cho Đơn vị sử dụng AppTextField
                 Box(modifier = Modifier.weight(0.4f)) {
                     AppTextField(
                         value = selectedUnit.name.capitalize(),
@@ -147,25 +142,45 @@ fun ScanResultBottomSheet(
                 }
             }
 
-            // 3. Ngày hết hạn (Sử dụng DatePicker)
-            Box(modifier = Modifier.fillMaxWidth()) {
-                AppTextField(
-                    value = if (expiryDate == -1L) "Select Expiry Date" else dateFormatter.format(
-                        Date(expiryDate)
-                    ),
-                    onValueChange = {},
-                    label = "Expiry Date",
-                    leadingIcon = Icons.Rounded.CalendarToday,
-                    readOnly = true
-                )
-                Box(
-                    modifier = Modifier
-                        .matchParentSize()
-                        .clickable { showDatePicker = true }
-                )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                Box(modifier = Modifier.weight(0.5f)) {
+                    AppTextField(
+                        value = dateFormatter.format(Date(purchaseDate)),
+                        onValueChange = {},
+                        label = "Purchase Date",
+                        leadingIcon = Icons.Rounded.CalendarToday,
+                        readOnly = true
+                    )
+                    Box(
+                        modifier = Modifier
+                            .matchParentSize()
+                            .clickable { activeDatePicker = ActiveDatePicker.PURCHASE }
+                    )
+                }
+
+                Box(modifier = Modifier.weight(0.5f)) {
+                    AppTextField(
+                        value = if (expiryDate == -1L) "Select Date" else dateFormatter.format(
+                            Date(
+                                expiryDate
+                            )
+                        ),
+                        onValueChange = {},
+                        label = "Expiry Date",
+                        leadingIcon = Icons.Rounded.CalendarToday,
+                        readOnly = true
+                    )
+                    Box(
+                        modifier = Modifier
+                            .matchParentSize()
+                            .clickable { activeDatePicker = ActiveDatePicker.EXPIRY }
+                    )
+                }
             }
 
-            // 4. Vị trí bảo quản (Sử dụng Segmented Button như bạn đã làm ở màn Edit)
             Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 Text(
                     text = "Storage Location",
@@ -187,7 +202,6 @@ fun ScanResultBottomSheet(
                 }
             }
 
-            // 5. Ghi chú thêm
             AppTextField(
                 value = notes,
                 onValueChange = { notes = it },
@@ -205,6 +219,7 @@ fun ScanResultBottomSheet(
                             quantity = quantity.toDoubleOrNull() ?: 0.0,
                             itemUnit = selectedUnit,
                             expiryDate = expiryDate,
+                            purchaseDate = purchaseDate,
                             location = location,
                             notes = notes
                         )
@@ -221,62 +236,26 @@ fun ScanResultBottomSheet(
         }
     }
 
-    // --- Trường Purchase Date ---
-    Box(modifier = Modifier.fillMaxWidth()) {
-        AppTextField(
-            value = dateFormatter.format(Date(purchaseDate)),
-            onValueChange = {},
-            label = "Purchase Date",
-            leadingIcon = Icons.Rounded.CalendarToday, // Bạn có thể đổi sang biểu tượng ShoppingCart nếu muốn khác biệt
-            readOnly = true
-        )
-        Box(
-            modifier = Modifier
-                .matchParentSize()
-                .clickable { showPurchaseDatePicker = true }
-        )
-    }
-
-// Logic hiển thị DatePicker cho Purchase Date
-    if (showPurchaseDatePicker) {
-        val datePickerState = rememberDatePickerState(
-            initialSelectedDateMillis = purchaseDate
-        )
-        DatePickerDialog(
-            onDismissRequest = { showPurchaseDatePicker = false },
-            confirmButton = {
-                TextButton(onClick = {
-                    purchaseDate = datePickerState.selectedDateMillis ?: System.currentTimeMillis()
-                    showPurchaseDatePicker = false
-                }) { Text("OK") }
-            },
-            dismissButton = {
-                TextButton(onClick = { showPurchaseDatePicker = false }) { Text("Cancel") }
-            }
-        ) {
-            DatePicker(state = datePickerState)
+    when (activeDatePicker) {
+        ActiveDatePicker.PURCHASE -> {
+            AppDatePickerDialog(
+                initialDateMillis = purchaseDate,
+                title = "Select Purchase Date",
+                onDateSelected = { purchaseDate = it },
+                onDismiss = { activeDatePicker = ActiveDatePicker.NONE }
+            )
         }
-    }
 
-    // Logic hiển thị DatePickerDialog
-    if (showDatePicker) {
-        val datePickerState = rememberDatePickerState(
-            initialSelectedDateMillis = if (expiryDate == -1L) System.currentTimeMillis() else expiryDate
-        )
-        DatePickerDialog(
-            onDismissRequest = { showDatePicker = false },
-            confirmButton = {
-                TextButton(onClick = {
-                    expiryDate = datePickerState.selectedDateMillis ?: -1L
-                    showDatePicker = false
-                }) { Text("OK") }
-            },
-            dismissButton = {
-                TextButton(onClick = { showDatePicker = false }) { Text("Cancel") }
-            }
-        ) {
-            DatePicker(state = datePickerState)
+        ActiveDatePicker.EXPIRY -> {
+            AppDatePickerDialog(
+                initialDateMillis = if (expiryDate == -1L) null else expiryDate,
+                title = "Select Expiry Date",
+                onDateSelected = { expiryDate = it },
+                onDismiss = { activeDatePicker = ActiveDatePicker.NONE }
+            )
         }
+
+        ActiveDatePicker.NONE -> {}
     }
 }
 

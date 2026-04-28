@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -23,7 +24,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.nhuhuy.algidy.capitalize
@@ -64,7 +64,7 @@ fun DetailHeroCard(
                 .padding(24.dp)
                 .fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceAround
+            horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Box(
                 contentAlignment = Alignment.Center,
@@ -88,18 +88,12 @@ fun DetailHeroCard(
             }
 
             Column(
-                modifier = Modifier,
-                verticalArrangement = Arrangement.spacedBy(4.dp)
+                modifier = Modifier.fillMaxHeight(),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                Text(
-                    text = item.name,
-                    style = MaterialTheme.typography.headlineSmall,
-                    fontWeight = FontWeight.SemiBold,
-                    color = MaterialTheme.colorScheme.onSurface,
-                    maxLines = 2,
-                    overflow = TextOverflow.Ellipsis
+                PulsingCountdownText(
+                    expiryDate = item.expiryDate,
                 )
-
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(6.dp)
@@ -130,7 +124,7 @@ fun DetailHeroCard(
                     Text(
                         text = freshnessStatus.name.lowercase().capitalize(),
                         modifier = Modifier.padding(horizontal = 12.dp, vertical = 4.dp),
-                        style = MaterialTheme.typography.labelMedium,
+                        style = MaterialTheme.typography.labelLarge,
                         color = statusColor,
                         fontWeight = FontWeight.Bold
                     )

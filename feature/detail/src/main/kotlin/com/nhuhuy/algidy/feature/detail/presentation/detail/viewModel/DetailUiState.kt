@@ -8,7 +8,7 @@ import com.nhuhuy.algidy.core.model.ValidationResult
 
 @Immutable
 data class DetailUiState(
-    val foodItem: FoodItem = FoodItem(),
+    val detailFoodItem: FoodItem = FoodItem(),
     val actionState: DetailActionState = DetailActionState.None,
 )
 
@@ -30,7 +30,8 @@ data class EditEntryUiState(
 data class EditEntryError(
     val nameValidation: ValidationResult = ValidationResult.IDLE,
     val quantityValidation: ValidationResult = ValidationResult.IDLE,
-    val expiryDateValidation: ValidationResult = ValidationResult.IDLE
+    val expiryDateValidation: ValidationResult = ValidationResult.IDLE,
+    val purchaseDateValidation: ValidationResult = ValidationResult.IDLE
 ) {
     val isNameError: Boolean
         get() = nameValidation !in listOf(
@@ -42,6 +43,11 @@ data class EditEntryError(
             ValidationResult.SUCCESS,
             ValidationResult.IDLE
         )
+    val isPurchaseDateError: Boolean
+        get() = purchaseDateValidation !in listOf(
+            ValidationResult.SUCCESS,
+            ValidationResult.IDLE
+        )
     val isExpiryDateError: Boolean
         get() = expiryDateValidation !in listOf(
             ValidationResult.SUCCESS,
@@ -50,7 +56,8 @@ data class EditEntryError(
     val valid: Boolean
         get() = nameValidation == ValidationResult.SUCCESS &&
                 quantityValidation == ValidationResult.SUCCESS &&
-                expiryDateValidation == ValidationResult.SUCCESS
+                expiryDateValidation == ValidationResult.SUCCESS &&
+                purchaseDateValidation == ValidationResult.SUCCESS
 
 }
 

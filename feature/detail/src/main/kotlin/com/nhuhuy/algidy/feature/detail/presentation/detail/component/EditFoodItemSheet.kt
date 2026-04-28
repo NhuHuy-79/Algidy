@@ -15,8 +15,8 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.CalendarToday
 import androidx.compose.material3.Button
-import androidx.compose.material3.DatePicker
-import androidx.compose.material3.DatePickerDialog
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
@@ -24,8 +24,6 @@ import androidx.compose.material3.SegmentedButton
 import androidx.compose.material3.SegmentedButtonDefaults
 import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
-import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -33,43 +31,38 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.nhuhuy.algidy.capitalize
-import com.nhuhuy.algidy.core.data.toErrorMessage
 import com.nhuhuy.algidy.core.designsystem.component.AppTextField
 import com.nhuhuy.algidy.core.model.ItemUnit
 import com.nhuhuy.algidy.core.model.StorageLocation
+import com.nhuhuy.algidy.core.presentation.component.AppDatePickerDialog
+import com.nhuhuy.algidy.core.presentation.component.asString
+import com.nhuhuy.algidy.feature.detail.presentation.detail.viewModel.DetailAction
+import com.nhuhuy.algidy.feature.detail.presentation.detail.viewModel.DetailAction.EditEntryAction
 import com.nhuhuy.algidy.feature.detail.presentation.detail.viewModel.EditEntryError
 import com.nhuhuy.algidy.feature.detail.presentation.detail.viewModel.EditEntryUiState
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
+private enum class ActiveDatePicker { NONE, PURCHASE, EXPIRY }
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EditFoodBottomSheet(
     editEntry: EditEntryUiState,
     errorState: EditEntryError,
-    onLocationChange: (StorageLocation) -> Unit,
-    onNameChange: (String) -> Unit,
-    onUnitItemChange: (ItemUnit) -> Unit,
-    onQuantityChange: (Double) -> Unit,
-    onNoteChange: (String) -> Unit,
-    onExpiryDateChange: (Long) -> Unit,
-    onDismiss: () -> Unit,
-    onSave: () -> Unit,
+    onAction: (DetailAction) -> Unit,
 ) {
-    var showDatePicker by remember { mutableStateOf(false) }
+    var activeDatePicker by remember { mutableStateOf(ActiveDatePicker.NONE) }
     val dateFormatter = remember { SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()) }
     var menuExpanded by remember { mutableStateOf(false) }
-    val units = ItemUnit.entries
-
 
     ModalBottomSheet(
-        onDismissRequest = onDismiss,
+        onDismissRequest = { onAction(DetailAction.OnDismiss) },
         sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
         shape = MaterialTheme.shapes.extraLarge,
         containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
@@ -90,11 +83,10 @@ fun EditFoodBottomSheet(
 
             AppTextField(
                 value = editEntry.name,
-                onValueChange = { text -> onNameChange(text) },
+                onValueChange = { onAction(EditEntryAction.OnNameChange(it)) },
                 label = "Food Name",
                 isError = errorState.isNameError,
-                errorMessage = errorState.nameValidation.toErrorMessage()
-                    ?.let { stringResource(id = it) }
+                errorMessage = errorState.nameValidation.asString()
             )
 
             Row(
@@ -105,17 +97,13 @@ fun EditFoodBottomSheet(
                     modifier = Modifier.weight(0.6f),
                     value = if (editEntry.quantity == 0.0) "" else "${editEntry.quantity}",
                     onValueChange = { text ->
-                        if (text.isEmpty()) {
-                            onQuantityChange(0.0)
-                        } else {
-                            text.toDoubleOrNull()?.let { onQuantityChange(it) }
-                        }
+                        val qty = text.toDoubleOrNull() ?: 0.0
+                        onAction(EditEntryAction.OnQuantityChange(qty))
                     },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
                     label = "Quantity",
                     isError = errorState.isQuantityError,
-                    errorMessage = errorState.quantityValidation.toErrorMessage()
-                        ?.let { stringResource(id = it) }
+                    errorMessage = errorState.quantityValidation.asString()
                 )
 
                 Box(modifier = Modifier.weight(0.4f)) {
@@ -124,7 +112,6 @@ fun EditFoodBottomSheet(
                         onValueChange = {},
                         label = "Unit",
                         readOnly = true,
-                        trailingIcon = null,
                         modifier = Modifier.fillMaxWidth()
                     )
                     Box(
@@ -133,16 +120,16 @@ fun EditFoodBottomSheet(
                             .clickable { menuExpanded = true }
                     )
 
-                    androidx.compose.material3.DropdownMenu(
+                    DropdownMenu(
                         expanded = menuExpanded,
                         onDismissRequest = { menuExpanded = false },
                         modifier = Modifier.fillMaxWidth(0.3f)
                     ) {
-                        units.forEach { unit ->
-                            androidx.compose.material3.DropdownMenuItem(
+                        ItemUnit.entries.forEach { unit ->
+                            DropdownMenuItem(
                                 text = { Text(unit.name.capitalize()) },
                                 onClick = {
-                                    onUnitItemChange(unit)
+                                    onAction(EditEntryAction.OnItemUnitChange(unit))
                                     menuExpanded = false
                                 }
                             )
@@ -151,32 +138,53 @@ fun EditFoodBottomSheet(
                 }
             }
 
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                Box(modifier = Modifier.weight(0.5f)) {
+                    AppTextField(
+                        value = dateFormatter.format(Date(editEntry.purchaseDate)),
+                        onValueChange = {},
+                        errorMessage = errorState.purchaseDateValidation.asString(),
+                        label = "Purchase Date",
+                        leadingIcon = Icons.Rounded.CalendarToday,
+                        readOnly = true,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                    Box(
+                        modifier = Modifier
+                            .matchParentSize()
+                            .clickable { activeDatePicker = ActiveDatePicker.PURCHASE }
+                    )
+                }
 
-            Box(modifier = Modifier.fillMaxWidth()) {
-                AppTextField(
-                    value = if (editEntry.expiryDate == -1L) "Select Date" else dateFormatter.format(
-                        Date(editEntry.expiryDate)
-                    ),
-                    onValueChange = {},
-                    label = "Expiry Date",
-                    leadingIcon = Icons.Rounded.CalendarToday,
-                    readOnly = false,
-                    isError = errorState.isExpiryDateError,
-                    errorMessage = errorState.expiryDateValidation.toErrorMessage()
-                        ?.let { stringResource(id = it) }
-                )
-                Box(
-                    modifier = Modifier
-                        .matchParentSize()
-                        .clickable { showDatePicker = true }
-                )
+                Box(modifier = Modifier.weight(0.5f)) {
+                    AppTextField(
+                        value = if (editEntry.expiryDate == -1L) "Select Date" else dateFormatter.format(
+                            Date(editEntry.expiryDate)
+                        ),
+                        onValueChange = {},
+                        label = "Expiry Date",
+                        leadingIcon = Icons.Rounded.CalendarToday,
+                        readOnly = true,
+                        isError = errorState.isExpiryDateError,
+                        errorMessage = errorState.expiryDateValidation.asString(),
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                    Box(
+                        modifier = Modifier
+                            .matchParentSize()
+                            .clickable { activeDatePicker = ActiveDatePicker.EXPIRY }
+                    )
+                }
             }
 
             AppTextField(
                 value = editEntry.notes,
-                onValueChange = { text -> onNoteChange(text) },
+                onValueChange = { onAction(EditEntryAction.OnNoteChange(it)) },
                 label = "Notes",
-                placeholder = "Add any extra details (e.g. brand, recipes...)",
+                placeholder = "Add any extra details...",
                 singleLine = false,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -193,7 +201,7 @@ fun EditFoodBottomSheet(
                     StorageLocation.entries.forEachIndexed { index, loc ->
                         SegmentedButton(
                             selected = editEntry.location == loc,
-                            onClick = { onLocationChange(loc) },
+                            onClick = { onAction(EditEntryAction.OnStorageLocationChange(loc)) },
                             shape = SegmentedButtonDefaults.itemShape(
                                 index = index,
                                 count = StorageLocation.entries.size
@@ -205,10 +213,7 @@ fun EditFoodBottomSheet(
             }
 
             Button(
-                onClick = {
-                    onSave()
-                    onDismiss()
-                },
+                onClick = { onAction(EditEntryAction.OnSave) },
                 enabled = errorState.valid,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -220,24 +225,25 @@ fun EditFoodBottomSheet(
         }
     }
 
-    if (showDatePicker) {
-        val datePickerState =
-            rememberDatePickerState(initialSelectedDateMillis = if (editEntry.expiryDate == -1L) System.currentTimeMillis() else editEntry.expiryDate)
-        DatePickerDialog(
-            onDismissRequest = { showDatePicker = false },
-            confirmButton = {
-                TextButton(onClick = {
-                    datePickerState.selectedDateMillis?.let { time ->
-                        onExpiryDateChange(time)
-                    }
-                    showDatePicker = false
-                }) { Text("OK") }
-            },
-            dismissButton = {
-                TextButton(onClick = { showDatePicker = false }) { Text("Cancel") }
-            }
-        ) {
-            DatePicker(state = datePickerState)
+    when (activeDatePicker) {
+        ActiveDatePicker.PURCHASE -> {
+            AppDatePickerDialog(
+                initialDateMillis = editEntry.purchaseDate,
+                title = "Select Purchase Date",
+                onDateSelected = { onAction(EditEntryAction.OnPurchaseDateChange(it)) },
+                onDismiss = { activeDatePicker = ActiveDatePicker.NONE }
+            )
         }
+
+        ActiveDatePicker.EXPIRY -> {
+            AppDatePickerDialog(
+                initialDateMillis = if (editEntry.expiryDate == -1L) null else editEntry.expiryDate,
+                title = "Select Expiry Date",
+                onDateSelected = { onAction(EditEntryAction.OnExpiryDateChange(it)) },
+                onDismiss = { activeDatePicker = ActiveDatePicker.NONE }
+            )
+        }
+
+        ActiveDatePicker.NONE -> {}
     }
 }

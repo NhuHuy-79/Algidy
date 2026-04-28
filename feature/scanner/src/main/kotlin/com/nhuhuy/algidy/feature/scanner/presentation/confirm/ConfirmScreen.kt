@@ -49,6 +49,7 @@ import com.nhuhuy.algidy.core.designsystem.component.AppTextField
 import com.nhuhuy.algidy.core.designsystem.component.FoodImageCard
 import com.nhuhuy.algidy.core.model.ItemUnit
 import com.nhuhuy.algidy.core.model.StorageLocation
+import com.nhuhuy.algidy.core.presentation.component.asString
 import com.nhuhuy.algidy.feature.scanner.presentation.confirm.viewmodel.ConfirmUiState
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -107,8 +108,10 @@ fun ConfirmScreen(
 
             // 1. Tên thực phẩm
             AppTextField(
+                isError = uiState.errorState.isNameError,
                 value = foodItem.name,
                 onValueChange = onNameChange,
+                errorMessage = uiState.errorState.nameValidation.asString(),
                 label = "Food Name",
                 placeholder = "Enter food name...",
                 leadingIcon = Icons.Rounded.Fastfood
@@ -121,8 +124,10 @@ fun ConfirmScreen(
             ) {
                 AppTextField(
                     modifier = Modifier.weight(0.6f),
+                    isError = uiState.errorState.isQuantityError,
                     value = "${uiState.foodItem.quantity}",
                     onValueChange = onQuantityChange,
+                    errorMessage = uiState.errorState.quantityValidation.asString(),
                     label = "Quantity",
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal)
                 )
@@ -164,6 +169,8 @@ fun ConfirmScreen(
                         value = dateFormatter.format(Date(foodItem.purchaseDate)),
                         onValueChange = {},
                         label = "Purchase Date",
+                        isError = uiState.errorState.isPurchaseDateError,
+                        errorMessage = uiState.errorState.purchaseDateValidation.asString(),
                         leadingIcon = Icons.Rounded.CalendarToday,
                         readOnly = true
                     )
@@ -179,8 +186,10 @@ fun ConfirmScreen(
                     AppTextField(
                         value = if (foodItem.expiryDate == -1L) "Set Date"
                         else dateFormatter.format(Date(foodItem.expiryDate)),
+                        errorMessage = uiState.errorState.expiryDateValidation.asString(),
                         onValueChange = {},
                         label = "Expiry Date",
+                        isError = uiState.errorState.isExpiryDateError,
                         leadingIcon = Icons.Rounded.EventAvailable,
                         readOnly = true
                     )
@@ -227,6 +236,7 @@ fun ConfirmScreen(
 
             // 6. Nút Save
             AppButton(
+                enabled = uiState.errorState.valid,
                 text = "Add to Pantry",
                 icon = Icons.Rounded.CheckCircleOutline,
                 onClick = onSaveClick,

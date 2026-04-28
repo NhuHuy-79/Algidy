@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="error_empty_field">This field cannot be empty.</string>
+    <string name="error_invalid_number">Please enter a valid number.</string>
+    <string name="error_negative_value">Quantity cannot be less than zero.</string>
+
+    <string name="error_past_date">Expiry date cannot be in the past.</string>
+    <string name="error_future_date">Purchase date cannot be in the future.</string>
+    <string name="error_invalid_date_range">Expiry date must be after or on the purchase date.</string>
+
+    <string name="error_text_too_short">Name must be at least 2 characters long.</string>
+</resources>

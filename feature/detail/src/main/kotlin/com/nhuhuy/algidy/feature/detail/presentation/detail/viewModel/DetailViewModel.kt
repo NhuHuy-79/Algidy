@@ -19,7 +19,7 @@ class DetailViewModel(
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(DetailUiState())
     val uiState = _uiState.asStateFlow()
-
+    private val stateValue get() = uiState.value
     private val _editEntry = MutableStateFlow(EditEntryUiState())
     val editEntry = _editEntry.asStateFlow()
 
@@ -29,26 +29,17 @@ class DetailViewModel(
     init {
         viewModelScope.launch {
             val foodItem = foodRepository.getFoodById(id = foodItemId) ?: FoodItem()
-            _uiState.product { copy(foodItem = foodItem) }
+            _uiState.product { copy(detailFoodItem = foodItem) }
         }
     }
 
     fun onAction(action: DetailAction) {
         when (action) {
-            DetailAction.OnWastedItem -> {
-                updateActionState(DetailActionState.Wasted)
-            }
-
-            DetailAction.OnConsumeItem -> {
-                updateActionState(DetailActionState.Consume)
-            }
-
-            DetailAction.OnDismiss -> {
-                updateActionState(DetailActionState.None)
-            }
-
+            DetailAction.OnWastedItem -> updateActionState(DetailActionState.Wasted)
+            DetailAction.OnConsumeItem -> updateActionState(DetailActionState.Consume)
+            DetailAction.OnDismiss -> updateActionState(DetailActionState.None)
             DetailAction.OnEditItem -> {
-                val item = _uiState.value.foodItem
+                val item = _uiState.value.detailFoodItem
                 updateActionState(DetailActionState.Edit)
                 _editEntry.update { entry ->
                     entry.copy(
@@ -64,20 +55,19 @@ class DetailViewModel(
                     )
                 }
             }
-
             is DetailAction.EditEntryAction.OnExpiryDateChange -> onExpiryDateChange(action.expiryDate)
             is DetailAction.EditEntryAction.OnNameChange -> onNameChange(action.name)
             is DetailAction.EditEntryAction.OnQuantityChange -> onQuantityChange(action.quantity)
             is DetailAction.EditEntryAction.OnStorageLocationChange -> onLocationChange(action.location)
             is DetailAction.EditEntryAction.OnNoteChange -> onNoteChange(action.note)
             is DetailAction.EditEntryAction.OnItemUnitChange -> onItemUnitChange(action.unit)
-            DetailAction.EditEntryAction.OnSave -> {
-
-            }
+            is DetailAction.EditEntryAction.OnPurchaseDateChange -> onPurchaseDateChange(action.purchaseDate)
+            DetailAction.EditEntryAction.OnSave -> onUpdateFoodItem()
         }
     }
 
-    fun onNameChange(name: String) {
+
+    private fun onNameChange(name: String) {
         _editEntry.update { entryUiState ->
             entryUiState.copy(name = name)
         }
@@ -86,13 +76,13 @@ class DetailViewModel(
         }
     }
 
-    fun onItemUnitChange(unit: ItemUnit) {
+    private fun onItemUnitChange(unit: ItemUnit) {
         _editEntry.update { entryUiState ->
             entryUiState.copy(itemUnit = unit)
         }
     }
 
-    fun onQuantityChange(quantity: Double) {
+    private fun onQuantityChange(quantity: Double) {
         _editEntry.update { entryUiState ->
             entryUiState.copy(quantity = quantity)
         }
@@ -101,37 +91,65 @@ class DetailViewModel(
         }
     }
 
-    fun onLocationChange(location: StorageLocation) {
+    private fun onLocationChange(location: StorageLocation) {
         _editEntry.update { entryUiState ->
             entryUiState.copy(location = location)
         }
     }
 
-    fun onNoteChange(note: String) {
+    private fun onNoteChange(note: String) {
         _editEntry.update { entryUiState ->
             entryUiState.copy(notes = note)
         }
     }
 
-    fun onExpiryDateChange(expiryDate: Long) {
+    private fun onPurchaseDateChange(purchaseDate: Long) {
+        _editEntry.update { entryUiState ->
+            entryUiState.copy(purchaseDate = purchaseDate)
+        }
+        _errorState.product {
+            copy(
+                purchaseDateValidation = FoodValidator.validatePurchaseDate(
+                    purchaseDate = purchaseDate,
+                )
+            )
+        }
+    }
+
+    private fun onExpiryDateChange(expiryDate: Long) {
         _editEntry.update { entryUiState ->
             entryUiState.copy(expiryDate = expiryDate)
         }
         _errorState.update { error ->
-            error.copy(expiryDateValidation = FoodValidator.validateExpiryDate(expiryDate))
+            error.copy(
+                expiryDateValidation = FoodValidator.validateExpiryDate(
+                    purchaseDate = _editEntry.value.purchaseDate,
+                    expiryDate = expiryDate
+                )
+            )
         }
     }
 
-    fun onUpdateFoodItem(newItem: FoodItem) {
+    private fun onUpdateFoodItem() {
         viewModelScope.launch {
-            _uiState.update { state ->
-                state.copy(foodItem = newItem)
-            }
-            //Update new Item
+            val oldFoodItem: FoodItem = stateValue.detailFoodItem
+            val newFoodItem = oldFoodItem.copy(
+                name = _editEntry.value.name,
+                imageUri = _editEntry.value.imageUri,
+                location = _editEntry.value.location,
+                quantity = _editEntry.value.quantity,
+                itemUnit = _editEntry.value.itemUnit,
+                expiryDate = _editEntry.value.expiryDate,
+                purchaseDate = _editEntry.value.purchaseDate,
+                isFavorite = _editEntry.value.isFavorite,
+                notes = _editEntry.value.notes
+            )
+
+            foodRepository.addFoodItem(item = newFoodItem)
         }
     }
 
-    fun updateActionState(actionState: DetailActionState) {
+    private fun updateActionState(actionState: DetailActionState) {
         _uiState.update { state -> state.copy(actionState = actionState) }
     }
 }

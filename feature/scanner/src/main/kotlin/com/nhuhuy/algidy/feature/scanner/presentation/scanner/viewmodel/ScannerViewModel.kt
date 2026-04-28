@@ -22,25 +22,27 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import timber.log.Timber
-import kotlin.time.Duration.Companion.seconds
+import kotlin.time.Duration.Companion.milliseconds
 
 
 class ScannerViewModel(
     private val barcodeScanner: BarcodeScanner,
     private val foodRepository: FoodRepository
 ) : ViewModel() {
-    private val _scannerEvent: Channel<ScannerEvent> = Channel(Channel.BUFFERED)
+    private val _scannerEvent = Channel<ScannerEvent>(Channel.BUFFERED)
     val scannerEvent = _scannerEvent.receiveAsFlow()
-    private val _uiSate = MutableStateFlow(ScannerUiState())
-    val uiState = _uiSate.asStateFlow()
-    private val stateValue: ScannerUiState get() = uiState.value
+
+    private val _uiState = MutableStateFlow(ScannerUiState())
+    val uiState = _uiState.asStateFlow()
+    private val stateValue: ScannerUiState get() = _uiState.value
+
     private val _barcodeEvents = MutableSharedFlow<String>(
         extraBufferCapacity = 1,
         onBufferOverflow = BufferOverflow.DROP_OLDEST
@@ -67,20 +69,16 @@ class ScannerViewModel(
             }
 
             ScannerAction.OnDismissRequest -> {
-                _uiSate.product { copy(overlay = ScannerOverlay.NONE) }
+                _uiState.product { copy(overlay = ScannerOverlay.NONE) }
             }
 
             is ScannerAction.OnFoodItemSaved -> {
-                _uiSate.product { copy(foodItemResult = action.foodItem) }
+                _uiState.product { copy(foodItemResult = action.foodItem) }
             }
 
             is ScannerAction.OnImageStaged -> {
                 if (action.uri != null) {
-                    _uiSate.product {
-                        copy(
-                            stagedImageUri = action.uri, overlay = ScannerOverlay.PROCESSING_DIALOG
-                        )
-                    }
+                    analyzeBarcodeFromUri(action.uri)
                 }
             }
 
@@ -90,22 +88,22 @@ class ScannerViewModel(
 
     private fun analyzeBarcodeFromUri(uri: Uri) {
         viewModelScope.launch {
-            _uiSate.product { copy(scanResult = UiResult.Loading) }
+            _uiState.product { copy(labelEvent = LabelEvent.SCANNING) }
 
             val barcodeString = barcodeScanner.scanFromImage(uri)
             if (barcodeString != null) {
                 foodRepository.scanFoodBarcode(barcodeString)
                     .onSuccess { foodItem ->
-                        _uiSate.product { copy(overlay = ScannerOverlay.NONE) }
+                        _uiState.product { copy(labelEvent = LabelEvent.NONE) }
                         _scannerEvent.trySend(ScannerEvent.OnSuccess(foodId = foodItem.id))
                     }
-                    .onFailure {
-                        _uiSate.product {
-                            copy(overlay = ScannerOverlay.NONE, labelEvent = LabelEvent.FAILURE)
-                        }
+                    .onFailure { throwable ->
+                        val error = throwable.toUiError()
+                        _uiState.product { copy(labelEvent = LabelEvent.FAILURE) }
+                        _scannerEvent.trySend(ScannerEvent.OnFailure(error))
                     }
             } else {
-                _uiSate.product {
+                _uiState.product {
                     copy(
                         overlay = ScannerOverlay.NONE,
                         labelEvent = LabelEvent.FAILURE
@@ -117,12 +115,12 @@ class ScannerViewModel(
 
     private fun observeBarcodeEvents() {
         _barcodeEvents
+            .debounce(500.milliseconds)
             .filter { barcode ->
                 val isIdle = stateValue.overlay == ScannerOverlay.NONE
                 val isNewItem = barcode != lastProcessedBarcode
                 isIdle && isNewItem
             }
-            .distinctUntilChanged()
             .onEach { barcode ->
                 Timber.d("Barcode detected: $barcode")
                 onBarcodeScan(barcode)
@@ -133,26 +131,29 @@ class ScannerViewModel(
     private fun onBarcodeScan(barcodeString: String) {
         viewModelScope.launch {
             lastProcessedBarcode = barcodeString
-            _uiSate.product {
+            _uiState.product {
                 copy(
                     scanResult = UiResult.Loading,
                     overlay = ScannerOverlay.LOADING_DIALOG
                 )
             }
+
             val result = foodRepository.scanFoodBarcode(barcodeString)
                 .onSuspendSuccess { foodItem ->
-                    Timber.e("Success: $foodItem")
+                    Timber.d("Success: $foodItem")
                     foodRepository.addFoodItem(foodItem)
-                    _uiSate.product { copy(overlay = ScannerOverlay.NONE) }
+                    _uiState.product { copy(overlay = ScannerOverlay.NONE) }
                     _scannerEvent.trySend(ScannerEvent.OnSuccess(foodId = foodItem.id))
                 }
                 .onFailure { throwable ->
                     val error = throwable.toUiError()
-                    _uiSate.product { copy(labelEvent = LabelEvent.FAILURE) }
+                    _uiState.product { copy(labelEvent = LabelEvent.FAILURE) }
                     _scannerEvent.trySend(ScannerEvent.OnFailure(error = error))
+                    delay(2000)
+                    lastProcessedBarcode = null
                 }
-            delay(1.seconds)
-            _uiSate.product {
+
+            _uiState.product {
                 copy(
                     scanResult = result.toUiStateResult(),
                     overlay = ScannerOverlay.NONE
@@ -166,15 +167,15 @@ class ScannerViewModel(
     }
 
     private fun onFlashChange(isFlashOn: Boolean) {
-        _uiSate.product { copy(isFlashOn = isFlashOn) }
+        _uiState.product { copy(isFlashOn = isFlashOn) }
     }
 
     private fun onAutoScannerChange(isAutoScanned: Boolean) {
         val labelEvent = if (isAutoScanned) LabelEvent.SCANNING else LabelEvent.AUTO_OFF
-        _uiSate.product { copy(isAutoScanned = isAutoScanned, labelEvent = labelEvent) }
+        _uiState.product { copy(isAutoScanned = isAutoScanned, labelEvent = labelEvent) }
     }
 
     private fun onScannerModeChange(mode: ScannerMode) {
-        _uiSate.product { copy(scannerMode = mode) }
+        _uiState.product { copy(scannerMode = mode) }
     }
 }

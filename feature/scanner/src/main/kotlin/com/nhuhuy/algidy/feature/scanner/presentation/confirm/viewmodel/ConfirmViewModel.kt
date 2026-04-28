@@ -4,6 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nhuhuy.algidy.core.data.repository.FoodRepository
 import com.nhuhuy.algidy.core.model.FoodItem
+import com.nhuhuy.algidy.core.model.FoodValidator
+import com.nhuhuy.algidy.core.model.ItemUnit
+import com.nhuhuy.algidy.core.model.StorageLocation
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -12,7 +15,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-
 
 class ConfirmViewModel(
     private val foodId: String,
@@ -29,73 +31,120 @@ class ConfirmViewModel(
     init {
         viewModelScope.launch {
             val foodItem = foodRepository.getFoodById(foodId) ?: FoodItem()
-            _uiState.update { it.copy(foodItem = foodItem) }
+            _uiState.update {
+                it.copy(
+                    foodItem = foodItem,
+                    errorState = ConfirmError(
+                        nameValidation = FoodValidator.validateName(foodItem.name),
+                        quantityValidation = FoodValidator.validateQuantity(foodItem.quantity),
+                        purchaseDateValidation = FoodValidator.validatePurchaseDate(foodItem.purchaseDate),
+                        expiryDateValidation = FoodValidator.validateExpiryDate(
+                            foodItem.expiryDate,
+                            foodItem.purchaseDate
+                        )
+                    )
+                )
+            }
             foodRepository.removeFoodItem(id = foodItem.id)
         }
     }
 
     fun onAction(action: ConfirmAction) {
         when (action) {
-            is ConfirmAction.OnNameChange -> _uiState.update {
-                it.copy(foodItem = it.foodItem.copy(name = action.name))
-            }
+            is ConfirmAction.OnNameChange -> onNameChange(action.name)
+            is ConfirmAction.OnQuantityChange -> onQuantityChange(action.quantity)
+            is ConfirmAction.OnUnitSelected -> onUnitSelected(action.unit)
+            is ConfirmAction.OnLocationChange -> onLocationChange(action.location)
+            is ConfirmAction.OnNotesChange -> onNotesChange(action.notes)
+            is ConfirmAction.OnPurchaseDateChange -> onPurchaseDateChange(action.timestamp)
+            is ConfirmAction.OnExpiryDateChange -> onExpiryDateChange(action.timestamp)
+            is ConfirmAction.OnToggleUnitMenu -> _uiState.update { it.copy(expandedUnitMenu = action.isOpen) }
+            is ConfirmAction.OnTogglePurchaseDatePicker -> _uiState.update { it.copy(overlay = ConfirmOverlay.PURCHASE_DATE_PICKER) }
+            is ConfirmAction.OnToggleExpiryDatePicker -> _uiState.update { it.copy(overlay = ConfirmOverlay.EXPIRY_DATE_PICKER) }
+            ConfirmAction.OnSaveClick -> onSave()
+            ConfirmAction.OnDismissRequest -> _uiState.update { it.copy(overlay = ConfirmOverlay.NONE) }
+            ConfirmAction.OnExitAlertDialog -> _uiState.update { it.copy(overlay = ConfirmOverlay.EXIT_DIALOG) }
+        }
+    }
 
-            is ConfirmAction.OnQuantityChange -> _uiState.update {
-                it.copy(
-                    foodItem = it.foodItem.copy(
-                        quantity = action.quantity.toDoubleOrNull() ?: 0.0
+    private fun onNameChange(name: String) {
+        _uiState.update {
+            it.copy(
+                foodItem = it.foodItem.copy(name = name),
+                errorState = it.errorState.copy(nameValidation = FoodValidator.validateName(name))
+            )
+        }
+    }
+
+    private fun onQuantityChange(quantityStr: String) {
+        val quantity = quantityStr.toDoubleOrNull() ?: 0.0
+        _uiState.update {
+            it.copy(
+                foodItem = it.foodItem.copy(quantity = quantity),
+                errorState = it.errorState.copy(
+                    quantityValidation = FoodValidator.validateQuantity(
+                        quantity
                     )
                 )
-            }
+            )
+        }
+    }
 
-            is ConfirmAction.OnUnitSelected -> _uiState.update {
-                it.copy(
-                    foodItem = it.foodItem.copy(itemUnit = action.unit),
-                    expandedUnitMenu = false
+    private fun onUnitSelected(unit: ItemUnit) {
+        _uiState.update {
+            it.copy(
+                foodItem = it.foodItem.copy(itemUnit = unit),
+                expandedUnitMenu = false
+            )
+        }
+    }
+
+    private fun onLocationChange(location: StorageLocation) {
+        _uiState.update {
+            it.copy(foodItem = it.foodItem.copy(location = location))
+        }
+    }
+
+    private fun onNotesChange(notes: String) {
+        _uiState.update {
+            it.copy(foodItem = it.foodItem.copy(notes = notes))
+        }
+    }
+
+    private fun onPurchaseDateChange(timestamp: Long) {
+        _uiState.update {
+            it.copy(
+                foodItem = it.foodItem.copy(purchaseDate = timestamp),
+                errorState = it.errorState.copy(
+                    purchaseDateValidation = FoodValidator.validatePurchaseDate(timestamp),
+                    expiryDateValidation = FoodValidator.validateExpiryDate(
+                        it.foodItem.expiryDate,
+                        timestamp
+                    )
                 )
-            }
+            )
+        }
+    }
 
-            is ConfirmAction.OnLocationChange -> _uiState.update {
-                it.copy(foodItem = it.foodItem.copy(location = action.location))
-            }
+    private fun onExpiryDateChange(timestamp: Long) {
+        _uiState.update {
+            it.copy(
+                foodItem = it.foodItem.copy(expiryDate = timestamp),
+                errorState = it.errorState.copy(
+                    expiryDateValidation = FoodValidator.validateExpiryDate(
+                        timestamp,
+                        it.foodItem.purchaseDate
+                    )
+                )
+            )
+        }
+    }
 
-            is ConfirmAction.OnNotesChange -> _uiState.update {
-                it.copy(foodItem = it.foodItem.copy(notes = action.notes))
-            }
-
-            is ConfirmAction.OnPurchaseDateChange -> _uiState.update {
-                it.copy(foodItem = it.foodItem.copy(purchaseDate = action.timestamp))
-            }
-
-            is ConfirmAction.OnExpiryDateChange -> _uiState.update {
-                it.copy(foodItem = it.foodItem.copy(expiryDate = action.timestamp))
-            }
-
-            is ConfirmAction.OnToggleUnitMenu -> _uiState.update {
-                it.copy(expandedUnitMenu = action.isOpen)
-            }
-
-            is ConfirmAction.OnTogglePurchaseDatePicker -> _uiState.update {
-                it.copy(overlay = ConfirmOverlay.PURCHASE_DATE_PICKER)
-            }
-
-            is ConfirmAction.OnToggleExpiryDatePicker -> _uiState.update {
-                it.copy(overlay = ConfirmOverlay.EXPIRY_DATE_PICKER)
-            }
-
-            ConfirmAction.OnSaveClick -> {
-                viewModelScope.launch {
-                    foodRepository.addFoodItem(stateValue.foodItem)
-                    _confirmEvent.trySend(ConfirmEvent.OnSaveSuccessfully)
-                }
-            }
-
-            ConfirmAction.OnDismissRequest -> _uiState.update {
-                it.copy(overlay = ConfirmOverlay.NONE)
-            }
-
-            ConfirmAction.OnExitAlertDialog -> _uiState.update {
-                it.copy(overlay = ConfirmOverlay.EXIT_DIALOG)
+    private fun onSave() {
+        if (stateValue.errorState.valid) {
+            viewModelScope.launch {
+                foodRepository.addFoodItem(stateValue.foodItem)
+                _confirmEvent.trySend(ConfirmEvent.OnSaveSuccessfully)
             }
         }
     }
