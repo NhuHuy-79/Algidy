@@ -72,9 +72,7 @@ fun ConfirmScreen(
     val foodItem = uiState.foodItem
     val dateFormatter = remember { SimpleDateFormat("dd MMM, yyyy", Locale.getDefault()) }
 
-    BackHandler {
-        onBackClick()
-    }
+    BackHandler { onBackClick() }
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),

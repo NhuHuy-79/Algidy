@@ -64,7 +64,7 @@ fun DetailHeroCard(
                 .padding(24.dp)
                 .fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(20.dp)
+            horizontalArrangement = Arrangement.SpaceAround
         ) {
             Box(
                 contentAlignment = Alignment.Center,
@@ -88,7 +88,7 @@ fun DetailHeroCard(
             }
 
             Column(
-                modifier = Modifier.weight(1f),
+                modifier = Modifier,
                 verticalArrangement = Arrangement.spacedBy(4.dp)
             ) {
                 Text(

@@ -36,7 +36,7 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun InventoryTopBar(
     isExpiredOnlyActive: Boolean,
-    currentSortMode: InventorySortMode,
+    currentSortMode: com.nhuhuy.aldidy.feature.inventory.presentation.InventorySortMode,
     onResetFilters: () -> Unit,
     onBackPress: () -> Unit,
     onSortByExpiry: () -> Unit,
@@ -70,7 +70,7 @@ fun InventoryTopBar(
                     Icon(
                         imageVector = Icons.Rounded.FilterList,
                         contentDescription = "Filter",
-                        tint = if (isExpiredOnlyActive || currentSortMode != InventorySortMode.NONE) {
+                        tint = if (isExpiredOnlyActive || currentSortMode != com.nhuhuy.aldidy.feature.inventory.presentation.InventorySortMode.NONE) {
                             MaterialTheme.colorScheme.primary
                         } else {
                             MaterialTheme.colorScheme.onSurface
@@ -87,7 +87,7 @@ fun InventoryTopBar(
                         text = { Text("Sort by Expiry") },
                         leadingIcon = { Icon(Icons.Rounded.Event, null, Modifier.size(18.dp)) },
                         trailingIcon = {
-                            if (currentSortMode == InventorySortMode.BY_EXPIRY) {
+                            if (currentSortMode == com.nhuhuy.aldidy.feature.inventory.presentation.InventorySortMode.BY_EXPIRY) {
                                 Icon(
                                     Icons.Rounded.Check,
                                     null,
@@ -110,7 +110,7 @@ fun InventoryTopBar(
                             )
                         },
                         trailingIcon = {
-                            if (currentSortMode == InventorySortMode.BY_NAME) {
+                            if (currentSortMode == com.nhuhuy.aldidy.feature.inventory.presentation.InventorySortMode.BY_NAME) {
                                 Icon(
                                     Icons.Rounded.Check,
                                     null,

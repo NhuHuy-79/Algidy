@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalMaterial3Api::class)
 
-package com.nhuhuy.aldidy.feature.inventory.presentation.component
+package com.nhuhuy.aldidy.feature.inventory.presentation
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
@@ -29,6 +29,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.nhuhuy.aldidy.feature.inventory.presentation.SampleData.foodList
+import com.nhuhuy.aldidy.feature.inventory.presentation.component.EmptyPage
+import com.nhuhuy.aldidy.feature.inventory.presentation.component.EmptyPantryState
+import com.nhuhuy.aldidy.feature.inventory.presentation.component.InventoryFoodItem
+import com.nhuhuy.aldidy.feature.inventory.presentation.component.LoadingPage
 import com.nhuhuy.aldidy.feature.inventory.presentation.viewmodel.InventoryUiState
 import com.nhuhuy.algidy.core.model.FoodItem
 import com.nhuhuy.algidy.core.model.Freshness
@@ -54,7 +58,7 @@ fun InventoryScreen(
         modifier = modifier.fillMaxSize(),
         topBar = {
             Column {
-                InventoryTopBar(
+                _root_ide_package_.com.nhuhuy.aldidy.feature.inventory.presentation.component.InventoryTopBar(
                     onSortByExpiry = {
                         sortMode = InventorySortMode.BY_EXPIRY
                     },
@@ -73,7 +77,7 @@ fun InventoryScreen(
                     onBackPress = onBackPress,
                     scrollBehavior = scrollBehavior
                 )
-                InventoryTabRow(
+                _root_ide_package_.com.nhuhuy.aldidy.feature.inventory.presentation.component.InventoryTabRow(
                     categories = categories,
                     selectedTabIndex = pagerState.currentPage,
                     onTabSelected = { index ->
@@ -90,11 +94,16 @@ fun InventoryScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues),
-            verticalAlignment = Alignment.Top
+            verticalAlignment = Alignment.Top,
         ) { pageIndex ->
             when (uiState) {
-                InventoryUiState.Loading -> LoadingPage()
-                is InventoryUiState.Empty -> EmptyPage()
+                InventoryUiState.Loading -> LoadingPage(
+                    modifier = Modifier.fillMaxSize()
+                )
+
+                is InventoryUiState.Empty -> EmptyPage(
+                    modifier = Modifier.fillMaxSize()
+                )
                 is InventoryUiState.Success -> {
                     val currentItems = remember(pageIndex, foodList, sortMode, showExpiredOnly) {
                         uiState.items.getFilteredAndSortedList(
@@ -125,21 +134,27 @@ fun InventoryGridList(
     contentPadding: PaddingValues = PaddingValues(16.dp)
 ) {
     LazyVerticalStaggeredGrid(
-        columns = StaggeredGridCells.Fixed(3),
+        columns = StaggeredGridCells.Fixed(2),
         modifier = modifier.fillMaxSize(),
         contentPadding = contentPadding,
         horizontalArrangement = Arrangement.spacedBy(16.dp),
         verticalItemSpacing = 16.dp
     ) {
-        items(
-            items = items,
-            key = { it.id }
-        ) { foodItem ->
-            InventoryFoodCard(
-                item = foodItem,
-                onClick = { onItemClick(foodItem) },
-                modifier = Modifier.animateItem()
-            )
+        if (foodList.isEmpty()) {
+            item {
+                EmptyPantryState()
+            }
+        } else {
+            items(
+                items = items,
+                key = { it.id }
+            ) { foodItem ->
+                InventoryFoodItem(
+                    item = foodItem,
+                    onClick = { onItemClick(foodItem) },
+                    modifier = Modifier.animateItem()
+                )
+            }
         }
 
         item(span = StaggeredGridItemSpan.FullLine) {

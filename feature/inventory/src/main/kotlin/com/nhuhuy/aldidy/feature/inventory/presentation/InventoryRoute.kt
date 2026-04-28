@@ -3,7 +3,6 @@ package com.nhuhuy.aldidy.feature.inventory.presentation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.nhuhuy.aldidy.feature.inventory.presentation.component.InventoryScreen
 import com.nhuhuy.aldidy.feature.inventory.presentation.viewmodel.InventoryViewModel
 import com.nhuhuy.algidy.core.designsystem.component.BoxLayout
 import com.nhuhuy.algidy.core.model.StorageLocation
