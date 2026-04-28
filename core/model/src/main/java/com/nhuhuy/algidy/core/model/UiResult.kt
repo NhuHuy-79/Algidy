@@ -14,11 +14,11 @@ sealed interface UiError{
     data object Unknown : UiError
 }
 
-fun <T> NetworkResult<T>.toUiStateResult(): UiResult<T> {
+fun <T> Resource<T>.toUiStateResult(): UiResult<T> {
     return when (this) {
-        is NetworkResult.Failure -> UiResult.Failure(throwable.toUiError())
-        is NetworkResult.Loading -> UiResult.Loading
-        is NetworkResult.Success -> UiResult.Success(data)
+        is Resource.Failure -> UiResult.Failure(throwable.toUiError())
+        is Resource.Loading -> UiResult.Loading
+        is Resource.Success -> UiResult.Success(data)
     }
 }
 

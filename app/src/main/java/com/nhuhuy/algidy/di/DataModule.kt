@@ -1,5 +1,7 @@
 package com.nhuhuy.algidy.di
 
+import com.nhuhuy.algidy.core.data.LocalMediaStorage
+import com.nhuhuy.algidy.core.data.LocalMediaStorageImpl
 import com.nhuhuy.algidy.core.data.repository.FoodRepository
 import com.nhuhuy.algidy.core.data.repository.FoodRepositoryImpl
 import com.nhuhuy.algidy.core.data.util.AppDispatchers
@@ -12,4 +14,5 @@ val dataModule = module {
     single<FoodRepository> { FoodRepositoryImpl(get(), get(), get()) }
     single<AppDispatchers> { DefaultAppDispatchers() }
     single<BarcodeScanner> { MLKitBarcodeScanner(get()) }
+    single<LocalMediaStorage> { LocalMediaStorageImpl(get(), get()) }
 }

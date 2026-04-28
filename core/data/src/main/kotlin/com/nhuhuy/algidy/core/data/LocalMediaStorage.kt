@@ -1,0 +1,53 @@
+package com.nhuhuy.algidy.core.data
+
+import android.content.Context
+import android.net.Uri
+import android.webkit.MimeTypeMap
+import androidx.core.net.toUri
+import com.nhuhuy.algidy.core.data.util.AppDispatchers
+import com.nhuhuy.algidy.core.data.util.safeCallInIO
+import com.nhuhuy.algidy.core.model.Resource
+import java.io.File
+import java.util.UUID
+
+const val FOLDER_NAME = "food_item_images"
+
+interface LocalMediaStorage {
+    suspend fun copyImageToInternalStorage(uriPath: String): Resource<String>
+}
+
+class LocalMediaStorageImpl(
+    private val context: Context,
+    private val appDispatchers: AppDispatchers
+) : LocalMediaStorage {
+    override suspend fun copyImageToInternalStorage(uriPath: String): Resource<String> {
+        return safeCallInIO(ioDispatcher = appDispatchers.io) {
+            val originalUri = uriPath.toUri()
+            val extension = getFileExtension(originalUri) ?: "jpg"
+
+            val uniqueFileName = "IMG_${UUID.randomUUID()}.$extension"
+
+            // 3. Tạo thư mục chứa ảnh (nếu chưa có)
+            val directory = File(context.filesDir, FOLDER_NAME)
+            if (!directory.exists()) {
+                directory.mkdirs()
+            }
+
+            val destinationFile = File(directory, uniqueFileName)
+
+            context.contentResolver.openInputStream(originalUri)?.use { inputStream ->
+                destinationFile.outputStream().use { outputStream ->
+                    inputStream.copyTo(outputStream)
+                }
+            } ?: throw IllegalArgumentException("Cannot open input stream for the given URI")
+
+            Uri.fromFile(destinationFile).toString()
+        }
+    }
+
+    private fun getFileExtension(uri: Uri): String? {
+        val contentResolver = context.contentResolver
+        val mimeType = contentResolver.getType(uri)
+        return MimeTypeMap.getSingleton().getExtensionFromMimeType(mimeType)
+    }
+}

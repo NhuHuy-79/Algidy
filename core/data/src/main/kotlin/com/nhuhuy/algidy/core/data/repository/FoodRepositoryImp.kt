@@ -6,7 +6,7 @@ import com.nhuhuy.algidy.core.data.util.AppDispatchers
 import com.nhuhuy.algidy.core.data.util.safeCallInIO
 import com.nhuhuy.algidy.core.database.dao.FoodDao
 import com.nhuhuy.algidy.core.model.FoodItem
-import com.nhuhuy.algidy.core.model.NetworkResult
+import com.nhuhuy.algidy.core.model.Resource
 import com.nhuhuy.algidy.core.network.data_source.FoodRemoteDataSource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -16,7 +16,7 @@ class FoodRepositoryImpl(
     private val foodDao: FoodDao,
     private val foodRemoteDataSource: FoodRemoteDataSource
 ) : FoodRepository {
-    override suspend fun scanFoodBarcode(barcodeString: String): NetworkResult<FoodItem> {
+    override suspend fun scanFoodBarcode(barcodeString: String): Resource<FoodItem> {
         return safeCallInIO(ioDispatcher = appDispatchers.io){
             foodRemoteDataSource.fetchFoodApiResponse(barcodeString).toDomain()
         }

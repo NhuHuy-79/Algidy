@@ -1,6 +1,6 @@
 package com.nhuhuy.algidy.core.data.util
 
-import com.nhuhuy.algidy.core.model.NetworkResult
+import com.nhuhuy.algidy.core.model.Resource
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
@@ -9,42 +9,42 @@ import timber.log.Timber
 suspend inline fun <T> safeCallInIO(
     ioDispatcher: CoroutineDispatcher,
     crossinline apiCall: suspend () -> T,
-) : NetworkResult<T>{
+): Resource<T> {
     return withContext(ioDispatcher){
         try {
             val data = apiCall()
-            NetworkResult.Success(data)
+            Resource.Success(data)
         } catch (e: CancellationException){
             throw e
         } catch (e: Exception){
             Timber.e(e)
-            NetworkResult.Failure(e)
+            Resource.Failure(e)
         }
     }
 }
 
-inline fun <T> NetworkResult<T>.onSuccess(
+inline fun <T> Resource<T>.onSuccess(
     action: (T) -> Unit
-) : NetworkResult<T>{
-    if (this is NetworkResult.Success){
+): Resource<T> {
+    if (this is Resource.Success) {
         action(data)
     }
     return this
 }
 
-suspend inline fun <T> NetworkResult<T>.onSuspendSuccess(
+suspend inline fun <T> Resource<T>.onSuspendSuccess(
     action: suspend (T) -> Unit
-): NetworkResult<T> {
-    if (this is NetworkResult.Success) {
+): Resource<T> {
+    if (this is Resource.Success) {
         action(data)
     }
     return this
 }
 
-inline fun <T> NetworkResult<T>.onFailure(
+inline fun <T> Resource<T>.onFailure(
     action: (Throwable) -> Unit
-) : NetworkResult<T>{
-    if (this is NetworkResult.Failure){
+): Resource<T> {
+    if (this is Resource.Failure) {
         action(throwable)
     }
     return this

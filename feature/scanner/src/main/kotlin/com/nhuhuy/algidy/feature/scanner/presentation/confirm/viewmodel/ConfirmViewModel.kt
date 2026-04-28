@@ -3,10 +3,12 @@ package com.nhuhuy.algidy.feature.scanner.presentation.confirm.viewmodel
 import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.nhuhuy.algidy.core.data.LocalMediaStorage
 import com.nhuhuy.algidy.core.data.repository.FoodRepository
 import com.nhuhuy.algidy.core.model.FoodItem
 import com.nhuhuy.algidy.core.model.FoodValidator
 import com.nhuhuy.algidy.core.model.ItemUnit
+import com.nhuhuy.algidy.core.model.Resource
 import com.nhuhuy.algidy.core.model.StorageLocation
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.channels.Channel
@@ -20,6 +22,7 @@ import kotlinx.coroutines.launch
 class ConfirmViewModel(
     private val foodId: String,
     private val foodRepository: FoodRepository,
+    private val localMediaStorage: LocalMediaStorage
 ) : ViewModel() {
     private val _confirmEvent = Channel<ConfirmEvent>(onBufferOverflow = BufferOverflow.SUSPEND)
     val confirmEvent = _confirmEvent.receiveAsFlow()
@@ -153,7 +156,18 @@ class ConfirmViewModel(
     private fun onSave() {
         if (stateValue.errorState.valid) {
             viewModelScope.launch {
-                foodRepository.addFoodItem(stateValue.foodItem)
+                val imageUri = stateValue.foodItem.imageUri
+                val finalImageUri = if (imageUri != null && imageUri.startsWith("content://")) {
+                    when (val result = localMediaStorage.copyImageToInternalStorage(imageUri)) {
+                        is Resource.Success -> result.data
+                        else -> imageUri
+                    }
+                } else {
+                    imageUri
+                }
+
+                val finalFoodItem = stateValue.foodItem.copy(imageUri = finalImageUri)
+                foodRepository.addFoodItem(finalFoodItem)
                 _confirmEvent.trySend(ConfirmEvent.OnSaveSuccessfully)
             }
         }
