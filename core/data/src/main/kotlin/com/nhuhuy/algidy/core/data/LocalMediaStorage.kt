@@ -14,6 +14,7 @@ const val FOLDER_NAME = "food_item_images"
 
 interface LocalMediaStorage {
     suspend fun copyImageToInternalStorage(uriPath: String): Resource<String>
+    suspend fun deleteImageFromInternalStorage(uriPath: String): Resource<Unit>
 }
 
 class LocalMediaStorageImpl(
@@ -45,6 +46,25 @@ class LocalMediaStorageImpl(
                 ?: throw IllegalArgumentException("Cannot open input stream for the given URI: $uriPath")
 
             Uri.fromFile(destinationFile).toString()
+        }
+    }
+
+    override suspend fun deleteImageFromInternalStorage(uriPath: String): Resource<Unit> {
+        return safeCallInIO(ioDispatcher = appDispatchers.io) {
+            val uri = uriPath.toUri()
+            val path = uri.path
+
+            if (path == null) {
+                throw IllegalArgumentException("Invalid Uri")
+            }
+
+            val file = File(path)
+
+            if (file.exists()) {
+                file.delete()
+            } else {
+                Unit
+            }
         }
     }
 

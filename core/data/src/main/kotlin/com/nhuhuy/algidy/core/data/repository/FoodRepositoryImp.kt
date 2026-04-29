@@ -32,8 +32,10 @@ class FoodRepositoryImpl(
         return foodDao.getFoodById(id)?.toDomain()
     }
 
-    override suspend fun addFoodItem(item: FoodItem) {
-        foodDao.insertFood(item.toEntity())
+    override suspend fun addFoodItem(item: FoodItem): Resource<Unit> {
+        return safeCallInIO(ioDispatcher = appDispatchers.io) {
+            foodDao.insertFood(item.toEntity())
+        }
     }
 
     override suspend fun removeFoodItem(id: String) {

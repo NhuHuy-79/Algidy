@@ -32,6 +32,10 @@ inline fun <T> Resource<T>.onSuccess(
     return this
 }
 
+fun <T> Resource<T>.getDataOrNull(): T? {
+    return if (this is Resource.Success) data else null
+}
+
 suspend inline fun <T> Resource<T>.onSuspendSuccess(
     action: suspend (T) -> Unit
 ): Resource<T> {
