@@ -1,10 +1,10 @@
 package com.nhuhuy.algidy.feature.detail.presentation.detail.viewModel
 
 import androidx.compose.runtime.Immutable
-import com.nhuhuy.algidy.core.model.FoodItem
-import com.nhuhuy.algidy.core.model.ItemUnit
-import com.nhuhuy.algidy.core.model.StorageLocation
-import com.nhuhuy.algidy.core.model.ValidationResult
+import com.nhuhuy.algidy.core.model.food.FoodItem
+import com.nhuhuy.algidy.core.model.food.ItemUnit
+import com.nhuhuy.algidy.core.model.food.StorageLocation
+import com.nhuhuy.algidy.core.model.validate.ValidationResult
 
 @Immutable
 data class DetailUiState(

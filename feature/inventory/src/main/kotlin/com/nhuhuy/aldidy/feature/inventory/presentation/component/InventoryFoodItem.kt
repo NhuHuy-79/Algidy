@@ -29,8 +29,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
-import com.nhuhuy.algidy.core.model.FoodItem
-import com.nhuhuy.algidy.core.model.Freshness
+import com.nhuhuy.algidy.core.model.food.FoodItem
+import com.nhuhuy.algidy.core.model.food.Freshness
 
 @Composable
 fun InventoryFoodItem(

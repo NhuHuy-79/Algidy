@@ -41,9 +41,9 @@ import androidx.compose.ui.unit.dp
 import com.nhuhuy.algidy.capitalize
 import com.nhuhuy.algidy.core.designsystem.component.AppTextField
 import com.nhuhuy.algidy.core.designsystem.theme.AlgidyTheme
-import com.nhuhuy.algidy.core.model.FoodItem
-import com.nhuhuy.algidy.core.model.ItemUnit
-import com.nhuhuy.algidy.core.model.StorageLocation
+import com.nhuhuy.algidy.core.model.food.FoodItem
+import com.nhuhuy.algidy.core.model.food.ItemUnit
+import com.nhuhuy.algidy.core.model.food.StorageLocation
 import com.nhuhuy.algidy.core.presentation.component.AppDatePickerDialog
 import java.text.SimpleDateFormat
 import java.util.Date

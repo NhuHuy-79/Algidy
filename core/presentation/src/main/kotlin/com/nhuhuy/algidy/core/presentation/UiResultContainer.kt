@@ -4,8 +4,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.nhuhuy.algidy.core.model.UiError
-import com.nhuhuy.algidy.core.model.UiResult
 
 @Composable
 fun <T> UiResultContainer(

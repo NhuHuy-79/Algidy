@@ -19,7 +19,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.nhuhuy.algidy.core.designsystem.component.CardLayout
-import com.nhuhuy.algidy.core.model.FoodItem
+import com.nhuhuy.algidy.core.model.food.FoodItem
 
 @Composable
 fun DetailNoteSection(

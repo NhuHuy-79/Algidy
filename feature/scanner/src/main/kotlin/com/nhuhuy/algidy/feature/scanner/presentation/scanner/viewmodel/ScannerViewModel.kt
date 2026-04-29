@@ -10,9 +10,9 @@ import com.nhuhuy.algidy.core.data.util.onFailure
 import com.nhuhuy.algidy.core.data.util.onSuccess
 import com.nhuhuy.algidy.core.data.util.onSuspendSuccess
 import com.nhuhuy.algidy.core.data.util.product
-import com.nhuhuy.algidy.core.model.UiResult
-import com.nhuhuy.algidy.core.model.toUiError
-import com.nhuhuy.algidy.core.model.toUiStateResult
+import com.nhuhuy.algidy.core.presentation.UiResult
+import com.nhuhuy.algidy.core.presentation.toUiError
+import com.nhuhuy.algidy.core.presentation.toUiStateResult
 import com.nhuhuy.algidy.feature.scanner.domain.BarcodeScanner
 import com.nhuhuy.algidy.feature.scanner.presentation.scanner.ScannerMode
 import kotlinx.coroutines.FlowPreview

@@ -8,10 +8,10 @@ import com.nhuhuy.algidy.core.data.repository.FoodRepository
 import com.nhuhuy.algidy.core.data.util.onFailure
 import com.nhuhuy.algidy.core.data.util.onSuccess
 import com.nhuhuy.algidy.core.data.util.product
-import com.nhuhuy.algidy.core.model.FoodItem
-import com.nhuhuy.algidy.core.model.FoodValidator
-import com.nhuhuy.algidy.core.model.ItemUnit
-import com.nhuhuy.algidy.core.model.StorageLocation
+import com.nhuhuy.algidy.core.model.food.FoodItem
+import com.nhuhuy.algidy.core.model.food.ItemUnit
+import com.nhuhuy.algidy.core.model.food.StorageLocation
+import com.nhuhuy.algidy.core.model.validate.FoodValidator
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow

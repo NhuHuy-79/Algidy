@@ -25,7 +25,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.nhuhuy.algidy.capitalize
 import com.nhuhuy.algidy.core.designsystem.component.CardLayout
-import com.nhuhuy.algidy.core.model.StorageLocation
+import com.nhuhuy.algidy.core.model.food.StorageLocation
 
 @Composable
 fun WastedCategoryCard(modifier: Modifier = Modifier) {

@@ -1,7 +1,7 @@
 package com.nhuhuy.algidy.core.data.repository
 
-import com.nhuhuy.algidy.core.model.FoodItem
-import com.nhuhuy.algidy.core.model.Resource
+import com.nhuhuy.algidy.core.model.error_handling.Resource
+import com.nhuhuy.algidy.core.model.food.FoodItem
 import kotlinx.coroutines.flow.Flow
 
 

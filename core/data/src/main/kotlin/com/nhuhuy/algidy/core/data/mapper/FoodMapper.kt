@@ -2,10 +2,10 @@ package com.nhuhuy.algidy.core.data.mapper
 
 import com.nhuhuy.algidy.capitalize
 import com.nhuhuy.algidy.core.database.entity.FoodItemEntity
-import com.nhuhuy.algidy.core.model.FoodCategory
-import com.nhuhuy.algidy.core.model.FoodItem
-import com.nhuhuy.algidy.core.model.ItemUnit
-import com.nhuhuy.algidy.core.model.StorageLocation
+import com.nhuhuy.algidy.core.model.food.FoodCategory
+import com.nhuhuy.algidy.core.model.food.FoodItem
+import com.nhuhuy.algidy.core.model.food.ItemUnit
+import com.nhuhuy.algidy.core.model.food.StorageLocation
 import com.nhuhuy.algidy.core.network.model.FoodApiResponse
 import java.util.UUID
 

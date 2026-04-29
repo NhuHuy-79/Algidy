@@ -1,8 +1,8 @@
 package com.nhuhuy.algidy.feature.scanner.presentation.confirm.viewmodel
 
 import android.net.Uri
-import com.nhuhuy.algidy.core.model.ItemUnit
-import com.nhuhuy.algidy.core.model.StorageLocation
+import com.nhuhuy.algidy.core.model.food.ItemUnit
+import com.nhuhuy.algidy.core.model.food.StorageLocation
 
 sealed interface ConfirmAction {
     data object OnDismissRequest : ConfirmAction

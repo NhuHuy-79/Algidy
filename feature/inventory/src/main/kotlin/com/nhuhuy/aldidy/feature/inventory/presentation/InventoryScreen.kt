@@ -34,9 +34,9 @@ import com.nhuhuy.aldidy.feature.inventory.presentation.component.EmptyPantrySta
 import com.nhuhuy.aldidy.feature.inventory.presentation.component.InventoryFoodItem
 import com.nhuhuy.aldidy.feature.inventory.presentation.component.LoadingPage
 import com.nhuhuy.aldidy.feature.inventory.presentation.viewmodel.InventoryUiState
-import com.nhuhuy.algidy.core.model.FoodItem
-import com.nhuhuy.algidy.core.model.Freshness
-import com.nhuhuy.algidy.core.model.StorageLocation
+import com.nhuhuy.algidy.core.model.food.FoodItem
+import com.nhuhuy.algidy.core.model.food.Freshness
+import com.nhuhuy.algidy.core.model.food.StorageLocation
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class)

@@ -6,7 +6,7 @@ import android.webkit.MimeTypeMap
 import androidx.core.net.toUri
 import com.nhuhuy.algidy.core.data.util.AppDispatchers
 import com.nhuhuy.algidy.core.data.util.safeCallInIO
-import com.nhuhuy.algidy.core.model.Resource
+import com.nhuhuy.algidy.core.model.error_handling.Resource
 import java.io.File
 import java.util.UUID
 

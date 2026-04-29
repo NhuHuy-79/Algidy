@@ -1,5 +1,6 @@
-package com.nhuhuy.algidy.core.model
+package com.nhuhuy.algidy.core.presentation
 
+import com.nhuhuy.algidy.core.model.error_handling.Resource
 import java.io.IOException
 
 sealed interface UiResult<out T> {

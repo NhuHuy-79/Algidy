@@ -4,8 +4,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.nhuhuy.algidy.core.designsystem.component.BoxLayout
-import com.nhuhuy.algidy.core.model.UiResult
 import com.nhuhuy.algidy.core.presentation.ObserveEffect
+import com.nhuhuy.algidy.core.presentation.UiResult
 import com.nhuhuy.algidy.feature.scanner.presentation.scanner.component.dialog.ImageProcessingDialog
 import com.nhuhuy.algidy.feature.scanner.presentation.scanner.component.dialog.ScannerLoadingDialog
 import com.nhuhuy.algidy.feature.scanner.presentation.scanner.viewmodel.ScannerAction

@@ -1,4 +1,4 @@
-package com.nhuhuy.algidy.core.model
+package com.nhuhuy.algidy.core.model.food
 
 data class WasteRecord(
     val id: String,

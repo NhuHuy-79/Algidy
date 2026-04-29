@@ -5,8 +5,8 @@ import com.nhuhuy.algidy.core.data.mapper.toEntity
 import com.nhuhuy.algidy.core.data.util.AppDispatchers
 import com.nhuhuy.algidy.core.data.util.safeCallInIO
 import com.nhuhuy.algidy.core.database.dao.FoodDao
-import com.nhuhuy.algidy.core.model.FoodItem
-import com.nhuhuy.algidy.core.model.Resource
+import com.nhuhuy.algidy.core.model.error_handling.Resource
+import com.nhuhuy.algidy.core.model.food.FoodItem
 import com.nhuhuy.algidy.core.network.data_source.FoodRemoteDataSource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map

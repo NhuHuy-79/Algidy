@@ -1,4 +1,4 @@
-package com.nhuhuy.algidy.core.model
+package com.nhuhuy.algidy.core.model.validate
 
 import java.util.Calendar
 

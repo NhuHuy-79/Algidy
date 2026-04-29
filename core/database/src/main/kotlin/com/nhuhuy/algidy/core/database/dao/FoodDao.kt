@@ -6,7 +6,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.nhuhuy.algidy.core.database.entity.FoodItemEntity
-import com.nhuhuy.algidy.core.model.StorageLocation
+import com.nhuhuy.algidy.core.model.food.StorageLocation
 import kotlinx.coroutines.flow.Flow
 
 @Dao

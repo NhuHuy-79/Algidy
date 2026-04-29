@@ -1,8 +1,8 @@
 package com.nhuhuy.aldidy.feature.inventory.presentation
 
-import com.nhuhuy.algidy.core.model.FoodItem
-import com.nhuhuy.algidy.core.model.ItemUnit
-import com.nhuhuy.algidy.core.model.StorageLocation
+import com.nhuhuy.algidy.core.model.food.FoodItem
+import com.nhuhuy.algidy.core.model.food.ItemUnit
+import com.nhuhuy.algidy.core.model.food.StorageLocation
 
 // Tạo một Object để quản lý dữ liệu mẫu dễ dàng
 object SampleData {

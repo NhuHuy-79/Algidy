@@ -15,7 +15,6 @@ import androidx.compose.material.icons.rounded.Fastfood
 import androidx.compose.material.icons.rounded.Inventory2
 import androidx.compose.material.icons.rounded.Kitchen
 import androidx.compose.material.icons.rounded.Scale
-import androidx.compose.material.icons.rounded.ShoppingCart
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -33,9 +32,9 @@ import androidx.compose.ui.unit.dp
 import com.nhuhuy.algidy.capitalize
 import com.nhuhuy.algidy.core.designsystem.component.CardLayout
 import com.nhuhuy.algidy.core.designsystem.theme.AlgidyTheme
-import com.nhuhuy.algidy.core.model.FoodItem
-import com.nhuhuy.algidy.core.model.ItemUnit
-import com.nhuhuy.algidy.core.model.StorageLocation
+import com.nhuhuy.algidy.core.model.food.FoodItem
+import com.nhuhuy.algidy.core.model.food.ItemUnit
+import com.nhuhuy.algidy.core.model.food.StorageLocation
 import com.nhuhuy.algidy.formatMillisToDate
 
 @Composable

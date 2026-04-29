@@ -2,8 +2,8 @@ package com.nhuhuy.algidy.feature.scanner.presentation.scanner.viewmodel
 
 import android.net.Uri
 import androidx.compose.runtime.Immutable
-import com.nhuhuy.algidy.core.model.FoodItem
-import com.nhuhuy.algidy.core.model.UiResult
+import com.nhuhuy.algidy.core.model.food.FoodItem
+import com.nhuhuy.algidy.core.presentation.UiResult
 import com.nhuhuy.algidy.feature.scanner.presentation.scanner.ScannerMode
 
 @Immutable

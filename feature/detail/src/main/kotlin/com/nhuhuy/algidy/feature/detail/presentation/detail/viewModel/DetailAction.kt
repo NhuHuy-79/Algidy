@@ -2,8 +2,8 @@ package com.nhuhuy.algidy.feature.detail.presentation.detail.viewModel
 
 import android.net.Uri
 import androidx.compose.runtime.Stable
-import com.nhuhuy.algidy.core.model.ItemUnit
-import com.nhuhuy.algidy.core.model.StorageLocation
+import com.nhuhuy.algidy.core.model.food.ItemUnit
+import com.nhuhuy.algidy.core.model.food.StorageLocation
 
 @Stable
 sealed interface DetailAction {

@@ -1,8 +1,8 @@
 package com.nhuhuy.algidy.feature.scanner.presentation.confirm.viewmodel
 
 import androidx.compose.runtime.Immutable
-import com.nhuhuy.algidy.core.model.FoodItem
-import com.nhuhuy.algidy.core.model.ValidationResult
+import com.nhuhuy.algidy.core.model.food.FoodItem
+import com.nhuhuy.algidy.core.model.validate.ValidationResult
 
 @Immutable
 data class ConfirmUiState(

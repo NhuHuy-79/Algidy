@@ -3,8 +3,8 @@ package com.nhuhuy.algidy.feature.detail.presentation.detail.domain.usecase
 import com.nhuhuy.algidy.core.data.LocalMediaStorage
 import com.nhuhuy.algidy.core.data.repository.FoodRepository
 import com.nhuhuy.algidy.core.data.util.getDataOrNull
-import com.nhuhuy.algidy.core.model.FoodItem
-import com.nhuhuy.algidy.core.model.Resource
+import com.nhuhuy.algidy.core.model.error_handling.Resource
+import com.nhuhuy.algidy.core.model.food.FoodItem
 
 class CreateFoodItemUseCase(
     private val foodRepository: FoodRepository,

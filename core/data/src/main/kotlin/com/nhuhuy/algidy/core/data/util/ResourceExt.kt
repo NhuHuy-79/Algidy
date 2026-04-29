@@ -1,6 +1,6 @@
 package com.nhuhuy.algidy.core.data.util
 
-import com.nhuhuy.algidy.core.model.Resource
+import com.nhuhuy.algidy.core.model.error_handling.Resource
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext

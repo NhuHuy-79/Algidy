@@ -1,4 +1,4 @@
-package com.nhuhuy.algidy.core.model
+package com.nhuhuy.algidy.core.model.food
 
 import java.util.UUID
 import kotlin.math.abs
@@ -15,7 +15,9 @@ data class FoodItem(
     val expiryDate: Long = -1,
     val imageUri: String? = null,
     val isFavorite: Boolean = false,
-    val notes: String = ""
+    val notes: String = "",
+
+    val status:
 ) {
     fun getFreshnessStatus(): Freshness {
         val currentTime = System.currentTimeMillis()

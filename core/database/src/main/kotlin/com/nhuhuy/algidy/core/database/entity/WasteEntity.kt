@@ -3,7 +3,7 @@ package com.nhuhuy.algidy.core.database.entity
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.nhuhuy.algidy.core.model.WasteReason
+import com.nhuhuy.algidy.core.model.food.WasteReason
 
 @Entity(tableName = "waste_records")
 data class WasteEntity(
