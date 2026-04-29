@@ -7,6 +7,7 @@ import com.nhuhuy.algidy.core.data.util.safeCallInIO
 import com.nhuhuy.algidy.core.database.dao.FoodDao
 import com.nhuhuy.algidy.core.model.error_handling.Resource
 import com.nhuhuy.algidy.core.model.food.FoodItem
+import com.nhuhuy.algidy.core.model.food.FoodStatus
 import com.nhuhuy.algidy.core.network.data_source.FoodRemoteDataSource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -22,9 +23,25 @@ class FoodRepositoryImpl(
         }
     }
 
-    override fun getInventory(): Flow<List<FoodItem>> {
-        return foodDao.getAllFoodItems().map { entities ->
+    override fun observeFoodItems(): Flow<List<FoodItem>> {
+        return foodDao.observeAllFoodItemsByStatus(status = FoodStatus.ACTIVE).map { entities ->
             entities.map { it.toDomain() }
+        }
+    }
+
+    override suspend fun updateFoodItem(item: FoodItem): Resource<Unit> {
+        return safeCallInIO(ioDispatcher = appDispatchers.io) {
+            foodDao.updateFood(newFood = item.toEntity())
+        }
+    }
+
+    override suspend fun updateFoodStatus(
+        id: String,
+        newStatus: FoodStatus
+    ): Resource<String> {
+        return safeCallInIO(ioDispatcher = appDispatchers.io) {
+            foodDao.updateFoodStatus(id, newStatus)
+            id
         }
     }
 

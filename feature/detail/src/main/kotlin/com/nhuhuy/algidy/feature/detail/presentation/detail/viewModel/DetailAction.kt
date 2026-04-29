@@ -20,6 +20,8 @@ sealed interface DetailAction {
     }
 
     data object OnDismiss : DetailAction
+    data object OnWasteFabPress : DetailAction
+    data object OnConsumeFabPress : DetailAction
     data object OnWastedItem : DetailAction
     data object OnConsumeItem : DetailAction
     data object OnEditItem : DetailAction

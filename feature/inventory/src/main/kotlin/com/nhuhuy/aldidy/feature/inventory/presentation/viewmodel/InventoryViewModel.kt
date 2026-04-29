@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 class InventoryViewModel(
     private val repository: FoodRepository
 ) : ViewModel() {
-    val uiState: StateFlow<InventoryUiState> = repository.getInventory()
+    val uiState: StateFlow<InventoryUiState> = repository.observeFoodItems()
         .map { items ->
             if (items.isEmpty()) InventoryUiState.Empty
             else InventoryUiState.Success(items = items)

@@ -2,13 +2,22 @@ package com.nhuhuy.algidy.core.data.repository
 
 import com.nhuhuy.algidy.core.model.error_handling.Resource
 import com.nhuhuy.algidy.core.model.food.FoodItem
+import com.nhuhuy.algidy.core.model.food.FoodStatus
 import kotlinx.coroutines.flow.Flow
 
-
 interface FoodRepository {
-    suspend fun scanFoodBarcode(barcodeString: String): Resource<FoodItem>
-    fun getInventory(): Flow<List<FoodItem>>
-    suspend fun getFoodById(id: String): FoodItem?
+    //CREATE
     suspend fun addFoodItem(item: FoodItem): Resource<Unit>
+
+    //READ
+    suspend fun getFoodById(id: String): FoodItem?
+    suspend fun scanFoodBarcode(barcodeString: String): Resource<FoodItem>
+    fun observeFoodItems(): Flow<List<FoodItem>>
+
+    //UPDATE
+    suspend fun updateFoodItem(item: FoodItem): Resource<Unit>
+    suspend fun updateFoodStatus(id: String, newStatus: FoodStatus): Resource<String>
+
+    //DELETE
     suspend fun removeFoodItem(id: String)
 }

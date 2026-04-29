@@ -9,7 +9,7 @@ import com.nhuhuy.algidy.core.model.validate.ValidationResult
 @Immutable
 data class DetailUiState(
     val detailFoodItem: FoodItem = FoodItem(),
-    val actionState: DetailActionState = DetailActionState.None,
+    val actionState: DetailOverlay = DetailOverlay.None,
 )
 
 @Immutable
@@ -58,7 +58,7 @@ data class EditEntryError(
 
 }
 
-enum class DetailActionState {
+enum class DetailOverlay {
     None,
     Wasted,
     Consume,

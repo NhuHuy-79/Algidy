@@ -52,7 +52,9 @@ fun FoodItemEntity.toDomain() = FoodItem(
     imageUri = imageUri,
     isFavorite = isFavorite,
     notes = notes,
-    foodCategory = category
+    foodCategory = category,
+    status = status,
+    resolvedDate = resolvedDate
 )
 
 fun FoodItem.toEntity() = FoodItemEntity(
@@ -67,5 +69,7 @@ fun FoodItem.toEntity() = FoodItemEntity(
     imageUri = imageUri,
     isFavorite = isFavorite,
     notes = notes,
-    category = foodCategory
+    category = foodCategory,
+    status = status,
+    resolvedDate = resolvedDate
 )

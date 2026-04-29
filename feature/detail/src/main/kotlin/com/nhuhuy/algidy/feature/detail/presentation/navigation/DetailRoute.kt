@@ -14,8 +14,8 @@ import com.nhuhuy.algidy.core.presentation.component.showShortToast
 import com.nhuhuy.algidy.feature.detail.presentation.detail.DetailScreen
 import com.nhuhuy.algidy.feature.detail.presentation.detail.component.EditFoodBottomSheet
 import com.nhuhuy.algidy.feature.detail.presentation.detail.viewModel.DetailAction
-import com.nhuhuy.algidy.feature.detail.presentation.detail.viewModel.DetailActionState
 import com.nhuhuy.algidy.feature.detail.presentation.detail.viewModel.DetailEvent
+import com.nhuhuy.algidy.feature.detail.presentation.detail.viewModel.DetailOverlay
 import com.nhuhuy.algidy.feature.detail.presentation.detail.viewModel.DetailViewModel
 
 @Composable
@@ -40,22 +40,20 @@ fun DetailRoute(
         DetailScreen(
             uiState = uiState,
             onBackPress = onNavigateBack,
-            onImageChange = { uri ->
-                onAction(DetailAction.EditEntryAction.OnImageChange(uri))
-            },
+            onImageChange = { uri -> onAction(DetailAction.EditEntryAction.OnImageChange(uri)) },
             openEditSheet = { onAction(DetailAction.OnEditItem) },
             openWastedDialog = { onAction(DetailAction.OnWastedItem) },
             openConsumedDialog = { onAction(DetailAction.OnConsumeItem) }
         )
 
         when (uiState.actionState) {
-            DetailActionState.None -> Unit
-            DetailActionState.Wasted -> {
+            DetailOverlay.None -> Unit
+            DetailOverlay.Wasted -> {
                 AlgidyAlertDialog(
                     onDismissRequest = { onAction(DetailAction.OnDismiss) },
                     onConfirm = {
-                        // Implementation for Wasted logic in ViewModel
                         onAction(DetailAction.OnWastedItem)
+                        onNavigateBack()
                     },
                     title = "Mark as Wasted?",
                     text = "Are you sure this food is no longer usable? It will be moved to your waste history for tracking.",
@@ -66,12 +64,12 @@ fun DetailRoute(
                 )
             }
 
-            DetailActionState.Consume -> {
+            DetailOverlay.Consume -> {
                 AlgidyAlertDialog(
                     onDismissRequest = { onAction(DetailAction.OnDismiss) },
                     onConfirm = {
-                        // Implementation for Consume logic in ViewModel
                         onAction(DetailAction.OnConsumeItem)
+                        onNavigateBack()
                     },
                     title = "Finished Eating?",
                     text = "Great! We'll update your inventory and move this item to your consumption history.",
@@ -82,7 +80,7 @@ fun DetailRoute(
                 )
             }
 
-            DetailActionState.Edit -> {
+            DetailOverlay.Edit -> {
                 EditFoodBottomSheet(
                     editEntry = editEntry,
                     errorState = errorState,

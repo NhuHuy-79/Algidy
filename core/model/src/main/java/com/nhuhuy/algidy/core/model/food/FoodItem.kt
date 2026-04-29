@@ -17,7 +17,8 @@ data class FoodItem(
     val isFavorite: Boolean = false,
     val notes: String = "",
 
-    val status:
+    val status: FoodStatus = FoodStatus.ACTIVE,
+    val resolvedDate: Long? = null
 ) {
     fun getFreshnessStatus(): Freshness {
         val currentTime = System.currentTimeMillis()

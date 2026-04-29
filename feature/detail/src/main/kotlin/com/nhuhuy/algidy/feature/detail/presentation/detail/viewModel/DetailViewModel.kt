@@ -3,15 +3,15 @@ package com.nhuhuy.algidy.feature.detail.presentation.detail.viewModel
 import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.nhuhuy.algidy.core.data.LocalMediaStorage
-import com.nhuhuy.algidy.core.data.repository.FoodRepository
-import com.nhuhuy.algidy.core.data.util.onFailure
-import com.nhuhuy.algidy.core.data.util.onSuccess
 import com.nhuhuy.algidy.core.data.util.product
 import com.nhuhuy.algidy.core.model.food.FoodItem
 import com.nhuhuy.algidy.core.model.food.ItemUnit
 import com.nhuhuy.algidy.core.model.food.StorageLocation
 import com.nhuhuy.algidy.core.model.validate.FoodValidator
+import com.nhuhuy.algidy.feature.detail.domain.usecase.GetFoodDetailUseCase
+import com.nhuhuy.algidy.feature.detail.domain.usecase.MarkFoodAsConsumedUseCase
+import com.nhuhuy.algidy.feature.detail.domain.usecase.MarkFoodAsWastedUseCase
+import com.nhuhuy.algidy.feature.detail.domain.usecase.UpdateFoodDetailUseCase
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -22,8 +22,10 @@ import kotlinx.coroutines.launch
 
 class DetailViewModel(
     private val foodItemId: String,
-    private val foodRepository: FoodRepository,
-    private val localMediaStorage: LocalMediaStorage
+    private val getFoodDetailUseCase: GetFoodDetailUseCase,
+    private val markFoodAsConsumedUseCase: MarkFoodAsConsumedUseCase,
+    private val markFoodAsWastedUseCase: MarkFoodAsWastedUseCase,
+    private val updateFoodDetailUseCase: UpdateFoodDetailUseCase,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(DetailUiState())
     val uiState = _uiState.asStateFlow()
@@ -39,33 +41,17 @@ class DetailViewModel(
 
     init {
         viewModelScope.launch {
-            val foodItem = foodRepository.getFoodById(id = foodItemId) ?: FoodItem()
+            val foodItem = getFoodDetailUseCase(foodId = foodItemId) ?: FoodItem()
             _uiState.product { copy(detailFoodItem = foodItem) }
         }
     }
 
     fun onAction(action: DetailAction) {
         when (action) {
-            DetailAction.OnWastedItem -> updateActionState(DetailActionState.Wasted)
-            DetailAction.OnConsumeItem -> updateActionState(DetailActionState.Consume)
-            DetailAction.OnDismiss -> updateActionState(DetailActionState.None)
-            DetailAction.OnEditItem -> {
-                val item = _uiState.value.detailFoodItem
-                updateActionState(DetailActionState.Edit)
-                _editEntry.update { entry ->
-                    entry.copy(
-                        name = item.name,
-                        imageUri = item.imageUri,
-                        location = item.location,
-                        quantity = item.quantity,
-                        itemUnit = item.itemUnit,
-                        expiryDate = item.expiryDate,
-                        purchaseDate = item.purchaseDate,
-                        isFavorite = item.isFavorite,
-                        notes = item.notes
-                    )
-                }
-            }
+            DetailAction.OnWastedItem -> wasteFoodItem()
+            DetailAction.OnConsumeItem -> consumeFoodItem()
+            DetailAction.OnDismiss -> updateActionState(DetailOverlay.None)
+            DetailAction.OnEditItem -> updateEditEntry()
             is DetailAction.EditEntryAction.OnExpiryDateChange -> onExpiryDateChange(action.expiryDate)
             is DetailAction.EditEntryAction.OnNameChange -> onNameChange(action.name)
             is DetailAction.EditEntryAction.OnQuantityChange -> onQuantityChange(action.quantity)
@@ -74,12 +60,29 @@ class DetailViewModel(
             is DetailAction.EditEntryAction.OnItemUnitChange -> onItemUnitChange(action.unit)
             is DetailAction.EditEntryAction.OnPurchaseDateChange -> onPurchaseDateChange(action.purchaseDate)
             DetailAction.EditEntryAction.OnSave -> onUpdateFoodItem()
-            is DetailAction.EditEntryAction.OnImageChange -> action.uri?.let {
-                onImageChange(action.uri)
-            }
+            is DetailAction.EditEntryAction.OnImageChange -> action.uri?.let { onImageChange(action.uri) }
+            DetailAction.OnConsumeFabPress -> updateActionState(DetailOverlay.Wasted)
+            DetailAction.OnWasteFabPress -> updateActionState(DetailOverlay.Consume)
         }
     }
 
+    private fun updateEditEntry() {
+        val item = _uiState.value.detailFoodItem
+        updateActionState(DetailOverlay.Edit)
+        _editEntry.update { entry ->
+            entry.copy(
+                name = item.name,
+                imageUri = item.imageUri,
+                location = item.location,
+                quantity = item.quantity,
+                itemUnit = item.itemUnit,
+                expiryDate = item.expiryDate,
+                purchaseDate = item.purchaseDate,
+                isFavorite = item.isFavorite,
+                notes = item.notes
+            )
+        }
+    }
 
     private fun onNameChange(name: String) {
         _editEntry.update { entryUiState ->
@@ -92,17 +95,10 @@ class DetailViewModel(
 
     private fun onImageChange(uri: Uri) {
         viewModelScope.launch {
-            localMediaStorage.copyImageToInternalStorage(uri.toString())
-                .onSuccess { persistentUri ->
-                    val newFoodItem = stateValue.detailFoodItem.copy(imageUri = persistentUri)
-                    _uiState.product { copy(detailFoodItem = newFoodItem) }
-                    _editEntry.update { it.copy(imageUri = persistentUri) }
-
-                    foodRepository.addFoodItem(newFoodItem)
-                }
-                .onFailure {
-                    _detailEvent.trySend(DetailEvent.OnImageChangeFailed)
-                }
+            updateFoodDetailUseCase(
+                newItem = stateValue.detailFoodItem,
+                newImageUri = uri.toString()
+            )
         }
     }
 
@@ -177,11 +173,29 @@ class DetailViewModel(
                 notes = _editEntry.value.notes
             )
             _uiState.product { copy(detailFoodItem = newFoodItem) }
-            updateActionState(DetailActionState.None)
-            foodRepository.addFoodItem(item = newFoodItem)
+            updateActionState(DetailOverlay.None)
+            updateFoodDetailUseCase(
+                newItem = newFoodItem,
+                newImageUri = null
+            )
         }
     }
-    private fun updateActionState(actionState: DetailActionState) {
+
+    private fun updateActionState(actionState: DetailOverlay) {
         _uiState.update { state -> state.copy(actionState = actionState) }
+    }
+
+    private fun consumeFoodItem() {
+        viewModelScope.launch {
+            _uiState.product { copy(actionState = DetailOverlay.None) }
+            markFoodAsConsumedUseCase(foodId = foodItemId)
+        }
+    }
+
+    private fun wasteFoodItem() {
+        viewModelScope.launch {
+            _uiState.product { copy(actionState = DetailOverlay.None) }
+            markFoodAsWastedUseCase(foodId = foodItemId)
+        }
     }
 }
