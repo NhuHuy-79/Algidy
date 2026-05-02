@@ -17,7 +17,6 @@ fun InventoryRoute(
     InventoryScreen(
         uiState = uiState,
         categories = StorageLocation.entries.map { location -> location.name },
-        onBackPress = onNavigateBack,
         onItemClick = onNavigateToDetail
     )
 }

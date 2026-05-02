@@ -32,6 +32,8 @@ import com.nhuhuy.aldidy.feature.inventory.presentation.SampleData.foodList
 import com.nhuhuy.aldidy.feature.inventory.presentation.component.EmptyPage
 import com.nhuhuy.aldidy.feature.inventory.presentation.component.EmptyPantryState
 import com.nhuhuy.aldidy.feature.inventory.presentation.component.InventoryFoodItem
+import com.nhuhuy.aldidy.feature.inventory.presentation.component.InventoryTabRow
+import com.nhuhuy.aldidy.feature.inventory.presentation.component.InventoryTopBar
 import com.nhuhuy.aldidy.feature.inventory.presentation.component.LoadingPage
 import com.nhuhuy.aldidy.feature.inventory.presentation.viewmodel.InventoryUiState
 import com.nhuhuy.algidy.core.model.food.FoodItem
@@ -44,7 +46,6 @@ import kotlinx.coroutines.launch
 fun InventoryScreen(
     uiState: InventoryUiState,
     categories: List<String>,
-    onBackPress: () -> Unit,
     onItemClick: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -58,7 +59,7 @@ fun InventoryScreen(
         modifier = modifier.fillMaxSize(),
         topBar = {
             Column {
-                _root_ide_package_.com.nhuhuy.aldidy.feature.inventory.presentation.component.InventoryTopBar(
+                InventoryTopBar(
                     onSortByExpiry = {
                         sortMode = InventorySortMode.BY_EXPIRY
                     },
@@ -74,10 +75,9 @@ fun InventoryScreen(
                     },
                     isExpiredOnlyActive = showExpiredOnly,
                     currentSortMode = sortMode,
-                    onBackPress = onBackPress,
                     scrollBehavior = scrollBehavior
                 )
-                _root_ide_package_.com.nhuhuy.aldidy.feature.inventory.presentation.component.InventoryTabRow(
+                InventoryTabRow(
                     categories = categories,
                     selectedTabIndex = pagerState.currentPage,
                     onTabSelected = { index ->

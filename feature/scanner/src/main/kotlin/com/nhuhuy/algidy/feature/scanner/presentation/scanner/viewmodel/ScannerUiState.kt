@@ -17,6 +17,8 @@ data class ScannerUiState(
     val overlay: ScannerOverlay = ScannerOverlay.NONE,
     val labelEvent: LabelEvent = LabelEvent.SCANNING,
     val stagedImageUri: Uri? = null,
+    val productionDate: String? = null,
+    val expiryDate: String? = null,
 )
 
 enum class LabelEvent {

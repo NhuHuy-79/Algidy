@@ -1,4 +1,3 @@
-// feature/scanner/presentation/ScannerScreen.kt
 package com.nhuhuy.algidy.feature.scanner.presentation.scanner
 
 import android.content.ContentValues
@@ -18,10 +17,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Cameraswitch
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.FlashOff
 import androidx.compose.material.icons.rounded.FlashOn
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilledTonalIconButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -53,6 +54,7 @@ import timber.log.Timber
 @Composable
 fun ScannerScreen(
     uiState: ScannerUiState,
+    onSwitchMode: (ScannerMode) -> Unit,
     onFlashPress: (Boolean) -> Unit,
     onAutoScanPress: (Boolean) -> Unit,
     onResultDetected: (String) -> Unit,
@@ -89,7 +91,7 @@ fun ScannerScreen(
                         ),
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(end = 48.dp), // Bù trừ cho nút back để title căn giữa hơn
+                            .padding(end = 48.dp),
                         textAlign = TextAlign.Center
                     )
                 },
@@ -103,6 +105,21 @@ fun ScannerScreen(
                     }
                 },
                 actions = {
+                    FilledTonalIconButton(
+                        onClick = {
+                            val newMode = when (uiState.scannerMode) {
+                                ScannerMode.BARCODE_SCANNER -> ScannerMode.FOOD_SCANNER
+                                ScannerMode.FOOD_SCANNER -> ScannerMode.BARCODE_SCANNER
+                            }
+                            onSwitchMode(newMode)
+                        }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Rounded.Cameraswitch,
+                            contentDescription = "food-scan"
+                        )
+                    }
+
                     IconButton(
                         onClick = { camera?.cameraControl?.enableTorch(!uiState.isFlashOn) }
                     ) {

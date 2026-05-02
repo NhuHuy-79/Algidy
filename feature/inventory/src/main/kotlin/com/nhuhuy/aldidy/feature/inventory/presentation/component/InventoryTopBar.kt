@@ -6,7 +6,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Check
 import androidx.compose.material.icons.rounded.Event
 import androidx.compose.material.icons.rounded.FilterList
@@ -38,7 +37,6 @@ fun InventoryTopBar(
     isExpiredOnlyActive: Boolean,
     currentSortMode: com.nhuhuy.aldidy.feature.inventory.presentation.InventorySortMode,
     onResetFilters: () -> Unit,
-    onBackPress: () -> Unit,
     onSortByExpiry: () -> Unit,
     onSortByName: () -> Unit,
     onShowExpiredOnly: () -> Unit,
@@ -55,14 +53,6 @@ fun InventoryTopBar(
         },
         subtitle = {
             Text(text = "Good morning!")
-        },
-        navigationIcon = {
-            IconButton(onClick = onBackPress) {
-                Icon(
-                    imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
-                    contentDescription = "Back"
-                )
-            }
         },
         actions = {
             Box {

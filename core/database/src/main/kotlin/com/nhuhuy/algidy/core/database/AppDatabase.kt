@@ -9,10 +9,10 @@ import com.nhuhuy.algidy.core.database.entity.WasteEntity
 
 @Database(
     entities = [FoodItemEntity::class, WasteEntity::class],
-    version = 2,
+    version = 3,
     exportSchema = false
 )
-abstract class AlgidyDatabase : RoomDatabase() {
+abstract class AppDatabase : RoomDatabase() {
     abstract fun foodDao(): FoodDao
     abstract fun wasteDao(): WasteDao
 }

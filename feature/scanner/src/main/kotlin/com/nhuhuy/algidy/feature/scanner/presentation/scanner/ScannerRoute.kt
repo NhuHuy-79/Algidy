@@ -47,11 +47,11 @@ fun ScannerRoute(
             onAutoScanPress = { autoScanned: Boolean ->
                 onAction(ScannerAction.OnAutoScanChange(autoScanned))
             },
-            /* onScannerModePress = { mode: ScannerMode ->
-                 onAction(OnScannerModeChange(mode))
-             },*/
             onResultDetected = { barcodeString: String ->
                 onAction(ScannerAction.OnResultDetected(barcodeString))
+            },
+            onSwitchMode = { mode ->
+                onAction(ScannerAction.OnScannerModeChange(mode = mode))
             },
             onImageStaged = { uri ->
                 onAction(ScannerAction.OnImageStaged(uri))
