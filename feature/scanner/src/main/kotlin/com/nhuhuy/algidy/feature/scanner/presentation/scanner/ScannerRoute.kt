@@ -50,6 +50,9 @@ fun ScannerRoute(
             onResultDetected = { barcodeString: String ->
                 onAction(ScannerAction.OnResultDetected(barcodeString))
             },
+            onDateDetected = { foodDate ->
+                onAction(ScannerAction.OnDateDetected(foodDate))
+            },
             onSwitchMode = { mode ->
                 onAction(ScannerAction.OnScannerModeChange(mode = mode))
             },

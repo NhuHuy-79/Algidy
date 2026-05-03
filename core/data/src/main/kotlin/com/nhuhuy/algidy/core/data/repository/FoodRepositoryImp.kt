@@ -3,7 +3,7 @@ package com.nhuhuy.algidy.core.data.repository
 import com.nhuhuy.algidy.core.data.mapper.toDomain
 import com.nhuhuy.algidy.core.data.mapper.toEntity
 import com.nhuhuy.algidy.core.data.util.AppDispatchers
-import com.nhuhuy.algidy.core.data.util.safeCallInIO
+import com.nhuhuy.algidy.core.data.util.safeCall
 import com.nhuhuy.algidy.core.database.dao.FoodDao
 import com.nhuhuy.algidy.core.model.error_handling.Resource
 import com.nhuhuy.algidy.core.model.food.FoodItem
@@ -18,7 +18,7 @@ class FoodRepositoryImpl(
     private val foodRemoteDataSource: FoodRemoteDataSource
 ) : FoodRepository {
     override suspend fun scanFoodBarcode(barcodeString: String): Resource<FoodItem> {
-        return safeCallInIO(ioDispatcher = appDispatchers.io){
+        return safeCall(dispatcher = appDispatchers.io) {
             foodRemoteDataSource.fetchFoodApiResponse(barcodeString).toDomain()
         }
     }
@@ -30,7 +30,7 @@ class FoodRepositoryImpl(
     }
 
     override suspend fun updateFoodItem(item: FoodItem): Resource<Unit> {
-        return safeCallInIO(ioDispatcher = appDispatchers.io) {
+        return safeCall(dispatcher = appDispatchers.io) {
             foodDao.updateFood(newFood = item.toEntity())
         }
     }
@@ -39,7 +39,7 @@ class FoodRepositoryImpl(
         id: String,
         newStatus: FoodStatus
     ): Resource<String> {
-        return safeCallInIO(ioDispatcher = appDispatchers.io) {
+        return safeCall(dispatcher = appDispatchers.io) {
             foodDao.updateFoodStatus(id, newStatus)
             id
         }
@@ -49,9 +49,10 @@ class FoodRepositoryImpl(
         return foodDao.getFoodById(id)?.toDomain()
     }
 
-    override suspend fun addFoodItem(item: FoodItem): Resource<Unit> {
-        return safeCallInIO(ioDispatcher = appDispatchers.io) {
+    override suspend fun addFoodItem(item: FoodItem): Resource<FoodItem> {
+        return safeCall(dispatcher = appDispatchers.io) {
             foodDao.insertFood(item.toEntity())
+            item
         }
     }
 

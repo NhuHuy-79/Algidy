@@ -10,7 +10,7 @@ class CreateFoodItemUseCase(
     private val foodRepository: FoodRepository,
     private val localMediaStorage: LocalMediaStorage
 ) {
-    suspend operator fun invoke(foodItem: FoodItem): Resource<Unit> {
+    suspend operator fun invoke(foodItem: FoodItem): Resource<FoodItem> {
         val oldUri: String? = foodItem.imageUri
 
         val newUri: String? =

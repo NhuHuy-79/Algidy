@@ -26,11 +26,15 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.nhuhuy.algidy.core.designsystem.component.AppLabel
+import com.nhuhuy.algidy.feature.scanner.domain.FoodDateScanner
+import com.nhuhuy.algidy.feature.scanner.domain.model.FoodDate
 import com.nhuhuy.algidy.feature.scanner.presentation.scanner.ScannerMode
 import com.nhuhuy.algidy.feature.scanner.presentation.scanner.component.analyzer.BarcodeAnalyzer
 import com.nhuhuy.algidy.feature.scanner.presentation.scanner.component.analyzer.FoodAnalyzer
+import com.nhuhuy.algidy.feature.scanner.presentation.scanner.component.analyzer.FoodDateAnalyzer
 import com.nhuhuy.algidy.feature.scanner.presentation.scanner.viewmodel.LabelEvent
 import kotlinx.coroutines.delay
+import org.koin.compose.koinInject
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
 
@@ -42,20 +46,26 @@ fun CameraPreviewContent(
     imageCapture: ImageCapture,
     onCameraReady: (Camera) -> Unit,
     onResultDetected: (String) -> Unit,
+    onDateDetected: (FoodDate) -> Unit,
 ) {
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
     val mainExecutor = remember(context) { ContextCompat.getMainExecutor(context) }
     val previewView = remember { PreviewView(context) }
+    val foodDateScanner = koinInject<FoodDateScanner>()
 
     val barcodeAnalyzer = remember {
         BarcodeAnalyzer { barcode -> onResultDetected(barcode) }
     }
 
-    val foodAnalyzer = remember {
+    remember {
         FoodAnalyzer { label, confidence ->
             if (confidence > 0.75f) onResultDetected(label)
         }
+    }
+
+    val foodDateAnalyzer = remember(foodDateScanner) {
+        FoodDateAnalyzer(foodDateScanner) { date -> onDateDetected(date) }
     }
 
     val imageAnalysis = remember {
@@ -76,7 +86,7 @@ fun CameraPreviewContent(
                 }
 
                 ScannerMode.FOOD_SCANNER -> {
-                    foodAnalyzer.analyze(imageProxy)
+                    foodDateAnalyzer.analyze(imageProxy)
                 }
             }
         }

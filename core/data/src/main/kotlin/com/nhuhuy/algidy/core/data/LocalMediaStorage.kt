@@ -5,7 +5,7 @@ import android.net.Uri
 import android.webkit.MimeTypeMap
 import androidx.core.net.toUri
 import com.nhuhuy.algidy.core.data.util.AppDispatchers
-import com.nhuhuy.algidy.core.data.util.safeCallInIO
+import com.nhuhuy.algidy.core.data.util.safeCall
 import com.nhuhuy.algidy.core.model.error_handling.Resource
 import java.io.File
 import java.util.UUID
@@ -22,10 +22,10 @@ class LocalMediaStorageImpl(
     private val appDispatchers: AppDispatchers
 ) : LocalMediaStorage {
     override suspend fun copyImageToInternalStorage(uriPath: String): Resource<String> {
-        return safeCallInIO(ioDispatcher = appDispatchers.io) {
+        return safeCall(dispatcher = appDispatchers.io) {
             val originalUri = uriPath.toUri()
             if (originalUri.scheme == "file" && uriPath.contains(context.packageName)) {
-                return@safeCallInIO uriPath
+                return@safeCall uriPath
             }
 
             val extension = getFileExtension(originalUri) ?: "jpg"
@@ -50,7 +50,7 @@ class LocalMediaStorageImpl(
     }
 
     override suspend fun deleteImageFromInternalStorage(uriPath: String): Resource<Unit> {
-        return safeCallInIO(ioDispatcher = appDispatchers.io) {
+        return safeCall(dispatcher = appDispatchers.io) {
             val uri = uriPath.toUri()
             val path = uri.path
 

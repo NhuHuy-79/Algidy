@@ -27,4 +27,5 @@ dependencies {
     implementation("com.google.guava:guava:33.0.0-android")
 
     implementation("com.google.mlkit:image-labeling:17.0.9")
+    implementation("com.google.mlkit:entity-extraction:16.0.0-beta5")
 }

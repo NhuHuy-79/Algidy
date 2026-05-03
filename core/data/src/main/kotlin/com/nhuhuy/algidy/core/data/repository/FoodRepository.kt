@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface FoodRepository {
     //CREATE
-    suspend fun addFoodItem(item: FoodItem): Resource<Unit>
+    suspend fun addFoodItem(item: FoodItem): Resource<FoodItem>
 
     //READ
     suspend fun getFoodById(id: String): FoodItem?

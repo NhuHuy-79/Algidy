@@ -44,6 +44,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.compose.LocalLifecycleOwner
+import com.nhuhuy.algidy.feature.scanner.domain.model.FoodDate
 import com.nhuhuy.algidy.feature.scanner.presentation.scanner.component.CameraPreviewContent
 import com.nhuhuy.algidy.feature.scanner.presentation.scanner.component.LabelEventContainer
 import com.nhuhuy.algidy.feature.scanner.presentation.scanner.component.ScannerControlBar
@@ -58,6 +59,7 @@ fun ScannerScreen(
     onFlashPress: (Boolean) -> Unit,
     onAutoScanPress: (Boolean) -> Unit,
     onResultDetected: (String) -> Unit,
+    onDateDetected: (FoodDate) -> Unit,
     onImageStaged: (Uri?) -> Unit,
     onClosePress: () -> Unit
 ) {
@@ -173,6 +175,11 @@ fun ScannerScreen(
                     onResultDetected = { result ->
                         if (uiState.isAutoScanned) {
                             onResultDetected(result)
+                        }
+                    },
+                    onDateDetected = { foodDate ->
+                        if (uiState.isAutoScanned) {
+                            onDateDetected(foodDate)
                         }
                     }
                 )
