@@ -20,6 +20,10 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
 
                 // ViewModel and Lifecycle
                 add("implementation", libs.findLibrary("androidx-lifecycle-runtime-ktx").get())
+                add(
+                    "implementation",
+                    libs.findLibrary("androidx-lifecycle-viewmodel-compose").get()
+                )
 
                 // Koin for DI
                 add("implementation", libs.findLibrary("koin-android").get())

@@ -28,7 +28,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.nhuhuy.aldidy.feature.inventory.presentation.SampleData.foodList
 import com.nhuhuy.aldidy.feature.inventory.presentation.component.EmptyPage
 import com.nhuhuy.aldidy.feature.inventory.presentation.component.EmptyPantryState
 import com.nhuhuy.aldidy.feature.inventory.presentation.component.InventoryFoodItem
@@ -105,7 +104,8 @@ fun InventoryScreen(
                     modifier = Modifier.fillMaxSize()
                 )
                 is InventoryUiState.Success -> {
-                    val currentItems = remember(pageIndex, foodList, sortMode, showExpiredOnly) {
+                    val currentItems =
+                        remember(pageIndex, uiState.items, sortMode, showExpiredOnly) {
                         uiState.items.getFilteredAndSortedList(
                             pageIndex = pageIndex,
                             sortMode = sortMode,
@@ -140,7 +140,7 @@ fun InventoryGridList(
         horizontalArrangement = Arrangement.spacedBy(16.dp),
         verticalItemSpacing = 16.dp
     ) {
-        if (foodList.isEmpty()) {
+        if (items.isEmpty()) {
             item {
                 EmptyPantryState()
             }

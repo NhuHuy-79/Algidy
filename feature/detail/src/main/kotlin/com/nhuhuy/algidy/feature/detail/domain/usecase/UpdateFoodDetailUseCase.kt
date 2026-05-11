@@ -2,6 +2,7 @@ package com.nhuhuy.algidy.feature.detail.domain.usecase
 
 import com.nhuhuy.algidy.core.data.LocalMediaStorage
 import com.nhuhuy.algidy.core.data.repository.FoodRepository
+import com.nhuhuy.algidy.core.data.util.getDataOrNull
 import com.nhuhuy.algidy.core.model.error_handling.Resource
 import com.nhuhuy.algidy.core.model.food.FoodItem
 
@@ -14,12 +15,12 @@ class UpdateFoodDetailUseCase(
         newImageUri: String?
     ): Resource<Unit> {
         val finalImageUri = newImageUri?.let { uri ->
-            localMediaStorage.copyImageToInternalStorage(uri)
+            localMediaStorage.copyImageToInternalStorage(uri).getDataOrNull()
         }
-        return if (finalImageUri != null) {
-            foodRepository.updateFoodItem(newItem.copy(imageUri = finalImageUri.toString()))
-        } else {
-            foodRepository.updateFoodItem(newItem)
-        }
+        return foodRepository.updateFoodItem(
+            newItem.copy(
+                imageUri = finalImageUri ?: newItem.imageUri
+            )
+        )
     }
 }
