@@ -34,11 +34,6 @@ import androidx.compose.ui.unit.sp
 import com.nhuhuy.algidy.core.designsystem.theme.AlgidyTheme
 
 
-@Composable
-fun OverallContent(){
-
-}
-
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun OverallCard(
@@ -46,10 +41,10 @@ fun OverallCard(
     title: String = "48% Consumed",
     shape: Shape = RoundedCornerShape(topEnd = 24.dp, topStart = 24.dp, bottomEnd = 8.dp, bottomStart = 8.dp),
     icon: ImageVector = Icons.Rounded.Restaurant,
-    backgroundColor: Color = MaterialTheme.colorScheme.onPrimary,
+    backgroundColor: Color = MaterialTheme.colorScheme.primaryContainer,
     iconColor: Color = MaterialTheme.colorScheme.primary,
-    containerColor: Color = MaterialTheme.colorScheme.onPrimaryContainer,
-    contentColor: Color = MaterialTheme.colorScheme.primaryContainer
+    containerColor: Color = MaterialTheme.colorScheme.surfaceContainerLow,
+    contentColor: Color = MaterialTheme.colorScheme.onSurface
 ) {
     Card(
         onClick = {},

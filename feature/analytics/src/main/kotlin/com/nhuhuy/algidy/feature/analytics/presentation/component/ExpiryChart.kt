@@ -6,6 +6,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.BarChart
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
@@ -18,71 +19,65 @@ import com.aay.compose.baseComponents.model.LegendPosition
 import com.nhuhuy.algidy.capitalize
 import com.nhuhuy.algidy.core.designsystem.component.CardLayout
 import com.nhuhuy.algidy.core.model.food.Freshness
-
+import com.nhuhuy.algidy.feature.analytics.presentation.viewmodel.ExpiryChartUiModel
 
 @Composable
-fun ExpiryChart() {
-    val xAxisData = listOf("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun")
-    val testBarParameters: List<BarParameters> = listOf(
-        BarParameters(
-            dataName = Freshness.FRESH.name.capitalize(),
-            data = listOf(0.6, 10.6, 80.0, 50.6, 44.0, 100.6, 10.0),
-            barColor = MaterialTheme.colorScheme.primary
-        ),
-        BarParameters(
-            dataName = Freshness.EXPIRED.name.capitalize(),
-            data = listOf(50.0, 30.6, 77.0, 69.6, 50.0, 30.6, 80.0),
-            barColor = MaterialTheme.colorScheme.error,
-        ),
-        BarParameters(
-            dataName = Freshness.URGENT.name.capitalize(),
-            data = listOf(100.0, 99.6, 60.0, 80.6, 10.0, 100.6, 55.99),
-            barColor = MaterialTheme.colorScheme.tertiary,
-        ),
-        BarParameters(
-            dataName = Freshness.WARNING.name.capitalize(),
-            data = listOf(100.0, 99.6, 60.0, 80.6, 10.0, 100.6, 55.99),
-            barColor = MaterialTheme.colorScheme.secondary,
-        ),
-    )
+fun ExpiryChart(
+    uiModel: ExpiryChartUiModel,
+    modifier: Modifier = Modifier
+) {
+    val colorScheme = MaterialTheme.colorScheme
+    val barParameters = remember(uiModel, colorScheme) {
+        uiModel.items.map { chartData ->
+            val color = when (chartData.type) {
+                Freshness.EXPIRED -> colorScheme.error
+                Freshness.URGENT -> colorScheme.tertiary
+                Freshness.WARNING -> colorScheme.secondary
+                Freshness.FRESH -> colorScheme.primary
+            }
+            BarParameters(
+                dataName = chartData.type.name.lowercase().capitalize(),
+                data = chartData.values,
+                barColor = color
+            )
+        }
+    }
 
     CardLayout(
+        modifier = modifier,
         icon = Icons.Rounded.BarChart,
         title = "Weekly Freshness"
     ) {
         Box(
             modifier = Modifier
-                .height(400.dp),
+                .height(300.dp),
             contentAlignment = Alignment.Center
         ) {
-            BarChart(
-                chartParameters = testBarParameters,
-                gridColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                xAxisData = xAxisData,
-                isShowGrid = true,
-                animateChart = true,
-                showGridWithSpacer = true,
-                yAxisStyle = TextStyle(
-                    fontSize = 14.sp,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                ),
-                xAxisStyle = TextStyle(
-                    fontSize = 14.sp,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    fontWeight = FontWeight.Black
-                ),
-                yAxisRange = 4,
-                barWidth = 8.dp,
-                barCornerRadius = 16.dp,
-                spaceBetweenBars = 2.dp,
-                spaceBetweenGroups = 20.dp,
-                descriptionStyle = TextStyle(
-                    fontSize = 14.sp,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    fontWeight = FontWeight.Black
-                ),
-                legendPosition = LegendPosition.TOP
-            )
+            if (uiModel.items.isNotEmpty()) {
+                BarChart(
+                    chartParameters = barParameters,
+                    gridColor = MaterialTheme.colorScheme.outlineVariant,
+                    xAxisData = uiModel.labels,
+                    isShowGrid = true,
+                    animateChart = true,
+                    showGridWithSpacer = true,
+                    yAxisStyle = TextStyle(
+                        fontSize = 12.sp,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    ),
+                    xAxisStyle = TextStyle(
+                        fontSize = 12.sp,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        fontWeight = FontWeight.Medium
+                    ),
+                    yAxisRange = 5,
+                    barWidth = 6.dp,
+                    barCornerRadius = 4.dp,
+                    spaceBetweenBars = 2.dp,
+                    spaceBetweenGroups = 16.dp,
+                    legendPosition = LegendPosition.TOP
+                )
+            }
         }
     }
 }

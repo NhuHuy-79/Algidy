@@ -8,7 +8,7 @@ interface AppDispatchers {
     val main: CoroutineDispatcher
 }
 
-class DefaultAppDispatchers() : AppDispatchers {
+class DefaultAppDispatchers : AppDispatchers {
     override val io: CoroutineDispatcher
         get() = Dispatchers.IO
     override val main: CoroutineDispatcher

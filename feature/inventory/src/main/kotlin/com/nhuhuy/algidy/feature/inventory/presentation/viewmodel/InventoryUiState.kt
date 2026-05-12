@@ -1,4 +1,4 @@
-package com.nhuhuy.aldidy.feature.inventory.presentation.viewmodel
+package com.nhuhuy.algidy.feature.inventory.presentation.viewmodel
 
 import androidx.compose.runtime.Stable
 import com.nhuhuy.algidy.core.model.food.FoodItem

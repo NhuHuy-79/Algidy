@@ -18,9 +18,9 @@ import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDe
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
-import com.nhuhuy.aldidy.feature.inventory.presentation.InventoryRoute
 import com.nhuhuy.algidy.feature.analytics.presentation.navigation.AnalyticsRoute
 import com.nhuhuy.algidy.feature.detail.presentation.navigation.DetailRoute
+import com.nhuhuy.algidy.feature.inventory.presentation.InventoryRoute
 import com.nhuhuy.algidy.feature.review.ReviewRoute
 import com.nhuhuy.algidy.feature.scanner.presentation.confirm.ConfirmRoute
 import com.nhuhuy.algidy.feature.scanner.presentation.scanner.ScannerRoute
@@ -66,9 +66,11 @@ fun AppGraph(
             entry<Destination.Inventory> {
                 InventoryRoute(
                     viewModel = koinViewModel(),
-                    onNavigateBack = { backStack.removeLastOrNull() },
                     onNavigateToDetail = { foodItemId ->
                         backStack.add(Destination.Detail(foodItemId = foodItemId))
+                    },
+                    onNavigateToCamera = {
+                        backStack.add(Destination.Scanner)
                     }
                 )
             }

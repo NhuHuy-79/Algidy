@@ -13,6 +13,7 @@ interface FoodRepository {
     suspend fun getFoodById(id: String): FoodItem?
     suspend fun scanFoodBarcode(barcodeString: String): Resource<FoodItem>
     fun observeFoodItems(): Flow<List<FoodItem>>
+    fun observeAllFoodItems(): Flow<List<FoodItem>>
 
     //UPDATE
     suspend fun updateFoodItem(item: FoodItem): Resource<Unit>

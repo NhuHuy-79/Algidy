@@ -25,11 +25,13 @@ import androidx.compose.ui.unit.dp
 import com.nhuhuy.algidy.feature.analytics.presentation.component.ExpiryChart
 import com.nhuhuy.algidy.feature.analytics.presentation.component.OverallCard
 import com.nhuhuy.algidy.feature.analytics.presentation.component.WastedCategoryCard
+import com.nhuhuy.algidy.feature.analytics.presentation.viewmodel.AnalyticsUiState
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun AnalyticsScreen(
-    onBackPress: () -> Unit
+    uiState: AnalyticsUiState,
+    onBackPress: () -> Unit,
 ) {
     Scaffold(
         modifier = Modifier.fillMaxSize(), topBar = {
@@ -46,7 +48,7 @@ fun AnalyticsScreen(
                 },
                 title = {
                     Text(
-                        text = "Analytics Screen"
+                        text = "Analytics"
                     )
                 },
                 subtitle = {
@@ -63,7 +65,7 @@ fun AnalyticsScreen(
                 .padding(paddingValues)
                 .padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(8.dp)
+            verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             item {
                 Row(
@@ -72,7 +74,7 @@ fun AnalyticsScreen(
                     horizontalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
                     OverallCard(
-                        title = "60%",
+                        title = "${(uiState.consumedPercent * 100).toInt()}% Consumed",
                         modifier = Modifier.weight(1f),
                         shape = RoundedCornerShape(
                             topStart = 32.dp,
@@ -82,13 +84,13 @@ fun AnalyticsScreen(
                         )
                     )
                     OverallCard(
-                        title = "40%",
+                        title = "${(uiState.wastedPercent * 100).toInt()}% Wasted",
                         modifier = Modifier.weight(1f),
                         icon = Icons.Rounded.Delete,
                         iconColor = MaterialTheme.colorScheme.error,
-                        backgroundColor = MaterialTheme.colorScheme.onError,
-                        contentColor = MaterialTheme.colorScheme.errorContainer,
-                        containerColor = MaterialTheme.colorScheme.onErrorContainer,
+                        backgroundColor = MaterialTheme.colorScheme.errorContainer,
+                        contentColor = MaterialTheme.colorScheme.onSurface,
+                        containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
                         shape = RoundedCornerShape(
                             bottomEnd = 32.dp,
                             bottomStart = 8.dp,
@@ -101,11 +103,11 @@ fun AnalyticsScreen(
             }
 
             item {
-                ExpiryChart()
+                ExpiryChart(uiModel = uiState.expiryChartUiModel)
             }
 
             item {
-                WastedCategoryCard()
+                WastedCategoryCard(categories = uiState.wastedByCategory)
             }
         }
     }

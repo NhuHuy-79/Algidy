@@ -29,6 +29,12 @@ class FoodRepositoryImpl(
         }
     }
 
+    override fun observeAllFoodItems(): Flow<List<FoodItem>> {
+        return foodDao.getAllFoodItems().map { entities ->
+            entities.map { it.toDomain() }
+        }
+    }
+
     override suspend fun updateFoodItem(item: FoodItem): Resource<Unit> {
         return safeCall(dispatcher = appDispatchers.io) {
             foodDao.updateFood(newFood = item.toEntity())

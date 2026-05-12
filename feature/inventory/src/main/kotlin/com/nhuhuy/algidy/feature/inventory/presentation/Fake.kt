@@ -1,4 +1,4 @@
-package com.nhuhuy.aldidy.feature.inventory.presentation
+package com.nhuhuy.algidy.feature.inventory.presentation
 
 import com.nhuhuy.algidy.core.model.food.FoodItem
 import com.nhuhuy.algidy.core.model.food.ItemUnit

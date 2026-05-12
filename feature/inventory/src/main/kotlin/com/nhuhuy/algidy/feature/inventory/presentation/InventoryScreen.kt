@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalMaterial3Api::class)
 
-package com.nhuhuy.aldidy.feature.inventory.presentation
+package com.nhuhuy.algidy.feature.inventory.presentation
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
@@ -28,16 +28,16 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.nhuhuy.aldidy.feature.inventory.presentation.component.EmptyPage
-import com.nhuhuy.aldidy.feature.inventory.presentation.component.EmptyPantryState
-import com.nhuhuy.aldidy.feature.inventory.presentation.component.InventoryFoodItem
-import com.nhuhuy.aldidy.feature.inventory.presentation.component.InventoryTabRow
-import com.nhuhuy.aldidy.feature.inventory.presentation.component.InventoryTopBar
-import com.nhuhuy.aldidy.feature.inventory.presentation.component.LoadingPage
-import com.nhuhuy.aldidy.feature.inventory.presentation.viewmodel.InventoryUiState
 import com.nhuhuy.algidy.core.model.food.FoodItem
 import com.nhuhuy.algidy.core.model.food.Freshness
 import com.nhuhuy.algidy.core.model.food.StorageLocation
+import com.nhuhuy.algidy.feature.inventory.presentation.component.EmptyPage
+import com.nhuhuy.algidy.feature.inventory.presentation.component.EmptyPantryState
+import com.nhuhuy.algidy.feature.inventory.presentation.component.InventoryFoodItem
+import com.nhuhuy.algidy.feature.inventory.presentation.component.InventoryTabRow
+import com.nhuhuy.algidy.feature.inventory.presentation.component.InventoryTopBar
+import com.nhuhuy.algidy.feature.inventory.presentation.component.LoadingPage
+import com.nhuhuy.algidy.feature.inventory.presentation.viewmodel.InventoryUiState
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -45,6 +45,8 @@ import kotlinx.coroutines.launch
 fun InventoryScreen(
     uiState: InventoryUiState,
     categories: List<String>,
+    onScanClick: () -> Unit,
+    onManualAddClick: () -> Unit,
     onItemClick: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -103,21 +105,24 @@ fun InventoryScreen(
                 is InventoryUiState.Empty -> EmptyPage(
                     modifier = Modifier.fillMaxSize()
                 )
+
                 is InventoryUiState.Success -> {
                     val currentItems =
                         remember(pageIndex, uiState.items, sortMode, showExpiredOnly) {
-                        uiState.items.getFilteredAndSortedList(
-                            pageIndex = pageIndex,
-                            sortMode = sortMode,
-                            showExpiredOnly = showExpiredOnly
-                        )
-                    }
+                            uiState.items.getFilteredAndSortedList(
+                                pageIndex = pageIndex,
+                                sortMode = sortMode,
+                                showExpiredOnly = showExpiredOnly
+                            )
+                        }
 
                     InventoryGridList(
                         items = currentItems,
                         onItemClick = { foodItem ->
                             onItemClick(foodItem.id)
-                        }
+                        },
+                        onScanClick = onScanClick,
+                        onManualAddClick = onManualAddClick
                     )
                 }
             }
@@ -129,6 +134,8 @@ fun InventoryScreen(
 @Composable
 fun InventoryGridList(
     items: List<FoodItem>,
+    onScanClick: () -> Unit,
+    onManualAddClick: () -> Unit,
     onItemClick: (FoodItem) -> Unit,
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues = PaddingValues(16.dp)
@@ -141,8 +148,12 @@ fun InventoryGridList(
         verticalItemSpacing = 16.dp
     ) {
         if (items.isEmpty()) {
-            item {
-                EmptyPantryState()
+            item(span = StaggeredGridItemSpan.FullLine) {
+                EmptyPantryState(
+                    modifier = Modifier,
+                    onScanClick = onScanClick,
+                    onManualAddClick = onManualAddClick
+                )
             }
         } else {
             items(

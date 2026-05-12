@@ -23,23 +23,27 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.nhuhuy.algidy.capitalize
 import com.nhuhuy.algidy.core.designsystem.component.CardLayout
-import com.nhuhuy.algidy.core.model.food.StorageLocation
+import com.nhuhuy.algidy.feature.analytics.presentation.viewmodel.CategoryWasteUiModel
 
 @Composable
-fun WastedCategoryCard(modifier: Modifier = Modifier) {
+fun WastedCategoryCard(
+    categories: List<CategoryWasteUiModel>,
+    modifier: Modifier = Modifier,
+) {
     CardLayout(
         modifier = modifier,
         icon = Icons.Rounded.Menu,
-        title = "Wasted Items"
+        title = "Wasted Items by Location"
     ) {
-        StorageLocation.entries.forEach { location ->
-            CategoryItem(
-                label = location.name.capitalize(),
-                progress = 0.5,
-                color = MaterialTheme.colorScheme.primary
-            )
+        Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
+            categories.forEach { category ->
+                CategoryItem(
+                    label = category.label,
+                    progress = category.percentage.toDouble(),
+                    color = MaterialTheme.colorScheme.primary
+                )
+            }
         }
     }
 }

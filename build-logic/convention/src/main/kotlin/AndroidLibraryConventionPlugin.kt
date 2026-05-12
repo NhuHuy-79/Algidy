@@ -31,6 +31,13 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
                     sourceCompatibility = JavaVersion.VERSION_17
                     targetCompatibility = JavaVersion.VERSION_17
                 }
+                packaging {
+                    resources {
+                        excludes += "/META-INF/{AL2.0,LGPL2.1}"
+                        excludes += "META-INF/LICENSE.md"
+                        excludes += "META-INF/LICENSE-notice.md"
+                    }
+                }
             }
 
             tasks.withType<KotlinCompile>().configureEach {
