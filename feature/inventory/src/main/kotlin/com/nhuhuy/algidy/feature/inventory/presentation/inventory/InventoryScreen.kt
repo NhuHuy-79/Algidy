@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalMaterial3Api::class)
 
-package com.nhuhuy.algidy.feature.inventory.presentation
+package com.nhuhuy.algidy.feature.inventory.presentation.inventory
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
@@ -31,13 +31,13 @@ import androidx.compose.ui.unit.dp
 import com.nhuhuy.algidy.core.model.food.FoodItem
 import com.nhuhuy.algidy.core.model.food.Freshness
 import com.nhuhuy.algidy.core.model.food.StorageLocation
-import com.nhuhuy.algidy.feature.inventory.presentation.component.EmptyPage
-import com.nhuhuy.algidy.feature.inventory.presentation.component.EmptyPantryState
-import com.nhuhuy.algidy.feature.inventory.presentation.component.InventoryFoodItem
-import com.nhuhuy.algidy.feature.inventory.presentation.component.InventoryTabRow
-import com.nhuhuy.algidy.feature.inventory.presentation.component.InventoryTopBar
-import com.nhuhuy.algidy.feature.inventory.presentation.component.LoadingPage
-import com.nhuhuy.algidy.feature.inventory.presentation.viewmodel.InventoryUiState
+import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.EmptyPage
+import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.EmptyPantryState
+import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.InventoryFoodItem
+import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.InventoryTabRow
+import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.InventoryTopBar
+import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.LoadingPage
+import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryUiState
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -45,6 +45,7 @@ import kotlinx.coroutines.launch
 fun InventoryScreen(
     uiState: InventoryUiState,
     categories: List<String>,
+    onSearchClick: () -> Unit,
     onScanClick: () -> Unit,
     onManualAddClick: () -> Unit,
     onItemClick: (String) -> Unit,
@@ -61,15 +62,10 @@ fun InventoryScreen(
         topBar = {
             Column {
                 InventoryTopBar(
-                    onSortByExpiry = {
-                        sortMode = InventorySortMode.BY_EXPIRY
-                    },
-                    onSortByName = {
-                        sortMode = InventorySortMode.BY_NAME
-                    },
-                    onShowExpiredOnly = {
-                        showExpiredOnly = !showExpiredOnly
-                    },
+                    onSearchClick = onSearchClick,
+                    onSortByExpiry = { sortMode = InventorySortMode.BY_EXPIRY },
+                    onSortByName = { sortMode = InventorySortMode.BY_NAME },
+                    onShowExpiredOnly = { showExpiredOnly = !showExpiredOnly },
                     onResetFilters = {
                         sortMode = InventorySortMode.NONE
                         showExpiredOnly = false

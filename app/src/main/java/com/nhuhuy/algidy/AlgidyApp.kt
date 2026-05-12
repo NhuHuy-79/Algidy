@@ -6,6 +6,7 @@ import com.nhuhuy.algidy.di.databaseModule
 import com.nhuhuy.algidy.di.networkModule
 import com.nhuhuy.algidy.di.useCaseModule
 import com.nhuhuy.algidy.di.viewModelModule
+import com.nhuhuy.algidy.feature.inventory.di.inventoryModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.GlobalContext.startKoin
@@ -27,6 +28,7 @@ class AlgidyApp : Application() {
                     viewModelModule,
                     networkModule,
                     useCaseModule,
+                    inventoryModule
                 )
             )
         }

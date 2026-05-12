@@ -20,7 +20,8 @@ import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
 import com.nhuhuy.algidy.feature.analytics.presentation.navigation.AnalyticsRoute
 import com.nhuhuy.algidy.feature.detail.presentation.navigation.DetailRoute
-import com.nhuhuy.algidy.feature.inventory.presentation.InventoryRoute
+import com.nhuhuy.algidy.feature.inventory.presentation.inventory.InventoryRoute
+import com.nhuhuy.algidy.feature.inventory.presentation.search.SearchInventoryRoute
 import com.nhuhuy.algidy.feature.review.ReviewRoute
 import com.nhuhuy.algidy.feature.scanner.presentation.confirm.ConfirmRoute
 import com.nhuhuy.algidy.feature.scanner.presentation.scanner.ScannerRoute
@@ -63,7 +64,7 @@ fun AppGraph(
         },
         onBack = { backStack.removeLastOrNull() },
         entryProvider = entryProvider {
-            entry<Destination.Inventory> {
+            entry<Destination.Inventory.Home> {
                 InventoryRoute(
                     viewModel = koinViewModel(),
                     onNavigateToDetail = { foodItemId ->
@@ -71,7 +72,16 @@ fun AppGraph(
                     },
                     onNavigateToCamera = {
                         backStack.add(Destination.Scanner)
+                    },
+                    onNavigateToSearch = {
+                        backStack.add(Destination.Inventory.Search)
                     }
+                )
+            }
+
+            entry<Destination.Inventory.Search> {
+                SearchInventoryRoute(
+                    onNavigateBack = backStack::removeLastOrNull
                 )
             }
 
@@ -80,7 +90,7 @@ fun AppGraph(
                     viewModel = koinViewModel(
                         parameters = { parametersOf(destinationDetail.foodItemId) }
                     ),
-                    onNavigateBack = { backStack.removeLastOrNull() }
+                    onNavigateBack = backStack::removeLastOrNull
                 )
             }
 

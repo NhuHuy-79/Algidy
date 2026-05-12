@@ -38,8 +38,8 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             val context = LocalContext.current
-            val backStack = remember { mutableStateListOf<Destination>(Destination.Inventory) }
-            val currentDestination = backStack.lastOrNull() ?: Destination.Inventory
+            val backStack = remember { mutableStateListOf<Destination>(Destination.Inventory.Home) }
+            val currentDestination = backStack.lastOrNull() ?: Destination.Inventory.Home
             val permissionLauncher = rememberLauncherForActivityResult(
                 contract = ActivityResultContracts.RequestPermission()
             ) { isGranted: Boolean ->

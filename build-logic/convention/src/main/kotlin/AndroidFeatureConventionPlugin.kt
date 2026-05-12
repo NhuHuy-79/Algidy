@@ -17,6 +17,7 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
             dependencies {
                 add("implementation", project(":core:presentation"))
                 add("implementation", project(":core:data"))
+                add("implementation", project(":core:database"))
 
                 // ViewModel and Lifecycle
                 add("implementation", libs.findLibrary("androidx-lifecycle-runtime-ktx").get())
