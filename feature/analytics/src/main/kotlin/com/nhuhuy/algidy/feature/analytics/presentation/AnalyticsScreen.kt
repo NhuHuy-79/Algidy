@@ -34,7 +34,8 @@ fun AnalyticsScreen(
     onBackPress: () -> Unit,
 ) {
     Scaffold(
-        modifier = Modifier.fillMaxSize(), topBar = {
+        modifier = Modifier.fillMaxSize(),
+        topBar = {
             MediumFlexibleTopAppBar(
                 navigationIcon = {
                     IconButton(
@@ -74,7 +75,7 @@ fun AnalyticsScreen(
                     horizontalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
                     OverallCard(
-                        title = "${(uiState.consumedPercent * 100).toInt()}% Consumed",
+                        title = "${(uiState.consumedPercent * 100).toInt()}%",
                         modifier = Modifier.weight(1f),
                         shape = RoundedCornerShape(
                             topStart = 32.dp,
@@ -84,7 +85,7 @@ fun AnalyticsScreen(
                         )
                     )
                     OverallCard(
-                        title = "${(uiState.wastedPercent * 100).toInt()}% Wasted",
+                        title = "${(uiState.wastedPercent * 100).toInt()}%",
                         modifier = Modifier.weight(1f),
                         icon = Icons.Rounded.Delete,
                         iconColor = MaterialTheme.colorScheme.error,

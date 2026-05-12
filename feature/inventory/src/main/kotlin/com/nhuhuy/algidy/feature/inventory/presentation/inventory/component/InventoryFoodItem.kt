@@ -1,4 +1,4 @@
-package com.nhuhuy.algidy.feature.inventory.presentation.component
+package com.nhuhuy.algidy.feature.inventory.presentation.inventory.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement

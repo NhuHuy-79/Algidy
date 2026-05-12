@@ -1,4 +1,4 @@
-package com.nhuhuy.algidy.feature.inventory.presentation.viewmodel
+package com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

@@ -1,4 +1,4 @@
-package com.nhuhuy.algidy.feature.inventory.presentation.component
+package com.nhuhuy.algidy.feature.inventory.presentation.inventory.component
 
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SecondaryTabRow
