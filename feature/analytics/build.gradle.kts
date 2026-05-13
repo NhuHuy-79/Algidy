@@ -7,5 +7,8 @@ android {
 }
 
 dependencies{
+    implementation(libs.androidx.material3.android)
     implementation(libs.chart)
+    implementation("io.github.ehsannarmani:compose-charts:0.1.10")
+
 }

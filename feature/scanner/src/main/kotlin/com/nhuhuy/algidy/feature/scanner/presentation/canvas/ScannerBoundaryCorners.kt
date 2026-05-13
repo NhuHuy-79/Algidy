@@ -27,8 +27,8 @@ import androidx.compose.ui.unit.Dp
 @Composable
 fun ScannerBoundaryCorner(
     modifier: Modifier = Modifier,
-    containerColor: Color,
-    contentColor: Color,
+    cornerColor: Color,
+    scanLineColor: Color,
     cornerSpacing: Dp,
     cornerCap: Dp,
     cornerRadius: Dp,
@@ -43,6 +43,12 @@ fun ScannerBoundaryCorner(
             repeatMode = RepeatMode.Reverse
         ),
         label = "laserPos"
+    )
+
+    val colors = listOf(
+        Color.Transparent,
+        scanLineColor.copy(alpha = 0.6f),
+        Color.Transparent
     )
     Canvas(
         modifier = modifier
@@ -74,15 +80,15 @@ fun ScannerBoundaryCorner(
             totalHeight = totalCornerHeight,
             radius = cornerRadius.toPx(),
             cornerCap = cornerCap.toPx(),
-            color = containerColor
+            color = cornerColor
         )
 
         drawScanningGround(
             startX = laserStartX,
             endX = laserEndX,
             currentY = currentLaserY,
-            laserColor = contentColor,
-            scanHeight = scanHeight.toPx()
+            scanHeight = scanHeight.toPx(),
+            colors = colors
         )
     }
 }
@@ -127,22 +133,18 @@ fun DrawScope.drawScanCorners(
 }
 
 fun DrawScope.drawScanningGround(
+    colors: List<Color>,
     startX: Float,
     endX: Float,
     currentY: Float,
-    scanHeight: Float,
-    laserColor: Color
+    scanHeight: Float
 ) {
 
     // Vẽ vùng Gradient tỏa sáng (Glow)
     // Chỉnh sửa: Để mượt hơn, Gradient nên bám theo currentY
     drawRect(
         brush = Brush.verticalGradient(
-            colors = listOf(
-                Color.Transparent,
-                laserColor.copy(alpha = 0.3f),
-                Color.Transparent
-            ),
+            colors = colors,
             startY = currentY - scanHeight / 2,
             endY = currentY + scanHeight / 2
         ),

@@ -15,7 +15,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Cameraswitch
 import androidx.compose.material.icons.rounded.Close
@@ -39,12 +41,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.nhuhuy.algidy.feature.scanner.domain.model.FoodDate
+import com.nhuhuy.algidy.feature.scanner.presentation.canvas.ScannerBoundaryCorner
 import com.nhuhuy.algidy.feature.scanner.presentation.scanner.component.CameraPreviewContent
 import com.nhuhuy.algidy.feature.scanner.presentation.scanner.component.LabelEventContainer
 import com.nhuhuy.algidy.feature.scanner.presentation.scanner.component.ScannerControlBar
@@ -67,7 +71,6 @@ fun ScannerScreen(
     var camera by remember { mutableStateOf<Camera?>(null) }
     val lifecycleOwner = LocalLifecycleOwner.current
     val imageCapture = remember { ImageCapture.Builder().build() }
-
     LaunchedEffect(camera) {
         camera?.cameraInfo?.torchState?.observe(lifecycleOwner) { state ->
             onFlashPress(state == TorchState.ON)
@@ -108,6 +111,12 @@ fun ScannerScreen(
                 },
                 actions = {
                     FilledTonalIconButton(
+                        shape = RoundedCornerShape(
+                            topStart = 24.dp,
+                            bottomStart = 24.dp,
+                            topEnd = 4.dp,
+                            bottomEnd = 4.dp
+                        ),
                         onClick = {
                             val newMode = when (uiState.scannerMode) {
                                 ScannerMode.BARCODE_SCANNER -> ScannerMode.FOOD_SCANNER
@@ -122,7 +131,13 @@ fun ScannerScreen(
                         )
                     }
 
-                    IconButton(
+                    FilledTonalIconButton(
+                        shape = RoundedCornerShape(
+                            topStart = 4.dp,
+                            bottomStart = 4.dp,
+                            topEnd = 24.dp,
+                            bottomEnd = 24.dp
+                        ),
                         onClick = { camera?.cameraControl?.enableTorch(!uiState.isFlashOn) }
                     ) {
                         Icon(
@@ -164,6 +179,7 @@ fun ScannerScreen(
                 modifier = Modifier.weight(1f),
                 contentAlignment = Alignment.Center
             ) {
+                val screenWidth = LocalWindowInfo.current.containerDpSize.width
                 CameraPreviewContent(
                     isAutoScanned = uiState.isAutoScanned,
                     mode = uiState.scannerMode,
@@ -183,6 +199,18 @@ fun ScannerScreen(
                         }
                     }
                 )
+
+                if (uiState.isAutoScanned) {
+                    ScannerBoundaryCorner(
+                        modifier = Modifier.size(screenWidth * 0.8f),
+                        cornerColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                        scanLineColor = MaterialTheme.colorScheme.secondary,
+                        cornerSpacing = screenWidth * 0.5f,
+                        cornerCap = 8.dp,
+                        cornerRadius = 16.dp,
+                        scanHeight = screenWidth * 0.3f
+                    )
+                }
 
                 LabelEventContainer(
                     event = uiState.labelEvent,

@@ -1,5 +1,6 @@
 package com.nhuhuy.algidy.feature.analytics.presentation.navigation
 
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -10,6 +11,7 @@ import com.nhuhuy.algidy.feature.analytics.presentation.viewmodel.AnalyticsEvent
 import com.nhuhuy.algidy.feature.analytics.presentation.viewmodel.AnalyticsViewModel
 import org.koin.androidx.compose.koinViewModel
 
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun AnalyticsRoute(
     viewModel: AnalyticsViewModel = koinViewModel(),

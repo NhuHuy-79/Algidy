@@ -1,11 +1,16 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package com.nhuhuy.algidy.feature.analytics.presentation
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
+import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
+import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
@@ -22,12 +27,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.nhuhuy.algidy.feature.analytics.presentation.component.ExpiryChart
 import com.nhuhuy.algidy.feature.analytics.presentation.component.OverallCard
 import com.nhuhuy.algidy.feature.analytics.presentation.component.WastedCategoryCard
+import com.nhuhuy.algidy.feature.analytics.presentation.component.WeeklyFreshnessChart
 import com.nhuhuy.algidy.feature.analytics.presentation.viewmodel.AnalyticsUiState
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun AnalyticsScreen(
     uiState: AnalyticsUiState,
@@ -60,15 +65,16 @@ fun AnalyticsScreen(
             )
         }
     ) { paddingValues ->
-        LazyColumn(
+        LazyVerticalStaggeredGrid(
+            columns = StaggeredGridCells.Adaptive(minSize = 360.dp),
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues)
-                .padding(16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+                .padding(paddingValues),
+            contentPadding = PaddingValues(16.dp),
+            horizontalArrangement = Arrangement.spacedBy(16.dp),
+            verticalItemSpacing = 16.dp
         ) {
-            item {
+            item(span = StaggeredGridItemSpan.FullLine) {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically,
@@ -104,7 +110,9 @@ fun AnalyticsScreen(
             }
 
             item {
-                ExpiryChart(uiModel = uiState.expiryChartUiModel)
+                WeeklyFreshnessChart(
+                    uiModel = uiState.expiryChartUiModel
+                )
             }
 
             item {
