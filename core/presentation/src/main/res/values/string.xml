@@ -1,12 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Common -->
+    <string name="app_name">Algidy</string>
+    <string name="action_ok">OK</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="action_save">Save</string>
+    <string name="action_discard">Discard</string>
+    <string name="action_edit">Edit</string>
+    <string name="action_add">Add</string>
+    <string name="action_delete">Delete</string>
+
+    <!-- Errors -->
     <string name="error_empty_field">This field cannot be empty.</string>
     <string name="error_invalid_number">Please enter a valid number.</string>
     <string name="error_negative_value">Quantity cannot be less than zero.</string>
-
     <string name="error_past_date">Expiry date cannot be in the past.</string>
     <string name="error_future_date">Purchase date cannot be in the future.</string>
     <string name="error_invalid_date_range">Expiry date must be after or on the purchase date.</string>
-
     <string name="error_text_too_short">Name must be at least 2 characters long.</string>
+    <string name="error_image_save_failed">Failed to save image.</string>
+
+    <!-- Inventory Screen -->
+    <string name="inventory_title">Inventory</string>
+    <string name="inventory_subtitle">Welcome!</string>
+    <string name="inventory_page_fridge">Fridge</string>
+    <string name="inventory_page_freezer">Freezer</string>
+    <string name="inventory_page_pantry">Pantry</string>
+    <string name="inventory_page_other">Other</string>
+    <string name="inventory_empty_title">Your pantry is empty</string>
+    <string name="inventory_empty_content">Keep track of your groceries and never let food go to waste. Start adding item now!</string>
+    <string name="inventory_scanner_btn">Scan Barcode</string>
+    <string name="inventory_manually_btn">Add manually</string>
+    <string name="inventory_menu_sort_expiry">Sort by Expiry</string>
+    <string name="inventory_menu_sort_name">Sort by Name</string>
+    <string name="inventory_menu_expired_only">Expired Only</string>
+    <string name="inventory_menu_reset">Reset All</string>
+
+    <!-- Search Screen -->
+    <string name="search_placeholder">Search your product in fridge…</string>
+    <string name="search_history_title">Recent</string>
+    <string name="search_no_results">No items found.</string>
+
+    <!-- Detail Screen -->
+    <string name="detail_title">Detail Screen</string>
+    <string name="detail_subtitle">Don\'t forget to consume this</string>
+    <string name="detail_food_stats">Food Stats</string>
+    <string name="detail_expiry_progress">Expiry Progress</string>
+    <string name="detail_personal_notes">Personal Notes</string>
+    <string name="detail_fab_consume_this">Consumed this</string>
+    <string name="detail_fab_edit_details">Edit Details</string>
+    <string name="detail_fab_mark_as_wasted">Mark as Wasted</string>
+    <string name="detail_dialog_waste_title">Mark as Wasted?</string>
+    <string name="detail_dialog_waste_content">Are you sure this food is no longer usable? It will be moved to your waste history for tracking.</string>
+    <string name="detail_dialog_consume_title">Finished Eating?</string>
+    <string name="detail_dialog_consume_content">Great! We\'ll update your inventory and move this item to your consumption history.</string>
+    <string name="detail_edit_sheet_title">Edit Information</string>
+
+    <!-- Confirm Screen -->
+    <string name="confirm_title">Confirm Information</string>
+    <string name="confirm_label_name">Food Name</string>
+    <string name="confirm_placeholder_name">Enter food name...</string>
+    <string name="confirm_label_quantity">Quantity</string>
+    <string name="confirm_label_unit">Unit</string>
+    <string name="confirm_label_purchase_date">Purchase Date</string>
+    <string name="confirm_label_expiry_date">Expiry Date</string>
+    <string name="confirm_date_set">Set Date</string>
+    <string name="confirm_label_location">Storage Location</string>
+    <string name="confirm_label_notes">Notes</string>
+    <string name="confirm_placeholder_notes">E.g. Brand, open date...</string>
+    <string name="confirm_btn_add">Add to Pantry</string>
+    <string name="confirm_dialog_discard_title">Discard Changes?</string>
+    <string name="confirm_dialog_discard_content">Are you sure you want to go back? All food information you\'ve entered will be lost and won\'t be saved to your pantry.</string>
+    <string name="confirm_dialog_discard_btn_discard">Discard</string>
+    <string name="confirm_dialog_discard_btn_keep">Keep Editing</string>
+
+    <!-- Scanner Screen -->
+    <string name="scanner_title_barcode">Barcode Scanner</string>
+    <string name="scanner_title_food">Food Scanner</string>
+    <string name="scanner_action_close">Close Scanner</string>
+    <string name="scanner_action_flash">Toggle Flash</string>
+    <string name="scanner_label_scanning">Scanning…</string>
+    <string name="scanner_label_auto_off">Auto Scan Off</string>
+    <string name="scanner_label_failure">Scan Failed</string>
+
+    <!-- Analytics Screen -->
+    <string name="analytics_title">Analytics</string>
+    <string name="analytics_subtitle">Overview of waste and impact</string>
+    <string name="analytics_card_waste_location">Wasted Items by Location</string>
+    <string name="analytics_card_weekly_freshness">Weekly Freshness</string>
+
+    <!-- Settings Screen -->
+    <string name="settings_title">Settings</string>
+    <string name="settings_dark_mode">Dark Mode</string>
+    <string name="settings_dark_mode_desc">Enable dark theme for the app</string>
+    <string name="settings_notifications">Notifications</string>
+    <string name="settings_notifications_desc">Receive alerts for expiring food</string>
+
+
 </resources>
+

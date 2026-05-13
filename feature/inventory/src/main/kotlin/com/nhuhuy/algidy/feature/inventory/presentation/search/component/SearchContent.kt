@@ -21,7 +21,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.nhuhuy.algidy.feature.inventory.R
+import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.feature.inventory.presentation.search.viewmodel.SearchAction
 import com.nhuhuy.algidy.feature.inventory.presentation.search.viewmodel.SearchUiState
 
@@ -39,7 +39,7 @@ fun SearchContent(
         ) {
             item {
                 Text(
-                    text = stringResource(R.string.search_screen_history),
+                    text = stringResource(R.string.search_history_title),
                     style = MaterialTheme.typography.titleSmall,
                     color = MaterialTheme.colorScheme.primary,
                     modifier = Modifier.padding(start = 8.dp, bottom = 4.dp)

@@ -32,7 +32,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.InventorySortMode
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
@@ -54,10 +56,10 @@ fun InventoryTopBar(
         modifier = modifier,
         scrollBehavior = scrollBehavior,
         title = {
-            Text(text = "Inventory")
+            Text(text = stringResource(R.string.inventory_title))
         },
         subtitle = {
-            Text(text = "Good morning!")
+            Text(text = stringResource(R.string.inventory_subtitle))
         },
         actions = {
             FilledIconButton(
@@ -97,7 +99,7 @@ fun InventoryTopBar(
                     modifier = Modifier.background(MaterialTheme.colorScheme.surfaceContainer)
                 ) {
                     DropdownMenuItem(
-                        text = { Text("Sort by Expiry") },
+                        text = { Text(stringResource(R.string.inventory_menu_sort_expiry)) },
                         leadingIcon = { Icon(Icons.Rounded.Event, null, Modifier.size(18.dp)) },
                         trailingIcon = {
                             if (currentSortMode == InventorySortMode.BY_EXPIRY) {
@@ -114,7 +116,7 @@ fun InventoryTopBar(
                         }
                     )
                     DropdownMenuItem(
-                        text = { Text("Sort by Name") },
+                        text = { Text(stringResource(R.string.inventory_menu_sort_name)) },
                         leadingIcon = {
                             Icon(
                                 Icons.Rounded.SortByAlpha,
@@ -137,7 +139,7 @@ fun InventoryTopBar(
                         }
                     )
                     DropdownMenuItem(
-                        text = { Text("Expired Only") },
+                        text = { Text(stringResource(R.string.inventory_menu_expired_only)) },
                         leadingIcon = {
                             Icon(
                                 Icons.Rounded.WarningAmber,
@@ -163,7 +165,7 @@ fun InventoryTopBar(
                     HorizontalDivider()
 
                     DropdownMenuItem(
-                        text = { Text("Reset All") },
+                        text = { Text(stringResource(R.string.inventory_menu_reset)) },
                         leadingIcon = { Icon(Icons.Rounded.RestartAlt, null) },
                         onClick = onResetFilters
                     )

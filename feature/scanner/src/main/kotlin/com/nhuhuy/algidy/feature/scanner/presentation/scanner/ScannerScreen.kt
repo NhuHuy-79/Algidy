@@ -42,11 +42,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalWindowInfo
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.compose.LocalLifecycleOwner
+import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.feature.scanner.domain.model.FoodDate
 import com.nhuhuy.algidy.feature.scanner.presentation.canvas.ScannerBoundaryCorner
 import com.nhuhuy.algidy.feature.scanner.presentation.scanner.component.CameraPreviewContent
@@ -88,8 +90,8 @@ fun ScannerScreen(
                 title = {
                     Text(
                         text = when (uiState.scannerMode) {
-                            ScannerMode.BARCODE_SCANNER -> "Barcode Scanner"
-                            ScannerMode.FOOD_SCANNER -> "Food Scanner"
+                            ScannerMode.BARCODE_SCANNER -> stringResource(R.string.scanner_title_barcode)
+                            ScannerMode.FOOD_SCANNER -> stringResource(R.string.scanner_title_food)
                         },
                         style = MaterialTheme.typography.titleLarge.copy(
                             fontWeight = FontWeight.Bold
@@ -104,7 +106,7 @@ fun ScannerScreen(
                     IconButton(onClick = onClosePress) {
                         Icon(
                             imageVector = Icons.Rounded.Close,
-                            contentDescription = "Close Scanner",
+                            contentDescription = stringResource(R.string.scanner_action_close),
                             tint = MaterialTheme.colorScheme.onSurface
                         )
                     }
@@ -142,7 +144,7 @@ fun ScannerScreen(
                     ) {
                         Icon(
                             imageVector = if (uiState.isFlashOn) Icons.Rounded.FlashOff else Icons.Rounded.FlashOn,
-                            contentDescription = "Toggle Flash",
+                            contentDescription = stringResource(R.string.scanner_action_flash),
                             tint = if (uiState.isFlashOn) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface
                         )
                     }

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--Notification-->
+    <string name="notif_expiry_title">Food expiring soon!</string>
+    <string name="notif_expiry_few_items">Attention: Your %1$s are expiring soon.</string>
+    <string name="notif_expiry_many_items">Attention: %1$s and %2$d other items are expiring soon!</string>
+</resources>

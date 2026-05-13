@@ -21,7 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.nhuhuy.algidy.feature.inventory.R
+import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.feature.inventory.presentation.search.component.SearchContent
 import com.nhuhuy.algidy.feature.inventory.presentation.search.viewmodel.SearchAction
 import com.nhuhuy.algidy.feature.inventory.presentation.search.viewmodel.SearchUiState
@@ -59,7 +59,7 @@ fun SearchInventoryScreen(
                     onExpandedChange = { expand -> onAction(SearchAction.OnExpandedChange(expand)) },
                     placeholder = {
                         Text(
-                            text = stringResource(R.string.search_screen_placeholder)
+                            text = stringResource(R.string.search_placeholder)
                         )
                     },
                     leadingIcon = {

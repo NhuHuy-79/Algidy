@@ -17,6 +17,7 @@ dependencies {
     implementation(project(":core:data"))
     implementation(project(":core:database"))
     implementation(project(":core:network"))
+    implementation(project(":core:notifications"))
     implementation(project(":feature:inventory"))
     implementation(project(":feature:scanner"))
     implementation(project(":feature:review"))
@@ -35,6 +36,7 @@ dependencies {
     // Koin & Navigation
     implementation(libs.koin.android)
     implementation(libs.koin.compose)
+    implementation(libs.koin.androidx.workmanager)
     implementation(libs.androidx.navigation.compose)
 
     // Navigation 3

@@ -26,7 +26,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.feature.analytics.presentation.component.OverallCard
 import com.nhuhuy.algidy.feature.analytics.presentation.component.WastedCategoryCard
 import com.nhuhuy.algidy.feature.analytics.presentation.component.WeeklyFreshnessChart
@@ -54,12 +56,12 @@ fun AnalyticsScreen(
                 },
                 title = {
                     Text(
-                        text = "Analytics"
+                        text = stringResource(R.string.analytics_title)
                     )
                 },
                 subtitle = {
                     Text(
-                        text = "Overview of waste and impact"
+                        text = stringResource(R.string.analytics_subtitle)
                     )
                 }
             )

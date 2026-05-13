@@ -45,6 +45,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -55,6 +56,7 @@ import com.nhuhuy.algidy.core.designsystem.component.FoodImageCard
 import com.nhuhuy.algidy.core.model.food.ItemUnit
 import com.nhuhuy.algidy.core.model.food.StorageLocation
 import com.nhuhuy.algidy.core.presentation.PhotoPickerContainer
+import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.core.presentation.component.asString
 import com.nhuhuy.algidy.feature.scanner.presentation.confirm.viewmodel.ConfirmUiState
 import java.text.SimpleDateFormat
@@ -88,7 +90,7 @@ fun ConfirmScreen(
             CenterAlignedTopAppBar(
                 title = {
                     Text(
-                        "Confirm Information",
+                        text = stringResource(R.string.confirm_title),
                         style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold)
                     )
                 },
@@ -138,8 +140,8 @@ fun ConfirmScreen(
                 value = foodItem.name,
                 onValueChange = onNameChange,
                 errorMessage = uiState.errorState.nameValidation.asString(),
-                label = "Food Name",
-                placeholder = "Enter food name...",
+                label = stringResource(R.string.confirm_label_name),
+                placeholder = stringResource(R.string.confirm_placeholder_name),
                 leadingIcon = Icons.Rounded.Fastfood
             )
 
@@ -154,7 +156,7 @@ fun ConfirmScreen(
                     value = "${uiState.foodItem.quantity}",
                     onValueChange = onQuantityChange,
                     errorMessage = uiState.errorState.quantityValidation.asString(),
-                    label = "Quantity",
+                    label = stringResource(R.string.confirm_label_quantity),
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal)
                 )
 
@@ -162,7 +164,7 @@ fun ConfirmScreen(
                     AppTextField(
                         value = foodItem.itemUnit.name.lowercase().capitalize(),
                         onValueChange = {},
-                        label = "Unit",
+                        label = stringResource(R.string.confirm_label_unit),
                         readOnly = true,
                         trailingIcon = { Icon(Icons.Rounded.ArrowDropDown, null) }
                     )
@@ -194,7 +196,7 @@ fun ConfirmScreen(
                     AppTextField(
                         value = dateFormatter.format(Date(foodItem.purchaseDate)),
                         onValueChange = {},
-                        label = "Purchase Date",
+                        label = stringResource(R.string.confirm_label_purchase_date),
                         isError = uiState.errorState.isPurchaseDateError,
                         errorMessage = uiState.errorState.purchaseDateValidation.asString(),
                         leadingIcon = Icons.Rounded.CalendarToday,
@@ -210,11 +212,11 @@ fun ConfirmScreen(
                 // Expiry Date
                 Box(modifier = Modifier.weight(1f)) {
                     AppTextField(
-                        value = if (foodItem.expiryDate == -1L) "Set Date"
+                        value = if (foodItem.expiryDate == -1L) stringResource(R.string.confirm_date_set)
                         else dateFormatter.format(Date(foodItem.expiryDate)),
                         errorMessage = uiState.errorState.expiryDateValidation.asString(),
                         onValueChange = {},
-                        label = "Expiry Date",
+                        label = stringResource(R.string.confirm_label_expiry_date),
                         isError = uiState.errorState.isExpiryDateError,
                         leadingIcon = Icons.Rounded.EventAvailable,
                         readOnly = true
@@ -230,7 +232,7 @@ fun ConfirmScreen(
             // 4. Vị trí bảo quản
             Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 Text(
-                    text = "Storage Location",
+                    text = stringResource(R.string.confirm_label_location),
                     style = MaterialTheme.typography.labelLarge,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
@@ -253,9 +255,9 @@ fun ConfirmScreen(
             AppTextField(
                 value = foodItem.notes,
                 onValueChange = onNotesChange,
-                label = "Notes",
+                label = stringResource(R.string.confirm_label_notes),
                 leadingIcon = Icons.Rounded.EditNote,
-                placeholder = "E.g. Brand, open date...",
+                placeholder = stringResource(R.string.confirm_placeholder_notes),
                 singleLine = false,
                 modifier = Modifier.heightIn(min = 100.dp)
             )
@@ -263,7 +265,7 @@ fun ConfirmScreen(
             // 6. Nút Save
             AppButton(
                 enabled = uiState.errorState.valid,
-                text = "Add to Pantry",
+                text = stringResource(R.string.confirm_btn_add),
                 icon = Icons.Rounded.CheckCircleOutline,
                 onClick = onSaveClick,
                 modifier = Modifier.fillMaxWidth()

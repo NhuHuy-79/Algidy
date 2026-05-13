@@ -6,9 +6,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.nhuhuy.algidy.core.designsystem.component.AlgidyAlertDialog
 import com.nhuhuy.algidy.core.presentation.ObserveEffect
+import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.core.presentation.component.showShortToast
 import com.nhuhuy.algidy.feature.scanner.presentation.confirm.viewmodel.ConfirmAction
 import com.nhuhuy.algidy.feature.scanner.presentation.confirm.viewmodel.ConfirmEvent
@@ -95,10 +97,10 @@ fun ConfirmRoute(
             onConfirm = {
                 onNavigateBack()
             },
-            title = "Discard Changes?",
-            text = "Are you sure you want to go back? All food information you've entered will be lost and won't be saved to your pantry.",
-            confirmText = "Discard",
-            dismissText = "Keep Editing",
+            title = stringResource(R.string.confirm_dialog_discard_title),
+            text = stringResource(R.string.confirm_dialog_discard_content),
+            confirmText = stringResource(R.string.confirm_dialog_discard_btn_discard),
+            dismissText = stringResource(R.string.confirm_dialog_discard_btn_keep),
             icon = Icons.Rounded.WarningAmber,
             confirmButtonColor = MaterialTheme.colorScheme.error,
             isDestructive = true,
