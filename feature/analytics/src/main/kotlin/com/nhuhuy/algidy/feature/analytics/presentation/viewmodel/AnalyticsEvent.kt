@@ -1,5 +1,7 @@
 package com.nhuhuy.algidy.feature.analytics.presentation.viewmodel
 
-sealed interface AnalyticsEvent {
+import com.nhuhuy.algidy.core.presentation.viewmodel.UiEvent
+
+sealed interface AnalyticsEvent : UiEvent {
     data object NavigateBack : AnalyticsEvent
 }

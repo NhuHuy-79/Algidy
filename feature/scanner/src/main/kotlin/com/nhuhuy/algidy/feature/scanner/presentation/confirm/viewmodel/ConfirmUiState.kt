@@ -4,13 +4,15 @@ import androidx.compose.runtime.Immutable
 import com.nhuhuy.algidy.core.model.food.FoodItem
 import com.nhuhuy.algidy.core.model.validate.ValidationResult
 
+import com.nhuhuy.algidy.core.presentation.viewmodel.UiState
+
 @Immutable
 data class ConfirmUiState(
     val foodItem: FoodItem = FoodItem(),
     val expandedUnitMenu: Boolean = false,
     val overlay: ConfirmOverlay = ConfirmOverlay.NONE,
     val errorState: ConfirmError = ConfirmError()
-)
+) : UiState
 
 @Immutable
 data class ConfirmError(

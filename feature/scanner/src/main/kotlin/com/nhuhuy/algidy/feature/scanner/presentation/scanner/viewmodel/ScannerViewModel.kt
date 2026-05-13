@@ -3,7 +3,6 @@
 package com.nhuhuy.algidy.feature.scanner.presentation.scanner.viewmodel
 
 import android.net.Uri
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nhuhuy.algidy.core.data.repository.FoodRepository
 import com.nhuhuy.algidy.core.data.util.onFailure
@@ -11,6 +10,7 @@ import com.nhuhuy.algidy.core.data.util.onSuccess
 import com.nhuhuy.algidy.core.data.util.product
 import com.nhuhuy.algidy.core.presentation.UiResult
 import com.nhuhuy.algidy.core.presentation.toUiError
+import com.nhuhuy.algidy.core.presentation.viewmodel.BaseViewModel
 import com.nhuhuy.algidy.feature.scanner.domain.model.FoodDate
 import com.nhuhuy.algidy.feature.scanner.domain.usecase.CreateFoodItemFromDateUseCase
 import com.nhuhuy.algidy.feature.scanner.domain.usecase.ScanBarcodeUseCase
@@ -18,16 +18,15 @@ import com.nhuhuy.algidy.feature.scanner.domain.usecase.ScanFoodDateUseCase
 import com.nhuhuy.algidy.feature.scanner.presentation.scanner.ScannerMode
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.channels.BufferOverflow
-import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import kotlin.time.Duration.Companion.milliseconds
@@ -38,12 +37,10 @@ class ScannerViewModel(
     private val scanFoodDateUseCase: ScanFoodDateUseCase,
     private val createFoodItemFromDateUseCase: CreateFoodItemFromDateUseCase,
     private val foodRepository: FoodRepository
-) : ViewModel() {
-    private val _scannerEvent = Channel<ScannerEvent>(Channel.BUFFERED)
-    val scannerEvent = _scannerEvent.receiveAsFlow()
+) : BaseViewModel<ScannerUiState, ScannerEvent, ScannerAction>() {
 
     private val _uiState = MutableStateFlow(ScannerUiState())
-    val uiState = _uiState.asStateFlow()
+    override val uiState: StateFlow<ScannerUiState> = _uiState.asStateFlow()
     private val stateValue: ScannerUiState get() = _uiState.value
 
     private val _barcodeEvents = MutableSharedFlow<String>(
@@ -63,7 +60,7 @@ class ScannerViewModel(
         observeFoodDateEvents()
     }
 
-    fun onAction(action: ScannerAction) {
+    override fun onAction(action: ScannerAction) {
         when (action) {
             is ScannerAction.OnScannerModeChange -> onScannerModeChange(action.mode)
             is ScannerAction.OnAutoScanChange -> onAutoScanChange(action.isAutoScanned)
@@ -164,7 +161,7 @@ class ScannerViewModel(
                             scanResult = UiResult.Idle
                         )
                     }
-                    _scannerEvent.trySend(ScannerEvent.OnSuccess(foodId = foodItem.id))
+                    emitEvent(ScannerEvent.OnSuccess(foodId = foodItem.id))
                 }
                 .onFailure { throwable ->
                     val error = throwable.toUiError()
@@ -174,7 +171,7 @@ class ScannerViewModel(
                             scanResult = UiResult.Idle
                         )
                     }
-                    _scannerEvent.trySend(ScannerEvent.OnFailure(error))
+                    emitEvent(ScannerEvent.OnFailure(error))
                 }
         }
     }
@@ -210,7 +207,7 @@ class ScannerViewModel(
                     Timber.d("Success: $foodItem")
                     foodRepository.addFoodItem(foodItem)
                     _uiState.product { copy(overlay = ScannerOverlay.NONE) }
-                    _scannerEvent.trySend(ScannerEvent.OnSuccess(foodId = foodItem.id))
+                    emitEvent(ScannerEvent.OnSuccess(foodId = foodItem.id))
                 }
                 .onFailure { throwable ->
                     val error = throwable.toUiError()
@@ -220,7 +217,7 @@ class ScannerViewModel(
                             overlay = ScannerOverlay.NONE
                         )
                     }
-                    _scannerEvent.trySend(ScannerEvent.OnFailure(error = error))
+                    emitEvent(ScannerEvent.OnFailure(error = error))
                     delay(2000)
                     _uiState.product {
                         copy(labelEvent = if (stateValue.isAutoScanned) LabelEvent.SCANNING else LabelEvent.AUTO_OFF)
@@ -263,7 +260,7 @@ class ScannerViewModel(
                 _uiState.product {
                     copy(overlay = ScannerOverlay.NONE)
                 }
-                _scannerEvent.trySend(element = ScannerEvent.OnSuccess(foodId = foodItem.id))
+                emitEvent(event = ScannerEvent.OnSuccess(foodId = foodItem.id))
             }
             .onFailure {
                 _uiState.product {

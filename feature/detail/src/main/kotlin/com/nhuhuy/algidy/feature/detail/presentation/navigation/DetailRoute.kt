@@ -30,7 +30,7 @@ fun DetailRoute(
 
     val applicationContext = LocalContext.current.applicationContext
 
-    ObserveEffect(viewModel.detailEvent) { event ->
+    ObserveEffect(viewModel.uiEvent) { event ->
         when (event) {
             DetailEvent.OnImageChangeFailed -> applicationContext.showShortToast("Failed to change image")
         }

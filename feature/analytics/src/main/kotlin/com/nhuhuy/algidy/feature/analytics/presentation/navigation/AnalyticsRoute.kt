@@ -19,7 +19,7 @@ fun AnalyticsRoute(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    ObserveEffect(viewModel.events) { event ->
+    ObserveEffect(viewModel.uiEvent) { event ->
         when (event) {
             AnalyticsEvent.NavigateBack -> onNavigateBack()
         }

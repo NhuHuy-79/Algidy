@@ -4,9 +4,10 @@ import android.app.Application
 import com.nhuhuy.algidy.di.dataModule
 import com.nhuhuy.algidy.di.databaseModule
 import com.nhuhuy.algidy.di.networkModule
-import com.nhuhuy.algidy.di.useCaseModule
-import com.nhuhuy.algidy.di.viewModelModule
+import com.nhuhuy.algidy.feature.analytics.di.analyticsModule
+import com.nhuhuy.algidy.feature.detail.di.detailModule
 import com.nhuhuy.algidy.feature.inventory.di.inventoryModule
+import com.nhuhuy.algidy.feature.scanner.di.scannerModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.GlobalContext.startKoin
@@ -25,10 +26,11 @@ class AlgidyApp : Application() {
                 listOf(
                     databaseModule,
                     dataModule,
-                    viewModelModule,
                     networkModule,
-                    useCaseModule,
-                    inventoryModule
+                    inventoryModule,
+                    detailModule,
+                    analyticsModule,
+                    scannerModule
                 )
             )
         }

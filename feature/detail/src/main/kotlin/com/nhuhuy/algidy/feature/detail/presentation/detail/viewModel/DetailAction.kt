@@ -5,8 +5,10 @@ import androidx.compose.runtime.Stable
 import com.nhuhuy.algidy.core.model.food.ItemUnit
 import com.nhuhuy.algidy.core.model.food.StorageLocation
 
+import com.nhuhuy.algidy.core.presentation.viewmodel.UiAction
+
 @Stable
-sealed interface DetailAction {
+sealed interface DetailAction : UiAction {
     sealed interface EditEntryAction : DetailAction {
         data class OnImageChange(val uri: Uri?) : EditEntryAction
         data class OnNameChange(val name: String) : EditEntryAction

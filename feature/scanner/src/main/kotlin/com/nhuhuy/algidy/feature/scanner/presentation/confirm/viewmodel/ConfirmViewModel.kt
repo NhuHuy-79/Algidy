@@ -1,7 +1,6 @@
 package com.nhuhuy.algidy.feature.scanner.presentation.confirm.viewmodel
 
 import android.net.Uri
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nhuhuy.algidy.core.data.LocalMediaStorage
 import com.nhuhuy.algidy.core.data.repository.FoodRepository
@@ -11,12 +10,10 @@ import com.nhuhuy.algidy.core.model.food.FoodItem
 import com.nhuhuy.algidy.core.model.food.ItemUnit
 import com.nhuhuy.algidy.core.model.food.StorageLocation
 import com.nhuhuy.algidy.core.model.validate.FoodValidator
-import kotlinx.coroutines.channels.BufferOverflow
-import kotlinx.coroutines.channels.Channel
+import com.nhuhuy.algidy.core.presentation.viewmodel.BaseViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -24,14 +21,10 @@ class ConfirmViewModel(
     private val foodId: String,
     private val foodRepository: FoodRepository,
     private val localMediaStorage: LocalMediaStorage
-) : ViewModel() {
-    private val _confirmEvent = Channel<ConfirmEvent>(onBufferOverflow = BufferOverflow.SUSPEND)
-    val confirmEvent = _confirmEvent.receiveAsFlow()
+) : BaseViewModel<ConfirmUiState, ConfirmEvent, ConfirmAction>() {
 
     private val _uiState = MutableStateFlow(ConfirmUiState())
-    val uiState: StateFlow<ConfirmUiState> = _uiState.asStateFlow()
-
-    private val stateValue get() = uiState.value
+    override val uiState: StateFlow<ConfirmUiState> = _uiState.asStateFlow()
 
     init {
         viewModelScope.launch {
@@ -54,7 +47,7 @@ class ConfirmViewModel(
         }
     }
 
-    fun onAction(action: ConfirmAction) {
+    override fun onAction(action: ConfirmAction) {
         when (action) {
             is ConfirmAction.OnNameChange -> onNameChange(action.name)
             is ConfirmAction.OnQuantityChange -> onQuantityChange(action.quantity)
@@ -155,9 +148,9 @@ class ConfirmViewModel(
     }
 
     private fun onSave() {
-        if (stateValue.errorState.valid) {
+        if (currentState.errorState.valid) {
             viewModelScope.launch {
-                val currentFoodItem = stateValue.foodItem
+                val currentFoodItem = currentState.foodItem
                 val imageUri = currentFoodItem.imageUri
 
                 if (imageUri != null) {
@@ -165,14 +158,14 @@ class ConfirmViewModel(
                         .onSuccess { persistentUri ->
                             val finalFoodItem = currentFoodItem.copy(imageUri = persistentUri)
                             foodRepository.addFoodItem(finalFoodItem)
-                            _confirmEvent.trySend(ConfirmEvent.OnSaveSuccessfully)
+                            emitEvent(ConfirmEvent.OnSaveSuccessfully)
                         }
                         .onFailure {
-                            _confirmEvent.trySend(ConfirmEvent.OnImageChangeFailed)
+                            emitEvent(ConfirmEvent.OnImageChangeFailed)
                         }
                 } else {
                     foodRepository.addFoodItem(currentFoodItem)
-                    _confirmEvent.trySend(ConfirmEvent.OnSaveSuccessfully)
+                    emitEvent(ConfirmEvent.OnSaveSuccessfully)
                 }
             }
         }

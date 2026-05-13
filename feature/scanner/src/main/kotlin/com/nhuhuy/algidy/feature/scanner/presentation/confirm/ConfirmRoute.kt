@@ -24,7 +24,7 @@ fun ConfirmRoute(
     val onAction = viewModel::onAction
     val applicationContext = LocalContext.current.applicationContext
 
-    ObserveEffect(viewModel.confirmEvent) { event ->
+    ObserveEffect(viewModel.uiEvent) { event ->
         when (event) {
             ConfirmEvent.OnSaveSuccessfully -> onNavigateBack()
             ConfirmEvent.OnImageChangeFailed -> applicationContext.showShortToast("Failed to save image")

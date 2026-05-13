@@ -1,22 +1,20 @@
 package com.nhuhuy.algidy.feature.detail.presentation.detail.viewModel
 
 import android.net.Uri
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nhuhuy.algidy.core.data.util.product
 import com.nhuhuy.algidy.core.model.food.FoodItem
 import com.nhuhuy.algidy.core.model.food.ItemUnit
 import com.nhuhuy.algidy.core.model.food.StorageLocation
 import com.nhuhuy.algidy.core.model.validate.FoodValidator
+import com.nhuhuy.algidy.core.presentation.viewmodel.BaseViewModel
 import com.nhuhuy.algidy.feature.detail.domain.usecase.GetFoodDetailUseCase
 import com.nhuhuy.algidy.feature.detail.domain.usecase.MarkFoodAsConsumedUseCase
 import com.nhuhuy.algidy.feature.detail.domain.usecase.MarkFoodAsWastedUseCase
 import com.nhuhuy.algidy.feature.detail.domain.usecase.UpdateFoodDetailUseCase
-import kotlinx.coroutines.channels.BufferOverflow
-import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -26,18 +24,15 @@ class DetailViewModel(
     private val markFoodAsConsumedUseCase: MarkFoodAsConsumedUseCase,
     private val markFoodAsWastedUseCase: MarkFoodAsWastedUseCase,
     private val updateFoodDetailUseCase: UpdateFoodDetailUseCase,
-) : ViewModel() {
+) : BaseViewModel<DetailUiState, DetailEvent, DetailAction>() {
     private val _uiState = MutableStateFlow(DetailUiState())
-    val uiState = _uiState.asStateFlow()
+    override val uiState: StateFlow<DetailUiState> = _uiState.asStateFlow()
     private val stateValue get() = uiState.value
     private val _editEntry = MutableStateFlow(EditEntryUiState())
     val editEntry = _editEntry.asStateFlow()
 
     private val _errorState = MutableStateFlow(EditEntryError())
     val errorState = _errorState.asStateFlow()
-
-    private val _detailEvent = Channel<DetailEvent>(onBufferOverflow = BufferOverflow.SUSPEND)
-    val detailEvent = _detailEvent.receiveAsFlow()
 
     init {
         viewModelScope.launch {
@@ -46,7 +41,7 @@ class DetailViewModel(
         }
     }
 
-    fun onAction(action: DetailAction) {
+    override fun onAction(action: DetailAction) {
         when (action) {
             DetailAction.OnWastedItem -> wasteFoodItem()
             DetailAction.OnConsumeItem -> consumeFoodItem()

@@ -1,3 +1,5 @@
 package com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel
 
-class InventoryEvent
+import com.nhuhuy.algidy.core.presentation.viewmodel.UiEvent
+
+sealed interface InventoryEvent : UiEvent

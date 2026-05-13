@@ -4,7 +4,9 @@ import android.net.Uri
 import com.nhuhuy.algidy.core.model.food.ItemUnit
 import com.nhuhuy.algidy.core.model.food.StorageLocation
 
-sealed interface ConfirmAction {
+import com.nhuhuy.algidy.core.presentation.viewmodel.UiAction
+
+sealed interface ConfirmAction : UiAction {
     data object OnDismissRequest : ConfirmAction
 
     data class OnImageChange(val uri: Uri?) : ConfirmAction

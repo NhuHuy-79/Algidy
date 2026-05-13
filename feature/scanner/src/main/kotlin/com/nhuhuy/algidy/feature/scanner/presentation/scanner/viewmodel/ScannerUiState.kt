@@ -4,6 +4,7 @@ import android.net.Uri
 import androidx.compose.runtime.Immutable
 import com.nhuhuy.algidy.core.model.food.FoodItem
 import com.nhuhuy.algidy.core.presentation.UiResult
+import com.nhuhuy.algidy.core.presentation.viewmodel.UiState
 import com.nhuhuy.algidy.feature.scanner.presentation.scanner.ScannerMode
 
 @Immutable
@@ -19,7 +20,7 @@ data class ScannerUiState(
     val stagedImageUri: Uri? = null,
     val productionDate: String? = null,
     val expiryDate: String? = null,
-)
+) : UiState
 
 enum class LabelEvent {
     NONE, AUTO_OFF, SCANNING, FAILURE

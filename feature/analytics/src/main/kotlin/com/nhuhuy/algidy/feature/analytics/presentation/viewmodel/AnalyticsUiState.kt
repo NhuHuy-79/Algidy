@@ -3,6 +3,7 @@ package com.nhuhuy.algidy.feature.analytics.presentation.viewmodel
 import androidx.compose.runtime.Immutable
 import com.nhuhuy.algidy.core.model.food.Freshness
 import com.nhuhuy.algidy.core.model.food.StorageLocation
+import com.nhuhuy.algidy.core.presentation.viewmodel.UiState
 import com.nhuhuy.algidy.feature.analytics.domain.model.DailyFreshnessStats
 
 @Immutable
@@ -12,7 +13,7 @@ data class AnalyticsUiState(
     val expiryChartUiModel: ExpiryChartUiModel = ExpiryChartUiModel(),
     val wastedByCategory: List<CategoryWasteUiModel> = emptyList(),
     val isLoading: Boolean = false,
-) {
+) : UiState {
     private val totalCount: Float get() = (wastedCount + consumedCount).toFloat()
     val wastedPercent: Float get() = if (totalCount > 0) wastedCount / totalCount else 0f
     val consumedPercent: Float get() = if (totalCount > 0) 1f - wastedPercent else 0f
