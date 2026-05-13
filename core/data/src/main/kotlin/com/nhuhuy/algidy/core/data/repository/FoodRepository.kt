@@ -8,10 +8,10 @@ import kotlinx.coroutines.flow.Flow
 interface FoodRepository {
     //CREATE
     suspend fun addFoodItem(item: FoodItem): Resource<FoodItem>
-
     //READ
     suspend fun getFoodById(id: String): FoodItem?
     suspend fun scanFoodBarcode(barcodeString: String): Resource<FoodItem>
+    suspend fun getAllFoodItems(): List<FoodItem>
     fun observeFoodItems(): Flow<List<FoodItem>>
     fun observeAllFoodItems(): Flow<List<FoodItem>>
 

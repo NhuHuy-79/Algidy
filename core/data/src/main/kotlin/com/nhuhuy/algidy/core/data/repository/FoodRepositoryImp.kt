@@ -11,6 +11,7 @@ import com.nhuhuy.algidy.core.model.food.FoodStatus
 import com.nhuhuy.algidy.core.network.data_source.FoodRemoteDataSource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.withContext
 
 class FoodRepositoryImpl(
     private val appDispatchers: AppDispatchers,
@@ -23,6 +24,14 @@ class FoodRepositoryImpl(
         }
     }
 
+    override suspend fun getAllFoodItems(): List<FoodItem> {
+        return withContext(appDispatchers.io) {
+            foodDao.getAllFoodItems().map { foodItemEntity ->
+                foodItemEntity.toDomain()
+            }
+        }
+    }
+
     override fun observeFoodItems(): Flow<List<FoodItem>> {
         return foodDao.observeAllFoodItemsByStatus(status = FoodStatus.ACTIVE).map { entities ->
             entities.map { it.toDomain() }
@@ -30,7 +39,7 @@ class FoodRepositoryImpl(
     }
 
     override fun observeAllFoodItems(): Flow<List<FoodItem>> {
-        return foodDao.getAllFoodItems().map { entities ->
+        return foodDao.observeAllFoodItems().map { entities ->
             entities.map { it.toDomain() }
         }
     }

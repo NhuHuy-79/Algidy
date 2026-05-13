@@ -12,11 +12,7 @@ class NotificationHelper(private val context: Context) {
         const val CHANNEL_NAME = "Food Expiry Alerts"
     }
 
-    init {
-        createNotificationChannel()
-    }
-
-    private fun createNotificationChannel() {
+    fun createNotificationChannel() {
         val importance = NotificationManager.IMPORTANCE_DEFAULT
         val channel = NotificationChannel(CHANNEL_ID, CHANNEL_NAME, importance).apply {
             description = "Notifications for foods that are about to expire"

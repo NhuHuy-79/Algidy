@@ -14,8 +14,10 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface FoodDao {
     @Query("SELECT * FROM food_items ORDER BY expiry_date ASC")
-    fun getAllFoodItems(): Flow<List<FoodItemEntity>>
+    fun observeAllFoodItems(): Flow<List<FoodItemEntity>>
 
+    @Query("SELECT * FROM food_items ORDER BY expiry_date ASC")
+    fun getAllFoodItems(): List<FoodItemEntity>
     @Query("SELECT * FROM food_items WHERE status = :status ORDER BY expiry_date ASC")
     fun observeAllFoodItemsByStatus(status: FoodStatus): Flow<List<FoodItemEntity>>
 
