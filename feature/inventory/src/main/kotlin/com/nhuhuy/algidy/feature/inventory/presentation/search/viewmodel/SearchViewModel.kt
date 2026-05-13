@@ -48,9 +48,9 @@ class SearchViewModel(
             }
 
             is SearchAction.OnSearch -> viewModelScope.launch {
+                _uiState.product { copy(isLoading = true) }
                 val searchResults = searchFoodUseCase(currentState.query)
-                    .map { result -> result.name }
-                _uiState.product { copy(searchResults = searchResults) }
+                _uiState.product { copy(searchResults = searchResults, isLoading = false) }
             }
         }
     }

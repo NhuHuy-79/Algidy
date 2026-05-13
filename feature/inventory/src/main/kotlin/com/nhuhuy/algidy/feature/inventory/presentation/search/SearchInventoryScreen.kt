@@ -1,7 +1,9 @@
 package com.nhuhuy.algidy.feature.inventory.presentation.search
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -9,6 +11,7 @@ import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SearchBar
 import androidx.compose.material3.SearchBarDefaults
@@ -27,6 +30,7 @@ import com.nhuhuy.algidy.feature.inventory.presentation.search.viewmodel.SearchU
 @Composable
 fun SearchInventoryScreen(
     uiState: SearchUiState,
+    onNavigateToDetail: (id: String) -> Unit,
     onBackClick: () -> Unit,
     onAction: (SearchAction) -> Unit,
 ) {
@@ -79,9 +83,15 @@ fun SearchInventoryScreen(
                 )
             }
         ) {
+            AnimatedVisibility(
+                visible = uiState.isLoading
+            ) {
+                LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
+            }
             SearchContent(
                 uiState = uiState,
-                onAction = onAction
+                onAction = onAction,
+                onSearchResultClick = onNavigateToDetail
             )
         }
     }

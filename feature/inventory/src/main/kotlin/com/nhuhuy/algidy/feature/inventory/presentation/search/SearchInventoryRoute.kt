@@ -9,13 +9,15 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun SearchInventoryRoute(
     viewModel: SearchViewModel = koinViewModel(),
-    onNavigateBack: () -> Unit
+    onNavigateBack: () -> Unit,
+    onNavigateToDetail: (id: String) -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val onAction = viewModel::onAction
     SearchInventoryScreen(
         uiState = uiState,
         onBackClick = onNavigateBack,
+        onNavigateToDetail = onNavigateToDetail,
         onAction = onAction,
     )
 }

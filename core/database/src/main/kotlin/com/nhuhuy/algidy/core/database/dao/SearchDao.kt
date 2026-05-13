@@ -13,7 +13,7 @@ interface SearchDao {
     @Query(
         """
         SELECT food_items.* FROM food_items
-        JOIN inventory_items_fts ON food_items.id = inventory_items_fts.rowid
+        JOIN inventory_items_fts ON food_items.id = inventory_items_fts.id
         WHERE inventory_items_fts MATCH :searchQuery
     """
     )

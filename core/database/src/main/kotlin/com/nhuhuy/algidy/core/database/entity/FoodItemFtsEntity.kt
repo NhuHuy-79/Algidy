@@ -7,6 +7,9 @@ import androidx.room.Fts4
 @Fts4(contentEntity = FoodItemEntity::class)
 @Entity(tableName = "inventory_items_fts")
 data class InventoryItemFtsEntity(
+    @ColumnInfo(name = "id")
+    val id: String,
+
     @ColumnInfo(name = "name")
     val name: String
 )

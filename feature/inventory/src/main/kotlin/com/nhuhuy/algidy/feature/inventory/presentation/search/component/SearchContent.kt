@@ -28,6 +28,7 @@ import com.nhuhuy.algidy.feature.inventory.presentation.search.viewmodel.SearchU
 @Composable
 fun SearchContent(
     uiState: SearchUiState,
+    onSearchResultClick: (id: String) -> Unit,
     onAction: (SearchAction) -> Unit
 ) {
     if (uiState.query.isEmpty()) {
@@ -66,9 +67,12 @@ fun SearchContent(
         ) {
             items(uiState.searchResults) { result ->
                 ListItem(
-                    headlineContent = { Text(result, fontWeight = FontWeight.SemiBold) },
+                    headlineContent = { Text(result.name, fontWeight = FontWeight.SemiBold) },
                     leadingContent = { Icon(Icons.Default.Search, contentDescription = null) },
-                    modifier = Modifier.clickable { /* Handle Click */ }
+                    modifier = Modifier.clickable {
+                        onSearchResultClick(result.id)
+                    },
+                    colors = ListItemDefaults.colors(containerColor = Color.Transparent)
                 )
             }
         }
