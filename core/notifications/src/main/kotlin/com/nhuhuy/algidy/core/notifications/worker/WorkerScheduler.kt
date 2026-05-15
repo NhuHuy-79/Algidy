@@ -8,7 +8,7 @@ import androidx.work.WorkManager
 import java.util.concurrent.TimeUnit
 
 object WorkerStrings {
-    const val dailyWorker = "DAILY_CHECK_EXPIRY_WORKER"
+    const val DAILY_WORKER = "DAILY_CHECK_EXPIRY_WORKER"
 }
 
 interface WorkerScheduler {
@@ -32,7 +32,7 @@ class WorkerSchedulerImp(
             .build()
 
         workManager.enqueueUniquePeriodicWork(
-            uniqueWorkName = WorkerStrings.dailyWorker,
+            uniqueWorkName = WorkerStrings.DAILY_WORKER,
             existingPeriodicWorkPolicy = ExistingPeriodicWorkPolicy.KEEP,
             request = dailyRequest
         )

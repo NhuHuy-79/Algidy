@@ -1,5 +1,6 @@
 package com.nhuhuy.algidy.core.notifications.di
 
+import com.nhuhuy.algidy.core.notifications.NotificationHelper
 import com.nhuhuy.algidy.core.notifications.domain.usecase.GetExpiryFoodUseCase
 import com.nhuhuy.algidy.core.notifications.worker.CheckExpirationWorker
 import com.nhuhuy.algidy.core.notifications.worker.WorkerScheduler
@@ -12,7 +13,7 @@ import org.koin.dsl.module
 
 val notificationModule = module {
     singleOf(::WorkerSchedulerImp) bind WorkerScheduler::class
-
+    factoryOf(::NotificationHelper)
     //UseCase
     factoryOf(::GetExpiryFoodUseCase)
     //Worker

@@ -32,6 +32,7 @@ data class FreshnessChartData(
     val values: List<Double>
 )
 
+
 @Immutable
 data class ExpiryChartUiModel(
     val items: List<FreshnessChartData> = emptyList(),

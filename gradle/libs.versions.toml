@@ -4,6 +4,7 @@ agp = "8.13.2"
 chart = "1.1.0"
 chartsStackedBar = "2.2.0"
 composeCharts = "0.2.5"
+composeChartsVersion = "0.1.10"
 koinAndroidxWorkmanager = "4.0.0"
 kotlin = "2.1.10"
 coreKtx = "1.18.0"
@@ -45,6 +46,7 @@ androidxWork = "2.11.2"
 accompanist-permissions = { module = "com.google.accompanist:accompanist-permissions", version.ref = "accompanistPermissions" }
 androidx-datastore-preferences = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "androidxDatastore" }
 androidx-work-runtime-ktx = { group = "androidx.work", name = "work-runtime-ktx", version.ref = "androidxWork" }
+compose-charts-v0110 = { module = "io.github.ehsannarmani:compose-charts", version.ref = "composeChartsVersion" }
 koin-androidx-workmanager = { module = "io.insert-koin:koin-androidx-workmanager", version.ref = "koinAndroidxWorkmanager" }
 kotlinx-coroutines-play-services = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services", version.ref = "kotlinxCoroutinesPlayServices" }
 vico-compose = { group = "com.patrykandpatrick.vico", name = "compose", version.ref = "vico" }

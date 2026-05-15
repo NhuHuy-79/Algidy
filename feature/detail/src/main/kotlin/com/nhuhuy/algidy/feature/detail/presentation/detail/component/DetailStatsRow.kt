@@ -15,7 +15,6 @@ import androidx.compose.material.icons.rounded.Fastfood
 import androidx.compose.material.icons.rounded.Inventory2
 import androidx.compose.material.icons.rounded.Kitchen
 import androidx.compose.material.icons.rounded.Scale
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -45,10 +44,6 @@ fun DetailStatsRow(
     CardLayout(
         icon = Icons.Rounded.Fastfood,
         title = "Food Stats",
-        cardColors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
-            contentColor = MaterialTheme.colorScheme.onSurface
-        )
     ) {
         Row(
             modifier = modifier.fillMaxWidth(),
