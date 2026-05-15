@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.nhuhuy.algidy.core.notifications">
+
+    <application>
+        <receiver
+            android:name=".receiver.NotificationActionReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.nhuhuy.algidy.ACTION_CONSUME" />
+                <action android:name="com.nhuhuy.algidy.ACTION_WASTE" />
+            </intent-filter>
+        </receiver>
+    </application>
+
+</manifest>

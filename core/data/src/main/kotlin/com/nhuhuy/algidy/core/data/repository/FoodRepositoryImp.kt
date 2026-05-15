@@ -55,7 +55,7 @@ class FoodRepositoryImpl(
         newStatus: FoodStatus
     ): Resource<String> {
         return safeCall(dispatcher = appDispatchers.io) {
-            foodDao.updateFoodStatus(id, newStatus)
+            foodDao.updateFoodStatus(id, newStatus, System.currentTimeMillis())
             id
         }
     }

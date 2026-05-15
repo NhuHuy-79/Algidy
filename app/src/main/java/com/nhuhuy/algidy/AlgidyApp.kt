@@ -1,7 +1,7 @@
 package com.nhuhuy.algidy
 
 import android.app.Application
-import com.nhuhuy.algidy.core.notifications.NotificationHelper
+import com.nhuhuy.algidy.core.notifications.data.NotificationChannelManager
 import com.nhuhuy.algidy.core.notifications.di.notificationModule
 import com.nhuhuy.algidy.core.notifications.worker.WorkerScheduler
 import com.nhuhuy.algidy.di.dataModule
@@ -23,7 +23,6 @@ import timber.log.Timber
 
 class AlgidyApp : Application(), KoinComponent {
     private val workerScheduler: WorkerScheduler by inject()
-    private val notificationHelper: NotificationHelper by inject()
     override fun onCreate() {
         super.onCreate()
         plantTimber()
@@ -44,12 +43,12 @@ class AlgidyApp : Application(), KoinComponent {
                 )
             )
         }
-        notificationHelper.createNotificationChannel()
+        NotificationChannelManager.createAllChannels(this)
         workerScheduler.scheduleCheckExpiryWorker()
+        workerScheduler.scheduleWeeklyReportWorker()
     }
 
     private fun plantTimber() {
         Timber.plant(Timber.DebugTree())
     }
 }
-

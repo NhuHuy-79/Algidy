@@ -24,8 +24,8 @@ fun DetailRoute(
     onNavigateBack: () -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    val errorState by viewModel.errorState.collectAsStateWithLifecycle()
-    val editEntry by viewModel.editEntry.collectAsStateWithLifecycle()
+    val entryError by viewModel.entryError.collectAsStateWithLifecycle()
+    val entryState by viewModel.entryState.collectAsStateWithLifecycle()
     val onAction = viewModel::onAction
 
     val applicationContext = LocalContext.current.applicationContext
@@ -82,8 +82,8 @@ fun DetailRoute(
 
             DetailOverlay.Edit -> {
                 EditFoodBottomSheet(
-                    editEntry = editEntry,
-                    errorState = errorState,
+                    editEntry = entryState,
+                    errorState = entryError,
                     onAction = onAction
                 )
             }

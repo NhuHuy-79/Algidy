@@ -2,10 +2,6 @@ package com.nhuhuy.algidy.feature.detail.presentation.detail.viewModel
 
 import androidx.compose.runtime.Immutable
 import com.nhuhuy.algidy.core.model.food.FoodItem
-import com.nhuhuy.algidy.core.model.food.ItemUnit
-import com.nhuhuy.algidy.core.model.food.StorageLocation
-import com.nhuhuy.algidy.core.model.validate.ValidationResult
-
 import com.nhuhuy.algidy.core.presentation.viewmodel.UiState
 
 @Immutable
@@ -13,52 +9,6 @@ data class DetailUiState(
     val detailFoodItem: FoodItem = FoodItem(),
     val actionState: DetailOverlay = DetailOverlay.None,
 ) : UiState
-
-@Immutable
-data class EditEntryUiState(
-    val name: String = "",
-    val categoryId: String = "",
-    val location: StorageLocation = StorageLocation.FRIDGE,
-    val quantity: Double = 0.0,
-    val itemUnit: ItemUnit = ItemUnit.KG,
-    val purchaseDate: Long = System.currentTimeMillis(),
-    val expiryDate: Long = -1,
-    val imageUri: String? = null,
-    val isFavorite: Boolean = false,
-    val notes: String = ""
-)
-
-@Immutable
-data class EditEntryError(
-    val nameValidation: ValidationResult = ValidationResult.IDLE,
-    val quantityValidation: ValidationResult = ValidationResult.IDLE,
-    val expiryDateValidation: ValidationResult = ValidationResult.IDLE,
-    val purchaseDateValidation: ValidationResult = ValidationResult.IDLE
-) {
-    val isNameError: Boolean
-        get() = nameValidation !in listOf(
-            ValidationResult.SUCCESS,
-            ValidationResult.IDLE
-        )
-    val isQuantityError: Boolean
-        get() = quantityValidation !in listOf(
-            ValidationResult.SUCCESS,
-            ValidationResult.IDLE
-        )
-    val isPurchaseDateError: Boolean
-        get() = purchaseDateValidation !in listOf(
-            ValidationResult.SUCCESS,
-            ValidationResult.IDLE
-        )
-    val isExpiryDateError: Boolean
-        get() = expiryDateValidation !in listOf(
-            ValidationResult.SUCCESS,
-            ValidationResult.IDLE
-        )
-    val valid: Boolean
-        get() = !isPurchaseDateError && !isExpiryDateError && !isNameError && !isQuantityError
-
-}
 
 enum class DetailOverlay {
     None,
