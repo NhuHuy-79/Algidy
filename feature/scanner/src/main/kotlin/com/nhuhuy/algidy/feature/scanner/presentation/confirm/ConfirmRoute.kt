@@ -16,13 +16,15 @@ import com.nhuhuy.algidy.feature.scanner.presentation.confirm.viewmodel.ConfirmA
 import com.nhuhuy.algidy.feature.scanner.presentation.confirm.viewmodel.ConfirmEvent
 import com.nhuhuy.algidy.feature.scanner.presentation.confirm.viewmodel.ConfirmOverlay
 import com.nhuhuy.algidy.feature.scanner.presentation.confirm.viewmodel.ConfirmViewModel
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun ConfirmRoute(
     onNavigateBack: () -> Unit,
-    viewModel: ConfirmViewModel
+    viewModel: ConfirmViewModel = koinViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    viewModel::onEntryAction
     val onAction = viewModel::onAction
     val applicationContext = LocalContext.current.applicationContext
 

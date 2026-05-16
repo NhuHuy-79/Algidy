@@ -10,6 +10,8 @@ import com.nhuhuy.algidy.core.model.food.FoodItem
 import com.nhuhuy.algidy.core.model.food.ItemUnit
 import com.nhuhuy.algidy.core.model.food.StorageLocation
 import com.nhuhuy.algidy.core.model.validate.FoodValidator
+import com.nhuhuy.algidy.core.presentation.delegate.FoodEntryDelegate
+import com.nhuhuy.algidy.core.presentation.delegate.FoodEntryDelegateImpl
 import com.nhuhuy.algidy.core.presentation.viewmodel.BaseViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -20,8 +22,10 @@ import kotlinx.coroutines.launch
 class ConfirmViewModel(
     private val foodId: String,
     private val foodRepository: FoodRepository,
-    private val localMediaStorage: LocalMediaStorage
-) : BaseViewModel<ConfirmUiState, ConfirmEvent, ConfirmAction>() {
+    private val localMediaStorage: LocalMediaStorage,
+    private val foodEntryDelegateImpl: FoodEntryDelegateImpl
+) : BaseViewModel<ConfirmUiState, ConfirmEvent, ConfirmAction>(),
+    FoodEntryDelegate by foodEntryDelegateImpl {
 
     private val _uiState = MutableStateFlow(ConfirmUiState())
     override val uiState: StateFlow<ConfirmUiState> = _uiState.asStateFlow()

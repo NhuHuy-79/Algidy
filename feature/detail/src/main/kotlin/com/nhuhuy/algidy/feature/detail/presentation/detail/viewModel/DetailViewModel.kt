@@ -4,6 +4,7 @@ import android.net.Uri
 import androidx.lifecycle.viewModelScope
 import com.nhuhuy.algidy.core.data.util.product
 import com.nhuhuy.algidy.core.presentation.delegate.FoodEntryDelegate
+import com.nhuhuy.algidy.core.presentation.delegate.FoodEntryDelegateImpl
 import com.nhuhuy.algidy.core.presentation.viewmodel.BaseViewModel
 import com.nhuhuy.algidy.feature.detail.domain.usecase.GetFoodDetailUseCase
 import com.nhuhuy.algidy.feature.detail.domain.usecase.MarkFoodAsConsumedUseCase
@@ -20,8 +21,9 @@ class DetailViewModel(
     private val markFoodAsConsumedUseCase: MarkFoodAsConsumedUseCase,
     private val markFoodAsWastedUseCase: MarkFoodAsWastedUseCase,
     private val updateFoodDetailUseCase: UpdateFoodDetailUseCase,
-    private val entryDelegate: FoodEntryDelegate,
-) : BaseViewModel<DetailUiState, DetailEvent, DetailAction>(), FoodEntryDelegate by entryDelegate {
+    private val foodEntryDelegateImpl: FoodEntryDelegateImpl,
+) : BaseViewModel<DetailUiState, DetailEvent, DetailAction>(),
+    FoodEntryDelegate by foodEntryDelegateImpl {
 
     private val _uiState = MutableStateFlow(DetailUiState())
     override val uiState: StateFlow<DetailUiState> = _uiState.asStateFlow()
@@ -41,22 +43,8 @@ class DetailViewModel(
         when (action) {
             DetailAction.OnDismiss -> updateActionState(DetailOverlay.None)
             DetailAction.OnEditItem -> updateActionState(DetailOverlay.Edit)
-            DetailAction.OnConsumeItem -> {
-                if (stateValue.actionState == DetailOverlay.Consume) {
-                    consumeFoodItem()
-                } else {
-                    updateActionState(DetailOverlay.Consume)
-                }
-            }
-
-            DetailAction.OnWastedItem -> {
-                if (stateValue.actionState == DetailOverlay.Wasted) {
-                    wasteFoodItem()
-                } else {
-                    updateActionState(DetailOverlay.Wasted)
-                }
-            }
-
+            DetailAction.OnConsumeItem -> consumeFoodItem()
+            DetailAction.OnWastedItem -> wasteFoodItem()
             is DetailAction.EditEntryAction -> {
                 when (action) {
                     is DetailAction.EditEntryAction.OnSave -> onUpdateFoodItem()
@@ -64,14 +52,8 @@ class DetailViewModel(
                     is DetailAction.EditEntryAction.OnEntryAction -> onEntryAction(action.action)
                 }
             }
-
-            DetailAction.OnConsumeFabPress -> {
-                updateActionState(DetailOverlay.Consume)
-            }
-
-            DetailAction.OnWasteFabPress -> {
-                updateActionState(DetailOverlay.Wasted)
-            }
+            DetailAction.OnConsumeFabPress -> updateActionState(DetailOverlay.Consume)
+            DetailAction.OnWasteFabPress -> updateActionState(DetailOverlay.Wasted)
         }
     }
 

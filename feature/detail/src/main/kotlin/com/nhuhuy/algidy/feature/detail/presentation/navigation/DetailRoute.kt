@@ -42,8 +42,8 @@ fun DetailRoute(
             onBackPress = onNavigateBack,
             onImageChange = { uri -> onAction(DetailAction.EditEntryAction.OnImageChange(uri)) },
             openEditSheet = { onAction(DetailAction.OnEditItem) },
-            openWastedDialog = { onAction(DetailAction.OnWastedItem) },
-            openConsumedDialog = { onAction(DetailAction.OnConsumeItem) }
+            openWastedDialog = { onAction(DetailAction.OnWasteFabPress) },
+            openConsumedDialog = { onAction(DetailAction.OnConsumeFabPress) }
         )
 
         when (uiState.actionState) {
