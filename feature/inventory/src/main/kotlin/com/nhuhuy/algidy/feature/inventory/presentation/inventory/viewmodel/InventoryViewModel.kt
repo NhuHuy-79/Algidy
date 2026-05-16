@@ -3,9 +3,11 @@ package com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel
 import androidx.lifecycle.viewModelScope
 import com.nhuhuy.algidy.core.data.repository.FoodRepository
 import com.nhuhuy.algidy.core.data.util.product
+import com.nhuhuy.algidy.core.model.food.FoodItem
 import com.nhuhuy.algidy.core.presentation.delegate.FoodEntryDelegate
 import com.nhuhuy.algidy.core.presentation.delegate.FoodEntryDelegateImpl
 import com.nhuhuy.algidy.core.presentation.viewmodel.BaseViewModel
+import com.nhuhuy.algidy.feature.inventory.domain.usecase.CreateFoodItemUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -18,6 +20,7 @@ import kotlinx.coroutines.launch
 class InventoryViewModel(
     private val repository: FoodRepository,
     private val foodEntryDelegateImpl: FoodEntryDelegateImpl,
+    private val createFoodItemUseCase: CreateFoodItemUseCase,
 ) : BaseViewModel<InventoryUiState, InventoryEvent, InventoryAction>(),
     FoodEntryDelegate by foodEntryDelegateImpl {
     private val _uiState = MutableStateFlow(InventoryUiState())
@@ -43,9 +46,17 @@ class InventoryViewModel(
                 }
             }
 
-            InventoryAction.OnManualAddClick -> _uiState.product {
+            InventoryAction.OnAddFabClick -> _uiState.product {
                 copy(overlay = InventoryOverlay.FOOD_SHEET)
+            }
+
+            InventoryAction.OnDismiss -> _uiState.product { copy(overlay = InventoryOverlay.NONE) }
+            InventoryAction.OnManuallyClick -> viewModelScope.launch {
+                val foodEntry: FoodItem = getResultFoodItem()
+                _uiState.product { copy(overlay = InventoryOverlay.NONE) }
+                createFoodItemUseCase(foodItem = foodEntry)
             }
         }
     }
+
 }

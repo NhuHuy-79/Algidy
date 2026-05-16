@@ -43,13 +43,14 @@ import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.Inve
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.InventoryTopBar
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.LoadingPage
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryResultState
+import com.nhuhuy.algidy.feature.inventory.utils.GridCategory
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun InventoryScreen(
     inventoryResultState: InventoryResultState,
-    categories: List<String>,
     onSearchClick: () -> Unit,
     onAnalyticsClick: () -> Unit,
     onSettingClick: () -> Unit,
@@ -57,6 +58,7 @@ fun InventoryScreen(
     onManualAddClick: () -> Unit,
     onItemClick: (String) -> Unit,
 ) {
+    val categories = GridCategory.entries.toImmutableList()
     var expanded by remember { mutableStateOf(false) }
     var sortMode by remember { mutableStateOf(InventorySortMode.NONE) }
     var showExpiredOnly by remember { mutableStateOf(false) }
@@ -231,10 +233,11 @@ fun List<FoodItem>.getFilteredAndSortedList(
     showExpiredOnly: Boolean
 ): List<FoodItem> {
     val filteredByLocation = when (pageIndex) {
-        0 -> this.filter { it.location == StorageLocation.FRIDGE }
-        1 -> this.filter { it.location == StorageLocation.FREEZER }
-        2 -> this.filter { it.location == StorageLocation.PANTRY }
-        3 -> this.filter { it.location == StorageLocation.OTHER }
+        0 -> this
+        1 -> this.filter { it.location == StorageLocation.FRIDGE }
+        2 -> this.filter { it.location == StorageLocation.FREEZER }
+        3 -> this.filter { it.location == StorageLocation.PANTRY }
+        4 -> this.filter { it.location == StorageLocation.OTHER }
         else -> this
     }
 

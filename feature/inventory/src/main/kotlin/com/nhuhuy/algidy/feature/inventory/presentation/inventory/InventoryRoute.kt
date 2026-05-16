@@ -4,8 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.nhuhuy.algidy.core.designsystem.component.BoxLayout
-import com.nhuhuy.algidy.core.model.food.StorageLocation
-import com.nhuhuy.algidy.core.presentation.component.FoodEntryForm
+import com.nhuhuy.algidy.core.presentation.component.FoodEntryBottomSheet
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryAction
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryOverlay
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryViewModel
@@ -28,12 +27,9 @@ fun InventoryRoute(
     val onAction = viewModel::onAction
     InventoryScreen(
         inventoryResultState = inventoryResultState,
-        categories = StorageLocation.entries.map { location -> location.name },
         onSearchClick = onNavigateToSearch,
         onItemClick = onNavigateToDetail,
-        onManualAddClick = {
-            onAction(InventoryAction.OnManualAddClick)
-        },
+        onManualAddClick = { onAction(InventoryAction.OnAddFabClick) },
         onAnalyticsClick = onNavigateToAnalytics,
         onSettingClick = onNavigateToSetting,
         onBarcodeScanClick = onNavigateToCamera,
@@ -41,10 +37,12 @@ fun InventoryRoute(
 
     when (uiState.overlay) {
         InventoryOverlay.NONE -> Unit
-        InventoryOverlay.FOOD_SHEET -> FoodEntryForm(
-            entryState = entryState,
-            errorState = errorState,
-            onAction = onEntryAction
+        InventoryOverlay.FOOD_SHEET -> FoodEntryBottomSheet(
+            onDismiss = { onAction(InventoryAction.OnDismiss) },
+            foodEntryState = entryState,
+            foodEntryError = errorState,
+            onEntryAction = onEntryAction,
+            onAddManually = { onAction(InventoryAction.OnManuallyClick) }
         )
     }
 

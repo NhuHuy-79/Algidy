@@ -1,6 +1,7 @@
 package com.nhuhuy.algidy.core.designsystem.component
 
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -20,10 +21,10 @@ import com.nhuhuy.algidy.core.designsystem.theme.AlgidyTheme
 
 @Composable
 fun AppButton(
+    modifier: Modifier = Modifier,
     enabled: Boolean = true,
     text: String,
     onClick: () -> Unit,
-    modifier: Modifier = Modifier,
     icon: ImageVector,
     colors: ButtonColors = ButtonDefaults.buttonColors(
         containerColor = MaterialTheme.colorScheme.primary,
@@ -33,7 +34,8 @@ fun AppButton(
     Button(
         enabled = enabled,
         onClick = onClick,
-        modifier = modifier,
+        modifier = modifier
+            .height(48.dp),
         shape = RoundedCornerShape(32.dp),
         colors = colors
     ) {

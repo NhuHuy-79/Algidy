@@ -14,4 +14,8 @@ dependencies {
     api(libs.androidx.lifecycle.runtime.ktx)
     api(libs.androidx.activity.compose)
     api(libs.koin.compose)
+
+    //Immutable Collection
+    api(libs.kotlinx.collections.immutable)
+
 }

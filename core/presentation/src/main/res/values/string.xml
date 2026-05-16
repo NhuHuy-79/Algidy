@@ -36,6 +36,12 @@
     <string name="inventory_menu_expired_only">Expired Only</string>
     <string name="inventory_menu_reset">Reset All</string>
 
+    <!--Grid Category-->
+    <string name="category_add">All</string>
+    <string name="category_fridge">Fridge</string>
+    <string name="category_freezer">Freezer</string>
+    <string name="category_pantry">Pantry</string>
+    <string name="category_other">Other</string>
     <!-- Search Screen -->
     <string name="search_placeholder">Search your product in fridge…</string>
     <string name="search_history_title">Recent</string>

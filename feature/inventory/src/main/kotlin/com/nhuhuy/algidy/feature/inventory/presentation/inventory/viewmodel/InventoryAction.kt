@@ -7,5 +7,7 @@ import com.nhuhuy.algidy.core.presentation.viewmodel.UiAction
 @Stable
 sealed interface InventoryAction : UiAction {
     data class RemoveItem(val id: String) : InventoryAction
-    data object OnManualAddClick : InventoryAction
+    data object OnAddFabClick : InventoryAction
+    data object OnManuallyClick : InventoryAction
+    data object OnDismiss : InventoryAction
 }
