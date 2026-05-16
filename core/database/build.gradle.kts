@@ -17,4 +17,5 @@ dependencies {
     api(libs.room.runtime)
     api(libs.room.ktx)
     ksp(libs.room.compiler)
+    api("androidx.sqlite:sqlite-ktx:2.7.0-alpha01")
 }

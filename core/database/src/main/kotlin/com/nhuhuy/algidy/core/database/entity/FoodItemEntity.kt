@@ -16,6 +16,9 @@ data class FoodItemEntity(
     @ColumnInfo(name = "name")
     val name: String,
 
+    @ColumnInfo(name = "normalized_name", defaultValue = "")
+    val normalizedName: String = "",
+
     @ColumnInfo(name = "category_id")
     val categoryId: String,
 

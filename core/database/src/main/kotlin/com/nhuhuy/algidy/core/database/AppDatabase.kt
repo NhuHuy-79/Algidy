@@ -18,11 +18,10 @@ import com.nhuhuy.algidy.core.database.entity.WasteEntity
         SearchHistoryEntity::class,
         InventoryItemFtsEntity::class
     ],
-    version = 6,
+    version = 8,
     exportSchema = true,
     autoMigrations = [
         AutoMigration(from = 4, to = 5),
-
     ]
 )
 abstract class AppDatabase : RoomDatabase() {

@@ -10,6 +10,6 @@ data class InventoryItemFtsEntity(
     @ColumnInfo(name = "id")
     val id: String,
 
-    @ColumnInfo(name = "name")
-    val name: String
+    @ColumnInfo(name = "normalized_name")
+    val normalizedName: String
 )

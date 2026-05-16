@@ -10,12 +10,13 @@ import com.nhuhuy.algidy.core.database.entity.SearchHistoryEntity
 
 @Dao
 interface SearchDao {
+
     @Query(
         """
-        SELECT food_items.* FROM food_items
-        JOIN inventory_items_fts ON food_items.id = inventory_items_fts.id
-        WHERE inventory_items_fts MATCH :searchQuery
-    """
+    SELECT food_items.* FROM food_items
+    JOIN inventory_items_fts ON food_items.id = inventory_items_fts.id
+    WHERE inventory_items_fts.normalized_name MATCH :searchQuery
+"""
     )
     fun searchInventory(searchQuery: String): List<FoodItemEntity>
 

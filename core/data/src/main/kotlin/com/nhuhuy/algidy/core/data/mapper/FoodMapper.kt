@@ -7,6 +7,7 @@ import com.nhuhuy.algidy.core.model.food.FoodItem
 import com.nhuhuy.algidy.core.model.food.ItemUnit
 import com.nhuhuy.algidy.core.model.food.StorageLocation
 import com.nhuhuy.algidy.core.network.model.FoodApiResponse
+import com.nhuhuy.algidy.toGenericNormalized
 import java.util.UUID
 
 
@@ -60,6 +61,7 @@ fun FoodItemEntity.toDomain() = FoodItem(
 fun FoodItem.toEntity() = FoodItemEntity(
     id = id,
     name = name,
+    normalizedName = name.toGenericNormalized(),
     categoryId = categoryId,
     location = location,
     quantity = quantity,
