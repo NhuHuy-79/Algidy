@@ -2,21 +2,26 @@
 
 package com.nhuhuy.algidy.feature.inventory.presentation.inventory
 
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
-import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan
 import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -32,97 +37,157 @@ import com.nhuhuy.algidy.core.model.food.FoodItem
 import com.nhuhuy.algidy.core.model.food.Freshness
 import com.nhuhuy.algidy.core.model.food.StorageLocation
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.EmptyPage
-import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.EmptyPantryState
+import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.InventoryFabMenu
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.InventoryFoodItem
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.InventoryTabRow
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.InventoryTopBar
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.LoadingPage
-import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryUiState
+import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryResultState
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalFoundationApi::class)
+@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun InventoryScreen(
-    uiState: InventoryUiState,
+    inventoryResultState: InventoryResultState,
     categories: List<String>,
     onSearchClick: () -> Unit,
-    onScanClick: () -> Unit,
+    onAnalyticsClick: () -> Unit,
+    onSettingClick: () -> Unit,
+    onBarcodeScanClick: () -> Unit,
     onManualAddClick: () -> Unit,
     onItemClick: (String) -> Unit,
-    modifier: Modifier = Modifier
 ) {
+    var expanded by remember { mutableStateOf(false) }
     var sortMode by remember { mutableStateOf(InventorySortMode.NONE) }
     var showExpiredOnly by remember { mutableStateOf(false) }
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
     val pagerState = rememberPagerState(pageCount = { categories.size })
     val scope = rememberCoroutineScope()
+    val scrimAlpha by animateFloatAsState(
+        targetValue = if (expanded) 0.6f else 0f,
+        label = "scrim"
+    )
 
-    Scaffold(
-        modifier = modifier.fillMaxSize(),
-        topBar = {
-            Column {
-                InventoryTopBar(
-                    onSearchClick = onSearchClick,
-                    onSortByExpiry = { sortMode = InventorySortMode.BY_EXPIRY },
-                    onSortByName = { sortMode = InventorySortMode.BY_NAME },
-                    onShowExpiredOnly = { showExpiredOnly = !showExpiredOnly },
-                    onResetFilters = {
-                        sortMode = InventorySortMode.NONE
-                        showExpiredOnly = false
-                    },
-                    isExpiredOnlyActive = showExpiredOnly,
-                    currentSortMode = sortMode,
-                    scrollBehavior = scrollBehavior
-                )
-                InventoryTabRow(
-                    categories = categories,
-                    selectedTabIndex = pagerState.currentPage,
-                    onTabSelected = { index ->
-                        scope.launch {
-                            pagerState.animateScrollToPage(index)
-                        }
-                    },
-                )
-            }
-        }
-    ) { paddingValues ->
-        HorizontalPager(
-            state = pagerState,
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues),
-            verticalAlignment = Alignment.Top,
-        ) { pageIndex ->
-            when (uiState) {
-                InventoryUiState.Loading -> LoadingPage(
-                    modifier = Modifier.fillMaxSize()
-                )
-
-                is InventoryUiState.Empty -> EmptyPage(
-                    modifier = Modifier.fillMaxSize()
-                )
-
-                is InventoryUiState.Success -> {
-                    val currentItems =
-                        remember(pageIndex, uiState.items, sortMode, showExpiredOnly) {
-                            uiState.items.getFilteredAndSortedList(
-                                pageIndex = pageIndex,
-                                sortMode = sortMode,
-                                showExpiredOnly = showExpiredOnly
-                            )
-                        }
-
-                    InventoryGridList(
-                        items = currentItems,
-                        onItemClick = { foodItem ->
-                            onItemClick(foodItem.id)
+    Box(
+        modifier = Modifier.fillMaxSize()
+    ) {
+        Scaffold(
+            modifier = Modifier.fillMaxSize(),
+            topBar = {
+                Column {
+                    InventoryTopBar(
+                        onSearchClick = onSearchClick,
+                        onSortByExpiry = { sortMode = InventorySortMode.BY_EXPIRY },
+                        onSortByName = { sortMode = InventorySortMode.BY_NAME },
+                        onShowExpiredOnly = { showExpiredOnly = !showExpiredOnly },
+                        onResetFilters = {
+                            sortMode = InventorySortMode.NONE
+                            showExpiredOnly = false
                         },
-                        onScanClick = onScanClick,
-                        onManualAddClick = onManualAddClick
+                        isExpiredOnlyActive = showExpiredOnly,
+                        currentSortMode = sortMode,
+                        scrollBehavior = scrollBehavior
+                    )
+                    InventoryTabRow(
+                        categories = categories,
+                        selectedTabIndex = pagerState.currentPage,
+                        onTabSelected = { index ->
+                            scope.launch {
+                                pagerState.animateScrollToPage(index)
+                            }
+                        },
                     )
                 }
-            }
+            },
+            containerColor = MaterialTheme.colorScheme.background.copy(
+                alpha = if (expanded) 0.2f else 1f
+            ),
+        ) { paddingValues ->
+            HorizontalPager(
+                state = pagerState,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(paddingValues),
+                verticalAlignment = Alignment.Top,
+            ) { pageIndex ->
+                when (inventoryResultState) {
+                    InventoryResultState.Loading -> LoadingPage(
+                        modifier = Modifier.fillMaxSize()
+                    )
 
+                    is InventoryResultState.Empty -> EmptyPage(
+                        modifier = Modifier.fillMaxSize()
+                    )
+
+                    is InventoryResultState.Success -> {
+                        val currentItems =
+                            remember(
+                                pageIndex,
+                                inventoryResultState.items,
+                                sortMode,
+                                showExpiredOnly
+                            ) {
+                                inventoryResultState.items.getFilteredAndSortedList(
+                                    pageIndex = pageIndex,
+                                    sortMode = sortMode,
+                                    showExpiredOnly = showExpiredOnly
+                                )
+                            }
+
+                        if (currentItems.isEmpty()) {
+                            EmptyPage(modifier = Modifier.fillMaxSize())
+                        } else InventoryGridList(
+                            items = currentItems,
+                            onItemClick = { foodItem ->
+                                onItemClick(foodItem.id)
+                            }
+                        )
+                    }
+                }
+            }
+        }
+
+        if (scrimAlpha > 0f) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(MaterialTheme.colorScheme.surface.copy(alpha = scrimAlpha))
+                    .clickable(
+                        interactionSource = remember { MutableInteractionSource() },
+                        indication = null
+                    ) {
+                        expanded = false
+                    }
+            )
+        }
+
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(bottom = 16.dp, end = 16.dp)
+                .safeDrawingPadding(),
+            contentAlignment = Alignment.BottomEnd
+        ) {
+            InventoryFabMenu(
+                expanded = expanded,
+                onExpandClose = { expanded = !expanded },
+                onManualClick = {
+                    onManualAddClick()
+                    expanded = false
+                },
+                onSettingClick = {
+                    onSettingClick()
+                    expanded = false
+                },
+                onBarcodeScanClick = {
+                    onBarcodeScanClick()
+                    expanded = false
+                },
+                onAnalyticsClick = {
+                    onAnalyticsClick()
+                    expanded = false
+                }
+            )
         }
     }
 }
@@ -130,8 +195,6 @@ fun InventoryScreen(
 @Composable
 fun InventoryGridList(
     items: List<FoodItem>,
-    onScanClick: () -> Unit,
-    onManualAddClick: () -> Unit,
     onItemClick: (FoodItem) -> Unit,
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues = PaddingValues(16.dp)
@@ -143,29 +206,15 @@ fun InventoryGridList(
         horizontalArrangement = Arrangement.spacedBy(16.dp),
         verticalItemSpacing = 16.dp
     ) {
-        if (items.isEmpty()) {
-            item(span = StaggeredGridItemSpan.FullLine) {
-                EmptyPantryState(
-                    modifier = Modifier,
-                    onScanClick = onScanClick,
-                    onManualAddClick = onManualAddClick
-                )
-            }
-        } else {
-            items(
-                items = items,
-                key = { it.id }
-            ) { foodItem ->
-                InventoryFoodItem(
-                    item = foodItem,
-                    onClick = { onItemClick(foodItem) },
-                    modifier = Modifier.animateItem()
-                )
-            }
-        }
-
-        item(span = StaggeredGridItemSpan.FullLine) {
-            Spacer(modifier = Modifier.height(80.dp))
+        items(
+            items = items,
+            key = { it.id }
+        ) { foodItem ->
+            InventoryFoodItem(
+                item = foodItem,
+                onClick = { onItemClick(foodItem) },
+                modifier = Modifier.animateItem()
+            )
         }
     }
 }
