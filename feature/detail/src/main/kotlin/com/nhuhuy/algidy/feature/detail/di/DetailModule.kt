@@ -3,6 +3,7 @@ package com.nhuhuy.algidy.feature.detail.di
 import com.nhuhuy.algidy.feature.detail.domain.usecase.GetFoodDetailUseCase
 import com.nhuhuy.algidy.feature.detail.domain.usecase.MarkFoodAsConsumedUseCase
 import com.nhuhuy.algidy.feature.detail.domain.usecase.MarkFoodAsWastedUseCase
+import com.nhuhuy.algidy.feature.detail.domain.usecase.ObserveFoodDetailUseCase
 import com.nhuhuy.algidy.feature.detail.domain.usecase.UpdateFoodDetailUseCase
 import com.nhuhuy.algidy.feature.detail.presentation.detail.viewModel.DetailViewModel
 import org.koin.core.module.dsl.factoryOf
@@ -15,6 +16,7 @@ val detailModule = module {
     factoryOf(::MarkFoodAsConsumedUseCase)
     factoryOf(::MarkFoodAsWastedUseCase)
     factoryOf(::UpdateFoodDetailUseCase)
+    factoryOf(::ObserveFoodDetailUseCase)
 
     //ViewModel
     viewModelOf(::DetailViewModel)

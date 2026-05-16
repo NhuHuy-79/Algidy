@@ -200,7 +200,7 @@ fun InventoryGridList(
     contentPadding: PaddingValues = PaddingValues(16.dp)
 ) {
     LazyVerticalStaggeredGrid(
-        columns = StaggeredGridCells.Fixed(2),
+        columns = StaggeredGridCells.Fixed(3),
         modifier = modifier.fillMaxSize(),
         contentPadding = contentPadding,
         horizontalArrangement = Arrangement.spacedBy(16.dp),
@@ -212,8 +212,10 @@ fun InventoryGridList(
         ) { foodItem ->
             InventoryFoodItem(
                 item = foodItem,
-                onClick = { onItemClick(foodItem) },
-                modifier = Modifier.animateItem()
+                onItemClick = onItemClick,
+                modifier = Modifier
+                    .animateItem()
+
             )
         }
     }

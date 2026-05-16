@@ -71,6 +71,10 @@ class FoodRepositoryImpl(
         }
     }
 
+    override fun observeFoodItemById(id: String): Flow<FoodItem> {
+        return foodDao.observeFoodItem(id).map { entity -> entity.toDomain() }
+    }
+
     override suspend fun removeFoodItem(id: String) {
         foodDao.deleteFoodById(id)
     }

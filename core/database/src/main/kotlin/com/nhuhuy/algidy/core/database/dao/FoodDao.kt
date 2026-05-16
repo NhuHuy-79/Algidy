@@ -16,6 +16,7 @@ interface FoodDao {
     @Query("SELECT * FROM food_items ORDER BY expiry_date ASC")
     fun observeAllFoodItems(): Flow<List<FoodItemEntity>>
 
+
     @Query("SELECT * FROM food_items ORDER BY expiry_date ASC")
     fun getAllFoodItems(): List<FoodItemEntity>
     @Query("SELECT * FROM food_items WHERE status = :status ORDER BY expiry_date ASC")
@@ -23,6 +24,9 @@ interface FoodDao {
 
     @Query("SELECT * FROM food_items WHERE id = :id")
     suspend fun getFoodById(id: String): FoodItemEntity?
+
+    @Query("SELECT * FROM food_items WHERE id = :id")
+    fun observeFoodItem(id: String): Flow<FoodItemEntity>
 
     @Query("UPDATE food_items SET status = :newStatus, resolved_date = :resolvedDate WHERE id = :id")
     suspend fun updateFoodStatus(id: String, newStatus: FoodStatus, resolvedDate: Long)

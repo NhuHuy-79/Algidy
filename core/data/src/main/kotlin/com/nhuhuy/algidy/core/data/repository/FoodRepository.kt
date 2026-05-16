@@ -9,6 +9,7 @@ interface FoodRepository {
     //CREATE
     suspend fun addFoodItem(item: FoodItem): Resource<FoodItem>
     //READ
+    fun observeFoodItemById(id: String): Flow<FoodItem>
     suspend fun getFoodById(id: String): FoodItem?
     suspend fun scanFoodBarcode(barcodeString: String): Resource<FoodItem>
     suspend fun getAllFoodItems(): List<FoodItem>
