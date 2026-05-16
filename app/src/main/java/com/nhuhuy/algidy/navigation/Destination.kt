@@ -8,6 +8,7 @@ import androidx.compose.material.icons.rounded.Checklist
 import androidx.compose.material.icons.rounded.Inventory
 import androidx.compose.material.icons.rounded.Reviews
 import androidx.compose.material.icons.rounded.Search
+import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation3.runtime.NavKey
 import kotlinx.serialization.Serializable
@@ -38,6 +39,9 @@ sealed interface Destination : NavKey {
 
     @Serializable
     data class Confirm(val foodId: String) : Destination
+
+    @Serializable
+    data object Setting : Destination
 }
 
 val destinations = listOf(
@@ -55,5 +59,6 @@ fun Destination.toBottomBarIcon(): ImageVector {
         Destination.Review -> Icons.Rounded.Reviews
         Destination.Scanner -> Icons.Rounded.Camera
         is Destination.Confirm -> Icons.Rounded.Checklist
+        Destination.Setting -> Icons.Rounded.Settings
     }
 }

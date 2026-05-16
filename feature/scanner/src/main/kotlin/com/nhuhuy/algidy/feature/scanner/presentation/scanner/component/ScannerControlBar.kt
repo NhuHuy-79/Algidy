@@ -46,7 +46,7 @@ fun ScannerControlBar(
             modifier = Modifier.size(96.dp),
             onCapturePress = if (stagedImageUri == null) onCaptureClick else ({}),
             enable = stagedImageUri == null,
-            contentColor = MaterialTheme.colorScheme.onSurface
+            contentColor = MaterialTheme.colorScheme.onSecondaryContainer
         )
 
         AutoScanButton(
@@ -54,7 +54,7 @@ fun ScannerControlBar(
             autoScanning = isAutoScanned,
             onClick = onAutoScanChange,
             enableContainerColor = MaterialTheme.colorScheme.primary,
-            disableContainerColor = MaterialTheme.colorScheme.onSurface
+            disableContainerColor = MaterialTheme.colorScheme.onSecondaryContainer
         )
     }
 }

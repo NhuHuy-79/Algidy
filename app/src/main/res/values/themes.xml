@@ -2,4 +2,15 @@
 <resources>
 
     <style name="Theme.Algidy" parent="android:Theme.Material.Light.NoActionBar" />
+
+    <style name="Theme.App.Starting" parent="Theme.SplashScreen">
+        <!-- Background color of the splash screen. Harmonized with app icon #3DDC84 (Light Surface Green) -->
+        <item name="windowSplashScreenBackground">#F1FBF4</item>
+
+        <!-- Icon for the splash screen -->
+        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher</item>
+
+        <!-- The theme to use after the splash screen is done -->
+        <item name="postSplashScreenTheme">@style/Theme.Algidy</item>
+    </style>
 </resources>

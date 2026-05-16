@@ -13,13 +13,14 @@ import com.nhuhuy.algidy.feature.scanner.presentation.scanner.viewmodel.ScannerE
 import com.nhuhuy.algidy.feature.scanner.presentation.scanner.viewmodel.ScannerOverlay
 import com.nhuhuy.algidy.feature.scanner.presentation.scanner.viewmodel.ScannerUiState
 import com.nhuhuy.algidy.feature.scanner.presentation.scanner.viewmodel.ScannerViewModel
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun ScannerRoute(
-    viewModel: ScannerViewModel,
     onNavigateBack: () -> Unit,
     onNavigateToConfirm: (foodId: String) -> Unit,
 ) {
+    val viewModel: ScannerViewModel = koinViewModel()
     val uiState: ScannerUiState by viewModel.uiState.collectAsStateWithLifecycle()
     val onAction = viewModel::onAction
 

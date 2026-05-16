@@ -13,7 +13,8 @@ import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.animation.togetherWith
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.snapshots.SnapshotStateList
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.remember
 import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
@@ -25,13 +26,10 @@ import com.nhuhuy.algidy.feature.inventory.presentation.search.SearchInventoryRo
 import com.nhuhuy.algidy.feature.review.ReviewRoute
 import com.nhuhuy.algidy.feature.scanner.presentation.confirm.ConfirmRoute
 import com.nhuhuy.algidy.feature.scanner.presentation.scanner.ScannerRoute
-import org.koin.androidx.compose.koinViewModel
-import org.koin.core.parameter.parametersOf
 
 @Composable
-fun AppGraph(
-    backStack: SnapshotStateList<Destination>,
-) {
+fun AppGraph() {
+    val backStack = remember { mutableStateListOf<Destination>(Destination.Inventory.Home) }
     NavDisplay(
         backStack = backStack,
         entryDecorators = listOf(
@@ -66,15 +64,14 @@ fun AppGraph(
         entryProvider = entryProvider {
             entry<Destination.Inventory.Home> {
                 InventoryRoute(
-                    viewModel = koinViewModel(),
                     onNavigateToDetail = { foodItemId ->
                         backStack.add(Destination.Detail(foodItemId = foodItemId))
                     },
-                    onNavigateToCamera = {
-                        backStack.add(Destination.Scanner)
-                    },
-                    onNavigateToSearch = {
-                        backStack.add(Destination.Inventory.Search)
+                    onNavigateToCamera = { backStack.add(Destination.Scanner) },
+                    onNavigateToSearch = { backStack.add(Destination.Inventory.Search) },
+                    onNavigateToSetting = { backStack.add(Destination.Setting) },
+                    onNavigateToAnalytics = {
+                        backStack.add(Destination.Analytics)
                     }
                 )
             }
@@ -90,9 +87,7 @@ fun AppGraph(
 
             entry<Destination.Detail> { destinationDetail ->
                 DetailRoute(
-                    viewModel = koinViewModel(
-                        parameters = { parametersOf(destinationDetail.foodItemId) }
-                    ),
+                    foodItemId = destinationDetail.foodItemId,
                     onNavigateBack = backStack::removeLastOrNull
                 )
             }
@@ -132,7 +127,6 @@ fun AppGraph(
                 }
             ) {
                 ScannerRoute(
-                    viewModel = koinViewModel(),
                     onNavigateBack = { backStack.removeLastOrNull() },
                     onNavigateToConfirm = { id ->
                         backStack.add(Destination.Confirm(foodId = id))
@@ -142,10 +136,8 @@ fun AppGraph(
 
             entry<Destination.Confirm> { screen ->
                 ConfirmRoute(
+                    foodItemId = screen.foodId,
                     onNavigateBack = { backStack.removeLastOrNull() },
-                    viewModel = koinViewModel(
-                        parameters = { parametersOf(screen.foodId) }
-                    )
                 )
             }
         }

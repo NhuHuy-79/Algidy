@@ -8,13 +8,13 @@ import androidx.camera.core.Camera
 import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
 import androidx.camera.core.TorchState
+import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeDrawing
+import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -98,7 +98,9 @@ fun ScannerScreen(
                         ),
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(end = 48.dp),
+                            .padding(end = 48.dp)
+                            .basicMarquee(),
+                        maxLines = 1,
                         textAlign = TextAlign.Center
                     )
                 },
@@ -151,9 +153,9 @@ fun ScannerScreen(
                 }
             )
         },
-        contentWindowInsets = WindowInsets.safeDrawing,
         bottomBar = {
             ScannerControlBar(
+                modifier = Modifier.safeDrawingPadding(),
                 isAutoScanned = uiState.isAutoScanned,
                 stagedImageUri = uiState.stagedImageUri,
                 onCaptureClick = {

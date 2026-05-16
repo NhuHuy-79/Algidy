@@ -14,11 +14,10 @@ import org.koin.androidx.compose.koinViewModel
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun AnalyticsRoute(
-    viewModel: AnalyticsViewModel = koinViewModel(),
     onNavigateBack: () -> Unit
 ) {
+    val viewModel: AnalyticsViewModel = koinViewModel()
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-
     ObserveEffect(viewModel.uiEvent) { event ->
         when (event) {
             AnalyticsEvent.NavigateBack -> onNavigateBack()

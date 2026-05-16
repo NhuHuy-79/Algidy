@@ -17,12 +17,17 @@ import com.nhuhuy.algidy.feature.detail.presentation.detail.viewModel.DetailActi
 import com.nhuhuy.algidy.feature.detail.presentation.detail.viewModel.DetailEvent
 import com.nhuhuy.algidy.feature.detail.presentation.detail.viewModel.DetailOverlay
 import com.nhuhuy.algidy.feature.detail.presentation.detail.viewModel.DetailViewModel
+import org.koin.androidx.compose.koinViewModel
+import org.koin.core.parameter.parametersOf
 
 @Composable
 fun DetailRoute(
-    viewModel: DetailViewModel,
+    foodItemId: String,
     onNavigateBack: () -> Unit,
 ) {
+    val viewModel: DetailViewModel = koinViewModel(
+        parameters = { parametersOf(foodItemId) }
+    )
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val entryError by viewModel.entryError.collectAsStateWithLifecycle()
     val entryState by viewModel.entryState.collectAsStateWithLifecycle()

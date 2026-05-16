@@ -17,12 +17,16 @@ import com.nhuhuy.algidy.feature.scanner.presentation.confirm.viewmodel.ConfirmE
 import com.nhuhuy.algidy.feature.scanner.presentation.confirm.viewmodel.ConfirmOverlay
 import com.nhuhuy.algidy.feature.scanner.presentation.confirm.viewmodel.ConfirmViewModel
 import org.koin.androidx.compose.koinViewModel
+import org.koin.core.parameter.parametersOf
 
 @Composable
 fun ConfirmRoute(
+    foodItemId: String,
     onNavigateBack: () -> Unit,
-    viewModel: ConfirmViewModel = koinViewModel()
 ) {
+    val viewModel: ConfirmViewModel = koinViewModel(
+        parameters = { parametersOf(foodItemId) }
+    )
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     viewModel::onEntryAction
     val onAction = viewModel::onAction
