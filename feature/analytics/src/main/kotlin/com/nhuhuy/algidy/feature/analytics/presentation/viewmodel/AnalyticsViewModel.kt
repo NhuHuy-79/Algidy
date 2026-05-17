@@ -18,13 +18,20 @@ class AnalyticsViewModel(
     override val uiState: StateFlow<AnalyticsUiState> = repository.getAnalyticsStats()
         .map { stats ->
             AnalyticsUiState(
+                weeklyFoodItemsCount = stats.weeklyCount,
                 wastedCount = stats.wastedCount,
                 consumedCount = stats.consumedCount,
+                otherCount = stats.otherCount,
                 expiryChartUiModel = stats.dailyStats.toExpiryChartUiModel(),
+                spoilageChartUiModel = SpoilageChartUiModel(
+                    wastedValues = stats.spoilageHistory.wastedByWeek,
+                    consumedValues = stats.spoilageHistory.consumedByWeek,
+                    labels = stats.spoilageHistory.weekLabels
+                ),
                 wastedByCategory = stats.wastedByCategory.map {
                     CategoryWasteUiModel(
                         location = it.location,
-                        label = it.location.name.capitalize(),
+                        label = it.location.name.lowercase().replaceFirstChar { char -> char.uppercase() },
                         percentage = it.percentage
                     )
                 },

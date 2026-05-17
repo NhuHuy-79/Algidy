@@ -16,6 +16,8 @@ interface FoodDao {
     @Query("SELECT * FROM food_items ORDER BY expiry_date ASC")
     fun observeAllFoodItems(): Flow<List<FoodItemEntity>>
 
+    @Query("SELECT * FROM food_items WHERE expiry_date >= :beforeTime")
+    fun observeAllFoodItemsBeforeTime(beforeTime: Long) : Flow<List<FoodItemEntity>>
 
     @Query("SELECT * FROM food_items ORDER BY expiry_date ASC")
     fun getAllFoodItems(): List<FoodItemEntity>

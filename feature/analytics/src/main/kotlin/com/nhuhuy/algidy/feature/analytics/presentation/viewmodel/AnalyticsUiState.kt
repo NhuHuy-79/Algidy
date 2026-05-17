@@ -1,6 +1,7 @@
 package com.nhuhuy.algidy.feature.analytics.presentation.viewmodel
 
 import androidx.compose.runtime.Immutable
+import com.nhuhuy.algidy.core.model.food.FoodItem
 import com.nhuhuy.algidy.core.model.food.Freshness
 import com.nhuhuy.algidy.core.model.food.StorageLocation
 import com.nhuhuy.algidy.core.presentation.viewmodel.UiState
@@ -8,16 +9,26 @@ import com.nhuhuy.algidy.feature.analytics.domain.model.DailyFreshnessStats
 
 @Immutable
 data class AnalyticsUiState(
+    val weeklyFoodItemsCount: Int = 0,
     val wastedCount: Int = 0,
     val consumedCount: Int = 0,
+    val otherCount: Int = 0,
     val expiryChartUiModel: ExpiryChartUiModel = ExpiryChartUiModel(),
+    val spoilageChartUiModel: SpoilageChartUiModel = SpoilageChartUiModel(),
     val wastedByCategory: List<CategoryWasteUiModel> = emptyList(),
     val isLoading: Boolean = false,
 ) : UiState {
-    private val totalCount: Float get() = (wastedCount + consumedCount).toFloat()
+    private val totalCount: Float get() = (wastedCount + consumedCount + otherCount).toFloat()
     val wastedPercent: Float get() = if (totalCount > 0) wastedCount / totalCount else 0f
-    val consumedPercent: Float get() = if (totalCount > 0) 1f - wastedPercent else 0f
+    val consumedPercent: Float get() = if (totalCount > 0) consumedCount / totalCount else 0f
 }
+
+@Immutable
+data class SpoilageChartUiModel(
+    val wastedValues: List<Double> = emptyList(),
+    val consumedValues: List<Double> = emptyList(),
+    val labels: List<String> = emptyList()
+)
 
 @Immutable
 data class CategoryWasteUiModel(

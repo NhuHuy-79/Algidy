@@ -108,7 +108,7 @@ fun AnalyticsScreen(
                 item(span = StaggeredGridItemSpan.FullLine) {
                     WeeklyMainCard(
                         modifier = Modifier.height(weeklyMainCardHeight),
-                        productCountInWeek = 6
+                        productCountInWeek = uiState.weeklyFoodItemsCount
                     )
                 }
 
@@ -119,7 +119,7 @@ fun AnalyticsScreen(
                         containerColor = ExtraColor.Consumed,
                         icon = Icons.Rounded.CheckCircleOutline,
                         title = "Consumed",
-                        description = "6",
+                        description = uiState.consumedCount.toString(),
                     )
                 }
 
@@ -130,7 +130,7 @@ fun AnalyticsScreen(
                         containerColor = ExtraColor.Wasted,
                         icon = Icons.Rounded.DeleteForever,
                         title = "Wasted",
-                        description = "2",
+                        description = uiState.wastedCount.toString(),
                     )
                 }
 
@@ -141,13 +141,14 @@ fun AnalyticsScreen(
                         containerColor = MaterialTheme.colorScheme.tertiary,
                         icon = ImageVector.vectorResource(com.nhuhuy.algidy.core.designsystem.R.drawable.ic_storage),
                         title = "Other",
-                        description = "1",
+                        description = uiState.otherCount.toString(),
                     )
                 }
 
                 item(span = StaggeredGridItemSpan.FullLine) {
                     SpoilageHistoryChart(
-                        modifier = Modifier.height(spoilageChartHeight)
+                        modifier = Modifier.height(spoilageChartHeight),
+                        uiModel = uiState.spoilageChartUiModel
                     )
                 }
 

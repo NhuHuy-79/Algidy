@@ -10,6 +10,7 @@ interface FoodRepository {
     suspend fun addFoodItem(item: FoodItem): Resource<FoodItem>
     //READ
     fun observeFoodItemById(id: String): Flow<FoodItem>
+    fun observeFoodItemBeforeTime(beforeTime: Long) : Flow<List<FoodItem>>
     suspend fun getFoodById(id: String): FoodItem?
     suspend fun scanFoodBarcode(barcodeString: String): Resource<FoodItem>
     suspend fun getAllFoodItems(): List<FoodItem>

@@ -21,10 +21,12 @@ import ir.ehsannarmani.compose_charts.models.LabelHelperProperties
 import ir.ehsannarmani.compose_charts.models.LabelProperties
 import ir.ehsannarmani.compose_charts.models.Line
 import ir.ehsannarmani.compose_charts.models.LineProperties
+import com.nhuhuy.algidy.feature.analytics.presentation.viewmodel.SpoilageChartUiModel
 
 @Composable
 fun SpoilageHistoryChart(
     modifier: Modifier = Modifier,
+    uiModel: SpoilageChartUiModel = SpoilageChartUiModel()
 ) {
     CardLayout(
         modifier = modifier,
@@ -37,7 +39,7 @@ fun SpoilageHistoryChart(
             data = listOf(
                 Line(
                     label = "Wasted",
-                    values = listOf(5.0, 6.0, 7.0, 8.0, 9.0, 10.0),
+                    values = uiModel.wastedValues,
                     color = SolidColor(ExtraColor.Wasted),
                     firstGradientFillColor = ExtraColor.Wasted.copy(alpha = .5f),
                     secondGradientFillColor = Color.Transparent,
@@ -47,7 +49,7 @@ fun SpoilageHistoryChart(
                 ),
                 Line(
                     label = "Consumed",
-                    values = listOf(8.0, 6.0, 3.0, 4.0, 5.5, 2.0),
+                    values = uiModel.consumedValues,
                     color = SolidColor(ExtraColor.Consumed),
                     firstGradientFillColor = ExtraColor.Consumed.copy(alpha = .5f),
                     secondGradientFillColor = Color.Transparent,
@@ -79,7 +81,7 @@ fun SpoilageHistoryChart(
             ),
             labelProperties = LabelProperties(
                 rotation = LabelProperties.Rotation(degree = 0f),
-                labels = listOf("WEEK 1", "WEEK 2", "WEEK 3", "WEEK 4"),
+                labels = uiModel.labels,
                 enabled = true,
                 textStyle = androidx.compose.material3.MaterialTheme.typography.labelSmall.copy(
                     color = androidx.compose.material3.MaterialTheme.colorScheme.onSurfaceVariant

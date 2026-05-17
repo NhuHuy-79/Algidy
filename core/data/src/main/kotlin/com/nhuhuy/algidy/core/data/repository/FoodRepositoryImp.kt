@@ -10,6 +10,7 @@ import com.nhuhuy.algidy.core.model.food.FoodItem
 import com.nhuhuy.algidy.core.model.food.FoodStatus
 import com.nhuhuy.algidy.core.network.data_source.FoodRemoteDataSource
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 
@@ -74,6 +75,13 @@ class FoodRepositoryImpl(
     override fun observeFoodItemById(id: String): Flow<FoodItem> {
         return foodDao.observeFoodItem(id).map { entity -> entity.toDomain() }
     }
+
+    override fun observeFoodItemBeforeTime(beforeTime: Long): Flow<List<FoodItem>> {
+        return foodDao.observeAllFoodItemsBeforeTime(beforeTime).map { entities ->
+            entities.map { it.toDomain() }
+        }.flowOn(appDispatchers.io)
+    }
+
 
     override suspend fun removeFoodItem(id: String) {
         foodDao.deleteFoodById(id)
