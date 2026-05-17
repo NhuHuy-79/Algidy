@@ -172,7 +172,7 @@ fun InventoryScreen(
         ) {
             InventoryFabMenu(
                 expanded = expanded,
-                onExpandClose = { expanded = !expanded },
+                onExpandClose = { value -> expanded = value },
                 onManualClick = {
                     onManualAddClick()
                     expanded = false

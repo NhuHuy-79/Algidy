@@ -37,7 +37,8 @@ fun InventoryTabRow(
                         else MaterialTheme.typography.bodyMedium,
                         color = if (selectedTabIndex == index)
                             MaterialTheme.colorScheme.primary
-                        else MaterialTheme.colorScheme.onSurfaceVariant
+                        else MaterialTheme.colorScheme.onSurfaceVariant,
+                        maxLines = 1
                     )
                 }
             )

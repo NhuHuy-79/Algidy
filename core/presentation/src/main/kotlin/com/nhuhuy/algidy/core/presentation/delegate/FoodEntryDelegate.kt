@@ -101,8 +101,8 @@ class FoodEntryDelegateImpl : FoodEntryDelegate {
                 quantityValidation = FoodValidator.validateQuantity(foodItem.quantity),
                 purchaseDateValidation = FoodValidator.validatePurchaseDate(foodItem.purchaseDate),
                 expiryDateValidation = FoodValidator.validateExpiryDate(
-                    foodItem.purchaseDate,
-                    foodItem.expiryDate
+                    purchaseDate = foodItem.purchaseDate,
+                    expiryDate = foodItem.expiryDate
                 )
             )
         }
