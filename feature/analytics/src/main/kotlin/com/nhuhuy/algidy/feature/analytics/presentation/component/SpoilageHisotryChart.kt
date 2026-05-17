@@ -2,7 +2,6 @@ package com.nhuhuy.algidy.feature.analytics.presentation.component
 
 import androidx.compose.animation.core.EaseInOutCubic
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.StackedLineChart
@@ -11,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.unit.dp
+import com.nhuhuy.algidy.core.designsystem.ExtraColor
 import com.nhuhuy.algidy.core.designsystem.component.CardLayout
 import ir.ehsannarmani.compose_charts.LineChart
 import ir.ehsannarmani.compose_charts.models.AnimationMode
@@ -26,7 +26,6 @@ import ir.ehsannarmani.compose_charts.models.LineProperties
 fun SpoilageHistoryChart(
     modifier: Modifier = Modifier,
 ) {
-    val scheme = androidx.compose.material3.MaterialTheme.colorScheme
     CardLayout(
         modifier = modifier,
         title = "Spoilage History",
@@ -34,14 +33,13 @@ fun SpoilageHistoryChart(
     ) {
         LineChart(
             modifier = Modifier
-                .fillMaxSize()
-                .aspectRatio(1.5f),
+                .fillMaxSize(),
             data = listOf(
                 Line(
                     label = "Wasted",
                     values = listOf(5.0, 6.0, 7.0, 8.0, 9.0, 10.0),
-                    color = SolidColor(scheme.onErrorContainer),
-                    firstGradientFillColor = scheme.onErrorContainer.copy(alpha = .5f),
+                    color = SolidColor(ExtraColor.Wasted),
+                    firstGradientFillColor = ExtraColor.Wasted.copy(alpha = .5f),
                     secondGradientFillColor = Color.Transparent,
                     strokeAnimationSpec = tween(2000, easing = EaseInOutCubic),
                     gradientAnimationDelay = 1000,
@@ -50,8 +48,8 @@ fun SpoilageHistoryChart(
                 Line(
                     label = "Consumed",
                     values = listOf(8.0, 6.0, 3.0, 4.0, 5.5, 2.0),
-                    color = SolidColor(scheme.onPrimaryContainer),
-                    firstGradientFillColor = scheme.onPrimaryContainer.copy(alpha = .5f),
+                    color = SolidColor(ExtraColor.Consumed),
+                    firstGradientFillColor = ExtraColor.Consumed.copy(alpha = .5f),
                     secondGradientFillColor = Color.Transparent,
                     strokeAnimationSpec = tween(2000, easing = EaseInOutCubic),
                     gradientAnimationDelay = 1000,

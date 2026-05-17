@@ -90,6 +90,8 @@
     <string name="scanner_label_failure">Scan Failed</string>
 
     <!-- Analytics Screen -->
+    <string name="analytics_card">You have</string>
+    <string name="analytics_card_2">this week.</string>
     <string name="analytics_title">Analytics</string>
     <string name="analytics_subtitle">Overview of waste and impact</string>
     <string name="analytics_card_waste_location">Wasted Items by Location</string>
