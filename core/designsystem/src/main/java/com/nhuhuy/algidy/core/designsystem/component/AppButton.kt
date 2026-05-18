@@ -15,6 +15,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.nhuhuy.algidy.core.designsystem.theme.AlgidyTheme
@@ -36,7 +37,7 @@ fun AppButton(
         onClick = onClick,
         modifier = modifier
             .height(48.dp),
-        shape = RoundedCornerShape(32.dp),
+        shape = RoundedCornerShape(16.dp),
         colors = colors
     ) {
         Icon(
@@ -47,7 +48,12 @@ fun AppButton(
 
         Spacer(Modifier.size(ButtonDefaults.IconSpacing))
 
-        Text(text = text)
+        Text(
+            text = text,
+            style = MaterialTheme.typography.bodyLarge.copy(
+                fontWeight = FontWeight.Medium
+            )
+        )
     }
 }
 

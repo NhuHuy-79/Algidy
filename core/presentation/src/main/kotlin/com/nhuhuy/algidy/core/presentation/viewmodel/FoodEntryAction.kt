@@ -1,5 +1,6 @@
 package com.nhuhuy.algidy.core.presentation.viewmodel
 
+import android.net.Uri
 import com.nhuhuy.algidy.core.model.food.ItemUnit
 import com.nhuhuy.algidy.core.model.food.StorageLocation
 
@@ -11,4 +12,5 @@ sealed interface FoodEntryAction {
     data class OnPurchaseDateChange(val purchaseDate: Long) : FoodEntryAction
     data class OnNoteChange(val note: String) : FoodEntryAction
     data class OnItemUnitChange(val unit: ItemUnit) : FoodEntryAction
+    data class OnImagePick(val uri: Uri) : FoodEntryAction
 }

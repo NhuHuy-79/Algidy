@@ -75,6 +75,10 @@ class FoodEntryDelegateImpl : FoodEntryDelegate {
             is FoodEntryAction.OnNoteChange -> {
                 _entryState.update { it.copy(notes = action.note) }
             }
+
+            is FoodEntryAction.OnImagePick -> {
+                _entryState.update { it.copy(imageUri = action.uri.toString()) }
+            }
         }
     }
 

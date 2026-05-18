@@ -5,9 +5,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Fastfood
+import androidx.compose.material.icons.rounded.Image
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -25,14 +27,14 @@ import coil3.compose.SubcomposeAsyncImageContent
 fun FoodImageCard(
     modifier: Modifier = Modifier,
     imageUri: String?,
-    placeholderIcon: ImageVector = Icons.Rounded.Fastfood,
+    placeholderIcon: ImageVector = Icons.Rounded.Image,
 ) {
     Surface(
         modifier = modifier
             .fillMaxWidth()
             .height(260.dp),
-        shape = RoundedCornerShape(8.dp),
-        color = MaterialTheme.colorScheme.surfaceContainerLow,
+        color = MaterialTheme.colorScheme.secondaryContainer,
+        shape = RoundedCornerShape(16.dp),
     ) {
         SubcomposeAsyncImage(
             model = imageUri,
@@ -43,7 +45,7 @@ fun FoodImageCard(
                 Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                     CircularProgressIndicator(
                         modifier = Modifier.size(32.dp),
-                        color = MaterialTheme.colorScheme.primary,
+                        color = MaterialTheme.colorScheme.onSecondaryContainer,
                         strokeWidth = 3.dp
                     )
                 }
@@ -57,7 +59,7 @@ fun FoodImageCard(
                         imageVector = placeholderIcon,
                         contentDescription = null,
                         modifier = Modifier.size(80.dp),
-                        tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f)
+                        tint = MaterialTheme.colorScheme.onSecondaryContainer
                     )
                 }
             }

@@ -2,8 +2,10 @@ package com.nhuhuy.algidy.feature.inventory.presentation.inventory
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.nhuhuy.algidy.core.designsystem.component.BoxLayout
+import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.core.presentation.component.FoodEntryBottomSheet
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryAction
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryOverlay
@@ -38,11 +40,13 @@ fun InventoryRoute(
     when (uiState.overlay) {
         InventoryOverlay.NONE -> Unit
         InventoryOverlay.FOOD_SHEET -> FoodEntryBottomSheet(
+            title = stringResource(R.string.inventory_sheet_title),
+            label = stringResource(R.string.inventory_sheet_btn),
             onDismiss = { onAction(InventoryAction.OnDismiss) },
             foodEntryState = entryState,
             foodEntryError = errorState,
             onEntryAction = onEntryAction,
-            onAddManually = { onAction(InventoryAction.OnManuallyClick) }
+            onConfirm = { onAction(InventoryAction.OnManuallyClick) }
         )
     }
 

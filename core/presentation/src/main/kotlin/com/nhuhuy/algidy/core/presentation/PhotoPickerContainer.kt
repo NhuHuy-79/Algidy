@@ -22,3 +22,17 @@ fun PhotoPickerContainer(
     }
     content(launchPicker)
 }
+
+
+@Composable
+fun PlaceholderImage(
+    onImagePicked: (Uri) -> Unit
+){
+    PhotoPickerContainer(
+        onImagePicked = { uri ->
+            uri?.let { onImagePicked(it) }
+        }
+    ) {
+
+    }
+}

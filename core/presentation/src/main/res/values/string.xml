@@ -35,6 +35,8 @@
     <string name="inventory_menu_sort_name">Sort by Name</string>
     <string name="inventory_menu_expired_only">Expired Only</string>
     <string name="inventory_menu_reset">Reset All</string>
+    <string name="inventory_sheet_title">Add New Food</string>
+    <string name="inventory_sheet_btn">Add Food</string>
 
     <!--Grid Category-->
     <string name="category_add">All</string>

@@ -6,13 +6,15 @@ import androidx.compose.material.icons.rounded.Restaurant
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.nhuhuy.algidy.core.designsystem.component.AlgidyAlertDialog
 import com.nhuhuy.algidy.core.designsystem.component.BoxLayout
 import com.nhuhuy.algidy.core.presentation.ObserveEffect
+import com.nhuhuy.algidy.core.presentation.R
+import com.nhuhuy.algidy.core.presentation.component.FoodEntryBottomSheet
 import com.nhuhuy.algidy.core.presentation.component.showShortToast
 import com.nhuhuy.algidy.feature.detail.presentation.detail.DetailScreen
-import com.nhuhuy.algidy.feature.detail.presentation.detail.component.EditFoodBottomSheet
 import com.nhuhuy.algidy.feature.detail.presentation.detail.viewModel.DetailAction
 import com.nhuhuy.algidy.feature.detail.presentation.detail.viewModel.DetailEvent
 import com.nhuhuy.algidy.feature.detail.presentation.detail.viewModel.DetailOverlay
@@ -31,6 +33,7 @@ fun DetailRoute(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val entryError by viewModel.entryError.collectAsStateWithLifecycle()
     val entryState by viewModel.entryState.collectAsStateWithLifecycle()
+    val entryAction = viewModel::onEntryAction
     val onAction = viewModel::onAction
 
     val applicationContext = LocalContext.current.applicationContext
@@ -60,10 +63,10 @@ fun DetailRoute(
                         onAction(DetailAction.OnWastedItem)
                         onNavigateBack()
                     },
-                    title = "Mark as Wasted?",
-                    text = "Are you sure this food is no longer usable? It will be moved to your waste history for tracking.",
-                    confirmText = "Mark as Wasted",
-                    dismissText = "Cancel",
+                    title = stringResource(R.string.detail_dialog_waste_title),
+                    text = stringResource(R.string.detail_dialog_waste_content),
+                    confirmText = stringResource(R.string.action_ok),
+                    dismissText = stringResource(R.string.action_cancel),
                     icon = Icons.Rounded.Delete,
                     isDestructive = true
                 )
@@ -76,20 +79,28 @@ fun DetailRoute(
                         onAction(DetailAction.OnConsumeItem)
                         onNavigateBack()
                     },
-                    title = "Finished Eating?",
-                    text = "Great! We'll update your inventory and move this item to your consumption history.",
-                    confirmText = "I Consumed It",
-                    dismissText = "Not yet",
+                    title = stringResource(R.string.detail_dialog_consume_title),
+                    text = stringResource(R.string.detail_dialog_consume_content),
+                    confirmText = stringResource(R.string.action_ok),
+                    dismissText = stringResource(R.string.action_cancel),
                     icon = Icons.Rounded.Restaurant,
                     isDestructive = false
                 )
             }
 
             DetailOverlay.Edit -> {
-                EditFoodBottomSheet(
-                    editEntry = entryState,
-                    errorState = entryError,
-                    onAction = onAction
+                FoodEntryBottomSheet(
+                    title = stringResource(R.string.detail_edit_sheet_title),
+                    label = stringResource(R.string.action_edit),
+                    onDismiss = {
+                        onAction(DetailAction.OnDismiss)
+                    },
+                    onConfirm = {
+                        onAction(DetailAction.OnEditItem)
+                    },
+                    foodEntryState = entryState,
+                    foodEntryError = entryError,
+                    onEntryAction = entryAction
                 )
             }
         }

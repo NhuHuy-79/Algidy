@@ -1,5 +1,6 @@
 package com.nhuhuy.algidy.core.presentation.component
 
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -7,12 +8,18 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AddPhotoAlternate
 import androidx.compose.material.icons.rounded.CalendarToday
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilledTonalIconButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SegmentedButton
 import androidx.compose.material3.SegmentedButtonDefaults
@@ -23,13 +30,17 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.nhuhuy.algidy.capitalize
 import com.nhuhuy.algidy.core.designsystem.component.AppTextField
+import com.nhuhuy.algidy.core.designsystem.component.FoodImageCard
 import com.nhuhuy.algidy.core.model.food.ItemUnit
 import com.nhuhuy.algidy.core.model.food.StorageLocation
+import com.nhuhuy.algidy.core.presentation.PhotoPickerContainer
 import com.nhuhuy.algidy.core.presentation.viewmodel.FoodEntryAction
 import com.nhuhuy.algidy.core.presentation.viewmodel.FoodEntryError
 import com.nhuhuy.algidy.core.presentation.viewmodel.FoodEntryUiState
@@ -53,12 +64,53 @@ fun FoodEntryForm(
 
     Column(
         modifier = modifier.fillMaxWidth(),
-        verticalArrangement = Arrangement.spacedBy(24.dp)
+        verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
+        Box(
+            modifier = Modifier
+                .size(160.dp)
+                .align(alignment = Alignment.CenterHorizontally),
+            contentAlignment = Alignment.Center
+        ) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .border(
+                        width = 1.dp,
+                        shape = RoundedCornerShape(16.dp),
+                        color = MaterialTheme.colorScheme.outlineVariant
+                    )
+            ) {
+                FoodImageCard(imageUri = entryState.imageUri)
+            }
+            
+            PhotoPickerContainer(
+                onImagePicked = { uri ->
+                    uri?.let { onAction(FoodEntryAction.OnImagePick(it)) }
+                }
+            ) { launcher ->
+                FilledTonalIconButton(
+                    colors = IconButtonDefaults.filledTonalIconButtonColors(
+                        containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+                        contentColor = MaterialTheme.colorScheme.primary
+                    ),
+                    onClick = launcher,
+                    modifier = Modifier.align(Alignment.TopEnd)
+                ) {
+                    Icon(
+                        imageVector = Icons.Filled.AddPhotoAlternate,
+                        contentDescription = "Pick Photo"
+                    )
+                }
+            }
+        }
+
+        // Section: Basic Info
         AppTextField(
             value = entryState.name,
             onValueChange = { onAction(FoodEntryAction.OnNameChange(it)) },
             label = "Food Name",
+            placeholder = "e.g. Fresh Milk",
             isError = errorState.isNameError,
             errorMessage = errorState.nameValidation.asString()
         )
@@ -68,7 +120,7 @@ fun FoodEntryForm(
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             AppTextField(
-                modifier = Modifier.weight(0.6f),
+                modifier = Modifier.weight(1f),
                 value = if (entryState.quantity == 0.0) "" else "${entryState.quantity}",
                 onValueChange = { text ->
                     val qty = text.toDoubleOrNull() ?: 0.0
@@ -80,7 +132,7 @@ fun FoodEntryForm(
                 errorMessage = errorState.quantityValidation.asString()
             )
 
-            Box(modifier = Modifier.weight(0.4f)) {
+            Box(modifier = Modifier.weight(1f)) {
                 AppTextField(
                     value = entryState.itemUnit.name.capitalize(),
                     onValueChange = {},
@@ -111,19 +163,20 @@ fun FoodEntryForm(
             }
         }
 
+        // Section: Dates
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            Box(modifier = Modifier.weight(0.5f)) {
+            Box(modifier = Modifier.weight(1f)) {
                 AppTextField(
                     value = dateFormatter.format(Date(entryState.purchaseDate)),
                     onValueChange = {},
-                    isError = errorState.isPurchaseDateError,
-                    errorMessage = errorState.purchaseDateValidation.asString(),
                     label = "Purchase Date",
                     leadingIcon = Icons.Rounded.CalendarToday,
                     readOnly = true,
+                    isError = errorState.isPurchaseDateError,
+                    errorMessage = errorState.purchaseDateValidation.asString(),
                     modifier = Modifier.fillMaxWidth()
                 )
                 Box(
@@ -133,7 +186,7 @@ fun FoodEntryForm(
                 )
             }
 
-            Box(modifier = Modifier.weight(0.5f)) {
+            Box(modifier = Modifier.weight(1f)) {
                 AppTextField(
                     value = if (entryState.expiryDate == -1L) "Select Date" else dateFormatter.format(
                         Date(entryState.expiryDate)
@@ -154,22 +207,13 @@ fun FoodEntryForm(
             }
         }
 
-        AppTextField(
-            value = entryState.notes,
-            onValueChange = { onAction(FoodEntryAction.OnNoteChange(it)) },
-            label = "Notes",
-            placeholder = "Add any extra details...",
-            singleLine = false,
-            modifier = Modifier
-                .fillMaxWidth()
-                .heightIn(min = 100.dp)
-        )
-
+        // Section: Storage
         Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
             Text(
                 text = "Storage Location",
                 style = MaterialTheme.typography.labelLarge,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                fontWeight = FontWeight.Bold
             )
             SingleChoiceSegmentedButtonRow(modifier = Modifier.fillMaxWidth()) {
                 StorageLocation.entries.forEachIndexed { index, loc ->
@@ -180,19 +224,30 @@ fun FoodEntryForm(
                             index = index,
                             count = StorageLocation.entries.size
                         ),
-                        label = { Text(loc.name.capitalize()) }
+                        label = { Text(loc.name.capitalize(), style = MaterialTheme.typography.bodySmall) }
                     )
                 }
             }
         }
+
+        // Section: Notes
+        AppTextField(
+            value = entryState.notes,
+            onValueChange = { onAction(FoodEntryAction.OnNoteChange(it)) },
+            label = "Notes",
+            placeholder = "Add details like brand, store, etc.",
+            singleLine = false,
+            modifier = Modifier.fillMaxWidth()
+
+        )
     }
 
-    // Handle Date Pickers
+    // Date Picker Dialogs
     when (activeDatePicker) {
         ActiveDatePicker.PURCHASE -> {
             AppDatePickerDialog(
                 initialDateMillis = entryState.purchaseDate,
-                title = "Select Purchase Date",
+                title = "Purchase Date",
                 onDateSelected = {
                     onAction(FoodEntryAction.OnPurchaseDateChange(it))
                     activeDatePicker = ActiveDatePicker.NONE
@@ -200,11 +255,10 @@ fun FoodEntryForm(
                 onDismiss = { activeDatePicker = ActiveDatePicker.NONE }
             )
         }
-
         ActiveDatePicker.EXPIRY -> {
             AppDatePickerDialog(
                 initialDateMillis = if (entryState.expiryDate == -1L) null else entryState.expiryDate,
-                title = "Select Expiry Date",
+                title = "Expiry Date",
                 onDateSelected = {
                     onAction(FoodEntryAction.OnExpiryDateChange(it))
                     activeDatePicker = ActiveDatePicker.NONE
@@ -212,7 +266,6 @@ fun FoodEntryForm(
                 onDismiss = { activeDatePicker = ActiveDatePicker.NONE }
             )
         }
-
         ActiveDatePicker.NONE -> {}
     }
 }
