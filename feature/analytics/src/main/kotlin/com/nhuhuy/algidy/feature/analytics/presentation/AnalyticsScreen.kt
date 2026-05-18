@@ -33,7 +33,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
-import com.nhuhuy.algidy.core.designsystem.ExtraColor
+import com.nhuhuy.algidy.core.designsystem.theme.AlgidyTheme
 import com.nhuhuy.algidy.core.model.food.Freshness
 import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.feature.analytics.presentation.component.FreshnessSegmentedButton
@@ -115,8 +115,8 @@ fun AnalyticsScreen(
                 item {
                     ProductStatsCard(
                         modifier = Modifier.height(productStatCardHeight),
-                        contentColor = ExtraColor.OnConsumed,
-                        containerColor = ExtraColor.Consumed,
+                        contentColor = AlgidyTheme.extendedColors.onConsumed,
+                        containerColor = AlgidyTheme.extendedColors.consumed,
                         icon = Icons.Rounded.CheckCircleOutline,
                         title = "Consumed",
                         description = uiState.consumedCount.toString(),
@@ -126,8 +126,8 @@ fun AnalyticsScreen(
                 item {
                     ProductStatsCard(
                         modifier = Modifier.height(productStatCardHeight),
-                        contentColor = ExtraColor.OnWasted,
-                        containerColor = ExtraColor.Wasted,
+                        contentColor = AlgidyTheme.extendedColors.onWasted,
+                        containerColor = AlgidyTheme.extendedColors.wasted,
                         icon = Icons.Rounded.DeleteForever,
                         title = "Wasted",
                         description = uiState.wastedCount.toString(),

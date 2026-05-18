@@ -20,7 +20,10 @@ class SearchViewModel(
 
     init {
         viewModelScope.launch {
-            val historyResults = getHistoryResultUseCase().map { food -> food.name }
+            val historyResults = getHistoryResultUseCase().sortedByDescending { historyResult ->
+                historyResult.timeStamp
+            }.distinctBy { it.name }
+                .map { it.name }
             _uiState.product { copy(searchHistory = historyResults) }
         }
     }

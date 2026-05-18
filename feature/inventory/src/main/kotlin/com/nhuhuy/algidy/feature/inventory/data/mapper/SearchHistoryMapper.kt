@@ -5,7 +5,8 @@ import com.nhuhuy.algidy.feature.inventory.domain.model.HistoryResult
 
 fun SearchHistoryEntity.toDomain() = HistoryResult(
     id = id,
-    name = query
+    name = query,
+    timeStamp = timestamp
 )
 
 fun HistoryResult.toSearchHistoryEntity() = SearchHistoryEntity(

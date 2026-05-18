@@ -19,7 +19,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -29,8 +28,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
+import com.nhuhuy.algidy.capitalize
 import com.nhuhuy.algidy.core.model.food.FoodItem
-import com.nhuhuy.algidy.core.model.food.Freshness
+import com.nhuhuy.algidy.core.presentation.utils.toBackgroundColor
+import com.nhuhuy.algidy.core.presentation.utils.toContentColor
 
 @Composable
 fun InventoryFoodItem(
@@ -39,12 +40,6 @@ fun InventoryFoodItem(
     onItemClick: (item: FoodItem) -> Unit
 ) {
     val freshness = item.getFreshnessStatus()
-    val statusColor = when (freshness) {
-        Freshness.EXPIRED -> MaterialTheme.colorScheme.error
-        Freshness.URGENT -> MaterialTheme.colorScheme.tertiary
-        Freshness.WARNING -> MaterialTheme.colorScheme.secondary
-        Freshness.FRESH -> MaterialTheme.colorScheme.primary
-    }
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(8.dp)
@@ -79,14 +74,14 @@ fun InventoryFoodItem(
                 )
             }
             Surface(
-                color = statusColor,
+                color = freshness.toBackgroundColor(),
                 shape = RoundedCornerShape(
                     topStart = 4.dp,
                     bottomStart = 4.dp,
                     topEnd = 16.dp,
                     bottomEnd = 16.dp
                 ),
-                contentColor = contentColorFor(statusColor),
+                contentColor = freshness.toContentColor(),
                 modifier = Modifier
                     .align(Alignment.TopStart)
                     .padding(8.dp)
@@ -110,20 +105,20 @@ fun InventoryFoodItem(
             }
 
             Surface(
-                color = statusColor,
+                color = freshness.toBackgroundColor(),
                 shape = RoundedCornerShape(
                     topStart = 16.dp,
                     bottomStart = 16.dp,
                     topEnd = 4.dp,
                     bottomEnd = 4.dp
                 ),
-                contentColor = contentColorFor(statusColor),
+                contentColor = freshness.toContentColor(),
                 modifier = Modifier
                     .align(Alignment.BottomEnd)
                     .padding(8.dp)
             ) {
                 Text(
-                    text = "${item.quantity} ${item.itemUnit.name}",
+                    text = item.location.name.capitalize(),
                     style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
                     modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
                     maxLines = 1,

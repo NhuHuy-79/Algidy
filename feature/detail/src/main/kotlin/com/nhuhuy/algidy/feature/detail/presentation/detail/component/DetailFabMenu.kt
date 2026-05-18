@@ -60,8 +60,8 @@ fun DetailFabMenu(
             },
             icon = { Icon(Icons.Rounded.Restaurant, contentDescription = null) },
             text = { Text(text = "I Consumed This") },
-            containerColor = MaterialTheme.colorScheme.secondary,
-            contentColor = MaterialTheme.colorScheme.onSecondary
+            containerColor = AlgidyTheme.extendedColors.consumedContainer,
+            contentColor = AlgidyTheme.extendedColors.onConsumedContainer
         )
 
         FloatingActionButtonMenuItem(
@@ -82,8 +82,8 @@ fun DetailFabMenu(
             },
             icon = { Icon(Icons.Rounded.DeleteOutline, contentDescription = null) },
             text = { Text(text = "Mark as Wasted") },
-            containerColor = MaterialTheme.colorScheme.error,
-            contentColor = MaterialTheme.colorScheme.onError
+            containerColor = AlgidyTheme.extendedColors.wastedContainer,
+            contentColor = AlgidyTheme.extendedColors.onWastedContainer
         )
     }
 }

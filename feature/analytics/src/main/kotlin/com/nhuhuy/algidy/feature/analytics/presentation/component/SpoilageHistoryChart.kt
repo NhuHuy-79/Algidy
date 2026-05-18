@@ -10,8 +10,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.unit.dp
-import com.nhuhuy.algidy.core.designsystem.ExtraColor
 import com.nhuhuy.algidy.core.designsystem.component.CardLayout
+import com.nhuhuy.algidy.core.designsystem.theme.AlgidyTheme
+import com.nhuhuy.algidy.feature.analytics.presentation.viewmodel.SpoilageChartUiModel
 import ir.ehsannarmani.compose_charts.LineChart
 import ir.ehsannarmani.compose_charts.models.AnimationMode
 import ir.ehsannarmani.compose_charts.models.DividerProperties
@@ -21,7 +22,6 @@ import ir.ehsannarmani.compose_charts.models.LabelHelperProperties
 import ir.ehsannarmani.compose_charts.models.LabelProperties
 import ir.ehsannarmani.compose_charts.models.Line
 import ir.ehsannarmani.compose_charts.models.LineProperties
-import com.nhuhuy.algidy.feature.analytics.presentation.viewmodel.SpoilageChartUiModel
 
 @Composable
 fun SpoilageHistoryChart(
@@ -40,8 +40,8 @@ fun SpoilageHistoryChart(
                 Line(
                     label = "Wasted",
                     values = uiModel.wastedValues,
-                    color = SolidColor(ExtraColor.Wasted),
-                    firstGradientFillColor = ExtraColor.Wasted.copy(alpha = .5f),
+                    color = SolidColor(AlgidyTheme.extendedColors.wasted),
+                    firstGradientFillColor = AlgidyTheme.extendedColors.wasted.copy(alpha = .5f),
                     secondGradientFillColor = Color.Transparent,
                     strokeAnimationSpec = tween(2000, easing = EaseInOutCubic),
                     gradientAnimationDelay = 1000,
@@ -50,8 +50,8 @@ fun SpoilageHistoryChart(
                 Line(
                     label = "Consumed",
                     values = uiModel.consumedValues,
-                    color = SolidColor(ExtraColor.Consumed),
-                    firstGradientFillColor = ExtraColor.Consumed.copy(alpha = .5f),
+                    color = SolidColor(AlgidyTheme.extendedColors.consumed),
+                    firstGradientFillColor = AlgidyTheme.extendedColors.consumed.copy(alpha = .5f),
                     secondGradientFillColor = Color.Transparent,
                     strokeAnimationSpec = tween(2000, easing = EaseInOutCubic),
                     gradientAnimationDelay = 1000,

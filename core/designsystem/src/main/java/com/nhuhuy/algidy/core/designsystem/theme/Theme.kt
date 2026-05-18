@@ -7,6 +7,7 @@ import androidx.compose.material3.MotionScheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 
 private val DarkColorScheme = darkColorScheme(
     primary = primaryDark,
@@ -77,11 +78,21 @@ fun AlgidyTheme(
     content: @Composable () -> Unit
 ) {
     val colorScheme = if (darkTheme) DarkColorScheme else LightColorScheme
+    val extraColor = if (darkTheme) DarkFoodStateColors else LightFoodStateColors
+    CompositionLocalProvider(
+        LocalFoodStateColors provides extraColor
+    ) {
+        MaterialExpressiveTheme(
+            colorScheme = colorScheme,
+            motionScheme = MotionScheme.expressive(),
+            typography = Typography,
+            content = content
+        )
+    }
+}
 
-    MaterialExpressiveTheme(
-        colorScheme = colorScheme,
-        motionScheme = MotionScheme.expressive(),
-        typography = Typography,
-        content = content
-    )
+object AlgidyTheme {
+    val extendedColors: FoodStateColors
+        @Composable
+        get() = LocalFoodStateColors.current
 }

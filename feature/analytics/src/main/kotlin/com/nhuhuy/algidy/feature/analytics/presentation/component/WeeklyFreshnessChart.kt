@@ -14,16 +14,13 @@ import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.nhuhuy.algidy.core.designsystem.component.CardLayout
 import com.nhuhuy.algidy.core.model.food.Freshness
-import com.nhuhuy.algidy.core.model.food.Freshness.EXPIRED
-import com.nhuhuy.algidy.core.model.food.Freshness.FRESH
-import com.nhuhuy.algidy.core.model.food.Freshness.URGENT
-import com.nhuhuy.algidy.core.model.food.Freshness.WARNING
+import com.nhuhuy.algidy.core.presentation.utils.toBackgroundColor
+import com.nhuhuy.algidy.core.presentation.utils.toContentColor
 import com.nhuhuy.algidy.feature.analytics.presentation.viewmodel.ExpiryChartUiModel
 import ir.ehsannarmani.compose_charts.ColumnChart
 import ir.ehsannarmani.compose_charts.models.AnimationMode
@@ -93,17 +90,8 @@ fun WeeklyFreshnessChart(
 
 @Composable
 fun ExpiryChartUiModel.toBarData(filter: Freshness): List<Bars> {
-    val colorScheme = MaterialTheme.colorScheme
-
-    fun getFreshnessBrush(type: Freshness): Brush {
-        val color = when (type) {
-            FRESH -> colorScheme.primary
-            WARNING -> colorScheme.tertiary
-            URGENT -> colorScheme.secondary
-            EXPIRED -> colorScheme.error
-        }
-        return SolidColor(color)
-    }
+    val color = filter.toBackgroundColor()
+    val solid = SolidColor(color)
 
     return labels.indices.map { index ->
         Bars(
@@ -114,7 +102,7 @@ fun ExpiryChartUiModel.toBarData(filter: Freshness): List<Bars> {
                     Bars.Data(
                         label = freshnessData.type.name,
                         value = freshnessData.values.getOrElse(index) { 0.0 },
-                        color = getFreshnessBrush(freshnessData.type)
+                        color = solid
                     )
                 }
         )
@@ -134,7 +122,8 @@ fun FreshnessSegmentedButton(
         Freshness.entries.forEachIndexed { index, freshness ->
             SegmentedButton(
                 colors = SegmentedButtonDefaults.colors(
-                    activeContentColor = MaterialTheme.colorScheme.onSecondaryContainer,
+                    activeContainerColor = freshness.toBackgroundColor(),
+                    activeContentColor = freshness.toContentColor(),
                     disabledActiveContentColor = MaterialTheme.colorScheme.onSurfaceVariant
                 ),
                 shape = SegmentedButtonDefaults.itemShape(

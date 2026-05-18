@@ -9,7 +9,10 @@ class SearchFoodUseCase(
     private val searchRepository: SearchRepository
 ) {
     suspend operator fun invoke(searchQuery: String): List<FoodItem> {
-        val historyResult = HistoryResult(name = searchQuery)
+        val historyResult = HistoryResult(
+            name = searchQuery,
+            timeStamp = System.currentTimeMillis()
+        )
         val normalizedQuery = searchQuery.toGenericNormalized()
         return searchRepository.getFoodItemListByQuery(query = normalizedQuery).also {
             searchRepository.addHistoryResult(historyResult)

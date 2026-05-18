@@ -31,6 +31,8 @@ import com.nhuhuy.algidy.core.model.food.FoodItem
 import com.nhuhuy.algidy.core.model.food.Freshness
 import com.nhuhuy.algidy.core.model.food.ItemUnit
 import com.nhuhuy.algidy.core.model.food.StorageLocation
+import com.nhuhuy.algidy.core.presentation.utils.toBackgroundColor
+import com.nhuhuy.algidy.core.presentation.utils.toContentColor
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
@@ -41,7 +43,7 @@ fun DetailHeroCard(
     val freshnessProgress = item.calculateFreshnessProgress()
     val freshnessStatus = item.getFreshnessStatus()
 
-    val statusColor = when (freshnessStatus) {
+    when (freshnessStatus) {
         Freshness.EXPIRED -> MaterialTheme.colorScheme.error
         Freshness.URGENT -> MaterialTheme.colorScheme.tertiary
         Freshness.WARNING -> MaterialTheme.colorScheme.secondary
@@ -67,8 +69,8 @@ fun DetailHeroCard(
                 CircularWavyProgressIndicator(
                     progress = { freshnessProgress },
                     modifier = Modifier.fillMaxSize(),
-                    color = statusColor,
-                    trackColor = statusColor.copy(alpha = 0.15f),
+                    color = freshnessStatus.toBackgroundColor(),
+                    trackColor = freshnessStatus.toBackgroundColor().copy(alpha = 0.15f),
                     amplitude = { 1f },
                     wavelength = 20.dp
                 )
@@ -77,7 +79,7 @@ fun DetailHeroCard(
                     text = "${(freshnessProgress * 100).toInt()}%",
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold,
-                    color = statusColor
+                    color = freshnessStatus.toBackgroundColor()
                 )
             }
 
@@ -111,7 +113,7 @@ fun DetailHeroCard(
                 }
 
                 Surface(
-                    color = statusColor.copy(alpha = 0.12f),
+                    color = freshnessStatus.toBackgroundColor(),
                     shape = CircleShape,
                     modifier = Modifier.padding(top = 4.dp)
                 ) {
@@ -119,7 +121,7 @@ fun DetailHeroCard(
                         text = freshnessStatus.name.lowercase().capitalize(),
                         modifier = Modifier.padding(horizontal = 12.dp, vertical = 4.dp),
                         style = MaterialTheme.typography.labelLarge,
-                        color = statusColor,
+                        color = freshnessStatus.toContentColor(),
                         fontWeight = FontWeight.Bold
                     )
                 }
