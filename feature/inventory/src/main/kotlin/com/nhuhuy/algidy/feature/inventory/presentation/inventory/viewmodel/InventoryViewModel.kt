@@ -1,13 +1,14 @@
 package com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel
 
 import androidx.lifecycle.viewModelScope
-import com.nhuhuy.algidy.core.data.repository.FoodRepository
 import com.nhuhuy.algidy.core.data.util.product
 import com.nhuhuy.algidy.core.model.food.FoodItem
 import com.nhuhuy.algidy.core.presentation.delegate.FoodEntryDelegate
 import com.nhuhuy.algidy.core.presentation.delegate.FoodEntryDelegateImpl
 import com.nhuhuy.algidy.core.presentation.viewmodel.BaseViewModel
 import com.nhuhuy.algidy.feature.inventory.domain.usecase.CreateFoodItemUseCase
+import com.nhuhuy.algidy.feature.inventory.domain.usecase.DeleteFoodItemUseCase
+import com.nhuhuy.algidy.feature.inventory.domain.usecase.ObserveFoodItemUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -18,15 +19,16 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 class InventoryViewModel(
-    private val repository: FoodRepository,
+    private val observerFoodItemUseCase: ObserveFoodItemUseCase,
     private val foodEntryDelegateImpl: FoodEntryDelegateImpl,
     private val createFoodItemUseCase: CreateFoodItemUseCase,
+    private val deleteFoodItemUseCase: DeleteFoodItemUseCase,
 ) : BaseViewModel<InventoryUiState, InventoryEvent, InventoryAction>(),
     FoodEntryDelegate by foodEntryDelegateImpl {
     private val _uiState = MutableStateFlow(InventoryUiState())
     override val uiState: StateFlow<InventoryUiState> = _uiState.asStateFlow()
 
-    val resultState: StateFlow<InventoryResultState> = repository.observeFoodItems()
+    val resultState: StateFlow<InventoryResultState> = observerFoodItemUseCase()
         .map { items ->
             if (items.isEmpty()) InventoryResultState.Empty
             else InventoryResultState.Success(items = items)
@@ -42,7 +44,7 @@ class InventoryViewModel(
         when (action) {
             is InventoryAction.RemoveItem -> {
                 viewModelScope.launch {
-                    repository.removeFoodItem(action.id)
+                    deleteFoodItemUseCase(id = action.id)
                 }
             }
 
@@ -54,6 +56,7 @@ class InventoryViewModel(
             InventoryAction.OnManuallyClick -> viewModelScope.launch {
                 val foodEntry: FoodItem = getResultFoodItem()
                 _uiState.product { copy(overlay = InventoryOverlay.NONE) }
+                resetEntryData()
                 createFoodItemUseCase(foodItem = foodEntry)
             }
         }

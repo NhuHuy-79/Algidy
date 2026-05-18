@@ -33,7 +33,7 @@ class FoodRepositoryImpl(
         }
     }
 
-    override fun observeFoodItems(): Flow<List<FoodItem>> {
+    override fun observeAllActiveFoodItems(): Flow<List<FoodItem>> {
         return foodDao.observeAllFoodItemsByStatus(status = FoodStatus.ACTIVE).map { entities ->
             entities.map { it.toDomain() }
         }

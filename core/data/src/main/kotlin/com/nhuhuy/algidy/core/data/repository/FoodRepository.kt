@@ -14,7 +14,7 @@ interface FoodRepository {
     suspend fun getFoodById(id: String): FoodItem?
     suspend fun scanFoodBarcode(barcodeString: String): Resource<FoodItem>
     suspend fun getAllFoodItems(): List<FoodItem>
-    fun observeFoodItems(): Flow<List<FoodItem>>
+    fun observeAllActiveFoodItems(): Flow<List<FoodItem>>
     fun observeAllFoodItems(): Flow<List<FoodItem>>
 
     //UPDATE
