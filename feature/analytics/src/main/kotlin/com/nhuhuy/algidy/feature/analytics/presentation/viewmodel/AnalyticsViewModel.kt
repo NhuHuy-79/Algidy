@@ -1,43 +1,50 @@
 package com.nhuhuy.algidy.feature.analytics.presentation.viewmodel
 
 import androidx.lifecycle.viewModelScope
-import com.nhuhuy.algidy.capitalize
 import com.nhuhuy.algidy.core.presentation.viewmodel.BaseViewModel
-import com.nhuhuy.algidy.feature.analytics.domain.repository.AnalyticsRepository
+import com.nhuhuy.algidy.feature.analytics.domain.usecase.GetDailyFreshnessStatsUseCase
+import com.nhuhuy.algidy.feature.analytics.domain.usecase.GetSummaryStatsUseCase
+import com.nhuhuy.algidy.feature.analytics.domain.usecase.GetWastedByCategoryUseCase
+import com.nhuhuy.algidy.feature.analytics.domain.usecase.GetWeeklySpoilageHistoryUseCase
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
+/**
+ * ViewModel for the Analytics screen.
+ * Orchestrates UI state by combining multiple domain UseCases and mapping them to UI models.
+ */
 class AnalyticsViewModel(
-    repository: AnalyticsRepository
+    getSummaryStatsUseCase: GetSummaryStatsUseCase,
+    getWastedByCategoryUseCase: GetWastedByCategoryUseCase,
+    getDailyFreshnessStatsUseCase: GetDailyFreshnessStatsUseCase,
+    getWeeklySpoilageHistoryUseCase: GetWeeklySpoilageHistoryUseCase
 ) : BaseViewModel<AnalyticsUiState, AnalyticsEvent, AnalyticsAction>() {
 
-    override val uiState: StateFlow<AnalyticsUiState> = repository.getAnalyticsStats()
-        .map { stats ->
-            AnalyticsUiState(
-                weeklyFoodItemsCount = stats.weeklyCount,
-                wastedCount = stats.wastedCount,
-                consumedCount = stats.consumedCount,
-                otherCount = stats.otherCount,
-                expiryChartUiModel = stats.dailyStats.toExpiryChartUiModel(),
-                spoilageChartUiModel = SpoilageChartUiModel(
-                    wastedValues = stats.spoilageHistory.wastedByWeek,
-                    consumedValues = stats.spoilageHistory.consumedByWeek,
-                    labels = stats.spoilageHistory.weekLabels
-                ),
-                wastedByCategory = stats.wastedByCategory.map {
-                    CategoryWasteUiModel(
-                        location = it.location,
-                        label = it.location.name.lowercase().replaceFirstChar { char -> char.uppercase() },
-                        percentage = it.percentage
-                    )
-                },
-                isLoading = false
-            )
-        }
+    override val uiState: StateFlow<AnalyticsUiState> = combine(
+        getSummaryStatsUseCase(),
+        getWastedByCategoryUseCase(),
+        getDailyFreshnessStatsUseCase(),
+        getWeeklySpoilageHistoryUseCase()
+    ) { summary, waste, freshness, history ->
+        // Business logic mapping to UI state happens here in the ViewModel
+        AnalyticsUiState(
+            weeklyFoodItemsCount = summary.weeklyCount,
+            wastedCount = summary.wastedCount,
+            consumedCount = summary.consumedCount,
+            otherCount = summary.otherCount,
+            expiryChartUiModel = freshness.toExpiryChartUiModel(),
+            spoilageChartUiModel = history.toSpoilageChartUiModel(),
+            wastedByCategory = waste.map { model ->
+                model.toCategoryWastedUiModel()
+            },
+            isLoading = false
+        )
+    }
         .onStart { emit(AnalyticsUiState(isLoading = true)) }
         .stateIn(
             scope = viewModelScope,
@@ -54,7 +61,7 @@ class AnalyticsViewModel(
             }
 
             AnalyticsAction.OnRefresh -> {
-                // Flow will automatically refresh when DB changes
+                // Flow combination will automatically trigger updates when underlying data changes.
             }
         }
     }

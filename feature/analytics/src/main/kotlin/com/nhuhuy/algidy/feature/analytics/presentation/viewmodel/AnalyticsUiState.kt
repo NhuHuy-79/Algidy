@@ -1,10 +1,13 @@
 package com.nhuhuy.algidy.feature.analytics.presentation.viewmodel
 
 import androidx.compose.runtime.Immutable
+import com.nhuhuy.algidy.capitalize
 import com.nhuhuy.algidy.core.model.food.Freshness
 import com.nhuhuy.algidy.core.model.food.StorageLocation
 import com.nhuhuy.algidy.core.presentation.viewmodel.UiState
+import com.nhuhuy.algidy.feature.analytics.domain.model.CategoryWasteStats
 import com.nhuhuy.algidy.feature.analytics.domain.model.DailyFreshnessStats
+import com.nhuhuy.algidy.feature.analytics.domain.model.SpoilageHistory
 
 @Immutable
 data class AnalyticsUiState(
@@ -45,6 +48,14 @@ data class ExpiryChartUiModel(
     val labels: List<String> = emptyList()
 )
 
+fun CategoryWasteStats.toCategoryWastedUiModel() : CategoryWasteUiModel {
+    return CategoryWasteUiModel(
+        location = this.location,
+        label = this.location.name.capitalize(),
+        percentage = this.percentage
+    )
+}
+
 fun List<DailyFreshnessStats>.toExpiryChartUiModel(): ExpiryChartUiModel {
     val labels = this.map { it.date.dayOfWeek.name.take(3) }
 
@@ -58,10 +69,11 @@ fun List<DailyFreshnessStats>.toExpiryChartUiModel(): ExpiryChartUiModel {
     return ExpiryChartUiModel(items = items, labels = labels)
 }
 
-fun List<DailyFreshnessStats>.toSpoilageChartUiModel(): SpoilageChartUiModel {
+fun SpoilageHistory.toSpoilageChartUiModel() : SpoilageChartUiModel {
     return SpoilageChartUiModel(
-        wastedValues = this.map { it.expiredCount },
-        consumedValues = this.map { it.freshCount },
-        labels = this.map { it.date.dayOfWeek.name.take(3) }
+        wastedValues = this.wastedValues,
+        consumedValues = this.consumedValues,
+        labels = this.labels
     )
 }
+
