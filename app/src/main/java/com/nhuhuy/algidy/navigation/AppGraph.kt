@@ -26,6 +26,7 @@ import com.nhuhuy.algidy.feature.inventory.presentation.search.SearchInventoryRo
 import com.nhuhuy.algidy.feature.review.ReviewRoute
 import com.nhuhuy.algidy.feature.scanner.presentation.confirm.ConfirmRoute
 import com.nhuhuy.algidy.feature.scanner.presentation.scanner.ScannerRoute
+import com.nhuhuy.algidy.feature.settings.presentation.navigation.SettingRoute
 
 @Composable
 fun AppGraph() {
@@ -131,6 +132,33 @@ fun AppGraph() {
                     onNavigateToConfirm = { id ->
                         backStack.add(Destination.Confirm(foodId = id))
                     }
+                )
+            }
+
+            entry<Destination.Setting>(
+                metadata = NavDisplay.transitionSpec {
+                    slideInVertically(
+                        initialOffsetY = { it },
+                        animationSpec = tween(400, easing = EaseOutQuart)
+                    ) + fadeIn(animationSpec = tween(300)) togetherWith
+                            fadeOut(animationSpec = tween(300))
+
+                } + NavDisplay.popTransitionSpec {
+                    EnterTransition.None togetherWith slideOutVertically(
+                        targetOffsetY = { it },
+                        animationSpec = tween(400, easing = EaseInCubic)
+                    ) + fadeOut(
+                        animationSpec = tween(300)
+                    )
+                } + NavDisplay.predictivePopTransitionSpec {
+                    EnterTransition.None togetherWith slideOutVertically(
+                        targetOffsetY = { it },
+                        animationSpec = tween(400, easing = EaseInCubic)
+                    ) + fadeOut(animationSpec = tween(300))
+                }
+            ) {
+                SettingRoute(
+                    onNavigateBack = backStack::removeLastOrNull
                 )
             }
 

@@ -17,7 +17,7 @@ fun BoxLayout(
     Box(
         modifier = modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.surface),
+            .background(MaterialTheme.colorScheme.background),
         contentAlignment = Alignment.Center,
         content = content
     )

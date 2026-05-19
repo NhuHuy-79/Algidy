@@ -1,89 +1,198 @@
 package com.nhuhuy.algidy.feature.settings.presentation
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.rounded.ArrowBack
+import androidx.compose.material.icons.rounded.Download
+import androidx.compose.material.icons.rounded.Info
+import androidx.compose.material.icons.rounded.Upload
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.MediumFlexibleTopAppBar
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Switch
+import androidx.compose.material3.SegmentedButton
+import androidx.compose.material3.SegmentedButtonDefaults
+import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.nhuhuy.algidy.core.model.setting.DarkMode
+import com.nhuhuy.algidy.core.presentation.R
+import com.nhuhuy.algidy.core.presentation.utils.ItemPosition
+import com.nhuhuy.algidy.feature.settings.presentation.component.ClickableSettingItem
+import com.nhuhuy.algidy.feature.settings.presentation.component.ToggleableSettingItem
 import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.SettingsAction
 import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.SettingsUiState
+import com.nhuhuy.algidy.feature.settings.utils.toStringRes
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun SettingsScreen(
     uiState: SettingsUiState,
-    onAction: (SettingsAction) -> Unit
+    onAction: (SettingsAction) -> Unit,
+    onNavigateBack: () -> Unit
 ) {
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = { Text("Settings") },
+            MediumFlexibleTopAppBar(
+                title = {
+                    Text(
+                        text = stringResource(R.string.settings_title),
+                        style = MaterialTheme.typography.displaySmall
+                    )
+                },
                 navigationIcon = {
-                    IconButton(onClick = { onAction(SettingsAction.OnBackClick) }) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+                    IconButton(
+                        onClick = onNavigateBack
+                    ) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
+                            contentDescription = null
+                        )
                     }
                 }
             )
         }
     ) { padding ->
-        Column(
+        LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(padding)
-                .padding(16.dp)
+                .padding(padding),
+            contentPadding = PaddingValues(16.dp),
+            verticalArrangement = Arrangement.spacedBy(2.dp)
         ) {
-            SettingItem(
-                title = "Dark Mode",
-                description = "Enable dark theme for the app",
-                checked = uiState.isDarkMode,
-                onCheckedChange = { onAction(SettingsAction.ToggleDarkMode(it)) }
-            )
+            item {
+                Text(
+                    text = stringResource(R.string.settings_dark_mode),
+                    style = MaterialTheme.typography.titleMedium,
+                    modifier = Modifier.padding(vertical = 4.dp)
+                )
+            }
 
-            SettingItem(
-                title = "Notifications",
-                description = "Receive alerts for expiring food",
-                checked = uiState.isNotificationsEnabled,
-                onCheckedChange = { onAction(SettingsAction.ToggleNotifications(it)) }
-            )
+            item {
+                SingleChoiceSegmentedButtonRow(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(bottom = 8.dp),
+                ) {
+                    DarkMode.entries.forEachIndexed { index, darkMode ->
+                        SegmentedButton(
+                            icon = {
+                                SegmentedButtonDefaults.Icon(active = uiState.darkMode == darkMode)
+                            },
+                            label = {
+                                Text(
+                                    text = stringResource(darkMode.toStringRes()),
+                                    style = MaterialTheme.typography.labelLarge.copy(
+                                        fontWeight = FontWeight.Black
+                                    )
+                                )
+                            },
+                            selected = uiState.darkMode == darkMode,
+                            onClick = {},
+                            shape = SegmentedButtonDefaults.itemShape(
+                                index = index,
+                                count = DarkMode.entries.size
+                            ),
+                        )
+                    }
+                }
+            }
+
+            item {
+                Text(
+                    text = stringResource(R.string.setting_other_settings_title),
+                    style = MaterialTheme.typography.titleMedium,
+                    modifier = Modifier.padding(vertical = 4.dp)
+                )
+            }
+
+            item {
+                ToggleableSettingItem(
+                    position = ItemPosition.TOP,
+                    enabled = uiState.isNotificationsEnabled,
+                    text = stringResource(R.string.settings_notifications_desc),
+                    title = stringResource(R.string.settings_notifications),
+                    onToggleClick = { enable ->
+                        onAction(SettingsAction.ToggleNotifications(enabled = enable))
+                    },
+                )
+            }
+
+            item {
+                ToggleableSettingItem(
+                    position = ItemPosition.MIDDLE,
+                    enabled = uiState.isBiometricLock,
+                    text = stringResource(R.string.setting_biometric_desc),
+                    title = stringResource(R.string.setting_biometric),
+                    onToggleClick = { enable ->
+                        //
+                    },
+                )
+            }
+
+            item {
+                ToggleableSettingItem(
+                    enabled = uiState.isDarkMode,
+                    position = ItemPosition.BOTTOM,
+                    text = stringResource(R.string.settings_dark_mode_desc),
+                    title = stringResource(R.string.settings_dark_mode),
+                    onToggleClick = { enable ->
+                        onAction(SettingsAction.ToggleNotifications(enabled = enable))
+                    }
+                )
+            }
+
+            item {
+                Spacer(Modifier.height(8.dp))
+            }
+
+            item {
+                ClickableSettingItem(
+                    position = ItemPosition.TOP,
+                    icon = Icons.Rounded.Upload,
+                    description = stringResource(R.string.setting_export_desc),
+                    title = stringResource(R.string.setting_export),
+                    onClick = {}
+                )
+            }
+
+            item {
+                ClickableSettingItem(
+                    position = ItemPosition.MIDDLE,
+                    icon = Icons.Rounded.Download,
+                    description = stringResource(R.string.setting_import_desc),
+                    title = stringResource(R.string.setting_import),
+                    onClick = {}
+                )
+            }
+
+            item {
+                ClickableSettingItem(
+                    position = ItemPosition.BOTTOM,
+                    icon = Icons.Rounded.Info,
+                    description = stringResource(R.string.setting_about_app_desc),
+                    title = stringResource(R.string.setting_about_app),
+                    onClick = {
+
+                    }
+                )
+            }
+
+
         }
     }
 }
 
-@Composable
-fun SettingItem(
-    title: String,
-    description: String,
-    checked: Boolean,
-    onCheckedChange: (Boolean) -> Unit
-) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 12.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Column(modifier = Modifier.weight(1f)) {
-            Text(text = title, style = MaterialTheme.typography.titleMedium)
-            Text(
-                text = description,
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
-        }
-        Switch(checked = checked, onCheckedChange = onCheckedChange)
-    }
-}

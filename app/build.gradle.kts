@@ -23,6 +23,7 @@ dependencies {
     implementation(project(":feature:review"))
     implementation(project(":feature:detail"))
     implementation(project(":feature:analytics"))
+    implementation(project(":feature:settings"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.core.splashscreen)

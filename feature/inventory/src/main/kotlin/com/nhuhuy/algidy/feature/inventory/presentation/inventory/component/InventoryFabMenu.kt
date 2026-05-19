@@ -46,8 +46,8 @@ fun InventoryFabMenu(
                 },
                 containerColor = { value ->
                     lerp(
-                        start = scheme.primary,
-                        stop = scheme.primaryContainer,
+                        start = scheme.primaryContainer,
+                        stop = scheme.secondaryContainer,
                         fraction = value
                     )
                 },
@@ -56,40 +56,40 @@ fun InventoryFabMenu(
             ) {
                 Icon(
                     modifier = Modifier.size(36.dp),
-                    imageVector = if (expanded) Icons.Rounded.Close else Icons.Rounded.Add,
-                    tint = if (expanded) scheme.onPrimaryContainer else scheme.onPrimary,
+                    imageVector = if (!expanded) Icons.Rounded.Add else Icons.Rounded.Close,
+                    tint = if (expanded) scheme.onSecondaryContainer else scheme.onPrimaryContainer,
                     contentDescription = "Menu Actions",
                 )
             }
         }
     ) {
         FloatingActionButtonMenuItem(
-            containerColor = MaterialTheme.colorScheme.primary,
-            contentColor = MaterialTheme.colorScheme.onPrimary,
+            containerColor = MaterialTheme.colorScheme.primaryContainer,
+            contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
             onClick = onBarcodeScanClick,
             icon = { Icon(Icons.Rounded.Camera, contentDescription = null) },
             text = { Text(text = "Scan Food") },
         )
 
         FloatingActionButtonMenuItem(
-            containerColor = MaterialTheme.colorScheme.primary,
-            contentColor = MaterialTheme.colorScheme.onPrimary,
+            containerColor = MaterialTheme.colorScheme.primaryContainer,
+            contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
             onClick = onManualClick,
             icon = { Icon(Icons.Rounded.Edit, contentDescription = null) },
             text = { Text(text = "Add Manually") },
         )
 
         FloatingActionButtonMenuItem(
-            containerColor = MaterialTheme.colorScheme.primary,
-            contentColor = MaterialTheme.colorScheme.onPrimary,
+            containerColor = MaterialTheme.colorScheme.primaryContainer,
+            contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
             onClick = onAnalyticsClick,
             icon = { Icon(Icons.Rounded.Analytics, contentDescription = null) },
             text = { Text(text = "Analytics") },
         )
 
         FloatingActionButtonMenuItem(
-            containerColor = MaterialTheme.colorScheme.primary,
-            contentColor = MaterialTheme.colorScheme.onPrimary,
+            containerColor = MaterialTheme.colorScheme.primaryContainer,
+            contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
             onClick = onSettingClick,
             icon = { Icon(Icons.Rounded.Settings, contentDescription = null) },
             text = { Text(text = "Setting") },

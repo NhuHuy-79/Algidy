@@ -29,7 +29,7 @@ fun CardLayout(
     title: String,
     cardColors: CardColors = CardDefaults.cardColors(
         containerColor = MaterialTheme.colorScheme.surfaceVariant,
-        contentColor = MaterialTheme.colorScheme.onSurfaceVariant
+        contentColor = MaterialTheme.colorScheme.onSurface
     ),
     content: @Composable ColumnScope.() -> Unit
 ) {

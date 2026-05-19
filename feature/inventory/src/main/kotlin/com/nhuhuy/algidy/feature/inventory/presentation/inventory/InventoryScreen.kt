@@ -174,20 +174,20 @@ fun InventoryScreen(
                 expanded = expanded,
                 onExpandClose = { value -> expanded = value },
                 onManualClick = {
-                    onManualAddClick()
                     expanded = false
+                    onManualAddClick()
                 },
                 onSettingClick = {
-                    onSettingClick()
                     expanded = false
+                    onSettingClick()
                 },
                 onBarcodeScanClick = {
-                    onBarcodeScanClick()
                     expanded = false
+                    onBarcodeScanClick()
                 },
                 onAnalyticsClick = {
-                    onAnalyticsClick()
                     expanded = false
+                    onAnalyticsClick()
                 }
             )
         }

@@ -100,11 +100,30 @@
     <string name="analytics_card_weekly_freshness">Weekly Freshness</string>
 
     <!-- Settings Screen -->
+    <string name="setting_dark_mode">Dark</string>
+    <string name="setting_light_mode">Light</string>
+    <string name="setting_system_mode">System</string>
+
     <string name="settings_title">Settings</string>
     <string name="settings_dark_mode">Dark Mode</string>
     <string name="settings_dark_mode_desc">Enable dark theme for the app</string>
     <string name="settings_notifications">Notifications</string>
     <string name="settings_notifications_desc">Receive alerts for expiring food</string>
+    <string name="setting_biometric">Biometrics Lock</string>
+    <string name="setting_biometric_desc">Biometrics lock for the app</string>
+
+    <string name="setting_backup">Back Up</string>
+    <string name="setting_backup_desc">Export or import your foods.</string>
+
+    <string name="setting_export">Export</string>
+    <string name="setting_export_desc">Export your data in Downloads/Algidy</string>
+    <string name="setting_import">Import</string>
+    <string name="setting_import_desc">Import your data from Downloads/Algidy</string>
+
+    <string name="setting_about_app">About App</string>
+    <string name="setting_about_app_desc">Algidy</string>
+
+    <string name="setting_other_settings_title">Other Settings</string>
 
 
 </resources>

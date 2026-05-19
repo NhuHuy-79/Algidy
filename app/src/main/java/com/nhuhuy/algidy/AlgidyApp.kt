@@ -11,6 +11,7 @@ import com.nhuhuy.algidy.feature.analytics.di.analyticsModule
 import com.nhuhuy.algidy.feature.detail.di.detailModule
 import com.nhuhuy.algidy.feature.inventory.di.inventoryModule
 import com.nhuhuy.algidy.feature.scanner.di.scannerModule
+import com.nhuhuy.algidy.feature.settings.di.settingModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.androidx.workmanager.koin.workManagerFactory
@@ -40,6 +41,7 @@ class AlgidyApp : Application(), KoinComponent {
                     analyticsModule,
                     scannerModule,
                     notificationModule,
+                    settingModule
                 )
             )
         }
