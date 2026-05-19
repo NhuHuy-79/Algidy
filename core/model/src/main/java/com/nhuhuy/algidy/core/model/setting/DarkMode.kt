@@ -4,7 +4,7 @@ enum class DarkMode {
     DARK, SYSTEM, LIGHT
 }
 
-fun String.toDarkMode(): DarkMode {
+fun String?.toDarkMode(): DarkMode {
     return DarkMode.entries.find { it.name.equals(this, ignoreCase = true) }
         ?: DarkMode.SYSTEM
 }

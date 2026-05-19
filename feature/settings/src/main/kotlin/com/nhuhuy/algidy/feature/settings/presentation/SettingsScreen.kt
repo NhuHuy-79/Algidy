@@ -75,7 +75,7 @@ fun SettingsScreen(
         ) {
             item {
                 Text(
-                    text = stringResource(R.string.settings_dark_mode),
+                    text = stringResource(R.string.settings_dynamic_color),
                     style = MaterialTheme.typography.titleMedium,
                     modifier = Modifier.padding(vertical = 4.dp)
                 )
@@ -101,7 +101,9 @@ fun SettingsScreen(
                                 )
                             },
                             selected = uiState.darkMode == darkMode,
-                            onClick = {},
+                            onClick = {
+                                onAction(SettingsAction.SetDarkMode(darkMode))
+                            },
                             shape = SegmentedButtonDefaults.itemShape(
                                 index = index,
                                 count = DarkMode.entries.size
@@ -138,19 +140,19 @@ fun SettingsScreen(
                     text = stringResource(R.string.setting_biometric_desc),
                     title = stringResource(R.string.setting_biometric),
                     onToggleClick = { enable ->
-                        //
+                        onAction(SettingsAction.ToggleBiometricLock(enabled = enable))
                     },
                 )
             }
 
             item {
                 ToggleableSettingItem(
-                    enabled = uiState.isDarkMode,
+                    enabled = uiState.isDynamicColor,
                     position = ItemPosition.BOTTOM,
-                    text = stringResource(R.string.settings_dark_mode_desc),
-                    title = stringResource(R.string.settings_dark_mode),
+                    text = stringResource(R.string.settings_dynamic_mode_desc),
+                    title = stringResource(R.string.settings_dynamic_color),
                     onToggleClick = { enable ->
-                        onAction(SettingsAction.ToggleNotifications(enabled = enable))
+                        onAction(SettingsAction.ToggleDynamicColor(enabled = enable))
                     }
                 )
             }

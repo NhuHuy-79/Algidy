@@ -105,8 +105,8 @@
     <string name="setting_system_mode">System</string>
 
     <string name="settings_title">Settings</string>
-    <string name="settings_dark_mode">Dark Mode</string>
-    <string name="settings_dark_mode_desc">Enable dark theme for the app</string>
+    <string name="settings_dynamic_color">Dynamic Color</string>
+    <string name="settings_dynamic_mode_desc">Enable dynamic color for the app</string>
     <string name="settings_notifications">Notifications</string>
     <string name="settings_notifications_desc">Receive alerts for expiring food</string>
     <string name="setting_biometric">Biometrics Lock</string>
