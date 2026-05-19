@@ -4,7 +4,9 @@ plugins {
 
 android {
     namespace = "com.nhuhuy.algidy.core.presentation"
+
 }
+
 
 dependencies {
     api(project(":core:model"))

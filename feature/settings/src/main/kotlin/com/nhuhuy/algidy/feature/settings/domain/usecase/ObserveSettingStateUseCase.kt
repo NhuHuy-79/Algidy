@@ -15,13 +15,15 @@ class ObserveSettingStateUseCase(
             settingsDataStore.darkModeFlow,
             settingsDataStore.notificationsEnabledFlow,
             settingsDataStore.dynamicColorFlow,
-            settingsDataStore.biometricLockFlow
-        ) { darkMode, notificationsEnabled, dynamicColor, biometricLock ->
+            settingsDataStore.biometricLockFlow,
+            settingsDataStore.appLanguageFlow
+        ) { darkMode, notificationsEnabled, dynamicColor, biometricLock, language ->
             SettingData(
                 darkMode = darkMode,
                 enableNotifications = notificationsEnabled,
                 enableDynamicColor = dynamicColor,
-                enableBiometricsLock = biometricLock
+                enableBiometricsLock = biometricLock,
+                language = language
             )
         }.flowOn(Dispatchers.IO)
     }

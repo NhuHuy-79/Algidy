@@ -1,13 +1,14 @@
 package com.nhuhuy.algidy.feature.inventory.presentation.inventory.component
 
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.SecondaryTabRow
+import androidx.compose.material3.SecondaryScrollableTabRow
 import androidx.compose.material3.Tab
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import com.nhuhuy.algidy.feature.inventory.utils.GridCategory
 import com.nhuhuy.algidy.feature.inventory.utils.toStringRes
 import kotlinx.collections.immutable.ImmutableList
@@ -19,11 +20,12 @@ fun InventoryTabRow(
     onTabSelected: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    SecondaryTabRow(
+    SecondaryScrollableTabRow(
         selectedTabIndex = selectedTabIndex,
         modifier = modifier,
         containerColor = Color.Transparent,
         divider = {},
+        edgePadding = 0.dp
     ) {
         categories.forEachIndexed { index, category ->
             Tab(

@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Algidy</string>
+    <string name="action_ok">OK</string>
+    <string name="action_cancel">Hủy</string>
+    <string name="action_save">Lưu</string>
+    <string name="action_discard">Hủy bỏ</string>
+    <string name="action_edit">Sửa</string>
+    <string name="action_add">Thêm</string>
+    <string name="action_delete">Xóa</string>
+
+    <string name="error_empty_field">Không được để trống trường này.</string>
+    <string name="error_invalid_number">Vui lòng nhập số hợp lệ.</string>
+    <string name="error_negative_value">Số lượng không được nhỏ hơn 0.</string>
+    <string name="error_past_date">Hạn sử dụng không thể ở quá khứ.</string>
+    <string name="error_future_date">Ngày mua không thể ở tương lai.</string>
+    <string name="error_invalid_date_range">Hạn sử dụng phải bằng hoặc sau ngày mua.</string>
+    <string name="error_text_too_short">Tên phải có ít nhất 2 ký tự.</string>
+    <string name="error_image_save_failed">Không thể lưu ảnh.</string>
+
+    <string name="inventory_title">Kho lưu trữ</string>
+    <string name="inventory_subtitle">Xin chào!</string>
+    <string name="inventory_page_fridge">Ngăn mát</string>
+    <string name="inventory_page_freezer">Ngăn đông</string>
+    <string name="inventory_page_pantry">Tủ đồ khô</string>
+    <string name="inventory_page_other">Khác</string>
+    <string name="inventory_empty_title">Tủ đồ của bạn đang trống</string>
+    <string name="inventory_empty_content">Hãy theo dõi thực phẩm của bạn để không bao giờ bị lãng phí đồ ăn. Thêm món mới ngay nào!</string>
+    <string name="inventory_scanner_btn">Quét mã vạch</string>
+    <string name="inventory_manually_btn">Nhập thủ công</string>
+    <string name="inventory_menu_sort_expiry">Sắp xếp theo hạn dùng</string>
+    <string name="inventory_menu_sort_name">Sắp xếp theo tên</string>
+    <string name="inventory_menu_expired_only">Chỉ hàng hết hạn</string>
+    <string name="inventory_menu_reset">Đặt lại tất cả</string>
+    <string name="inventory_sheet_title">Thêm thực phẩm mới</string>
+    <string name="inventory_sheet_btn">Thêm thực phẩm</string>
+
+    <string name="category_add">Tất cả</string>
+    <string name="category_fridge">Ngăn mát</string>
+    <string name="category_freezer">Ngăn đông</string>
+    <string name="category_pantry">Tủ đồ khô</string>
+    <string name="category_other">Khác</string>
+
+    <string name="search_placeholder">Tìm kiếm thực phẩm trong tủ…</string>
+    <string name="search_history_title">Gần đây</string>
+    <string name="search_no_results">Không tìm thấy thực phẩm nào.</string>
+
+    <string name="detail_title">Chi tiết thực phẩm</string>
+    <string name="detail_subtitle">Đừng quên xử lý món này nhé</string>
+    <string name="detail_food_stats">Thống kê thực phẩm</string>
+    <string name="detail_expiry_progress">Tiến độ hạn sử dụng</string>
+    <string name="detail_personal_notes">Ghi chú cá nhân</string>
+    <string name="detail_fab_consume_this">Đã ăn món này</string>
+    <string name="detail_fab_edit_details">Sửa chi tiết</string>
+    <string name="detail_fab_mark_as_wasted">Bỏ đi (Lãng phí)</string>
+    <string name="detail_dialog_waste_title">Bỏ thực phẩm này?</string>
+    <string name="detail_dialog_waste_content">Bạn có chắc thực phẩm này không còn dùng được nữa? Nó sẽ được chuyển vào lịch sử lãng phí để theo dõi.</string>
+    <string name="detail_dialog_consume_title">Đã ăn xong?</string>
+    <string name="detail_dialog_consume_content">Tuyệt vời! Chúng tôi sẽ cập nhật kho lưu trữ và chuyển mục này vào lịch sử tiêu thụ của bạn.</string>
+    <string name="detail_edit_sheet_title">Chỉnh sửa thông tin</string>
+
+    <string name="confirm_title">Xác nhận thông tin</string>
+    <string name="confirm_label_name">Tên thực phẩm</string>
+    <string name="confirm_placeholder_name">Nhập tên thực phẩm…</string>
+    <string name="confirm_label_quantity">Số lượng</string>
+    <string name="confirm_label_unit">Đơn vị</string>
+    <string name="confirm_label_purchase_date">Ngày mua</string>
+    <string name="confirm_label_expiry_date">Hạn sử dụng</string>
+
+    <string name="confirm_date_set">Đặt ngày</string>
+    <string name="confirm_label_location">Vị trí lưu trữ</string>
+    <string name="confirm_label_notes">Ghi chú</string>
+    <string name="confirm_placeholder_notes">Ví dụ: Thương hiệu, ngày mở nắp…</string>
+    <string name="confirm_btn_add">Thêm vào tủ</string>
+    <string name="confirm_dialog_discard_title">Hủy các thay đổi?</string>
+    <string name="confirm_dialog_discard_content">Bạn có chắc muốn quay lại không? Tất cả thông tin thực phẩm bạn vừa nhập sẽ bị mất và không được lưu vào tủ.</string>
+    <string name="confirm_dialog_discard_btn_discard">Hủy bỏ</string>
+    <string name="confirm_dialog_discard_btn_keep">Tiếp tục sửa</string>
+
+    <string name="scanner_title_barcode">Quét mã vạch</string>
+    <string name="scanner_title_food">Quét thực phẩm</string>
+    <string name="scanner_action_close">Đóng bộ quét</string>
+    <string name="scanner_action_flash">Bật/Tắt Flash</string>
+    <string name="scanner_label_scanning">Đang quét…</string>
+    <string name="scanner_label_auto_off">Đã tắt tự động quét</string>
+    <string name="scanner_label_failure">Quét thất bại</string>
+
+    <string name="analytics_card">Bạn có</string>
+    <string name="analytics_card_2">tuần này.</string>
+    <string name="analytics_title">Thống kê</string>
+    <string name="analytics_subtitle">Tổng quan về lãng phí và tác động</string>
+    <string name="analytics_card_waste_location">Thực phẩm lãng phí theo vị trí</string>
+    <string name="analytics_card_weekly_freshness">Độ tươi mới trong tuần</string>
+
+    <string name="setting_dark_mode">Tối</string>
+    <string name="setting_light_mode">Sáng</string>
+    <string name="setting_system_mode">Hệ thống</string>
+
+    <string name="settings_title">Cài đặt</string>
+    <string name="setting_language">Ngôn ngữ</string>
+    <string name="settings_dynamic_color">Màu động (Dynamic Color)</string>
+    <string name="settings_dynamic_mode_desc">Bật màu sắc động theo hệ thống cho ứng dụng</string>
+    <string name="settings_notifications">Thông báo</string>
+    <string name="settings_notifications_desc">Nhận cảnh báo khi thực phẩm sắp hết hạn</string>
+    <string name="setting_biometric">Khóa sinh trắc học</string>
+    <string name="setting_biometric_desc">Sử dụng vân tay/khuôn mặt để khóa ứng dụng</string>
+
+    <string name="setting_backup">Sao lưu và khôi phục</string>
+    <string name="setting_backup_desc">Xuất hoặc nhập dữ liệu thực phẩm của bạn.</string>
+
+    <string name="setting_export">Xuất dữ liệu</string>
+    <string name="setting_export_desc">Xuất dữ liệu của bạn vào thư mục Downloads/Algidy</string>
+    <string name="setting_import">Nhập dữ liệu</string>
+    <string name="setting_import_desc">Nhập dữ liệu của bạn từ thư mục Downloads/Algidy</string>
+
+    <string name="setting_about_app">Về ứng dụng</string>
+    <string name="setting_about_app_desc">Algidy</string>
+
+    <string name="setting_other_settings_title">Cài đặt khác</string>
+</resources>

@@ -3,7 +3,7 @@ package com.nhuhuy.algidy.feature.settings.presentation.viewmodel
 import androidx.lifecycle.viewModelScope
 import com.nhuhuy.algidy.core.presentation.viewmodel.BaseViewModel
 import com.nhuhuy.algidy.feature.settings.domain.usecase.ObserveSettingStateUseCase
-import com.nhuhuy.algidy.feature.settings.domain.usecase.SetDarkModeUseCase
+import com.nhuhuy.algidy.feature.settings.domain.usecase.SelectSettingUseCase
 import com.nhuhuy.algidy.feature.settings.domain.usecase.SetToggleSettingUseCase
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 class SettingsViewModel(
     observeSettingStateUseCase: ObserveSettingStateUseCase,
     private val setToggleSettingUseCase: SetToggleSettingUseCase,
-    private val setDarkModeUseCase: SetDarkModeUseCase
+    private val selectSettingUseCase: SelectSettingUseCase
 ) : BaseViewModel<SettingsUiState, SettingsEvent, SettingsAction>() {
 
     override val uiState: StateFlow<SettingsUiState> = observeSettingStateUseCase()
@@ -22,6 +22,7 @@ class SettingsViewModel(
             SettingsUiState(
                 isDynamicColor = settingData.enableDynamicColor,
                 darkMode = settingData.darkMode,
+                language = settingData.language,
                 isNotificationsEnabled = settingData.enableNotifications,
                 isBiometricLock = settingData.enableBiometricsLock,
             )
@@ -36,7 +37,7 @@ class SettingsViewModel(
         when (action) {
             is SettingsAction.SetDarkMode -> {
                 viewModelScope.launch {
-                    setDarkModeUseCase(action.darkMode)
+                    selectSettingUseCase.selectDarkMode(action.darkMode)
                 }
             }
 
@@ -50,8 +51,8 @@ class SettingsViewModel(
                 emitEvent(SettingsEvent.NavigateBack)
             }
 
-            is SettingsAction.ChangeLanguage -> {
-                // TODO: Implement language change
+            is SettingsAction.ChangeLanguage -> viewModelScope.launch {
+                selectSettingUseCase.selectAppLanguage(action.language)
             }
 
             is SettingsAction.ToggleBiometricLock -> viewModelScope.launch {

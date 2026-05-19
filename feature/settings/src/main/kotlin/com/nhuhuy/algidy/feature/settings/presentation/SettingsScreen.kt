@@ -32,6 +32,7 @@ import com.nhuhuy.algidy.core.model.setting.DarkMode
 import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.core.presentation.utils.ItemPosition
 import com.nhuhuy.algidy.feature.settings.presentation.component.ClickableSettingItem
+import com.nhuhuy.algidy.feature.settings.presentation.component.SelectLanguageRow
 import com.nhuhuy.algidy.feature.settings.presentation.component.ToggleableSettingItem
 import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.SettingsAction
 import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.SettingsUiState
@@ -45,6 +46,7 @@ fun SettingsScreen(
     onNavigateBack: () -> Unit
 ) {
     Scaffold(
+        modifier = Modifier.fillMaxSize(),
         topBar = {
             MediumFlexibleTopAppBar(
                 title = {
@@ -111,6 +113,23 @@ fun SettingsScreen(
                         )
                     }
                 }
+            }
+
+            item {
+                Text(
+                    text = stringResource(R.string.setting_language),
+                    style = MaterialTheme.typography.titleMedium,
+                    modifier = Modifier.padding(vertical = 4.dp)
+                )
+            }
+
+            item {
+                SelectLanguageRow(
+                    currentLanguage = uiState.language,
+                    onLanguageSelected = { language ->
+                        onAction(SettingsAction.ChangeLanguage(language))
+                    }
+                )
             }
 
             item {

@@ -4,6 +4,7 @@ import android.app.Application
 import com.nhuhuy.algidy.core.notifications.data.NotificationChannelManager
 import com.nhuhuy.algidy.core.notifications.di.notificationModule
 import com.nhuhuy.algidy.core.notifications.worker.WorkerScheduler
+import com.nhuhuy.algidy.di.appModule
 import com.nhuhuy.algidy.di.dataModule
 import com.nhuhuy.algidy.di.databaseModule
 import com.nhuhuy.algidy.di.networkModule
@@ -33,6 +34,7 @@ class AlgidyApp : Application(), KoinComponent {
             workManagerFactory()
             modules(
                 listOf(
+                    appModule,
                     databaseModule,
                     dataModule,
                     networkModule,

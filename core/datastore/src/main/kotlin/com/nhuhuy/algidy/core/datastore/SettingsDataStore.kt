@@ -5,7 +5,9 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.preferencesDataStore
+import com.nhuhuy.algidy.core.model.setting.AppLanguage
 import com.nhuhuy.algidy.core.model.setting.DarkMode
+import com.nhuhuy.algidy.core.model.setting.toAppLanguage
 import com.nhuhuy.algidy.core.model.setting.toDarkMode
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -14,12 +16,12 @@ val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "se
 
 interface SettingsDataStore {
     val darkModeFlow: Flow<DarkMode>
-    val languageFlow: Flow<String>
+    val appLanguageFlow: Flow<AppLanguage>
     val biometricLockFlow: Flow<Boolean>
     val dynamicColorFlow: Flow<Boolean>
     val notificationsEnabledFlow: Flow<Boolean>
 
-    suspend fun setLanguage(language: String)
+    suspend fun setLanguage(appLanguage: AppLanguage)
     suspend fun setBiometricLock(enabled: Boolean)
     suspend fun setDynamicColor(enabled: Boolean)
     suspend fun setDarkMode(darkMode: DarkMode)
@@ -32,8 +34,8 @@ class SettingsDataStoreImpl(private val context: Context) : SettingsDataStore {
         preferences[UserPreferencesKeys.DARK_MODE].toDarkMode()
     }
 
-    override val languageFlow: Flow<String> = context.dataStore.data.map { preferences ->
-        preferences[UserPreferencesKeys.LANGUAGE] ?: "en"
+    override val appLanguageFlow: Flow<AppLanguage> = context.dataStore.data.map { preferences ->
+        preferences[UserPreferencesKeys.LANGUAGE].toAppLanguage()
     }
 
     override val biometricLockFlow: Flow<Boolean> = context.dataStore.data.map { preferences ->
@@ -49,9 +51,9 @@ class SettingsDataStoreImpl(private val context: Context) : SettingsDataStore {
         preferences[UserPreferencesKeys.NOTIFICATIONS_ENABLED] ?: true
     }
 
-    override suspend fun setLanguage(language: String) {
+    override suspend fun setLanguage(appLanguage: AppLanguage) {
         context.dataStore.edit { preferences ->
-            preferences[UserPreferencesKeys.LANGUAGE] = language
+            preferences[UserPreferencesKeys.LANGUAGE] = appLanguage.isoCode
         }
     }
 

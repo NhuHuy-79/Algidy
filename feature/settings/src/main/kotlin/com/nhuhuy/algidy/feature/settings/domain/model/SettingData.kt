@@ -1,5 +1,6 @@
 package com.nhuhuy.algidy.feature.settings.domain.model
 
+import com.nhuhuy.algidy.core.model.setting.AppLanguage
 import com.nhuhuy.algidy.core.model.setting.DarkMode
 
 data class SettingData(
@@ -7,4 +8,5 @@ data class SettingData(
     val enableBiometricsLock: Boolean = false,
     val enableDynamicColor: Boolean = false,
     val darkMode: DarkMode = DarkMode.SYSTEM,
+    val language: AppLanguage = AppLanguage.ENGLISH
 )
