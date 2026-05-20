@@ -43,7 +43,6 @@ class MainActivity : AppCompatActivity() {
                     AppCompatDelegate.setApplicationLocales(appLocale)
                 }
             }
-
             CompositionLocalProvider(LocalNavigationEventDispatcherOwner provides this) {
                 AlgidyTheme(
                     fontName = uiState.font.fontName,

@@ -39,7 +39,7 @@ fun ToggleableSettingItem(
             Text(
                 text = title,
                 style = MaterialTheme.typography.titleMedium.copy(
-                    fontWeight = FontWeight.Black
+                    fontWeight = FontWeight.Medium
                 )
             )
         },
@@ -115,7 +115,7 @@ fun ClickableSettingItem(
             Text(
                 text = title,
                 style = MaterialTheme.typography.titleMedium.copy(
-                    fontWeight = FontWeight.Black
+                    fontWeight = FontWeight.Medium
                 )
             )
         },

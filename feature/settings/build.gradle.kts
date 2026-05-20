@@ -1,5 +1,6 @@
 plugins {
     id("algidy.android.feature")
+    alias(libs.plugins.jetbrains.kotlin.serialization)
 }
 
 android {
@@ -8,4 +9,6 @@ android {
 
 dependencies {
     implementation(project(":core:datastore"))
+    implementation(libs.kotlinx.serialization.core)
+    implementation(libs.kotlinx.serialization.json)
 }

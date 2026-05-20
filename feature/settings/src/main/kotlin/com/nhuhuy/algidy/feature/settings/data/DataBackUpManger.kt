@@ -1,0 +1,99 @@
+package com.nhuhuy.algidy.feature.settings.data
+
+import android.content.ContentValues
+import android.content.Context
+import android.os.Environment
+import android.provider.MediaStore
+import androidx.core.net.toUri
+import com.nhuhuy.algidy.core.data.util.AppDispatchers
+import com.nhuhuy.algidy.core.data.util.safeCall
+import com.nhuhuy.algidy.core.model.error_handling.Resource
+import java.io.BufferedOutputStream
+import java.io.File
+import java.util.zip.ZipEntry
+import java.util.zip.ZipInputStream
+import java.util.zip.ZipOutputStream
+
+class DataBackUpManger(
+    private val context: Context,
+    private val appDispatchers: AppDispatchers,
+    private val databaseBackUpManager: DatabaseBackUpManager,
+    private val imageBackUpManager: ImageBackUpManager
+) {
+    suspend fun exportDataToZip(): Resource<String> {
+        return safeCall(dispatcher = appDispatchers.io) {
+            val resolver = context.contentResolver
+            val zipFileName = "algidy_backup_${System.currentTimeMillis()}.zip"
+
+            val contentValues = ContentValues().apply {
+                put(MediaStore.MediaColumns.DISPLAY_NAME, zipFileName)
+                put(MediaStore.MediaColumns.MIME_TYPE, "application/zip")
+                put(
+                    MediaStore.MediaColumns.RELATIVE_PATH,
+                    "${Environment.DIRECTORY_DOWNLOADS}/Algidy"
+                )
+            }
+            val targetZipUri =
+                resolver.insert(MediaStore.Downloads.EXTERNAL_CONTENT_URI, contentValues)
+                    ?: throw Exception("Cannot zip file")
+
+            resolver.openOutputStream(targetZipUri)?.use { outputStream ->
+                ZipOutputStream(BufferedOutputStream(outputStream)).use { zos ->
+
+                    // 📝 Bước A: Bảo dbBackupManager đưa chuỗi JSON đây, rồi tự nén vào "Algidy/Data/"
+                    val jsonString = databaseBackUpManager.exportToJson()
+                    val jsonEntry = ZipEntry("Algidy/Data/food_backup.json")
+                    zos.putNextEntry(jsonEntry)
+                    zos.write(jsonString.encodeToByteArray())
+                    zos.closeEntry()
+
+                    // 🖼️ Bước B: Lấy list ảnh từ DB, rồi bảo imageBackupManager nén vào "Algidy/Image/"
+                    val imageUris = databaseBackUpManager.getAllImageUris()
+                    imageBackUpManager.pickImagesToZip(imageUris, zos)
+                }
+            } ?: throw Exception("Không thể mở luồng ghi file ZIP")
+
+            "Download/Algidy/$zipFileName"
+        }
+    }
+
+    suspend fun restoreEverythingFromZip(sourceZipUriPath: String): Resource<Unit> =
+        safeCall(appDispatchers.io) {
+            val sourceZipUri = sourceZipUriPath.toUri()
+            val resolver = context.contentResolver
+            // Chuẩn bị sẵn thư mục đích Download/Algidy/Image trên máy
+            val downloadsDir =
+                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+            val targetImageFolder = File(downloadsDir, "Algidy/Image")
+            if (!targetImageFolder.exists()) targetImageFolder.mkdirs()
+
+            // Mở luồng đọc file ZIP
+            resolver.openInputStream(sourceZipUri)?.use { inputStream ->
+                ZipInputStream(inputStream).use { zis ->
+                    var entry = zis.nextEntry
+
+                    while (entry != null) {
+                        if (!entry.isDirectory) {
+
+                            // 📝 Gặp JSON: Bảo thằng đệ JSON xử lý đổ vào Room
+                            if (entry.name.contains("Algidy/Data/")) {
+                                val jsonString = zis.bufferedReader().readText()
+                                databaseBackUpManager.importFromJson(jsonString)
+                            }
+
+                            // 🖼️ Gặp ẢNH: Bảo thằng đệ ẢNH ghi ra thư mục đích trên máy
+                            else if (entry.name.contains("Algidy/Image/")) {
+                                imageBackUpManager.extractImageFromZip(
+                                    zis,
+                                    entry.name,
+                                    targetImageFolder
+                                )
+                            }
+                        }
+                        zis.closeEntry()
+                        entry = zis.nextEntry
+                    }
+                }
+            } ?: throw Exception("Cannot unzip file")
+        }
+}

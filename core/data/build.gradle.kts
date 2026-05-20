@@ -15,4 +15,10 @@ dependencies {
     implementation(project(":core:common"))
     implementation(libs.kotlinx.coroutines.android)
     api(libs.kotlinx.coroutines.play.services)
+
+    /* //File Kit
+    api(libs.filekit.core)
+    api(libs.filekit.dialogs.compose)
+
+}*/
 }

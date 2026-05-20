@@ -114,6 +114,7 @@
     <string name="setting_biometric">Khóa sinh trắc học</string>
     <string name="setting_biometric_desc">Sử dụng vân tay/khuôn mặt để khóa ứng dụng</string>
 
+    <string name="setting_data">Dữ liệu của bạn</string>
     <string name="setting_backup">Sao lưu và khôi phục</string>
     <string name="setting_backup_desc">Xuất hoặc nhập dữ liệu thực phẩm của bạn.</string>
 

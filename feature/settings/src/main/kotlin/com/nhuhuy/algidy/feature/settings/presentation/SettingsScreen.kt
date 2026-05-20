@@ -1,5 +1,8 @@
 package com.nhuhuy.algidy.feature.settings.presentation
 
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -24,6 +27,7 @@ import androidx.compose.material3.SegmentedButtonDefaults
 import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -38,6 +42,8 @@ import com.nhuhuy.algidy.feature.settings.presentation.component.ToggleableSetti
 import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.SettingsAction
 import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.SettingsUiState
 import com.nhuhuy.algidy.feature.settings.utils.toStringRes
+import kotlinx.coroutines.launch
+import java.time.LocalDateTime
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
 @Composable
@@ -46,6 +52,15 @@ fun SettingsScreen(
     onAction: (SettingsAction) -> Unit,
     onNavigateBack: () -> Unit
 ) {
+    val scope = rememberCoroutineScope()
+    val createDocumentLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.CreateDocument("application/json")
+    ) { uri: Uri? ->
+        uri?.let { targetUri ->
+            onAction(SettingsAction.ExportDate(targetUri))
+        }
+    }
+
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
@@ -99,7 +114,7 @@ fun SettingsScreen(
                                 Text(
                                     text = stringResource(darkMode.toStringRes()),
                                     style = MaterialTheme.typography.labelLarge.copy(
-                                        fontWeight = FontWeight.Black
+                                        fontWeight = FontWeight.Medium
                                     )
                                 )
                             },
@@ -120,7 +135,7 @@ fun SettingsScreen(
                 Text(
                     text = stringResource(R.string.setting_language),
                     style = MaterialTheme.typography.titleMedium,
-                    modifier = Modifier.padding(vertical = 8.dp)
+                    modifier = Modifier.padding(vertical = 4.dp)
                 )
             }
 
@@ -137,7 +152,7 @@ fun SettingsScreen(
                 Text(
                     text = stringResource(R.string.setting_font),
                     style = MaterialTheme.typography.titleMedium,
-                    modifier = Modifier.padding(vertical = 8.dp)
+                    modifier = Modifier.padding(vertical = 4.dp)
                 )
             }
 
@@ -154,7 +169,7 @@ fun SettingsScreen(
                 Text(
                     text = stringResource(R.string.setting_other_settings_title),
                     style = MaterialTheme.typography.titleMedium,
-                    modifier = Modifier.padding(vertical = 8.dp)
+                    modifier = Modifier.padding(vertical = 4.dp)
                 )
             }
 
@@ -199,12 +214,27 @@ fun SettingsScreen(
             }
 
             item {
+                Text(
+                    text = stringResource(R.string.setting_data),
+                    style = MaterialTheme.typography.titleMedium,
+                    modifier = Modifier.padding(vertical = 4.dp)
+                )
+            }
+
+            item {
                 ClickableSettingItem(
                     position = ItemPosition.TOP,
                     icon = Icons.Rounded.Upload,
                     description = stringResource(R.string.setting_export_desc),
                     title = stringResource(R.string.setting_export),
-                    onClick = {}
+                    onClick = {
+                        val timeStamp =
+                            LocalDateTime.now().toString().replace(":", "").replace(" ", "")
+                        val name = "Algidy_Backup_$timeStamp.json"
+                        scope.launch {
+                            createDocumentLauncher.launch(name)
+                        }
+                    }
                 )
             }
 

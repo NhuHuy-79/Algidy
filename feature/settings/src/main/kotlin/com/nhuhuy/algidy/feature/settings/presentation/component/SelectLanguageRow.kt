@@ -23,12 +23,12 @@ fun SelectLanguageRow(
         modifier = modifier
             .fillMaxWidth()
             .padding(16.dp),
-        horizontalArrangement = Arrangement.Center,
-        verticalArrangement = Arrangement.spacedBy(8.dp)
+        horizontalArrangement = Arrangement.spacedBy(4.dp),
+        verticalArrangement = Arrangement.spacedBy(4.dp)
     ) {
         AppLanguage.entries.forEach { language ->
             FilterChip(
-                modifier = Modifier.padding(horizontal = 4.dp),
+                modifier = Modifier,
                 selected = language == currentLanguage,
                 onClick = { onLanguageSelected(language) },
                 label = {
@@ -49,8 +49,8 @@ fun SelectFontRow(
         modifier = modifier
             .fillMaxWidth()
             .padding(16.dp),
-        horizontalArrangement = Arrangement.Center,
-        verticalArrangement = Arrangement.spacedBy(8.dp)
+        horizontalArrangement = Arrangement.spacedBy(4.dp),
+        verticalArrangement = Arrangement.spacedBy(4.dp)
     ) {
         AppFont.entries.forEach { font ->
             FilterChip(

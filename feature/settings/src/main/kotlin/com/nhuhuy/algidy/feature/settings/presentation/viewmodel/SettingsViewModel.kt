@@ -2,6 +2,7 @@ package com.nhuhuy.algidy.feature.settings.presentation.viewmodel
 
 import androidx.lifecycle.viewModelScope
 import com.nhuhuy.algidy.core.presentation.viewmodel.BaseViewModel
+import com.nhuhuy.algidy.feature.settings.domain.usecase.ManageDataUseCase
 import com.nhuhuy.algidy.feature.settings.domain.usecase.ObserveSettingStateUseCase
 import com.nhuhuy.algidy.feature.settings.domain.usecase.SelectSettingUseCase
 import com.nhuhuy.algidy.feature.settings.domain.usecase.SetToggleSettingUseCase
@@ -14,7 +15,8 @@ import kotlinx.coroutines.launch
 class SettingsViewModel(
     observeSettingStateUseCase: ObserveSettingStateUseCase,
     private val setToggleSettingUseCase: SetToggleSettingUseCase,
-    private val selectSettingUseCase: SelectSettingUseCase
+    private val selectSettingUseCase: SelectSettingUseCase,
+    private val manageDataUseCase: ManageDataUseCase
 ) : BaseViewModel<SettingsUiState, SettingsEvent, SettingsAction>() {
 
     override val uiState: StateFlow<SettingsUiState> = observeSettingStateUseCase()
@@ -66,6 +68,14 @@ class SettingsViewModel(
 
             is SettingsAction.ChangeFont -> viewModelScope.launch {
                 selectSettingUseCase.selectAppFont(action.font)
+            }
+
+            is SettingsAction.ExportDate -> viewModelScope.launch {
+                manageDataUseCase.exportData()
+            }
+
+            is SettingsAction.ImportDate -> viewModelScope.launch {
+                manageDataUseCase.importDate(action.uri.toString())
             }
         }
     }

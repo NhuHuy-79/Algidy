@@ -12,7 +12,7 @@ import com.nhuhuy.algidy.core.model.food.StorageLocation
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface FoodDao {
+interface FoodDao : BaseDao<FoodItemEntity> {
     @Query("SELECT * FROM food_items ORDER BY expiry_date ASC")
     fun observeAllFoodItems(): Flow<List<FoodItemEntity>>
 

@@ -123,6 +123,8 @@
     <string name="setting_biometric">Biometrics Lock</string>
     <string name="setting_biometric_desc">Biometrics lock for the app</string>
 
+    <string name="setting_data">Your Data</string>
+
     <string name="setting_backup">Back Up</string>
     <string name="setting_backup_desc">Export or import your foods.</string>
 

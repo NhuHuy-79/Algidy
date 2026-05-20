@@ -72,6 +72,12 @@ class FoodRepositoryImpl(
         }
     }
 
+    override suspend fun getFoodUriList(): List<String> {
+        return getAllFoodItems().mapNotNull { foodItem ->
+            foodItem.imageUri
+        }
+    }
+
     override fun observeFoodItemById(id: String): Flow<FoodItem> {
         return foodDao.observeFoodItem(id).map { entity -> entity.toDomain() }
     }

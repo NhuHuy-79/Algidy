@@ -1,5 +1,6 @@
 package com.nhuhuy.algidy.feature.settings.presentation.viewmodel
 
+import android.net.Uri
 import com.nhuhuy.algidy.core.model.setting.AppFont
 import com.nhuhuy.algidy.core.model.setting.AppLanguage
 import com.nhuhuy.algidy.core.model.setting.DarkMode
@@ -12,5 +13,7 @@ sealed interface SettingsAction : UiAction {
     data class ToggleDynamicColor(val enabled: Boolean) : SettingsAction
     data class ChangeLanguage(val language: AppLanguage) : SettingsAction
     data class ChangeFont(val font: AppFont) : SettingsAction
+    data class ExportDate(val uri: Uri) : SettingsAction
+    data class ImportDate(val uri: Uri) : SettingsAction
     data object OnBackClick : SettingsAction
 }

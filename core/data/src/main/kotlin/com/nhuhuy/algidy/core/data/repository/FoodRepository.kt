@@ -9,6 +9,7 @@ interface FoodRepository {
     //CREATE
     suspend fun addFoodItem(item: FoodItem): Resource<FoodItem>
     //READ
+    suspend fun getFoodUriList(): List<String>
     fun observeFoodItemById(id: String): Flow<FoodItem>
     fun observeFoodItemBeforeTime(beforeTime: Long) : Flow<List<FoodItem>>
     suspend fun getFoodById(id: String): FoodItem?
