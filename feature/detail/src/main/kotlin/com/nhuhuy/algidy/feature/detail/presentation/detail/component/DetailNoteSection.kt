@@ -13,12 +13,14 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.nhuhuy.algidy.core.designsystem.component.CardLayout
 import com.nhuhuy.algidy.core.model.food.FoodItem
+import com.nhuhuy.algidy.core.presentation.R
 
 @Composable
 fun DetailNoteSection(
@@ -28,7 +30,7 @@ fun DetailNoteSection(
     CardLayout(
         modifier = modifier,
         icon = Icons.Rounded.EditNote,
-        title = "Personal Notes",
+        title = stringResource(R.string.detail_personal_notes),
     ) {
         Box(
             modifier = Modifier
@@ -52,7 +54,7 @@ fun DetailNoteSection(
                     verticalArrangement = Arrangement.Center
                 ) {
                     Text(
-                        text = "No notes for this item yet.",
+                        text = stringResource(R.string.detail_no_notes),
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f),
                         fontStyle = FontStyle.Italic

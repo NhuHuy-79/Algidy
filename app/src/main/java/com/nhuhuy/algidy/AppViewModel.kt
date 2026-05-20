@@ -3,6 +3,7 @@ package com.nhuhuy.algidy
 import androidx.compose.runtime.Immutable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.nhuhuy.algidy.core.model.setting.AppFont
 import com.nhuhuy.algidy.core.model.setting.AppLanguage
 import com.nhuhuy.algidy.core.model.setting.DarkMode
 import com.nhuhuy.algidy.feature.settings.domain.usecase.ObserveSettingStateUseCase
@@ -13,6 +14,7 @@ import kotlinx.coroutines.flow.stateIn
 
 @Immutable
 data class AppUiState(
+    val font: AppFont = AppFont.DEFAULT,
     val language: AppLanguage = AppLanguage.ENGLISH,
     val darkMode: DarkMode = DarkMode.SYSTEM,
     val isDynamicColors: Boolean = false,
@@ -29,6 +31,7 @@ class AppViewModel(
             isDynamicColors = settingData.enableDynamicColor,
             isBiometricLock = settingData.enableBiometricsLock,
             language = settingData.language,
+            font = settingData.font,
             isSplashScreen = false
         )
     }.stateIn(

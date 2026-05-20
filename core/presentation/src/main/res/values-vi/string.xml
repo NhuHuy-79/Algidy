@@ -8,6 +8,9 @@
     <string name="action_edit">Sửa</string>
     <string name="action_add">Thêm</string>
     <string name="action_delete">Xóa</string>
+    <string name="action_back">Quay lại</string>
+    <string name="action_menu">Thao tác</string>
+    <string name="action_view_more">Xem thêm</string>
 
     <string name="error_empty_field">Không được để trống trường này.</string>
     <string name="error_invalid_number">Vui lòng nhập số hợp lệ.</string>
@@ -58,6 +61,11 @@
     <string name="detail_dialog_consume_title">Đã ăn xong?</string>
     <string name="detail_dialog_consume_content">Tuyệt vời! Chúng tôi sẽ cập nhật kho lưu trữ và chuyển mục này vào lịch sử tiêu thụ của bạn.</string>
     <string name="detail_edit_sheet_title">Chỉnh sửa thông tin</string>
+    <string name="detail_pick_photo">Chọn ảnh</string>
+    <string name="detail_item_details">Chi tiết thực phẩm</string>
+    <string name="detail_edit_image">Chỉnh sửa ảnh</string>
+    <string name="detail_bought">Đã mua</string>
+    <string name="detail_no_notes">Chưa có ghi chú nào cho mục này.</string>
 
     <string name="confirm_title">Xác nhận thông tin</string>
     <string name="confirm_label_name">Tên thực phẩm</string>
@@ -99,6 +107,7 @@
     <string name="settings_title">Cài đặt</string>
     <string name="setting_language">Ngôn ngữ</string>
     <string name="settings_dynamic_color">Màu động (Dynamic Color)</string>
+    <string name="setting_font">Font chữ</string>
     <string name="settings_dynamic_mode_desc">Bật màu sắc động theo hệ thống cho ứng dụng</string>
     <string name="settings_notifications">Thông báo</string>
     <string name="settings_notifications_desc">Nhận cảnh báo khi thực phẩm sắp hết hạn</string>

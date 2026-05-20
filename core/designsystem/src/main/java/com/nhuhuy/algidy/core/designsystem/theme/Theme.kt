@@ -82,6 +82,7 @@ private val LightColorScheme = lightColorScheme(
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun AlgidyTheme(
+    fontName: String = "Inter",
     darkTheme: Boolean = isSystemInDarkTheme(),
     dynamicColor: Boolean = true,
     content: @Composable () -> Unit
@@ -114,7 +115,7 @@ fun AlgidyTheme(
         MaterialExpressiveTheme(
             motionScheme = MotionScheme.expressive(),
             colorScheme = colorScheme,
-            typography = Typography,
+            typography = getTypographyForFont(fontName),
             content = content
         )
     }

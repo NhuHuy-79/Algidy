@@ -1,0 +1,10 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="Splash" parent="Theme.SplashScreen">
+        <item name="android:forceDarkAllowed" tools:ignore="NewApi">false</item>
+        <item name="postSplashScreenTheme">@style/Algidy</item>
+
+        <item name="windowSplashScreenBackground">@color/splash_bg_dark</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/splash_icon</item>
+    </style>
+</resources>

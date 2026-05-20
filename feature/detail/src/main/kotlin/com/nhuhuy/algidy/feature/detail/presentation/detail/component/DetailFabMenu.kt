@@ -22,9 +22,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.nhuhuy.algidy.core.designsystem.theme.AlgidyTheme
+import com.nhuhuy.algidy.core.presentation.R
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
@@ -48,7 +50,7 @@ fun DetailFabMenu(
             ) {
                 Icon(
                     imageVector = if (expanded) Icons.Rounded.Close else Icons.Rounded.Edit,
-                    contentDescription = "Menu Actions",
+                    contentDescription = stringResource(R.string.action_menu),
                 )
             }
         }
@@ -59,7 +61,7 @@ fun DetailFabMenu(
                 expanded = false
             },
             icon = { Icon(Icons.Rounded.Restaurant, contentDescription = null) },
-            text = { Text(text = "I Consumed This") },
+            text = { Text(text = stringResource(R.string.detail_fab_consume_this)) },
             containerColor = AlgidyTheme.extendedColors.consumedContainer,
             contentColor = AlgidyTheme.extendedColors.onConsumedContainer
         )
@@ -70,7 +72,7 @@ fun DetailFabMenu(
                 expanded = false
             },
             icon = { Icon(Icons.Rounded.Edit, contentDescription = null) },
-            text = { Text(text = "Edit Details") },
+            text = { Text(text = stringResource(R.string.detail_fab_edit_details)) },
             containerColor = MaterialTheme.colorScheme.primary,
             contentColor = MaterialTheme.colorScheme.onPrimary
         )
@@ -81,7 +83,7 @@ fun DetailFabMenu(
                 expanded = false
             },
             icon = { Icon(Icons.Rounded.DeleteOutline, contentDescription = null) },
-            text = { Text(text = "Mark as Wasted") },
+            text = { Text(text = stringResource(R.string.detail_fab_mark_as_wasted)) },
             containerColor = AlgidyTheme.extendedColors.wastedContainer,
             contentColor = AlgidyTheme.extendedColors.onWastedContainer
         )

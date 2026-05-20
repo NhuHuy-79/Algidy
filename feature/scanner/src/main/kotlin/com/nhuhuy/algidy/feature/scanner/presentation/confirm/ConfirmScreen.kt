@@ -96,7 +96,10 @@ fun ConfirmScreen(
                 },
                 navigationIcon = {
                     IconButton(onClick = onBackClick) {
-                        Icon(Icons.Rounded.ArrowBack, contentDescription = "Back")
+                        Icon(
+                            Icons.Rounded.ArrowBack,
+                            contentDescription = stringResource(R.string.action_back)
+                        )
                     }
                 }
             )
@@ -128,7 +131,7 @@ fun ConfirmScreen(
                     ) {
                         Icon(
                             imageVector = Icons.Rounded.AddPhotoAlternate,
-                            contentDescription = "Edit Image"
+                            contentDescription = stringResource(R.string.detail_edit_image)
                         )
                     }
                 }
@@ -289,10 +292,10 @@ fun ConfirmDatePickerDialog(
             TextButton(onClick = {
                 datePickerState.selectedDateMillis?.let { onDateSelected(it) }
                 onDismiss()
-            }) { Text("OK") }
+            }) { Text(stringResource(R.string.action_ok)) }
         },
         dismissButton = {
-            TextButton(onClick = onDismiss) { Text("Cancel") }
+            TextButton(onClick = onDismiss) { Text(stringResource(R.string.action_cancel)) }
         }
     ) {
         DatePicker(state = datePickerState)

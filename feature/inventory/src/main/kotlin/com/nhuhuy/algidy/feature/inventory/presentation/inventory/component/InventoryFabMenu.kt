@@ -19,8 +19,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.lerp
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.lerp
+import com.nhuhuy.algidy.core.presentation.R
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
@@ -58,7 +60,7 @@ fun InventoryFabMenu(
                     modifier = Modifier.size(36.dp),
                     imageVector = if (!expanded) Icons.Rounded.Add else Icons.Rounded.Close,
                     tint = if (expanded) scheme.onSecondaryContainer else scheme.onPrimaryContainer,
-                    contentDescription = "Menu Actions",
+                    contentDescription = stringResource(R.string.action_menu),
                 )
             }
         }
@@ -68,7 +70,7 @@ fun InventoryFabMenu(
             contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
             onClick = onBarcodeScanClick,
             icon = { Icon(Icons.Rounded.Camera, contentDescription = null) },
-            text = { Text(text = "Scan Food") },
+            text = { Text(text = stringResource(R.string.inventory_scanner_btn)) },
         )
 
         FloatingActionButtonMenuItem(
@@ -76,7 +78,7 @@ fun InventoryFabMenu(
             contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
             onClick = onManualClick,
             icon = { Icon(Icons.Rounded.Edit, contentDescription = null) },
-            text = { Text(text = "Add Manually") },
+            text = { Text(text = stringResource(R.string.inventory_manually_btn)) },
         )
 
         FloatingActionButtonMenuItem(
@@ -84,7 +86,7 @@ fun InventoryFabMenu(
             contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
             onClick = onAnalyticsClick,
             icon = { Icon(Icons.Rounded.Analytics, contentDescription = null) },
-            text = { Text(text = "Analytics") },
+            text = { Text(text = stringResource(R.string.analytics_title)) },
         )
 
         FloatingActionButtonMenuItem(
@@ -92,7 +94,7 @@ fun InventoryFabMenu(
             contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
             onClick = onSettingClick,
             icon = { Icon(Icons.Rounded.Settings, contentDescription = null) },
-            text = { Text(text = "Setting") },
+            text = { Text(text = stringResource(R.string.settings_title)) },
         )
     }
 }

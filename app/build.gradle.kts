@@ -26,6 +26,7 @@ dependencies {
     implementation(project(":feature:settings"))
 
     implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.appcompat)
     implementation(libs.androidx.core.splashscreen)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -45,6 +46,8 @@ dependencies {
     implementation(libs.androidx.navigation3.runtime)
     implementation(libs.androidx.navigation3.ui)
     implementation(libs.androidx.lifecycle.viewmodel.navigation3)
+    implementation("androidx.navigationevent:navigationevent:1.1.1")
+
 
     //Serialization
     implementation(libs.kotlinx.serialization.core)

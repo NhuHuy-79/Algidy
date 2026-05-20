@@ -32,6 +32,7 @@ import com.nhuhuy.algidy.core.model.setting.DarkMode
 import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.core.presentation.utils.ItemPosition
 import com.nhuhuy.algidy.feature.settings.presentation.component.ClickableSettingItem
+import com.nhuhuy.algidy.feature.settings.presentation.component.SelectFontRow
 import com.nhuhuy.algidy.feature.settings.presentation.component.SelectLanguageRow
 import com.nhuhuy.algidy.feature.settings.presentation.component.ToggleableSettingItem
 import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.SettingsAction
@@ -79,7 +80,7 @@ fun SettingsScreen(
                 Text(
                     text = stringResource(R.string.settings_dynamic_color),
                     style = MaterialTheme.typography.titleMedium,
-                    modifier = Modifier.padding(vertical = 4.dp)
+                    modifier = Modifier.padding(vertical = 8.dp)
                 )
             }
 
@@ -119,7 +120,7 @@ fun SettingsScreen(
                 Text(
                     text = stringResource(R.string.setting_language),
                     style = MaterialTheme.typography.titleMedium,
-                    modifier = Modifier.padding(vertical = 4.dp)
+                    modifier = Modifier.padding(vertical = 8.dp)
                 )
             }
 
@@ -134,9 +135,26 @@ fun SettingsScreen(
 
             item {
                 Text(
+                    text = stringResource(R.string.setting_font),
+                    style = MaterialTheme.typography.titleMedium,
+                    modifier = Modifier.padding(vertical = 8.dp)
+                )
+            }
+
+            item {
+                SelectFontRow(
+                    currentFont = uiState.font,
+                    onFontSelected = { font ->
+                        onAction(SettingsAction.ChangeFont(font))
+                    }
+                )
+            }
+
+            item {
+                Text(
                     text = stringResource(R.string.setting_other_settings_title),
                     style = MaterialTheme.typography.titleMedium,
-                    modifier = Modifier.padding(vertical = 4.dp)
+                    modifier = Modifier.padding(vertical = 8.dp)
                 )
             }
 

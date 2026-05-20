@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -32,6 +31,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -41,6 +41,7 @@ import com.nhuhuy.algidy.core.designsystem.component.FoodImageCard
 import com.nhuhuy.algidy.core.model.food.ItemUnit
 import com.nhuhuy.algidy.core.model.food.StorageLocation
 import com.nhuhuy.algidy.core.presentation.PhotoPickerContainer
+import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.core.presentation.viewmodel.FoodEntryAction
 import com.nhuhuy.algidy.core.presentation.viewmodel.FoodEntryError
 import com.nhuhuy.algidy.core.presentation.viewmodel.FoodEntryUiState
@@ -99,7 +100,7 @@ fun FoodEntryForm(
                 ) {
                     Icon(
                         imageVector = Icons.Filled.AddPhotoAlternate,
-                        contentDescription = "Pick Photo"
+                        contentDescription = stringResource(R.string.detail_pick_photo)
                     )
                 }
             }
@@ -109,8 +110,8 @@ fun FoodEntryForm(
         AppTextField(
             value = entryState.name,
             onValueChange = { onAction(FoodEntryAction.OnNameChange(it)) },
-            label = "Food Name",
-            placeholder = "e.g. Fresh Milk",
+            label = stringResource(R.string.confirm_label_name),
+            placeholder = stringResource(R.string.confirm_placeholder_name),
             isError = errorState.isNameError,
             errorMessage = errorState.nameValidation.asString()
         )
@@ -127,7 +128,7 @@ fun FoodEntryForm(
                     onAction(FoodEntryAction.OnQuantityChange(qty))
                 },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
-                label = "Quantity",
+                label = stringResource(R.string.confirm_label_quantity),
                 isError = errorState.isQuantityError,
                 errorMessage = errorState.quantityValidation.asString()
             )
@@ -136,7 +137,7 @@ fun FoodEntryForm(
                 AppTextField(
                     value = entryState.itemUnit.name.capitalize(),
                     onValueChange = {},
-                    label = "Unit",
+                    label = stringResource(R.string.confirm_label_unit),
                     readOnly = true,
                     modifier = Modifier.fillMaxWidth()
                 )
@@ -172,7 +173,7 @@ fun FoodEntryForm(
                 AppTextField(
                     value = dateFormatter.format(Date(entryState.purchaseDate)),
                     onValueChange = {},
-                    label = "Purchase Date",
+                    label = stringResource(R.string.confirm_label_purchase_date),
                     leadingIcon = Icons.Rounded.CalendarToday,
                     readOnly = true,
                     isError = errorState.isPurchaseDateError,
@@ -188,11 +189,11 @@ fun FoodEntryForm(
 
             Box(modifier = Modifier.weight(1f)) {
                 AppTextField(
-                    value = if (entryState.expiryDate == -1L) "Select Date" else dateFormatter.format(
+                    value = if (entryState.expiryDate == -1L) stringResource(R.string.confirm_date_set) else dateFormatter.format(
                         Date(entryState.expiryDate)
                     ),
                     onValueChange = {},
-                    label = "Expiry Date",
+                    label = stringResource(R.string.confirm_label_expiry_date),
                     leadingIcon = Icons.Rounded.CalendarToday,
                     readOnly = true,
                     isError = errorState.isExpiryDateError,
@@ -210,7 +211,7 @@ fun FoodEntryForm(
         // Section: Storage
         Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
             Text(
-                text = "Storage Location",
+                text = stringResource(R.string.confirm_label_location),
                 style = MaterialTheme.typography.labelLarge,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 fontWeight = FontWeight.Bold
@@ -234,8 +235,8 @@ fun FoodEntryForm(
         AppTextField(
             value = entryState.notes,
             onValueChange = { onAction(FoodEntryAction.OnNoteChange(it)) },
-            label = "Notes",
-            placeholder = "Add details like brand, store, etc.",
+            label = stringResource(R.string.confirm_label_notes),
+            placeholder = stringResource(R.string.confirm_placeholder_notes),
             singleLine = false,
             modifier = Modifier.fillMaxWidth()
 
@@ -247,7 +248,7 @@ fun FoodEntryForm(
         ActiveDatePicker.PURCHASE -> {
             AppDatePickerDialog(
                 initialDateMillis = entryState.purchaseDate,
-                title = "Purchase Date",
+                title = stringResource(R.string.confirm_label_purchase_date),
                 onDateSelected = {
                     onAction(FoodEntryAction.OnPurchaseDateChange(it))
                     activeDatePicker = ActiveDatePicker.NONE
@@ -258,7 +259,7 @@ fun FoodEntryForm(
         ActiveDatePicker.EXPIRY -> {
             AppDatePickerDialog(
                 initialDateMillis = if (entryState.expiryDate == -1L) null else entryState.expiryDate,
-                title = "Expiry Date",
+                title = stringResource(R.string.confirm_label_expiry_date),
                 onDateSelected = {
                     onAction(FoodEntryAction.OnExpiryDateChange(it))
                     activeDatePicker = ActiveDatePicker.NONE

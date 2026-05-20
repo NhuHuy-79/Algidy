@@ -25,6 +25,7 @@ class SettingsViewModel(
                 language = settingData.language,
                 isNotificationsEnabled = settingData.enableNotifications,
                 isBiometricLock = settingData.enableBiometricsLock,
+                font = settingData.font
             )
         }
         .stateIn(
@@ -61,6 +62,10 @@ class SettingsViewModel(
 
             is SettingsAction.ToggleDynamicColor -> viewModelScope.launch {
                 setToggleSettingUseCase.toggleDynamicColor(action.enabled)
+            }
+
+            is SettingsAction.ChangeFont -> viewModelScope.launch {
+                selectSettingUseCase.selectAppFont(action.font)
             }
         }
     }

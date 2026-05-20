@@ -27,11 +27,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.nhuhuy.algidy.core.designsystem.component.CardLayout
 import com.nhuhuy.algidy.core.designsystem.component.FoodImageCard
 import com.nhuhuy.algidy.core.presentation.PhotoPickerContainer
+import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.feature.detail.presentation.detail.component.DetailFabMenu
 import com.nhuhuy.algidy.feature.detail.presentation.detail.component.DetailHeroCard
 import com.nhuhuy.algidy.feature.detail.presentation.detail.component.DetailNoteSection
@@ -57,20 +59,20 @@ fun DetailScreen(
             MediumFlexibleTopAppBar(
                 title = {
                     Text(
-                        text = "Detail Screen",
+                        text = stringResource(R.string.detail_title),
                         fontWeight = FontWeight.Bold
                     )
                 },
                 subtitle = {
                     Text(
-                        text = "Don't forget to consume this."
+                        text = stringResource(R.string.detail_subtitle)
                     )
                 },
                 navigationIcon = {
                     IconButton(onClick = onBackPress) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
-                            contentDescription = "Back"
+                            contentDescription = stringResource(R.string.action_back)
                         )
                     }
                 },
@@ -120,7 +122,7 @@ fun DetailScreen(
                             ) {
                                 Icon(
                                     imageVector = Icons.Filled.AddPhotoAlternate,
-                                    contentDescription = null
+                                    contentDescription = stringResource(R.string.detail_pick_photo)
                                 )
                             }
                         }

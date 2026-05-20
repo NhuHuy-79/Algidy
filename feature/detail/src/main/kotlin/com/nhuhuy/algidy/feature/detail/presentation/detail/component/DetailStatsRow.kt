@@ -24,6 +24,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -34,6 +35,7 @@ import com.nhuhuy.algidy.core.designsystem.theme.AlgidyTheme
 import com.nhuhuy.algidy.core.model.food.FoodItem
 import com.nhuhuy.algidy.core.model.food.ItemUnit
 import com.nhuhuy.algidy.core.model.food.StorageLocation
+import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.formatMillisToDate
 
 @Composable
@@ -43,7 +45,7 @@ fun DetailStatsRow(
 ) {
     CardLayout(
         icon = Icons.Rounded.Fastfood,
-        title = "Food Stats",
+        title = stringResource(R.string.detail_food_stats),
     ) {
         Row(
             modifier = modifier.fillMaxWidth(),
@@ -51,7 +53,7 @@ fun DetailStatsRow(
         ) {
             StatItem(
                 icon = Icons.Rounded.Scale,
-                label = "Quantity",
+                label = stringResource(R.string.confirm_label_quantity),
                 value = "${item.quantity} ${item.itemUnit.name.lowercase()}",
                 modifier = Modifier.weight(1f),
                 containerColor = MaterialTheme.colorScheme.surfaceContainerLow
@@ -63,7 +65,7 @@ fun DetailStatsRow(
                     StorageLocation.FREEZER -> Icons.Rounded.Kitchen
                     else -> Icons.Rounded.Inventory2
                 },
-                label = "Location",
+                label = stringResource(R.string.confirm_label_location),
                 value = item.location.name.capitalize(),
                 modifier = Modifier.weight(1f),
                 containerColor = MaterialTheme.colorScheme.surfaceContainerLow
@@ -71,7 +73,7 @@ fun DetailStatsRow(
 
             StatItem(
                 icon = Icons.Rounded.CalendarToday,
-                label = "Bought",
+                label = stringResource(R.string.detail_bought),
                 value = item.purchaseDate.formatMillisToDate(),
                 modifier = Modifier.weight(1f),
                 containerColor = MaterialTheme.colorScheme.surfaceContainerLow
@@ -144,7 +146,7 @@ private fun DetailComponentsPreview() {
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             Text(
-                text = "Item Details",
+                text = stringResource(R.string.detail_item_details),
                 style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.Bold
             )

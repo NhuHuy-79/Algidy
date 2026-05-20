@@ -15,7 +15,7 @@ kotlinxCollectionsImmutable = "0.4.0"
 kotlinxCoroutinesAndroid = "1.10.2"
 kotlinxCoroutinesPlayServices = "1.10.2"
 lifecycle = "2.8.7"
-activityCompose = "1.10.1"
+activityCompose = "1.13.0"
 composeBom = "2025.02.00"
 navigation3Runtime = "1.2.0-alpha01"
 room = "2.7.0-alpha01"
@@ -43,6 +43,7 @@ timber = "5.0.1"
 # DataStore & WorkManager
 androidxDatastore = "1.2.1"
 androidxWork = "2.11.2"
+androidxAppcompat = "1.7.1"
 
 [libraries]
 accompanist-permissions = { module = "com.google.accompanist:accompanist-permissions", version.ref = "accompanistPermissions" }
@@ -56,6 +57,7 @@ kotlinx-coroutines-play-services = { module = "org.jetbrains.kotlinx:kotlinx-cor
 vico-compose = { group = "com.patrykandpatrick.vico", name = "compose", version.ref = "vico" }
 vico-compose-m3 = { group = "com.patrykandpatrick.vico", name = "compose-m3", version.ref = "vico" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "androidxAppcompat" }
 androidx-navigation3-runtime = { module = "androidx.navigation3:navigation3-runtime", version.ref = "navigation3Runtime" }
 androidx-navigation3-ui = { module = "androidx.navigation3:navigation3-ui", version.ref = "navigation3Runtime" }
 chart = { module = "io.github.thechance101:chart", version.ref = "chart" }

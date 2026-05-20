@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import com.nhuhuy.algidy.core.designsystem.R
 import com.nhuhuy.algidy.core.designsystem.theme.AlgidyTheme
@@ -37,13 +38,15 @@ fun ToggleableSettingItem(
         headlineContent = {
             Text(
                 text = title,
-                style = MaterialTheme.typography.titleSmall
+                style = MaterialTheme.typography.titleMedium.copy(
+                    fontWeight = FontWeight.Black
+                )
             )
         },
         supportingContent = {
             Text(
                 text = text,
-                style = MaterialTheme.typography.labelMedium
+                style = MaterialTheme.typography.labelLarge
             )
         },
         trailingContent = {
@@ -111,13 +114,15 @@ fun ClickableSettingItem(
         headlineContent = {
             Text(
                 text = title,
-                style = MaterialTheme.typography.titleSmall
+                style = MaterialTheme.typography.titleMedium.copy(
+                    fontWeight = FontWeight.Black
+                )
             )
         },
         supportingContent = {
             Text(
                 text = description,
-                style = MaterialTheme.typography.labelMedium
+                style = MaterialTheme.typography.labelLarge
             )
         },
     )

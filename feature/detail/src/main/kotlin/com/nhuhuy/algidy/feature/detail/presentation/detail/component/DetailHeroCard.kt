@@ -21,6 +21,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -31,6 +32,7 @@ import com.nhuhuy.algidy.core.model.food.FoodItem
 import com.nhuhuy.algidy.core.model.food.Freshness
 import com.nhuhuy.algidy.core.model.food.ItemUnit
 import com.nhuhuy.algidy.core.model.food.StorageLocation
+import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.core.presentation.utils.toBackgroundColor
 import com.nhuhuy.algidy.core.presentation.utils.toContentColor
 
@@ -53,7 +55,7 @@ fun DetailHeroCard(
     CardLayout(
         modifier = modifier,
         icon = Icons.AutoMirrored.Outlined.ShowChart,
-        title = "Expiry Progress",
+        title = stringResource(R.string.detail_expiry_progress),
     ) {
         Row(
             modifier = Modifier

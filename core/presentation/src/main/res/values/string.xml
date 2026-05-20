@@ -9,6 +9,9 @@
     <string name="action_edit">Edit</string>
     <string name="action_add">Add</string>
     <string name="action_delete">Delete</string>
+    <string name="action_back">Back</string>
+    <string name="action_menu">Menu Actions</string>
+    <string name="action_view_more">View More</string>
 
     <!-- Errors -->
     <string name="error_empty_field">This field cannot be empty.</string>
@@ -63,6 +66,11 @@
     <string name="detail_dialog_consume_title">Finished Eating?</string>
     <string name="detail_dialog_consume_content">Great! We\'ll update your inventory and move this item to your consumption history.</string>
     <string name="detail_edit_sheet_title">Edit Information</string>
+    <string name="detail_pick_photo">Pick Photo</string>
+    <string name="detail_item_details">Item Details</string>
+    <string name="detail_edit_image">Edit Image</string>
+    <string name="detail_bought">Bought</string>
+    <string name="detail_no_notes">No notes for this item yet.</string>
 
     <!-- Confirm Screen -->
     <string name="confirm_title">Confirm Information</string>
@@ -103,6 +111,9 @@
     <string name="setting_dark_mode">Dark</string>
     <string name="setting_light_mode">Light</string>
     <string name="setting_system_mode">System</string>
+
+    <string name="setting_language">Language</string>
+    <string name="setting_font">Font</string>
 
     <string name="settings_title">Settings</string>
     <string name="settings_dynamic_color">Dynamic Color</string>

@@ -5,8 +5,10 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.preferencesDataStore
+import com.nhuhuy.algidy.core.model.setting.AppFont
 import com.nhuhuy.algidy.core.model.setting.AppLanguage
 import com.nhuhuy.algidy.core.model.setting.DarkMode
+import com.nhuhuy.algidy.core.model.setting.toAppFont
 import com.nhuhuy.algidy.core.model.setting.toAppLanguage
 import com.nhuhuy.algidy.core.model.setting.toDarkMode
 import kotlinx.coroutines.flow.Flow
@@ -20,7 +22,9 @@ interface SettingsDataStore {
     val biometricLockFlow: Flow<Boolean>
     val dynamicColorFlow: Flow<Boolean>
     val notificationsEnabledFlow: Flow<Boolean>
+    val appFontFlow: Flow<AppFont>
 
+    suspend fun setFont(appFont: AppFont)
     suspend fun setLanguage(appLanguage: AppLanguage)
     suspend fun setBiometricLock(enabled: Boolean)
     suspend fun setDynamicColor(enabled: Boolean)
@@ -51,6 +55,10 @@ class SettingsDataStoreImpl(private val context: Context) : SettingsDataStore {
         preferences[UserPreferencesKeys.NOTIFICATIONS_ENABLED] ?: true
     }
 
+    override val appFontFlow: Flow<AppFont> = context.dataStore.data.map { preferences ->
+        preferences[UserPreferencesKeys.FONT].toAppFont()
+    }
+
     override suspend fun setLanguage(appLanguage: AppLanguage) {
         context.dataStore.edit { preferences ->
             preferences[UserPreferencesKeys.LANGUAGE] = appLanguage.isoCode
@@ -78,6 +86,12 @@ class SettingsDataStoreImpl(private val context: Context) : SettingsDataStore {
     override suspend fun setNotificationsEnabled(enabled: Boolean) {
         context.dataStore.edit { preferences ->
             preferences[UserPreferencesKeys.NOTIFICATIONS_ENABLED] = enabled
+        }
+    }
+
+    override suspend fun setFont(appFont: AppFont) {
+        context.dataStore.edit { preferences ->
+            preferences[UserPreferencesKeys.FONT] = appFont.storeKey
         }
     }
 }
