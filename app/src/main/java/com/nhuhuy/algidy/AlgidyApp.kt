@@ -48,8 +48,12 @@ class AlgidyApp : Application(), KoinComponent {
             )
         }
         NotificationChannelManager.createAllChannels(this)
-        workerScheduler.scheduleCheckExpiryWorker()
-        workerScheduler.scheduleWeeklyReportWorker()
+        workerScheduler.apply {
+            scheduleCheckExpiryWorker()
+            scheduleWeeklyReportWorker()
+            scheduleWeeklyCleanUpFileWorker()
+        }
+
     }
 
     private fun plantTimber() {

@@ -17,6 +17,8 @@ const val FOLDER_DATA = "Algidy/Data"
 interface LocalMediaStorage {
     suspend fun copyImageToInternalStorage(uriPath: String): Resource<String>
     suspend fun deleteImageFromInternalStorage(uriPath: String): Resource<Unit>
+
+    suspend fun getAllUriPath(): Resource<List<String>>
 }
 
 class LocalMediaStorageImpl(
@@ -65,6 +67,22 @@ class LocalMediaStorageImpl(
                 }
             } else {
                 throw SecurityException("Attempted to delete file outside of app directory")
+            }
+        }
+    }
+
+    override suspend fun getAllUriPath(): Resource<List<String>> {
+        return safeCall(appDispatchers.io) {
+            val directory = File(context.filesDir, FOLDER_IMAGE)
+
+            if (!directory.exists() || !directory.isDirectory) {
+                return@safeCall emptyList()
+            }
+
+            val files = directory.listFiles() ?: emptyArray()
+
+            files.filter { it.isFile }.map { file ->
+                Uri.fromFile(file).toString()
             }
         }
     }

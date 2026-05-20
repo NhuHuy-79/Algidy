@@ -7,6 +7,7 @@ import com.nhuhuy.algidy.core.notifications.domain.usecase.GetExpiryFoodUseCase
 import com.nhuhuy.algidy.core.notifications.domain.usecase.GetWeeklySummaryUseCase
 import com.nhuhuy.algidy.core.notifications.domain.usecase.UpdateFoodStatusUseCase
 import com.nhuhuy.algidy.core.notifications.worker.CheckExpirationWorker
+import com.nhuhuy.algidy.core.notifications.worker.CleanUpFileWorker
 import com.nhuhuy.algidy.core.notifications.worker.WeeklyReportWorker
 import com.nhuhuy.algidy.core.notifications.worker.WorkerScheduler
 import com.nhuhuy.algidy.core.notifications.worker.WorkerSchedulerImp
@@ -29,4 +30,5 @@ val notificationModule = module {
     // Workers
     workerOf(::CheckExpirationWorker)
     workerOf(::WeeklyReportWorker)
+    workerOf(::CleanUpFileWorker)
 }

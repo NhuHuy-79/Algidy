@@ -3,6 +3,8 @@ package com.nhuhuy.algidy.core.notifications.worker
 import android.content.Context
 import androidx.work.Constraints
 import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.ExistingWorkPolicy
+import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import java.time.DayOfWeek
@@ -14,11 +16,13 @@ import java.util.concurrent.TimeUnit
 object WorkerStrings {
     const val DAILY_WORKER = "DAILY_CHECK_EXPIRY_WORKER"
     const val WEEKLY_WORKER = "WEEKLY_SUMMARY_WORKER"
+    const val CLEAN_FILE_WORKER = "CLEAN_FILE_WORKER"
 }
 
 interface WorkerScheduler {
     fun scheduleCheckExpiryWorker()
     fun scheduleWeeklyReportWorker()
+    fun scheduleWeeklyCleanUpFileWorker()
 }
 
 class WorkerSchedulerImp(
@@ -70,6 +74,25 @@ class WorkerSchedulerImp(
             uniqueWorkName = WorkerStrings.WEEKLY_WORKER,
             existingPeriodicWorkPolicy = ExistingPeriodicWorkPolicy.UPDATE,
             request = weeklyRequest
+        )
+    }
+
+    override fun scheduleWeeklyCleanUpFileWorker() {
+        val constraints = Constraints.Builder()
+            .setRequiresBatteryNotLow(true)
+            .build()
+        val initialDelayMillis = calculateDelayUntilNextSunday9AM()
+
+        val cleanUpRequest = OneTimeWorkRequestBuilder<CleanUpFileWorker>()
+            .setConstraints(constraints)
+            .setInitialDelay(initialDelayMillis, TimeUnit.MILLISECONDS)
+            .build()
+
+        // Dùng Unique với OneTimeWork
+        workManager.enqueueUniqueWork(
+            WorkerStrings.CLEAN_FILE_WORKER,
+            ExistingWorkPolicy.KEEP,
+            cleanUpRequest
         )
     }
 
