@@ -5,6 +5,7 @@ import android.content.Context
 import android.os.Environment
 import android.provider.MediaStore
 import androidx.core.net.toUri
+import com.nhuhuy.algidy.core.data.FOLDER_IMAGE
 import com.nhuhuy.algidy.core.data.util.AppDispatchers
 import com.nhuhuy.algidy.core.data.util.safeCall
 import com.nhuhuy.algidy.core.model.error_handling.Resource
@@ -51,7 +52,7 @@ class DataBackUpManger(
                     val imageUris = databaseBackUpManager.getAllImageUris()
                     imageBackUpManager.pickImagesToZip(imageUris, zos)
                 }
-            } ?: throw Exception("Không thể mở luồng ghi file ZIP")
+            } ?: throw Exception("Cannot open file zip to write!")
 
             "Download/Algidy/$zipFileName"
         }
@@ -61,13 +62,12 @@ class DataBackUpManger(
         safeCall(appDispatchers.io) {
             val sourceZipUri = sourceZipUriPath.toUri()
             val resolver = context.contentResolver
-            // Chuẩn bị sẵn thư mục đích Download/Algidy/Image trên máy
-            val downloadsDir =
-                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
-            val targetImageFolder = File(downloadsDir, "Algidy/Image")
-            if (!targetImageFolder.exists()) targetImageFolder.mkdirs()
 
-            // Mở luồng đọc file ZIP
+            val targetInternalImageFolder = File(context.filesDir, FOLDER_IMAGE)
+            if (!targetInternalImageFolder.exists()) {
+                targetInternalImageFolder.mkdirs()
+            }
+
             resolver.openInputStream(sourceZipUri)?.use { inputStream ->
                 ZipInputStream(inputStream).use { zis ->
                     var entry = zis.nextEntry
@@ -75,18 +75,16 @@ class DataBackUpManger(
                     while (entry != null) {
                         if (!entry.isDirectory) {
 
-                            // 📝 Gặp JSON: Bảo thằng đệ JSON xử lý đổ vào Room
                             if (entry.name.contains("Algidy/Data/")) {
                                 val jsonString = zis.bufferedReader().readText()
                                 databaseBackUpManager.importFromJson(jsonString)
                             }
 
-                            // 🖼️ Gặp ẢNH: Bảo thằng đệ ẢNH ghi ra thư mục đích trên máy
                             else if (entry.name.contains("Algidy/Image/")) {
                                 imageBackUpManager.extractImageFromZip(
-                                    zis,
-                                    entry.name,
-                                    targetImageFolder
+                                    zis = zis,
+                                    entryName = entry.name,
+                                    targetFolder = targetInternalImageFolder
                                 )
                             }
                         }

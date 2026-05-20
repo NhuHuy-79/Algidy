@@ -138,6 +138,10 @@
 
     <string name="setting_other_settings_title">Other Settings</string>
 
+    <string name="import_success">Import your data successfully!</string>
+    <string name="import_fail">Import your data failed!</string>
+    <string name="export_success">Your data is exported!</string>
+    <string name="export_failed">Cannot export your data!</string>
 
 </resources>
 

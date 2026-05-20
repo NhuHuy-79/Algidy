@@ -1,6 +1,8 @@
 package com.nhuhuy.algidy.feature.settings.presentation.viewmodel
 
 import androidx.lifecycle.viewModelScope
+import com.nhuhuy.algidy.core.data.util.onFailure
+import com.nhuhuy.algidy.core.data.util.onSuccess
 import com.nhuhuy.algidy.core.presentation.viewmodel.BaseViewModel
 import com.nhuhuy.algidy.feature.settings.domain.usecase.ManageDataUseCase
 import com.nhuhuy.algidy.feature.settings.domain.usecase.ObserveSettingStateUseCase
@@ -72,10 +74,14 @@ class SettingsViewModel(
 
             is SettingsAction.ExportDate -> viewModelScope.launch {
                 manageDataUseCase.exportData()
+                    .onSuccess { emitEvent(SettingsEvent.ExportData.SUCCESS) }
+                    .onFailure { emitEvent(SettingsEvent.ExportData.FAILURE) }
             }
 
             is SettingsAction.ImportDate -> viewModelScope.launch {
                 manageDataUseCase.importDate(action.uri.toString())
+                    .onSuccess { emitEvent(SettingsEvent.ImportData.SUCCESS) }
+                    .onFailure { emitEvent(SettingsEvent.ImportData.FAILURE) }
             }
         }
     }

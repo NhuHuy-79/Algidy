@@ -25,6 +25,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SegmentedButton
 import androidx.compose.material3.SegmentedButtonDefaults
 import androidx.compose.material3.SingleChoiceSegmentedButtonRow
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
@@ -43,26 +45,29 @@ import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.SettingsAction
 import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.SettingsUiState
 import com.nhuhuy.algidy.feature.settings.utils.toStringRes
 import kotlinx.coroutines.launch
-import java.time.LocalDateTime
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun SettingsScreen(
     uiState: SettingsUiState,
     onAction: (SettingsAction) -> Unit,
-    onNavigateBack: () -> Unit
+    onNavigateBack: () -> Unit,
+    snackBarHostState: SnackbarHostState
 ) {
     val scope = rememberCoroutineScope()
-    val createDocumentLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.CreateDocument("application/json")
+    val pickZipLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent()
     ) { uri: Uri? ->
-        uri?.let { targetUri ->
-            onAction(SettingsAction.ExportDate(targetUri))
+        uri?.let { sourceUri ->
+            onAction(SettingsAction.ImportDate(sourceUri))
         }
     }
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
+        snackbarHost = {
+            SnackbarHost(hostState = snackBarHostState)
+        },
         topBar = {
             MediumFlexibleTopAppBar(
                 title = {
@@ -228,12 +233,7 @@ fun SettingsScreen(
                     description = stringResource(R.string.setting_export_desc),
                     title = stringResource(R.string.setting_export),
                     onClick = {
-                        val timeStamp =
-                            LocalDateTime.now().toString().replace(":", "").replace(" ", "")
-                        val name = "Algidy_Backup_$timeStamp.json"
-                        scope.launch {
-                            createDocumentLauncher.launch(name)
-                        }
+                        onAction(SettingsAction.ExportDate)
                     }
                 )
             }
@@ -244,7 +244,11 @@ fun SettingsScreen(
                     icon = Icons.Rounded.Download,
                     description = stringResource(R.string.setting_import_desc),
                     title = stringResource(R.string.setting_import),
-                    onClick = {}
+                    onClick = {
+                        scope.launch {
+                            pickZipLauncher.launch("application/zip")
+                        }
+                    }
                 )
             }
 

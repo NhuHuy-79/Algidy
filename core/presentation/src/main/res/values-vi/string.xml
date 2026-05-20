@@ -127,4 +127,8 @@
     <string name="setting_about_app_desc">Algidy</string>
 
     <string name="setting_other_settings_title">Cài đặt khác</string>
+    <string name="import_success">Tải dữ liệu thành công</string>
+    <string name="import_fail">Tải dữ liệu thất bại!</string>
+    <string name="export_success">Dữ liệu của bạn đã được xuất ra!</string>
+    <string name="export_failed">Xuất dữ liệu thất bại!</string>
 </resources>
