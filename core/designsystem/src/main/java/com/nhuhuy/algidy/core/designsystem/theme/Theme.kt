@@ -98,6 +98,7 @@ fun AlgidyTheme(
     }
 
     val extendedColors = if (darkTheme) DarkFoodStateColors else LightFoodStateColors
+    val dynamicFontFamily = getTypographyForFont(fontName)
 
     val view = LocalView.current
     if (!view.isInEditMode) {
@@ -110,12 +111,12 @@ fun AlgidyTheme(
     }
 
     CompositionLocalProvider(
-        value = LocalFoodStateColors provides extendedColors
+        LocalFoodStateColors provides extendedColors,
     ) {
         MaterialExpressiveTheme(
             motionScheme = MotionScheme.expressive(),
             colorScheme = colorScheme,
-            typography = getTypographyForFont(fontName),
+            typography = dynamicFontFamily,
             content = content
         )
     }

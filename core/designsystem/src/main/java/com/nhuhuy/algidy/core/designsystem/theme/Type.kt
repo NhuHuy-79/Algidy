@@ -1,6 +1,7 @@
 package com.nhuhuy.algidy.core.designsystem.theme
 
 import androidx.compose.material3.Typography
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -132,3 +133,5 @@ fun getTypographyForFont(fontName: String): Typography {
         )
     )
 }
+
+val LocalTypography = staticCompositionLocalOf { getTypographyForFont("Roboto") }
