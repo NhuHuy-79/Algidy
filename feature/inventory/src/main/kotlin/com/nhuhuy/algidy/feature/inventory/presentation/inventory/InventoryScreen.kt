@@ -44,6 +44,7 @@ import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.Inve
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.LoadingPage
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryResultState
 import com.nhuhuy.algidy.feature.inventory.utils.GridCategory
+import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.launch
 
@@ -139,7 +140,7 @@ fun InventoryScreen(
                         if (currentItems.isEmpty()) {
                             EmptyPage(modifier = Modifier.fillMaxSize())
                         } else InventoryGridList(
-                            items = currentItems,
+                            items = currentItems.toImmutableList(),
                             onItemClick = { foodItem ->
                                 onItemClick(foodItem.id)
                             }
@@ -196,7 +197,7 @@ fun InventoryScreen(
 
 @Composable
 fun InventoryGridList(
-    items: List<FoodItem>,
+    items: ImmutableList<FoodItem>,
     onItemClick: (FoodItem) -> Unit,
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues = PaddingValues(16.dp)

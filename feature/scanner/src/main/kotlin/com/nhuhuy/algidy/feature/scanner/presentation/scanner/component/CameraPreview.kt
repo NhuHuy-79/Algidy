@@ -51,7 +51,7 @@ fun CameraPreviewContent(
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
     val mainExecutor = remember(context) { ContextCompat.getMainExecutor(context) }
-    val previewView = remember { PreviewView(context) }
+    var previewView by remember { mutableStateOf<PreviewView?>(null) }
     val foodDateScanner = koinInject<FoodDateScanner>()
 
     val barcodeAnalyzer = remember {
@@ -92,14 +92,15 @@ fun CameraPreviewContent(
         }
     }
 
-    LaunchedEffect(Unit) {
+    LaunchedEffect(previewView) {
+        val view = previewView ?: return@LaunchedEffect
         val cameraProviderFuture = ProcessCameraProvider.getInstance(context)
 
         cameraProviderFuture.addListener({
             val cameraProvider = cameraProviderFuture.get()
 
             val preview = Preview.Builder().build().apply {
-                surfaceProvider = previewView.surfaceProvider
+                surfaceProvider = view.surfaceProvider
             }
 
             val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
@@ -127,7 +128,12 @@ fun CameraPreviewContent(
     }
 
     AndroidView(
-        factory = { previewView },
+        factory = { ctx ->
+            PreviewView(ctx).apply {
+                implementationMode = PreviewView.ImplementationMode.COMPATIBLE
+                previewView = this
+            }
+        },
         modifier = modifier.fillMaxSize()
     )
 }
