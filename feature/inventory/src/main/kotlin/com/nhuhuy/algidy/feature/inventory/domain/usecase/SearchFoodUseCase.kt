@@ -3,7 +3,6 @@ package com.nhuhuy.algidy.feature.inventory.domain.usecase
 import com.nhuhuy.algidy.core.model.food.FoodItem
 import com.nhuhuy.algidy.feature.inventory.domain.model.HistoryResult
 import com.nhuhuy.algidy.feature.inventory.domain.repository.SearchRepository
-import com.nhuhuy.algidy.toGenericNormalized
 
 class SearchFoodUseCase(
     private val searchRepository: SearchRepository
@@ -13,8 +12,7 @@ class SearchFoodUseCase(
             name = searchQuery,
             timeStamp = System.currentTimeMillis()
         )
-        val normalizedQuery = searchQuery.toGenericNormalized()
-        return searchRepository.getFoodItemListByQuery(query = normalizedQuery).also {
+        return searchRepository.getFoodItemListByQuery(query = searchQuery).also {
             searchRepository.addHistoryResult(historyResult)
         }
     }

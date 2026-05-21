@@ -8,6 +8,7 @@ import com.nhuhuy.algidy.feature.inventory.data.mapper.toDomain
 import com.nhuhuy.algidy.feature.inventory.data.mapper.toSearchHistoryEntity
 import com.nhuhuy.algidy.feature.inventory.domain.model.HistoryResult
 import com.nhuhuy.algidy.feature.inventory.domain.repository.SearchRepository
+import com.nhuhuy.algidy.toGenericNormalized
 import kotlinx.coroutines.withContext
 
 class SearchRepositoryImp(
@@ -30,8 +31,8 @@ class SearchRepositoryImp(
 
     override suspend fun getFoodItemListByQuery(query: String): List<FoodItem> {
         if (query.isBlank()) return emptyList()
-        // Loại bỏ ký tự đặc biệt trừ khoảng trắng, FTS MATCH không thích ký tự lạ
-        val sanitizedQuery = query.trim().replace(Regex("[^a-zA-Z0-9\\s]"), "")
+        val normalizedQuery = query.toGenericNormalized()
+        val sanitizedQuery = normalizedQuery.trim().replace(Regex("[^a-zA-Z0-9\\s]"), "")
         if (sanitizedQuery.isEmpty()) return emptyList()
 
         // Phân tách các từ và thêm * vào mỗi từ để tìm kiếm linh hoạt hơn
