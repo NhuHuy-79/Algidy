@@ -1,6 +1,7 @@
 [versions]
 accompanistPermissions = "0.37.3"
 agp = "8.13.2"
+biometric = "1.1.0"
 chart = "1.1.0"
 chartsStackedBar = "2.2.0"
 composeCharts = "0.2.5"
@@ -48,6 +49,7 @@ androidxAppcompat = "1.7.1"
 
 [libraries]
 accompanist-permissions = { module = "com.google.accompanist:accompanist-permissions", version.ref = "accompanistPermissions" }
+androidx-biometric = { module = "androidx.biometric:biometric", version.ref = "biometric" }
 androidx-core-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "coreSplashScreen" }
 androidx-datastore-preferences = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "androidxDatastore" }
 androidx-work-runtime-ktx = { group = "androidx.work", name = "work-runtime-ktx", version.ref = "androidxWork" }

@@ -4,6 +4,7 @@ import com.nhuhuy.algidy.core.notifications.data.AlgidyNotificationFactory
 import com.nhuhuy.algidy.core.notifications.data.AlgidyNotifierImp
 import com.nhuhuy.algidy.core.notifications.domain.AlgidyNotifier
 import com.nhuhuy.algidy.core.notifications.domain.usecase.GetExpiryFoodUseCase
+import com.nhuhuy.algidy.core.notifications.domain.usecase.GetNotificationEnabled
 import com.nhuhuy.algidy.core.notifications.domain.usecase.GetWeeklySummaryUseCase
 import com.nhuhuy.algidy.core.notifications.domain.usecase.UpdateFoodStatusUseCase
 import com.nhuhuy.algidy.core.notifications.worker.CheckExpirationWorker
@@ -23,6 +24,7 @@ val notificationModule = module {
     singleOf(::AlgidyNotifierImp) bind AlgidyNotifier::class
 
     // UseCase
+    factoryOf(::GetNotificationEnabled)
     factoryOf(::GetExpiryFoodUseCase)
     factoryOf(::UpdateFoodStatusUseCase)
     factoryOf(::GetWeeklySummaryUseCase)

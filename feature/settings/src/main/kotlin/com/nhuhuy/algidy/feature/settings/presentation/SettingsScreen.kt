@@ -12,9 +12,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
-import androidx.compose.material.icons.rounded.Download
-import androidx.compose.material.icons.rounded.Info
-import androidx.compose.material.icons.rounded.Upload
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.Icon
@@ -36,11 +33,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.nhuhuy.algidy.core.model.setting.DarkMode
 import com.nhuhuy.algidy.core.presentation.R
-import com.nhuhuy.algidy.core.presentation.utils.ItemPosition
-import com.nhuhuy.algidy.feature.settings.presentation.component.ClickableSettingItem
 import com.nhuhuy.algidy.feature.settings.presentation.component.SelectFontRow
 import com.nhuhuy.algidy.feature.settings.presentation.component.SelectLanguageRow
-import com.nhuhuy.algidy.feature.settings.presentation.component.ToggleableSettingItem
+import com.nhuhuy.algidy.feature.settings.presentation.component.dataSettingItem
+import com.nhuhuy.algidy.feature.settings.presentation.component.otherSettingItems
 import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.SettingsAction
 import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.SettingsUiState
 import com.nhuhuy.algidy.feature.settings.utils.toStringRes
@@ -170,100 +166,36 @@ fun SettingsScreen(
                 )
             }
 
-            item {
-                Text(
-                    text = stringResource(R.string.setting_other_settings_title),
-                    style = MaterialTheme.typography.titleMedium,
-                    modifier = Modifier.padding(vertical = 4.dp)
-                )
-            }
-
-            item {
-                ToggleableSettingItem(
-                    position = ItemPosition.TOP,
-                    enabled = uiState.isNotificationsEnabled,
-                    text = stringResource(R.string.settings_notifications_desc),
-                    title = stringResource(R.string.settings_notifications),
-                    onToggleClick = { enable ->
-                        onAction(SettingsAction.ToggleNotifications(enabled = enable))
-                    },
-                )
-            }
-
-            item {
-                ToggleableSettingItem(
-                    position = ItemPosition.MIDDLE,
-                    enabled = uiState.isBiometricLock,
-                    text = stringResource(R.string.setting_biometric_desc),
-                    title = stringResource(R.string.setting_biometric),
-                    onToggleClick = { enable ->
-                        onAction(SettingsAction.ToggleBiometricLock(enabled = enable))
-                    },
-                )
-            }
-
-            item {
-                ToggleableSettingItem(
-                    enabled = uiState.isDynamicColor,
-                    position = ItemPosition.BOTTOM,
-                    text = stringResource(R.string.settings_dynamic_mode_desc),
-                    title = stringResource(R.string.settings_dynamic_color),
-                    onToggleClick = { enable ->
-                        onAction(SettingsAction.ToggleDynamicColor(enabled = enable))
-                    }
-                )
-            }
+            otherSettingItems(
+                isNotificationEnabled = uiState.isNotificationsEnabled,
+                isBiometricLock = uiState.isBiometricLock,
+                isDynamicColor = uiState.isDynamicColor,
+                onToggleNotification = { enabled ->
+                    onAction(SettingsAction.ToggleNotifications(enabled))
+                },
+                onToggleBiometricLock = { enabled ->
+                    onAction(SettingsAction.ToggleBiometricLock(enabled))
+                },
+                onToggleDynamicColor = { enabled ->
+                    onAction(SettingsAction.ToggleDynamicColor(enabled))
+                }
+            )
 
             item {
                 Spacer(Modifier.height(8.dp))
             }
 
-            item {
-                Text(
-                    text = stringResource(R.string.setting_data),
-                    style = MaterialTheme.typography.titleMedium,
-                    modifier = Modifier.padding(vertical = 4.dp)
-                )
-            }
-
-            item {
-                ClickableSettingItem(
-                    position = ItemPosition.TOP,
-                    icon = Icons.Rounded.Upload,
-                    description = stringResource(R.string.setting_export_desc),
-                    title = stringResource(R.string.setting_export),
-                    onClick = {
-                        onAction(SettingsAction.ExportDate)
+            dataSettingItem(
+                onDataExport = {
+                    onAction(SettingsAction.ExportData)
+                },
+                onDataImport = {
+                    scope.launch {
+                        pickZipLauncher.launch("application/zip")
                     }
-                )
-            }
-
-            item {
-                ClickableSettingItem(
-                    position = ItemPosition.MIDDLE,
-                    icon = Icons.Rounded.Download,
-                    description = stringResource(R.string.setting_import_desc),
-                    title = stringResource(R.string.setting_import),
-                    onClick = {
-                        scope.launch {
-                            pickZipLauncher.launch("application/zip")
-                        }
-                    }
-                )
-            }
-
-            item {
-                ClickableSettingItem(
-                    position = ItemPosition.BOTTOM,
-                    icon = Icons.Rounded.Info,
-                    description = stringResource(R.string.setting_about_app_desc),
-                    title = stringResource(R.string.setting_about_app),
-                    onClick = {
-
-                    }
-                )
-            }
-
+                },
+                onAboutAppClick = {}
+            )
 
         }
     }

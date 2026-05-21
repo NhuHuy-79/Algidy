@@ -9,6 +9,8 @@ enum class AppFont(val fontName: String, val storeKey: String) {
     JAKARTA("Plus Jakarta Sans", "jakarta"),
     MONTSERRAT("Montserrat", "montserrat"),
     OPEN_SANS("Open Sans", "open_sans"),
+    BE_VIETNAM_PRO("Be Vietnam Pro", "be_vietnam_pro"),
+    GOOGLE_SANS("Google Sans", "google_sans"),
     NUNITO("Nunito", "nunito");
 
     companion object {

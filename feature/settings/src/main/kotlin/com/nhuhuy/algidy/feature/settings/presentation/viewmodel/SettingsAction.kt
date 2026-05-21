@@ -13,7 +13,7 @@ sealed interface SettingsAction : UiAction {
     data class ToggleDynamicColor(val enabled: Boolean) : SettingsAction
     data class ChangeLanguage(val language: AppLanguage) : SettingsAction
     data class ChangeFont(val font: AppFont) : SettingsAction
-    data object ExportDate : SettingsAction
+    data object ExportData : SettingsAction
     data class ImportDate(val uri: Uri) : SettingsAction
     data object OnBackClick : SettingsAction
 }

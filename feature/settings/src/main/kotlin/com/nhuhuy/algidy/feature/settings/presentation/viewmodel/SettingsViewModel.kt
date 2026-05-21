@@ -72,7 +72,7 @@ class SettingsViewModel(
                 selectSettingUseCase.selectAppFont(action.font)
             }
 
-            is SettingsAction.ExportDate -> viewModelScope.launch {
+            is SettingsAction.ExportData -> viewModelScope.launch {
                 manageDataUseCase.exportData()
                     .onSuccess { emitEvent(SettingsEvent.ExportData.SUCCESS) }
                     .onFailure { emitEvent(SettingsEvent.ExportData.FAILURE) }

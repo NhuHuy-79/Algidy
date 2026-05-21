@@ -10,7 +10,6 @@ import com.nhuhuy.algidy.core.model.error_handling.Resource
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.supervisorScope
 import kotlinx.coroutines.withContext
-import org.koin.core.component.KoinComponent
 import timber.log.Timber
 
 class CleanUpFileWorker(
@@ -19,7 +18,8 @@ class CleanUpFileWorker(
     private val appDispatchers: AppDispatchers,
     private val localMediaStorage: LocalMediaStorage,
     private val foodRepository: FoodRepository,
-) : CoroutineWorker(appContext = context, params = workerParameters), KoinComponent {
+    private val workerScheduler: WorkerScheduler,
+) : CoroutineWorker(appContext = context, params = workerParameters) {
 
     override suspend fun doWork(): Result {
         return withContext(appDispatchers.io) {
@@ -49,6 +49,8 @@ class CleanUpFileWorker(
             } catch (e: Exception) {
                 Timber.e(e)
                 Result.retry()
+            } finally {
+                workerScheduler.scheduleWeeklyCleanUpFileWorker()
             }
         }
     }

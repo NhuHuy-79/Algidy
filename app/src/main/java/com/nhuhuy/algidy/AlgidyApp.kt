@@ -27,7 +27,11 @@ class AlgidyApp : Application(), KoinComponent {
     private val workerScheduler: WorkerScheduler by inject()
     override fun onCreate() {
         super.onCreate()
+
+        //Timber for Debug
         plantTimber()
+
+        //Koin for DI
         startKoin {
             androidContext(this@AlgidyApp)
             androidLogger(level = Level.DEBUG)
@@ -47,7 +51,12 @@ class AlgidyApp : Application(), KoinComponent {
                 )
             )
         }
+
+        //Notification
         NotificationChannelManager.createAllChannels(this)
+
+
+        //Worker Scheduler
         workerScheduler.apply {
             scheduleCheckExpiryWorker()
             scheduleWeeklyReportWorker()

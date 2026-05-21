@@ -12,6 +12,7 @@
     <string name="action_menu">Thao tác</string>
     <string name="action_view_more">Xem thêm</string>
 
+    <string name="biometric_subtitle">Dùng sinh trắc học của bạn.</string>
     <string name="error_empty_field">Không được để trống trường này.</string>
     <string name="error_invalid_number">Vui lòng nhập số hợp lệ.</string>
     <string name="error_negative_value">Số lượng không được nhỏ hơn 0.</string>
@@ -112,7 +113,7 @@
     <string name="settings_notifications">Thông báo</string>
     <string name="settings_notifications_desc">Nhận cảnh báo khi thực phẩm sắp hết hạn</string>
     <string name="setting_biometric">Khóa sinh trắc học</string>
-    <string name="setting_biometric_desc">Sử dụng vân tay/khuôn mặt để khóa ứng dụng</string>
+    <string name="setting_biometric_desc">Sử dụng vân tay để khóa ứng dụng</string>
 
     <string name="setting_data">Dữ liệu của bạn</string>
     <string name="setting_backup">Sao lưu và khôi phục</string>
@@ -121,7 +122,7 @@
     <string name="setting_export">Xuất dữ liệu</string>
     <string name="setting_export_desc">Xuất dữ liệu của bạn vào thư mục Downloads/Algidy</string>
     <string name="setting_import">Nhập dữ liệu</string>
-    <string name="setting_import_desc">Nhập dữ liệu của bạn từ thư mục Downloads/Algidy</string>
+    <string name="setting_import_desc">Nhập dữ liệu của bạn.</string>
 
     <string name="setting_about_app">Về ứng dụng</string>
     <string name="setting_about_app_desc">Algidy</string>
@@ -131,4 +132,5 @@
     <string name="import_fail">Tải dữ liệu thất bại!</string>
     <string name="export_success">Dữ liệu của bạn đã được xuất ra!</string>
     <string name="export_failed">Xuất dữ liệu thất bại!</string>
+    <string name="biometric_title">Sinh trắc học Algidy</string>
 </resources>

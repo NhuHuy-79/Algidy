@@ -48,6 +48,8 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.navigation3)
     implementation("androidx.navigationevent:navigationevent:1.1.1")
 
+    //Bioemtric Authenticator
+    implementation(libs.androidx.biometric)
 
     //Serialization
     implementation(libs.kotlinx.serialization.core)

@@ -13,6 +13,11 @@
     <string name="action_menu">Menu Actions</string>
     <string name="action_view_more">View More</string>
 
+
+    <!--Biometric Authenticator-->
+    <string name="biometric_title">Algidy Biometric Lock</string>"
+    <string name="biometric_subtitle">Use biometric lock to log in</string>
+
     <!-- Errors -->
     <string name="error_empty_field">This field cannot be empty.</string>
     <string name="error_invalid_number">Please enter a valid number.</string>
@@ -131,7 +136,7 @@
     <string name="setting_export">Export</string>
     <string name="setting_export_desc">Export your data in Downloads/Algidy</string>
     <string name="setting_import">Import</string>
-    <string name="setting_import_desc">Import your data from Downloads/Algidy</string>
+    <string name="setting_import_desc">Import your data.</string>
 
     <string name="setting_about_app">About App</string>
     <string name="setting_about_app_desc">Algidy</string>

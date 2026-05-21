@@ -3,69 +3,77 @@ package com.nhuhuy.algidy.core.notifications.worker
 import android.content.Context
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
+import com.nhuhuy.algidy.core.data.util.AppDispatchers
 import com.nhuhuy.algidy.core.notifications.domain.AlgidyNotifier
 import com.nhuhuy.algidy.core.notifications.domain.NotificationFoodItem
 import com.nhuhuy.algidy.core.notifications.domain.usecase.GetExpiryFoodUseCase
-import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
+import com.nhuhuy.algidy.core.notifications.domain.usecase.GetNotificationEnabled
+import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
 class CheckExpirationWorker(
     appContext: Context,
     params: WorkerParameters,
-) : CoroutineWorker(appContext = appContext, params = params), KoinComponent {
-    private val getExpiryFoodUseCase: GetExpiryFoodUseCase by inject()
-    private val notifier: AlgidyNotifier by inject()
-
+    private val getNotificationEnabled: GetNotificationEnabled,
+    private val getExpiryFoodUseCase: GetExpiryFoodUseCase,
+    private val notifier: AlgidyNotifier,
+    private val appDispatchers: AppDispatchers,
+) : CoroutineWorker(appContext = appContext, params = params) {
     override suspend fun doWork(): Result {
-        return try {
-            if (runAttemptCount >= 5) {
-                return Result.failure()
-            }
-            val expiringFoods = getExpiryFoodUseCase(dayWarnings = 3)
-            if (expiringFoods.isEmpty()) {
-                Timber.d("No expiry food!")
-                return Result.success()
-            }
+        return withContext(appDispatchers.io) {
+            try {
+                if (getNotificationEnabled()) {
+                    Result.success()
+                }
 
-            val currentTime = System.currentTimeMillis()
+                if (runAttemptCount >= 5) {
+                    Result.failure()
+                }
+                val expiringFoods = getExpiryFoodUseCase(dayWarnings = 3)
+                if (expiringFoods.isEmpty()) {
+                    Timber.d("No expiry food!")
+                    Result.success()
+                }
 
-            val expiredToday = expiringFoods.filter { food ->
-                val diff = food.expiryDate - currentTime
-                TimeUnit.MILLISECONDS.toDays(diff) < 1
-            }
+                val currentTime = System.currentTimeMillis()
 
-            val expiringSoon = expiringFoods.filter { food ->
-                val diff = food.expiryDate - currentTime
-                TimeUnit.MILLISECONDS.toDays(diff) >= 1
-            }
-
-            expiredToday.forEach { food ->
-                notifier.showActionableExpiryPrompt(
-                    foodId = food.id,
-                    foodName = food.name,
-                    image = null
-                )
-            }
-
-            if (expiringSoon.isNotEmpty()) {
-                val notificationItems = expiringSoon.map { food ->
+                val expiredToday = expiringFoods.filter { food ->
                     val diff = food.expiryDate - currentTime
-                    val daysLeft = TimeUnit.MILLISECONDS.toDays(diff).toInt().coerceAtLeast(0)
-                    NotificationFoodItem(
-                        id = food.id,
-                        name = food.name,
-                        daysLeft = daysLeft
+                    TimeUnit.MILLISECONDS.toDays(diff) < 1
+                }
+
+                val expiringSoon = expiringFoods.filter { food ->
+                    val diff = food.expiryDate - currentTime
+                    TimeUnit.MILLISECONDS.toDays(diff) >= 1
+                }
+
+                expiredToday.forEach { food ->
+                    notifier.showActionableExpiryPrompt(
+                        foodId = food.id,
+                        foodName = food.name,
+                        image = null
                     )
                 }
-                notifier.showExpiringItemsAlert(notificationItems)
-            }
 
-            Result.success()
-        } catch (e: Exception) {
-            Timber.e(e)
-            Result.retry()
+                if (expiringSoon.isNotEmpty()) {
+                    val notificationItems = expiringSoon.map { food ->
+                        val diff = food.expiryDate - currentTime
+                        val daysLeft = TimeUnit.MILLISECONDS.toDays(diff).toInt().coerceAtLeast(0)
+                        NotificationFoodItem(
+                            id = food.id,
+                            name = food.name,
+                            daysLeft = daysLeft
+                        )
+                    }
+                    notifier.showExpiringItemsAlert(notificationItems)
+                }
+
+                Result.success()
+            } catch (e: Exception) {
+                Timber.e(e)
+                Result.retry()
+            }
         }
     }
 }
