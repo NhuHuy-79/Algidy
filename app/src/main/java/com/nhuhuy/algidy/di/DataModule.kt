@@ -12,14 +12,14 @@ import com.nhuhuy.algidy.feature.scanner.data.MLKitBarcodeScanner
 import com.nhuhuy.algidy.feature.scanner.data.MLKitFoodDateScanner
 import com.nhuhuy.algidy.feature.scanner.domain.BarcodeScanner
 import com.nhuhuy.algidy.feature.scanner.domain.FoodDateScanner
+import org.koin.core.module.dsl.factoryOf
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.bind
 import org.koin.dsl.module
 
 val dataModule = module {
     //delegate
-    singleOf(::FoodEntryDelegateImpl) bind FoodEntryDelegate::class
-
+    factoryOf(::FoodEntryDelegateImpl) bind FoodEntryDelegate::class
     single<FoodRepository> { FoodRepositoryImpl(get(), get(), get()) }
     single<AppDispatchers> { DefaultAppDispatchers() }
     single<BarcodeScanner> { MLKitBarcodeScanner(get()) }

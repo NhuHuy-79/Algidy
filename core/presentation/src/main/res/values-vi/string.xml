@@ -127,6 +127,15 @@
     <string name="setting_about_app">Về ứng dụng</string>
     <string name="setting_about_app_desc">Algidy</string>
 
+    <string name="setting_delete_dialog">Xóa dữ liệu của bạn</string>
+    <string name="setting_clear_data">Xóa tất cả</string>
+    <string name="setting_clear_data_desc">Xóa toàn bộ dữ liệu ứng dụng của bạn.</string>
+
+    <string name="delete_data_dialog_title">Xóa tất cả dữ liệu?</string>
+    <string name="delete_data_dialog_content">Hành động này không thể hoàn tác. Toàn bộ dữ liệu cục bộ, tài khoản và cài đặt của bạn sẽ bị xóa vĩnh viễn khỏi thiết bị này.</string>
+    <string name="delete_data_dialog_confirm">Xóa</string>
+    <string name="delete_data_dialog_cancel">Hủy</string>
+
     <string name="setting_other_settings_title">Cài đặt khác</string>
     <string name="import_success">Tải dữ liệu thành công</string>
     <string name="import_fail">Tải dữ liệu thất bại!</string>

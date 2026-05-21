@@ -19,7 +19,7 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 class InventoryViewModel(
-    private val observerFoodItemUseCase: ObserveFoodItemUseCase,
+    observerFoodItemUseCase: ObserveFoodItemUseCase,
     private val foodEntryDelegateImpl: FoodEntryDelegateImpl,
     private val createFoodItemUseCase: CreateFoodItemUseCase,
     private val deleteFoodItemUseCase: DeleteFoodItemUseCase,
@@ -27,6 +27,10 @@ class InventoryViewModel(
     FoodEntryDelegate by foodEntryDelegateImpl {
     private val _uiState = MutableStateFlow(InventoryUiState())
     override val uiState: StateFlow<InventoryUiState> = _uiState.asStateFlow()
+
+    init {
+        resetEntryData()
+    }
 
     val resultState: StateFlow<InventoryResultState> = observerFoodItemUseCase()
         .map { items ->

@@ -3,6 +3,7 @@ package com.nhuhuy.algidy.feature.settings.presentation.component
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.DeleteForever
 import androidx.compose.material.icons.rounded.Download
 import androidx.compose.material.icons.rounded.Info
 import androidx.compose.material.icons.rounded.Upload
@@ -63,6 +64,7 @@ fun LazyListScope.otherSettingItems(
 
 
 fun LazyListScope.dataSettingItem(
+    onDeleteDataClick: () -> Unit,
     onDataExport: () -> Unit,
     onDataImport: () -> Unit,
     onAboutAppClick: () -> Unit,
@@ -92,6 +94,16 @@ fun LazyListScope.dataSettingItem(
             description = stringResource(R.string.setting_import_desc),
             title = stringResource(R.string.setting_import),
             onClick = onDataImport
+        )
+    }
+
+    item {
+        ClickableSettingItem(
+            position = ItemPosition.MIDDLE,
+            icon = Icons.Rounded.DeleteForever,
+            description = stringResource(R.string.setting_clear_data_desc),
+            title = stringResource(R.string.setting_clear_data),
+            onClick = onDeleteDataClick
         )
     }
 

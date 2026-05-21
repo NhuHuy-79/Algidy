@@ -4,27 +4,32 @@ import android.os.Bundle
 import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.BlurredEdgeTreatment
+import androidx.compose.ui.draw.blur
+import androidx.compose.ui.unit.dp
 import androidx.core.os.LocaleListCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigationevent.compose.LocalNavigationEventDispatcherOwner
-import com.nhuhuy.algidy.component.AppRoot
 import com.nhuhuy.algidy.core.designsystem.theme.AlgidyTheme
 import com.nhuhuy.algidy.core.model.setting.DarkMode
+import com.nhuhuy.algidy.navigation.AppGraph
 import com.nhuhuy.algidy.utils.BiometricHandler
 import com.nhuhuy.algidy.utils.BiometricResult
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class MainActivity : FragmentActivity() {
+class MainActivity : AppCompatActivity() {
     private val viewModel: AppViewModel by viewModel()
     private val biometricHandler by lazy { BiometricHandler(this) }
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,7 +53,6 @@ class MainActivity : FragmentActivity() {
                         biometricHandler.authenticate().collect { result ->
                             when (result) {
                                 BiometricResult.Success -> isUnlocked = true
-                                // Nếu thiết bị lỗi/không hỗ trợ, cho vào luôn để tránh kẹt màn hình đen
                                 is BiometricResult.Error -> isUnlocked = true
                                 BiometricResult.Failed -> isUnlocked = false
                                 BiometricResult.Idle -> Unit
@@ -77,7 +81,12 @@ class MainActivity : FragmentActivity() {
                         DarkMode.SYSTEM -> isSystemInDarkTheme()
                     }
                 ) {
-                    AppRoot(showContent = isUnlocked)
+                    AppGraph(
+                        modifier = if (isUnlocked) Modifier else Modifier.blur(
+                            radius = 16.dp,
+                            edgeTreatment = BlurredEdgeTreatment(RoundedCornerShape(8.dp))
+                        )
+                    )
                 }
             }
         }

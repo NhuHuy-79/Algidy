@@ -13,5 +13,10 @@ data class SettingsUiState(
     val language: AppLanguage = AppLanguage.ENGLISH,
     val isBiometricLock: Boolean = false,
     val isDynamicColor: Boolean = false,
-    val font: AppFont = AppFont.DEFAULT
+    val font: AppFont = AppFont.DEFAULT,
+    val overlay: SettingsOverlay = SettingsOverlay.NONE
 ) : UiState
+
+enum class SettingsOverlay {
+    NONE, DELETE_ALERT_DIALOG
+}

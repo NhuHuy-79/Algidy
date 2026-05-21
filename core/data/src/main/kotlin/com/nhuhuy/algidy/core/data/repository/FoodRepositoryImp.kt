@@ -92,4 +92,8 @@ class FoodRepositoryImpl(
     override suspend fun removeFoodItem(id: String) {
         foodDao.deleteFoodById(id)
     }
+
+    override suspend fun deleteAllFoodItems() {
+        foodDao.deleteAllFoods()
+    }
 }

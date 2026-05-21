@@ -55,7 +55,7 @@ fun SettingsScreen(
         contract = ActivityResultContracts.GetContent()
     ) { uri: Uri? ->
         uri?.let { sourceUri ->
-            onAction(SettingsAction.ImportDate(sourceUri))
+            onAction(SettingsAction.ImportData(sourceUri))
         }
     }
 
@@ -194,7 +194,10 @@ fun SettingsScreen(
                         pickZipLauncher.launch("application/zip")
                     }
                 },
-                onAboutAppClick = {}
+                onAboutAppClick = {},
+                onDeleteDataClick = {
+                    onAction(SettingsAction.ClearData)
+                }
             )
 
         }

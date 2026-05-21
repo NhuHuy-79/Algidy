@@ -129,6 +129,14 @@
     <string name="setting_biometric_desc">Biometrics lock for the app</string>
 
     <string name="setting_data">Your Data</string>
+    <string name="setting_delete_dialog">Delete your data</string>
+    <string name="setting_clear_data">Delete all</string>
+    <string name="setting_clear_data_desc">Delete all of your application data.</string>
+
+    <string name="delete_data_dialog_title">Delete all data?</string>
+    <string name="delete_data_dialog_content">This action cannot be undone. All your local data, accounts, and settings will be permanently removed from this device.</string>
+    <string name="delete_data_dialog_confirm">Delete</string>
+    <string name="delete_data_dialog_cancel">Cancel</string>
 
     <string name="setting_backup">Back Up</string>
     <string name="setting_backup_desc">Export or import your foods.</string>

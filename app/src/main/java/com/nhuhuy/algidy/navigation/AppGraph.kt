@@ -15,6 +15,7 @@ import androidx.compose.animation.togetherWith
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
@@ -29,9 +30,12 @@ import com.nhuhuy.algidy.feature.scanner.presentation.scanner.ScannerRoute
 import com.nhuhuy.algidy.feature.settings.presentation.navigation.SettingRoute
 
 @Composable
-fun AppGraph() {
+fun AppGraph(
+    modifier: Modifier = Modifier,
+) {
     val backStack = remember { mutableStateListOf<Destination>(Destination.Inventory.Home) }
     NavDisplay(
+        modifier = modifier,
         backStack = backStack,
         entryDecorators = listOf(
             rememberSaveableStateHolderNavEntryDecorator(),

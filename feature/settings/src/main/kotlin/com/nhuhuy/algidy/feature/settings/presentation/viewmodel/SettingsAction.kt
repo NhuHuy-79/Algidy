@@ -14,6 +14,12 @@ sealed interface SettingsAction : UiAction {
     data class ChangeLanguage(val language: AppLanguage) : SettingsAction
     data class ChangeFont(val font: AppFont) : SettingsAction
     data object ExportData : SettingsAction
-    data class ImportDate(val uri: Uri) : SettingsAction
+    data class ImportData(val uri: Uri) : SettingsAction
+    data object ClearData : SettingsAction
     data object OnBackClick : SettingsAction
+
+    sealed interface DeleteAlertDialog {
+        data object Dismiss : SettingsAction
+        data object Confirm : SettingsAction
+    }
 }

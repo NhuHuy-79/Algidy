@@ -44,6 +44,9 @@ interface FoodDao : BaseDao<FoodItemEntity> {
     @Delete
     suspend fun deleteFood(food: FoodItemEntity)
 
+    @Query("DELETE FROM food_items")
+    suspend fun deleteAllFoods()
+
     @Query("DELETE FROM food_items WHERE id = :id")
     suspend fun deleteFoodById(id: String)
 }
