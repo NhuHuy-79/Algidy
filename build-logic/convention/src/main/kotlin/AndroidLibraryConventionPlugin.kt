@@ -50,6 +50,13 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
                 add("testImplementation", kotlin("test"))
                 add("implementation", libs.findLibrary("logger").get())
                 add("implementation", libs.findLibrary("androidx-core-ktx").get())
+
+                // Common test dependencies
+                add("testImplementation", libs.findLibrary("junit").get())
+                add("testImplementation", libs.findLibrary("mockk").get())
+                add("testImplementation", libs.findLibrary("kotlinx-coroutines-test").get())
+                add("testImplementation", libs.findLibrary("turbine").get())
+                add("testImplementation", libs.findLibrary("robolectric").get())
             }
         }
     }
