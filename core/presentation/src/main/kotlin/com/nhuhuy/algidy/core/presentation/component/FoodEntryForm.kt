@@ -7,10 +7,13 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.AddPhotoAlternate
 import androidx.compose.material.icons.rounded.CalendarToday
 import androidx.compose.material3.DropdownMenu
@@ -57,7 +60,8 @@ fun FoodEntryForm(
     entryState: FoodEntryUiState,
     errorState: FoodEntryError,
     onAction: (FoodEntryAction) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onCreateCategory: (String) -> Unit = {}
 ) {
     var activeDatePicker by remember { mutableStateOf(ActiveDatePicker.NONE) }
     val dateFormatter = remember { SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()) }
@@ -67,6 +71,7 @@ fun FoodEntryForm(
         modifier = modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
+        // Section: Image
         Box(
             modifier = Modifier
                 .size(160.dp)
@@ -115,6 +120,58 @@ fun FoodEntryForm(
             isError = errorState.isNameError,
             errorMessage = errorState.nameValidation.asString()
         )
+
+        // Section: Category Selection (Editable & Searchable)
+        var categoryMenuExpanded by remember { mutableStateOf(false) }
+        val filteredCategories = entryState.categories.filter {
+            it.name.contains(entryState.categoryQuery, ignoreCase = true)
+        }
+        val isNewCategory = entryState.categoryQuery.isNotEmpty() && 
+                entryState.categories.none { it.name.equals(entryState.categoryQuery, ignoreCase = true) }
+
+        Box(modifier = Modifier.fillMaxWidth()) {
+            AppTextField(
+                value = entryState.categoryQuery,
+                onValueChange = { 
+                    onAction(FoodEntryAction.OnCategoryQueryChange(it))
+                    categoryMenuExpanded = true 
+                },
+                label = stringResource(R.string.confirm_label_category),
+                placeholder = "Search or type new category...",
+                modifier = Modifier.fillMaxWidth()
+            )
+
+            DropdownMenu(
+                expanded = categoryMenuExpanded && (filteredCategories.isNotEmpty() || isNewCategory),
+                onDismissRequest = { categoryMenuExpanded = false },
+                modifier = Modifier.fillMaxWidth(0.9f)
+            ) {
+                filteredCategories.forEach { category ->
+                    DropdownMenuItem(
+                        text = { Text(category.name) },
+                        onClick = {
+                            onAction(FoodEntryAction.OnCategoryChange(category.id))
+                            categoryMenuExpanded = false
+                        }
+                    )
+                }
+                
+                if (isNewCategory) {
+                    DropdownMenuItem(
+                        text = { 
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                Icon(Icons.Default.Add, contentDescription = null, modifier = Modifier.size(18.dp))
+                                Text("Add new: \"${entryState.categoryQuery}\"", style = MaterialTheme.typography.bodyMedium)
+                            }
+                        },
+                        onClick = {
+                            onCreateCategory(entryState.categoryQuery)
+                            categoryMenuExpanded = false
+                        }
+                    )
+                }
+            }
+        }
 
         Row(
             modifier = Modifier.fillMaxWidth(),

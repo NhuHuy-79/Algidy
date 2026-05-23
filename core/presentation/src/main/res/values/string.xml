@@ -88,6 +88,7 @@
     <!-- Confirm Screen -->
     <string name="confirm_title">Confirm Information</string>
     <string name="confirm_label_name">Food Name</string>
+    <string name="confirm_label_category">Category</string>
     <string name="confirm_placeholder_name">Enter food name...</string>
     <string name="confirm_label_quantity">Quantity</string>
     <string name="confirm_label_unit">Unit</string>

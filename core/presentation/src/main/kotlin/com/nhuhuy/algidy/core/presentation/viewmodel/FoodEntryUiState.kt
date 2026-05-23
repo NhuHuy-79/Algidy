@@ -2,6 +2,7 @@ package com.nhuhuy.algidy.core.presentation.viewmodel
 
 import androidx.compose.runtime.Immutable
 import com.nhuhuy.algidy.core.model.food.DefaultFoodCategory
+import com.nhuhuy.algidy.core.model.food.FoodCategory
 import com.nhuhuy.algidy.core.model.food.ItemUnit
 import com.nhuhuy.algidy.core.model.food.StorageLocation
 import com.nhuhuy.algidy.core.model.validate.ValidationResult
@@ -11,6 +12,8 @@ data class FoodEntryUiState(
     val id: String = "",
     val name: String = "",
     val categoryId: String = "",
+    val categoryQuery: String = "",
+    val categories: List<FoodCategory> = emptyList(),
     val defaultFoodCategory: DefaultFoodCategory = DefaultFoodCategory.OTHERS,
     val location: StorageLocation = StorageLocation.FRIDGE,
     val quantity: Double = 0.0,

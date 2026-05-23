@@ -18,4 +18,5 @@ val databaseModule = module {
     single { get<AppDatabase>().foodDao() }
     single { get<AppDatabase>().wasteDao() }
     single { get<AppDatabase>().searchDao() }
+    single { get<AppDatabase>().categoryDao() }
 }

@@ -2,9 +2,11 @@ package com.nhuhuy.algidy.feature.inventory.di
 
 import com.nhuhuy.algidy.feature.inventory.data.repository.SearchRepositoryImp
 import com.nhuhuy.algidy.feature.inventory.domain.repository.SearchRepository
+import com.nhuhuy.algidy.feature.inventory.domain.usecase.AddCategoryUseCase
 import com.nhuhuy.algidy.feature.inventory.domain.usecase.CreateFoodItemUseCase
 import com.nhuhuy.algidy.feature.inventory.domain.usecase.DeleteFoodItemUseCase
 import com.nhuhuy.algidy.feature.inventory.domain.usecase.GetHistoryResultUseCase
+import com.nhuhuy.algidy.feature.inventory.domain.usecase.ObserveCategoriesUseCase
 import com.nhuhuy.algidy.feature.inventory.domain.usecase.ObserveFoodItemUseCase
 import com.nhuhuy.algidy.feature.inventory.domain.usecase.ObserveSettingDataUseCase
 import com.nhuhuy.algidy.feature.inventory.domain.usecase.SearchFoodUseCase
@@ -23,8 +25,10 @@ val inventoryModule = module {
     factoryOf(::GetHistoryResultUseCase)
     factoryOf(::SearchFoodUseCase)
     factoryOf(::CreateFoodItemUseCase)
+    factoryOf(::AddCategoryUseCase)
     factoryOf(::DeleteFoodItemUseCase)
     factoryOf(::ObserveFoodItemUseCase)
+    factoryOf(::ObserveCategoriesUseCase)
     factoryOf(::ObserveSettingDataUseCase)
     //viewModel
     viewModelOf(::InventoryViewModel)

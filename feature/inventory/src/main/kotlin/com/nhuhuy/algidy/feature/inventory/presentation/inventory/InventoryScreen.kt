@@ -4,7 +4,6 @@ package com.nhuhuy.algidy.feature.inventory.presentation.inventory
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -37,6 +36,7 @@ import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.grid
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.grid_list.InventoryFoodItem
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.pager.InventoryPager
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.model.CategoryUiModel
+import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryCombineState
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryResultState
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryUiState
 import com.nhuhuy.algidy.feature.inventory.utils.GridCategory
@@ -48,9 +48,10 @@ import kotlinx.coroutines.launch
 @Composable
 fun InventoryScreen(
     uiState: InventoryUiState,
-    categoryEnabled: Boolean,
+    combineState: InventoryCombineState,
     inventoryResultState: InventoryResultState,
     onCategorySelect: (CategoryUiModel) -> Unit = {},
+    onCategoryEditClick: () -> Unit,
     onSearchClick: () -> Unit,
     onItemClick: (String) -> Unit,
 ) {
@@ -62,76 +63,73 @@ fun InventoryScreen(
     val pagerState = rememberPagerState(pageCount = { categories.size })
     val scope = rememberCoroutineScope()
 
-    Box(
-        modifier = Modifier.fillMaxSize()
-    ) {
-        Scaffold(
-            modifier = Modifier.fillMaxSize(),
-            topBar = {
-                Column {
-                    InventoryTopBar(
-                        onSearchClick = onSearchClick,
-                        onSortByExpiry = { sortMode = InventorySortMode.BY_EXPIRY },
-                        onSortByName = { sortMode = InventorySortMode.BY_NAME },
-                        onShowExpiredOnly = { showExpiredOnly = !showExpiredOnly },
-                        onResetFilters = {
-                            sortMode = InventorySortMode.NONE
-                            showExpiredOnly = false
-                        },
-                        isExpiredOnlyActive = showExpiredOnly,
-                        currentSortMode = sortMode,
-                        scrollBehavior = scrollBehavior
-                    )
+    Scaffold(
+        modifier = Modifier.fillMaxSize(),
+        topBar = {
+            Column {
+                InventoryTopBar(
+                    onSearchClick = onSearchClick,
+                    onSortByExpiry = { sortMode = InventorySortMode.BY_EXPIRY },
+                    onSortByName = { sortMode = InventorySortMode.BY_NAME },
+                    onShowExpiredOnly = { showExpiredOnly = !showExpiredOnly },
+                    onResetFilters = {
+                        sortMode = InventorySortMode.NONE
+                        showExpiredOnly = false
+                    },
+                    isExpiredOnlyActive = showExpiredOnly,
+                    currentSortMode = sortMode,
+                    scrollBehavior = scrollBehavior
+                )
 
-                    if (categoryEnabled) {
-                        InventoryCategoryFilter(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(horizontal = 16.dp),
-                            selectedCategory = uiState.currentCategory,
-                            categories = emptyList(),
-                            onCategoryClick = onCategorySelect
-                        )
-                    } else {
-                        InventoryTabRow(
-                            categories = categories,
-                            selectedTabIndex = pagerState.currentPage,
-                            onTabSelected = { index ->
-                                scope.launch {
-                                    pagerState.animateScrollToPage(index)
-                                }
-                            },
-                        )
-                    }
+                if (combineState.categoryEnabled) {
+                    InventoryCategoryFilter(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp),
+                        selectedCategory = uiState.currentCategory,
+                        categories = combineState.categories.toImmutableList(),
+                        onCategoryClick = onCategorySelect,
+                        onCategoryEditClick = onCategoryEditClick
+                    )
+                } else {
+                    InventoryTabRow(
+                        categories = categories,
+                        selectedTabIndex = pagerState.currentPage,
+                        onTabSelected = { index ->
+                            scope.launch {
+                                pagerState.animateScrollToPage(index)
+                            }
+                        },
+                    )
                 }
-            },
-            containerColor = MaterialTheme.colorScheme.background.copy(
-                alpha = if (expanded) 0.2f else 1f
-            ),
-        ) { paddingValues ->
-            if (categoryEnabled) {
-                InventoryCategoryList(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(paddingValues),
-                    currentCategory = uiState.currentCategory,
-                    inventoryResultState = inventoryResultState,
-                    sortMode = sortMode,
-                    showExpiredOnly = showExpiredOnly,
-                    onItemClick = onItemClick
-                )
-            } else {
-                InventoryPager(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(paddingValues),
-                    pagerState = pagerState,
-                    sortMode = sortMode,
-                    showExpiredOnly = showExpiredOnly,
-                    inventoryResultState = inventoryResultState,
-                    onItemClick = onItemClick
-                )
             }
+        },
+        containerColor = MaterialTheme.colorScheme.background.copy(
+            alpha = if (expanded) 0.2f else 1f
+        ),
+    ) { paddingValues ->
+        if (combineState.categoryEnabled) {
+            InventoryCategoryList(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(paddingValues),
+                currentCategory = uiState.currentCategory,
+                inventoryResultState = inventoryResultState,
+                sortMode = sortMode,
+                showExpiredOnly = showExpiredOnly,
+                onItemClick = onItemClick
+            )
+        } else {
+            InventoryPager(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(paddingValues),
+                pagerState = pagerState,
+                sortMode = sortMode,
+                showExpiredOnly = showExpiredOnly,
+                inventoryResultState = inventoryResultState,
+                onItemClick = onItemClick
+            )
         }
     }
 }

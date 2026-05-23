@@ -86,6 +86,7 @@
     <!-- Confirm Screen -->
     <string name="confirm_title">Xác nhận thông tin</string>
     <string name="confirm_label_name">Tên thực phẩm</string>
+    <string name="confirm_label_category">Danh mục</string>
     <string name="confirm_placeholder_name">Nhập tên thực phẩm…</string>
     <string name="confirm_label_quantity">Số lượng</string>
     <string name="confirm_label_unit">Đơn vị</string>

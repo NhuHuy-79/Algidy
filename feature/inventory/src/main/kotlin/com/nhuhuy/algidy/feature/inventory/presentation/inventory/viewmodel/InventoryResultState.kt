@@ -15,12 +15,19 @@ sealed interface InventoryResultState {
 }
 
 @Immutable
+data class InventoryCombineState(
+    val categoryEnabled: Boolean = false,
+    val categories: List<CategoryUiModel> = listOf(CategoryUiModel.All),
+)
+
+@Immutable
 data class InventoryUiState(
     val expanded: Boolean = false,
     val currentCategory: CategoryUiModel = CategoryUiModel.All,
+    val categorySheetInput: String = "",
     val overlay: InventoryOverlay = InventoryOverlay.NONE
 ) : UiState
 
 enum class InventoryOverlay {
-    NONE, FOOD_SHEET,
+    NONE, FOOD_SHEET, CATEGORY_EDIT
 }

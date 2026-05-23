@@ -13,4 +13,6 @@ sealed interface FoodEntryAction {
     data class OnNoteChange(val note: String) : FoodEntryAction
     data class OnItemUnitChange(val unit: ItemUnit) : FoodEntryAction
     data class OnImagePick(val uri: Uri) : FoodEntryAction
+    data class OnCategoryChange(val categoryId: String) : FoodEntryAction
+    data class OnCategoryQueryChange(val query: String) : FoodEntryAction
 }

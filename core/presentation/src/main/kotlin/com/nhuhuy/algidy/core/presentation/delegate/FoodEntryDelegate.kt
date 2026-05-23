@@ -1,5 +1,6 @@
 package com.nhuhuy.algidy.core.presentation.delegate
 
+import com.nhuhuy.algidy.core.model.food.FoodCategory
 import com.nhuhuy.algidy.core.model.food.FoodItem
 import com.nhuhuy.algidy.core.model.validate.FoodValidator
 import com.nhuhuy.algidy.core.presentation.viewmodel.FoodEntryAction
@@ -16,6 +17,7 @@ interface FoodEntryDelegate {
 
     fun onEntryAction(action: FoodEntryAction)
     fun setEntryData(foodItem: FoodItem)
+    fun updateCategories(categories: List<FoodCategory>)
     fun resetEntryData()
     fun getResultFoodItem(): FoodItem
 }
@@ -61,15 +63,7 @@ class FoodEntryDelegateImpl : FoodEntryDelegate {
             }
 
             is FoodEntryAction.OnExpiryDateChange -> {
-                _entryState.update { it.copy(expiryDate = action.expiryDate) }
-                _entryError.update {
-                    it.copy(
-                        expiryDateValidation = FoodValidator.validateExpiryDate(
-                            purchaseDate = _entryState.value.purchaseDate,
-                            expiryDate = action.expiryDate
-                        )
-                    )
-                }
+                _entryState.update { it.updateExpiryDate(action.expiryDate) }
             }
 
             is FoodEntryAction.OnNoteChange -> {
@@ -79,15 +73,41 @@ class FoodEntryDelegateImpl : FoodEntryDelegate {
             is FoodEntryAction.OnImagePick -> {
                 _entryState.update { it.copy(imageUri = action.uri.toString()) }
             }
+
+            is FoodEntryAction.OnCategoryChange -> {
+                val category = _entryState.value.categories.find { it.id == action.categoryId }
+                _entryState.update { it.copy(
+                    categoryId = action.categoryId,
+                    categoryQuery = category?.name ?: ""
+                ) }
+            }
+
+            is FoodEntryAction.OnCategoryQueryChange -> {
+                _entryState.update { it.copy(categoryQuery = action.query) }
+            }
         }
     }
 
+    private fun FoodEntryUiState.updateExpiryDate(newExpiryDate: Long): FoodEntryUiState {
+        _entryError.update {
+            it.copy(
+                expiryDateValidation = FoodValidator.validateExpiryDate(
+                    purchaseDate = this.purchaseDate,
+                    expiryDate = newExpiryDate
+                )
+            )
+        }
+        return copy(expiryDate = newExpiryDate)
+    }
+
     override fun setEntryData(foodItem: FoodItem) {
+        val category = _entryState.value.categories.find { it.id == foodItem.categoryId }
         _entryState.update {
             it.copy(
                 id = foodItem.id,
                 name = foodItem.name,
                 categoryId = foodItem.categoryId,
+                categoryQuery = category?.name ?: "",
                 defaultFoodCategory = foodItem.defaultFoodCategory,
                 location = foodItem.location,
                 quantity = foodItem.quantity,
@@ -112,8 +132,18 @@ class FoodEntryDelegateImpl : FoodEntryDelegate {
         }
     }
 
+    override fun updateCategories(categories: List<FoodCategory>) {
+        val currentCategoryId = _entryState.value.categoryId
+        val selectedCategory = categories.find { it.id == currentCategoryId }
+        _entryState.update { it.copy(
+            categories = categories,
+            categoryQuery = selectedCategory?.name ?: it.categoryQuery
+        ) }
+    }
+
     override fun resetEntryData() {
-        _entryState.update { FoodEntryUiState() }
+        val currentCategories = _entryState.value.categories
+        _entryState.update { FoodEntryUiState(categories = currentCategories) }
         _entryError.update { FoodEntryError() }
     }
 

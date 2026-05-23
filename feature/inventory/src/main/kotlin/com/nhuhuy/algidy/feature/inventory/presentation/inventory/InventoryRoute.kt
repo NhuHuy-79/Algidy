@@ -1,6 +1,6 @@
 package com.nhuhuy.algidy.feature.inventory.presentation.inventory
 
-import androidx.compose.animation.core.animateFloatAsState
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -19,6 +19,7 @@ import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.core.presentation.component.FoodEntryBottomSheet
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.InventoryFabMenu
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryAction
+import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryAction.*
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryOverlay
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryViewModel
 import org.koin.androidx.compose.koinViewModel
@@ -33,24 +34,28 @@ fun InventoryRoute(
 ) = BoxLayout {
     val viewModel: InventoryViewModel = koinViewModel()
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    val categoryEnabledState by viewModel.categoryEnableState.collectAsStateWithLifecycle()
+    val combineState by viewModel.combineState.collectAsStateWithLifecycle()
     val entryState by viewModel.entryState.collectAsStateWithLifecycle()
     val errorState by viewModel.entryError.collectAsStateWithLifecycle()
     val inventoryResultState by viewModel.resultState.collectAsStateWithLifecycle()
     val onEntryAction = viewModel::onEntryAction
     val onAction = viewModel::onAction
 
-    val scrimAlpha by animateFloatAsState(
-        targetValue = if (uiState.expanded) 0.6f else 0f,
-        label = "scrim"
-    )
+    BackHandler(enabled = uiState.expanded) {
+        onAction(InventoryAction.ToggleFabMenu(false))
+    }
 
     InventoryScreen(
         uiState = uiState,
-        categoryEnabled = categoryEnabledState,
+        combineState = combineState,
         inventoryResultState = inventoryResultState,
         onSearchClick = onNavigateToSearch,
         onItemClick = onNavigateToDetail,
+        onCategorySelect = { category ->
+            onAction(InventoryAction.OnCategorySelect(category))
+        },
+        onCategoryEditClick = {
+        }
     )
 
     when (uiState.overlay) {
@@ -62,15 +67,18 @@ fun InventoryRoute(
             foodEntryState = entryState,
             foodEntryError = errorState,
             onEntryAction = onEntryAction,
-            onConfirm = { onAction(InventoryAction.OnManuallyClick) }
+            onConfirm = { onAction(InventoryAction.OnManuallyClick) },
+            onCreateCategory = { onAction(OnCreateCategory(it)) }
         )
+
+        InventoryOverlay.CATEGORY_EDIT -> TODO()
     }
 
     if (uiState.expanded) {
         Scrim(
-            color = MaterialTheme.colorScheme.surface.copy(alpha = scrimAlpha),
+            color = MaterialTheme.colorScheme.surface,
             onClick = { onAction(InventoryAction.ToggleFabMenu(false)) },
-            contentDescription = "scrimm",
+            contentDescription = "scrim",
             modifier = Modifier.fillMaxSize(),
             alpha = { 0.6f }
         )

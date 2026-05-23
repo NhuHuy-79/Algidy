@@ -9,9 +9,15 @@ import com.nhuhuy.algidy.feature.inventory.presentation.inventory.model.Category
 sealed interface InventoryAction : UiAction {
     data class ToggleFabMenu(val value: Boolean) : InventoryAction
     data class OnCategorySelect(val categoryUiModel: CategoryUiModel) : InventoryAction
-
     data class RemoveItem(val id: String) : InventoryAction
     data object OnAddFabClick : InventoryAction
     data object OnManuallyClick : InventoryAction
     data object OnDismiss : InventoryAction
+    data class OnCreateCategory(val name: String) : InventoryAction
+
+    sealed interface OnEditCategorySheet : InventoryAction {
+        data object Open : OnEditCategorySheet
+        data class OnInputChange(val value: String) : OnEditCategorySheet
+        data object Save : OnEditCategorySheet
+    }
 }
