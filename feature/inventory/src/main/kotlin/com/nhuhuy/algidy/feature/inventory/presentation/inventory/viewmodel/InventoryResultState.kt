@@ -33,7 +33,7 @@ data class InventoryUiState(
 }
 
 enum class InventoryOverlay {
-    NONE, FOOD_SHEET, CATEGORY_EDIT
+    NONE, FOOD_SHEET, CATEGORY_EDIT, CATEGORY_DELETE
 }
 
 enum class InventorySortMode {

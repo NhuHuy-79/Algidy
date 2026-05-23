@@ -13,6 +13,7 @@
     <string name="action_view_more">Xem thêm</string>
     <string name="action_new">Mới</string>
 
+    <string name="category_all">Tất cả</string>
     <string name="category_vegetables">Rau củ</string>
     <string name="category_fruits">Trái cây</string>
     <string name="category_meat">Thịt</string>
@@ -60,6 +61,10 @@
     <string name="category_search_placeholder">Tìm kiếm hoặc nhập danh mục mới…</string>
     <string name="category_add_new">Thêm mới: \"%1$s\"</string>
     <string name="inventory_menu_filter">Lọc</string>
+
+    <string name="delete_category_dialog_title">Xóa thể loại\?</string>
+    <string name="delete_category_dialog_content">Danh mục này và tất cả các mặt hàng thực phẩm của nó sẽ bị xóa.</string>    
+    <string name="delete_category_dialog_confirm">Xóa</string>
 
     <!--Grid Category-->
     <string name="category_add">Tất cả</string>

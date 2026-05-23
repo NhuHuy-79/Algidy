@@ -15,12 +15,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.nhuhuy.algidy.core.designsystem.component.AlgidyAlertDialog
 import com.nhuhuy.algidy.core.designsystem.component.BoxLayout
 import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.core.presentation.component.FoodEntryBottomSheet
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.InventoryFabMenu
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.category.CategoryEditDialog
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryAction
+import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryAction.OnEditCategorySheet.*
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryEvent
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryOverlay
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryViewModel
@@ -80,14 +82,26 @@ fun InventoryRoute(
         InventoryOverlay.CATEGORY_EDIT -> CategoryEditDialog(
             value = uiState.categorySheetInput,
             onValueChange = { category ->
-                onAction(InventoryAction.OnEditCategorySheet.OnInputChange(category))
+                onAction(OnInputChange(category))
             },
             onDismiss = {
                 onAction(InventoryAction.OnDismiss)
             },
             onConfirm = {
-                onAction(InventoryAction.OnEditCategorySheet.Save)
+                onAction(Save)
             }
+        )
+
+        InventoryOverlay.CATEGORY_DELETE -> AlgidyAlertDialog(
+            onDismissRequest = {
+                onAction(InventoryAction.OnDismiss)
+            },
+            onConfirm = {
+                onAction(InventoryAction.OnDeleteAlertConfirm)
+            },
+            title = stringResource(R.string.delete_category_dialog_title),
+            text = stringResource(R.string.delete_category_dialog_content),
+            confirmText = stringResource(R.string.delete_category_dialog_confirm)
         )
     }
 

@@ -6,9 +6,11 @@ import com.nhuhuy.algidy.core.model.food.FoodItem
 import com.nhuhuy.algidy.core.presentation.delegate.FoodEntryDelegate
 import com.nhuhuy.algidy.core.presentation.delegate.FoodEntryDelegateImpl
 import com.nhuhuy.algidy.core.presentation.model.CategoryUiModel
+import com.nhuhuy.algidy.core.presentation.model.CategoryUiModel.*
 import com.nhuhuy.algidy.core.presentation.model.toUiModel
 import com.nhuhuy.algidy.core.presentation.viewmodel.BaseViewModel
 import com.nhuhuy.algidy.core.presentation.viewmodel.FoodEntryAction
+import com.nhuhuy.algidy.core.presentation.viewmodel.FoodEntryAction.*
 import com.nhuhuy.algidy.feature.inventory.domain.usecase.ObserveSettingDataUseCase
 import com.nhuhuy.algidy.feature.inventory.domain.usecase.category.AddCategoryUseCase
 import com.nhuhuy.algidy.feature.inventory.domain.usecase.category.DeleteCategoryUseCase
@@ -17,6 +19,7 @@ import com.nhuhuy.algidy.feature.inventory.domain.usecase.category.ObserveCatego
 import com.nhuhuy.algidy.feature.inventory.domain.usecase.food.CreateFoodItemUseCase
 import com.nhuhuy.algidy.feature.inventory.domain.usecase.food.DeleteFoodItemUseCase
 import com.nhuhuy.algidy.feature.inventory.domain.usecase.food.ObserveFoodItemUseCase
+import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryEvent.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -133,7 +136,7 @@ class InventoryViewModel(
             is InventoryAction.OnCreateCategory -> {
                 viewModelScope.launch {
                     val newCategory = addCategoryUseCase(action.name)
-                    onEntryAction(FoodEntryAction.OnCategorySelect(CategoryUiModel.ByCategory(newCategory)))
+                    onEntryAction(OnCategorySelect(ByCategory(newCategory)))
                 }
             }
 
@@ -166,17 +169,15 @@ class InventoryViewModel(
                 }
             }
 
-            InventoryAction.OnDeleteCategory -> viewModelScope.launch {
-                val category = currentState.currentCategory
-                if (category is CategoryUiModel.ByCategory) {
-                    deleteCategoryUseCase(category.data.id)
-                    _uiState.product { copy(currentCategory = CategoryUiModel.All) }
+            InventoryAction.OnDeleteCategory -> {
+                _uiState.product {
+                    copy(overlay = InventoryOverlay.CATEGORY_DELETE)
                 }
             }
 
             is InventoryAction.OnItemClick -> {
                 viewModelScope.launch {
-                    emitEvent(InventoryEvent.NavigateToDetail(action.id))
+                    emitEvent(NavigateToDetail(action.id))
                 }
             }
 
@@ -207,6 +208,14 @@ class InventoryViewModel(
             InventoryAction.OnSortByName -> {
                 _uiState.product {
                     copy(sortMode = InventorySortMode.BY_NAME)
+                }
+            }
+
+            InventoryAction.OnDeleteAlertConfirm -> viewModelScope.launch {
+                val category = currentState.currentCategory
+                if (category is CategoryUiModel.ByCategory) {
+                    deleteCategoryUseCase(category.data.id)
+                    _uiState.product { copy(currentCategory = CategoryUiModel.All) }
                 }
             }
         }

@@ -20,6 +20,7 @@ sealed interface InventoryAction : UiAction {
         data object Save : OnEditCategorySheet
     }
 
+    data object OnDeleteAlertConfirm: InventoryAction
     data object OnDeleteCategory : InventoryAction
     data object OnSearchClick : InventoryAction
     data class OnItemClick(val id: String) : InventoryAction
