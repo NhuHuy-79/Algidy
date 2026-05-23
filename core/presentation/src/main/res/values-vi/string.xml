@@ -52,6 +52,14 @@
     <string name="inventory_sheet_title">Thêm thực phẩm mới</string>
     <string name="inventory_sheet_btn">Thêm thực phẩm</string>
 
+    <string name="inventory_category_edit">Sửa</string>
+    <string name="inventory_category_delete">Xóa</string>
+    <string name="category_edit_dialog_title">Chỉnh sửa danh mục</string>
+    <string name="category_edit_dialog_label">Tên danh mục</string>
+    <string name="category_search_placeholder">Tìm kiếm hoặc nhập danh mục mới…</string>
+    <string name="category_add_new">Thêm mới: \"%1$s\"</string>
+    <string name="inventory_menu_filter">Lọc</string>
+
     <!--Grid Category-->
     <string name="category_add">Tất cả</string>
     <string name="category_fridge">Ngăn mát</string>

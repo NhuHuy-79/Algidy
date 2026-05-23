@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scrim
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -18,10 +19,12 @@ import com.nhuhuy.algidy.core.designsystem.component.BoxLayout
 import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.core.presentation.component.FoodEntryBottomSheet
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.InventoryFabMenu
+import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.category.CategoryEditDialog
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryAction
-import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryAction.*
+import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryEvent
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryOverlay
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryViewModel
+import kotlinx.coroutines.flow.collectLatest
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -41,7 +44,17 @@ fun InventoryRoute(
     val onEntryAction = viewModel::onEntryAction
     val onAction = viewModel::onAction
 
-    BackHandler(enabled = uiState.expanded) {
+    LaunchedEffect(true) {
+        viewModel.uiEvent.collectLatest { event ->
+            when (event) {
+                is InventoryEvent.NavigateToDetail -> onNavigateToDetail(event.id)
+                InventoryEvent.NavigateToSearch -> onNavigateToSearch()
+            }
+        }
+    }
+
+    BackHandler(enabled = uiState.expanded || uiState.overlay != InventoryOverlay.NONE) {
+        onAction(InventoryAction.OnDismiss)
         onAction(InventoryAction.ToggleFabMenu(false))
     }
 
@@ -49,13 +62,7 @@ fun InventoryRoute(
         uiState = uiState,
         combineState = combineState,
         inventoryResultState = inventoryResultState,
-        onSearchClick = onNavigateToSearch,
-        onItemClick = onNavigateToDetail,
-        onCategorySelect = { category ->
-            onAction(InventoryAction.OnCategorySelect(category))
-        },
-        onCategoryEditClick = {
-        }
+        onAction = onAction
     )
 
     when (uiState.overlay) {
@@ -68,10 +75,21 @@ fun InventoryRoute(
             foodEntryError = errorState,
             onEntryAction = onEntryAction,
             onConfirm = { onAction(InventoryAction.OnManuallyClick) },
-            onCreateCategory = { onAction(OnCreateCategory(it)) }
+            onCreateCategory = { onAction(InventoryAction.OnCreateCategory(it)) }
         )
 
-        InventoryOverlay.CATEGORY_EDIT -> TODO()
+        InventoryOverlay.CATEGORY_EDIT -> CategoryEditDialog(
+            value = uiState.categorySheetInput,
+            onValueChange = { category ->
+                onAction(InventoryAction.OnEditCategorySheet.OnInputChange(category))
+            },
+            onDismiss = {
+                onAction(InventoryAction.OnDismiss)
+            },
+            onConfirm = {
+                onAction(InventoryAction.OnEditCategorySheet.Save)
+            }
+        )
     }
 
     if (uiState.expanded) {
@@ -100,5 +118,4 @@ fun InventoryRoute(
             onAnalyticsClick = onNavigateToAnalytics
         )
     }
-
 }

@@ -2,13 +2,30 @@ package com.nhuhuy.algidy.core.database.entity
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.ForeignKey
+import androidx.room.Index
 import androidx.room.PrimaryKey
 import com.nhuhuy.algidy.core.model.food.DefaultFoodCategory
 import com.nhuhuy.algidy.core.model.food.FoodStatus
 import com.nhuhuy.algidy.core.model.food.ItemUnit
 import com.nhuhuy.algidy.core.model.food.StorageLocation
 
-@Entity(tableName = "food_items")
+/**
+ * Entity representing a food item in the inventory.
+ * Linked to CategoryEntity via category_id with Cascade Delete.
+ */
+@Entity(
+    tableName = "food_items",
+    foreignKeys = [
+        ForeignKey(
+            entity = CategoryEntity::class,
+            parentColumns = ["id"],
+            childColumns = ["category_id"],
+            onDelete = ForeignKey.CASCADE
+        )
+    ],
+    indices = [Index(value = ["category_id"])]
+)
 data class FoodItemEntity(
     @PrimaryKey
     val id: String,

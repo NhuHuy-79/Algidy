@@ -25,9 +25,17 @@ data class InventoryUiState(
     val expanded: Boolean = false,
     val currentCategory: CategoryUiModel = CategoryUiModel.All,
     val categorySheetInput: String = "",
-    val overlay: InventoryOverlay = InventoryOverlay.NONE
-) : UiState
+    val overlay: InventoryOverlay = InventoryOverlay.NONE,
+    val sortMode: InventorySortMode = InventorySortMode.NONE,
+    val showExpiredOnly: Boolean = false
+) : UiState {
+    val showCategoryEdit : Boolean get() = currentCategory is CategoryUiModel.ByCategory
+}
 
 enum class InventoryOverlay {
     NONE, FOOD_SHEET, CATEGORY_EDIT
+}
+
+enum class InventorySortMode {
+    BY_NAME, BY_EXPIRY, NONE
 }

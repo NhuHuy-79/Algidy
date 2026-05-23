@@ -8,7 +8,7 @@ import com.nhuhuy.algidy.core.database.entity.CategoryEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface CategoryDao {
+interface CategoryDao : BaseDao<CategoryEntity>{
     @Query("SELECT * FROM categories")
     fun getAllCategories(): Flow<List<CategoryEntity>>
 
@@ -17,4 +17,6 @@ interface CategoryDao {
 
     @Query("DELETE FROM categories WHERE id = :id")
     suspend fun deleteCategory(id: String)
+
+
 }

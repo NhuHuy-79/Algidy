@@ -20,4 +20,12 @@ sealed interface InventoryAction : UiAction {
         data class OnInputChange(val value: String) : OnEditCategorySheet
         data object Save : OnEditCategorySheet
     }
+
+    data object OnDeleteCategory : InventoryAction
+    data object OnSearchClick : InventoryAction
+    data class OnItemClick(val id: String) : InventoryAction
+    data object OnResetFilters : InventoryAction
+    data object OnSortByExpiry : InventoryAction
+    data object OnSortByName : InventoryAction
+    data object OnShowExpiredOnly : InventoryAction
 }

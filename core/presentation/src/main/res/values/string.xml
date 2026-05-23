@@ -54,6 +54,14 @@
     <string name="inventory_sheet_title">Add New Food</string>
     <string name="inventory_sheet_btn">Add Food</string>
 
+    <string name="inventory_category_edit">Edit</string>
+    <string name="inventory_category_delete">Delete</string>
+    <string name="category_edit_dialog_title">Edit Category</string>
+    <string name="category_edit_dialog_label">Category Name</string>
+    <string name="category_search_placeholder">Search or type new category…</string>
+    <string name="category_add_new">Add new: \"%1$s\"</string>
+    <string name="inventory_menu_filter">Filter</string>
+
     <!--Grid Category-->
     <string name="category_add">All</string>
     <string name="category_fridge">Fridge</string>

@@ -2,14 +2,16 @@ package com.nhuhuy.algidy.feature.inventory.di
 
 import com.nhuhuy.algidy.feature.inventory.data.repository.SearchRepositoryImp
 import com.nhuhuy.algidy.feature.inventory.domain.repository.SearchRepository
-import com.nhuhuy.algidy.feature.inventory.domain.usecase.AddCategoryUseCase
-import com.nhuhuy.algidy.feature.inventory.domain.usecase.CreateFoodItemUseCase
-import com.nhuhuy.algidy.feature.inventory.domain.usecase.DeleteFoodItemUseCase
+import com.nhuhuy.algidy.feature.inventory.domain.usecase.category.AddCategoryUseCase
+import com.nhuhuy.algidy.feature.inventory.domain.usecase.food.CreateFoodItemUseCase
+import com.nhuhuy.algidy.feature.inventory.domain.usecase.food.DeleteFoodItemUseCase
 import com.nhuhuy.algidy.feature.inventory.domain.usecase.GetHistoryResultUseCase
-import com.nhuhuy.algidy.feature.inventory.domain.usecase.ObserveCategoriesUseCase
-import com.nhuhuy.algidy.feature.inventory.domain.usecase.ObserveFoodItemUseCase
+import com.nhuhuy.algidy.feature.inventory.domain.usecase.category.ObserveCategoriesUseCase
+import com.nhuhuy.algidy.feature.inventory.domain.usecase.food.ObserveFoodItemUseCase
 import com.nhuhuy.algidy.feature.inventory.domain.usecase.ObserveSettingDataUseCase
-import com.nhuhuy.algidy.feature.inventory.domain.usecase.SearchFoodUseCase
+import com.nhuhuy.algidy.feature.inventory.domain.usecase.category.DeleteCategoryUseCase
+import com.nhuhuy.algidy.feature.inventory.domain.usecase.category.EditCategoryUseCase
+import com.nhuhuy.algidy.feature.inventory.domain.usecase.food.SearchFoodUseCase
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryViewModel
 import com.nhuhuy.algidy.feature.inventory.presentation.search.viewmodel.SearchViewModel
 import org.koin.core.module.dsl.factoryOf
@@ -22,6 +24,8 @@ val inventoryModule = module {
     //repository
     singleOf(::SearchRepositoryImp) bind SearchRepository::class
     //usecase
+    factoryOf(::DeleteCategoryUseCase)
+    factoryOf(::EditCategoryUseCase)
     factoryOf(::GetHistoryResultUseCase)
     factoryOf(::SearchFoodUseCase)
     factoryOf(::CreateFoodItemUseCase)

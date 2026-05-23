@@ -3,9 +3,9 @@ package com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel
 import app.cash.turbine.test
 import com.nhuhuy.algidy.core.model.food.FoodItem
 import com.nhuhuy.algidy.core.presentation.delegate.FoodEntryDelegateImpl
-import com.nhuhuy.algidy.feature.inventory.domain.usecase.CreateFoodItemUseCase
-import com.nhuhuy.algidy.feature.inventory.domain.usecase.DeleteFoodItemUseCase
-import com.nhuhuy.algidy.feature.inventory.domain.usecase.ObserveFoodItemUseCase
+import com.nhuhuy.algidy.feature.inventory.domain.usecase.food.CreateFoodItemUseCase
+import com.nhuhuy.algidy.feature.inventory.domain.usecase.food.DeleteFoodItemUseCase
+import com.nhuhuy.algidy.feature.inventory.domain.usecase.food.ObserveFoodItemUseCase
 import com.nhuhuy.algidy.feature.inventory.util.MainDispatcherRule
 import io.mockk.coEvery
 import io.mockk.coVerify

@@ -137,7 +137,7 @@ fun FoodEntryForm(
                     categoryMenuExpanded = true 
                 },
                 label = stringResource(R.string.confirm_label_category),
-                placeholder = "Search or type new category...",
+                placeholder = stringResource(R.string.category_search_placeholder),
                 modifier = Modifier.fillMaxWidth()
             )
 
@@ -161,7 +161,10 @@ fun FoodEntryForm(
                         text = { 
                             Row(verticalAlignment = Alignment.CenterVertically) {
                                 Icon(Icons.Default.Add, contentDescription = null, modifier = Modifier.size(18.dp))
-                                Text("Add new: \"${entryState.categoryQuery}\"", style = MaterialTheme.typography.bodyMedium)
+                                Text(
+                                    text = stringResource(R.string.category_add_new, entryState.categoryQuery),
+                                    style = MaterialTheme.typography.bodyMedium
+                                )
                             }
                         },
                         onClick = {

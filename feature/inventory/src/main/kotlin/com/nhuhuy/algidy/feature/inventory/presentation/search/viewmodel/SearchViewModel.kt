@@ -4,7 +4,7 @@ import androidx.lifecycle.viewModelScope
 import com.nhuhuy.algidy.core.data.util.product
 import com.nhuhuy.algidy.core.presentation.viewmodel.BaseViewModel
 import com.nhuhuy.algidy.feature.inventory.domain.usecase.GetHistoryResultUseCase
-import com.nhuhuy.algidy.feature.inventory.domain.usecase.SearchFoodUseCase
+import com.nhuhuy.algidy.feature.inventory.domain.usecase.food.SearchFoodUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow

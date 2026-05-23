@@ -1,15 +1,8 @@
-package com.nhuhuy.algidy.feature.inventory.presentation.inventory.component
+package com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.category
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Menu
-import androidx.compose.material.icons.rounded.ModeEdit
-import androidx.compose.material3.FilledIconToggleButton
-import androidx.compose.material3.FilledTonalIconButton
-import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -24,8 +17,7 @@ fun InventoryCategoryFilter(
     modifier: Modifier = Modifier,
     selectedCategory: CategoryUiModel,
     categories: ImmutableList<CategoryUiModel>,
-    onCategoryClick: (CategoryUiModel) -> Unit,
-    onCategoryEditClick: () -> Unit
+    onCategoryClick: (CategoryUiModel) -> Unit
 ) {
     LazyRow(
         modifier = modifier,
@@ -41,18 +33,6 @@ fun InventoryCategoryFilter(
                     onCategoryClick(category)
                 }
             )
-        }
-
-        item {
-            FilledTonalIconButton(
-                onClick = onCategoryEditClick,
-                shape = CircleShape
-            ) {
-                Icon(
-                    imageVector = Icons.Rounded.Menu,
-                    contentDescription = null
-                )
-            }
         }
     }
 }

@@ -2,6 +2,7 @@ package com.nhuhuy.algidy.feature.inventory.domain.usecase
 
 import com.nhuhuy.algidy.core.model.food.FoodItem
 import com.nhuhuy.algidy.feature.inventory.domain.repository.SearchRepository
+import com.nhuhuy.algidy.feature.inventory.domain.usecase.food.SearchFoodUseCase
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk

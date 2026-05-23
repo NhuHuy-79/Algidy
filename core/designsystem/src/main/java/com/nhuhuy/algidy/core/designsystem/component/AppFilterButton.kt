@@ -18,8 +18,8 @@ fun AppFilterButton(
     modifier: Modifier = Modifier,
     selected: Boolean = false,
     label: String,
-    activeContainerColor: Color = MaterialTheme.colorScheme.secondaryContainer,
-    activeContentColor: Color = MaterialTheme.colorScheme.onSecondaryContainer,
+    activeContainerColor: Color = MaterialTheme.colorScheme.primaryContainer,
+    activeContentColor: Color = MaterialTheme.colorScheme.onPrimaryContainer,
     disabledContainerColor: Color = MaterialTheme.colorScheme.surfaceVariant,
     disabledContentColor: Color = MaterialTheme.colorScheme.onSurfaceVariant,
     onClick: () -> Unit

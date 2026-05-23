@@ -1,4 +1,4 @@
-package com.nhuhuy.algidy.feature.inventory.domain.usecase
+package com.nhuhuy.algidy.feature.inventory.domain.usecase.food
 
 import com.nhuhuy.algidy.core.model.food.FoodItem
 import com.nhuhuy.algidy.feature.inventory.domain.model.HistoryResult

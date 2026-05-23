@@ -9,6 +9,16 @@ enum class ItemPosition {
     TOP, MIDDLE, SINGLE, BOTTOM
 }
 
+fun horizontalRoundedCornerShape(
+    start: Dp,
+    end: Dp
+) = RoundedCornerShape(
+    topStart = start,
+    bottomStart = start,
+    topEnd = end,
+    bottomEnd = end
+)
+
 fun verticalRoundedCornerShape(
     top: Dp,
     bottom: Dp

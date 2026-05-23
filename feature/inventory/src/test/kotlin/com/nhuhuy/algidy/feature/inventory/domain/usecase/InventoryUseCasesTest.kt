@@ -7,6 +7,8 @@ import com.nhuhuy.algidy.core.model.error_handling.Resource
 import com.nhuhuy.algidy.core.model.food.FoodItem
 import com.nhuhuy.algidy.feature.inventory.domain.model.HistoryResult
 import com.nhuhuy.algidy.feature.inventory.domain.repository.SearchRepository
+import com.nhuhuy.algidy.feature.inventory.domain.usecase.food.CreateFoodItemUseCase
+import com.nhuhuy.algidy.feature.inventory.domain.usecase.food.ObserveFoodItemUseCase
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every

@@ -20,6 +20,10 @@ class CategoryRepositoryImpl(
         categoryDao.insertCategory(category.toEntity())
     }
 
+    override suspend fun updateCategory(category: FoodCategory) {
+        categoryDao.update(category.toEntity())
+    }
+
     override suspend fun deleteCategory(id: String) {
         categoryDao.deleteCategory(id)
     }
