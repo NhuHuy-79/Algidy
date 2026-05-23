@@ -3,6 +3,7 @@ package com.nhuhuy.algidy.core.presentation.delegate
 import com.nhuhuy.algidy.core.model.food.FoodCategory
 import com.nhuhuy.algidy.core.model.food.FoodItem
 import com.nhuhuy.algidy.core.model.validate.FoodValidator
+import com.nhuhuy.algidy.core.presentation.model.CategoryUiModel
 import com.nhuhuy.algidy.core.presentation.viewmodel.FoodEntryAction
 import com.nhuhuy.algidy.core.presentation.viewmodel.FoodEntryError
 import com.nhuhuy.algidy.core.presentation.viewmodel.FoodEntryUiState
@@ -11,13 +12,17 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
+/**
+ * Delegate to handle shared logic for food entry forms.
+ * Follows UDF pattern: Action -> Delegate -> State.
+ */
 interface FoodEntryDelegate {
     val entryState: StateFlow<FoodEntryUiState>
     val entryError: StateFlow<FoodEntryError>
 
     fun onEntryAction(action: FoodEntryAction)
     fun setEntryData(foodItem: FoodItem)
-    fun updateCategories(categories: List<FoodCategory>)
+    fun updateCategories(categories: List<CategoryUiModel.ByCategory>)
     fun resetEntryData()
     fun getResultFoodItem(): FoodItem
 }
@@ -74,16 +79,36 @@ class FoodEntryDelegateImpl : FoodEntryDelegate {
                 _entryState.update { it.copy(imageUri = action.uri.toString()) }
             }
 
-            is FoodEntryAction.OnCategoryChange -> {
-                val category = _entryState.value.categories.find { it.id == action.categoryId }
-                _entryState.update { it.copy(
-                    categoryId = action.categoryId,
-                    categoryQuery = category?.name ?: ""
-                ) }
-            }
-
             is FoodEntryAction.OnCategoryQueryChange -> {
                 _entryState.update { it.copy(categoryQuery = action.query) }
+            }
+
+            is FoodEntryAction.OnCategorySelect -> {
+                _entryState.update {
+                    it.copy(
+                        currentCategory = action.category,
+                        categoryId = action.category.data.id,
+                        categoryQuery = action.category.data.name
+                    )
+                }
+            }
+
+            is FoodEntryAction.OnCategorySelectById -> {
+                val category = _entryState.value.categories.find { it.data.id == action.id }
+                category?.let { cat ->
+                    _entryState.update {
+                        it.copy(
+                            categoryId = cat.data.id,
+                            categoryQuery = cat.data.name,
+                            currentCategory = cat
+                        )
+                    }
+                }
+            }
+
+            FoodEntryAction.OnCategoryConfirm -> {
+                // To be handled by consumer (ViewModel) to perform DB operation.
+                // The delegate just updates state if needed or acts as a relay.
             }
         }
     }
@@ -101,13 +126,14 @@ class FoodEntryDelegateImpl : FoodEntryDelegate {
     }
 
     override fun setEntryData(foodItem: FoodItem) {
-        val category = _entryState.value.categories.find { it.id == foodItem.categoryId }
+        val category = _entryState.value.categories.find { it.data.id == foodItem.categoryId }
         _entryState.update {
             it.copy(
                 id = foodItem.id,
                 name = foodItem.name,
                 categoryId = foodItem.categoryId,
-                categoryQuery = category?.name ?: "",
+                categoryQuery = category?.data?.name ?: "",
+                currentCategory = category ?: CategoryUiModel.All,
                 defaultFoodCategory = foodItem.defaultFoodCategory,
                 location = foodItem.location,
                 quantity = foodItem.quantity,
@@ -132,12 +158,13 @@ class FoodEntryDelegateImpl : FoodEntryDelegate {
         }
     }
 
-    override fun updateCategories(categories: List<FoodCategory>) {
+    override fun updateCategories(categories: List<CategoryUiModel.ByCategory>) {
         val currentCategoryId = _entryState.value.categoryId
-        val selectedCategory = categories.find { it.id == currentCategoryId }
+        val selectedCategory = categories.find { it.data.id == currentCategoryId }
         _entryState.update { it.copy(
             categories = categories,
-            categoryQuery = selectedCategory?.name ?: it.categoryQuery
+            categoryQuery = selectedCategory?.data?.name ?: it.categoryQuery,
+            currentCategory = selectedCategory ?: it.currentCategory
         ) }
     }
 

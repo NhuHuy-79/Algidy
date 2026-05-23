@@ -11,7 +11,7 @@ import com.nhuhuy.algidy.feature.inventory.presentation.inventory.InventoryGridL
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.EmptyPage
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.LoadingPage
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.getFilteredAndSortedList
-import com.nhuhuy.algidy.feature.inventory.presentation.inventory.model.CategoryUiModel
+import com.nhuhuy.algidy.core.presentation.model.CategoryUiModel
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryResultState
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventorySortMode
 import kotlinx.collections.immutable.toImmutableList

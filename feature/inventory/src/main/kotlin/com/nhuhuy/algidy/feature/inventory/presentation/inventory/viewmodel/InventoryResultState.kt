@@ -5,7 +5,7 @@ import androidx.compose.runtime.Stable
 import com.nhuhuy.algidy.core.model.food.FoodItem
 
 import com.nhuhuy.algidy.core.presentation.viewmodel.UiState
-import com.nhuhuy.algidy.feature.inventory.presentation.inventory.model.CategoryUiModel
+import com.nhuhuy.algidy.core.presentation.model.CategoryUiModel
 
 @Stable
 sealed interface InventoryResultState {

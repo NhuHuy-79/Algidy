@@ -3,6 +3,11 @@ package com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel
 import app.cash.turbine.test
 import com.nhuhuy.algidy.core.model.food.FoodItem
 import com.nhuhuy.algidy.core.presentation.delegate.FoodEntryDelegateImpl
+import com.nhuhuy.algidy.feature.inventory.domain.usecase.ObserveSettingDataUseCase
+import com.nhuhuy.algidy.feature.inventory.domain.usecase.category.AddCategoryUseCase
+import com.nhuhuy.algidy.feature.inventory.domain.usecase.category.DeleteCategoryUseCase
+import com.nhuhuy.algidy.feature.inventory.domain.usecase.category.EditCategoryUseCase
+import com.nhuhuy.algidy.feature.inventory.domain.usecase.category.ObserveCategoriesUseCase
 import com.nhuhuy.algidy.feature.inventory.domain.usecase.food.CreateFoodItemUseCase
 import com.nhuhuy.algidy.feature.inventory.domain.usecase.food.DeleteFoodItemUseCase
 import com.nhuhuy.algidy.feature.inventory.domain.usecase.food.ObserveFoodItemUseCase
@@ -23,10 +28,16 @@ class InventoryViewModelTest {
     @get:Rule
     val mainDispatcherRule = MainDispatcherRule()
 
+    private lateinit var addCategoryUseCase : AddCategoryUseCase
+    private lateinit var deleteCategoryUseCase: DeleteCategoryUseCase
+    private lateinit var editCategoryUseCase: EditCategoryUseCase
+    private lateinit var observeCategoriesUseCase: ObserveCategoriesUseCase
     private lateinit var observeFoodItemUseCase: ObserveFoodItemUseCase
     private lateinit var createFoodItemUseCase: CreateFoodItemUseCase
     private lateinit var deleteFoodItemUseCase: DeleteFoodItemUseCase
     private lateinit var foodEntryDelegateImpl: FoodEntryDelegateImpl
+
+    private lateinit var observeSettingDataUseCase: ObserveSettingDataUseCase
     private lateinit var viewModel: InventoryViewModel
 
     @Before
@@ -39,10 +50,15 @@ class InventoryViewModelTest {
         every { observeFoodItemUseCase() } returns flowOf(emptyList())
 
         viewModel = InventoryViewModel(
-            observeFoodItemUseCase,
-            foodEntryDelegateImpl,
-            createFoodItemUseCase,
-            deleteFoodItemUseCase
+            observerFoodItemUseCase = observeFoodItemUseCase,
+            foodEntryDelegateImpl = foodEntryDelegateImpl,
+            createFoodItemUseCase = createFoodItemUseCase,
+            deleteFoodItemUseCase = deleteFoodItemUseCase,
+            editCategoryUseCase = editCategoryUseCase,
+            observeCategoriesUseCase = observeCategoriesUseCase,
+            deleteCategoryUseCase = deleteCategoryUseCase,
+            addCategoryUseCase = addCategoryUseCase,
+            observeSettingDataUseCase = observeSettingDataUseCase
         )
     }
 
@@ -52,10 +68,15 @@ class InventoryViewModelTest {
 
         // Re-init viewModel to trigger the flow
         viewModel = InventoryViewModel(
-            observeFoodItemUseCase,
-            foodEntryDelegateImpl,
-            createFoodItemUseCase,
-            deleteFoodItemUseCase
+            observerFoodItemUseCase = observeFoodItemUseCase,
+            foodEntryDelegateImpl = foodEntryDelegateImpl,
+            createFoodItemUseCase = createFoodItemUseCase,
+            deleteFoodItemUseCase = deleteFoodItemUseCase,
+            editCategoryUseCase = editCategoryUseCase,
+            observeCategoriesUseCase = observeCategoriesUseCase,
+            deleteCategoryUseCase = deleteCategoryUseCase,
+            addCategoryUseCase = addCategoryUseCase,
+            observeSettingDataUseCase = observeSettingDataUseCase
         )
 
         viewModel.resultState.test {
@@ -69,10 +90,15 @@ class InventoryViewModelTest {
         every { observeFoodItemUseCase() } returns flowOf(items)
 
         viewModel = InventoryViewModel(
-            observeFoodItemUseCase,
-            foodEntryDelegateImpl,
-            createFoodItemUseCase,
-            deleteFoodItemUseCase
+            observerFoodItemUseCase = observeFoodItemUseCase,
+            foodEntryDelegateImpl = foodEntryDelegateImpl,
+            createFoodItemUseCase = createFoodItemUseCase,
+            deleteFoodItemUseCase = deleteFoodItemUseCase,
+            editCategoryUseCase = editCategoryUseCase,
+            observeCategoriesUseCase = observeCategoriesUseCase,
+            deleteCategoryUseCase = deleteCategoryUseCase,
+            addCategoryUseCase = addCategoryUseCase,
+            observeSettingDataUseCase = observeSettingDataUseCase
         )
 
         viewModel.resultState.test {

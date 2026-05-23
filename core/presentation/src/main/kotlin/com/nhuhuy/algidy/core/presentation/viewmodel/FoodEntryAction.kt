@@ -3,7 +3,11 @@ package com.nhuhuy.algidy.core.presentation.viewmodel
 import android.net.Uri
 import com.nhuhuy.algidy.core.model.food.ItemUnit
 import com.nhuhuy.algidy.core.model.food.StorageLocation
+import com.nhuhuy.algidy.core.presentation.model.CategoryUiModel
 
+/**
+ * Actions that can be performed within the food entry form.
+ */
 sealed interface FoodEntryAction {
     data class OnNameChange(val name: String) : FoodEntryAction
     data class OnQuantityChange(val quantity: Double) : FoodEntryAction
@@ -13,6 +17,10 @@ sealed interface FoodEntryAction {
     data class OnNoteChange(val note: String) : FoodEntryAction
     data class OnItemUnitChange(val unit: ItemUnit) : FoodEntryAction
     data class OnImagePick(val uri: Uri) : FoodEntryAction
-    data class OnCategoryChange(val categoryId: String) : FoodEntryAction
+    
+    // Category related actions
     data class OnCategoryQueryChange(val query: String) : FoodEntryAction
+    data class OnCategorySelect(val category: CategoryUiModel.ByCategory) : FoodEntryAction
+    data class OnCategorySelectById(val id: String) : FoodEntryAction
+    data object OnCategoryConfirm : FoodEntryAction
 }

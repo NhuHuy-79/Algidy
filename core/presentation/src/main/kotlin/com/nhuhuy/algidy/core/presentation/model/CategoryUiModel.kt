@@ -1,4 +1,4 @@
-package com.nhuhuy.algidy.feature.inventory.presentation.inventory.model
+package com.nhuhuy.algidy.core.presentation.model
 
 import androidx.compose.runtime.Stable
 import com.nhuhuy.algidy.core.model.food.FoodCategory
@@ -12,6 +12,12 @@ sealed interface CategoryUiModel {
 
 fun List<FoodCategory>.toUiModel(): List<CategoryUiModel> {
     return listOf(CategoryUiModel.All) + this.map {
+        CategoryUiModel.ByCategory(it)
+    }
+}
+
+fun List<FoodCategory>.toByCategoryModel(): List<CategoryUiModel.ByCategory> {
+    return this.map {
         CategoryUiModel.ByCategory(it)
     }
 }

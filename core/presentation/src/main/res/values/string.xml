@@ -12,6 +12,7 @@
     <string name="action_back">Back</string>
     <string name="action_menu">Menu Actions</string>
     <string name="action_view_more">View More</string>
+    <string name="action_new">New</string>
 
     <string name="category_all">All</string>
     <string name="category_vegetables">Vegetables</string>

@@ -74,8 +74,7 @@ fun InventoryRoute(
             foodEntryState = entryState,
             foodEntryError = errorState,
             onEntryAction = onEntryAction,
-            onConfirm = { onAction(InventoryAction.OnManuallyClick) },
-            onCreateCategory = { onAction(InventoryAction.OnCreateCategory(it)) }
+            onConfirm = { onAction(InventoryAction.OnManuallyClick) }
         )
 
         InventoryOverlay.CATEGORY_EDIT -> CategoryEditDialog(

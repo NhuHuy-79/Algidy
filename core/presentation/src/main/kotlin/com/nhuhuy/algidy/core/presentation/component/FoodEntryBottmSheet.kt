@@ -1,7 +1,5 @@
 package com.nhuhuy.algidy.core.presentation.component
 
-import androidx.activity.compose.BackHandler
-import androidx.activity.result.launch
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
@@ -21,7 +19,6 @@ import androidx.compose.material3.ModalBottomSheetProperties
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -29,7 +26,6 @@ import com.nhuhuy.algidy.core.designsystem.component.AppButton
 import com.nhuhuy.algidy.core.presentation.viewmodel.FoodEntryAction
 import com.nhuhuy.algidy.core.presentation.viewmodel.FoodEntryError
 import com.nhuhuy.algidy.core.presentation.viewmodel.FoodEntryUiState
-import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -40,8 +36,7 @@ fun FoodEntryBottomSheet(
     onConfirm: () -> Unit,
     foodEntryState: FoodEntryUiState,
     foodEntryError: FoodEntryError,
-    onEntryAction: (FoodEntryAction) -> Unit,
-    onCreateCategory: (String) -> Unit = {}
+    onEntryAction: (FoodEntryAction) -> Unit
 ) {
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     ModalBottomSheet(
@@ -75,8 +70,7 @@ fun FoodEntryBottomSheet(
             FoodEntryForm(
                 entryState = foodEntryState,
                 errorState = foodEntryError,
-                onAction = onEntryAction,
-                onCreateCategory = onCreateCategory
+                onAction = onEntryAction
             )
 
             AppButton(

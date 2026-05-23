@@ -6,6 +6,7 @@ import com.nhuhuy.algidy.core.model.food.FoodCategory
 import com.nhuhuy.algidy.core.model.food.ItemUnit
 import com.nhuhuy.algidy.core.model.food.StorageLocation
 import com.nhuhuy.algidy.core.model.validate.ValidationResult
+import com.nhuhuy.algidy.core.presentation.model.CategoryUiModel
 
 @Immutable
 data class FoodEntryUiState(
@@ -13,7 +14,7 @@ data class FoodEntryUiState(
     val name: String = "",
     val categoryId: String = "",
     val categoryQuery: String = "",
-    val categories: List<FoodCategory> = emptyList(),
+    val categories: List<CategoryUiModel.ByCategory> = emptyList(),
     val defaultFoodCategory: DefaultFoodCategory = DefaultFoodCategory.OTHERS,
     val location: StorageLocation = StorageLocation.FRIDGE,
     val quantity: Double = 0.0,
@@ -22,7 +23,10 @@ data class FoodEntryUiState(
     val expiryDate: Long = -1,
     val imageUri: String? = null,
     val isFavorite: Boolean = false,
-    val notes: String = ""
+    val notes: String = "",
+
+    // Current selected category model
+    val currentCategory: CategoryUiModel = CategoryUiModel.All
 )
 
 @Immutable

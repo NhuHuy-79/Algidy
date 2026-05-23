@@ -5,18 +5,18 @@ import com.nhuhuy.algidy.core.data.util.product
 import com.nhuhuy.algidy.core.model.food.FoodItem
 import com.nhuhuy.algidy.core.presentation.delegate.FoodEntryDelegate
 import com.nhuhuy.algidy.core.presentation.delegate.FoodEntryDelegateImpl
+import com.nhuhuy.algidy.core.presentation.model.CategoryUiModel
+import com.nhuhuy.algidy.core.presentation.model.toUiModel
 import com.nhuhuy.algidy.core.presentation.viewmodel.BaseViewModel
-import com.nhuhuy.algidy.core.presentation.viewmodel.FoodEntryAction.*
-import com.nhuhuy.algidy.feature.inventory.domain.usecase.category.AddCategoryUseCase
-import com.nhuhuy.algidy.feature.inventory.domain.usecase.food.CreateFoodItemUseCase
-import com.nhuhuy.algidy.feature.inventory.domain.usecase.food.DeleteFoodItemUseCase
-import com.nhuhuy.algidy.feature.inventory.domain.usecase.category.ObserveCategoriesUseCase
-import com.nhuhuy.algidy.feature.inventory.domain.usecase.food.ObserveFoodItemUseCase
+import com.nhuhuy.algidy.core.presentation.viewmodel.FoodEntryAction
 import com.nhuhuy.algidy.feature.inventory.domain.usecase.ObserveSettingDataUseCase
+import com.nhuhuy.algidy.feature.inventory.domain.usecase.category.AddCategoryUseCase
 import com.nhuhuy.algidy.feature.inventory.domain.usecase.category.DeleteCategoryUseCase
 import com.nhuhuy.algidy.feature.inventory.domain.usecase.category.EditCategoryUseCase
-import com.nhuhuy.algidy.feature.inventory.presentation.inventory.model.CategoryUiModel
-import com.nhuhuy.algidy.feature.inventory.presentation.inventory.model.toUiModel
+import com.nhuhuy.algidy.feature.inventory.domain.usecase.category.ObserveCategoriesUseCase
+import com.nhuhuy.algidy.feature.inventory.domain.usecase.food.CreateFoodItemUseCase
+import com.nhuhuy.algidy.feature.inventory.domain.usecase.food.DeleteFoodItemUseCase
+import com.nhuhuy.algidy.feature.inventory.domain.usecase.food.ObserveFoodItemUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -25,7 +25,6 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 /**
@@ -77,6 +76,28 @@ class InventoryViewModel(
             initialValue = InventoryResultState.Loading
         )
 
+    override fun onEntryAction(action: FoodEntryAction) {
+        when (action) {
+            FoodEntryAction.OnCategoryConfirm -> {
+                viewModelScope.launch {
+                    val query = entryState.value.categoryQuery
+                    if (query.isNotBlank()) {
+                        val newCategory = addCategoryUseCase(query)
+                        // Trigger standard select action in delegate
+                        foodEntryDelegateImpl.updateCategories(
+                            categories = entryState.value.categories + CategoryUiModel.ByCategory(data = newCategory)
+                        )
+                        foodEntryDelegateImpl.onEntryAction(
+                            FoodEntryAction.OnCategorySelect(CategoryUiModel.ByCategory(newCategory))
+                        )
+
+                    }
+                }
+            }
+            else -> foodEntryDelegateImpl.onEntryAction(action)
+        }
+    }
+
     override fun onAction(action: InventoryAction) {
         when (action) {
             is InventoryAction.RemoveItem -> {
@@ -86,6 +107,9 @@ class InventoryViewModel(
             }
 
             InventoryAction.OnAddFabClick -> _uiState.product {
+                updateCategories(
+                    categories = combineState.value.categories.filterIsInstance<CategoryUiModel.ByCategory>()
+                )
                 copy(overlay = InventoryOverlay.FOOD_SHEET)
             }
 
@@ -109,7 +133,7 @@ class InventoryViewModel(
             is InventoryAction.OnCreateCategory -> {
                 viewModelScope.launch {
                     val newCategory = addCategoryUseCase(action.name)
-                    onEntryAction(OnCategoryChange(newCategory.id))
+                    onEntryAction(FoodEntryAction.OnCategorySelect(CategoryUiModel.ByCategory(newCategory)))
                 }
             }
 
