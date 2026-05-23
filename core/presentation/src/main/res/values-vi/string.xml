@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Common -->
     <string name="app_name">Algidy</string>
     <string name="action_ok">OK</string>
     <string name="action_cancel">Hủy</string>
@@ -12,7 +12,19 @@
     <string name="action_menu">Thao tác</string>
     <string name="action_view_more">Xem thêm</string>
 
+    <string name="category_vegetables">Rau củ</string>
+    <string name="category_fruits">Trái cây</string>
+    <string name="category_meat">Thịt</string>
+    <string name="category_seafood">Hải sản</string>
+    <string name="category_dairy_eggs"><![CDATA[Sữa & trứng]]></string>
+    <string name="category_others">Khác</string>
+
+
+    <!--Biometric Authenticator-->
+    <string name="biometric_title">Sinh trắc học Algidy</string>"
     <string name="biometric_subtitle">Dùng sinh trắc học của bạn.</string>
+
+    <!-- Errors -->
     <string name="error_empty_field">Không được để trống trường này.</string>
     <string name="error_invalid_number">Vui lòng nhập số hợp lệ.</string>
     <string name="error_negative_value">Số lượng không được nhỏ hơn 0.</string>
@@ -22,6 +34,7 @@
     <string name="error_text_too_short">Tên phải có ít nhất 2 ký tự.</string>
     <string name="error_image_save_failed">Không thể lưu ảnh.</string>
 
+    <!-- Inventory Screen -->
     <string name="inventory_title">Kho lưu trữ</string>
     <string name="inventory_subtitle">Xin chào!</string>
     <string name="inventory_page_fridge">Ngăn mát</string>
@@ -39,16 +52,18 @@
     <string name="inventory_sheet_title">Thêm thực phẩm mới</string>
     <string name="inventory_sheet_btn">Thêm thực phẩm</string>
 
+    <!--Grid Category-->
     <string name="category_add">Tất cả</string>
     <string name="category_fridge">Ngăn mát</string>
     <string name="category_freezer">Ngăn đông</string>
     <string name="category_pantry">Tủ đồ khô</string>
     <string name="category_other">Khác</string>
-
+    <!-- Search Screen -->
     <string name="search_placeholder">Tìm kiếm thực phẩm trong tủ…</string>
     <string name="search_history_title">Gần đây</string>
     <string name="search_no_results">Không tìm thấy thực phẩm nào.</string>
 
+    <!-- Detail Screen -->
     <string name="detail_title">Chi tiết thực phẩm</string>
     <string name="detail_subtitle">Đừng quên xử lý món này nhé</string>
     <string name="detail_food_stats">Thống kê thực phẩm</string>
@@ -68,6 +83,7 @@
     <string name="detail_bought">Đã mua</string>
     <string name="detail_no_notes">Chưa có ghi chú nào cho mục này.</string>
 
+    <!-- Confirm Screen -->
     <string name="confirm_title">Xác nhận thông tin</string>
     <string name="confirm_label_name">Tên thực phẩm</string>
     <string name="confirm_placeholder_name">Nhập tên thực phẩm…</string>
@@ -75,7 +91,6 @@
     <string name="confirm_label_unit">Đơn vị</string>
     <string name="confirm_label_purchase_date">Ngày mua</string>
     <string name="confirm_label_expiry_date">Hạn sử dụng</string>
-
     <string name="confirm_date_set">Đặt ngày</string>
     <string name="confirm_label_location">Vị trí lưu trữ</string>
     <string name="confirm_label_notes">Ghi chú</string>
@@ -86,6 +101,7 @@
     <string name="confirm_dialog_discard_btn_discard">Hủy bỏ</string>
     <string name="confirm_dialog_discard_btn_keep">Tiếp tục sửa</string>
 
+    <!-- Scanner Screen -->
     <string name="scanner_title_barcode">Quét mã vạch</string>
     <string name="scanner_title_food">Quét thực phẩm</string>
     <string name="scanner_action_close">Đóng bộ quét</string>
@@ -94,6 +110,7 @@
     <string name="scanner_label_auto_off">Đã tắt tự động quét</string>
     <string name="scanner_label_failure">Quét thất bại</string>
 
+    <!-- Analytics Screen -->
     <string name="analytics_card">Bạn có</string>
     <string name="analytics_card_2">tuần này.</string>
     <string name="analytics_title">Thống kê</string>
@@ -101,14 +118,16 @@
     <string name="analytics_card_waste_location">Thực phẩm lãng phí theo vị trí</string>
     <string name="analytics_card_weekly_freshness">Độ tươi mới trong tuần</string>
 
+    <!-- Settings Screen -->
     <string name="setting_dark_mode">Tối</string>
     <string name="setting_light_mode">Sáng</string>
     <string name="setting_system_mode">Hệ thống</string>
 
-    <string name="settings_title">Cài đặt</string>
     <string name="setting_language">Ngôn ngữ</string>
-    <string name="settings_dynamic_color">Màu động (Dynamic Color)</string>
     <string name="setting_font">Font chữ</string>
+
+    <string name="settings_title">Cài đặt</string>
+    <string name="settings_dynamic_color">Màu động (Dynamic Color)</string>
     <string name="settings_dynamic_mode_desc">Bật màu sắc động theo hệ thống cho ứng dụng</string>
     <string name="settings_notifications">Thông báo</string>
     <string name="settings_notifications_desc">Nhận cảnh báo khi thực phẩm sắp hết hạn</string>
@@ -116,6 +135,18 @@
     <string name="setting_biometric_desc">Sử dụng vân tay để khóa ứng dụng</string>
 
     <string name="setting_data">Dữ liệu của bạn</string>
+    <string name="setting_delete_dialog">Xóa dữ liệu của bạn</string>
+    <string name="setting_clear_data">Xóa tất cả</string>
+    <string name="setting_clear_data_desc">Xóa toàn bộ dữ liệu ứng dụng của bạn.</string>
+
+    <string name="delete_data_dialog_title">Xóa tất cả dữ liệu?</string>
+    <string name="delete_data_dialog_content">Hành động này không thể hoàn tác. Toàn bộ dữ liệu cục bộ, tài khoản và cài đặt của bạn sẽ bị xóa vĩnh viễn khỏi thiết bị này.</string>
+    <string name="delete_data_dialog_confirm">Xóa</string>
+    <string name="delete_data_dialog_cancel">Hủy</string>
+
+    <string name="setting_use_category">Sử dụng Danh mục</string>
+    <string name="setting_use_category_des">Sử dụng Danh mục để nhóm thực phẩm của bạn</string>
+
     <string name="setting_backup">Sao lưu và khôi phục</string>
     <string name="setting_backup_desc">Xuất hoặc nhập dữ liệu thực phẩm của bạn.</string>
 
@@ -127,19 +158,11 @@
     <string name="setting_about_app">Về ứng dụng</string>
     <string name="setting_about_app_desc">Algidy</string>
 
-    <string name="setting_delete_dialog">Xóa dữ liệu của bạn</string>
-    <string name="setting_clear_data">Xóa tất cả</string>
-    <string name="setting_clear_data_desc">Xóa toàn bộ dữ liệu ứng dụng của bạn.</string>
-
-    <string name="delete_data_dialog_title">Xóa tất cả dữ liệu?</string>
-    <string name="delete_data_dialog_content">Hành động này không thể hoàn tác. Toàn bộ dữ liệu cục bộ, tài khoản và cài đặt của bạn sẽ bị xóa vĩnh viễn khỏi thiết bị này.</string>
-    <string name="delete_data_dialog_confirm">Xóa</string>
-    <string name="delete_data_dialog_cancel">Hủy</string>
-
     <string name="setting_other_settings_title">Cài đặt khác</string>
+
     <string name="import_success">Tải dữ liệu thành công</string>
     <string name="import_fail">Tải dữ liệu thất bại!</string>
     <string name="export_success">Dữ liệu của bạn đã được xuất ra!</string>
     <string name="export_failed">Xuất dữ liệu thất bại!</string>
-    <string name="biometric_title">Sinh trắc học Algidy</string>
+
 </resources>

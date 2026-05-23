@@ -3,7 +3,7 @@ package com.nhuhuy.algidy.core.data.repository
 import com.nhuhuy.algidy.core.data.util.AppDispatchers
 import com.nhuhuy.algidy.core.database.dao.FoodDao
 import com.nhuhuy.algidy.core.database.entity.FoodItemEntity
-import com.nhuhuy.algidy.core.model.food.FoodCategory
+import com.nhuhuy.algidy.core.model.food.DefaultFoodCategory
 import com.nhuhuy.algidy.core.model.food.FoodItem
 import com.nhuhuy.algidy.core.model.food.ItemUnit
 import com.nhuhuy.algidy.core.model.food.StorageLocation
@@ -63,7 +63,7 @@ class FoodRepositoryImplTest {
             imageUri = "uri",
             isFavorite = false,
             notes = "",
-            category = FoodCategory.DAIRY_EGGS
+            category = DefaultFoodCategory.DAIRY_EGGS
         )
         coEvery { foodDao.getFoodById(foodId) } returns entity
 

@@ -14,6 +14,7 @@ data class SettingsUiState(
     val isBiometricLock: Boolean = false,
     val isDynamicColor: Boolean = false,
     val font: AppFont = AppFont.DEFAULT,
+    val categoryEnabled: Boolean = false,
     val overlay: SettingsOverlay = SettingsOverlay.NONE
 ) : UiState
 

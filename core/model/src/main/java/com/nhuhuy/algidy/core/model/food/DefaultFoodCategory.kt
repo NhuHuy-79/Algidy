@@ -1,6 +1,12 @@
 package com.nhuhuy.algidy.core.model.food
 
-enum class FoodCategory {
+
+data class FoodCategory(
+    val id: String,
+    val categoryName: String,
+)
+
+enum class DefaultFoodCategory {
     VEGETABLES,
     FRUITS,
     MEAT,
@@ -9,7 +15,7 @@ enum class FoodCategory {
     OTHERS;
 
     companion object {
-        fun fromName(name: String?): FoodCategory {
+        fun fromName(name: String?): DefaultFoodCategory {
             return entries.find { it.name.equals(name, ignoreCase = true) } ?: OTHERS
         }
     }

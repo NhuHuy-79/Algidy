@@ -1,4 +1,4 @@
-package com.nhuhuy.algidy.feature.inventory.presentation.inventory.component
+package com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.grid_list
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable

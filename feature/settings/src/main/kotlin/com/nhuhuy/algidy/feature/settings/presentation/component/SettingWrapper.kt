@@ -19,6 +19,8 @@ fun LazyListScope.otherSettingItems(
     isNotificationEnabled: Boolean,
     isBiometricLock: Boolean,
     isDynamicColor: Boolean,
+    isCategoryEnabled: Boolean,
+    onToggleCategoryGroup: (enabled: Boolean) -> Unit,
     onToggleNotification: (enabled: Boolean) -> Unit,
     onToggleBiometricLock: (enabled: Boolean) -> Unit,
     onToggleDynamicColor: (enabled: Boolean) -> Unit
@@ -48,6 +50,16 @@ fun LazyListScope.otherSettingItems(
             text = stringResource(R.string.setting_biometric_desc),
             title = stringResource(R.string.setting_biometric),
             onToggleClick = onToggleBiometricLock,
+        )
+    }
+
+    item {
+        ToggleableSettingItem(
+            enabled = isCategoryEnabled,
+            position = ItemPosition.MIDDLE,
+            text = stringResource(R.string.setting_use_category_des),
+            title = stringResource(R.string.setting_use_category),
+            onToggleClick = onToggleCategoryGroup
         )
     }
 

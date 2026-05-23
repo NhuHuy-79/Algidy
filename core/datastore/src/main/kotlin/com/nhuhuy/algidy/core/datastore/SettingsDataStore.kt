@@ -23,7 +23,9 @@ interface SettingsDataStore {
     val dynamicColorFlow: Flow<Boolean>
     val notificationsEnabledFlow: Flow<Boolean>
     val appFontFlow: Flow<AppFont>
+    val categoryGroupFlow: Flow<Boolean>
 
+    suspend fun setCategoryGroup(enabled: Boolean)
     suspend fun setFont(appFont: AppFont)
     suspend fun setLanguage(appLanguage: AppLanguage)
     suspend fun setBiometricLock(enabled: Boolean)
@@ -33,6 +35,10 @@ interface SettingsDataStore {
 }
 
 class SettingsDataStoreImpl(private val context: Context) : SettingsDataStore {
+
+    override val categoryGroupFlow: Flow<Boolean> = context.dataStore.data.map { preferences ->
+        preferences[UserPreferencesKeys.CATEGORY] ?: false
+    }
 
     override val darkModeFlow: Flow<DarkMode> = context.dataStore.data.map { preferences ->
         preferences[UserPreferencesKeys.DARK_MODE].toDarkMode()
@@ -57,6 +63,12 @@ class SettingsDataStoreImpl(private val context: Context) : SettingsDataStore {
 
     override val appFontFlow: Flow<AppFont> = context.dataStore.data.map { preferences ->
         preferences[UserPreferencesKeys.FONT].toAppFont()
+    }
+
+    override suspend fun setCategoryGroup(enabled: Boolean) {
+        context.dataStore.edit { preferences ->
+            preferences[UserPreferencesKeys.CATEGORY] = enabled
+        }
     }
 
     override suspend fun setLanguage(appLanguage: AppLanguage) {

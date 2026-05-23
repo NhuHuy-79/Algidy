@@ -6,6 +6,7 @@ import com.nhuhuy.algidy.feature.inventory.domain.usecase.CreateFoodItemUseCase
 import com.nhuhuy.algidy.feature.inventory.domain.usecase.DeleteFoodItemUseCase
 import com.nhuhuy.algidy.feature.inventory.domain.usecase.GetHistoryResultUseCase
 import com.nhuhuy.algidy.feature.inventory.domain.usecase.ObserveFoodItemUseCase
+import com.nhuhuy.algidy.feature.inventory.domain.usecase.ObserveSettingDataUseCase
 import com.nhuhuy.algidy.feature.inventory.domain.usecase.SearchFoodUseCase
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryViewModel
 import com.nhuhuy.algidy.feature.inventory.presentation.search.viewmodel.SearchViewModel
@@ -24,6 +25,7 @@ val inventoryModule = module {
     factoryOf(::CreateFoodItemUseCase)
     factoryOf(::DeleteFoodItemUseCase)
     factoryOf(::ObserveFoodItemUseCase)
+    factoryOf(::ObserveSettingDataUseCase)
     //viewModel
     viewModelOf(::InventoryViewModel)
     viewModelOf(::SearchViewModel)

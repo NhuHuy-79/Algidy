@@ -2,7 +2,7 @@ package com.nhuhuy.algidy.core.data.mapper
 
 import com.nhuhuy.algidy.capitalize
 import com.nhuhuy.algidy.core.database.entity.FoodItemEntity
-import com.nhuhuy.algidy.core.model.food.FoodCategory
+import com.nhuhuy.algidy.core.model.food.DefaultFoodCategory
 import com.nhuhuy.algidy.core.model.food.FoodItem
 import com.nhuhuy.algidy.core.model.food.ItemUnit
 import com.nhuhuy.algidy.core.model.food.StorageLocation
@@ -23,7 +23,7 @@ fun FoodApiResponse.toEntity() = FoodItemEntity(
     imageUri = null,
     isFavorite = false,
     notes = "",
-    category = FoodCategory.OTHERS,
+    category = DefaultFoodCategory.OTHERS,
 )
 
 fun FoodApiResponse.toDomain() = FoodItem(
@@ -38,7 +38,7 @@ fun FoodApiResponse.toDomain() = FoodItem(
     imageUri = product?.imageUrl,
     isFavorite = false,
     notes = "",
-    foodCategory = FoodCategory.OTHERS,
+    defaultFoodCategory = DefaultFoodCategory.OTHERS,
 )
 
 fun FoodItemEntity.toDomain() = FoodItem(
@@ -53,7 +53,7 @@ fun FoodItemEntity.toDomain() = FoodItem(
     imageUri = imageUri,
     isFavorite = isFavorite,
     notes = notes,
-    foodCategory = category,
+    defaultFoodCategory = category,
     status = status,
     resolvedDate = resolvedDate
 )
@@ -71,7 +71,7 @@ fun FoodItem.toEntity() = FoodItemEntity(
     imageUri = imageUri,
     isFavorite = isFavorite,
     notes = notes,
-    category = foodCategory,
+    category = defaultFoodCategory,
     status = status,
     resolvedDate = resolvedDate
 )

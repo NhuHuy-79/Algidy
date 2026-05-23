@@ -7,7 +7,7 @@ data class FoodItem(
     val id: String = UUID.randomUUID().toString(),
     val name: String = "",
     val categoryId: String = "",
-    val foodCategory: FoodCategory = FoodCategory.OTHERS,
+    val defaultFoodCategory: DefaultFoodCategory = DefaultFoodCategory.OTHERS,
     val location: StorageLocation = StorageLocation.FRIDGE,
     val quantity: Double = 0.0,
     val itemUnit: ItemUnit = ItemUnit.KG,
@@ -16,7 +16,6 @@ data class FoodItem(
     val imageUri: String? = null,
     val isFavorite: Boolean = false,
     val notes: String = "",
-
     val status: FoodStatus = FoodStatus.ACTIVE,
     val resolvedDate: Long? = null
 ) {

@@ -37,7 +37,8 @@ class SettingsViewModel(
                 language = settingData.language,
                 isNotificationsEnabled = settingData.enableNotifications,
                 isBiometricLock = settingData.enableBiometricsLock,
-                font = settingData.font
+                font = settingData.font,
+                categoryEnabled = settingData.enabledCategoryGroup
             )
         }
         .stateIn(
@@ -100,6 +101,9 @@ class SettingsViewModel(
             }
 
             SettingsAction.DeleteAlertDialog.Dismiss -> _overlay.update { SettingsOverlay.NONE }
+            is SettingsAction.ToggleCategoryGroup -> viewModelScope.launch {
+                setToggleSettingUseCase.toggleCategoryGroup(action.enabled)
+            }
         }
     }
 }

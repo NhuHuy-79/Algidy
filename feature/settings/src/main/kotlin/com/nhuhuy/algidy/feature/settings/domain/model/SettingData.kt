@@ -10,5 +10,6 @@ data class SettingData(
     val enableDynamicColor: Boolean = false,
     val darkMode: DarkMode = DarkMode.SYSTEM,
     val language: AppLanguage = AppLanguage.ENGLISH,
-    val font: AppFont = AppFont.DEFAULT
+    val font: AppFont = AppFont.DEFAULT,
+    val enabledCategoryGroup: Boolean = false
 )

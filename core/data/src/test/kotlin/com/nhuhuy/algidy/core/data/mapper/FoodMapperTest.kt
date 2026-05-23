@@ -1,7 +1,7 @@
 package com.nhuhuy.algidy.core.data.mapper
 
 import com.nhuhuy.algidy.core.database.entity.FoodItemEntity
-import com.nhuhuy.algidy.core.model.food.FoodCategory
+import com.nhuhuy.algidy.core.model.food.DefaultFoodCategory
 import com.nhuhuy.algidy.core.model.food.FoodItem
 import com.nhuhuy.algidy.core.model.food.FoodStatus
 import com.nhuhuy.algidy.core.model.food.ItemUnit
@@ -42,7 +42,7 @@ class FoodMapperTest {
             imageUri = "uri",
             isFavorite = true,
             notes = "note",
-            category = FoodCategory.DAIRY_EGGS,
+            category = DefaultFoodCategory.DAIRY_EGGS,
             status = FoodStatus.ACTIVE,
             resolvedDate = null
         )
@@ -59,7 +59,7 @@ class FoodMapperTest {
         assertEquals(entity.imageUri, domain.imageUri)
         assertEquals(entity.isFavorite, domain.isFavorite)
         assertEquals(entity.notes, domain.notes)
-        assertEquals(entity.category, domain.foodCategory)
+        assertEquals(entity.category, domain.defaultFoodCategory)
         assertEquals(entity.status, domain.status)
     }
 
@@ -77,7 +77,7 @@ class FoodMapperTest {
             imageUri = "uri",
             isFavorite = true,
             notes = "note",
-            foodCategory = FoodCategory.DAIRY_EGGS,
+            defaultFoodCategory = DefaultFoodCategory.DAIRY_EGGS,
             status = FoodStatus.ACTIVE,
             resolvedDate = null
         )
@@ -94,7 +94,7 @@ class FoodMapperTest {
         assertEquals(domain.imageUri, entity.imageUri)
         assertEquals(domain.isFavorite, entity.isFavorite)
         assertEquals(domain.notes, entity.notes)
-        assertEquals(domain.foodCategory, entity.category)
+        assertEquals(domain.defaultFoodCategory, entity.category)
         assertEquals(domain.status, entity.status)
     }
 }

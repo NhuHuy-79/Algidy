@@ -5,3 +5,7 @@ plugins {
 android {
     namespace = "com.nhuhuy.algidy.feature.inventory"
 }
+
+dependencies {
+    implementation(project(":core:datastore"))
+}

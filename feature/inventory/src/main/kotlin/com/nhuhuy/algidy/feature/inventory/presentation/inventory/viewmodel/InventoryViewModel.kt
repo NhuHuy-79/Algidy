@@ -9,6 +9,7 @@ import com.nhuhuy.algidy.core.presentation.viewmodel.BaseViewModel
 import com.nhuhuy.algidy.feature.inventory.domain.usecase.CreateFoodItemUseCase
 import com.nhuhuy.algidy.feature.inventory.domain.usecase.DeleteFoodItemUseCase
 import com.nhuhuy.algidy.feature.inventory.domain.usecase.ObserveFoodItemUseCase
+import com.nhuhuy.algidy.feature.inventory.domain.usecase.ObserveSettingDataUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -23,10 +24,14 @@ class InventoryViewModel(
     private val foodEntryDelegateImpl: FoodEntryDelegateImpl,
     private val createFoodItemUseCase: CreateFoodItemUseCase,
     private val deleteFoodItemUseCase: DeleteFoodItemUseCase,
+    observeSettingDataUseCase: ObserveSettingDataUseCase,
 ) : BaseViewModel<InventoryUiState, InventoryEvent, InventoryAction>(),
     FoodEntryDelegate by foodEntryDelegateImpl {
     private val _uiState = MutableStateFlow(InventoryUiState())
     override val uiState: StateFlow<InventoryUiState> = _uiState.asStateFlow()
+
+    val categoryEnableState = observeSettingDataUseCase.getCategoryEnabled()
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), false)
 
     init {
         resetEntryData()
@@ -62,6 +67,10 @@ class InventoryViewModel(
                 _uiState.product { copy(overlay = InventoryOverlay.NONE) }
                 resetEntryData()
                 createFoodItemUseCase(foodItem = foodEntry)
+            }
+
+            is InventoryAction.ToggleFabMenu -> {
+                _uiState.product { copy(expanded = action.value) }
             }
         }
     }

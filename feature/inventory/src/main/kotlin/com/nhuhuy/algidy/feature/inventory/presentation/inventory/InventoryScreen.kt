@@ -2,22 +2,17 @@
 
 package com.nhuhuy.algidy.feature.inventory.presentation.inventory
 
-import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.items
-import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
@@ -30,19 +25,20 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.nhuhuy.algidy.core.model.food.FoodItem
 import com.nhuhuy.algidy.core.model.food.Freshness
 import com.nhuhuy.algidy.core.model.food.StorageLocation
-import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.EmptyPage
-import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.InventoryFabMenu
-import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.InventoryFoodItem
+import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.InventoryCategoryFilter
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.InventoryTabRow
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.InventoryTopBar
-import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.LoadingPage
+import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.grid_list.InventoryCategoryList
+import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.grid_list.InventoryFoodItem
+import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.pager.InventoryPager
+import com.nhuhuy.algidy.feature.inventory.presentation.inventory.model.CategoryUiModel
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryResultState
+import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryUiState
 import com.nhuhuy.algidy.feature.inventory.utils.GridCategory
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
@@ -51,12 +47,11 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun InventoryScreen(
+    uiState: InventoryUiState,
+    categoryEnabled: Boolean,
     inventoryResultState: InventoryResultState,
+    onCategorySelect: (CategoryUiModel) -> Unit = {},
     onSearchClick: () -> Unit,
-    onAnalyticsClick: () -> Unit,
-    onSettingClick: () -> Unit,
-    onBarcodeScanClick: () -> Unit,
-    onManualAddClick: () -> Unit,
     onItemClick: (String) -> Unit,
 ) {
     val categories = GridCategory.entries.toImmutableList()
@@ -66,10 +61,6 @@ fun InventoryScreen(
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
     val pagerState = rememberPagerState(pageCount = { categories.size })
     val scope = rememberCoroutineScope()
-    val scrimAlpha by animateFloatAsState(
-        targetValue = if (expanded) 0.6f else 0f,
-        label = "scrim"
-    )
 
     Box(
         modifier = Modifier.fillMaxSize()
@@ -91,106 +82,56 @@ fun InventoryScreen(
                         currentSortMode = sortMode,
                         scrollBehavior = scrollBehavior
                     )
-                    InventoryTabRow(
-                        categories = categories,
-                        selectedTabIndex = pagerState.currentPage,
-                        onTabSelected = { index ->
-                            scope.launch {
-                                pagerState.animateScrollToPage(index)
-                            }
-                        },
-                    )
+
+                    if (categoryEnabled) {
+                        InventoryCategoryFilter(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 16.dp),
+                            selectedCategory = uiState.currentCategory,
+                            categories = emptyList(),
+                            onCategoryClick = onCategorySelect
+                        )
+                    } else {
+                        InventoryTabRow(
+                            categories = categories,
+                            selectedTabIndex = pagerState.currentPage,
+                            onTabSelected = { index ->
+                                scope.launch {
+                                    pagerState.animateScrollToPage(index)
+                                }
+                            },
+                        )
+                    }
                 }
             },
             containerColor = MaterialTheme.colorScheme.background.copy(
                 alpha = if (expanded) 0.2f else 1f
             ),
         ) { paddingValues ->
-            HorizontalPager(
-                state = pagerState,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(paddingValues),
-                verticalAlignment = Alignment.Top,
-            ) { pageIndex ->
-                when (inventoryResultState) {
-                    InventoryResultState.Loading -> LoadingPage(
-                        modifier = Modifier.fillMaxSize()
-                    )
-
-                    is InventoryResultState.Empty -> EmptyPage(
-                        modifier = Modifier.fillMaxSize()
-                    )
-
-                    is InventoryResultState.Success -> {
-                        val currentItems =
-                            remember(
-                                pageIndex,
-                                inventoryResultState.items,
-                                sortMode,
-                                showExpiredOnly
-                            ) {
-                                inventoryResultState.items.getFilteredAndSortedList(
-                                    pageIndex = pageIndex,
-                                    sortMode = sortMode,
-                                    showExpiredOnly = showExpiredOnly
-                                )
-                            }
-
-                        if (currentItems.isEmpty()) {
-                            EmptyPage(modifier = Modifier.fillMaxSize())
-                        } else InventoryGridList(
-                            items = currentItems.toImmutableList(),
-                            onItemClick = { foodItem ->
-                                onItemClick(foodItem.id)
-                            }
-                        )
-                    }
-                }
+            if (categoryEnabled) {
+                InventoryCategoryList(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(paddingValues),
+                    currentCategory = uiState.currentCategory,
+                    inventoryResultState = inventoryResultState,
+                    sortMode = sortMode,
+                    showExpiredOnly = showExpiredOnly,
+                    onItemClick = onItemClick
+                )
+            } else {
+                InventoryPager(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(paddingValues),
+                    pagerState = pagerState,
+                    sortMode = sortMode,
+                    showExpiredOnly = showExpiredOnly,
+                    inventoryResultState = inventoryResultState,
+                    onItemClick = onItemClick
+                )
             }
-        }
-
-        if (scrimAlpha > 0f) {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(MaterialTheme.colorScheme.surface.copy(alpha = scrimAlpha))
-                    .clickable(
-                        interactionSource = remember { MutableInteractionSource() },
-                        indication = null
-                    ) {
-                        expanded = false
-                    }
-            )
-        }
-
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(bottom = 16.dp, end = 16.dp)
-                .safeDrawingPadding(),
-            contentAlignment = Alignment.BottomEnd
-        ) {
-            InventoryFabMenu(
-                expanded = expanded,
-                onExpandClose = { value -> expanded = value },
-                onManualClick = {
-                    expanded = false
-                    onManualAddClick()
-                },
-                onSettingClick = {
-                    expanded = false
-                    onSettingClick()
-                },
-                onBarcodeScanClick = {
-                    expanded = false
-                    onBarcodeScanClick()
-                },
-                onAnalyticsClick = {
-                    expanded = false
-                    onAnalyticsClick()
-                }
-            )
         }
     }
 }
@@ -226,6 +167,39 @@ fun InventoryGridList(
 
 enum class InventorySortMode {
     BY_NAME, BY_EXPIRY, NONE
+}
+
+fun List<FoodItem>.getFilteredAndSortedList(
+    category: CategoryUiModel,
+    showExpiredOnly: Boolean,
+    sortMode: InventorySortMode
+): List<FoodItem> {
+    val filteredByCategory = when (category) {
+        CategoryUiModel.All -> this
+        is CategoryUiModel.ByCategory -> this.filter {
+            it.categoryId == category.data.id
+        }
+    }
+
+    val filteredByStatus = if (showExpiredOnly) {
+        filteredByCategory.filter { it.getFreshnessStatus() == Freshness.EXPIRED }
+    } else {
+        filteredByCategory
+    }
+
+    return when (sortMode) {
+        InventorySortMode.BY_NAME -> {
+            filteredByStatus.sortedBy { it.name.lowercase() }
+        }
+
+        InventorySortMode.BY_EXPIRY -> {
+            filteredByStatus.sortedBy { it.expiryDate }
+        }
+
+        InventorySortMode.NONE -> {
+            filteredByStatus.sortedByDescending { it.purchaseDate }
+        }
+    }
 }
 
 fun List<FoodItem>.getFilteredAndSortedList(

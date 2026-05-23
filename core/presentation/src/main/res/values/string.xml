@@ -13,6 +13,14 @@
     <string name="action_menu">Menu Actions</string>
     <string name="action_view_more">View More</string>
 
+    <string name="category_all">All</string>
+    <string name="category_vegetables">Vegetables</string>
+    <string name="category_fruits">Fruits</string>
+    <string name="category_meat">Meat</string>
+    <string name="category_seafood">Seafood</string>
+    <string name="category_dairy_eggs">Dairy &amp; Eggs</string>
+    <string name="category_others">Others</string>
+
 
     <!--Biometric Authenticator-->
     <string name="biometric_title">Algidy Biometric Lock</string>"
@@ -137,6 +145,9 @@
     <string name="delete_data_dialog_content">This action cannot be undone. All your local data, accounts, and settings will be permanently removed from this device.</string>
     <string name="delete_data_dialog_confirm">Delete</string>
     <string name="delete_data_dialog_cancel">Cancel</string>
+
+    <string name="setting_use_category">Use Category</string>
+    <string name="setting_use_category_des">Use category to group your foods</string>
 
     <string name="setting_backup">Back Up</string>
     <string name="setting_backup_desc">Export or import your foods.</string>

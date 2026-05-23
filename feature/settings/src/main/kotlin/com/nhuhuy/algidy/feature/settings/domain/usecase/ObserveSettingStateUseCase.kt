@@ -18,7 +18,8 @@ class ObserveSettingStateUseCase(
             settingsDataStore.dynamicColorFlow,
             settingsDataStore.biometricLockFlow,
             settingsDataStore.appLanguageFlow,
-            settingsDataStore.appFontFlow
+            settingsDataStore.appFontFlow,
+            settingsDataStore.categoryGroupFlow
         )
 
         return combine(flows) { array ->
@@ -28,7 +29,8 @@ class ObserveSettingStateUseCase(
                 enableDynamicColor = array[2] as Boolean,
                 enableBiometricsLock = array[3] as Boolean,
                 language = array[4] as AppLanguage,
-                font = array[5] as AppFont
+                font = array[5] as AppFont,
+                enabledCategoryGroup = array[6] as Boolean
             )
         }
     }

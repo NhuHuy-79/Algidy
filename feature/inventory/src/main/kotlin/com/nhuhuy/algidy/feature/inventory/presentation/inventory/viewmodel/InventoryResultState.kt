@@ -5,6 +5,7 @@ import androidx.compose.runtime.Stable
 import com.nhuhuy.algidy.core.model.food.FoodItem
 
 import com.nhuhuy.algidy.core.presentation.viewmodel.UiState
+import com.nhuhuy.algidy.feature.inventory.presentation.inventory.model.CategoryUiModel
 
 @Stable
 sealed interface InventoryResultState {
@@ -15,6 +16,8 @@ sealed interface InventoryResultState {
 
 @Immutable
 data class InventoryUiState(
+    val expanded: Boolean = false,
+    val currentCategory: CategoryUiModel = CategoryUiModel.All,
     val overlay: InventoryOverlay = InventoryOverlay.NONE
 ) : UiState
 

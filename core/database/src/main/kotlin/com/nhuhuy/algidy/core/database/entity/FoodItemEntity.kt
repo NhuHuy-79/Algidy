@@ -3,7 +3,7 @@ package com.nhuhuy.algidy.core.database.entity
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.nhuhuy.algidy.core.model.food.FoodCategory
+import com.nhuhuy.algidy.core.model.food.DefaultFoodCategory
 import com.nhuhuy.algidy.core.model.food.FoodStatus
 import com.nhuhuy.algidy.core.model.food.ItemUnit
 import com.nhuhuy.algidy.core.model.food.StorageLocation
@@ -47,7 +47,7 @@ data class FoodItemEntity(
     val notes: String,
 
     @ColumnInfo(name = "food_category")
-    val category: FoodCategory,
+    val category: DefaultFoodCategory,
 
     @ColumnInfo(name = "status")
     val status: FoodStatus = FoodStatus.ACTIVE,

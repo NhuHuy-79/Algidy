@@ -16,4 +16,8 @@ class SetToggleSettingUseCase(
     suspend fun toggleDynamicColor(enable: Boolean) {
         settingsDataStore.setDynamicColor(enable)
     }
+
+    suspend fun toggleCategoryGroup(enabled: Boolean) {
+        settingsDataStore.setCategoryGroup(enabled)
+    }
 }

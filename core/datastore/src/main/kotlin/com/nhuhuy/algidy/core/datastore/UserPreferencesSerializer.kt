@@ -10,4 +10,5 @@ object UserPreferencesKeys {
     val BIOMETRIC_LOCK = booleanPreferencesKey("biometric_lock")
     val DYNAMIC_COLOR = booleanPreferencesKey("dynamic_color")
     val FONT = stringPreferencesKey("font")
+    val CATEGORY = booleanPreferencesKey("category")
 }

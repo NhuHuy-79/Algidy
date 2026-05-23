@@ -170,11 +170,15 @@ fun SettingsScreen(
                 isNotificationEnabled = uiState.isNotificationsEnabled,
                 isBiometricLock = uiState.isBiometricLock,
                 isDynamicColor = uiState.isDynamicColor,
+                isCategoryEnabled = uiState.categoryEnabled,
                 onToggleNotification = { enabled ->
                     onAction(SettingsAction.ToggleNotifications(enabled))
                 },
                 onToggleBiometricLock = { enabled ->
                     onAction(SettingsAction.ToggleBiometricLock(enabled))
+                },
+                onToggleCategoryGroup = { enabled ->
+                    onAction(SettingsAction.ToggleCategoryGroup(enabled))
                 },
                 onToggleDynamicColor = { enabled ->
                     onAction(SettingsAction.ToggleDynamicColor(enabled))
