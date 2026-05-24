@@ -1,4 +1,4 @@
-package com.nhuhuy.algidy.core.presentation.component
+package com.nhuhuy.algidy.feature.food_entry.presentation.component
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -8,23 +8,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.nhuhuy.algidy.core.presentation.component.entry.BasicInfoSection
-import com.nhuhuy.algidy.core.presentation.component.entry.CategorySection
-import com.nhuhuy.algidy.core.presentation.component.entry.DateSection
-import com.nhuhuy.algidy.core.presentation.component.entry.FoodImageSection
-import com.nhuhuy.algidy.core.presentation.component.entry.NotesSection
-import com.nhuhuy.algidy.core.presentation.component.entry.QuantityUnitSection
-import com.nhuhuy.algidy.core.presentation.component.entry.StorageSection
-import com.nhuhuy.algidy.core.presentation.viewmodel.FoodEntryAction
-import com.nhuhuy.algidy.core.presentation.viewmodel.FoodEntryAction.OnImagePick
-import com.nhuhuy.algidy.core.presentation.viewmodel.FoodEntryAction.OnItemUnitChange
-import com.nhuhuy.algidy.core.presentation.viewmodel.FoodEntryAction.OnNameChange
-import com.nhuhuy.algidy.core.presentation.viewmodel.FoodEntryAction.OnNoteChange
-import com.nhuhuy.algidy.core.presentation.viewmodel.FoodEntryAction.OnQuantityChange
-import com.nhuhuy.algidy.core.presentation.viewmodel.FoodEntryAction.OnStorageLocationChange
-import com.nhuhuy.algidy.core.presentation.viewmodel.FoodEntryError
-import com.nhuhuy.algidy.core.presentation.viewmodel.FoodEntryOverlay
-import com.nhuhuy.algidy.core.presentation.viewmodel.FoodEntryUiState
+import com.nhuhuy.algidy.core.presentation.component.asString
+import com.nhuhuy.algidy.feature.food_entry.presentation.viewmodel.FoodEntryAction
+import com.nhuhuy.algidy.feature.food_entry.presentation.viewmodel.FoodEntryError
+import com.nhuhuy.algidy.feature.food_entry.presentation.viewmodel.FoodEntryOverlay
+import com.nhuhuy.algidy.feature.food_entry.presentation.viewmodel.FoodEntryUiState
 import kotlinx.collections.immutable.toImmutableList
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -43,13 +31,13 @@ fun FoodEntryForm(
         FoodImageSection(
             modifier = Modifier.align(Alignment.CenterHorizontally),
             imageUri = entryState.imageUri,
-            onImagePick = { onAction(OnImagePick(it)) }
+            onImagePick = { onAction(FoodEntryAction.OnImagePick(it)) }
         )
 
         // Section: Basic Name field
         BasicInfoSection(
             name = entryState.name,
-            onNameChange = { onAction(OnNameChange(it)) },
+            onNameChange = { onAction(FoodEntryAction.OnNameChange(it)) },
             isNameError = errorState.isNameError,
             nameErrorMessage = errorState.nameValidation.asString().orEmpty()
         )
@@ -68,8 +56,8 @@ fun FoodEntryForm(
         QuantityUnitSection(
             quantity = entryState.quantity,
             itemUnit = entryState.itemUnit,
-            onQuantityChange = { onAction(OnQuantityChange(it)) },
-            onUnitChange = { onAction(OnItemUnitChange(it)) },
+            onQuantityChange = { onAction(FoodEntryAction.OnQuantityChange(it)) },
+            onUnitChange = { onAction(FoodEntryAction.OnItemUnitChange(it)) },
             isQuantityError = errorState.isQuantityError,
             quantityErrorMessage = errorState.quantityValidation.asString().orEmpty()
         )
@@ -93,13 +81,13 @@ fun FoodEntryForm(
         // Section: Storage location segmented buttons
         StorageSection(
             selectedLocation = entryState.location,
-            onLocationChange = { onAction(OnStorageLocationChange(it)) }
+            onLocationChange = { onAction(FoodEntryAction.OnStorageLocationChange(it)) }
         )
 
         // Section: Additional notes field
         NotesSection(
             notes = entryState.notes,
-            onNoteChange = { onAction(OnNoteChange(it)) }
+            onNoteChange = { onAction(FoodEntryAction.OnNoteChange(it)) }
         )
     }
 }

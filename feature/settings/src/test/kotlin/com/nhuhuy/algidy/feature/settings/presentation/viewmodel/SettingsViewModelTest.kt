@@ -44,7 +44,6 @@ class SettingsViewModelTest {
         viewModel = SettingsViewModel(
             observeSettingStateUseCase,
             setToggleSettingUseCase,
-            selectSettingUseCase,
             manageDataUseCase
         )
     }
@@ -62,7 +61,6 @@ class SettingsViewModelTest {
         viewModel = SettingsViewModel(
             observeSettingStateUseCase,
             setToggleSettingUseCase,
-            selectSettingUseCase,
             manageDataUseCase
         )
 

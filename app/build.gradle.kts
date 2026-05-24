@@ -18,6 +18,8 @@ dependencies {
     implementation(project(":core:database"))
     implementation(project(":core:network"))
     implementation(project(":core:notifications"))
+    implementation(project(":core:datastore"))
+
     implementation(project(":feature:inventory"))
     implementation(project(":feature:scanner"))
     implementation(project(":feature:detail"))

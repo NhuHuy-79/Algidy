@@ -1,8 +1,5 @@
 package com.nhuhuy.algidy.feature.settings.presentation
 
-import android.net.Uri
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -26,7 +23,6 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -40,25 +36,14 @@ import com.nhuhuy.algidy.feature.settings.presentation.component.otherSettingIte
 import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.SettingsAction
 import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.SettingsUiState
 import com.nhuhuy.algidy.feature.settings.utils.toStringRes
-import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun SettingsScreen(
     uiState: SettingsUiState,
     onAction: (SettingsAction) -> Unit,
-    onNavigateBack: () -> Unit,
     snackBarHostState: SnackbarHostState
 ) {
-    val scope = rememberCoroutineScope()
-    val pickZipLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.GetContent()
-    ) { uri: Uri? ->
-        uri?.let { sourceUri ->
-            onAction(SettingsAction.ImportData(sourceUri))
-        }
-    }
-
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         snackbarHost = {
@@ -74,7 +59,7 @@ fun SettingsScreen(
                 },
                 navigationIcon = {
                     IconButton(
-                        onClick = onNavigateBack
+                        onClick = { onAction(SettingsAction.OnBackClick) }
                     ) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
@@ -167,22 +152,8 @@ fun SettingsScreen(
             }
 
             otherSettingItems(
-                isNotificationEnabled = uiState.isNotificationsEnabled,
-                isBiometricLock = uiState.isBiometricLock,
-                isDynamicColor = uiState.isDynamicColor,
-                isCategoryEnabled = uiState.categoryEnabled,
-                onToggleNotification = { enabled ->
-                    onAction(SettingsAction.ToggleNotifications(enabled))
-                },
-                onToggleBiometricLock = { enabled ->
-                    onAction(SettingsAction.ToggleBiometricLock(enabled))
-                },
-                onToggleCategoryGroup = { enabled ->
-                    onAction(SettingsAction.ToggleCategoryGroup(enabled))
-                },
-                onToggleDynamicColor = { enabled ->
-                    onAction(SettingsAction.ToggleDynamicColor(enabled))
-                }
+                items = uiState.toggleItems,
+                onAction = onAction
             )
 
             item {
@@ -190,20 +161,10 @@ fun SettingsScreen(
             }
 
             dataSettingItem(
-                onDataExport = {
-                    onAction(SettingsAction.ExportData)
-                },
-                onDataImport = {
-                    scope.launch {
-                        pickZipLauncher.launch("application/zip")
-                    }
-                },
-                onAboutAppClick = {},
-                onDeleteDataClick = {
-                    onAction(SettingsAction.ClearData)
-                }
+                items = uiState.clickableItems,
+                onAction = onAction,
+                onOutsideAction = {}
             )
-
         }
     }
 }

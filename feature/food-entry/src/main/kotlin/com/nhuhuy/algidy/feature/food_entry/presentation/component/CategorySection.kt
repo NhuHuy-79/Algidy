@@ -1,4 +1,4 @@
-package com.nhuhuy.algidy.core.presentation.component.entry
+package com.nhuhuy.algidy.feature.food_entry.presentation.component
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

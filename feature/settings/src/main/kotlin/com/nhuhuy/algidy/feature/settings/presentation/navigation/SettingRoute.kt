@@ -1,5 +1,8 @@
 package com.nhuhuy.algidy.feature.settings.presentation.navigation
 
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.DeleteForever
 import androidx.compose.material3.SnackbarHostState
@@ -31,6 +34,13 @@ fun SettingRoute(
 
     val snackBarHostState = remember { SnackbarHostState() }
     val resource = LocalResources.current
+    val pickZipLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent()
+    ) { uri: Uri? ->
+        uri?.let { sourceUri ->
+            onAction(SettingsAction.ImportData(sourceUri))
+        }
+    }
 
     ObserveEffect(viewModel.uiEvent) { event ->
         when (event) {
@@ -44,29 +54,28 @@ fun SettingRoute(
             SettingsEvent.ExportData.FAILURE -> {
                 snackBarHostState.showSnackbar(
                     message = resource.getString(R.string.export_failed),
-                    withDismissAction = true
                 )
 
             }
 
-            SettingsEvent.ImportData.SUCCESS -> {
+            SettingsEvent.ImportData.Success -> {
                 snackBarHostState.showSnackbar(
                     message = resource.getString(R.string.import_success),
-                    withDismissAction = true
                 )
 
             }
 
-            SettingsEvent.ImportData.FAILURE -> {
+            SettingsEvent.ImportData.Failure -> {
                 snackBarHostState.showSnackbar(
                     message = resource.getString(R.string.export_failed),
-                    withDismissAction = true
                 )
 
             }
 
-            SettingsEvent.NavigateBack -> {
+            SettingsEvent.NavigateBack -> onNavigateBack()
 
+            SettingsEvent.ImportData.PickUri -> {
+                pickZipLauncher.launch("application/zip")
             }
         }
     }
@@ -74,8 +83,7 @@ fun SettingRoute(
     SettingsScreen(
         snackBarHostState = snackBarHostState,
         uiState = uiState,
-        onAction = onAction,
-        onNavigateBack = onNavigateBack
+        onAction = onAction
     )
 
     when (overlay) {

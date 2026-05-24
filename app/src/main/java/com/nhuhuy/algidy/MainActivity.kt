@@ -43,6 +43,7 @@ class MainActivity : AppCompatActivity() {
         )
         setContent {
             val uiState: AppUiState by viewModel.appUiState.collectAsStateWithLifecycle()
+            val onActon = viewModel::onAction
             var isUnlocked by rememberSaveable { mutableStateOf(false) }
 
             LaunchedEffect(uiState.isSplashScreen) {
@@ -52,8 +53,15 @@ class MainActivity : AppCompatActivity() {
                     } else if (!isUnlocked) {
                         biometricHandler.authenticate().collect { result ->
                             when (result) {
-                                BiometricResult.Success -> isUnlocked = true
-                                is BiometricResult.Error -> isUnlocked = true
+                                BiometricResult.Success -> {
+                                    isUnlocked = true
+                                }
+
+                                is BiometricResult.Error -> {
+                                    isUnlocked = true
+                                    //Unsupported Biometric
+                                    onActon(AppAction.UpdateBiometricSupported(false))
+                                }
                                 BiometricResult.Failed -> isUnlocked = false
                                 BiometricResult.Idle -> Unit
                             }

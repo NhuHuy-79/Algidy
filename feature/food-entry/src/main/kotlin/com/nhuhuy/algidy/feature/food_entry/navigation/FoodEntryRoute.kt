@@ -13,12 +13,12 @@ import com.nhuhuy.algidy.core.presentation.ObserveEffect
 import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.core.presentation.component.AppDatePickerDialog
 import com.nhuhuy.algidy.core.presentation.component.TextFieldDialog
-import com.nhuhuy.algidy.core.presentation.viewmodel.FoodEntryAction
-import com.nhuhuy.algidy.core.presentation.viewmodel.FoodEntryAction.OnCategoryConfirm
-import com.nhuhuy.algidy.core.presentation.viewmodel.FoodEntryAction.OnCategoryQueryChange
-import com.nhuhuy.algidy.core.presentation.viewmodel.FoodEntryOverlay
-import com.nhuhuy.algidy.feature.food_entry.presentation.component.FoodEntryScreen
+import com.nhuhuy.algidy.feature.food_entry.presentation.FoodEntryScreen
+import com.nhuhuy.algidy.feature.food_entry.presentation.viewmodel.FoodEntryAction
+import com.nhuhuy.algidy.feature.food_entry.presentation.viewmodel.FoodEntryAction.OnCategoryConfirm
+import com.nhuhuy.algidy.feature.food_entry.presentation.viewmodel.FoodEntryAction.OnCategoryQueryChange
 import com.nhuhuy.algidy.feature.food_entry.presentation.viewmodel.FoodEntryEvent
+import com.nhuhuy.algidy.feature.food_entry.presentation.viewmodel.FoodEntryOverlay
 import com.nhuhuy.algidy.feature.food_entry.presentation.viewmodel.FoodEntryViewModel
 import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf

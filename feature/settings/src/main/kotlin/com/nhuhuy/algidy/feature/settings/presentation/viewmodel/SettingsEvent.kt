@@ -8,7 +8,9 @@ sealed interface SettingsEvent : UiEvent {
         SUCCESS, FAILURE
     }
 
-    enum class ImportData : SettingsEvent {
-        SUCCESS, FAILURE
+    sealed interface ImportData : SettingsEvent {
+        data object Success : ImportData
+        data object Failure : ImportData
+        data object PickUri : ImportData
     }
 }

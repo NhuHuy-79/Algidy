@@ -1,4 +1,4 @@
-package com.nhuhuy.algidy.feature.food_entry.presentation.component
+package com.nhuhuy.algidy.feature.food_entry.presentation
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.imePadding
@@ -24,10 +24,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.nhuhuy.algidy.core.presentation.R
-import com.nhuhuy.algidy.core.presentation.component.FoodEntryForm
-import com.nhuhuy.algidy.core.presentation.viewmodel.FoodEntryAction
-import com.nhuhuy.algidy.core.presentation.viewmodel.FoodEntryError
-import com.nhuhuy.algidy.core.presentation.viewmodel.FoodEntryUiState
+import com.nhuhuy.algidy.feature.food_entry.presentation.component.FoodEntryForm
+import com.nhuhuy.algidy.feature.food_entry.presentation.viewmodel.FoodEntryAction
+import com.nhuhuy.algidy.feature.food_entry.presentation.viewmodel.FoodEntryError
+import com.nhuhuy.algidy.feature.food_entry.presentation.viewmodel.FoodEntryUiState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

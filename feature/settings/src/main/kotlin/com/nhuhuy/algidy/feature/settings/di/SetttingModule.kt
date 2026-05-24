@@ -7,6 +7,7 @@ import com.nhuhuy.algidy.feature.settings.data.DatabaseBackUpManager
 import com.nhuhuy.algidy.feature.settings.data.DatabaseBackUpManagerImpl
 import com.nhuhuy.algidy.feature.settings.data.ImageBackUpManager
 import com.nhuhuy.algidy.feature.settings.data.ImageBackUpManagerImpl
+import com.nhuhuy.algidy.feature.settings.domain.usecase.CheckCapabilityUseCase
 import com.nhuhuy.algidy.feature.settings.domain.usecase.DeleteAllDataUseCase
 import com.nhuhuy.algidy.feature.settings.domain.usecase.ImportDataUseCase
 import com.nhuhuy.algidy.feature.settings.domain.usecase.ManageDataUseCase
@@ -33,6 +34,7 @@ val settingModule = module {
     factoryOf(::ManageDataUseCase)
     factoryOf(::ImportDataUseCase)
     factoryOf(::DeleteAllDataUseCase)
+    factoryOf(::CheckCapabilityUseCase)
 
     viewModelOf(::SettingsViewModel)
 }

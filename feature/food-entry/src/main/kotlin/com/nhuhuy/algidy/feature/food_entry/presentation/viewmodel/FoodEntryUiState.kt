@@ -1,4 +1,4 @@
-package com.nhuhuy.algidy.core.presentation.viewmodel
+package com.nhuhuy.algidy.feature.food_entry.presentation.viewmodel
 
 import androidx.compose.runtime.Immutable
 import com.nhuhuy.algidy.core.model.food.DefaultFoodCategory
@@ -6,6 +6,7 @@ import com.nhuhuy.algidy.core.model.food.ItemUnit
 import com.nhuhuy.algidy.core.model.food.StorageLocation
 import com.nhuhuy.algidy.core.model.validate.ValidationResult
 import com.nhuhuy.algidy.core.presentation.model.CategoryUiModel
+import com.nhuhuy.algidy.core.presentation.viewmodel.UiState
 
 @Immutable
 data class FoodEntryUiState(

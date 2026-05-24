@@ -14,16 +14,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.core.presentation.utils.ItemPosition
+import com.nhuhuy.algidy.feature.settings.presentation.model.ClickableType
+import com.nhuhuy.algidy.feature.settings.presentation.model.SettingClickableItem
+import com.nhuhuy.algidy.feature.settings.presentation.model.SettingToggleItem
+import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.SettingsAction
 
 fun LazyListScope.otherSettingItems(
-    isNotificationEnabled: Boolean,
-    isBiometricLock: Boolean,
-    isDynamicColor: Boolean,
-    isCategoryEnabled: Boolean,
-    onToggleCategoryGroup: (enabled: Boolean) -> Unit,
-    onToggleNotification: (enabled: Boolean) -> Unit,
-    onToggleBiometricLock: (enabled: Boolean) -> Unit,
-    onToggleDynamicColor: (enabled: Boolean) -> Unit
+    items: List<SettingToggleItem>,
+    onAction: (SettingsAction) -> Unit
 ) {
     item {
         Text(
@@ -33,54 +31,34 @@ fun LazyListScope.otherSettingItems(
         )
     }
 
-    item {
-        ToggleableSettingItem(
-            position = ItemPosition.TOP,
-            enabled = isNotificationEnabled,
-            text = stringResource(R.string.settings_notifications_desc),
-            title = stringResource(R.string.settings_notifications),
-            onToggleClick = onToggleNotification,
-        )
-    }
-
-    item {
-        ToggleableSettingItem(
-            position = ItemPosition.MIDDLE,
-            enabled = isBiometricLock,
-            text = stringResource(R.string.setting_biometric_desc),
-            title = stringResource(R.string.setting_biometric),
-            onToggleClick = onToggleBiometricLock,
-        )
-    }
-
-    item {
-        ToggleableSettingItem(
-            enabled = isCategoryEnabled,
-            position = ItemPosition.MIDDLE,
-            text = stringResource(R.string.setting_use_category_des),
-            title = stringResource(R.string.setting_use_category),
-            onToggleClick = onToggleCategoryGroup
-        )
-    }
-
-    item {
-        ToggleableSettingItem(
-            enabled = isDynamicColor,
-            position = ItemPosition.BOTTOM,
-            text = stringResource(R.string.settings_dynamic_mode_desc),
-            title = stringResource(R.string.settings_dynamic_color),
-            onToggleClick = onToggleDynamicColor
-        )
+    items(
+        count = items.size,
+        key = { index -> "${items[index].type}" }
+    ) { index ->
+        val item = items[index]
+        if (item.visible) {
+            ToggleItem(
+                position = index.ItemPosition(items.size),
+                item = item,
+                onToggle = { enabled, item ->
+                    onAction(
+                        SettingsAction.ToggleAction(
+                            type = item.type,
+                            enabled = enabled
+                        )
+                    )
+                }
+            )
+        }
     }
 }
-
-
 fun LazyListScope.dataSettingItem(
-    onDeleteDataClick: () -> Unit,
-    onDataExport: () -> Unit,
-    onDataImport: () -> Unit,
-    onAboutAppClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    items: List<SettingClickableItem>,
+    onAction: (SettingsAction) -> Unit,
+    onOutsideAction: () -> Unit
 ) {
+
     item {
         Text(
             text = stringResource(R.string.setting_data),
@@ -89,44 +67,31 @@ fun LazyListScope.dataSettingItem(
         )
     }
 
-    item {
-        ClickableSettingItem(
-            position = ItemPosition.TOP,
-            icon = Icons.Rounded.Upload,
-            description = stringResource(R.string.setting_export_desc),
-            title = stringResource(R.string.setting_export),
-            onClick = onDataExport
+    items(
+        count = items.size,
+        key = { index -> "${items[index].type}" }
+    ) { index ->
+
+        val item = items[index]
+        val icon = when (item.type) {
+            ClickableType.Export -> Icons.Rounded.Upload
+            is ClickableType.Import -> Icons.Rounded.Download
+            ClickableType.DeleteAll -> Icons.Rounded.DeleteForever
+            ClickableType.AboutApp -> Icons.Rounded.Info
+        }
+        ClickableItem(
+            modifier = modifier,
+            item = item,
+            icon = icon,
+            position = index.ItemPosition(items.size),
+            onClick = {
+                onAction(SettingsAction.ClickableAction(type = item.type))
+
+                if (item.type is ClickableType.Import) {
+                    onOutsideAction()
+                }
+            }
         )
     }
-
-    item {
-        ClickableSettingItem(
-            position = ItemPosition.MIDDLE,
-            icon = Icons.Rounded.Download,
-            description = stringResource(R.string.setting_import_desc),
-            title = stringResource(R.string.setting_import),
-            onClick = onDataImport
-        )
-    }
-
-    item {
-        ClickableSettingItem(
-            position = ItemPosition.MIDDLE,
-            icon = Icons.Rounded.DeleteForever,
-            description = stringResource(R.string.setting_clear_data_desc),
-            title = stringResource(R.string.setting_clear_data),
-            onClick = onDeleteDataClick
-        )
-    }
-
-    item {
-        ClickableSettingItem(
-            position = ItemPosition.BOTTOM,
-            icon = Icons.Rounded.Info,
-            description = stringResource(R.string.setting_about_app_desc),
-            title = stringResource(R.string.setting_about_app),
-            onClick = onAboutAppClick
-        )
-    }
-
 }
+

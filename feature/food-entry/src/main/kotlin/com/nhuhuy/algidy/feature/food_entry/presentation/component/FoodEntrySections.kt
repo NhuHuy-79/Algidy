@@ -1,5 +1,6 @@
-package com.nhuhuy.algidy.core.presentation.component.entry
+package com.nhuhuy.algidy.feature.food_entry.presentation.component
 
+import android.net.Uri
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -7,8 +8,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.heightIn
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -44,9 +43,6 @@ import com.nhuhuy.algidy.core.model.food.ItemUnit
 import com.nhuhuy.algidy.core.model.food.StorageLocation
 import com.nhuhuy.algidy.core.presentation.PhotoPickerContainer
 import com.nhuhuy.algidy.core.presentation.R
-import com.nhuhuy.algidy.core.presentation.viewmodel.FoodEntryAction
-import com.nhuhuy.algidy.core.presentation.viewmodel.FoodEntryError
-import com.nhuhuy.algidy.core.presentation.viewmodel.FoodEntryUiState
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -54,7 +50,7 @@ import java.util.Locale
 @Composable
 fun FoodImageSection(
     imageUri: String?,
-    onImagePick: (android.net.Uri) -> Unit,
+    onImagePick: (Uri) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Box(
@@ -145,7 +141,9 @@ fun QuantityUnitSection(
                 readOnly = true,
                 modifier = Modifier.fillMaxWidth()
             )
-            Box(modifier = Modifier.matchParentSize().clickable { menuExpanded = true })
+            Box(modifier = Modifier
+                .matchParentSize()
+                .clickable { menuExpanded = true })
             DropdownMenu(expanded = menuExpanded, onDismissRequest = { menuExpanded = false }) {
                 ItemUnit.entries.forEach { unit ->
                     DropdownMenuItem(
@@ -190,7 +188,9 @@ fun DateSection(
                 errorMessage = purchaseErrorMessage,
                 modifier = Modifier.fillMaxWidth()
             )
-            Box(modifier = Modifier.matchParentSize().clickable { onPurchaseClick() })
+            Box(modifier = Modifier
+                .matchParentSize()
+                .clickable { onPurchaseClick() })
         }
 
         Box(modifier = Modifier.weight(1f)) {
@@ -204,7 +204,9 @@ fun DateSection(
                 errorMessage = expiryErrorMessage,
                 modifier = Modifier.fillMaxWidth()
             )
-            Box(modifier = Modifier.matchParentSize().clickable { onExpiryClick() })
+            Box(modifier = Modifier
+                .matchParentSize()
+                .clickable { onExpiryClick() })
         }
     }
 }

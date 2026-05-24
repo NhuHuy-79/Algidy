@@ -6,10 +6,6 @@ import com.nhuhuy.algidy.core.model.food.FoodItem
 import com.nhuhuy.algidy.core.model.validate.FoodValidator
 import com.nhuhuy.algidy.core.presentation.model.CategoryUiModel
 import com.nhuhuy.algidy.core.presentation.viewmodel.BaseViewModel
-import com.nhuhuy.algidy.core.presentation.viewmodel.FoodEntryAction
-import com.nhuhuy.algidy.core.presentation.viewmodel.FoodEntryError
-import com.nhuhuy.algidy.core.presentation.viewmodel.FoodEntryOverlay
-import com.nhuhuy.algidy.core.presentation.viewmodel.FoodEntryUiState
 import com.nhuhuy.algidy.core.presentation.viewmodel.UiEvent
 import com.nhuhuy.algidy.feature.food_entry.domain.usecase.AddCategoryUseCase
 import com.nhuhuy.algidy.feature.food_entry.domain.usecase.ObserveCategoriesUseCase
