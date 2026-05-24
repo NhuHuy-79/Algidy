@@ -11,21 +11,6 @@ import com.nhuhuy.algidy.toGenericNormalized
 import java.util.UUID
 
 
-fun FoodApiResponse.toEntity() = FoodItemEntity(
-    id = UUID.randomUUID().toString(),
-    name = product?.productName.orEmpty(),
-    categoryId = product?.categories?.firstOrNull()?.capitalize().orEmpty(),
-    location = StorageLocation.OTHER,
-    quantity = 0.0,
-    itemUnit = ItemUnit.OTHER,
-    purchaseDate = System.currentTimeMillis(),
-    expiryDate = -1,
-    imageUri = null,
-    isFavorite = false,
-    notes = "",
-    category = DefaultFoodCategory.OTHERS,
-)
-
 fun FoodApiResponse.toDomain() = FoodItem(
     id = UUID.randomUUID().toString(),
     name = product?.productName.orEmpty(),
@@ -53,7 +38,6 @@ fun FoodItemEntity.toDomain() = FoodItem(
     imageUri = imageUri,
     isFavorite = isFavorite,
     notes = notes,
-    defaultFoodCategory = category,
     status = status,
     resolvedDate = resolvedDate
 )
@@ -71,7 +55,6 @@ fun FoodItem.toEntity() = FoodItemEntity(
     imageUri = imageUri,
     isFavorite = isFavorite,
     notes = notes,
-    category = defaultFoodCategory,
     status = status,
     resolvedDate = resolvedDate
 )

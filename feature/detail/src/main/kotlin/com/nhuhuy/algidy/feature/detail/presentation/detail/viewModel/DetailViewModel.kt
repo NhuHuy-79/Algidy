@@ -5,7 +5,9 @@ import androidx.lifecycle.viewModelScope
 import com.nhuhuy.algidy.core.data.util.product
 import com.nhuhuy.algidy.core.presentation.delegate.FoodEntryDelegate
 import com.nhuhuy.algidy.core.presentation.delegate.FoodEntryDelegateImpl
+import com.nhuhuy.algidy.core.presentation.model.CategoryUiModel
 import com.nhuhuy.algidy.core.presentation.viewmodel.BaseViewModel
+import com.nhuhuy.algidy.feature.detail.domain.usecase.GetCategoriesUseCase
 import com.nhuhuy.algidy.feature.detail.domain.usecase.MarkFoodAsConsumedUseCase
 import com.nhuhuy.algidy.feature.detail.domain.usecase.MarkFoodAsWastedUseCase
 import com.nhuhuy.algidy.feature.detail.domain.usecase.ObserveFoodDetailUseCase
@@ -18,6 +20,7 @@ import kotlinx.coroutines.launch
 
 class DetailViewModel(
     private val foodItemId: String,
+    private val getCategoriesUseCase: GetCategoriesUseCase,
     private val markFoodAsConsumedUseCase: MarkFoodAsConsumedUseCase,
     private val markFoodAsWastedUseCase: MarkFoodAsWastedUseCase,
     private val updateFoodDetailUseCase: UpdateFoodDetailUseCase,
@@ -34,10 +37,19 @@ class DetailViewModel(
             observeFoodDetailUseCase(foodId = foodItemId)
                 .distinctUntilChanged()
                 .collect { foodItem ->
-                _uiState.product { copy(detailFoodItem = foodItem) }
-                setEntryData(foodItem)
-            }
+                    _uiState.product { copy(detailFoodItem = foodItem) }
+                    setEntryData(foodItem)
+
+                    val categories = getCategoriesUseCase().map { CategoryUiModel.ByCategory(it) }
+                    val currentCategory = categories.find { it.data.id == foodItem.categoryId }
+                    updateCategories(categories)
+                    currentCategory?.let {
+                        setCurrentCategory(category = it)
+                    }
+                }
         }
+
+
     }
 
     override fun onAction(action: DetailAction) {
@@ -53,6 +65,7 @@ class DetailViewModel(
                     is DetailAction.EditEntryAction.OnEntryAction -> onEntryAction(action.action)
                 }
             }
+
             DetailAction.OnConsumeFabPress -> updateActionState(DetailOverlay.Consume)
             DetailAction.OnWasteFabPress -> updateActionState(DetailOverlay.Wasted)
         }

@@ -1,6 +1,5 @@
 package com.nhuhuy.algidy.feature.settings.data
 
-import com.nhuhuy.algidy.core.model.food.DefaultFoodCategory
 import com.nhuhuy.algidy.core.model.food.FoodStatus
 import com.nhuhuy.algidy.core.model.food.ItemUnit
 import com.nhuhuy.algidy.core.model.food.StorageLocation
@@ -34,7 +33,6 @@ data class FlattenFoodData(
     val imageUri: String?,
     val isFavorite: Boolean,
     val notes: String,
-    val category: DefaultFoodCategory,
     val status: FoodStatus,
     val resolvedData: Long? = null
 )

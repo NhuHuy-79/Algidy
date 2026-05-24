@@ -1,6 +1,5 @@
 package com.nhuhuy.algidy.core.presentation.delegate
 
-import com.nhuhuy.algidy.core.model.food.FoodCategory
 import com.nhuhuy.algidy.core.model.food.FoodItem
 import com.nhuhuy.algidy.core.model.validate.FoodValidator
 import com.nhuhuy.algidy.core.presentation.model.CategoryUiModel
@@ -22,6 +21,7 @@ interface FoodEntryDelegate {
 
     fun onEntryAction(action: FoodEntryAction)
     fun setEntryData(foodItem: FoodItem)
+    fun setCurrentCategory(category: CategoryUiModel.ByCategory)
     fun updateCategories(categories: List<CategoryUiModel.ByCategory>)
     fun resetEntryData()
     fun getResultFoodItem(): FoodItem
@@ -154,6 +154,16 @@ class FoodEntryDelegateImpl : FoodEntryDelegate {
                     purchaseDate = foodItem.purchaseDate,
                     expiryDate = foodItem.expiryDate
                 )
+            )
+        }
+    }
+
+    override fun setCurrentCategory(category: CategoryUiModel.ByCategory) {
+        _entryState.update {
+            it.copy(
+                currentCategory = category,
+                categoryId = category.data.id,
+                categoryQuery = category.data.name
             )
         }
     }

@@ -8,6 +8,6 @@ class ObserveCategoriesUseCase(
     private val categoryRepository: CategoryRepository
 ) {
     operator fun invoke(): Flow<List<FoodCategory>> {
-        return categoryRepository.getAllCategories()
+        return categoryRepository.observeAllCategories()
     }
 }
