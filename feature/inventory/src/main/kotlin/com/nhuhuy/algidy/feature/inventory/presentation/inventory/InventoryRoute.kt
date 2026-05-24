@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scrim
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -17,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.nhuhuy.algidy.core.designsystem.component.AlgidyAlertDialog
 import com.nhuhuy.algidy.core.designsystem.component.BoxLayout
+import com.nhuhuy.algidy.core.presentation.ObserveEffect
 import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.InventoryFabMenu
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.category.CategoryEditDialog
@@ -24,9 +24,9 @@ import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.Inve
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryAction.OnEditCategorySheet.OnInputChange
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryAction.OnEditCategorySheet.Save
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryEvent
+import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryFabAction
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryOverlay
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryViewModel
-import kotlinx.coroutines.flow.collectLatest
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -44,18 +44,20 @@ fun InventoryRoute(
     val inventoryResultState by viewModel.resultState.collectAsStateWithLifecycle()
     val onAction = viewModel::onAction
 
-    LaunchedEffect(true) {
-        viewModel.uiEvent.collectLatest { event ->
-            when (event) {
-                is InventoryEvent.NavigateToDetail -> onNavigateToDetail(event.id)
-                InventoryEvent.NavigateToSearch -> onNavigateToSearch()
-            }
+    ObserveEffect(viewModel.uiEvent) { event ->
+        when (event) {
+            InventoryEvent.NavigateToFoodEntry -> onNavigateToAddFood()
+            InventoryEvent.NavigateToAnalytics -> onNavigateToAnalytics()
+            is InventoryEvent.NavigateToDetail -> onNavigateToDetail(event.id)
+            InventoryEvent.NavigateToSearch -> onNavigateToSearch()
+            InventoryEvent.NavigateToSetting -> onNavigateToSetting()
+            InventoryEvent.NavigateToCamera -> onNavigateToCamera()
         }
     }
 
     BackHandler(enabled = uiState.expanded || uiState.overlay != InventoryOverlay.NONE) {
         onAction(InventoryAction.OnDismiss)
-        onAction(InventoryAction.ToggleFabMenu(false))
+        onAction(InventoryFabAction.ToggleFabMenu(false))
     }
 
     InventoryScreen(
@@ -67,13 +69,6 @@ fun InventoryRoute(
 
     when (uiState.overlay) {
         InventoryOverlay.NONE -> Unit
-        InventoryOverlay.FOOD_SHEET -> {
-            // This is now navigated to instead of showing a sheet
-            LaunchedEffect(Unit) {
-                onNavigateToAddFood()
-                onAction(InventoryAction.OnDismiss)
-            }
-        }
 
         InventoryOverlay.CATEGORY_EDIT -> CategoryEditDialog(
             value = uiState.categorySheetInput,
@@ -104,7 +99,7 @@ fun InventoryRoute(
     if (uiState.expanded) {
         Scrim(
             color = MaterialTheme.colorScheme.surface,
-            onClick = { onAction(InventoryAction.ToggleFabMenu(false)) },
+            onClick = { onAction(InventoryFabAction.ToggleFabMenu(false)) },
             contentDescription = "scrim",
             modifier = Modifier.fillMaxSize(),
             alpha = { 0.6f }
@@ -120,11 +115,11 @@ fun InventoryRoute(
     ) {
         InventoryFabMenu(
             expanded = uiState.expanded,
-            onExpandClose = { onAction(InventoryAction.ToggleFabMenu(it)) },
-            onManualClick = { onAction(InventoryAction.OnAddFabClick) },
-            onSettingClick = onNavigateToSetting,
-            onBarcodeScanClick = onNavigateToCamera,
-            onAnalyticsClick = onNavigateToAnalytics
+            onExpandClose = { onAction(InventoryFabAction.ToggleFabMenu(it)) },
+            onManualClick = { onAction(InventoryFabAction.Manual) },
+            onSettingClick = { onAction(InventoryFabAction.Setting) },
+            onBarcodeScanClick = { onAction(InventoryFabAction.BarcodeScan) },
+            onAnalyticsClick = { onAction(InventoryFabAction.Analytics) }
         )
     }
 }

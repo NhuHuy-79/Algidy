@@ -35,9 +35,7 @@ enum class FoodEntryOverlay {
     NONE,
     PURCHASE_DATE_PICKER,
     EXPIRY_DATE_PICKER,
-    CATEGORY_PICKER,
-    UNIT_PICKER,
-    STORAGE_PICKER
+    CATEGORY_ADD,
 }
 
 

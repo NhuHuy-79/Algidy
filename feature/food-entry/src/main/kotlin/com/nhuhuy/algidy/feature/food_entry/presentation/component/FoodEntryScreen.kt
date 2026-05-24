@@ -1,14 +1,16 @@
 package com.nhuhuy.algidy.feature.food_entry.presentation.component
 
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
-import androidx.compose.material.icons.rounded.Check
+import androidx.compose.material.icons.rounded.TaskAlt
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilledTonalIconButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -58,12 +60,12 @@ fun FoodEntryScreen(
                     }
                 },
                 actions = {
-                    IconButton(
+                    FilledTonalIconButton(
                         onClick = { onAction(FoodEntryAction.OnSaveClick) },
                         enabled = errorState.isValid
                     ) {
                         Icon(
-                            imageVector = Icons.Rounded.Check,
+                            imageVector = Icons.Rounded.TaskAlt,
                             contentDescription = stringResource(R.string.action_save)
                         )
                     }
@@ -80,6 +82,7 @@ fun FoodEntryScreen(
                 .fillMaxSize()
                 .padding(innerPadding)
                 .padding(horizontal = 16.dp)
+                .imePadding()
                 .verticalScroll(rememberScrollState())
         )
     }

@@ -1,6 +1,7 @@
 package com.nhuhuy.algidy.feature.food_entry.presentation.viewmodel
 
 import androidx.lifecycle.viewModelScope
+import com.nhuhuy.algidy.core.model.food.FoodCategory
 import com.nhuhuy.algidy.core.model.food.FoodItem
 import com.nhuhuy.algidy.core.model.validate.FoodValidator
 import com.nhuhuy.algidy.core.presentation.model.CategoryUiModel
@@ -22,8 +23,8 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class FoodEntryViewModel(
-    private val initialFoodItem: FoodItem?,
-    private val observeCategoriesUseCase: ObserveCategoriesUseCase,
+    initialFoodItem: FoodItem?,
+    observeCategoriesUseCase: ObserveCategoriesUseCase,
     private val saveFoodItemUseCase: SaveFoodItemUseCase,
     private val addCategoryUseCase: AddCategoryUseCase
 ) : BaseViewModel<FoodEntryUiState, FoodEntryEvent, FoodEntryAction>() {
@@ -67,7 +68,12 @@ class FoodEntryViewModel(
             is FoodEntryAction.OnItemUnitChange -> _uiState.update { it.copy(itemUnit = action.unit) }
             is FoodEntryAction.OnStorageLocationChange -> _uiState.update { it.copy(location = action.location) }
             is FoodEntryAction.OnPurchaseDateChange -> {
-                _uiState.update { it.copy(purchaseDate = action.purchaseDate) }
+                _uiState.update {
+                    it.copy(
+                        purchaseDate = action.purchaseDate,
+                        overlay = FoodEntryOverlay.NONE
+                    )
+                }
                 _entryError.update {
                     it.copy(
                         purchaseDateValidation = FoodValidator.validatePurchaseDate(
@@ -78,7 +84,12 @@ class FoodEntryViewModel(
             }
 
             is FoodEntryAction.OnExpiryDateChange -> {
-                _uiState.update { it.copy(expiryDate = action.expiryDate) }
+                _uiState.update {
+                    it.copy(
+                        expiryDate = action.expiryDate,
+                        overlay = FoodEntryOverlay.NONE
+                    )
+                }
                 _entryError.update {
                     it.copy(
                         expiryDateValidation = FoodValidator.validateExpiryDate(
@@ -87,6 +98,7 @@ class FoodEntryViewModel(
                         )
                     )
                 }
+
             }
 
             is FoodEntryAction.OnNoteChange -> _uiState.update { it.copy(notes = action.note) }
@@ -102,10 +114,22 @@ class FoodEntryViewModel(
                 category?.let {
                     _uiState.update { it.copy(currentCategory = category, categoryId = action.id) }
                 }
+                _uiState.update {
+                    it.copy(overlay = FoodEntryOverlay.NONE)
+                }
             }
 
             FoodEntryAction.OnCategoryConfirm -> {
-                saveFood()
+                viewModelScope.launch {
+                    addCategoryUseCase(
+                        category = FoodCategory(
+                            name = _uiState.value.categoryQuery
+                        )
+                    )
+                    _uiState.update {
+                        it.copy(overlay = FoodEntryOverlay.NONE)
+                    }
+                }
             }
 
             is FoodEntryAction.OnShowOverlay -> _uiState.update { it.copy(overlay = action.overlay) }

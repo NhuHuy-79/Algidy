@@ -52,7 +52,6 @@ class InventoryViewModelTest {
         viewModel = InventoryViewModel(
             observerFoodItemUseCase = observeFoodItemUseCase,
             foodEntryDelegateImpl = foodEntryDelegateImpl,
-            createFoodItemUseCase = createFoodItemUseCase,
             deleteFoodItemUseCase = deleteFoodItemUseCase,
             editCategoryUseCase = editCategoryUseCase,
             observeCategoriesUseCase = observeCategoriesUseCase,
@@ -70,7 +69,6 @@ class InventoryViewModelTest {
         viewModel = InventoryViewModel(
             observerFoodItemUseCase = observeFoodItemUseCase,
             foodEntryDelegateImpl = foodEntryDelegateImpl,
-            createFoodItemUseCase = createFoodItemUseCase,
             deleteFoodItemUseCase = deleteFoodItemUseCase,
             editCategoryUseCase = editCategoryUseCase,
             observeCategoriesUseCase = observeCategoriesUseCase,
@@ -92,7 +90,6 @@ class InventoryViewModelTest {
         viewModel = InventoryViewModel(
             observerFoodItemUseCase = observeFoodItemUseCase,
             foodEntryDelegateImpl = foodEntryDelegateImpl,
-            createFoodItemUseCase = createFoodItemUseCase,
             deleteFoodItemUseCase = deleteFoodItemUseCase,
             editCategoryUseCase = editCategoryUseCase,
             observeCategoriesUseCase = observeCategoriesUseCase,

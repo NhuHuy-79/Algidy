@@ -9,7 +9,6 @@ import com.nhuhuy.algidy.feature.inventory.domain.usecase.category.AddCategoryUs
 import com.nhuhuy.algidy.feature.inventory.domain.usecase.category.DeleteCategoryUseCase
 import com.nhuhuy.algidy.feature.inventory.domain.usecase.category.EditCategoryUseCase
 import com.nhuhuy.algidy.feature.inventory.domain.usecase.category.ObserveCategoriesUseCase
-import com.nhuhuy.algidy.feature.inventory.domain.usecase.food.CreateFoodItemUseCase
 import com.nhuhuy.algidy.feature.inventory.domain.usecase.food.DeleteFoodItemUseCase
 import com.nhuhuy.algidy.feature.inventory.domain.usecase.food.ObserveFoodItemUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -24,7 +23,6 @@ import kotlinx.coroutines.launch
 
 class InventoryViewModel(
     private val observerFoodItemUseCase: ObserveFoodItemUseCase,
-    private val createFoodItemUseCase: CreateFoodItemUseCase,
     private val addCategoryUseCase: AddCategoryUseCase,
     private val deleteFoodItemUseCase: DeleteFoodItemUseCase,
     private val deleteCategoryUseCase: DeleteCategoryUseCase,
@@ -69,18 +67,7 @@ class InventoryViewModel(
                     deleteFoodItemUseCase(id = action.id)
                 }
             }
-
-            InventoryAction.OnAddFabClick -> _uiState.product {
-                copy(overlay = InventoryOverlay.FOOD_SHEET)
-            }
-
             InventoryAction.OnDismiss -> _uiState.product { copy(overlay = InventoryOverlay.NONE) }
-            InventoryAction.OnManuallyClick -> {
-                // Handled via navigation
-            }
-
-            is InventoryAction.ToggleFabMenu -> _uiState.product { copy(expanded = action.value) }
-
             is InventoryAction.OnCategorySelect -> _uiState.product {
                 copy(currentCategory = action.categoryUiModel)
             }
@@ -164,6 +151,19 @@ class InventoryViewModel(
                     copy(sortMode = InventorySortMode.BY_NAME)
                 }
             }
+
+            is InventoryFabAction -> onFabAction(action)
+        }
+    }
+
+    private fun onFabAction(action: InventoryFabAction) {
+        _uiState.product { copy(expanded = !expanded) }
+        when (action) {
+            InventoryFabAction.Analytics -> emitEvent(InventoryEvent.NavigateToAnalytics)
+            InventoryFabAction.BarcodeScan -> emitEvent(InventoryEvent.NavigateToCamera)
+            InventoryFabAction.Manual -> emitEvent(InventoryEvent.NavigateToFoodEntry)
+            InventoryFabAction.Setting -> emitEvent(InventoryEvent.NavigateToSetting)
+            is InventoryFabAction.ToggleFabMenu -> Unit
         }
     }
 }

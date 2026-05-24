@@ -3,9 +3,8 @@ package com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
 import com.nhuhuy.algidy.core.model.food.FoodItem
-
-import com.nhuhuy.algidy.core.presentation.viewmodel.UiState
 import com.nhuhuy.algidy.core.presentation.model.CategoryUiModel
+import com.nhuhuy.algidy.core.presentation.viewmodel.UiState
 
 @Stable
 sealed interface InventoryResultState {
@@ -33,7 +32,7 @@ data class InventoryUiState(
 }
 
 enum class InventoryOverlay {
-    NONE, FOOD_SHEET, CATEGORY_EDIT, CATEGORY_DELETE
+    NONE, CATEGORY_EDIT, CATEGORY_DELETE
 }
 
 enum class InventorySortMode {
