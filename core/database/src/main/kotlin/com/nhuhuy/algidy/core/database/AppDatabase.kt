@@ -21,7 +21,7 @@ import com.nhuhuy.algidy.core.database.entity.WasteEntity
         InventoryItemFtsEntity::class,
         CategoryEntity::class
     ],
-    version = 10,
+    version = DatabaseConstant.SCHEMA_VERSION,
     exportSchema = true,
     autoMigrations = [
         AutoMigration(from = 4, to = 5),
@@ -34,4 +34,8 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun wasteDao(): WasteDao
     abstract fun searchDao(): SearchDao
     abstract fun categoryDao(): CategoryDao
+}
+
+object DatabaseConstant {
+    const val SCHEMA_VERSION = 10
 }

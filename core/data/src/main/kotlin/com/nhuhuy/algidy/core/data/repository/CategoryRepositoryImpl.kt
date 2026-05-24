@@ -11,7 +11,7 @@ class CategoryRepositoryImpl(
     private val categoryDao: CategoryDao
 ) : CategoryRepository {
     override fun getAllCategories(): Flow<List<FoodCategory>> {
-        return categoryDao.getAllCategories().map { entities ->
+        return categoryDao.observeAllCategories().map { entities ->
             entities.map { it.toDomain() }
         }
     }

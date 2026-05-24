@@ -1,6 +1,8 @@
 package com.nhuhuy.algidy.feature.settings.mapper
 
+import com.nhuhuy.algidy.core.database.entity.CategoryEntity
 import com.nhuhuy.algidy.core.database.entity.FoodItemEntity
+import com.nhuhuy.algidy.feature.settings.data.FlattenCategoryData
 import com.nhuhuy.algidy.feature.settings.data.FlattenFoodData
 
 fun FoodItemEntity.toFlattenFood(): FlattenFoodData {
@@ -23,6 +25,7 @@ fun FoodItemEntity.toFlattenFood(): FlattenFoodData {
     )
 }
 
+
 fun FlattenFoodData.toFoodItemEntity(): FoodItemEntity {
     return FoodItemEntity(
         id = id,
@@ -42,3 +45,15 @@ fun FlattenFoodData.toFoodItemEntity(): FoodItemEntity {
         resolvedDate = resolvedData,
     )
 }
+
+fun FlattenCategoryData.toCategoryEntity() = CategoryEntity(
+    id = id,
+    name = name,
+    description = description
+)
+
+fun CategoryEntity.toFlattenCategoryData() = FlattenCategoryData(
+    id = id,
+    name = name,
+    description = description
+)

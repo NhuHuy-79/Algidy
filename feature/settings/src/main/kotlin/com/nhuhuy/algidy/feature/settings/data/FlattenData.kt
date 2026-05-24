@@ -10,6 +10,14 @@ import kotlinx.serialization.Serializable
 data class FlattenExportData(
     val foodDataVersion: Int,
     val foodData: List<FlattenFoodData> = emptyList(),
+    val category: List<FlattenCategoryData> = emptyList()
+)
+
+@Serializable
+data class FlattenCategoryData(
+    val id: String,
+    val name: String,
+    val description: String,
 )
 
 @Serializable
