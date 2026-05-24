@@ -16,4 +16,5 @@ sealed interface ScannerAction : UiAction {
     data class OnFoodItemSaved(val foodItem: FoodItem) : ScannerAction
     data class OnImageStaged(val uri: Uri?) : ScannerAction
     data class OnProcessStagedImage(val uri: Uri) : ScannerAction
+    data class OnFoodItemFound(val foodId: String) : ScannerAction
 }

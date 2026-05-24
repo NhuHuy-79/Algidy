@@ -10,6 +10,7 @@ import com.nhuhuy.algidy.di.databaseModule
 import com.nhuhuy.algidy.di.networkModule
 import com.nhuhuy.algidy.feature.analytics.di.analyticsModule
 import com.nhuhuy.algidy.feature.detail.di.detailModule
+import com.nhuhuy.algidy.feature.food_entry.di.foodEntryModule
 import com.nhuhuy.algidy.feature.inventory.di.inventoryModule
 import com.nhuhuy.algidy.feature.scanner.di.scannerModule
 import com.nhuhuy.algidy.feature.settings.di.settingModule
@@ -46,6 +47,7 @@ class AlgidyApp : Application(), KoinComponent {
                     detailModule,
                     analyticsModule,
                     scannerModule,
+                    foodEntryModule,
                     notificationModule,
                     settingModule
                 )

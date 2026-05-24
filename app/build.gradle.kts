@@ -20,10 +20,10 @@ dependencies {
     implementation(project(":core:notifications"))
     implementation(project(":feature:inventory"))
     implementation(project(":feature:scanner"))
-    implementation(project(":feature:review"))
     implementation(project(":feature:detail"))
     implementation(project(":feature:analytics"))
     implementation(project(":feature:settings"))
+    implementation(project(":feature:food-entry"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

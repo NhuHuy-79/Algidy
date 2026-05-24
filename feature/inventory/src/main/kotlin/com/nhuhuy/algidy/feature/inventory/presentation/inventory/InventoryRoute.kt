@@ -18,11 +18,11 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.nhuhuy.algidy.core.designsystem.component.AlgidyAlertDialog
 import com.nhuhuy.algidy.core.designsystem.component.BoxLayout
 import com.nhuhuy.algidy.core.presentation.R
-import com.nhuhuy.algidy.core.presentation.component.FoodEntryBottomSheet
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.InventoryFabMenu
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.category.CategoryEditDialog
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryAction
-import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryAction.OnEditCategorySheet.*
+import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryAction.OnEditCategorySheet.OnInputChange
+import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryAction.OnEditCategorySheet.Save
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryEvent
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryOverlay
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryViewModel
@@ -36,14 +36,12 @@ fun InventoryRoute(
     onNavigateToSearch: () -> Unit,
     onNavigateToCamera: () -> Unit,
     onNavigateToSetting: () -> Unit,
+    onNavigateToAddFood: () -> Unit,
 ) = BoxLayout {
     val viewModel: InventoryViewModel = koinViewModel()
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val combineState by viewModel.combineState.collectAsStateWithLifecycle()
-    val entryState by viewModel.entryState.collectAsStateWithLifecycle()
-    val errorState by viewModel.entryError.collectAsStateWithLifecycle()
     val inventoryResultState by viewModel.resultState.collectAsStateWithLifecycle()
-    val onEntryAction = viewModel::onEntryAction
     val onAction = viewModel::onAction
 
     LaunchedEffect(true) {
@@ -69,15 +67,13 @@ fun InventoryRoute(
 
     when (uiState.overlay) {
         InventoryOverlay.NONE -> Unit
-        InventoryOverlay.FOOD_SHEET -> FoodEntryBottomSheet(
-            title = stringResource(R.string.inventory_sheet_title),
-            label = stringResource(R.string.inventory_sheet_btn),
-            onDismiss = { onAction(InventoryAction.OnDismiss) },
-            foodEntryState = entryState,
-            foodEntryError = errorState,
-            onEntryAction = onEntryAction,
-            onConfirm = { onAction(InventoryAction.OnManuallyClick) }
-        )
+        InventoryOverlay.FOOD_SHEET -> {
+            // This is now navigated to instead of showing a sheet
+            LaunchedEffect(Unit) {
+                onNavigateToAddFood()
+                onAction(InventoryAction.OnDismiss)
+            }
+        }
 
         InventoryOverlay.CATEGORY_EDIT -> CategoryEditDialog(
             value = uiState.categorySheetInput,

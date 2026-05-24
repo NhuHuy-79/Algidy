@@ -106,6 +106,15 @@ class ScannerViewModel(
                     ScannerMode.FOOD_SCANNER -> analyzeFoodDateFromUri(action.uri)
                 }
             }
+
+            is ScannerAction.OnFoodItemFound -> {
+                viewModelScope.launch {
+                    val item = foodRepository.getFoodById(action.foodId)
+                    item?.let {
+                        _uiState.product { copy(foodItemResult = it) }
+                    }
+                }
+            }
         }
     }
 

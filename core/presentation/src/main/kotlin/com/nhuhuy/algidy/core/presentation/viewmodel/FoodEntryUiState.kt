@@ -2,7 +2,6 @@ package com.nhuhuy.algidy.core.presentation.viewmodel
 
 import androidx.compose.runtime.Immutable
 import com.nhuhuy.algidy.core.model.food.DefaultFoodCategory
-import com.nhuhuy.algidy.core.model.food.FoodCategory
 import com.nhuhuy.algidy.core.model.food.ItemUnit
 import com.nhuhuy.algidy.core.model.food.StorageLocation
 import com.nhuhuy.algidy.core.model.validate.ValidationResult
@@ -26,8 +25,21 @@ data class FoodEntryUiState(
     val notes: String = "",
 
     // Current selected category model
-    val currentCategory: CategoryUiModel = CategoryUiModel.All
-)
+    val currentCategory: CategoryUiModel = CategoryUiModel.All,
+
+    // UI Overlay state
+    val overlay: FoodEntryOverlay = FoodEntryOverlay.NONE
+) : UiState
+
+enum class FoodEntryOverlay {
+    NONE,
+    PURCHASE_DATE_PICKER,
+    EXPIRY_DATE_PICKER,
+    CATEGORY_PICKER,
+    UNIT_PICKER,
+    STORAGE_PICKER
+}
+
 
 @Immutable
 data class FoodEntryError(

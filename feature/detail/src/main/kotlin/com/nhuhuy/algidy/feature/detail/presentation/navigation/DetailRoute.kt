@@ -4,15 +4,16 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.Restaurant
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.nhuhuy.algidy.core.designsystem.component.AlgidyAlertDialog
 import com.nhuhuy.algidy.core.designsystem.component.BoxLayout
+import com.nhuhuy.algidy.core.model.food.FoodItem
 import com.nhuhuy.algidy.core.presentation.ObserveEffect
 import com.nhuhuy.algidy.core.presentation.R
-import com.nhuhuy.algidy.core.presentation.component.FoodEntryBottomSheet
 import com.nhuhuy.algidy.core.presentation.component.showShortToast
 import com.nhuhuy.algidy.feature.detail.presentation.detail.DetailScreen
 import com.nhuhuy.algidy.feature.detail.presentation.detail.viewModel.DetailAction
@@ -26,14 +27,12 @@ import org.koin.core.parameter.parametersOf
 fun DetailRoute(
     foodItemId: String,
     onNavigateBack: () -> Unit,
+    onNavigateToEdit: (FoodItem) -> Unit,
 ) {
     val viewModel: DetailViewModel = koinViewModel(
         parameters = { parametersOf(foodItemId) }
     )
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    val entryError by viewModel.entryError.collectAsStateWithLifecycle()
-    val entryState by viewModel.entryState.collectAsStateWithLifecycle()
-    val entryAction = viewModel::onEntryAction
     val onAction = viewModel::onAction
 
     val applicationContext = LocalContext.current.applicationContext
@@ -89,19 +88,10 @@ fun DetailRoute(
             }
 
             DetailOverlay.Edit -> {
-                FoodEntryBottomSheet(
-                    title = stringResource(R.string.detail_edit_sheet_title),
-                    label = stringResource(R.string.action_edit),
-                    onDismiss = {
-                        onAction(DetailAction.OnDismiss)
-                    },
-                    onConfirm = {
-                        onAction(DetailAction.OnEditItem)
-                    },
-                    foodEntryState = entryState,
-                    foodEntryError = entryError,
-                    onEntryAction = entryAction
-                )
+                LaunchedEffect(Unit) {
+                    onNavigateToEdit(uiState.detailFoodItem)
+                    onAction(DetailAction.OnDismiss)
+                }
             }
         }
     }

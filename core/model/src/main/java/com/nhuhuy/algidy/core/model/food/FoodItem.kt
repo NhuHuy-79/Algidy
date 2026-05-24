@@ -1,8 +1,10 @@
 package com.nhuhuy.algidy.core.model.food
 
+import kotlinx.serialization.Serializable
 import java.util.UUID
 import kotlin.math.abs
 
+@Serializable
 data class FoodItem(
     val id: String = UUID.randomUUID().toString(),
     val name: String = "",

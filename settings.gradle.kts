@@ -41,7 +41,7 @@ include(":core:notifications")
 // Feature modules
 include(":feature:inventory")
 include(":feature:scanner")
-include(":feature:review")
 include(":feature:detail")
 include(":feature:analytics")
 include(":feature:settings")
+include(":feature:food-entry")

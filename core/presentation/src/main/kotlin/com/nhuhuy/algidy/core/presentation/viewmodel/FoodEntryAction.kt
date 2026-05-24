@@ -8,7 +8,7 @@ import com.nhuhuy.algidy.core.presentation.model.CategoryUiModel
 /**
  * Actions that can be performed within the food entry form.
  */
-sealed interface FoodEntryAction {
+sealed interface FoodEntryAction : UiAction {
     data class OnNameChange(val name: String) : FoodEntryAction
     data class OnQuantityChange(val quantity: Double) : FoodEntryAction
     data class OnStorageLocationChange(val location: StorageLocation) : FoodEntryAction
@@ -23,4 +23,10 @@ sealed interface FoodEntryAction {
     data class OnCategorySelect(val category: CategoryUiModel.ByCategory) : FoodEntryAction
     data class OnCategorySelectById(val id: String) : FoodEntryAction
     data object OnCategoryConfirm : FoodEntryAction
+
+    // Overlay control
+    data class OnShowOverlay(val overlay: FoodEntryOverlay) : FoodEntryAction
+    data object OnDismissOverlay : FoodEntryAction
+    data object OnSaveClick : FoodEntryAction
+    data object OnBackClick : FoodEntryAction
 }

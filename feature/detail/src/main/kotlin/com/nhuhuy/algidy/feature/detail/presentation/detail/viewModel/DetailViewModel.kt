@@ -3,11 +3,7 @@ package com.nhuhuy.algidy.feature.detail.presentation.detail.viewModel
 import android.net.Uri
 import androidx.lifecycle.viewModelScope
 import com.nhuhuy.algidy.core.data.util.product
-import com.nhuhuy.algidy.core.presentation.delegate.FoodEntryDelegate
-import com.nhuhuy.algidy.core.presentation.delegate.FoodEntryDelegateImpl
-import com.nhuhuy.algidy.core.presentation.model.CategoryUiModel
 import com.nhuhuy.algidy.core.presentation.viewmodel.BaseViewModel
-import com.nhuhuy.algidy.feature.detail.domain.usecase.GetCategoriesUseCase
 import com.nhuhuy.algidy.feature.detail.domain.usecase.MarkFoodAsConsumedUseCase
 import com.nhuhuy.algidy.feature.detail.domain.usecase.MarkFoodAsWastedUseCase
 import com.nhuhuy.algidy.feature.detail.domain.usecase.ObserveFoodDetailUseCase
@@ -20,14 +16,11 @@ import kotlinx.coroutines.launch
 
 class DetailViewModel(
     private val foodItemId: String,
-    private val getCategoriesUseCase: GetCategoriesUseCase,
     private val markFoodAsConsumedUseCase: MarkFoodAsConsumedUseCase,
     private val markFoodAsWastedUseCase: MarkFoodAsWastedUseCase,
     private val updateFoodDetailUseCase: UpdateFoodDetailUseCase,
     private val observeFoodDetailUseCase: ObserveFoodDetailUseCase,
-    private val foodEntryDelegateImpl: FoodEntryDelegateImpl,
-) : BaseViewModel<DetailUiState, DetailEvent, DetailAction>(),
-    FoodEntryDelegate by foodEntryDelegateImpl {
+) : BaseViewModel<DetailUiState, DetailEvent, DetailAction>() {
     private val _uiState = MutableStateFlow(DetailUiState())
     override val uiState: StateFlow<DetailUiState> = _uiState.asStateFlow()
     private val stateValue: DetailUiState get() = _uiState.value
@@ -38,14 +31,6 @@ class DetailViewModel(
                 .distinctUntilChanged()
                 .collect { foodItem ->
                     _uiState.product { copy(detailFoodItem = foodItem) }
-                    setEntryData(foodItem)
-
-                    val categories = getCategoriesUseCase().map { CategoryUiModel.ByCategory(it) }
-                    val currentCategory = categories.find { it.data.id == foodItem.categoryId }
-                    updateCategories(categories)
-                    currentCategory?.let {
-                        setCurrentCategory(category = it)
-                    }
                 }
         }
 
@@ -62,7 +47,9 @@ class DetailViewModel(
                 when (action) {
                     is DetailAction.EditEntryAction.OnSave -> onUpdateFoodItem()
                     is DetailAction.EditEntryAction.OnImageChange -> onImageChange(action.uri)
-                    is DetailAction.EditEntryAction.OnEntryAction -> onEntryAction(action.action)
+                    is DetailAction.EditEntryAction.OnEntryAction -> {
+                        // This will be handled in the FoodEntry screen now
+                    }
                 }
             }
 
@@ -83,9 +70,8 @@ class DetailViewModel(
 
     private fun onUpdateFoodItem() {
         viewModelScope.launch {
-            val updatedItem = getResultFoodItem()
-            updateFoodDetailUseCase(updatedItem, null)
-            resetEntryData()
+            // Updated item is now coming from FoodEntry screen
+            // updateFoodDetailUseCase(updatedItem, null)
             updateActionState(DetailOverlay.None)
         }
     }

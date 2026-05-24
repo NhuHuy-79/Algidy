@@ -22,10 +22,9 @@ import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
 import com.nhuhuy.algidy.feature.analytics.presentation.navigation.AnalyticsRoute
 import com.nhuhuy.algidy.feature.detail.presentation.navigation.DetailRoute
+import com.nhuhuy.algidy.feature.food_entry.navigation.FoodEntryRoute
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.InventoryRoute
 import com.nhuhuy.algidy.feature.inventory.presentation.search.SearchInventoryRoute
-import com.nhuhuy.algidy.feature.review.ReviewRoute
-import com.nhuhuy.algidy.feature.scanner.presentation.confirm.ConfirmRoute
 import com.nhuhuy.algidy.feature.scanner.presentation.scanner.ScannerRoute
 import com.nhuhuy.algidy.feature.settings.presentation.navigation.SettingRoute
 
@@ -77,6 +76,9 @@ fun AppGraph(
                     onNavigateToSetting = { backStack.add(Destination.Setting) },
                     onNavigateToAnalytics = {
                         backStack.add(Destination.Analytics)
+                    },
+                    onNavigateToAddFood = {
+                        backStack.add(Destination.FoodEntry(title = "Add Food"))
                     }
                 )
             }
@@ -93,7 +95,15 @@ fun AppGraph(
             entry<Destination.Detail> { destinationDetail ->
                 DetailRoute(
                     foodItemId = destinationDetail.foodItemId,
-                    onNavigateBack = backStack::removeLastOrNull
+                    onNavigateBack = backStack::removeLastOrNull,
+                    onNavigateToEdit = { item ->
+                        backStack.add(
+                            Destination.FoodEntry(
+                                title = "Edit Food",
+                                initialFoodItem = item
+                            )
+                        )
+                    }
                 )
             }
 
@@ -103,10 +113,6 @@ fun AppGraph(
                         backStack.removeLastOrNull()
                     }
                 )
-            }
-
-            entry<Destination.Review> {
-                ReviewRoute()
             }
 
             entry<Destination.Scanner>(
@@ -133,9 +139,22 @@ fun AppGraph(
             ) {
                 ScannerRoute(
                     onNavigateBack = { backStack.removeLastOrNull() },
-                    onNavigateToConfirm = { id ->
-                        backStack.add(Destination.Confirm(foodId = id))
+                    onNavigateToFoodEntry = { item ->
+                        backStack.add(
+                            Destination.FoodEntry(
+                                title = "Confirm Food",
+                                initialFoodItem = item
+                            )
+                        )
                     }
+                )
+            }
+
+            entry<Destination.FoodEntry> { destination ->
+                FoodEntryRoute(
+                    title = destination.title,
+                    initialFoodItem = destination.initialFoodItem,
+                    onNavigateBack = backStack::removeLastOrNull
                 )
             }
 
@@ -163,13 +182,6 @@ fun AppGraph(
             ) {
                 SettingRoute(
                     onNavigateBack = backStack::removeLastOrNull
-                )
-            }
-
-            entry<Destination.Confirm> { screen ->
-                ConfirmRoute(
-                    foodItemId = screen.foodId,
-                    onNavigateBack = { backStack.removeLastOrNull() },
                 )
             }
         }

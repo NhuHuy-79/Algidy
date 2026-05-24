@@ -8,6 +8,7 @@ import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
 import com.nhuhuy.algidy.core.designsystem.component.BoxLayout
+import com.nhuhuy.algidy.core.model.food.FoodItem
 import com.nhuhuy.algidy.core.presentation.ObserveEffect
 import com.nhuhuy.algidy.core.presentation.UiResult
 import com.nhuhuy.algidy.feature.scanner.presentation.scanner.component.dialog.ImageProcessingDialog
@@ -23,7 +24,7 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun ScannerRoute(
     onNavigateBack: () -> Unit,
-    onNavigateToConfirm: (foodId: String) -> Unit,
+    onNavigateToFoodEntry: (FoodItem) -> Unit,
 ) {
     val viewModel: ScannerViewModel = koinViewModel()
     val uiState: ScannerUiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -42,12 +43,18 @@ fun ScannerRoute(
     ObserveEffect(viewModel.uiEvent) { event ->
         when (event) {
             is ScannerEvent.OnSuccess -> {
-                onNavigateToConfirm(event.foodId)
+                onAction(ScannerAction.OnFoodItemFound(event.foodId))
             }
 
             is ScannerEvent.OnFailure -> {
 
             }
+        }
+    }
+
+    LaunchedEffect(uiState.foodItemResult) {
+        if (uiState.foodItemResult.name.isNotEmpty()) {
+            onNavigateToFoodEntry(uiState.foodItemResult)
         }
     }
 

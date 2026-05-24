@@ -1,10 +1,10 @@
 plugins {
-    id("algidy.android.library")
+    id("algidy.android.feature")
     alias(libs.plugins.jetbrains.kotlin.serialization)
 }
 
 android {
-    namespace = "com.nhuhuy.algidy.core.model"
+    namespace = "com.nhuhuy.algidy.feature.food_entry"
 }
 
 dependencies {
