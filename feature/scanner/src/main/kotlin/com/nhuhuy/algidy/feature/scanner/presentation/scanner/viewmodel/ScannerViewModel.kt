@@ -170,7 +170,7 @@ class ScannerViewModel(
                             scanResult = UiResult.Idle
                         )
                     }
-                    emitEvent(ScannerEvent.OnSuccess(foodId = foodItem.id))
+                    emitEvent(ScannerEvent.OnSuccess(foodItem = foodItem))
                 }
                 .onFailure { throwable ->
                     val error = throwable.toUiError()
@@ -216,7 +216,7 @@ class ScannerViewModel(
                     Timber.d("Success: $foodItem")
                     foodRepository.addFoodItem(foodItem)
                     _uiState.product { copy(overlay = ScannerOverlay.NONE) }
-                    emitEvent(ScannerEvent.OnSuccess(foodId = foodItem.id))
+                    emitEvent(ScannerEvent.OnSuccess(foodItem = foodItem))
                 }
                 .onFailure { throwable ->
                     val error = throwable.toUiError()
@@ -269,7 +269,7 @@ class ScannerViewModel(
                 _uiState.product {
                     copy(overlay = ScannerOverlay.NONE)
                 }
-                emitEvent(event = ScannerEvent.OnSuccess(foodId = foodItem.id))
+                emitEvent(event = ScannerEvent.OnSuccess(foodItem = foodItem))
             }
             .onFailure {
                 _uiState.product {

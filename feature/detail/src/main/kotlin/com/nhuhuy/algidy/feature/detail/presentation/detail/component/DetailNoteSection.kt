@@ -3,7 +3,6 @@ package com.nhuhuy.algidy.feature.detail.presentation.detail.component
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -34,8 +33,7 @@ fun DetailNoteSection(
     ) {
         Box(
             modifier = Modifier
-                .padding(20.dp)
-                .defaultMinSize(minHeight = 100.dp),
+                .padding(20.dp),
             contentAlignment = Alignment.Center
         ) {
             if (item.notes.isNotBlank()) {
@@ -43,7 +41,7 @@ fun DetailNoteSection(
                     text = item.notes,
                     style = MaterialTheme.typography.bodyLarge,
                     color = MaterialTheme.colorScheme.onSurface,
-                    lineHeight = 26.sp, // Tăng line height để đọc dễ hơn
+                    lineHeight = 26.sp,
                     fontWeight = FontWeight.Medium
                 )
             } else {

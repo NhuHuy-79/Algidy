@@ -45,11 +45,7 @@ class DetailViewModel(
             DetailAction.OnWastedItem -> wasteFoodItem()
             is DetailAction.EditEntryAction -> {
                 when (action) {
-                    is DetailAction.EditEntryAction.OnSave -> onUpdateFoodItem()
                     is DetailAction.EditEntryAction.OnImageChange -> onImageChange(action.uri)
-                    is DetailAction.EditEntryAction.OnEntryAction -> {
-                        // This will be handled in the FoodEntry screen now
-                    }
                 }
             }
 
@@ -65,14 +61,6 @@ class DetailViewModel(
                 newItem = stateValue.detailFoodItem,
                 newImageUri = uri.toString()
             )
-        }
-    }
-
-    private fun onUpdateFoodItem() {
-        viewModelScope.launch {
-            // Updated item is now coming from FoodEntry screen
-            // updateFoodDetailUseCase(updatedItem, null)
-            updateActionState(DetailOverlay.None)
         }
     }
 

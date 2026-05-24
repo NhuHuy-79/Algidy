@@ -42,9 +42,7 @@ fun ScannerRoute(
 
     ObserveEffect(viewModel.uiEvent) { event ->
         when (event) {
-            is ScannerEvent.OnSuccess -> {
-                onAction(ScannerAction.OnFoodItemFound(event.foodId))
-            }
+            is ScannerEvent.OnSuccess -> onNavigateToFoodEntry(event.foodItem)
 
             is ScannerEvent.OnFailure -> {
 
