@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scrim
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -52,6 +53,7 @@ fun InventoryRoute(
     val cameraPermissionState = rememberPermissionState(
         Manifest.permission.CAMERA
     )
+
 
     ObserveEffect(viewModel.uiEvent) { event ->
         when (event) {

@@ -10,6 +10,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import com.nhuhuy.algidy.core.designsystem.component.AppTextField
@@ -18,6 +19,7 @@ import com.nhuhuy.algidy.core.presentation.R
 @Composable
 fun TextFieldDialog(
     modifier: Modifier = Modifier,
+    icon: ImageVector = Icons.Rounded.ModeEdit,
     value: String,
     title: String,
     label: String,
@@ -50,7 +52,7 @@ fun TextFieldDialog(
         },
         icon = {
             Icon(
-                imageVector = Icons.Rounded.ModeEdit,
+                imageVector = icon,
                 contentDescription = null
             )
         },

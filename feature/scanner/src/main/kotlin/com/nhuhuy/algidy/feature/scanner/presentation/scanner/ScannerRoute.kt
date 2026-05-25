@@ -1,6 +1,7 @@
 package com.nhuhuy.algidy.feature.scanner.presentation.scanner
 
 import android.Manifest
+import androidx.compose.material.icons.Icons
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue

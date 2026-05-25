@@ -1,12 +1,7 @@
 package com.nhuhuy.algidy.feature.scanner.presentation.scanner
 
-import android.content.ContentValues
-import android.content.Context
 import android.net.Uri
-import android.provider.MediaStore
 import androidx.camera.core.Camera
-import androidx.camera.core.ImageCapture
-import androidx.camera.core.ImageCaptureException
 import androidx.camera.core.TorchState
 import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.layout.Box
@@ -40,13 +35,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.feature.scanner.domain.model.FoodDate
@@ -55,7 +48,6 @@ import com.nhuhuy.algidy.feature.scanner.presentation.scanner.component.CameraPr
 import com.nhuhuy.algidy.feature.scanner.presentation.scanner.component.LabelEventContainer
 import com.nhuhuy.algidy.feature.scanner.presentation.scanner.component.ScannerControlBar
 import com.nhuhuy.algidy.feature.scanner.presentation.scanner.viewmodel.ScannerUiState
-import timber.log.Timber
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -70,10 +62,9 @@ fun ScannerScreen(
     onImageStaged: (Uri?) -> Unit,
     onClosePress: () -> Unit
 ) {
-    LocalContext.current
     var camera by remember { mutableStateOf<Camera?>(null) }
     val lifecycleOwner = LocalLifecycleOwner.current
-    val imageCapture = remember { ImageCapture.Builder().build() }
+
     LaunchedEffect(camera) {
         camera?.cameraInfo?.torchState?.observe(lifecycleOwner) { state ->
             onFlashPress(state == TorchState.ON)
@@ -82,10 +73,11 @@ fun ScannerScreen(
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
+        containerColor = MaterialTheme.colorScheme.surface,
         topBar = {
             TopAppBar(
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.surface,
+                    containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.9f),
                     titleContentColor = MaterialTheme.colorScheme.onSurface,
                 ),
                 title = {
@@ -132,7 +124,7 @@ fun ScannerScreen(
                     ) {
                         Icon(
                             imageVector = Icons.Rounded.Cameraswitch,
-                            contentDescription = "food-scan"
+                            contentDescription = "Switch mode"
                         )
                     }
 
@@ -179,7 +171,6 @@ fun ScannerScreen(
                     isAutoScanned = uiState.isAutoScanned,
                     mode = uiState.scannerMode,
                     modifier = Modifier.fillMaxSize(),
-                    imageCapture = imageCapture,
                     onCameraReady = { cameraInstance ->
                         camera = cameraInstance
                     },
@@ -217,42 +208,4 @@ fun ScannerScreen(
             }
         }
     }
-}
-
-private fun takePhoto(
-    context: Context,
-    imageCapture: ImageCapture,
-    onImageCaptured: (Uri) -> Unit
-) {
-    val name = "Algidy_${System.currentTimeMillis()}.jpg"
-    val contentValues = ContentValues().apply {
-        put(MediaStore.MediaColumns.DISPLAY_NAME, name)
-        put(MediaStore.MediaColumns.MIME_TYPE, "image/jpeg")
-        put(MediaStore.MediaColumns.RELATIVE_PATH, "Pictures/Algidy-Scans")
-    }
-
-    val outputOptions = ImageCapture.OutputFileOptions
-        .Builder(
-            context.contentResolver,
-            MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-            contentValues
-        )
-        .build()
-
-    imageCapture.takePicture(
-        outputOptions,
-        ContextCompat.getMainExecutor(context),
-        object : ImageCapture.OnImageSavedCallback {
-            override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
-                outputFileResults.savedUri?.let { uri ->
-                    Timber.d("Image saved successfully to: $uri")
-                    onImageCaptured(uri)
-                }
-            }
-
-            override fun onError(exception: ImageCaptureException) {
-                Timber.e(exception, "Photo capture failed")
-            }
-        }
-    )
 }

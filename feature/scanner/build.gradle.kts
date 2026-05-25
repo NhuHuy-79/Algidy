@@ -7,11 +7,12 @@ android {
 }
 
 dependencies {
-    implementation("androidx.camera:camera-core:1.4.0")
-    implementation("androidx.camera:camera-camera2:1.4.0")
-    implementation("androidx.camera:camera-lifecycle:1.4.0")
-    implementation("androidx.camera:camera-view:1.4.0")
-    implementation("androidx.camera:camera-extensions:1.4.0")
+    implementation("androidx.camera:camera-core:1.5.0-alpha05")
+    implementation("androidx.camera:camera-camera2:1.5.0-alpha05")
+    implementation("androidx.camera:camera-lifecycle:1.5.0-alpha05")
+    implementation("androidx.camera:camera-view:1.5.0-alpha05")
+    implementation("androidx.camera:camera-extensions:1.5.0-alpha05")
+    implementation("androidx.camera:camera-compose:1.5.0-alpha05")
 
     // --- ML Kit (Chọn các gói tùy theo nhu cầu của bạn) ---
     // Nhận diện văn bản (OCR) - Rất cần để đọc ngày hết hạn

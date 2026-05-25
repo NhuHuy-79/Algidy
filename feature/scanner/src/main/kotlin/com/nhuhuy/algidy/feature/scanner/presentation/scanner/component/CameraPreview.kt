@@ -1,12 +1,13 @@
 package com.nhuhuy.algidy.feature.scanner.presentation.scanner.component
 
+import android.view.Surface
+import androidx.camera.compose.CameraXViewfinder
 import androidx.camera.core.Camera
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageAnalysis
-import androidx.camera.core.ImageCapture
 import androidx.camera.core.Preview
+import androidx.camera.core.SurfaceRequest
 import androidx.camera.lifecycle.ProcessCameraProvider
-import androidx.camera.view.PreviewView
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.DocumentScanner
@@ -22,7 +23,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.nhuhuy.algidy.core.designsystem.component.AppLabel
@@ -30,7 +30,6 @@ import com.nhuhuy.algidy.feature.scanner.domain.FoodDateScanner
 import com.nhuhuy.algidy.feature.scanner.domain.model.FoodDate
 import com.nhuhuy.algidy.feature.scanner.presentation.scanner.ScannerMode
 import com.nhuhuy.algidy.feature.scanner.presentation.scanner.component.analyzer.BarcodeAnalyzer
-import com.nhuhuy.algidy.feature.scanner.presentation.scanner.component.analyzer.FoodAnalyzer
 import com.nhuhuy.algidy.feature.scanner.presentation.scanner.component.analyzer.FoodDateAnalyzer
 import com.nhuhuy.algidy.feature.scanner.presentation.scanner.viewmodel.LabelEvent
 import kotlinx.coroutines.delay
@@ -43,7 +42,6 @@ fun CameraPreviewContent(
     modifier: Modifier = Modifier,
     isAutoScanned: Boolean = true,
     mode: ScannerMode,
-    imageCapture: ImageCapture,
     onCameraReady: (Camera) -> Unit,
     onResultDetected: (String) -> Unit,
     onDateDetected: (FoodDate) -> Unit,
@@ -51,17 +49,14 @@ fun CameraPreviewContent(
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
     val mainExecutor = remember(context) { ContextCompat.getMainExecutor(context) }
-    var previewView by remember { mutableStateOf<PreviewView?>(null) }
+    
+    // Modern SurfaceRequest handling for Compose
+    var surfaceRequest by remember { mutableStateOf<SurfaceRequest?>(null) }
+    
     val foodDateScanner = koinInject<FoodDateScanner>()
 
     val barcodeAnalyzer = remember {
         BarcodeAnalyzer { barcode -> onResultDetected(barcode) }
-    }
-
-    remember {
-        FoodAnalyzer { label, confidence ->
-            if (confidence > 0.75f) onResultDetected(label)
-        }
     }
 
     val foodDateAnalyzer = remember(foodDateScanner) {
@@ -74,6 +69,7 @@ fun CameraPreviewContent(
             .build()
     }
 
+    // Update analyzer based on mode and auto-scan setting
     LaunchedEffect(mode, isAutoScanned) {
         if (!isAutoScanned) {
             imageAnalysis.clearAnalyzer()
@@ -81,63 +77,57 @@ fun CameraPreviewContent(
         }
         imageAnalysis.setAnalyzer(mainExecutor) { imageProxy ->
             when (mode) {
-                ScannerMode.BARCODE_SCANNER -> {
-                    barcodeAnalyzer.analyze(imageProxy)
-                }
-
-                ScannerMode.FOOD_SCANNER -> {
-                    foodDateAnalyzer.analyze(imageProxy)
-                }
+                ScannerMode.BARCODE_SCANNER -> barcodeAnalyzer.analyze(imageProxy)
+                ScannerMode.FOOD_SCANNER -> foodDateAnalyzer.analyze(imageProxy)
             }
         }
     }
 
-    LaunchedEffect(previewView) {
-        val view = previewView ?: return@LaunchedEffect
-        val cameraProviderFuture = ProcessCameraProvider.getInstance(context)
-
-        cameraProviderFuture.addListener({
-            val cameraProvider = cameraProviderFuture.get()
-
-            val preview = Preview.Builder().build().apply {
-                surfaceProvider = view.surfaceProvider
+    // Camera Provider and Binding
+    LaunchedEffect(lifecycleOwner) {
+        val cameraProvider = ProcessCameraProvider.getInstance(context).get()
+        
+        val preview = Preview.Builder().build().apply {
+            setSurfaceProvider { request ->
+                surfaceRequest = request
             }
+        }
 
-            val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
+        val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
 
-            try {
-                cameraProvider.unbindAll()
-                val cameraInstance = cameraProvider.bindToLifecycle(
-                    lifecycleOwner,
-                    cameraSelector,
-                    preview,
-                    imageCapture,
-                    imageAnalysis
-                )
-                onCameraReady(cameraInstance)
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-        }, mainExecutor)
+        try {
+            cameraProvider.unbindAll()
+            val cameraInstance = cameraProvider.bindToLifecycle(
+                lifecycleOwner,
+                cameraSelector,
+                preview,
+                imageAnalysis
+            )
+            
+            // Set rotation for better accuracy
+            imageAnalysis.targetRotation = Surface.ROTATION_0
+            
+            onCameraReady(cameraInstance)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
     DisposableEffect(Unit) {
         onDispose {
             barcodeAnalyzer.release()
+            imageAnalysis.clearAnalyzer()
         }
     }
 
-    AndroidView(
-        factory = { ctx ->
-            PreviewView(ctx).apply {
-                implementationMode = PreviewView.ImplementationMode.COMPATIBLE
-                previewView = this
-            }
-        },
-        modifier = modifier.fillMaxSize()
-    )
+    // Render using the modern CameraXViewfinder
+    surfaceRequest?.let { request ->
+        CameraXViewfinder(
+            surfaceRequest = request,
+            modifier = modifier.fillMaxSize()
+        )
+    }
 }
-
 
 @Composable
 fun LabelEventContainer(
@@ -182,5 +172,4 @@ fun LabelEventContainer(
             )
         }
     }
-
 }

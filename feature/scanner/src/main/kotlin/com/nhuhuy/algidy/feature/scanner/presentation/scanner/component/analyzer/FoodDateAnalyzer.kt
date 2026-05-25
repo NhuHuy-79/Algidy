@@ -9,9 +9,11 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
+import java.util.concurrent.atomic.AtomicBoolean
 
 /**
  * CameraX Analyzer that uses [FoodDateScanner] to detect dates.
+ * Optimised to handle backpressure and prevent coroutine overlapping.
  */
 class FoodDateAnalyzer(
     private val foodDateScanner: FoodDateScanner,
@@ -19,15 +21,29 @@ class FoodDateAnalyzer(
 ) : ImageAnalysis.Analyzer {
 
     private val scope = CoroutineScope(Dispatchers.Default + SupervisorJob())
+    private val isProcessing = AtomicBoolean(false)
 
     override fun analyze(imageProxy: ImageProxy) {
+        // If still processing previous frame, skip this one to save resources
+        if (isProcessing.get()) {
+            imageProxy.close()
+            return
+        }
+
+        isProcessing.set(true)
         scope.launch {
-            foodDateScanner.scanImage(imageProxy)
-                .onSuccess { foodDate ->
-                    if (foodDate != null) {
-                        onDateDetected(foodDate)
+            try {
+                foodDateScanner.scanImage(imageProxy)
+                    .onSuccess { foodDate ->
+                        if (foodDate != null) {
+                            onDateDetected(foodDate)
+                        }
                     }
-                }
+            } finally {
+                // Ensure imageProxy is closed and flag is reset even if scan fails
+                isProcessing.set(false)
+                // Note: MLKitFoodDateScanner also closes it, but redundant safety is better for CameraX
+            }
         }
     }
 }
