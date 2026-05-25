@@ -24,14 +24,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
-import com.nhuhuy.algidy.capitalize
 import com.nhuhuy.algidy.core.model.food.FoodItem
+import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.core.presentation.utils.toBackgroundColor
 import com.nhuhuy.algidy.core.presentation.utils.toContentColor
+import com.nhuhuy.algidy.core.presentation.utils.toStringRes
+import kotlin.math.abs
 
 @Composable
 fun InventoryFoodItem(
@@ -40,6 +43,16 @@ fun InventoryFoodItem(
     onItemClick: (item: FoodItem) -> Unit
 ) {
     val freshness = item.getFreshnessStatus()
+    val remainingDays = item.getRemainingDays()
+    val remainingDaysText = when {
+        remainingDays == -1 -> stringResource(R.string.freshness_no_expiry)
+        remainingDays < 0 -> stringResource(R.string.freshness_expired, abs(remainingDays))
+        remainingDays == 0 -> stringResource(R.string.freshness_expires_today)
+        remainingDays == 1 -> stringResource(R.string.freshness_one_day_left)
+        remainingDays < 30 -> stringResource(R.string.freshness_days_left, remainingDays)
+        else -> stringResource(R.string.freshness_months_left, remainingDays / 30)
+    }
+
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(8.dp)
@@ -97,9 +110,9 @@ fun InventoryFoodItem(
                         modifier = Modifier.size(12.dp)
                     )
                     Text(
-                        text = item.getRemainingDaysText(),
+                        text = remainingDaysText,
                         style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
-                        maxLines = 1
+                        maxLines = 2
                     )
                 }
             }
@@ -118,10 +131,10 @@ fun InventoryFoodItem(
                     .padding(8.dp)
             ) {
                 Text(
-                    text = item.location.name.capitalize(),
+                    text = stringResource(item.location.toStringRes()),
                     style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
                     modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
-                    maxLines = 1,
+                    maxLines = 2,
                     overflow = TextOverflow.Ellipsis
                 )
             }

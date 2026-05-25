@@ -22,6 +22,34 @@
     <string name="category_dairy_eggs"><![CDATA[Sữa & trứng]]></string>
     <string name="category_others">Khác</string>
 
+    <!-- Storage Locations -->
+    <string name="location_fridge">Ngăn mát</string>
+    <string name="location_freezer">Ngăn đông</string>
+    <string name="location_pantry">Tủ đồ khô</string>
+    <string name="location_other">Khác</string>
+
+    <!-- Units -->
+    <string name="unit_kg">kg</string>
+    <string name="unit_gram">g</string>
+    <string name="unit_liter">l</string>
+    <string name="unit_piece">cái</string>
+    <string name="unit_bottle">chai</string>
+    <string name="unit_other">khác</string>
+
+    <!-- Freshness -->
+    <string name="freshness_no_expiry">Không hết hạn</string>
+    <string name="freshness_expired">Hết hạn %1$s ngày trước</string>
+    <string name="freshness_expires_today">Hết hạn hôm nay</string>
+    <string name="freshness_one_day_left">Còn 1 ngày</string>
+    <string name="freshness_days_left">Còn %1$s ngày</string>
+    <string name="freshness_months_left">Còn %1$s tháng</string>
+
+    <!-- Freshness Status Labels -->
+    <string name="freshness_status_expired">Đã hết hạn</string>
+    <string name="freshness_status_urgent">Cần dùng ngay</string>
+    <string name="freshness_status_warning">Sắp hết hạn</string>
+    <string name="freshness_status_fresh">Tươi mới</string>
+
 
     <!--Biometric Authenticator-->
     <string name="biometric_title">Sinh trắc học Algidy</string>"

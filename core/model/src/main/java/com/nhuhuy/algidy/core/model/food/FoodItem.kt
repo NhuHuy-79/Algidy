@@ -50,20 +50,12 @@ data class FoodItem(
         return (remainingDuration / totalDuration).coerceIn(0f, 1f)
     }
 
-    fun getRemainingDaysText(): String {
-        if (expiryDate == -1L) return "No expiry"
+    fun getRemainingDays(): Int {
+        if (expiryDate == -1L) return -1
 
         val currentTime = System.currentTimeMillis()
         val diff = expiryDate - currentTime
-        val days = (diff / (24 * 60 * 60 * 1000)).toInt()
-
-        return when {
-            days < 0 -> "Expired ${abs(days)}d ago"
-            days == 0 -> "Expires today"
-            days == 1 -> "1 day left"
-            days < 30 -> "$days days left"
-            else -> "${days / 30} months left"
-        }
+        return (diff / (24 * 60 * 60 * 1000)).toInt()
     }
 }
 

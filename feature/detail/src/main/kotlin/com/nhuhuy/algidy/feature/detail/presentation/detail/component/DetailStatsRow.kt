@@ -30,13 +30,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.nhuhuy.algidy.capitalize
 import com.nhuhuy.algidy.core.designsystem.component.CardLayout
 import com.nhuhuy.algidy.core.designsystem.theme.AlgidyTheme
 import com.nhuhuy.algidy.core.model.food.FoodItem
 import com.nhuhuy.algidy.core.model.food.ItemUnit
 import com.nhuhuy.algidy.core.model.food.StorageLocation
 import com.nhuhuy.algidy.core.presentation.R
+import com.nhuhuy.algidy.core.presentation.utils.toStringRes
 import com.nhuhuy.algidy.formatMillisToDate
 
 @Composable
@@ -55,7 +55,7 @@ fun DetailStatsRow(
             StatItem(
                 icon = Icons.Rounded.Scale,
                 label = stringResource(R.string.confirm_label_quantity),
-                value = "${item.quantity} ${item.itemUnit.name.lowercase()}",
+                value = "${item.quantity} ${stringResource(item.itemUnit.toStringRes())}",
                 modifier = Modifier.weight(1f),
                 containerColor = MaterialTheme.colorScheme.surfaceContainerLow
             )
@@ -67,7 +67,7 @@ fun DetailStatsRow(
                     else -> Icons.Rounded.Inventory2
                 },
                 label = stringResource(R.string.confirm_label_location),
-                value = item.location.name.capitalize(),
+                value = stringResource(item.location.toStringRes()),
                 modifier = Modifier.weight(1f),
                 containerColor = MaterialTheme.colorScheme.surfaceContainerLow
             )

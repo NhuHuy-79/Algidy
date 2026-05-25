@@ -25,7 +25,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.nhuhuy.algidy.capitalize
 import com.nhuhuy.algidy.core.designsystem.component.CardLayout
 import com.nhuhuy.algidy.core.designsystem.theme.AlgidyTheme
 import com.nhuhuy.algidy.core.model.food.FoodItem
@@ -35,6 +34,8 @@ import com.nhuhuy.algidy.core.model.food.StorageLocation
 import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.core.presentation.utils.toBackgroundColor
 import com.nhuhuy.algidy.core.presentation.utils.toContentColor
+import com.nhuhuy.algidy.core.presentation.utils.toStringRes
+import kotlin.math.abs
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
@@ -44,12 +45,15 @@ fun DetailHeroCard(
 ) {
     val freshnessProgress = item.calculateFreshnessProgress()
     val freshnessStatus = item.getFreshnessStatus()
+    val remainingDays = item.getRemainingDays()
 
-    when (freshnessStatus) {
-        Freshness.EXPIRED -> MaterialTheme.colorScheme.error
-        Freshness.URGENT -> MaterialTheme.colorScheme.tertiary
-        Freshness.WARNING -> MaterialTheme.colorScheme.secondary
-        Freshness.FRESH -> MaterialTheme.colorScheme.primary
+    val remainingDaysText = when {
+        remainingDays == -1 -> stringResource(R.string.freshness_no_expiry)
+        remainingDays < 0 -> stringResource(R.string.freshness_expired, abs(remainingDays))
+        remainingDays == 0 -> stringResource(R.string.freshness_expires_today)
+        remainingDays == 1 -> stringResource(R.string.freshness_one_day_left)
+        remainingDays < 30 -> stringResource(R.string.freshness_days_left, remainingDays)
+        else -> stringResource(R.string.freshness_months_left, remainingDays / 30)
     }
 
     CardLayout(
@@ -106,7 +110,7 @@ fun DetailHeroCard(
                     )
 
                     Text(
-                        text = item.getRemainingDaysText(),
+                        text = remainingDaysText,
                         style = MaterialTheme.typography.bodyLarge,
                         color = if (freshnessStatus == Freshness.EXPIRED)
                             MaterialTheme.colorScheme.error
@@ -120,7 +124,7 @@ fun DetailHeroCard(
                     modifier = Modifier.padding(top = 4.dp)
                 ) {
                     Text(
-                        text = freshnessStatus.name.lowercase().capitalize(),
+                        text = stringResource(freshnessStatus.toStringRes()),
                         modifier = Modifier.padding(horizontal = 12.dp, vertical = 4.dp),
                         style = MaterialTheme.typography.labelLarge,
                         color = freshnessStatus.toContentColor(),

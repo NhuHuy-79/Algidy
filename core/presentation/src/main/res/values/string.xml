@@ -23,6 +23,34 @@
     <string name="category_dairy_eggs">Dairy &amp; Eggs</string>
     <string name="category_others">Others</string>
 
+    <!-- Storage Locations -->
+    <string name="location_fridge">Fridge</string>
+    <string name="location_freezer">Freezer</string>
+    <string name="location_pantry">Pantry</string>
+    <string name="location_other">Other</string>
+
+    <!-- Units -->
+    <string name="unit_kg">kg</string>
+    <string name="unit_gram">g</string>
+    <string name="unit_liter">l</string>
+    <string name="unit_piece">pc</string>
+    <string name="unit_bottle">bottle</string>
+    <string name="unit_other">other</string>
+
+    <!-- Freshness -->
+    <string name="freshness_no_expiry">No expiry</string>
+    <string name="freshness_expired">Expired %1$sd ago</string>
+    <string name="freshness_expires_today">Expires today</string>
+    <string name="freshness_one_day_left">1 day left</string>
+    <string name="freshness_days_left">%1$s days left</string>
+    <string name="freshness_months_left">%1$s months left</string>
+
+    <!-- Freshness Status Labels -->
+    <string name="freshness_status_expired">Expired</string>
+    <string name="freshness_status_urgent">Urgent</string>
+    <string name="freshness_status_warning">Warning</string>
+    <string name="freshness_status_fresh">Fresh</string>
+
 
     <!--Biometric Authenticator-->
     <string name="biometric_title">Algidy Biometric Lock</string>"
