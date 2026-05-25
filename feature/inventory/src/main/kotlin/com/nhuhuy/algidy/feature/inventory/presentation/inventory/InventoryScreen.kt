@@ -26,13 +26,12 @@ import com.nhuhuy.algidy.core.model.food.FoodItem
 import com.nhuhuy.algidy.core.model.food.Freshness
 import com.nhuhuy.algidy.core.model.food.StorageLocation
 import com.nhuhuy.algidy.core.presentation.component.CategoryFilterGroup
-import com.nhuhuy.algidy.core.presentation.component.CategoryGroup
+import com.nhuhuy.algidy.core.presentation.model.CategoryUiModel
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.InventoryTabRow
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.InventoryTopBar
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.grid_list.InventoryCategoryList
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.grid_list.InventoryFoodItem
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.pager.InventoryPager
-import com.nhuhuy.algidy.core.presentation.model.CategoryUiModel
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryAction
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryCombineState
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryResultState
@@ -158,6 +157,10 @@ fun List<FoodItem>.getFilteredAndSortedList(
         CategoryUiModel.All -> this
         is CategoryUiModel.ByCategory -> this.filter {
             it.categoryId == category.data.id
+        }
+
+        CategoryUiModel.Uncategorized -> this.filter {
+            it.categoryId.isEmpty()
         }
     }
 

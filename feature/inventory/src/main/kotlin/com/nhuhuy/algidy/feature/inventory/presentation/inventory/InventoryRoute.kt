@@ -1,5 +1,6 @@
 package com.nhuhuy.algidy.feature.inventory.presentation.inventory
 
+import android.Manifest
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,6 +15,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.isGranted
+import com.google.accompanist.permissions.rememberPermissionState
 import com.nhuhuy.algidy.core.designsystem.component.AlgidyAlertDialog
 import com.nhuhuy.algidy.core.designsystem.component.BoxLayout
 import com.nhuhuy.algidy.core.presentation.ObserveEffect
@@ -29,6 +33,7 @@ import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.Inve
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryViewModel
 import org.koin.androidx.compose.koinViewModel
 
+@OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun InventoryRoute(
     onNavigateToDetail: (id: String) -> Unit,
@@ -44,6 +49,10 @@ fun InventoryRoute(
     val inventoryResultState by viewModel.resultState.collectAsStateWithLifecycle()
     val onAction = viewModel::onAction
 
+    val cameraPermissionState = rememberPermissionState(
+        Manifest.permission.CAMERA
+    )
+
     ObserveEffect(viewModel.uiEvent) { event ->
         when (event) {
             InventoryEvent.NavigateToFoodEntry -> onNavigateToAddFood()
@@ -51,7 +60,13 @@ fun InventoryRoute(
             is InventoryEvent.NavigateToDetail -> onNavigateToDetail(event.id)
             InventoryEvent.NavigateToSearch -> onNavigateToSearch()
             InventoryEvent.NavigateToSetting -> onNavigateToSetting()
-            InventoryEvent.NavigateToCamera -> onNavigateToCamera()
+            InventoryEvent.NavigateToCamera -> {
+                if (!cameraPermissionState.status.isGranted) {
+                    cameraPermissionState.launchPermissionRequest()
+                } else {
+                    onNavigateToCamera()
+                }
+            }
         }
     }
 

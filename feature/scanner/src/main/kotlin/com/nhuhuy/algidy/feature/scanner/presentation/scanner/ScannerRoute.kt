@@ -1,8 +1,10 @@
 package com.nhuhuy.algidy.feature.scanner.presentation.scanner
 
+import android.Manifest
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
@@ -10,10 +12,21 @@ import com.google.accompanist.permissions.rememberPermissionState
 import com.nhuhuy.algidy.core.designsystem.component.BoxLayout
 import com.nhuhuy.algidy.core.model.food.FoodItem
 import com.nhuhuy.algidy.core.presentation.ObserveEffect
+import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.core.presentation.UiResult
+import com.nhuhuy.algidy.core.presentation.component.TextFieldDialog
 import com.nhuhuy.algidy.feature.scanner.presentation.scanner.component.dialog.ImageProcessingDialog
 import com.nhuhuy.algidy.feature.scanner.presentation.scanner.component.dialog.ScannerLoadingDialog
+import com.nhuhuy.algidy.feature.scanner.presentation.scanner.viewmodel.AddBarcodeDialogAction
 import com.nhuhuy.algidy.feature.scanner.presentation.scanner.viewmodel.ScannerAction
+import com.nhuhuy.algidy.feature.scanner.presentation.scanner.viewmodel.ScannerAction.OnAutoScanChange
+import com.nhuhuy.algidy.feature.scanner.presentation.scanner.viewmodel.ScannerAction.OnDateDetected
+import com.nhuhuy.algidy.feature.scanner.presentation.scanner.viewmodel.ScannerAction.OnDismissRequest
+import com.nhuhuy.algidy.feature.scanner.presentation.scanner.viewmodel.ScannerAction.OnFlashChange
+import com.nhuhuy.algidy.feature.scanner.presentation.scanner.viewmodel.ScannerAction.OnImageStaged
+import com.nhuhuy.algidy.feature.scanner.presentation.scanner.viewmodel.ScannerAction.OnProcessStagedImage
+import com.nhuhuy.algidy.feature.scanner.presentation.scanner.viewmodel.ScannerAction.OnResultDetected
+import com.nhuhuy.algidy.feature.scanner.presentation.scanner.viewmodel.ScannerAction.OnScannerModeChange
 import com.nhuhuy.algidy.feature.scanner.presentation.scanner.viewmodel.ScannerEvent
 import com.nhuhuy.algidy.feature.scanner.presentation.scanner.viewmodel.ScannerOverlay
 import com.nhuhuy.algidy.feature.scanner.presentation.scanner.viewmodel.ScannerUiState
@@ -31,7 +44,7 @@ fun ScannerRoute(
     val onAction = viewModel::onAction
 
     val cameraPermissionState = rememberPermissionState(
-        android.Manifest.permission.CAMERA
+        Manifest.permission.CAMERA
     )
 
     LaunchedEffect(Unit) {
@@ -57,38 +70,37 @@ fun ScannerRoute(
     }
 
     BoxLayout {
-        if (cameraPermissionState.status.isGranted) {
-            ScannerScreen(
-                uiState = uiState,
-                onClosePress = onNavigateBack,
-                onFlashPress = { isFlashOn: Boolean ->
-                    onAction(ScannerAction.OnFlashChange(isFlashOn))
-                },
-                onAutoScanPress = { autoScanned: Boolean ->
-                    onAction(ScannerAction.OnAutoScanChange(autoScanned))
-                },
-                onResultDetected = { barcodeString: String ->
-                    onAction(ScannerAction.OnResultDetected(barcodeString))
-                },
-                onDateDetected = { foodDate ->
-                    onAction(ScannerAction.OnDateDetected(foodDate))
-                },
-                onSwitchMode = { mode ->
-                    onAction(ScannerAction.OnScannerModeChange(mode = mode))
-                },
-                onImageStaged = { uri ->
-                    onAction(ScannerAction.OnImageStaged(uri))
-                }
-            )
-        } else {
-            // Có thể hiển thị màn hình yêu cầu quyền ở đây nếu muốn
-        }
+        ScannerScreen(
+            uiState = uiState,
+            onClosePress = onNavigateBack,
+            onFlashPress = { isFlashOn: Boolean ->
+                onAction(OnFlashChange(isFlashOn))
+            },
+            onAutoScanPress = { autoScanned: Boolean ->
+                onAction(OnAutoScanChange(autoScanned))
+            },
+            onResultDetected = { barcodeString: String ->
+                onAction(OnResultDetected(barcodeString))
+            },
+            onDateDetected = { foodDate ->
+                onAction(OnDateDetected(foodDate))
+            },
+            onSwitchMode = { mode ->
+                onAction(OnScannerModeChange(mode = mode))
+            },
+            onImageStaged = { uri ->
+                onAction(OnImageStaged(uri))
+            },
+            onAddBarcodeManually = {
+                onAction(ScannerAction.OnBarcodeAddManual)
+            }
+        )
 
         when (uiState.overlay) {
             ScannerOverlay.NONE -> Unit
             ScannerOverlay.LOADING_DIALOG -> {
                 ScannerLoadingDialog(
-                    onDismissRequest = { onAction(ScannerAction.OnDismissRequest) }
+                    onDismissRequest = { onAction(OnDismissRequest) }
                 )
             }
             ScannerOverlay.PROCESSING_DIALOG -> {
@@ -96,13 +108,29 @@ fun ScannerRoute(
                     imageUri = uiState.stagedImageUri!!,
                     isProcessing = uiState.scanResult == UiResult.Loading,
                     onDismiss = {
-                        onAction(ScannerAction.OnDismissRequest)
+                        onAction(OnDismissRequest)
                     },
                     onScanClick = {
-                        onAction(ScannerAction.OnProcessStagedImage(uiState.stagedImageUri!!))
+                        onAction(OnProcessStagedImage(uiState.stagedImageUri!!))
                     }
                 )
             }
+
+            ScannerOverlay.BARCODE_DIALOG -> TextFieldDialog(
+                value = uiState.barCodeInput,
+                title = stringResource(R.string.scanner_barcode_dialog_title),
+                label = stringResource(R.string.scanner_barcode_label),
+                confirmText = stringResource(R.string.scanner_barcode_confirm),
+                onValueChange = { value ->
+                    onAction(AddBarcodeDialogAction.OnValueChange(value))
+                },
+                onDismiss = {
+                    onAction(OnDismissRequest)
+                },
+                onConfirm = {
+                    onAction(AddBarcodeDialogAction.OnConfirm)
+                }
+            )
         }
     }
 }

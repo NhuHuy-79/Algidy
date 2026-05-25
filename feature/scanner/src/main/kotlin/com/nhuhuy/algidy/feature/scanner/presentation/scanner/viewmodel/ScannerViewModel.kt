@@ -115,6 +115,46 @@ class ScannerViewModel(
                     }
                 }
             }
+
+            ScannerAction.OnBarcodeAddManual -> {
+                _uiState.product {
+                    copy(
+                        overlay = ScannerOverlay.BARCODE_DIALOG,
+                        isAutoScanned = false
+                    )
+                }
+            }
+
+            is AddBarcodeDialogAction -> onBarcodeDialogAction(action)
+        }
+    }
+
+    private fun onBarcodeDialogAction(action: AddBarcodeDialogAction) {
+        viewModelScope.launch {
+            when (action) {
+                AddBarcodeDialogAction.OnConfirm -> {
+                    val input = currentState.barCodeInput
+                    _uiState.product {
+                        copy(overlay = ScannerOverlay.LOADING_DIALOG)
+                    }
+                    scanBarcodeUseCase.fromBarcode(input)
+                        .onSuccess { foodItem ->
+                            _uiState.product {
+                                copy(overlay = ScannerOverlay.NONE)
+                            }
+                            emitEvent(ScannerEvent.OnSuccess(foodItem = foodItem))
+                        }
+                        .onFailure {
+                            _uiState.product {
+                                copy(overlay = ScannerOverlay.NONE, labelEvent = LabelEvent.FAILURE)
+                            }
+                        }
+                }
+
+                is AddBarcodeDialogAction.OnValueChange -> {
+                    _uiState.product { copy(barCodeInput = action.value) }
+                }
+            }
         }
     }
 

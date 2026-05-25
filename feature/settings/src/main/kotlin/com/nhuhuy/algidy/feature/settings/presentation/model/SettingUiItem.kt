@@ -1,6 +1,5 @@
 package com.nhuhuy.algidy.feature.settings.presentation.model
 
-import android.net.Uri
 import androidx.compose.runtime.Immutable
 
 sealed interface SettingUiItem
@@ -13,7 +12,7 @@ data class SettingClickableItem(
 
 sealed interface ClickableType {
     data object Export : ClickableType
-    data class Import(val uri: Uri) : ClickableType
+    data object Import : ClickableType
     data object DeleteAll : ClickableType
     data object AboutApp : ClickableType
 }

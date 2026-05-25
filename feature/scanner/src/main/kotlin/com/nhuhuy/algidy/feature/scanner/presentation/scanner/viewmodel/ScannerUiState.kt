@@ -10,6 +10,7 @@ import com.nhuhuy.algidy.feature.scanner.presentation.scanner.ScannerMode
 @Immutable
 data class ScannerUiState(
     val barCodeString: String = "",
+    val barCodeInput: String = "",
     val scannerMode: ScannerMode = ScannerMode.BARCODE_SCANNER,
     val isAutoScanned: Boolean = true,
     val isFlashOn: Boolean = false,
@@ -27,6 +28,6 @@ enum class LabelEvent {
 }
 
 enum class ScannerOverlay{
-    NONE, LOADING_DIALOG, PROCESSING_DIALOG
+    NONE, LOADING_DIALOG, PROCESSING_DIALOG, BARCODE_DIALOG
 }
 

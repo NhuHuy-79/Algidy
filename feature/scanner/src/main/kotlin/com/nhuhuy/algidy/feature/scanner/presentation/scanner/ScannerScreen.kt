@@ -62,6 +62,7 @@ import timber.log.Timber
 fun ScannerScreen(
     uiState: ScannerUiState,
     onSwitchMode: (ScannerMode) -> Unit,
+    onAddBarcodeManually: () -> Unit,
     onFlashPress: (Boolean) -> Unit,
     onAutoScanPress: (Boolean) -> Unit,
     onResultDetected: (String) -> Unit,
@@ -69,7 +70,7 @@ fun ScannerScreen(
     onImageStaged: (Uri?) -> Unit,
     onClosePress: () -> Unit
 ) {
-    val context = LocalContext.current
+    LocalContext.current
     var camera by remember { mutableStateOf<Camera?>(null) }
     val lifecycleOwner = LocalLifecycleOwner.current
     val imageCapture = remember { ImageCapture.Builder().build() }
@@ -157,17 +158,7 @@ fun ScannerScreen(
             ScannerControlBar(
                 modifier = Modifier.safeDrawingPadding(),
                 isAutoScanned = uiState.isAutoScanned,
-                stagedImageUri = uiState.stagedImageUri,
-                onCaptureClick = {
-                    takePhoto(
-                        context = context,
-                        imageCapture = imageCapture,
-                        onImageCaptured = { uri ->
-                            Timber.d("Photo captured: $uri")
-                            onImageStaged(uri)
-                        }
-                    )
-                },
+                onAddManualBarcode = onAddBarcodeManually,
                 onAutoScanChange = onAutoScanPress,
                 onImageStaged = onImageStaged
             )

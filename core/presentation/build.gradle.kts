@@ -16,6 +16,7 @@ dependencies {
     api(libs.androidx.lifecycle.runtime.ktx)
     api(libs.androidx.activity.compose)
     api(libs.koin.compose)
+    api(libs.accompanist.permissions)
 
     //Immutable Collection
     api(libs.kotlinx.collections.immutable)

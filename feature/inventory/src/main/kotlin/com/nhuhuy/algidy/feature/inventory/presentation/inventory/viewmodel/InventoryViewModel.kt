@@ -3,6 +3,7 @@ package com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel
 import androidx.lifecycle.viewModelScope
 import com.nhuhuy.algidy.core.data.util.product
 import com.nhuhuy.algidy.core.presentation.model.CategoryUiModel
+import com.nhuhuy.algidy.core.presentation.model.toUiModel
 import com.nhuhuy.algidy.core.presentation.viewmodel.BaseViewModel
 import com.nhuhuy.algidy.feature.inventory.domain.usecase.ObserveSettingDataUseCase
 import com.nhuhuy.algidy.feature.inventory.domain.usecase.category.AddCategoryUseCase
@@ -39,7 +40,7 @@ class InventoryViewModel(
     ) { categoryEnabled, categories ->
         InventoryCombineState(
             categoryEnabled = categoryEnabled,
-            categories = categories.map { CategoryUiModel.ByCategory(it) }
+            categories = categories.toUiModel()
         )
     }.stateIn(
         scope = viewModelScope,

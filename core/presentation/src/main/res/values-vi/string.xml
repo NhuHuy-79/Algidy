@@ -14,6 +14,7 @@
     <string name="action_new">Mới</string>
 
     <string name="category_all">Tất cả</string>
+    <string name="category_uncategorized">Không phân loại</string>
     <string name="category_vegetables">Rau củ</string>
     <string name="category_fruits">Trái cây</string>
     <string name="category_meat">Thịt</string>
@@ -126,6 +127,7 @@
     <string name="scanner_label_failure">Quét thất bại</string>
 
     <!-- Analytics Screen -->
+    <string name="scanner_barcode_confirm">Xác nhận</string>
     <string name="analytics_card">Bạn có</string>
     <string name="analytics_card_2">tuần này.</string>
     <string name="analytics_title">Thống kê</string>
@@ -179,5 +181,7 @@
     <string name="import_fail">Tải dữ liệu thất bại!</string>
     <string name="export_success">Dữ liệu của bạn đã được xuất ra!</string>
     <string name="export_failed">Xuất dữ liệu thất bại!</string>
+    <string name="scanner_barcode_dialog_title">Nhập mã của bạn</string>
+    <string name="scanner_barcode_label">Mã vạch</string>
 
 </resources>

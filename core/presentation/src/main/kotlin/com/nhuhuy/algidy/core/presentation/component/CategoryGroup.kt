@@ -86,5 +86,6 @@ fun CategoryUiModel.toUiText(): String {
     return when (this) {
         CategoryUiModel.All -> stringResource(R.string.category_all)
         is CategoryUiModel.ByCategory -> this.data.name
+        CategoryUiModel.Uncategorized -> stringResource(R.string.category_uncategorized)
     }
 }

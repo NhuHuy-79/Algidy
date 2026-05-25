@@ -15,6 +15,7 @@
     <string name="action_new">New</string>
 
     <string name="category_all">All</string>
+    <string name="category_uncategorized">Uncategorized</string>
     <string name="category_vegetables">Vegetables</string>
     <string name="category_fruits">Fruits</string>
     <string name="category_meat">Meat</string>
@@ -125,6 +126,10 @@
     <string name="scanner_label_scanning">Scanning…</string>
     <string name="scanner_label_auto_off">Auto Scan Off</string>
     <string name="scanner_label_failure">Scan Failed</string>
+
+    <string name="scanner_barcode_dialog_title">Enter your barcode</string>
+    <string name="scanner_barcode_label">Barcode</string>
+    <string name="scanner_barcode_confirm">Confirm</string>
 
     <!-- Analytics Screen -->
     <string name="analytics_card">You have</string>

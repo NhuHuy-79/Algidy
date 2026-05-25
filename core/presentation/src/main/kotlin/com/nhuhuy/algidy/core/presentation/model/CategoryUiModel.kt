@@ -7,17 +7,13 @@ import com.nhuhuy.algidy.core.model.food.FoodCategory
 sealed interface CategoryUiModel {
     data object All : CategoryUiModel
     data class ByCategory(val data: FoodCategory) : CategoryUiModel
+    data object Uncategorized : CategoryUiModel
 }
 
 
 fun List<FoodCategory>.toUiModel(): List<CategoryUiModel> {
     return listOf(CategoryUiModel.All) + this.map {
         CategoryUiModel.ByCategory(it)
-    }
+    } + CategoryUiModel.Uncategorized
 }
 
-fun List<FoodCategory>.toByCategoryModel(): List<CategoryUiModel.ByCategory> {
-    return this.map {
-        CategoryUiModel.ByCategory(it)
-    }
-}

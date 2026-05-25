@@ -28,5 +28,4 @@ dependencies {
 
     implementation("com.google.mlkit:image-labeling:17.0.9")
     implementation("com.google.mlkit:entity-extraction:16.0.0-beta5")
-    implementation(libs.accompanist.permissions)
 }

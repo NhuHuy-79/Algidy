@@ -123,8 +123,8 @@ class SettingsViewModel(
             when (action.type) {
                 ToggleType.BIOMETRIC_AUTH -> setToggleSettingUseCase.toggleBiometricLock(action.enabled)
                 ToggleType.DYNAMIC_COLOR -> setToggleSettingUseCase.toggleDynamicColor(action.enabled)
-                ToggleType.NOTIFICATION -> setToggleSettingUseCase.toggleCategoryGroup(action.enabled)
-                ToggleType.CATEGORY_GROUP -> setToggleSettingUseCase.toggleNotifications(action.enabled)
+                ToggleType.NOTIFICATION -> setToggleSettingUseCase.toggleNotifications(action.enabled)
+                ToggleType.CATEGORY_GROUP -> setToggleSettingUseCase.toggleCategoryGroup(action.enabled)
             }
         }
     }

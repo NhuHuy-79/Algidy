@@ -25,6 +25,8 @@ import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.FilledTonalIconButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButtonDefaults
+import androidx.compose.material3.MaterialShapes
+import androidx.compose.material3.toShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -33,7 +35,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
+import com.nhuhuy.algidy.core.designsystem.R
 
 @Composable
 fun CaptureButton(
@@ -128,7 +133,7 @@ fun AutoScanButton(
 
     Box(
         modifier = modifier
-            .size(56.dp)
+            .size(72.dp)
             .clickable(
                 interactionSource = remember { MutableInteractionSource() },
                 indication = null,
@@ -156,18 +161,38 @@ fun AutoScanButton(
                 progress = { 1f },
                 color = disableContainerColor,
                 trackColor = Color.Transparent,
-                wavelength = 15.dp,
+                wavelength = 24.dp,
                 waveSpeed = 10.dp,
             )
         }
 
         Box(
             modifier = Modifier
-                .size(16.dp)
+                .size(24.dp)
                 .background(
                     color = if (autoScanning) enableContainerColor else disableContainerColor,
                     shape = RoundedCornerShape(size = innerShapeCorner)
                 )
+        )
+    }
+}
+
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+fun AddManuallyBarcodeButton(
+    modifier: Modifier = Modifier,
+    enable: Boolean = true,
+    onClick: () -> Unit,
+) {
+    FilledTonalIconButton(
+        enabled = enable,
+        modifier = modifier,
+        onClick = onClick,
+        shape = MaterialShapes.Cookie4Sided.toShape()
+    ) {
+        Icon(
+            imageVector = ImageVector.vectorResource(R.drawable.ic_barcode),
+            contentDescription = null
         )
     }
 }

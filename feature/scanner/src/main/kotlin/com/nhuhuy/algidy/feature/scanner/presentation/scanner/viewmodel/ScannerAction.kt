@@ -15,6 +15,12 @@ sealed interface ScannerAction : UiAction {
     data class OnDateDetected(val foodDate: FoodDate) : ScannerAction
     data class OnFoodItemSaved(val foodItem: FoodItem) : ScannerAction
     data class OnImageStaged(val uri: Uri?) : ScannerAction
+    data object OnBarcodeAddManual : ScannerAction
     data class OnProcessStagedImage(val uri: Uri) : ScannerAction
     data class OnFoodItemFound(val foodId: String) : ScannerAction
+}
+
+sealed interface AddBarcodeDialogAction : ScannerAction {
+    data class OnValueChange(val value: String) : AddBarcodeDialogAction
+    data object OnConfirm : AddBarcodeDialogAction
 }

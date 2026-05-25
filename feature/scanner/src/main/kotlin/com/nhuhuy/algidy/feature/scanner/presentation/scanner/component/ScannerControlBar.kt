@@ -19,9 +19,8 @@ import com.nhuhuy.algidy.core.presentation.PhotoPickerContainer
 fun ScannerControlBar(
     modifier: Modifier = Modifier,
     isAutoScanned: Boolean,
-    stagedImageUri: Uri?,
     onImageStaged: (Uri?) -> Unit,
-    onCaptureClick: () -> Unit,
+    onAddManualBarcode: () -> Unit,
     onAutoScanChange: (Boolean) -> Unit
 ) {
     Row(
@@ -42,19 +41,17 @@ fun ScannerControlBar(
             )
         }
 
-        CaptureButton(
-            modifier = Modifier.size(96.dp),
-            onCapturePress = if (stagedImageUri == null) onCaptureClick else ({}),
-            enable = stagedImageUri == null,
-            contentColor = MaterialTheme.colorScheme.onSecondaryContainer
-        )
-
         AutoScanButton(
-            modifier = Modifier.size(56.dp),
+            modifier = Modifier.size(96.dp),
             autoScanning = isAutoScanned,
             onClick = onAutoScanChange,
             enableContainerColor = MaterialTheme.colorScheme.primary,
             disableContainerColor = MaterialTheme.colorScheme.onSecondaryContainer
+        )
+
+        AddManuallyBarcodeButton(
+            modifier = Modifier.size(56.dp),
+            onClick = onAddManualBarcode
         )
     }
 }

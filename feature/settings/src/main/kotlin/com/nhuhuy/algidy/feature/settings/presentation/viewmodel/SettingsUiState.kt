@@ -1,6 +1,5 @@
 package com.nhuhuy.algidy.feature.settings.presentation.viewmodel
 
-import android.net.Uri
 import androidx.compose.runtime.Immutable
 import com.nhuhuy.algidy.core.model.setting.AppFont
 import com.nhuhuy.algidy.core.model.setting.AppLanguage
@@ -13,8 +12,6 @@ import com.nhuhuy.algidy.feature.settings.presentation.model.ToggleType
 
 @Immutable
 data class SettingsUiState(
-    val selectedUri: Uri? = null,
-
     val notificationGranted: Boolean = true,
     val biometricSupported: Boolean = true,
     val dynamicColorSupported: Boolean = true,
@@ -71,7 +68,7 @@ data class SettingsUiState(
     val clickableItems: List<SettingClickableItem>
         get() = listOf(
             SettingClickableItem(type = ClickableType.Export),
-            SettingClickableItem(type = ClickableType.Import(selectedUri ?: Uri.EMPTY)),
+            SettingClickableItem(type = ClickableType.Import),
             SettingClickableItem(type = ClickableType.DeleteAll),
             SettingClickableItem(type = ClickableType.AboutApp)
         )
