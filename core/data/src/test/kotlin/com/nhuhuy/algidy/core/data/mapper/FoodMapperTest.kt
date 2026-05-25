@@ -42,7 +42,6 @@ class FoodMapperTest {
             imageUri = "uri",
             isFavorite = true,
             notes = "note",
-            category = DefaultFoodCategory.DAIRY_EGGS,
             status = FoodStatus.ACTIVE,
             resolvedDate = null
         )
@@ -59,7 +58,6 @@ class FoodMapperTest {
         assertEquals(entity.imageUri, domain.imageUri)
         assertEquals(entity.isFavorite, domain.isFavorite)
         assertEquals(entity.notes, domain.notes)
-        assertEquals(entity.category, domain.defaultFoodCategory)
         assertEquals(entity.status, domain.status)
     }
 
@@ -77,7 +75,7 @@ class FoodMapperTest {
             imageUri = "uri",
             isFavorite = true,
             notes = "note",
-            defaultFoodCategory = DefaultFoodCategory.DAIRY_EGGS,
+            defaultFoodCategory = DefaultFoodCategory.OTHERS,
             status = FoodStatus.ACTIVE,
             resolvedDate = null
         )
@@ -88,13 +86,12 @@ class FoodMapperTest {
         assertEquals(domain.name, entity.name)
         assertEquals(domain.location, entity.location)
         assertEquals(domain.quantity, entity.quantity, 0.0)
-        assertEquals(domain.itemUnit, entity.itemUnit)
+        assertEquals(entity.itemUnit, entity.itemUnit)
         assertEquals(domain.purchaseDate, entity.purchaseDate)
         assertEquals(domain.expiryDate, entity.expiryDate)
         assertEquals(domain.imageUri, entity.imageUri)
         assertEquals(domain.isFavorite, entity.isFavorite)
         assertEquals(domain.notes, entity.notes)
-        assertEquals(domain.defaultFoodCategory, entity.category)
         assertEquals(domain.status, entity.status)
     }
 }

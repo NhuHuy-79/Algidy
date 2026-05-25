@@ -62,8 +62,7 @@ class FoodRepositoryImplTest {
             expiryDate = 2000L,
             imageUri = "uri",
             isFavorite = false,
-            notes = "",
-            category = DefaultFoodCategory.DAIRY_EGGS
+            notes = ""
         )
         coEvery { foodDao.getFoodById(foodId) } returns entity
 
