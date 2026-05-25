@@ -64,7 +64,7 @@
     <string name="inventory_menu_filter">Lọc</string>
 
     <string name="delete_category_dialog_title">Xóa thể loại\?</string>
-    <string name="delete_category_dialog_content">Danh mục này và tất cả các mặt hàng thực phẩm của nó sẽ bị xóa.</string>    
+    <string name="delete_category_dialog_content">Danh mục này và tất cả các mặt hàng thực phẩm của nó sẽ bị xóa.</string>
     <string name="delete_category_dialog_confirm">Xóa</string>
 
     <!--Grid Category-->
@@ -126,12 +126,24 @@
     <string name="scanner_label_auto_off">Đã tắt tự động quét</string>
     <string name="scanner_label_failure">Quét thất bại</string>
 
-    <!-- Analytics Screen -->
+    <string name="scanner_barcode_dialog_title">Nhập mã của bạn</string>
+    <string name="scanner_barcode_label">Mã vạch</string>
     <string name="scanner_barcode_confirm">Xác nhận</string>
+    <string name="scanner_preview_title">Xem trước</string>
+    <string name="scanner_preview_btn">Bắt đầu quét</string>
+
+    <!-- Analytics Screen -->
     <string name="analytics_card">Bạn có</string>
     <string name="analytics_card_2">tuần này.</string>
+    <plurals name="analytics_product_count">
+        <item quantity="other">Bạn có %1$d thực phẩm trong tuần này</item>
+    </plurals>
     <string name="analytics_title">Thống kê</string>
     <string name="analytics_subtitle">Tổng quan về lãng phí và tác động</string>
+    <string name="analytics_card_consumed">Tiêu thụ</string>
+    <string name="analytics_card_wasted">Lãng phí</string>
+    <string name="analytics_card_others">Khác</string>
+    <string name="analytics_card_spoilage_history">Lịch sử Lãng Phí</string>
     <string name="analytics_card_waste_location">Thực phẩm lãng phí theo vị trí</string>
     <string name="analytics_card_weekly_freshness">Độ tươi mới trong tuần</string>
 
@@ -181,7 +193,5 @@
     <string name="import_fail">Tải dữ liệu thất bại!</string>
     <string name="export_success">Dữ liệu của bạn đã được xuất ra!</string>
     <string name="export_failed">Xuất dữ liệu thất bại!</string>
-    <string name="scanner_barcode_dialog_title">Nhập mã của bạn</string>
-    <string name="scanner_barcode_label">Mã vạch</string>
 
 </resources>

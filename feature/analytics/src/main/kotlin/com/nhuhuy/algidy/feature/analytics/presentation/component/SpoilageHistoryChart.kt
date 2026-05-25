@@ -9,7 +9,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.nhuhuy.algidy.core.data.R
 import com.nhuhuy.algidy.core.designsystem.component.CardLayout
 import com.nhuhuy.algidy.core.designsystem.theme.AlgidyTheme
 import com.nhuhuy.algidy.feature.analytics.presentation.viewmodel.SpoilageChartUiModel
@@ -30,7 +32,7 @@ fun SpoilageHistoryChart(
 ) {
     CardLayout(
         modifier = modifier,
-        title = "Spoilage History",
+        title = stringResource(com.nhuhuy.algidy.core.presentation.R.string.analytics_card_spoilage_history),
         icon = Icons.Rounded.StackedLineChart
     ) {
         LineChart(
@@ -38,7 +40,7 @@ fun SpoilageHistoryChart(
                 .fillMaxSize(),
             data = listOf(
                 Line(
-                    label = "Wasted",
+                    label = stringResource(com.nhuhuy.algidy.core.presentation.R.string.analytics_card_wasted),
                     values = uiModel.wastedValues,
                     color = SolidColor(AlgidyTheme.extendedColors.wasted),
                     firstGradientFillColor = AlgidyTheme.extendedColors.wasted.copy(alpha = .5f),
@@ -48,7 +50,7 @@ fun SpoilageHistoryChart(
                     drawStyle = DrawStyle.Stroke(width = 2.dp),
                 ),
                 Line(
-                    label = "Consumed",
+                    label = stringResource(com.nhuhuy.algidy.core.presentation.R.string.analytics_card_consumed),
                     values = uiModel.consumedValues,
                     color = SolidColor(AlgidyTheme.extendedColors.consumed),
                     firstGradientFillColor = AlgidyTheme.extendedColors.consumed.copy(alpha = .5f),

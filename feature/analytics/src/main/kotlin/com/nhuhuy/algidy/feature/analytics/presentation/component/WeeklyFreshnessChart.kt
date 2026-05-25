@@ -15,10 +15,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.nhuhuy.algidy.core.designsystem.component.CardLayout
 import com.nhuhuy.algidy.core.model.food.Freshness
+import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.core.presentation.utils.toBackgroundColor
 import com.nhuhuy.algidy.core.presentation.utils.toContentColor
 import com.nhuhuy.algidy.feature.analytics.presentation.viewmodel.ExpiryChartUiModel
@@ -44,7 +46,7 @@ fun WeeklyFreshnessChart(
         CardLayout(
             modifier = modifier,
             icon = Icons.Rounded.BarChart,
-            title = "Weekly Freshness"
+            title = stringResource(R.string.analytics_card_weekly_freshness)
         ) {
             ColumnChart(
                 modifier = Modifier
@@ -97,7 +99,7 @@ fun ExpiryChartUiModel.toBarData(filter: Freshness): List<Bars> {
         Bars(
             label = labels[index],
             values = items
-                .filter { it.type == filter } // Lọc dữ liệu tại đây
+                .filter { it.type == filter }
                 .map { freshnessData ->
                     Bars.Data(
                         label = freshnessData.type.name,

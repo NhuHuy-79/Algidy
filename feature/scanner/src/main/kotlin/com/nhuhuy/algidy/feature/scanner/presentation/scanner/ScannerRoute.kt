@@ -1,7 +1,6 @@
 package com.nhuhuy.algidy.feature.scanner.presentation.scanner
 
 import android.Manifest
-import androidx.compose.material.icons.Icons
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -14,9 +13,7 @@ import com.nhuhuy.algidy.core.designsystem.component.BoxLayout
 import com.nhuhuy.algidy.core.model.food.FoodItem
 import com.nhuhuy.algidy.core.presentation.ObserveEffect
 import com.nhuhuy.algidy.core.presentation.R
-import com.nhuhuy.algidy.core.presentation.UiResult
 import com.nhuhuy.algidy.core.presentation.component.TextFieldDialog
-import com.nhuhuy.algidy.feature.scanner.presentation.scanner.component.dialog.ImageProcessingDialog
 import com.nhuhuy.algidy.feature.scanner.presentation.scanner.component.dialog.ScannerLoadingDialog
 import com.nhuhuy.algidy.feature.scanner.presentation.scanner.viewmodel.AddBarcodeDialogAction
 import com.nhuhuy.algidy.feature.scanner.presentation.scanner.viewmodel.ScannerAction
@@ -25,7 +22,6 @@ import com.nhuhuy.algidy.feature.scanner.presentation.scanner.viewmodel.ScannerA
 import com.nhuhuy.algidy.feature.scanner.presentation.scanner.viewmodel.ScannerAction.OnDismissRequest
 import com.nhuhuy.algidy.feature.scanner.presentation.scanner.viewmodel.ScannerAction.OnFlashChange
 import com.nhuhuy.algidy.feature.scanner.presentation.scanner.viewmodel.ScannerAction.OnImageStaged
-import com.nhuhuy.algidy.feature.scanner.presentation.scanner.viewmodel.ScannerAction.OnProcessStagedImage
 import com.nhuhuy.algidy.feature.scanner.presentation.scanner.viewmodel.ScannerAction.OnResultDetected
 import com.nhuhuy.algidy.feature.scanner.presentation.scanner.viewmodel.ScannerAction.OnScannerModeChange
 import com.nhuhuy.algidy.feature.scanner.presentation.scanner.viewmodel.ScannerEvent
@@ -102,18 +98,6 @@ fun ScannerRoute(
             ScannerOverlay.LOADING_DIALOG -> {
                 ScannerLoadingDialog(
                     onDismissRequest = { onAction(OnDismissRequest) }
-                )
-            }
-            ScannerOverlay.PROCESSING_DIALOG -> {
-                ImageProcessingDialog(
-                    imageUri = uiState.stagedImageUri!!,
-                    isProcessing = uiState.scanResult == UiResult.Loading,
-                    onDismiss = {
-                        onAction(OnDismissRequest)
-                    },
-                    onScanClick = {
-                        onAction(OnProcessStagedImage(uiState.stagedImageUri!!))
-                    }
                 )
             }
 

@@ -66,12 +66,8 @@ class ScannerViewModel(
             is ScannerAction.OnAutoScanChange -> onAutoScanChange(action.isAutoScanned)
             is ScannerAction.OnFlashChange -> onFlashChange(action.isFlashOn)
             is ScannerAction.OnResultDetected -> {
-                val mode: ScannerMode = stateValue.scannerMode
-                when (mode) {
-                    ScannerMode.BARCODE_SCANNER -> onBarcodeDetect(action.barcodeString)
-                    ScannerMode.FOOD_SCANNER -> {
-
-                    }
+                if (stateValue.scannerMode == ScannerMode.BARCODE_SCANNER) {
+                    onBarcodeDetect(action.barcodeString)
                 }
             }
 
@@ -90,21 +86,13 @@ class ScannerViewModel(
             }
 
             is ScannerAction.OnImageStaged -> {
-                if (action.uri != null) {
-                    _uiState.product {
-                        copy(
-                            stagedImageUri = action.uri,
-                            overlay = ScannerOverlay.PROCESSING_DIALOG
-                        )
-                    }
+                action.uri?.let { uri ->
+                    processUriImage(uri)
                 }
             }
 
             is ScannerAction.OnProcessStagedImage -> {
-                when (stateValue.scannerMode) {
-                    ScannerMode.BARCODE_SCANNER -> analyzeBarcodeFromUri(action.uri)
-                    ScannerMode.FOOD_SCANNER -> analyzeFoodDateFromUri(action.uri)
-                }
+                processUriImage(action.uri)
             }
 
             is ScannerAction.OnFoodItemFound -> {
@@ -129,19 +117,33 @@ class ScannerViewModel(
         }
     }
 
+    private fun processUriImage(uri: Uri) {
+        viewModelScope.launch {
+            _uiState.product {
+                copy(
+                    overlay = ScannerOverlay.LOADING_DIALOG,
+                    isAutoScanned = false,
+                    labelEvent = LabelEvent.SCANNING
+                )
+            }
+
+            when (stateValue.scannerMode) {
+                ScannerMode.BARCODE_SCANNER -> analyzeBarcodeFromUri(uri)
+                ScannerMode.FOOD_SCANNER -> analyzeFoodDateFromUri(uri)
+            }
+        }
+    }
+
     private fun onBarcodeDialogAction(action: AddBarcodeDialogAction) {
         viewModelScope.launch {
             when (action) {
                 AddBarcodeDialogAction.OnConfirm -> {
                     val input = currentState.barCodeInput
-                    _uiState.product {
-                        copy(overlay = ScannerOverlay.LOADING_DIALOG)
-                    }
+                    _uiState.product { copy(overlay = ScannerOverlay.LOADING_DIALOG) }
+                    
                     scanBarcodeUseCase.fromBarcode(input)
                         .onSuccess { foodItem ->
-                            _uiState.product {
-                                copy(overlay = ScannerOverlay.NONE)
-                            }
+                            _uiState.product { copy(overlay = ScannerOverlay.NONE) }
                             emitEvent(ScannerEvent.OnSuccess(foodItem = foodItem))
                         }
                         .onFailure {
@@ -158,70 +160,58 @@ class ScannerViewModel(
         }
     }
 
-    private fun analyzeFoodDateFromUri(uri: Uri) {
-        viewModelScope.launch {
-            _uiState.product {
-                copy(
-                    labelEvent = LabelEvent.SCANNING,
-                    scanResult = UiResult.Loading
-                )
+    private suspend fun analyzeFoodDateFromUri(uri: Uri) {
+        _uiState.product { copy(scanResult = UiResult.Loading) }
+
+        scanFoodDateUseCase.fromUri(uri)
+            .onSuccess { foodDate ->
+                _uiState.product {
+                    copy(
+                        labelEvent = LabelEvent.NONE,
+                        overlay = ScannerOverlay.NONE,
+                        scanResult = UiResult.Idle
+                    )
+                }
+                if (foodDate != null) {
+                    onFoodDateScan(foodDate)
+                } else {
+                    handleUriScanFailure()
+                }
             }
-
-            scanFoodDateUseCase.fromUri(uri)
-                .onSuccess { foodDate ->
-                    _uiState.product {
-                        copy(
-                            labelEvent = LabelEvent.NONE,
-                            overlay = ScannerOverlay.NONE,
-                            scanResult = UiResult.Idle
-                        )
-                    }
-                    if (foodDate != null) {
-                        onFoodDateScan(foodDate)
-                    }
-
-                }
-                .onFailure {
-                    _uiState.product {
-                        copy(
-                            labelEvent = LabelEvent.FAILURE,
-                            scanResult = UiResult.Idle
-                        )
-                    }
-                }
-        }
+            .onFailure {
+                handleUriScanFailure()
+            }
     }
 
-    private fun analyzeBarcodeFromUri(uri: Uri) {
-        viewModelScope.launch {
-            _uiState.product {
-                copy(
-                    labelEvent = LabelEvent.SCANNING,
-                    scanResult = UiResult.Loading
-                )
-            }
+    private suspend fun analyzeBarcodeFromUri(uri: Uri) {
+        _uiState.product { copy(scanResult = UiResult.Loading) }
 
-            scanBarcodeUseCase.fromUri(uri)
-                .onSuccess { foodItem ->
-                    _uiState.product {
-                        copy(
-                            labelEvent = LabelEvent.NONE,
-                            overlay = ScannerOverlay.NONE,
-                            scanResult = UiResult.Idle
-                        )
-                    }
-                    emitEvent(ScannerEvent.OnSuccess(foodItem = foodItem))
+        scanBarcodeUseCase.fromUri(uri)
+            .onSuccess { foodItem ->
+                _uiState.product {
+                    copy(
+                        labelEvent = LabelEvent.NONE,
+                        overlay = ScannerOverlay.NONE,
+                        scanResult = UiResult.Idle
+                    )
                 }
-                .onFailure { throwable ->
-                    val error = throwable.toUiError()
-                    _uiState.product {
-                        copy(
-                            labelEvent = LabelEvent.FAILURE,
-                            scanResult = UiResult.Idle
-                        )
-                    }
-                    emitEvent(ScannerEvent.OnFailure(error))
-                }
+                emitEvent(ScannerEvent.OnSuccess(foodItem = foodItem))
+            }
+            .onFailure { throwable ->
+                handleUriScanFailure(throwable.toUiError())
+            }
+    }
+
+    private fun handleUriScanFailure(error: com.nhuhuy.algidy.core.presentation.UiError? = null) {
+        _uiState.product {
+            copy(
+                labelEvent = LabelEvent.FAILURE,
+                overlay = ScannerOverlay.NONE,
+                scanResult = UiResult.Idle
+            )
+        }
+        if (error != null) {
+            emitEvent(ScannerEvent.OnFailure(error))
         }
     }
 
@@ -276,7 +266,7 @@ class ScannerViewModel(
 
             _uiState.product {
                 copy(
-                    scanResult = UiResult.Idle, // Reset to idle after success/failure since it's handled by events
+                    scanResult = UiResult.Idle,
                     overlay = ScannerOverlay.NONE
                 )
             }

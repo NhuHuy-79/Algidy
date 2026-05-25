@@ -130,12 +130,22 @@
     <string name="scanner_barcode_dialog_title">Enter your barcode</string>
     <string name="scanner_barcode_label">Barcode</string>
     <string name="scanner_barcode_confirm">Confirm</string>
+    <string name="scanner_preview_title">Preview</string>
+    <string name="scanner_preview_btn">Start Scanning</string>
 
     <!-- Analytics Screen -->
     <string name="analytics_card">You have</string>
     <string name="analytics_card_2">this week.</string>
+    <plurals name="analytics_product_count">
+        <item quantity="one">You have %1$d product this week</item>
+        <item quantity="other">You have %1$d products this week</item>
+    </plurals>
     <string name="analytics_title">Analytics</string>
     <string name="analytics_subtitle">Overview of waste and impact</string>
+    <string name="analytics_card_consumed">Consumed</string>
+    <string name="analytics_card_wasted">Wasted</string>
+    <string name="analytics_card_others">Others</string>
+    <string name="analytics_card_spoilage_history">Spoilage History</string>
     <string name="analytics_card_waste_location">Wasted Items by Location</string>
     <string name="analytics_card_weekly_freshness">Weekly Freshness</string>
 

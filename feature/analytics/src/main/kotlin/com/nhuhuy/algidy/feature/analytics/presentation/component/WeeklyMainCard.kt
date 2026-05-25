@@ -19,11 +19,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.nhuhuy.algidy.core.designsystem.R
+import com.nhuhuy.algidy.core.presentation.R as PresentationR
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
@@ -62,7 +64,11 @@ fun WeeklyMainCard(
                 )
             }
             Text(
-                text = "You have $productCountInWeek products this week.",
+                text = pluralStringResource(
+                    id = PresentationR.plurals.analytics_product_count,
+                    count = productCountInWeek,
+                    productCountInWeek
+                ),
                 style = MaterialTheme.typography.bodyLarge.copy(
                     fontWeight = FontWeight.Medium
                 ),

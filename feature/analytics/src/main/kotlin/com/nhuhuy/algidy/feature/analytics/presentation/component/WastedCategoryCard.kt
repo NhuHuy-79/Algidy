@@ -21,9 +21,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.nhuhuy.algidy.core.designsystem.component.CardLayout
+import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.feature.analytics.presentation.viewmodel.CategoryWasteUiModel
 
 @Composable
@@ -34,7 +36,7 @@ fun WastedCategoryCard(
     CardLayout(
         modifier = modifier,
         icon = Icons.Rounded.Menu,
-        title = "Wasted Items by Location"
+        title = stringResource(R.string.analytics_card_waste_location)
     ) {
         Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
             categories.forEach { category ->

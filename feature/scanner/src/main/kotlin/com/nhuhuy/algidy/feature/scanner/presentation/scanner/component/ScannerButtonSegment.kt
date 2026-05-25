@@ -71,6 +71,7 @@ fun CaptureButton(
     }
 }
 
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun SelectImageButton(
     modifier: Modifier,
@@ -82,7 +83,7 @@ fun SelectImageButton(
         modifier = modifier
             .size(56.dp),
         onClick = onClick,
-        shape = CircleShape,
+        shape = MaterialShapes.Cookie6Sided.toShape(),
         colors = IconButtonDefaults.iconButtonColors(
             contentColor = contentColor,
             containerColor = containerColor

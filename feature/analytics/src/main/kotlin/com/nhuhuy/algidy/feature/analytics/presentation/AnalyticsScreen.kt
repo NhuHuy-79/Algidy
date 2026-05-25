@@ -118,7 +118,7 @@ fun AnalyticsScreen(
                         contentColor = AlgidyTheme.extendedColors.onConsumed,
                         containerColor = AlgidyTheme.extendedColors.consumed,
                         icon = Icons.Rounded.CheckCircleOutline,
-                        title = "Consumed",
+                        title = stringResource(R.string.analytics_card_consumed),
                         description = uiState.consumedCount.toString(),
                     )
                 }
@@ -129,7 +129,7 @@ fun AnalyticsScreen(
                         contentColor = AlgidyTheme.extendedColors.onWasted,
                         containerColor = AlgidyTheme.extendedColors.wasted,
                         icon = Icons.Rounded.DeleteForever,
-                        title = "Wasted",
+                        title = stringResource(R.string.analytics_card_wasted),
                         description = uiState.wastedCount.toString(),
                     )
                 }
@@ -140,7 +140,7 @@ fun AnalyticsScreen(
                         contentColor = MaterialTheme.colorScheme.onTertiary,
                         containerColor = MaterialTheme.colorScheme.tertiary,
                         icon = ImageVector.vectorResource(com.nhuhuy.algidy.core.designsystem.R.drawable.ic_storage),
-                        title = "Other",
+                        title = stringResource(R.string.analytics_card_others),
                         description = uiState.otherCount.toString(),
                     )
                 }

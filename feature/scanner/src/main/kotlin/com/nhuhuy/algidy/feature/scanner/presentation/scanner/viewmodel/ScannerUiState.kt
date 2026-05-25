@@ -28,6 +28,6 @@ enum class LabelEvent {
 }
 
 enum class ScannerOverlay{
-    NONE, LOADING_DIALOG, PROCESSING_DIALOG, BARCODE_DIALOG
+    NONE, LOADING_DIALOG, BARCODE_DIALOG
 }
 
