@@ -5,10 +5,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Fastfood
 import androidx.compose.material.icons.rounded.Image
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
@@ -19,9 +17,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import coil3.compose.SubcomposeAsyncImage
 import coil3.compose.SubcomposeAsyncImageContent
+import coil3.request.ImageRequest
+import coil3.request.crossfade
 
 @Composable
 fun FoodImageCard(
@@ -29,6 +30,7 @@ fun FoodImageCard(
     imageUri: String?,
     placeholderIcon: ImageVector = Icons.Rounded.Image,
 ) {
+    val context = LocalContext.current
     Surface(
         modifier = modifier
             .fillMaxWidth()
@@ -37,7 +39,10 @@ fun FoodImageCard(
         shape = RoundedCornerShape(16.dp),
     ) {
         SubcomposeAsyncImage(
-            model = imageUri,
+            model = ImageRequest.Builder(context)
+                .data(imageUri?.takeIf { it.isNotEmpty() })
+                .crossfade(true)
+                .build(),
             contentDescription = "Food Image",
             contentScale = ContentScale.Crop,
             modifier = Modifier.fillMaxSize(),
