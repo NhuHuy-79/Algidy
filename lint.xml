@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lint>
+    <!-- Ignore the HardcodedText check as we might still have some or prefer keeping some for now -->
+    <issue id="HardcodedText" severity="warning" />
+
+    <!-- Enforce high severity for critical issues -->
+    <issue id="NewApi" severity="error" />
+    <issue id="InlinedApi" severity="error" />
+    <issue id="HandlerLeak" severity="error" />
+    <issue id="SupportAnnotationUsage" severity="error" />
+
+    <!-- Performance -->
+    <issue id="DrawAllocation" severity="warning" />
+    <issue id="Wakelock" severity="error" />
+
+    <!-- Security -->
+    <issue id="ExportedService" severity="error" />
+    <issue id="AllowBackup" severity="warning" />
+
+    <!-- Compose specific (if custom checks are available) -->
+    <issue id="ComposeModifierMissing" severity="error" />
+</lint>

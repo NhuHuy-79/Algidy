@@ -1,5 +1,5 @@
-import com.android.build.gradle.LibraryExtension
-import org.gradle.api.JavaVersion
+import com.android.build.api.dsl.LibraryExtension
+import com.nhuhuy.algidy.convention.configureKotlinAndroid
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.artifacts.VersionCatalogsExtension
@@ -7,9 +7,8 @@ import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.getByType
 import org.gradle.kotlin.dsl.kotlin
-import org.gradle.kotlin.dsl.withType
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
+@Suppress("unused")
 class AndroidLibraryConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
@@ -21,16 +20,10 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
             }
 
             extensions.configure<LibraryExtension> {
-                compileSdk = 36
-                defaultConfig {
-                    minSdk = 30
-                    testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-                    consumerProguardFiles("consumer-rules.pro")
-                }
-                compileOptions {
-                    sourceCompatibility = JavaVersion.VERSION_17
-                    targetCompatibility = JavaVersion.VERSION_17
-                }
+                configureKotlinAndroid(this)
+                defaultConfig.testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+                defaultConfig.consumerProguardFiles("consumer-rules.pro")
+                
                 packaging {
                     resources {
                         excludes += "/META-INF/{AL2.0,LGPL2.1}"
@@ -38,11 +31,14 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
                         excludes += "META-INF/LICENSE-notice.md"
                     }
                 }
-            }
 
-            tasks.withType<KotlinCompile>().configureEach {
-                kotlinOptions {
-                    jvmTarget = JavaVersion.VERSION_17.toString()
+                lint {
+                    abortOnError = false
+                    checkDependencies = true
+                    ignoreWarnings = false
+                    xmlReport = true
+                    htmlReport = true
+                    lintConfig = file("${project.rootDir}/lint.xml")
                 }
             }
 
