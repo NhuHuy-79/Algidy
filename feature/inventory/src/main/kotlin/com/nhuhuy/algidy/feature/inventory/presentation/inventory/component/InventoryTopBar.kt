@@ -34,6 +34,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.core.presentation.utils.horizontalRoundedCornerShape
@@ -55,7 +56,13 @@ fun InventoryTopBar(
         modifier = modifier,
         scrollBehavior = scrollBehavior,
         title = {
-            Text(text = stringResource(R.string.inventory_title))
+            Text(
+                text = stringResource(R.string.inventory_title),
+                style = MaterialTheme.typography.displaySmall.copy(
+                    fontWeight = FontWeight.Black
+                )
+            )
+
         },
         subtitle = {
             Text(text = stringResource(R.string.inventory_subtitle))

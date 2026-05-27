@@ -86,8 +86,8 @@ fun ScannerScreen(
                             ScannerMode.BARCODE_SCANNER -> stringResource(R.string.scanner_title_barcode)
                             ScannerMode.FOOD_SCANNER -> stringResource(R.string.scanner_title_food)
                         },
-                        style = MaterialTheme.typography.titleLarge.copy(
-                            fontWeight = FontWeight.Bold
+                        style = MaterialTheme.typography.displaySmall.copy(
+                            fontWeight = FontWeight.Black
                         ),
                         modifier = Modifier
                             .fillMaxWidth()

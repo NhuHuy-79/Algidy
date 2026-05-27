@@ -32,6 +32,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.nhuhuy.algidy.core.designsystem.theme.AlgidyTheme
 import com.nhuhuy.algidy.core.model.food.Freshness
@@ -67,7 +68,10 @@ fun AnalyticsScreen(
                 },
                 title = {
                     Text(
-                        text = stringResource(R.string.analytics_title)
+                        text = stringResource(R.string.analytics_title),
+                        style = MaterialTheme.typography.displaySmall.copy(
+                            fontWeight = FontWeight.Black
+                        )
                     )
                 },
                 subtitle = {

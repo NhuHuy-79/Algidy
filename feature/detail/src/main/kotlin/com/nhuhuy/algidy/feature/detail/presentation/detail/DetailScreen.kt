@@ -60,7 +60,9 @@ fun DetailScreen(
                 title = {
                     Text(
                         text = stringResource(R.string.detail_title),
-                        fontWeight = FontWeight.Bold
+                        style = MaterialTheme.typography.displaySmall.copy(
+                            fontWeight = FontWeight.Black
+                        )
                     )
                 },
                 subtitle = {
