@@ -1,6 +1,7 @@
 package com.nhuhuy.algidy.core.datastore
 
 import androidx.datastore.preferences.core.booleanPreferencesKey
+import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 
 object UserPreferencesKeys {
@@ -11,6 +12,9 @@ object UserPreferencesKeys {
     val DYNAMIC_COLOR = booleanPreferencesKey("dynamic_color")
     val FONT = stringPreferencesKey("font")
     val CATEGORY = booleanPreferencesKey("category")
+
+    val HOUR = intPreferencesKey("hour")
+    val MINUTE = intPreferencesKey("minute")
 }
 
 

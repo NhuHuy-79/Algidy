@@ -25,6 +25,9 @@ interface SettingsDataStore {
     val appFontFlow: Flow<AppFont>
     val categoryGroupFlow: Flow<Boolean>
 
+    val hourFlow: Flow<Int>
+    val minuteFlow: Flow<Int>
+
     suspend fun setCategoryGroup(enabled: Boolean)
     suspend fun setFont(appFont: AppFont)
     suspend fun setLanguage(appLanguage: AppLanguage)
@@ -32,6 +35,8 @@ interface SettingsDataStore {
     suspend fun setDynamicColor(enabled: Boolean)
     suspend fun setDarkMode(darkMode: DarkMode)
     suspend fun setNotificationsEnabled(enabled: Boolean)
+    suspend fun setHour(hour: Int)
+    suspend fun setMinute(minute: Int)
 }
 
 class SettingsDataStoreImpl(private val context: Context) : SettingsDataStore {
@@ -63,6 +68,20 @@ class SettingsDataStoreImpl(private val context: Context) : SettingsDataStore {
 
     override val appFontFlow: Flow<AppFont> = context.dataStore.data.map { preferences ->
         preferences[UserPreferencesKeys.FONT].toAppFont()
+    }
+
+    override val hourFlow: Flow<Int>
+        get() = TODO()
+
+    override val minuteFlow: Flow<Int>
+        get() = TODO("Not yet implemented")
+
+    override suspend fun setMinute(minute: Int) {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun setHour(hour: Int) {
+
     }
 
     override suspend fun setCategoryGroup(enabled: Boolean) {
