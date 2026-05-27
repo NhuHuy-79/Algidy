@@ -3,11 +3,14 @@ name: Algidy Release CI
 on:
   push:
     tags:
-      - 'v*' # Trigger on tags like v1.0.0
+      - 'v*'      # Trigger on tags like v1.0.0
+      - 'beta*'   # Trigger on tags like beta-0.1
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write # Grant permission to create releases
     steps:
       - uses: actions/checkout@v4
 
@@ -43,5 +46,8 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           files: app/build/outputs/apk/release/Algidy_release_v*.apk
+          # Automatically mark as pre-release if the tag contains "beta"
+          prerelease: ${{ contains(github.ref, 'beta') }}
+          generate_release_notes: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
