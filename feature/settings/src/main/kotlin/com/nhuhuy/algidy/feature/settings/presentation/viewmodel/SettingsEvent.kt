@@ -7,10 +7,14 @@ sealed interface SettingsEvent : UiEvent {
     enum class ExportData : SettingsEvent {
         SUCCESS, FAILURE
     }
-
     sealed interface ImportData : SettingsEvent {
         data object Success : ImportData
         data object Failure : ImportData
         data object PickUri : ImportData
     }
+}
+
+sealed interface NotifyTimerEvent : SettingsEvent {
+    data object Error : NotifyTimerEvent
+    data object Success : NotifyTimerEvent
 }

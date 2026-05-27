@@ -9,6 +9,11 @@ import com.nhuhuy.algidy.feature.settings.presentation.model.ClickableType
 import com.nhuhuy.algidy.feature.settings.presentation.model.ToggleType
 
 sealed interface SettingsAction : UiAction {
+    data object OnDismiss : SettingsAction
+    sealed interface SetNotifyTime : SettingsAction {
+        data object OpenPicker : SetNotifyTime
+        data class SetHourAndMinutes(val hour: Int, val minutes: Int) : SetNotifyTime
+    }
     data class SetDarkMode(val darkMode: DarkMode) : SettingsAction
     data class ChangeLanguage(val language: AppLanguage) : SettingsAction
     data class ChangeFont(val font: AppFont) : SettingsAction

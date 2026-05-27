@@ -57,6 +57,10 @@ class SettingsViewModel(
 
     override fun onAction(action: SettingsAction) {
         when (action) {
+            is SettingsAction.OnDismiss -> {
+                _overlay.update { SettingsOverlay.NONE }
+            }
+
             is SettingsAction.SetDarkMode -> {
                 viewModelScope.launch {
                     selectSettingUseCase.selectDarkMode(action.darkMode)
@@ -92,6 +96,8 @@ class SettingsViewModel(
                     .onSuccess { emitEvent(SettingsEvent.ImportData.Success) }
                     .onFailure { emitEvent(SettingsEvent.ImportData.Failure) }
             }
+
+            is SettingsAction.SetNotifyTime -> onSetNotifyTimeAction(action)
         }
     }
 
@@ -125,6 +131,20 @@ class SettingsViewModel(
                 ToggleType.DYNAMIC_COLOR -> setToggleSettingUseCase.toggleDynamicColor(action.enabled)
                 ToggleType.NOTIFICATION -> setToggleSettingUseCase.toggleNotifications(action.enabled)
                 ToggleType.CATEGORY_GROUP -> setToggleSettingUseCase.toggleCategoryGroup(action.enabled)
+            }
+        }
+    }
+
+    private fun onSetNotifyTimeAction(action: SettingsAction.SetNotifyTime) {
+        when (action) {
+            SettingsAction.SetNotifyTime.OpenPicker -> _overlay.update { SettingsOverlay.TIME_PICKER }
+            is SettingsAction.SetNotifyTime.SetHourAndMinutes -> viewModelScope.launch {
+                _overlay.update { SettingsOverlay.NONE }
+                emitEvent(NotifyTimerEvent.Success)
+                selectSettingUseCase.selectNotifyTime(
+                    hour = action.hour,
+                    minutes = action.minutes
+                )
             }
         }
     }

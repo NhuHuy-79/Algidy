@@ -2,6 +2,7 @@ package com.nhuhuy.algidy
 
 import java.text.SimpleDateFormat
 import java.time.DayOfWeek
+import java.time.Duration
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.temporal.ChronoUnit
@@ -20,7 +21,7 @@ fun Long.toReadableDate(): String {
 
 fun Long.formatMillisToDate(): String {
     val date = java.time.Instant.ofEpochMilli(this)
-        .atZone(java.time.ZoneId.systemDefault())
+        .atZone(ZoneId.systemDefault())
         .toLocalDate()
     val formatter = java.time.format.DateTimeFormatter.ofPattern("MMM dd")
     return date.format(formatter)
@@ -48,4 +49,42 @@ fun getEndOfWeekMillis(): Long {
         .withNano(999_999_999)
 
     return endOfWeek.atZone(zoneId).toInstant().toEpochMilli()
+}
+
+fun createTodayAt(hour: Int, minute: Int): LocalDateTime {
+    return LocalDateTime.now()
+        .withHour(hour)
+        .withMinute(minute)
+        .withSecond(0)
+        .withNano(0)
+}
+
+fun calculateDelayMillis(
+    hour: Int,
+    minute: Int
+): Long {
+
+    val now = LocalDateTime.now()
+
+    var nextRun = now
+        .withHour(hour)
+        .withMinute(minute)
+        .withSecond(0)
+        .withNano(0)
+
+
+    if (nextRun.isBefore(now) || nextRun.isEqual(now)) {
+        nextRun = nextRun.plusDays(1)
+    }
+
+    return Duration
+        .between(now, nextRun)
+        .toMillis()
+}
+
+fun LocalDateTime.toMillis(): Long {
+    return this
+        .atZone(ZoneId.systemDefault())
+        .toInstant()
+        .toEpochMilli()
 }

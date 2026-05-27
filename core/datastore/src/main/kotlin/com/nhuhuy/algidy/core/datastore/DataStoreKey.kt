@@ -12,7 +12,6 @@ object UserPreferencesKeys {
     val DYNAMIC_COLOR = booleanPreferencesKey("dynamic_color")
     val FONT = stringPreferencesKey("font")
     val CATEGORY = booleanPreferencesKey("category")
-
     val HOUR = intPreferencesKey("hour")
     val MINUTE = intPreferencesKey("minute")
 }

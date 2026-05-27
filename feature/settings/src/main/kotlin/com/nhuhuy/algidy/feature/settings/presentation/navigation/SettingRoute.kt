@@ -16,7 +16,9 @@ import com.nhuhuy.algidy.core.designsystem.component.AlgidyAlertDialog
 import com.nhuhuy.algidy.core.designsystem.component.BoxLayout
 import com.nhuhuy.algidy.core.presentation.ObserveEffect
 import com.nhuhuy.algidy.core.presentation.R
+import com.nhuhuy.algidy.core.presentation.component.AppTimePickerDialog
 import com.nhuhuy.algidy.feature.settings.presentation.SettingsScreen
+import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.NotifyTimerEvent
 import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.SettingsAction
 import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.SettingsEvent
 import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.SettingsOverlay
@@ -77,6 +79,14 @@ fun SettingRoute(
             SettingsEvent.ImportData.PickUri -> {
                 pickZipLauncher.launch("application/zip")
             }
+
+            NotifyTimerEvent.Error -> {
+
+            }
+
+            NotifyTimerEvent.Success -> {
+
+            }
         }
     }
 
@@ -102,5 +112,23 @@ fun SettingRoute(
             icon = Icons.Rounded.DeleteForever,
         )
 
+        SettingsOverlay.TIME_PICKER -> AppTimePickerDialog(
+            hour = uiState.hour,
+            minutes = uiState.minutes,
+            title = stringResource(R.string.settings_set_time),
+            confirmText = stringResource(R.string.settings_set_time_confirm),
+            dismissText = stringResource(R.string.settings_set_time_cancel),
+            onDateSelected = { hour, min ->
+                onAction(
+                    SettingsAction.SetNotifyTime.SetHourAndMinutes(
+                        hour = hour,
+                        minutes = min
+                    )
+                )
+            },
+            onDismiss = {
+                onAction(SettingsAction.OnDismiss)
+            }
+        )
     }
 }

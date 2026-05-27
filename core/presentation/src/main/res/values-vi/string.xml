@@ -180,6 +180,8 @@
     <string name="setting_light_mode">Sáng</string>
     <string name="setting_system_mode">Hệ thống</string>
 
+    <string name="settings_set_time">Cài đặt Nhận Thông báo</string>
+    <string name="settings_set_time_cancel">Hủy bỏ</string>
     <string name="setting_language">Ngôn ngữ</string>
     <string name="setting_font">Font chữ</string>
 
@@ -221,5 +223,6 @@
     <string name="import_fail">Tải dữ liệu thất bại!</string>
     <string name="export_success">Dữ liệu của bạn đã được xuất ra!</string>
     <string name="export_failed">Xuất dữ liệu thất bại!</string>
+    <string name="settings_set_time_confirm">Xác nhận</string>
 
 </resources>

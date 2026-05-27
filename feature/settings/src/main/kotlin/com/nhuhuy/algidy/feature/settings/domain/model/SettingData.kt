@@ -11,5 +11,7 @@ data class SettingData(
     val darkMode: DarkMode = DarkMode.SYSTEM,
     val language: AppLanguage = AppLanguage.ENGLISH,
     val font: AppFont = AppFont.DEFAULT,
-    val enabledCategoryGroup: Boolean = false
+    val enabledCategoryGroup: Boolean = false,
+    val hour: Int = 7,
+    val minute: Int = 30,
 )

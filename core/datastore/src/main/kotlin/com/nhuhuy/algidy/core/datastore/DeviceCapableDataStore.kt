@@ -2,6 +2,7 @@ package com.nhuhuy.algidy.core.datastore
 
 import android.content.Context
 import androidx.datastore.preferences.core.booleanPreferencesKey
+import com.nhuhuy.algidy.core.datastore.utils.get
 import com.nhuhuy.algidy.core.datastore.utils.set
 import kotlinx.coroutines.flow.Flow
 
@@ -27,15 +28,15 @@ class DeviceCapableDataStoreImpl(
     private val deviceDataStore = context.dataStore
 
     override val dynamicColorSupported: Flow<Boolean>
-        get() = deviceDataStore.data.set(
+        get() = deviceDataStore.data.get(
             key = DeviceKey.DYNAMIC_COLOR, defaultValue = true
         )
     override val notificationGranted: Flow<Boolean>
-        get() = deviceDataStore.data.set(
+        get() = deviceDataStore.data.get(
             key = DeviceKey.NOTIFICATION_GRANTED, defaultValue = false
         )
     override val biometricSupported: Flow<Boolean>
-        get() = deviceDataStore.data.set(
+        get() = deviceDataStore.data.get(
             key = DeviceKey.BIOMETRIC_SUPPORTED, defaultValue = true
         )
 

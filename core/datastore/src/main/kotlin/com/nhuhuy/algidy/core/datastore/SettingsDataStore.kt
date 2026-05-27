@@ -3,8 +3,9 @@ package com.nhuhuy.algidy.core.datastore
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.preferencesDataStore
+import com.nhuhuy.algidy.core.datastore.utils.get
+import com.nhuhuy.algidy.core.datastore.utils.set
 import com.nhuhuy.algidy.core.model.setting.AppFont
 import com.nhuhuy.algidy.core.model.setting.AppLanguage
 import com.nhuhuy.algidy.core.model.setting.DarkMode
@@ -71,58 +72,44 @@ class SettingsDataStoreImpl(private val context: Context) : SettingsDataStore {
     }
 
     override val hourFlow: Flow<Int>
-        get() = TODO()
+        get() = context.dataStore.data.get(UserPreferencesKeys.HOUR, 7)
 
     override val minuteFlow: Flow<Int>
-        get() = TODO("Not yet implemented")
+        get() = context.dataStore.data.get(UserPreferencesKeys.MINUTE, 30)
 
     override suspend fun setMinute(minute: Int) {
-        TODO("Not yet implemented")
+        context.dataStore.set(UserPreferencesKeys.MINUTE, minute)
     }
 
     override suspend fun setHour(hour: Int) {
-
+        context.dataStore.set(UserPreferencesKeys.HOUR, hour)
     }
 
     override suspend fun setCategoryGroup(enabled: Boolean) {
-        context.dataStore.edit { preferences ->
-            preferences[UserPreferencesKeys.CATEGORY] = enabled
-        }
+        context.dataStore.set(UserPreferencesKeys.CATEGORY, enabled)
     }
 
     override suspend fun setLanguage(appLanguage: AppLanguage) {
-        context.dataStore.edit { preferences ->
-            preferences[UserPreferencesKeys.LANGUAGE] = appLanguage.isoCode
-        }
+        context.dataStore.set(UserPreferencesKeys.LANGUAGE, appLanguage.isoCode)
     }
 
     override suspend fun setBiometricLock(enabled: Boolean) {
-        context.dataStore.edit { preferences ->
-            preferences[UserPreferencesKeys.BIOMETRIC_LOCK] = enabled
-        }
+        context.dataStore.set(UserPreferencesKeys.BIOMETRIC_LOCK, enabled)
     }
 
     override suspend fun setDynamicColor(enabled: Boolean) {
-        context.dataStore.edit { preferences ->
-            preferences[UserPreferencesKeys.DYNAMIC_COLOR] = enabled
-        }
+        context.dataStore.set(UserPreferencesKeys.DYNAMIC_COLOR, enabled)
     }
 
     override suspend fun setDarkMode(darkMode: DarkMode) {
-        context.dataStore.edit { preferences ->
-            preferences[UserPreferencesKeys.DARK_MODE] = darkMode.name
-        }
+        context.dataStore.set(UserPreferencesKeys.DARK_MODE, darkMode.name)
     }
 
     override suspend fun setNotificationsEnabled(enabled: Boolean) {
-        context.dataStore.edit { preferences ->
-            preferences[UserPreferencesKeys.NOTIFICATIONS_ENABLED] = enabled
-        }
+        context.dataStore.set(UserPreferencesKeys.NOTIFICATIONS_ENABLED, enabled)
     }
 
     override suspend fun setFont(appFont: AppFont) {
-        context.dataStore.edit { preferences ->
-            preferences[UserPreferencesKeys.FONT] = appFont.storeKey
-        }
+        context.dataStore.set(UserPreferencesKeys.FONT, appFont.storeKey)
     }
 }

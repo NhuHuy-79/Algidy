@@ -26,9 +26,10 @@ data class SettingsUiState(
 
     val categoryEnabled: Boolean = false,
 
-    val overlay: SettingsOverlay = SettingsOverlay.NONE
+    val overlay: SettingsOverlay = SettingsOverlay.NONE,
+    val hour: Int = 7,
+    val minutes: Int = 30
 ) : UiState {
-
     val dynamicColorSetting: SettingToggleItem
         get() = SettingToggleItem(
             type = ToggleType.DYNAMIC_COLOR,
@@ -70,10 +71,10 @@ data class SettingsUiState(
             SettingClickableItem(type = ClickableType.Export),
             SettingClickableItem(type = ClickableType.Import),
             SettingClickableItem(type = ClickableType.DeleteAll),
-            SettingClickableItem(type = ClickableType.AboutApp)
+            SettingClickableItem(type = ClickableType.AboutApp),
         )
 }
 
 enum class SettingsOverlay {
-    NONE, DELETE_ALERT_DIALOG
+    NONE, DELETE_ALERT_DIALOG, TIME_PICKER
 }

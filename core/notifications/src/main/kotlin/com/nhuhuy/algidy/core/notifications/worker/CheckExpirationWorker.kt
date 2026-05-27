@@ -17,6 +17,7 @@ class CheckExpirationWorker(
     params: WorkerParameters,
     private val getNotificationEnabled: GetNotificationEnabled,
     private val getExpiryFoodUseCase: GetExpiryFoodUseCase,
+    private val workerScheduler: WorkerScheduler,
     private val notifier: AlgidyNotifier,
     private val appDispatchers: AppDispatchers,
 ) : CoroutineWorker(appContext = appContext, params = params) {
@@ -69,6 +70,9 @@ class CheckExpirationWorker(
                     notifier.showExpiringItemsAlert(notificationItems)
                 }
 
+
+                //Reschedule
+                workerScheduler.scheduleCheckExpiryWorker()
                 Result.success()
             } catch (e: Exception) {
                 Timber.e(e)

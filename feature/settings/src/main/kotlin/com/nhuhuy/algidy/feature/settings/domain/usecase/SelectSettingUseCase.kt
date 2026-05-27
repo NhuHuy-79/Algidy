@@ -17,4 +17,8 @@ class SelectSettingUseCase(
     suspend fun selectAppLanguage(language: AppLanguage) {
         settingsDataStore.setLanguage(language)
     }
+    suspend fun selectNotifyTime(hour: Int, minutes: Int) {
+        settingsDataStore.setHour(hour)
+        settingsDataStore.setMinute(minutes)
+    }
 }

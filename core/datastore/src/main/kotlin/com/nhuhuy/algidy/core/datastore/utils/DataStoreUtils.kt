@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 
-fun <T> Flow<Preferences>.set(
+fun <T> Flow<Preferences>.get(
     key: Preferences.Key<T>,
     defaultValue: T
 ): Flow<T> {

@@ -19,7 +19,9 @@ class ObserveSettingStateUseCase(
             settingsDataStore.biometricLockFlow,
             settingsDataStore.appLanguageFlow,
             settingsDataStore.appFontFlow,
-            settingsDataStore.categoryGroupFlow
+            settingsDataStore.categoryGroupFlow,
+            settingsDataStore.hourFlow,
+            settingsDataStore.minuteFlow
         )
 
         return combine(flows) { array ->
@@ -30,7 +32,9 @@ class ObserveSettingStateUseCase(
                 enableBiometricsLock = array[3] as Boolean,
                 language = array[4] as AppLanguage,
                 font = array[5] as AppFont,
-                enabledCategoryGroup = array[6] as Boolean
+                enabledCategoryGroup = array[6] as Boolean,
+                hour = array[7] as Int,
+                minute = array[8] as Int
             )
         }
     }

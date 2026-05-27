@@ -7,6 +7,13 @@ import androidx.work.ExistingWorkPolicy
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
+import com.nhuhuy.algidy.calculateDelayMillis
+import com.nhuhuy.algidy.core.datastore.SettingsDataStore
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 import java.time.DayOfWeek
 import java.time.Duration
 import java.time.ZoneId
@@ -26,27 +33,37 @@ interface WorkerScheduler {
 }
 
 class WorkerSchedulerImp(
-    private val context: Context
+    private val context: Context,
+    private val settingsDataStore: SettingsDataStore,
 ) : WorkerScheduler {
+    private val scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
     private val workManager by lazy { WorkManager.getInstance(context) }
 
     override fun scheduleCheckExpiryWorker() {
-        val constraints = Constraints.Builder()
-            .setRequiresBatteryNotLow(true)
-            .build()
+        scope.launch {
+            val hour = settingsDataStore.hourFlow.first()
+            val minute = settingsDataStore.minuteFlow.first()
 
-        val dailyRequest = PeriodicWorkRequestBuilder<CheckExpirationWorker>(
-            repeatInterval = 24,
-            repeatIntervalTimeUnit = TimeUnit.HOURS
-        )
-            .setConstraints(constraints)
-            .build()
+            val delay = calculateDelayMillis(
+                hour = hour,
+                minute = minute
+            )
 
-        workManager.enqueueUniquePeriodicWork(
-            uniqueWorkName = WorkerStrings.DAILY_WORKER,
-            existingPeriodicWorkPolicy = ExistingPeriodicWorkPolicy.KEEP,
-            request = dailyRequest
-        )
+            val request = OneTimeWorkRequestBuilder<CheckExpirationWorker>()
+                .setInitialDelay(delay, TimeUnit.MILLISECONDS)
+                .setConstraints(
+                    Constraints.Builder()
+                        .setRequiresBatteryNotLow(true)
+                        .build()
+                )
+                .build()
+
+            workManager.enqueueUniqueWork(
+                WorkerStrings.DAILY_WORKER,
+                ExistingWorkPolicy.REPLACE,
+                request
+            )
+        }
     }
 
     override fun scheduleWeeklyReportWorker() {
