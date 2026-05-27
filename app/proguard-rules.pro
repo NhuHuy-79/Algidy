@@ -1,21 +1,61 @@
-# Add project specific ProGuard rules here.
-# You can control the set of applied configuration files using the
-# proguardFiles setting in build.gradle.
-#
-# For more details, see
-#   http://developer.android.com/guide/developing/tools/proguard.html
+# Algidy Specific ProGuard Rules
 
-# If your project uses WebView with JS, uncomment the following
-# and specify the fully qualified class name to the JavaScript interface
-# class:
-#-keepclassmembers class fqcn.of.javascript.interface.for.webview {
-#   public *;
-#}
+# Project Models - Keep all models and serializable data
+-keep class com.nhuhuy.algidy.core.model.** { *; }
+-keep class com.nhuhuy.algidy.feature.**.presentation.viewmodel.** { *; }
+-keep class com.nhuhuy.algidy.feature.**.domain.model.** { *; }
 
-# Uncomment this to preserve the line number information for
-# debugging stack traces.
-#-keepattributes SourceFile,LineNumberTable
+# Kotlinx Serialization
+-keepattributes *Annotation*, EnclosingMethod, InnerClasses, Signature
+-keepclassmembers class ** {
+    @kotlinx.serialization.Serializable *;
+}
+-keep class kotlinx.serialization.internal.EnumSerializer { *; }
 
-# If you keep the line number information, uncomment this to
-# hide the original source file name.
-#-renamesourcefileattribute SourceFile
+# Koin
+-keep class io.insertkoin.** { *; }
+-keepclassmembers class * {
+  @org.koin.core.annotation.KoinInternalApi *;
+}
+
+# Retrofit & OkHttp
+-keepattributes Signature, InnerClasses, EnclosingMethod
+-keep class com.nhuhuy.algidy.core.network.model.** { *;}
+-keep interface com.nhuhuy.algidy.core.network.api.** { *; }
+-keep class retrofit2.Converter$Factory { *; }
+-keep class retrofit2.CallAdapter$Factory { *; }
+-dontwarn okhttp3.internal.platform.ConscryptPlatform
+-dontwarn okio.**
+-dontwarn javax.annotation.**
+-dontwarn org.conscrypt.**
+
+
+# Room
+-keep class * extends androidx.room.RoomDatabase
+-keep class * extends androidx.room.Entity
+-keep class * extends androidx.room.Dao
+
+# Biometric
+-keep class androidx.biometric.** { *; }
+
+# Loggers (Strip logs in release)
+-assumenosideeffects class android.util.Log {
+    public static int v(...);
+    public static int d(...);
+    public static int i(...);
+    public static int w(...);
+    public static int e(...);
+}
+
+-assumenosideeffects class timber.log.Timber {
+    public static void v(...);
+    public static void d(...);
+    public static void i(...);
+    public static void w(...);
+    public static void e(...);
+}
+
+# General optimization
+-repackageclasses ''
+-allowaccessmodification
+-optimizations !code/simplification/arithmetic,!field/*,!class/merging/*

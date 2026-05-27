@@ -43,3 +43,10 @@ Thumbs.db
 *.jks
 *.keystore
 google-services.json
+
+# Hide some logic
+core/model
+core/database
+core/notifications
+feature/analytics
+feature/scanner

@@ -30,6 +30,17 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
                     compose = true
                 }
 
+                buildTypes {
+                    getByName("release") {
+                        isMinifyEnabled = true
+                        isShrinkResources = true
+                        proguardFiles(
+                            getDefaultProguardFile("proguard-android-optimize.txt"),
+                            "proguard-rules.pro"
+                        )
+                    }
+                }
+
                 lint {
                     abortOnError = false
                     checkDependencies = true
