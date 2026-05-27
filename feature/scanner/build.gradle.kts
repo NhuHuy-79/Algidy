@@ -14,19 +14,15 @@ dependencies {
     implementation("androidx.camera:camera-extensions:1.5.0-alpha05")
     implementation("androidx.camera:camera-compose:1.5.0-alpha05")
 
-    // --- ML Kit (Chọn các gói tùy theo nhu cầu của bạn) ---
+    // --- ML Kit (Unbundled - Using Google Play Services to reduce APK size & 16KB support) ---
     // Nhận diện văn bản (OCR) - Rất cần để đọc ngày hết hạn
-    implementation("com.google.mlkit:text-recognition:16.0.1")
+    implementation("com.google.android.gms:play-services-mlkit-text-recognition:19.0.1")
 
     // Quét mã vạch (Barcode Scanning)
-    implementation("com.google.mlkit:barcode-scanning:17.3.0")
-
-    // Phát hiện và theo dõi vật thể (Dùng để clone Scanner của Google Drive)
-    implementation("com.google.mlkit:object-detection:17.0.2")
+    implementation("com.google.android.gms:play-services-mlkit-barcode-scanning:18.3.1")
 
     // --- Guava (Cần thiết để xử lý ListenableFuture của CameraX mượt hơn) ---
     implementation("com.google.guava:guava:33.0.0-android")
 
-    implementation("com.google.mlkit:image-labeling:17.0.9")
-    implementation("com.google.mlkit:entity-extraction:16.0.0-beta5")
+    implementation("com.google.mlkit:entity-extraction:16.0.0-beta6")
 }
