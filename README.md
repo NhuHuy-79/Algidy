@@ -30,20 +30,6 @@ intelligent analytics.
 You can find the latest APK in the [Releases](https://github.com/YOUR_USERNAME/Algidy/releases)
 section.
 
-## 🛠 Development
-
-### Setup
-
-1. Clone the repository.
-2. Open with Android Studio (Ladybug or newer recommended).
-3. (Optional) Create `keystore.properties` in the root folder for release builds (see
-   `keystore.properties.template`).
-
-### Build Modules
-
-- `:app`: The main application.
-- `:screenshot-test`: Standalone demo app for generating marketing assets.
-
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
