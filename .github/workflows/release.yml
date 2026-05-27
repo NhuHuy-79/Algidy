@@ -26,13 +26,13 @@ jobs:
 
       # Decode Keystore from Secrets
       - name: Decode Keystore
-        if: "${{ secrets.KEYSTORE_BASE64 != '' }}"
+        if: secrets.KEYSTORE_BASE64 != ''
         run: |
           echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > release.jks
 
       # Create keystore.properties from Secrets
       - name: Create keystore.properties
-        if: "${{ secrets.KEYSTORE_BASE64 != '' }}"
+        if: secrets.KEYSTORE_BASE64 != ''
         run: |
           echo "storeFile=release.jks" > keystore.properties
           echo "storePassword=${{ secrets.KEYSTORE_PASSWORD }}" >> keystore.properties
