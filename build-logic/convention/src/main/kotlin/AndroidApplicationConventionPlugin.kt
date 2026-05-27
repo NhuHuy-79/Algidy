@@ -14,7 +14,7 @@ import java.util.Properties
 class AndroidApplicationConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
-            val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
+            extensions.getByType<VersionCatalogsExtension>().named("libs")
 
             with(pluginManager) {
                 apply("com.android.application")
@@ -76,7 +76,6 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
 
             dependencies {
                 add("testImplementation", kotlin("test"))
-                add("implementation", libs.findLibrary("logger").get())
             }
         }
     }

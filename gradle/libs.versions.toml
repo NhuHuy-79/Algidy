@@ -2,11 +2,7 @@
 accompanistPermissions = "0.37.3"
 agp = "8.13.2"
 biometric = "1.1.0"
-chart = "1.1.0"
-chartsStackedBar = "2.2.0"
-composeCharts = "0.2.5"
 composeChartsVersion = "0.1.10"
-filekitDialogsCompose = "0.14.1"
 koinAndroidxWorkmanager = "4.0.0"
 kotlin = "2.1.10"
 coreKtx = "1.18.0"
@@ -37,15 +33,14 @@ mockk = "1.13.16"
 coroutines = "1.10.1"
 turbine = "1.2.0"
 coil = "3.1.0"
-vico = "3.1.0"
 retrofit = "2.11.0"
 okhttp = "4.12.0"
-logger = "2.2.0"
 timber = "5.0.1"
 # DataStore & WorkManager
 androidxDatastore = "1.2.1"
 androidxWork = "2.11.2"
 androidxAppcompat = "1.7.1"
+roborazzi = "1.41.0"
 
 [libraries]
 accompanist-permissions = { module = "com.google.accompanist:accompanist-permissions", version.ref = "accompanistPermissions" }
@@ -54,20 +49,13 @@ androidx-core-splashscreen = { group = "androidx.core", name = "core-splashscree
 androidx-datastore-preferences = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "androidxDatastore" }
 androidx-work-runtime-ktx = { group = "androidx.work", name = "work-runtime-ktx", version.ref = "androidxWork" }
 compose-charts-v0110 = { module = "io.github.ehsannarmani:compose-charts", version.ref = "composeChartsVersion" }
-filekit-core = { module = "io.github.vinceglb:filekit-core", version.ref = "filekitDialogsCompose" }
-filekit-dialogs-compose = { module = "io.github.vinceglb:filekit-dialogs-compose", version.ref = "filekitDialogsCompose" }
 koin-androidx-workmanager = { module = "io.insert-koin:koin-androidx-workmanager", version.ref = "koinAndroidxWorkmanager" }
 kotlinx-collections-immutable = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "kotlinxCollectionsImmutable" }
 kotlinx-coroutines-play-services = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services", version.ref = "kotlinxCoroutinesPlayServices" }
-vico-compose = { group = "com.patrykandpatrick.vico", name = "compose", version.ref = "vico" }
-vico-compose-m3 = { group = "com.patrykandpatrick.vico", name = "compose-m3", version.ref = "vico" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "androidxAppcompat" }
 androidx-navigation3-runtime = { module = "androidx.navigation3:navigation3-runtime", version.ref = "navigation3Runtime" }
 androidx-navigation3-ui = { module = "androidx.navigation3:navigation3-ui", version.ref = "navigation3Runtime" }
-chart = { module = "io.github.thechance101:chart", version.ref = "chart" }
-charts-stacked-bar = { module = "io.github.dautovicharis:charts-stacked-bar", version.ref = "chartsStackedBar" }
-compose-charts = { module = "io.github.ehsannarmani:compose-charts", version.ref = "composeCharts" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
@@ -92,7 +80,6 @@ google-ai-client = { group = "com.google.ai.client.generativeai", name = "genera
 retrofit-core = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
 retrofit-kotlin-serialization = { group = "com.squareup.retrofit2", name = "converter-kotlinx-serialization", version.ref = "retrofit" }
 okhttp-logging = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp" }
-logger = { group = "com.orhanobut", name = "logger", version.ref = "logger" }
 timber = { group = "com.jakewharton.timber", name = "timber", version.ref = "timber" }
 
 #Navigation 3 (extra)
@@ -109,6 +96,9 @@ koin-compose = { group = "io.insert-koin", name = "koin-androidx-compose", versi
 androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigation3" }
 
 # Testing
+roborazzi = { group = "io.github.takahirom.roborazzi", name = "roborazzi", version.ref = "roborazzi" }
+roborazzi-compose = { group = "io.github.takahirom.roborazzi", name = "roborazzi-compose", version.ref = "roborazzi" }
+roborazzi-junitRule = { group = "io.github.takahirom.roborazzi", name = "roborazzi-junit-rule", version.ref = "roborazzi" }
 robolectric = { group = "org.robolectric", name = "robolectric", version.ref = "robolectric" }
 mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
 mockk-android = { group = "io.mockk", name = "mockk-android", version.ref = "mockk" }
@@ -129,4 +119,4 @@ ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 room = { id = "androidx.room", version.ref = "room" }
 #Serialization
 jetbrains-kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
-
+roborazzi = { id = "io.github.takahirom.roborazzi", version.ref = "roborazzi" }

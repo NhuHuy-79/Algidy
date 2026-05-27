@@ -44,7 +44,6 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
 
             dependencies {
                 add("testImplementation", kotlin("test"))
-                add("implementation", libs.findLibrary("logger").get())
                 add("implementation", libs.findLibrary("androidx-core-ktx").get())
 
                 // Common test dependencies
