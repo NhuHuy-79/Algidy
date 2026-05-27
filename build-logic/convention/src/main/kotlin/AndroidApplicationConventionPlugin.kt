@@ -7,6 +7,8 @@ import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.getByType
 import org.gradle.kotlin.dsl.kotlin
+import java.io.FileInputStream
+import java.util.Properties
 
 @Suppress("unused")
 class AndroidApplicationConventionPlugin : Plugin<Project> {
@@ -30,6 +32,24 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
                     compose = true
                 }
 
+                val keystorePropertiesFile = rootProject.file("keystore.properties")
+                val keystoreProperties = Properties()
+                if (keystorePropertiesFile.exists()) {
+                    keystoreProperties.load(FileInputStream(keystorePropertiesFile))
+                }
+
+                signingConfigs {
+                    create("release") {
+                        val propertiesExist = keystoreProperties.isNotEmpty()
+                        if (propertiesExist) {
+                            storeFile = rootProject.file(keystoreProperties["storeFile"] as String)
+                            storePassword = keystoreProperties["storePassword"] as String
+                            keyAlias = keystoreProperties["keyAlias"] as String
+                            keyPassword = keystoreProperties["keyPassword"] as String
+                        }
+                    }
+                }
+
                 buildTypes {
                     getByName("release") {
                         isMinifyEnabled = true
@@ -38,6 +58,9 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
                             getDefaultProguardFile("proguard-android-optimize.txt"),
                             "proguard-rules.pro"
                         )
+                        if (keystoreProperties.isNotEmpty()) {
+                            signingConfig = signingConfigs.getByName("release")
+                        }
                     }
                 }
 

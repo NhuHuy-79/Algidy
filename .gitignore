@@ -42,6 +42,7 @@ Thumbs.db
 # Secrets (Don't commit these!)
 *.jks
 *.keystore
+keystore.properties.template
 google-services.json
 
 # Hide some logic
