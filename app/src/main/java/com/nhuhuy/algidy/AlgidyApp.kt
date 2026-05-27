@@ -1,6 +1,15 @@
 package com.nhuhuy.algidy
 
 import android.app.Application
+import coil3.ImageLoader
+import coil3.PlatformContext
+import coil3.SingletonImageLoader
+import coil3.disk.DiskCache
+import coil3.disk.directory
+import coil3.memory.MemoryCache
+import coil3.network.okhttp.OkHttpNetworkFetcherFactory
+import coil3.request.crossfade
+import com.nhuhuy.algidy.core.data.FOLDER_IMAGE
 import com.nhuhuy.algidy.core.notifications.data.NotificationChannelManager
 import com.nhuhuy.algidy.core.notifications.di.notificationModule
 import com.nhuhuy.algidy.core.notifications.worker.WorkerScheduler
@@ -24,8 +33,29 @@ import org.koin.core.logger.Level
 import timber.log.Timber
 
 
-class AlgidyApp : Application(), KoinComponent {
+class AlgidyApp : Application(), KoinComponent, SingletonImageLoader.Factory {
     private val workerScheduler: WorkerScheduler by inject()
+
+    override fun newImageLoader(context: PlatformContext): ImageLoader {
+        return ImageLoader.Builder(context)
+            .memoryCache {
+                MemoryCache.Builder()
+                    .maxSizePercent(context, 0.25)
+                    .build()
+            }
+            .diskCache {
+                DiskCache.Builder()
+                    .directory(context.filesDir.resolve(FOLDER_IMAGE))
+                    .maxSizeBytes(100L * 1024 * 1024) // 100MB
+                    .build()
+            }
+            .components {
+                add(OkHttpNetworkFetcherFactory())
+            }
+            .crossfade(true)
+            .build()
+    }
+
     override fun onCreate() {
         super.onCreate()
 
