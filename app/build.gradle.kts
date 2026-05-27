@@ -9,6 +9,17 @@ android {
     defaultConfig {
         applicationId = "com.nhuhuy.algidy"
         targetSdk = 36
+        versionCode = 1
+        versionName = "1.0.0"
+    }
+
+    applicationVariants.all {
+        val variant = this
+        variant.outputs.all {
+            val output = this as com.android.build.gradle.internal.api.BaseVariantOutputImpl
+            val fileName = "Algidy_${variant.name}_v${variant.versionName}.apk"
+            output.outputFileName = fileName
+        }
     }
 }
 
