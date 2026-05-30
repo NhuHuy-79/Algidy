@@ -1,8 +1,39 @@
 # Algidy
 
+![](app/src/main/res/drawable/app_icon.png)
+
 Algidy is a smart food inventory management app built with modern Android technologies. It helps
 users track their groceries, reduce food waste, and maintain freshness through barcode scanning and
 intelligent analytics.
+
+Algidy is a smart food inventory management app built with modern Android technologies. It helps
+users track their groceries, reduce food waste, and maintain freshness through barcode scanning and
+intelligent analytics.
+
+---
+
+## 📷 Screenshots
+
+<div align="center">
+  <table>
+    <tr>
+      <td align="center"><b>Home</b></td>
+      <td align="center"><b>Scanner</b></td>
+    </tr>
+    <tr>
+      <td><img src="screenshot/home.png" width="280" alt="Home Screen"></td>
+      <td><img src="screenshot/scanner.png" width="280" alt="Scanner Screen"></td>
+    </tr>
+    <tr>
+      <td align="center"><b>Analytics</b></td>
+      <td align="center"><b>Settings</b></td>
+    </tr>
+    <tr>
+      <td><img src="screenshot/analytics.png" width="280" alt="Analytics Screen"></td>
+      <td><img src="screenshot/settings.png" width="280" alt="Settings Screen"></td>
+    </tr>
+  </table>
+</div>
 
 ## 🚀 Features
 
