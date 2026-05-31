@@ -14,12 +14,39 @@ data class AnalyticsUiState(
     val weeklyFoodItemsCount: Int = 0,
     val wastedCount: Int = 0,
     val consumedCount: Int = 0,
-    val otherCount: Int = 0,
+    val othersCount: Int = 0,
     val expiryChartUiModel: ExpiryChartUiModel = ExpiryChartUiModel(),
     val spoilageChartUiModel: SpoilageChartUiModel = SpoilageChartUiModel(),
     val wastedByCategory: List<CategoryWasteUiModel> = emptyList(),
     val isLoading: Boolean = false,
-) : UiState
+
+    //Ver1
+    val circularChartData: CircularChartData = CircularChartData.CONSUMED,
+) : UiState {
+
+    val wastedPercent: Float
+        get() = if (weeklyFoodItemsCount == 0) 0f else wastedCount.toFloat() / weeklyFoodItemsCount
+    val consumedPercent: Float
+        get() = if (weeklyFoodItemsCount == 0) 0f else consumedCount.toFloat() / weeklyFoodItemsCount
+    val othersPercent: Float
+        get() = if (weeklyFoodItemsCount == 0) 0f else othersCount.toFloat() / weeklyFoodItemsCount
+
+    fun getFloatByCircularChart(): Float {
+        return when (circularChartData) {
+            CircularChartData.OTHERS -> othersPercent
+            CircularChartData.CONSUMED -> consumedPercent
+            CircularChartData.WASTED -> wastedPercent
+        }
+    }
+
+    fun getCountByCircularChart(): Int {
+        return when (circularChartData) {
+            CircularChartData.OTHERS -> othersCount
+            CircularChartData.CONSUMED -> consumedCount
+            CircularChartData.WASTED -> wastedCount
+        }
+    }
+}
 
 @Immutable
 data class SpoilageChartUiModel(
@@ -77,3 +104,6 @@ fun SpoilageHistory.toSpoilageChartUiModel() : SpoilageChartUiModel {
     )
 }
 
+enum class CircularChartData {
+    OTHERS, CONSUMED, WASTED
+}

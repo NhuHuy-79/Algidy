@@ -9,7 +9,6 @@ import com.nhuhuy.algidy.feature.analytics.domain.usecase.GetWeeklySpoilageHisto
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -36,7 +35,7 @@ class AnalyticsViewModel(
             weeklyFoodItemsCount = summary.weeklyCount,
             wastedCount = summary.wastedCount,
             consumedCount = summary.consumedCount,
-            otherCount = summary.otherCount,
+            othersCount = summary.otherCount,
             expiryChartUiModel = freshness.toExpiryChartUiModel(),
             spoilageChartUiModel = history.toSpoilageChartUiModel(),
             wastedByCategory = waste.map { model ->

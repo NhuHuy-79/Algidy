@@ -40,7 +40,6 @@ import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.feature.analytics.presentation.component.FreshnessSegmentedButton
 import com.nhuhuy.algidy.feature.analytics.presentation.component.ProductStatsCard
 import com.nhuhuy.algidy.feature.analytics.presentation.component.SpoilageHistoryChart
-import com.nhuhuy.algidy.feature.analytics.presentation.component.WastedCategoryCard
 import com.nhuhuy.algidy.feature.analytics.presentation.component.WeeklyFreshnessChart
 import com.nhuhuy.algidy.feature.analytics.presentation.component.WeeklyMainCard
 import com.nhuhuy.algidy.feature.analytics.presentation.viewmodel.AnalyticsUiState
@@ -92,15 +91,14 @@ fun AnalyticsScreen(
             val weeklyMainCardHeight = maxHeight * 0.1f
             val productStatCardHeight = maxHeight * 0.15f
             val freshnessSegmentButtonHeight = maxHeight * 0.08f
-            val spoilageChartHeight =
+
+            val newWeeklyFreshnessChart =
                 maxHeight - (weeklyMainCardHeight + productStatCardHeight + freshnessSegmentButtonHeight + itemSpacing * 4)
 
             //Two Page
             val bottomSpacing = 16.dp
-            val remainHeightBelowSegmentButton =
-                maxHeight - (itemSpacing * 2 + freshnessSegmentButtonHeight + bottomSpacing)
-            val freshnessChartHeight = remainHeightBelowSegmentButton / 2
-            val locationChartHeight = remainHeightBelowSegmentButton - freshnessChartHeight
+            val spoilageChartHeight = (maxHeight - bottomSpacing) * 0.5f
+
 
             LazyVerticalStaggeredGrid(
                 columns = StaggeredGridCells.Fixed(3),
@@ -145,16 +143,10 @@ fun AnalyticsScreen(
                         containerColor = MaterialTheme.colorScheme.tertiary,
                         icon = ImageVector.vectorResource(com.nhuhuy.algidy.core.designsystem.R.drawable.ic_storage),
                         title = stringResource(R.string.analytics_card_others),
-                        description = uiState.otherCount.toString(),
+                        description = uiState.othersCount.toString(),
                     )
                 }
 
-                item(span = StaggeredGridItemSpan.FullLine) {
-                    SpoilageHistoryChart(
-                        modifier = Modifier.height(spoilageChartHeight),
-                        uiModel = uiState.spoilageChartUiModel
-                    )
-                }
 
                 item(span = StaggeredGridItemSpan.FullLine) {
                     FreshnessSegmentedButton(
@@ -166,18 +158,25 @@ fun AnalyticsScreen(
 
                 item(span = StaggeredGridItemSpan.FullLine) {
                     WeeklyFreshnessChart(
-                        modifier = Modifier.height(freshnessChartHeight),
+                        modifier = Modifier.height(newWeeklyFreshnessChart),
                         selectedFreshness = selectedFreshness,
                         uiModel = uiState.expiryChartUiModel
                     )
                 }
 
                 item(span = StaggeredGridItemSpan.FullLine) {
+                    SpoilageHistoryChart(
+                        modifier = Modifier.height(spoilageChartHeight),
+                        uiModel = uiState.spoilageChartUiModel
+                    )
+                }
+
+                /*item(span = StaggeredGridItemSpan.FullLine) {
                     WastedCategoryCard(
                         modifier = Modifier.height(locationChartHeight),
                         categories = uiState.wastedByCategory
                     )
-                }
+                }*/
             }
         }
     }
