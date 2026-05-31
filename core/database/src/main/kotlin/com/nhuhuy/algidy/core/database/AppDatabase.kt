@@ -37,5 +37,5 @@ abstract class AppDatabase : RoomDatabase() {
 }
 
 object DatabaseConstant {
-    const val SCHEMA_VERSION = 11
+    const val SCHEMA_VERSION = 12
 }

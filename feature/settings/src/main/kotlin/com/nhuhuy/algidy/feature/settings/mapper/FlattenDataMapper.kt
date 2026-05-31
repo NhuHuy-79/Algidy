@@ -20,7 +20,7 @@ fun FoodItemEntity.toFlattenFood(): FlattenFoodData {
         isFavorite = isFavorite,
         notes = notes,
         status = status,
-        resolvedData = resolvedDate
+        resolvedDate = resolvedDate
     )
 }
 
@@ -40,7 +40,7 @@ fun FlattenFoodData.toFoodItemEntity(): FoodItemEntity {
         isFavorite = isFavorite,
         notes = notes,
         status = status,
-        resolvedDate = resolvedData,
+        resolvedDate = resolvedDate,
     )
 }
 

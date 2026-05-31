@@ -150,7 +150,7 @@ class FoodEntryViewModel(
             it.copy(
                 id = foodItem.id,
                 name = foodItem.name,
-                categoryId = foodItem.categoryId,
+                categoryId = foodItem.categoryId ?: "",
                 defaultFoodCategory = foodItem.defaultFoodCategory,
                 location = foodItem.location,
                 quantity = foodItem.quantity,

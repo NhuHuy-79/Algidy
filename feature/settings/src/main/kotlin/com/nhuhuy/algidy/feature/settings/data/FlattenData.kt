@@ -24,7 +24,7 @@ data class FlattenFoodData(
     val id: String,
     val name: String,
     val normalizedName: String,
-    val categoryId: String,
+    val categoryId: String?,
     val location: StorageLocation,
     val quantity: Double,
     val itemUnit: ItemUnit,
@@ -34,6 +34,6 @@ data class FlattenFoodData(
     val isFavorite: Boolean,
     val notes: String,
     val status: FoodStatus,
-    val resolvedData: Long? = null
+    val resolvedDate: Long? = null
 )
 

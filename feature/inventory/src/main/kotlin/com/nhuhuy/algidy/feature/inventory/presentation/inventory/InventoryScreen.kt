@@ -160,7 +160,7 @@ fun List<FoodItem>.getFilteredAndSortedList(
         }
 
         CategoryUiModel.Uncategorized -> this.filter {
-            it.categoryId.isEmpty()
+            it.categoryId == null
         }
     }
 
