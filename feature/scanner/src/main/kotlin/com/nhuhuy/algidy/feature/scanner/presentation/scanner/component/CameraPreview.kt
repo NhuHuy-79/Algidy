@@ -1,13 +1,16 @@
 package com.nhuhuy.algidy.feature.scanner.presentation.scanner.component
 
-import android.view.Surface
 import androidx.camera.compose.CameraXViewfinder
+import androidx.camera.core.AspectRatio
 import androidx.camera.core.Camera
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.Preview
 import androidx.camera.core.SurfaceRequest
+import androidx.camera.core.resolutionselector.AspectRatioStrategy
+import androidx.camera.core.resolutionselector.ResolutionSelector
 import androidx.camera.lifecycle.ProcessCameraProvider
+import androidx.camera.lifecycle.awaitInstance
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.DocumentScanner
@@ -23,9 +26,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.core.content.ContextCompat
+import androidx.compose.ui.platform.LocalResources
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.nhuhuy.algidy.core.designsystem.component.AppLabel
+import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.feature.scanner.domain.FoodDateScanner
 import com.nhuhuy.algidy.feature.scanner.domain.model.FoodDate
 import com.nhuhuy.algidy.feature.scanner.presentation.scanner.ScannerMode
@@ -34,6 +38,7 @@ import com.nhuhuy.algidy.feature.scanner.presentation.scanner.component.analyzer
 import com.nhuhuy.algidy.feature.scanner.presentation.scanner.viewmodel.LabelEvent
 import kotlinx.coroutines.delay
 import org.koin.compose.koinInject
+import java.util.concurrent.Executors
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
 
@@ -48,7 +53,20 @@ fun CameraPreviewContent(
 ) {
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
-    val mainExecutor = remember(context) { ContextCompat.getMainExecutor(context) }
+
+    // Dedicated background executor for image analysis to avoid UI jank
+    val analysisExecutor = remember { Executors.newSingleThreadExecutor() }
+
+    val resolutionSelector = remember {
+        ResolutionSelector.Builder()
+            .setAspectRatioStrategy(
+                AspectRatioStrategy(
+                    AspectRatio.RATIO_4_3,
+                    AspectRatioStrategy.FALLBACK_RULE_AUTO
+                )
+            )
+            .build()
+    }
     
     // Modern SurfaceRequest handling for Compose
     var surfaceRequest by remember { mutableStateOf<SurfaceRequest?>(null) }
@@ -66,6 +84,7 @@ fun CameraPreviewContent(
     val imageAnalysis = remember {
         ImageAnalysis.Builder()
             .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
+            .setResolutionSelector(resolutionSelector)
             .build()
     }
 
@@ -75,7 +94,7 @@ fun CameraPreviewContent(
             imageAnalysis.clearAnalyzer()
             return@LaunchedEffect
         }
-        imageAnalysis.setAnalyzer(mainExecutor) { imageProxy ->
+        imageAnalysis.setAnalyzer(analysisExecutor) { imageProxy ->
             when (mode) {
                 ScannerMode.BARCODE_SCANNER -> barcodeAnalyzer.analyze(imageProxy)
                 ScannerMode.FOOD_SCANNER -> foodDateAnalyzer.analyze(imageProxy)
@@ -85,9 +104,11 @@ fun CameraPreviewContent(
 
     // Camera Provider and Binding
     LaunchedEffect(lifecycleOwner) {
-        val cameraProvider = ProcessCameraProvider.getInstance(context).get()
-        
-        val preview = Preview.Builder().build().apply {
+        val cameraProvider = ProcessCameraProvider.awaitInstance(context)
+
+        val preview = Preview.Builder()
+            .setResolutionSelector(resolutionSelector)
+            .build().apply {
             setSurfaceProvider { request ->
                 surfaceRequest = request
             }
@@ -104,9 +125,6 @@ fun CameraPreviewContent(
                 imageAnalysis
             )
             
-            // Set rotation for better accuracy
-            imageAnalysis.targetRotation = Surface.ROTATION_0
-            
             onCameraReady(cameraInstance)
         } catch (e: Exception) {
             e.printStackTrace()
@@ -116,7 +134,9 @@ fun CameraPreviewContent(
     DisposableEffect(Unit) {
         onDispose {
             barcodeAnalyzer.release()
+            foodDateAnalyzer.release()
             imageAnalysis.clearAnalyzer()
+            analysisExecutor.shutdown()
         }
     }
 
@@ -136,12 +156,13 @@ fun LabelEventContainer(
     duration: Duration = 1.5.seconds,
 ) {
     var showLabel by remember { mutableStateOf(false) }
+    val resource = LocalResources.current
     val text = remember(event) {
         when (event) {
             LabelEvent.NONE -> ""
-            LabelEvent.AUTO_OFF -> "Auto-scanning is OFF"
-            LabelEvent.SCANNING -> "Scanning..."
-            LabelEvent.FAILURE -> "Failed to scan"
+            LabelEvent.AUTO_OFF -> resource.getString(R.string.scanner_label_auto_off)
+            LabelEvent.SCANNING -> resource.getString(R.string.scanner_label_scanning)
+            LabelEvent.FAILURE -> resource.getString(R.string.scanner_label_failure)
         }
     }
     val icon = remember(event) {

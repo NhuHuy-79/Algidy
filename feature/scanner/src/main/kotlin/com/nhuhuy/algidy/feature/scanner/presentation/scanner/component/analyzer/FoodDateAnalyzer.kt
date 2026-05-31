@@ -8,6 +8,7 @@ import com.nhuhuy.algidy.feature.scanner.domain.model.FoodDate
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import java.util.concurrent.atomic.AtomicBoolean
 
@@ -22,10 +23,11 @@ class FoodDateAnalyzer(
 
     private val scope = CoroutineScope(Dispatchers.Default + SupervisorJob())
     private val isProcessing = AtomicBoolean(false)
+    private var isReleased = false
 
     override fun analyze(imageProxy: ImageProxy) {
-        // If still processing previous frame, skip this one to save resources
-        if (isProcessing.get()) {
+        // If still processing previous frame or released, skip this one to save resources
+        if (isProcessing.get() || isReleased) {
             imageProxy.close()
             return
         }
@@ -33,17 +35,27 @@ class FoodDateAnalyzer(
         isProcessing.set(true)
         scope.launch {
             try {
-                foodDateScanner.scanImage(imageProxy)
-                    .onSuccess { foodDate ->
-                        if (foodDate != null) {
-                            onDateDetected(foodDate)
+                if (!isReleased) {
+                    foodDateScanner.scanImage(imageProxy)
+                        .onSuccess { foodDate ->
+                            if (foodDate != null && !isReleased) {
+                                onDateDetected(foodDate)
+                            }
                         }
-                    }
+                } else {
+                    imageProxy.close()
+                }
+            } catch (e: Exception) {
+                imageProxy.close()
             } finally {
                 // Ensure imageProxy is closed and flag is reset even if scan fails
                 isProcessing.set(false)
-                // Note: MLKitFoodDateScanner also closes it, but redundant safety is better for CameraX
             }
         }
+    }
+
+    fun release() {
+        isReleased = true
+        scope.cancel()
     }
 }
