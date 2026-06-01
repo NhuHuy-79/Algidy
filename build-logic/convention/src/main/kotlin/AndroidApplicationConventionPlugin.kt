@@ -30,6 +30,7 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
 
                 buildFeatures {
                     compose = true
+                    buildConfig = true
                 }
 
                 val keystorePropertiesFile = rootProject.file("keystore.properties")
