@@ -1,6 +1,5 @@
 <resources>
     <!-- Common -->
-    <string name="app_name">Algidy</string>
     <string name="action_ok">OK</string>
     <string name="action_cancel">Hủy</string>
     <string name="action_save">Lưu</string>

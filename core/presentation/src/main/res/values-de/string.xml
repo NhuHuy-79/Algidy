@@ -1,0 +1,232 @@
+<resources>
+    <!-- Common -->
+    <string name="action_ok">OK</string>
+    <string name="action_cancel">Stornieren</string>
+    <string name="action_save">Speichern</string>
+    <string name="action_discard">Abwerfen</string>
+    <string name="action_edit">Bearbeitung</string>
+    <string name="action_add">Hinzufügen</string>
+    <string name="action_delete">Löschen</string>
+    <string name="action_back">Zurück</string>
+    <string name="action_menu">Menüaktionen</string>
+    <string name="action_view_more">Mehr anzeigen</string>
+    <string name="action_new">Neu</string>
+
+    <string name="category_all">Alle</string>
+    <string name="category_uncategorized">Unkategorisiert</string>
+    <string name="category_vegetables">Gemüse</string>
+    <string name="category_fruits">Früchte</string>
+    <string name="category_meat">Fleisch</string>
+    <string name="category_seafood">Meeresfrüchte</string>
+    <string name="category_dairy_eggs"><![CDATA[Milchprodukte & Eier]]></string>
+    <string name="category_others">Weitere</string>
+
+    <!-- Storage Locations -->
+    <string name="location_fridge">Kühlschrank</string>
+    <string name="location_freezer">Gefrierschrank</string>
+    <string name="location_pantry">Vorratskammer</string>
+    <string name="location_other">Sonstiges</string>
+
+    <!-- Units -->
+    <string name="unit_kg">kg</string>
+    <string name="unit_gram">g</string>
+    <string name="unit_liter">l</string>
+    <string name="unit_piece">PC</string>
+    <string name="unit_bottle">Flasche</string>
+    <string name="unit_other">Sonstiges</string>
+
+    <!-- Freshness -->
+    <string name="freshness_no_expiry">Kein Verfallsdatum</string>
+    <string name="freshness_expired">Abgelaufen vor 1$sd</string>
+    <string name="freshness_expires_today">Läuft heute ab</string>
+    <string name="freshness_one_day_left">Noch 1 Tag</string>
+    <string name="freshness_days_left">%1$s verbleibende Tage</string>
+    <string name="freshness_months_left">1 % Monate übrig</string>
+
+    <!-- Freshness Status Labels -->
+    <string name="freshness_status_expired">Abgelaufen</string>
+    <string name="freshness_status_urgent">Dringend</string>
+    <string name="freshness_status_warning">Warnung</string>
+    <string name="freshness_status_fresh">Frisch</string>
+
+
+    <!--Biometric Authenticator-->
+    <string name="biometric_title">Algidy Biometrische Schleuse</string>"
+    <string name="biometric_subtitle">Verwenden Sie eine biometrische Sperre, um sich anzumelden</string>
+
+    <!-- Errors -->
+    <string name="error_empty_field">Dieses Feld kann nicht leer sein.</string>
+    <string name="error_invalid_number">Bitte geben Sie eine gültige Nummer ein.</string>
+    <string name="error_negative_value">Die Menge darf nicht kleiner als null sein.</string>
+    <string name="error_past_date">Das Verfallsdatum darf nicht in der Vergangenheit liegen.</string>
+    <string name="error_future_date">Das Kaufdatum kann nicht in der Zukunft liegen.</string>
+    <string name="error_invalid_date_range">Das Ablaufdatum muss nach oder am Kaufdatum liegen.</string>
+    <string name="error_text_too_short">Der Name muss mindestens zwei Zeichen lang sein.</string>
+    <string name="error_image_save_failed">Bild nicht gespeichert.</string>
+
+    <!-- Inventory Screen -->
+    <string name="inventory_title">Inventar</string>
+    <string name="inventory_subtitle">Willkommen!</string>
+    <string name="inventory_page_fridge">Kühlschrank</string>
+    <string name="inventory_page_freezer">Gefrierschrank</string>
+    <string name="inventory_page_pantry">Vorratskammer</string>
+    <string name="inventory_page_other">Sonstiges</string>
+    <string name="inventory_empty_title">Deine Vorratskammer ist leer</string>
+    <string name="inventory_empty_content">Behalte deine Lebensmittel im Blick und lass niemals Lebensmittel verschwenden. Fang jetzt an, Gegenstand hinzuzufügen!</string>
+    <string name="inventory_scanner_btn">Barcode scannen</string>
+    <string name="inventory_manually_btn">Manuell hinzufügen</string>
+    <string name="inventory_menu_sort_expiry">Nach Ablauf sortieren</string>
+    <string name="inventory_menu_sort_name">Sortieren nach Name</string>
+    <string name="inventory_menu_expired_only">Nur abgelaufen</string>
+    <string name="inventory_menu_reset">Alles zurücksetzen</string>
+    <string name="inventory_sheet_title">Neue Lebensmittel hinzufügen</string>
+    <string name="inventory_sheet_btn">Fügen Sie Essen hinzu</string>
+
+    <string name="inventory_category_edit">Bearbeitungskategorie</string>
+    <string name="inventory_category_delete">Kategorie löschen</string>
+    <string name="category_edit_dialog_title">Bearbeitungskategorie</string>
+    <string name="category_edit_dialog_label">Kategoriename</string>
+    <string name="category_search_placeholder">Suche oder tippe neue Kategorie...</string>
+    <string name="category_add_new">Neu hinzufügen: \"%1$s\"</string>
+    <string name="inventory_menu_filter">Filter</string>
+
+    <string name="delete_category_dialog_title">Kategorie löschen\?</string>
+    <string name="delete_category_dialog_content">Diese Kategorie und alle ihre Lebensmittel werden gelöscht.</string>
+    <string name="delete_category_dialog_confirm">Löschen</string>
+
+    <!--Grid Category-->
+    <string name="category_add">Alle</string>
+    <string name="category_fridge">Kühlschrank</string>
+    <string name="category_freezer">Gefrierschrank</string>
+    <string name="category_pantry">Vorratskammer</string>
+    <string name="category_other">Sonstiges</string>
+    <!-- Search Screen -->
+    <string name="search_placeholder">Such dein Produkt im Kühlschrank...</string>
+    <string name="search_history_title">Jüngst</string>
+    <string name="search_no_results">Keine Gegenstände gefunden.</string>
+
+    <!-- Detail Screen -->
+    <string name="detail_title">Detail-Bildschirm</string>
+    <string name="detail_subtitle">Vergiss nicht, das zu konsumieren</string>
+    <string name="detail_food_stats">Nahrungswerte</string>
+    <string name="detail_expiry_progress">Ablauffortschritt</string>
+    <string name="detail_personal_notes">Persönliche Anmerkungen</string>
+    <string name="detail_fab_consume_this">Ich habe das konsumiert</string>
+    <string name="detail_fab_edit_details">Bearbeitungsdetails</string>
+    <string name="detail_fab_mark_as_wasted">Markieren Sie als verschwendet</string>
+    <string name="detail_dialog_waste_title">Als verschwendet markieren\?</string>
+    <string name="detail_dialog_waste_content">Bist du sicher, dass dieses Futter nicht mehr brauchbar ist\? Es wird in deine Abfallhistorie zur Verfolgung verschoben.</string>
+    <string name="detail_dialog_consume_title">Fertig mit dem Essen\?</string>
+    <string name="detail_dialog_consume_content">Super! Wir aktualisieren Ihren Bestand und übertragen diesen Artikel in Ihre Verbrauchshistorie.</string>
+    <string name="detail_edit_sheet_title">Bearbeitungsinformationen</string>
+    <string name="detail_pick_photo">Such dir ein Foto aus</string>
+    <string name="detail_item_details">Gegenstandsdetails</string>
+    <string name="detail_edit_image">Bildbearbeitung</string>
+    <string name="detail_bought">Gekauft</string>
+    <string name="detail_no_notes">Für diesen Artikel gibt es noch keine Hinweise.</string>
+
+    <!-- Confirm Screen -->
+    <string name="confirm_title">Informationen bestätigen</string>
+    <string name="confirm_label_name">Lebensmittelname</string>
+    <string name="confirm_label_category">Kategorie</string>
+    <string name="confirm_placeholder_name">Geben Sie Lebensmittelname ein...</string>
+    <string name="confirm_label_quantity">Menge</string>
+    <string name="confirm_label_unit">Einheit</string>
+    <string name="confirm_label_purchase_date">Kaufdatum</string>
+    <string name="confirm_label_expiry_date">Verfallsdatum</string>
+    <string name="confirm_date_set">Festlegung von Termin</string>
+    <string name="confirm_label_location">Speicherort</string>
+    <string name="confirm_label_notes">Anmerkungen</string>
+    <string name="confirm_placeholder_notes">Zum Beispiel Marke, offenes Datum...</string>
+    <string name="confirm_btn_add">Zur Speisekammer hinzufügen</string>
+    <string name="confirm_dialog_discard_title">Änderungen abwerfen\?</string>
+    <string name="confirm_dialog_discard_content">Bist du sicher, dass du zurückgehen willst\? Alle Lebensmittelinformationen, die du eingegeben hast, gehen verloren und werden nicht in deiner Speisekammer gespeichert.</string>
+    <string name="confirm_dialog_discard_btn_discard">Abwerfen</string>
+    <string name="confirm_dialog_discard_btn_keep">Weiterbearbeiten</string>
+
+    <!-- Scanner Screen -->
+    <string name="scanner_title_barcode">Barcode-Scanner</string>
+    <string name="scanner_title_food">Lebensmittelscanner</string>
+    <string name="scanner_action_close">Close Scanner</string>
+    <string name="scanner_action_flash">Toggle Flash</string>
+    <string name="scanner_label_scanning">Scanne...</string>
+    <string name="scanner_label_auto_off">Auto-Scan ausgeschaltet</string>
+    <string name="scanner_label_failure">Scan fehlgeschlagen</string>
+
+    <string name="scanner_barcode_dialog_title">Gib deinen Barcode ein</string>
+    <string name="scanner_barcode_label">Barcode</string>
+    <string name="scanner_barcode_confirm">Bestätigen</string>
+    <string name="scanner_preview_title">Vorschau</string>
+    <string name="scanner_preview_btn">Start Scan</string>
+
+    <!-- Analytics Screen -->
+    <string name="analytics_card">Du hast</string>
+    <string name="analytics_card_2">Diese Woche.</string>
+    <plurals name="analytics_product_count">
+        <item quantity="one">Du hast diese Woche ein Produkt von 1$d</item>
+        <item quantity="other">Du hast diese Woche Produkte mit 1$d</item>
+    </plurals>
+    <string name="analytics_title">Analytik</string>
+    <string name="analytics_subtitle">Überblick über Abfall und Auswirkungen</string>
+    <string name="analytics_card_consumed">Verzehrt</string>
+    <string name="analytics_card_wasted">Verschwendet</string>
+    <string name="analytics_card_others">Weitere</string>
+    <string name="analytics_card_spoilage_history">Verderbnisgeschichte</string>
+    <string name="analytics_card_waste_location">Verschwendete Gegenstände nach Standort</string>
+    <string name="analytics_card_weekly_freshness">Wöchentliche Frische</string>
+
+    <string name="analytics_weekly_card">%1$s/7 Tage</string>
+    <string name="analytics_weekly_card_content">Fang bei 1 % S. an</string>
+
+    <!-- Settings Screen -->
+    <string name="setting_dark_mode">Dunkel</string>
+    <string name="setting_light_mode">Licht</string>
+    <string name="setting_system_mode">System</string>
+
+    <string name="settings_set_time">Benachrichtigung erhalten unter</string>
+    <string name="settings_set_time_confirm">Bestätigen</string>
+    <string name="settings_set_time_cancel">Stornieren</string>
+
+    <string name="setting_language">Sprache</string>
+    <string name="setting_font">Taufbecken</string>
+
+    <string name="settings_title">Einstellungen</string>
+    <string name="settings_dynamic_color">Dynamische Farbe</string>
+    <string name="settings_dynamic_mode_desc">Aktiviere dynamische Farben für die App</string>
+    <string name="settings_notifications">Benachrichtigungen</string>
+    <string name="settings_notifications_desc">Erhalte Benachrichtigungen über ablaufende Lebensmittel</string>
+    <string name="setting_biometric">Biometrie-Sperre</string>
+    <string name="setting_biometric_desc">Biometrische Sperre für die App</string>
+
+    <string name="setting_data">Ihre Daten</string>
+    <string name="setting_delete_dialog">Lösche deine Daten</string>
+    <string name="setting_clear_data">Alle löschen</string>
+    <string name="setting_clear_data_desc">Löschen Sie alle Ihre Anwendungsdaten.</string>
+
+    <string name="delete_data_dialog_title">Alle Daten löschen\?</string>
+    <string name="delete_data_dialog_content">Diese Maßnahme kann nicht rückgängig gemacht werden. Alle Ihre lokalen Daten, Konten und Einstellungen werden dauerhaft von diesem Gerät entfernt.</string>
+    <string name="delete_data_dialog_confirm">Löschen</string>
+    <string name="delete_data_dialog_cancel">Stornieren</string>
+
+    <string name="setting_use_category">Nutzungskategorie</string>
+    <string name="setting_use_category_des">Nutze die Kategorie, um deine Lebensmittel zu gruppieren</string>
+
+    <string name="setting_backup">Sicherung</string>
+    <string name="setting_backup_desc">Exportiere oder importiere deine Lebensmittel.</string>
+
+    <string name="setting_export">Export</string>
+    <string name="setting_export_desc">Exportiere deine Daten in Downloads/Algidy</string>
+    <string name="setting_import">Import</string>
+    <string name="setting_import_desc">Importiere deine Daten.</string>
+
+    <string name="setting_about_app">Über die App</string>
+    <string name="setting_about_app_desc">Algides</string>
+
+    <string name="setting_other_settings_title">Weitere Schauplätze</string>
+
+    <string name="import_success">Importiere deine Daten erfolgreich!</string>
+    <string name="import_fail">Importierung deiner Daten fehlgeschlagen!</string>
+    <string name="export_success">Ihre Daten werden exportiert!</string>
+    <string name="export_failed">Du kannst deine Daten nicht exportieren!</string>
+
+</resources>
