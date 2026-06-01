@@ -28,7 +28,7 @@ fun CardLayout(
     icon: ImageVector,
     title: String,
     cardColors: CardColors = CardDefaults.cardColors(
-        containerColor = MaterialTheme.colorScheme.surfaceVariant,
+        containerColor = MaterialTheme.colorScheme.surfaceContainer,
         contentColor = MaterialTheme.colorScheme.onSurface
     ),
     content: @Composable ColumnScope.() -> Unit

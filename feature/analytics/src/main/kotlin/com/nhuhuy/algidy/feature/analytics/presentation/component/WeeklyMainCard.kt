@@ -4,86 +4,115 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.DateRange
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialShapes
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.toShape
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.pluralStringResource
-import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.nhuhuy.algidy.core.designsystem.R
-import com.nhuhuy.algidy.core.presentation.R as PresentationR
+import com.nhuhuy.algidy.core.presentation.R
+import kotlinx.coroutines.delay
+import java.time.DayOfWeek
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import kotlin.time.Duration.Companion.hours
 
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
-fun WeeklyMainCard(
-    productCountInWeek: Int,
-    modifier: Modifier = Modifier,
+fun WeeklyProgressCard(
+    disabledBackgroundColor: Color,
+    activeBackgroundColor: Color,
+    contentColor: Color,
+    modifier: Modifier = Modifier
 ) {
-    Surface(
-        modifier = modifier,
-        color = MaterialTheme.colorScheme.secondaryContainer,
-        contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
-        shape = RoundedCornerShape(36.dp)
+    var progress by remember { mutableFloatStateOf(calculateWeekProgress()) }
+    var currentDayOfWeek by remember { mutableIntStateOf(LocalDateTime.now().dayOfWeek.value) }
+    val startOfWeekDate = remember {
+        val monday = LocalDateTime.now().with(DayOfWeek.MONDAY)
+        val formatter = DateTimeFormatter.ofPattern("dd/MM")
+        monday.format(formatter)
+    }
+
+    LaunchedEffect(Unit) {
+        while (true) {
+            progress = calculateWeekProgress()
+            currentDayOfWeek = LocalDateTime.now().dayOfWeek.value
+            delay(1.hours)
+        }
+    }
+
+    Box(
+        modifier = modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(16.dp))
+            .background(disabledBackgroundColor)
     ) {
+        Box(
+            modifier = Modifier
+                .fillMaxHeight()
+                .fillMaxWidth(fraction = progress)
+                .background(activeBackgroundColor)
+        )
+
+
         Row(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(horizontal = 16.dp),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(
-                space = 8.dp,
-                alignment = Alignment.CenterHorizontally
-            )
+            horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Box(
-                modifier = Modifier.background(
-                    color = MaterialTheme.colorScheme.secondary,
-                    shape = MaterialShapes.Sunny.toShape()
-                ),
-                contentAlignment = Alignment.Center,
-            ) {
+
+            Row(verticalAlignment = Alignment.CenterVertically) {
                 Icon(
-                    modifier = Modifier
-                        .padding(12.dp)
-                        .size(24.dp),
-                    imageVector = ImageVector.vectorResource(R.drawable.ic_outline_avocado_bean),
-                    contentDescription = null,
-                    tint = MaterialTheme.colorScheme.onSecondary
+                    imageVector = Icons.Rounded.DateRange,
+                    contentDescription = "This week",
+                    tint = contentColor
+                )
+                Spacer(modifier = Modifier.width(12.dp))
+                Text(
+                    text = stringResource(
+                        R.string.analytics_weekly_card_content,
+                        " $startOfWeekDate"
+                    ),
+                    style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.SemiBold),
+                    color = contentColor
                 )
             }
+
+
             Text(
-                text = pluralStringResource(
-                    id = PresentationR.plurals.analytics_product_count,
-                    count = productCountInWeek,
-                    productCountInWeek
-                ),
-                style = MaterialTheme.typography.bodyLarge.copy(
-                    fontWeight = FontWeight.Medium
-                ),
-                maxLines = 2,
-                overflow = TextOverflow.Ellipsis
+                text = stringResource(R.string.analytics_weekly_card, currentDayOfWeek),
+                style = MaterialTheme.typography.labelLarge,
+                color = contentColor
             )
         }
     }
 }
 
-@Composable
-fun WeeklySecondCard(
-    modifier: Modifier = Modifier,
-    consumedPercent: Float,
-    wastedPercent: Float,
-) {
+private fun calculateWeekProgress(): Float {
+    val now = LocalDateTime.now()
 
+    val dayOfWeek = now.dayOfWeek.value
+    return dayOfWeek / 7f
 }
+

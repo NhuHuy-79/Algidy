@@ -11,9 +11,9 @@ import com.nhuhuy.algidy.feature.analytics.domain.model.SpoilageHistory
 
 @Immutable
 data class AnalyticsUiState(
-    val weeklyFoodItemsCount: Int = 0,
-    val wastedCount: Int = 0,
-    val consumedCount: Int = 0,
+    val weeklyFoodItemsCount: Int = 10,
+    val wastedCount: Int = 5,
+    val consumedCount: Int = 5,
     val othersCount: Int = 0,
     val expiryChartUiModel: ExpiryChartUiModel = ExpiryChartUiModel(),
     val spoilageChartUiModel: SpoilageChartUiModel = SpoilageChartUiModel(),
@@ -31,6 +31,14 @@ data class AnalyticsUiState(
     val othersPercent: Float
         get() = if (weeklyFoodItemsCount == 0) 0f else othersCount.toFloat() / weeklyFoodItemsCount
 
+    fun getCountByCircularChart(): Int {
+        return when (circularChartData) {
+            CircularChartData.CONSUMED -> consumedCount
+            CircularChartData.WASTED -> wastedCount
+            CircularChartData.OTHERS -> othersCount
+        }
+    }
+
     fun getFloatByCircularChart(): Float {
         return when (circularChartData) {
             CircularChartData.OTHERS -> othersPercent
@@ -39,14 +47,12 @@ data class AnalyticsUiState(
         }
     }
 
-    fun getCountByCircularChart(): Int {
-        return when (circularChartData) {
-            CircularChartData.OTHERS -> othersCount
-            CircularChartData.CONSUMED -> consumedCount
-            CircularChartData.WASTED -> wastedCount
-        }
-    }
 }
+
+@Immutable
+data class ActionAnalyticsState(
+    val currentChartData: CircularChartData = CircularChartData.CONSUMED
+)
 
 @Immutable
 data class SpoilageChartUiModel(
@@ -71,7 +77,9 @@ data class FreshnessChartData(
 
 @Immutable
 data class ExpiryChartUiModel(
-    val items: List<FreshnessChartData> = emptyList(),
+    val items: List<FreshnessChartData> = Freshness.entries.map { freshness ->
+        FreshnessChartData(type = freshness, values = emptyList())
+    },
     val labels: List<String> = emptyList()
 )
 
@@ -105,5 +113,5 @@ fun SpoilageHistory.toSpoilageChartUiModel() : SpoilageChartUiModel {
 }
 
 enum class CircularChartData {
-    OTHERS, CONSUMED, WASTED
+    CONSUMED, WASTED, OTHERS;
 }

@@ -139,7 +139,7 @@
     <string name="confirm_date_set">Set Date</string>
     <string name="confirm_label_location">Storage Location</string>
     <string name="confirm_label_notes">Notes</string>
-    <string name="confirm_placeholder_notes">E.g. Brand, open date...</string>
+    <string name="confirm_placeholder_notes">E.g. Brand, open date…</string>
     <string name="confirm_btn_add">Add to Pantry</string>
     <string name="confirm_dialog_discard_title">Discard Changes?</string>
     <string name="confirm_dialog_discard_content">Are you sure you want to go back? All food information you\'ve entered will be lost and won\'t be saved to your pantry.</string>
@@ -176,6 +176,9 @@
     <string name="analytics_card_spoilage_history">Spoilage History</string>
     <string name="analytics_card_waste_location">Wasted Items by Location</string>
     <string name="analytics_card_weekly_freshness">Weekly Freshness</string>
+
+    <string name="analytics_weekly_card">%1$s/7 days</string>
+    <string name="analytics_weekly_card_content">Start from %1$s</string>
 
     <!-- Settings Screen -->
     <string name="setting_dark_mode">Dark</string>
