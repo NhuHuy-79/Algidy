@@ -2,7 +2,10 @@
 accompanistPermissions = "0.37.3"
 agp = "8.13.2"
 biometric = "1.1.0"
+cameraCore = "1.5.0-alpha05"
 composeChartsVersion = "0.1.10"
+entityExtraction = "16.0.0-beta6"
+guava = "33.0.0-android"
 koinAndroidxWorkmanager = "4.0.0"
 kotlin = "2.1.10"
 coreKtx = "1.18.0"
@@ -17,6 +20,8 @@ activityCompose = "1.13.0"
 composeBom = "2025.02.00"
 navigation3Runtime = "1.2.0-alpha01"
 navigationevent = "1.1.1"
+playServicesMlkitBarcodeScanning = "18.3.1"
+playServicesMlkitTextRecognition = "19.0.1"
 room = "2.7.0-alpha01"
 googleAi = "0.9.0"
 ksp = "2.1.10-1.0.29"
@@ -49,11 +54,19 @@ googleFirebaseCrashlytics = "3.0.7"
 [libraries]
 accompanist-permissions = { module = "com.google.accompanist:accompanist-permissions", version.ref = "accompanistPermissions" }
 androidx-biometric = { module = "androidx.biometric:biometric", version.ref = "biometric" }
+androidx-camera-camera2 = { module = "androidx.camera:camera-camera2", version.ref = "cameraCore" }
+androidx-camera-compose = { module = "androidx.camera:camera-compose", version.ref = "cameraCore" }
+androidx-camera-core = { module = "androidx.camera:camera-core", version.ref = "cameraCore" }
+androidx-camera-extensions1 = { module = "androidx.camera:camera-extensions", version.ref = "cameraCore" }
+androidx-camera-lifecycle = { module = "androidx.camera:camera-lifecycle", version.ref = "cameraCore" }
+androidx-camera-view = { module = "androidx.camera:camera-view", version.ref = "cameraCore" }
 androidx-core-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "coreSplashScreen" }
 androidx-datastore-preferences = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "androidxDatastore" }
 androidx-navigationevent = { module = "androidx.navigationevent:navigationevent", version.ref = "navigationevent" }
 androidx-work-runtime-ktx = { group = "androidx.work", name = "work-runtime-ktx", version.ref = "androidxWork" }
 compose-charts-v0110 = { module = "io.github.ehsannarmani:compose-charts", version.ref = "composeChartsVersion" }
+entity-extraction = { module = "com.google.mlkit:entity-extraction", version.ref = "entityExtraction" }
+guava = { module = "com.google.guava:guava", version.ref = "guava" }
 koin-androidx-workmanager = { module = "io.insert-koin:koin-androidx-workmanager", version.ref = "koinAndroidxWorkmanager" }
 kotlinx-collections-immutable = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "kotlinxCollectionsImmutable" }
 kotlinx-coroutines-play-services = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services", version.ref = "kotlinxCoroutinesPlayServices" }
@@ -78,6 +91,8 @@ androidx-material3 = { group = "androidx.compose.material3", name = "material3" 
 androidx-material3-android = { group = "androidx.compose.material3", name = "material3-android", version.ref = "material3Android" }
 androidx-material-icons-extended = { group = "androidx.compose.material", name = "material-icons-extended" }
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinxCoroutinesAndroid" }
+play-services-mlkit-barcode-scanning = { module = "com.google.android.gms:play-services-mlkit-barcode-scanning", version.ref = "playServicesMlkitBarcodeScanning" }
+play-services-mlkit-text-recognition = { module = "com.google.android.gms:play-services-mlkit-text-recognition", version.ref = "playServicesMlkitTextRecognition" }
 room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
 room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
