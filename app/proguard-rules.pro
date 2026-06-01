@@ -60,21 +60,6 @@
 -keep class androidx.biometric.** { *; }
 
 # Loggers (Strip logs in release)
--assumenosideeffects class android.util.Log {
-    public static int v(...);
-    public static int d(...);
-    public static int i(...);
-    public static int w(...);
-    public static int e(...);
-}
-
--assumenosideeffects class timber.log.Timber {
-    public static void v(...);
-    public static void d(...);
-    public static void i(...);
-    public static void w(...);
-    public static void e(...);
-}
 
 # General optimization
 -repackageclasses ''

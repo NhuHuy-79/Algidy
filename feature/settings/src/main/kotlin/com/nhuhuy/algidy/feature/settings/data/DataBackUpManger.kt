@@ -41,14 +41,12 @@ class DataBackUpManger(
             resolver.openOutputStream(targetZipUri)?.use { outputStream ->
                 ZipOutputStream(BufferedOutputStream(outputStream)).use { zos ->
 
-                    // 📝 Bước A: Bảo dbBackupManager đưa chuỗi JSON đây, rồi tự nén vào "Algidy/Data/"
                     val jsonString = databaseBackUpManager.exportToJson()
                     val jsonEntry = ZipEntry("Algidy/Data/food_backup.json")
                     zos.putNextEntry(jsonEntry)
                     zos.write(jsonString.encodeToByteArray())
                     zos.closeEntry()
 
-                    // 🖼️ Bước B: Lấy list ảnh từ DB, rồi bảo imageBackupManager nén vào "Algidy/Image/"
                     val imageUris = databaseBackUpManager.getAllImageUris()
                     imageBackUpManager.pickImagesToZip(imageUris, zos)
                 }
