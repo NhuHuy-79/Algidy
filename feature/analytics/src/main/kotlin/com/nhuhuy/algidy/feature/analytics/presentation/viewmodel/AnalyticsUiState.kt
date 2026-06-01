@@ -11,9 +11,9 @@ import com.nhuhuy.algidy.feature.analytics.domain.model.SpoilageHistory
 
 @Immutable
 data class AnalyticsUiState(
-    val weeklyFoodItemsCount: Int = 10,
-    val wastedCount: Int = 5,
-    val consumedCount: Int = 5,
+    val weeklyFoodItemsCount: Int = 0,
+    val wastedCount: Int = 0,
+    val consumedCount: Int = 0,
     val othersCount: Int = 0,
     val expiryChartUiModel: ExpiryChartUiModel = ExpiryChartUiModel(),
     val spoilageChartUiModel: SpoilageChartUiModel = SpoilageChartUiModel(),

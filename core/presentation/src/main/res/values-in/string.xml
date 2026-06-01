@@ -180,6 +180,7 @@
     <string name="analytics_weekly_card_content">Mulai dari %1$s</string>
 
     <!-- Settings Screen -->
+    <string name="setting_app_theme">Tema</string>
     <string name="setting_dark_mode">Gelap</string>
     <string name="setting_light_mode">Cahaya</string>
     <string name="setting_system_mode">Sistem</string>

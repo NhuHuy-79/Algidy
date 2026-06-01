@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scrim
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -17,7 +16,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
-import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
 import com.nhuhuy.algidy.core.designsystem.component.AlgidyAlertDialog
 import com.nhuhuy.algidy.core.designsystem.component.BoxLayout
@@ -50,7 +48,7 @@ fun InventoryRoute(
     val inventoryResultState by viewModel.resultState.collectAsStateWithLifecycle()
     val onAction = viewModel::onAction
 
-    val cameraPermissionState = rememberPermissionState(
+    rememberPermissionState(
         Manifest.permission.CAMERA
     )
 
@@ -62,13 +60,7 @@ fun InventoryRoute(
             is InventoryEvent.NavigateToDetail -> onNavigateToDetail(event.id)
             InventoryEvent.NavigateToSearch -> onNavigateToSearch()
             InventoryEvent.NavigateToSetting -> onNavigateToSetting()
-            InventoryEvent.NavigateToCamera -> {
-                if (!cameraPermissionState.status.isGranted) {
-                    cameraPermissionState.launchPermissionRequest()
-                } else {
-                    onNavigateToCamera()
-                }
-            }
+            InventoryEvent.NavigateToCamera -> onNavigateToCamera()
         }
     }
 

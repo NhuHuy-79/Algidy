@@ -1,5 +1,6 @@
 <resources>
     <!-- Common -->
+
     <string name="action_ok">OK</string>
     <string name="action_cancel">Hủy</string>
     <string name="action_save">Lưu</string>
@@ -178,6 +179,7 @@
     <string name="analytics_weekly_card_content">Bắt đầu từ%1$s</string>
 
     <!-- Settings Screen -->
+    <string name="setting_app_theme">Chủ đề</string>
     <string name="setting_dark_mode">Tối</string>
     <string name="setting_light_mode">Sáng</string>
     <string name="setting_system_mode">Hệ thống</string>

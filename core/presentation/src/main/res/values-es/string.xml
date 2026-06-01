@@ -1,5 +1,6 @@
 <resources>
     <!-- Common -->
+
     <string name="action_ok">Vale</string>
     <string name="action_cancel">Cancelar</string>
     <string name="action_save">Salvar</string>
@@ -179,6 +180,7 @@
     <string name="analytics_weekly_card_content">Empieza desde %1$s</string>
 
     <!-- Settings Screen -->
+    <string name="setting_app_theme">Tema</string>
     <string name="setting_dark_mode">Oscuro</string>
     <string name="setting_light_mode">Luz</string>
     <string name="setting_system_mode">Sistema</string>

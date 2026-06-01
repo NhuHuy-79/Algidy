@@ -1,6 +1,7 @@
 package com.nhuhuy.algidy.feature.analytics.presentation.component
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -82,22 +83,25 @@ fun WeeklyProgressCard(
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
 
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Icon(
-                    imageVector = Icons.Rounded.DateRange,
-                    contentDescription = "This week",
-                    tint = contentColor
-                )
-                Spacer(modifier = Modifier.width(12.dp))
-                Text(
-                    text = stringResource(
-                        R.string.analytics_weekly_card_content,
-                        " $startOfWeekDate"
-                    ),
-                    style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.SemiBold),
-                    color = contentColor
-                )
-            }
+            Icon(
+                imageVector = Icons.Rounded.DateRange,
+                contentDescription = "This week",
+                tint = contentColor
+            )
+            Spacer(modifier = Modifier.width(12.dp))
+
+            Text(
+                text = stringResource(
+                    R.string.analytics_weekly_card_content,
+                    " $startOfWeekDate"
+                ),
+                modifier = Modifier
+                    .weight(1f)
+                    .basicMarquee(),
+                maxLines = 1,
+                style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.SemiBold),
+                color = contentColor
+            )
 
 
             Text(

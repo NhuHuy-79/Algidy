@@ -158,13 +158,30 @@ class InventoryViewModel(
     }
 
     private fun onFabAction(action: InventoryFabAction) {
-        _uiState.product { copy(expanded = !expanded) }
         when (action) {
-            InventoryFabAction.Analytics -> emitEvent(InventoryEvent.NavigateToAnalytics)
-            InventoryFabAction.BarcodeScan -> emitEvent(InventoryEvent.NavigateToCamera)
-            InventoryFabAction.Manual -> emitEvent(InventoryEvent.NavigateToFoodEntry)
-            InventoryFabAction.Setting -> emitEvent(InventoryEvent.NavigateToSetting)
-            is InventoryFabAction.ToggleFabMenu -> Unit
+            InventoryFabAction.Analytics -> {
+                _uiState.product { copy(expanded = false) }
+                emitEvent(InventoryEvent.NavigateToAnalytics)
+            }
+
+            InventoryFabAction.BarcodeScan -> {
+                _uiState.product { copy(expanded = false) }
+                emitEvent(InventoryEvent.NavigateToCamera)
+            }
+
+            InventoryFabAction.Manual -> {
+                _uiState.product { copy(expanded = false) }
+                emitEvent(InventoryEvent.NavigateToFoodEntry)
+            }
+
+            InventoryFabAction.Setting -> {
+                _uiState.product { copy(expanded = false) }
+                emitEvent(InventoryEvent.NavigateToSetting)
+            }
+
+            is InventoryFabAction.ToggleFabMenu -> {
+                _uiState.product { copy(expanded = action.value) }
+            }
         }
     }
 }

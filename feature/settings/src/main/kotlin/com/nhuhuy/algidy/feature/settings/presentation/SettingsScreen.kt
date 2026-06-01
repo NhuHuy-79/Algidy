@@ -92,7 +92,7 @@ fun SettingsScreen(
         ) {
             item {
                 Text(
-                    text = stringResource(R.string.settings_dynamic_color),
+                    text = stringResource(R.string.setting_app_theme),
                     style = MaterialTheme.typography.titleMedium,
                     modifier = Modifier.padding(vertical = 8.dp)
                 )

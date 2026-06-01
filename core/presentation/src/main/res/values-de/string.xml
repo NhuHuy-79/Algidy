@@ -1,5 +1,6 @@
 <resources>
     <!-- Common -->
+
     <string name="action_ok">OK</string>
     <string name="action_cancel">Stornieren</string>
     <string name="action_save">Speichern</string>
@@ -179,6 +180,7 @@
     <string name="analytics_weekly_card_content">Fang bei 1 % S. an</string>
 
     <!-- Settings Screen -->
+    <string name="setting_app_theme">Thema</string>
     <string name="setting_dark_mode">Dunkel</string>
     <string name="setting_light_mode">Licht</string>
     <string name="setting_system_mode">System</string>
