@@ -10,7 +10,7 @@ android {
     namespace = "com.nhuhuy.algidy"
     defaultConfig {
         applicationId = "com.nhuhuy.algidy"
-        targetSdk = 36
+        targetSdk = 35
     }
 }
 
@@ -51,7 +51,7 @@ dependencies {
     implementation(libs.androidx.navigation3.runtime)
     implementation(libs.androidx.navigation3.ui)
     implementation(libs.androidx.lifecycle.viewmodel.navigation3)
-    implementation("androidx.navigationevent:navigationevent:1.1.1")
+    implementation(libs.androidx.navigationevent)
 
     //Bioemtric Authenticator
     implementation(libs.androidx.biometric)
