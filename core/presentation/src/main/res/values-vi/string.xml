@@ -195,6 +195,7 @@
     <string name="settings_set_time">Cài đặt Nhận Thông báo</string>
     <string name="settings_set_time_confirm">Xác nhận</string>
     <string name="settings_set_time_cancel">Hủy bỏ</string>
+    <string name="settings_set_time_success">Thời gian thông báo được cập nhật!</string>
 
     <string name="setting_language">Ngôn ngữ</string>
     <string name="setting_font">Font chữ</string>
