@@ -6,88 +6,74 @@ import androidx.biometric.BiometricManager.Authenticators.DEVICE_CREDENTIAL
 import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
+import com.nhuhuy.algidy.core.presentation.R
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.channelFlow
 
 
 class BiometricHandler(private val activity: FragmentActivity) {
-    fun authenticate(): Flow<BiometricResult> = channelFlow {
-        trySend(BiometricResult.Idle)
+    // Hàm này gọi TRƯỚC khi hiện nút "Đăng nhập bằng vân tay"
+    fun isBiometricAvailable(): Boolean {
+        val manager = BiometricManager.from(activity)
+        val authenticators = BIOMETRIC_STRONG or DEVICE_CREDENTIAL
+        return manager.canAuthenticate(authenticators) == BiometricManager.BIOMETRIC_SUCCESS
+    }
 
-        val authenticators = BIOMETRIC_STRONG or
-                DEVICE_CREDENTIAL
-        val executor = ContextCompat.getMainExecutor(activity)
+    // Hàm này gọi KHI người dùng bấm vào nút "Đăng nhập"
+    fun authenticate(): Flow<BiometricResult> = channelFlow {
+        val authenticators = BIOMETRIC_STRONG or DEVICE_CREDENTIAL
         val manager = BiometricManager.from(activity)
 
+        // Kiểm tra nhanh trước khi bắt đầu
         when (manager.canAuthenticate(authenticators)) {
-            BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE -> {
-                trySend(BiometricResult.Error.Unavailable)
-                channel.close()
-                return@channelFlow
-            }
-
             BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED -> {
-                trySend(BiometricResult.Error.NotEnroll)
-                channel.close()
-                return@channelFlow
+                trySend(BiometricResult.Error.NotEnrolled)
+                channel.close(); return@channelFlow
             }
 
-            BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE -> {
-                trySend(BiometricResult.Error.NoHardware)
-                channel.close()
-                return@channelFlow
-            }
-
+            BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE,
+            BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE,
             BiometricManager.BIOMETRIC_ERROR_UNSUPPORTED -> {
-                trySend(BiometricResult.Error.NoFeature)
-                channel.close()
-                return@channelFlow
+                trySend(BiometricResult.Error.NotSupported)
+                channel.close(); return@channelFlow
             }
-
-            BiometricManager.BIOMETRIC_STATUS_UNKNOWN -> {
-                trySend(BiometricResult.Error.Unknown)
-                channel.close()
-                return@channelFlow
-            }
-
-            else -> Unit
         }
 
         val biometricPrompt = BiometricPrompt(
-            activity, executor,
+            activity, ContextCompat.getMainExecutor(activity),
             object : BiometricPrompt.AuthenticationCallback() {
                 override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
-                    super.onAuthenticationSucceeded(result)
                     trySend(BiometricResult.Success)
                     channel.close()
                 }
 
                 override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
-                    super.onAuthenticationError(errorCode, errString)
-                    trySend(BiometricResult.Error.HasError(error = errString.toString()))
+                    val error = when (errorCode) {
+                        BiometricPrompt.ERROR_LOCKOUT,
+                        BiometricPrompt.ERROR_LOCKOUT_PERMANENT -> BiometricResult.Error.LockedOut
+
+                        BiometricPrompt.ERROR_USER_CANCELED -> BiometricResult.Idle
+                        else -> BiometricResult.Error.HasError(errString.toString())
+                    }
+                    trySend(error)
                     channel.close()
                 }
 
                 override fun onAuthenticationFailed() {
-                    super.onAuthenticationFailed()
                     trySend(BiometricResult.Failed)
                 }
             }
         )
 
         val promptInfo = BiometricPrompt.PromptInfo.Builder()
-            .setTitle("Xác thực Algidy")
-            .setSubtitle("Quét vân tay để tiếp tục")
+            .setTitle(activity.getString(R.string.biometric_title))
+            .setSubtitle(activity.getString(R.string.biometric_subtitle))
             .setAllowedAuthenticators(authenticators)
             .build()
 
         biometricPrompt.authenticate(promptInfo)
-
-
-        awaitClose {
-            biometricPrompt.cancelAuthentication()
-        }
+        awaitClose { biometricPrompt.cancelAuthentication() }
     }
 }
 
@@ -95,14 +81,12 @@ class BiometricHandler(private val activity: FragmentActivity) {
 sealed interface BiometricResult {
     data object Idle : BiometricResult
     data object Success : BiometricResult
-    sealed interface Error : BiometricResult {
-        data class HasError(val error: String) : Error
-        data object NoFeature : Error
-        data object NoHardware : Error
-        data object Unavailable : Error
-        data object NotEnroll : Error
-        data object Unknown : Error
-    }
+    data object Failed : BiometricResult // Vân tay sai
 
-    data object Failed : BiometricResult
+    sealed interface Error : BiometricResult {
+        data object NotSupported : Error
+        data object NotEnrolled : Error
+        data object LockedOut : Error
+        data class HasError(val message: String) : Error
+    }
 }

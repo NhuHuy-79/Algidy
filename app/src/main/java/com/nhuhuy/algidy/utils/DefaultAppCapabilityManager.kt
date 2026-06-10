@@ -38,4 +38,11 @@ class DefaultAppCapabilityManager(
                 .areNotificationsEnabled()
         }
     }
+
+    override fun isBiometricSupported(): Boolean {
+        val manager = androidx.biometric.BiometricManager.from(context)
+        val authenticators =
+            androidx.biometric.BiometricManager.Authenticators.BIOMETRIC_STRONG or androidx.biometric.BiometricManager.Authenticators.DEVICE_CREDENTIAL
+        return manager.canAuthenticate(authenticators) == androidx.biometric.BiometricManager.BIOMETRIC_SUCCESS
+    }
 }

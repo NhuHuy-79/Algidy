@@ -57,12 +57,26 @@ class MainActivity : AppCompatActivity() {
                                     isUnlocked = true
                                 }
 
-                                is BiometricResult.Error -> {
-                                    isUnlocked = true
-                                    //Unsupported Biometric
-                                    onAction(AppAction.UpdateBiometricSupported(false))
+                                BiometricResult.Failed -> {
+                                    // Vân tay không khớp, giữ nguyên trạng thái, không unlock
+                                    isUnlocked = false
+                                    // Có thể hiện thông báo "Vân tay không khớp"
                                 }
-                                BiometricResult.Failed -> isUnlocked = false
+
+                                is BiometricResult.Error -> {
+                                    isUnlocked = false // Mặc định không cho mở khóa nếu có lỗi
+
+                                    when (result) {
+                                        BiometricResult.Error.NotSupported -> {
+                                            onAction(AppAction.UpdateBiometricSupported(false))
+                                        }
+                                        // Các lỗi khác (NotEnrolled, LockedOut, HasError) -> Thông báo cho người dùng
+                                        else -> {
+
+                                        }
+                                    }
+                                }
+
                                 BiometricResult.Idle -> Unit
                             }
                         }
