@@ -1,6 +1,5 @@
 package com.nhuhuy.algidy.core.data.mapper
 
-import com.nhuhuy.algidy.capitalize
 import com.nhuhuy.algidy.core.database.entity.FoodItemEntity
 import com.nhuhuy.algidy.core.model.food.DefaultFoodCategory
 import com.nhuhuy.algidy.core.model.food.FoodItem
@@ -14,7 +13,7 @@ import java.util.UUID
 fun FoodApiResponse.toDomain() = FoodItem(
     id = UUID.randomUUID().toString(),
     name = product?.productName.orEmpty(),
-    categoryId = product?.categories?.firstOrNull()?.capitalize().orEmpty(),
+    categoryId = null,
     location = StorageLocation.OTHER,
     quantity = 0.0,
     itemUnit = ItemUnit.OTHER,
@@ -46,7 +45,7 @@ fun FoodItem.toEntity() = FoodItemEntity(
     id = id,
     name = name,
     normalizedName = name.toGenericNormalized(),
-    categoryId = categoryId,
+    categoryId = categoryId?.ifBlank { null },
     location = location,
     quantity = quantity,
     itemUnit = itemUnit,

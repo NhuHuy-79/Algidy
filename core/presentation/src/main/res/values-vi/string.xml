@@ -1,6 +1,6 @@
 <resources>
     <!-- Common -->
-    <string name="app_name">Algidy</string>
+
     <string name="action_ok">OK</string>
     <string name="action_cancel">Hủy</string>
     <string name="action_save">Lưu</string>
@@ -175,13 +175,19 @@
     <string name="analytics_card_waste_location">Thực phẩm lãng phí theo vị trí</string>
     <string name="analytics_card_weekly_freshness">Độ tươi mới trong tuần</string>
 
+    <string name="analytics_weekly_card">%1$s/7 ngày</string>
+    <string name="analytics_weekly_card_content">Bắt đầu từ%1$s</string>
+
     <!-- Settings Screen -->
+    <string name="setting_app_theme">Chủ đề</string>
     <string name="setting_dark_mode">Tối</string>
     <string name="setting_light_mode">Sáng</string>
     <string name="setting_system_mode">Hệ thống</string>
 
     <string name="settings_set_time">Cài đặt Nhận Thông báo</string>
+    <string name="settings_set_time_confirm">Xác nhận</string>
     <string name="settings_set_time_cancel">Hủy bỏ</string>
+
     <string name="setting_language">Ngôn ngữ</string>
     <string name="setting_font">Font chữ</string>
 
@@ -223,6 +229,5 @@
     <string name="import_fail">Tải dữ liệu thất bại!</string>
     <string name="export_success">Dữ liệu của bạn đã được xuất ra!</string>
     <string name="export_failed">Xuất dữ liệu thất bại!</string>
-    <string name="settings_set_time_confirm">Xác nhận</string>
 
 </resources>

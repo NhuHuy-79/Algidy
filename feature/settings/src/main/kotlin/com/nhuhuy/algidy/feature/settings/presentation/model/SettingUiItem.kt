@@ -1,6 +1,7 @@
 package com.nhuhuy.algidy.feature.settings.presentation.model
 
 import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.Stable
 
 sealed interface SettingUiItem
 
@@ -9,7 +10,7 @@ data class SettingClickableItem(
     val type: ClickableType,
 ) : SettingUiItem
 
-
+@Stable
 sealed interface ClickableType {
     data object Export : ClickableType
     data object Import : ClickableType

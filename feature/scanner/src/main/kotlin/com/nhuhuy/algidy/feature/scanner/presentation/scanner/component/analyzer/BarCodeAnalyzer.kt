@@ -17,10 +17,21 @@ class BarcodeAnalyzer(
 ) : ImageAnalysis.Analyzer {
 
     private val scanner = BarcodeScanning.getClient()
+    private var isReleased = false
 
     @OptIn(ExperimentalGetImage::class)
     override fun analyze(imageProxy: ImageProxy) {
-        val mediaImage = imageProxy.image ?: return imageProxy.close()
+        if (isReleased) {
+            imageProxy.close()
+            return
+        }
+
+        val mediaImage = imageProxy.image
+        if (mediaImage == null) {
+            imageProxy.close()
+            return
+        }
+
         val image = InputImage.fromMediaImage(
             mediaImage,
             imageProxy.imageInfo.rotationDegrees
@@ -28,13 +39,20 @@ class BarcodeAnalyzer(
 
         scanner.process(image)
             .addOnSuccessListener { barcodes ->
-                barcodes.firstOrNull()?.rawValue?.let { onBarcodeDetected(it) }
+                if (!isReleased) {
+                    barcodes.firstOrNull()?.rawValue?.let { onBarcodeDetected(it) }
+                }
             }
-            .addOnFailureListener { Timber.e(it) }
-            .addOnCompleteListener { imageProxy.close() }
+            .addOnFailureListener {
+                if (!isReleased) Timber.e(it)
+            }
+            .addOnCompleteListener {
+                imageProxy.close()
+            }
     }
 
     suspend fun analyzeUri(context: Context, uri: Uri): String? {
+        if (isReleased) return null
         return try {
             val image = InputImage.fromFilePath(context, uri)
             val results = scanner.process(image).await()
@@ -48,6 +66,7 @@ class BarcodeAnalyzer(
     }
 
     fun release() {
+        isReleased = true
         scanner.close()
     }
 }

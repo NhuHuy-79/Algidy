@@ -1,0 +1,234 @@
+<resources>
+    <!-- Common -->
+
+    <string name="action_ok">OK</string>
+    <string name="action_cancel">Cancelar</string>
+    <string name="action_save">Salvar</string>
+    <string name="action_discard">Descartar</string>
+    <string name="action_edit">Editar</string>
+    <string name="action_add">Adicionar</string>
+    <string name="action_delete">Excluir</string>
+    <string name="action_back">Voltar</string>
+    <string name="action_menu">Ações do Menu</string>
+    <string name="action_view_more">Ver Mais</string>
+    <string name="action_new">Novo</string>
+
+    <string name="category_all">Todos</string>
+    <string name="category_uncategorized">Sem categoria</string>
+    <string name="category_vegetables">Vegetais</string>
+    <string name="category_fruits">Frutas</string>
+    <string name="category_meat">Carnes</string>
+    <string name="category_seafood">Frutos do mar</string>
+    <string name="category_dairy_eggs">Laticínios e Ovos</string>
+    <string name="category_others">Outros</string>
+
+    <!-- Storage Locations -->
+    <string name="location_fridge">Geladeira</string>
+    <string name="location_freezer">Freezer</string>
+    <string name="location_pantry">Despensa</string>
+    <string name="location_other">Outro</string>
+
+    <!-- Units -->
+    <string name="unit_kg">kg</string>
+    <string name="unit_gram">g</string>
+    <string name="unit_liter">l</string>
+    <string name="unit_piece">un</string>
+    <string name="unit_bottle">garrafa</string>
+    <string name="unit_other">outro</string>
+
+    <!-- Freshness -->
+    <string name="freshness_no_expiry">Sem validade</string>
+    <string name="freshness_expired">Venceu há %1$s d</string>
+    <string name="freshness_expires_today">Vence hoje</string>
+    <string name="freshness_one_day_left">Resta 1 dia</string>
+    <string name="freshness_days_left">Restam %1$s dias</string>
+    <string name="freshness_months_left">Restam %1$s meses</string>
+
+    <!-- Freshness Status Labels -->
+    <string name="freshness_status_expired">Vencido</string>
+    <string name="freshness_status_urgent">Urgente</string>
+    <string name="freshness_status_warning">Atenção</string>
+    <string name="freshness_status_fresh">Fresco</string>
+
+
+    <!--Biometric Authenticator-->
+    <string name="biometric_title">Biometria Algidy</string>"
+    <string name="biometric_subtitle">Use biometria para entrar</string>
+
+    <!-- Errors -->
+    <string name="error_empty_field">Este campo é obrigatório.</string>
+    <string name="error_invalid_number">Insira um número válido.</string>
+    <string name="error_negative_value">A quantia não pode ser menor que zero.</string>
+    <string name="error_past_date">A validade não pode estar no passado.</string>
+    <string name="error_future_date">A compra não pode estar no futuro.</string>
+    <string name="error_invalid_date_range">A validade deve ser após a compra.</string>
+    <string name="error_text_too_short">O nome deve ter no mínimo 2 letras.</string>
+    <string name="error_image_save_failed">Falha ao salvar a foto.</string>
+
+    <!-- Inventory Screen -->
+    <string name="inventory_title">Estoque</string>
+    <string name="inventory_subtitle">Bem-vindo(a)!</string>
+    <string name="inventory_page_fridge">Geladeira</string>
+    <string name="inventory_page_freezer">Freezer</string>
+    <string name="inventory_page_pantry">Despensa</string>
+    <string name="inventory_page_other">Outro</string>
+    <string name="inventory_empty_title">Sua despensa está vazia</string>
+    <string name="inventory_empty_content">Monitore suas compras e evite desperdícios. Adicione itens agora!</string>
+    <string name="inventory_scanner_btn">Ler Código</string>
+    <string name="inventory_manually_btn">Inserir manual</string>
+    <string name="inventory_menu_sort_expiry">Por Validade</string>
+    <string name="inventory_menu_sort_name">Por Nome</string>
+    <string name="inventory_menu_expired_only">Só Vencidos</string>
+    <string name="inventory_menu_reset">Redefinir</string>
+    <string name="inventory_sheet_title">Novo Alimento</string>
+    <string name="inventory_sheet_btn">Adicionar</string>
+
+    <string name="inventory_category_edit">Editar Categ.</string>
+    <string name="inventory_category_delete">Excluir Categ.</string>
+    <string name="category_edit_dialog_title">Editar Categoria</string>
+    <string name="category_edit_dialog_label">Nome da Categoria</string>
+    <string name="category_search_placeholder">Buscar ou criar categoria…</string>
+    <string name="category_add_new">Adicionar: \"%1$s\"</string>
+    <string name="inventory_menu_filter">Filtrar</string>
+
+    <string name="delete_category_dialog_title">Excluir Categoria?</string>
+    <string name="delete_category_dialog_content">Esta categoria e seus alimentos serão excluídos.</string>
+    <string name="delete_category_dialog_confirm">Excluir</string>
+
+    <!--Grid Category-->
+    <string name="category_add">Todos</string>
+    <string name="category_fridge">Geladeira</string>
+    <string name="category_freezer">Freezer</string>
+    <string name="category_pantry">Despensa</string>
+    <string name="category_other">Outro</string>
+    <!-- Search Screen -->
+    <string name="search_placeholder">Buscar na geladeira…</string>
+    <string name="search_history_title">Recentes</string>
+    <string name="search_no_results">Nada encontrado.</string>
+
+    <!-- Detail Screen -->
+    <string name="detail_title">Detalhes</string>
+    <string name="detail_subtitle">Não esqueça de consumir</string>
+    <string name="detail_food_stats">Status</string>
+    <string name="detail_expiry_progress">Progresso</string>
+    <string name="detail_personal_notes">Notas Pessoais</string>
+    <string name="detail_fab_consume_this">Já Consumi</string>
+    <string name="detail_fab_edit_details">Editar Info</string>
+    <string name="detail_fab_mark_as_wasted">Marcar Desperdício</string>
+    <string name="detail_dialog_waste_title">Marcar Desperdício?</string>
+    <string name="detail_dialog_waste_content">Tem certeza de que não é mais utilizável? Será movido para o histórico de perdas.</string>
+    <string name="detail_dialog_consume_title">Terminou de Comer?</string>
+    <string name="detail_dialog_consume_content">Ótimo! Atualizaremos o estoque e moveremos para o histórico de consumo.</string>
+    <string name="detail_edit_sheet_title">Editar Info</string>
+    <string name="detail_pick_photo">Escolher Foto</string>
+    <string name="detail_item_details">Detalhes do Item</string>
+    <string name="detail_edit_image">Editar Imagem</string>
+    <string name="detail_bought">Comprado</string>
+    <string name="detail_no_notes">Ainda sem notas.</string>
+
+    <!-- Confirm Screen -->
+    <string name="confirm_title">Confirmar Dados</string>
+    <string name="confirm_label_name">Nome do Alimento</string>
+    <string name="confirm_label_category">Categoria</string>
+    <string name="confirm_placeholder_name">Digite o nome...</string>
+    <string name="confirm_label_quantity">Quantidade</string>
+    <string name="confirm_label_unit">Unidade</string>
+    <string name="confirm_label_purchase_date">Data de Compra</string>
+    <string name="confirm_label_expiry_date">Data de Validade</string>
+    <string name="confirm_date_set">Definir</string>
+    <string name="confirm_label_location">Local de Armazen.</string>
+    <string name="confirm_label_notes">Notas</string>
+    <string name="confirm_placeholder_notes">Ex: Marca, data aberto…</string>
+    <string name="confirm_btn_add">Add à Despensa</string>
+    <string name="confirm_dialog_discard_title">Descartar Mudanças?</string>
+    <string name="confirm_dialog_discard_content">Tem certeza que deseja voltar? As informações inseridas serão perdidas e não serão salvas.</string>
+    <string name="confirm_dialog_discard_btn_discard">Descartar</string>
+    <string name="confirm_dialog_discard_btn_keep">Continuar</string>
+
+    <!-- Scanner Screen -->
+    <string name="scanner_title_barcode">Ler Código de Barras</string>
+    <string name="scanner_title_food">Escanear Alimento</string>
+    <string name="scanner_action_close">Fechar Câmera</string>
+    <string name="scanner_action_flash">Ligar Flash</string>
+    <string name="scanner_label_scanning">Escaneando…</string>
+    <string name="scanner_label_auto_off">Busca Auto Off</string>
+    <string name="scanner_label_failure">Falha na Leitura</string>
+
+    <string name="scanner_barcode_dialog_title">Insira o código</string>
+    <string name="scanner_barcode_label">Código de Barras</string>
+    <string name="scanner_barcode_confirm">Confirmar</string>
+    <string name="scanner_preview_title">Visualizar</string>
+    <string name="scanner_preview_btn">Iniciar Leitura</string>
+
+    <!-- Analytics Screen -->
+    <string name="analytics_card">Você tem</string>
+    <string name="analytics_card_2">esta semana.</string>
+    <plurals name="analytics_product_count">
+        <item quantity="one">Você tem %1$d produto esta semana</item>
+        <item quantity="other">Você tem %1$d produtos esta semana</item>
+    </plurals>
+    <string name="analytics_title">Estatísticas</string>
+    <string name="analytics_subtitle">Visão geral de perdas e impacto</string>
+    <string name="analytics_card_consumed">Consumido</string>
+    <string name="analytics_card_wasted">Desperdiçado</string>
+    <string name="analytics_card_others">Outros</string>
+    <string name="analytics_card_spoilage_history">Histórico de Perdas</string>
+    <string name="analytics_card_waste_location">Desperdícios por Local</string>
+    <string name="analytics_card_weekly_freshness">Frescor Semanal</string>
+
+    <string name="analytics_weekly_card">%1$s/7 dias</string>
+    <string name="analytics_weekly_card_content">A partir de %1$s</string>
+
+    <!-- Settings Screen -->
+    <string name="setting_app_theme">Tema</string>
+    <string name="setting_dark_mode">Escuro</string>
+    <string name="setting_light_mode">Claro</string>
+    <string name="setting_system_mode">Sistema</string>
+
+    <string name="settings_set_time">Notificar às</string>
+    <string name="settings_set_time_confirm">Confirmar</string>
+    <string name="settings_set_time_cancel">Cancelar</string>
+
+    <string name="setting_language">Idioma</string>
+    <string name="setting_font">Fonte</string>
+
+    <string name="settings_title">Configurações</string>
+    <string name="settings_dynamic_color">Cor Dinâmica</string>
+    <string name="settings_dynamic_mode_desc">Ativar cores dinâmicas no app</string>
+    <string name="settings_notifications">Notificações</string>
+    <string name="settings_notifications_desc">Alertas para alimentos a vencer</string>
+    <string name="setting_biometric">Bloqueio Biométrico</string>
+    <string name="setting_biometric_desc">Bloqueio biométrico para o app</string>
+
+    <string name="setting_data">Seus Dados</string>
+    <string name="setting_delete_dialog">Excluir seus dados</string>
+    <string name="setting_clear_data">Excluir Tudo</string>
+    <string name="setting_clear_data_desc">Excluir todos os dados do app.</string>
+
+    <string name="delete_data_dialog_title">Excluir tudo?</string>
+    <string name="delete_data_dialog_content">Esta ação é irreversível. Todos os dados locais, contas e ajustes serão removidos.</string>
+    <string name="delete_data_dialog_confirm">Excluir</string>
+    <string name="delete_data_dialog_cancel">Cancelar</string>
+
+    <string name="setting_use_category">Usar Categorias</string>
+    <string name="setting_use_category_des">Agrupe seus alimentos por categoria</string>
+
+    <string name="setting_backup">Backup</string>
+    <string name="setting_backup_desc">Exporte ou importe seus dados.</string>
+
+    <string name="setting_export">Exportar</string>
+    <string name="setting_export_desc">Salvar dados em Downloads/Algidy</string>
+    <string name="setting_import">Importar</string>
+    <string name="setting_import_desc">Importar seus dados.</string>
+
+    <string name="setting_about_app">Sobre o App</string>
+    <string name="setting_about_app_desc">Algidy</string>
+
+    <string name="setting_other_settings_title">Outros Ajustes</string>
+
+    <string name="import_success">Dados importados com sucesso!</string>
+    <string name="import_fail">Falha ao importar dados!</string>
+    <string name="export_success">Dados exportados com sucesso!</string>
+    <string name="export_failed">Não foi possível exportar!</string>
+
+</resources>

@@ -12,7 +12,7 @@ import com.nhuhuy.algidy.core.presentation.viewmodel.UiState
 data class FoodEntryUiState(
     val id: String = "",
     val name: String = "",
-    val categoryId: String = "",
+    val categoryId: String? = null,
     val categoryQuery: String = "",
     val categories: List<CategoryUiModel.ByCategory> = emptyList(),
     val defaultFoodCategory: DefaultFoodCategory = DefaultFoodCategory.OTHERS,

@@ -2,6 +2,8 @@ plugins {
     id("algidy.android.application")
     id("org.jetbrains.kotlin.plugin.compose")
     alias(libs.plugins.jetbrains.kotlin.serialization)
+    alias(libs.plugins.google.gms.google.services)
+    alias(libs.plugins.google.firebase.crashlytics)
 }
 
 android {
@@ -48,6 +50,7 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation(libs.firebase.crashlytics)
 
     // Koin & Navigation
     implementation(libs.koin.android)
@@ -59,7 +62,7 @@ dependencies {
     implementation(libs.androidx.navigation3.runtime)
     implementation(libs.androidx.navigation3.ui)
     implementation(libs.androidx.lifecycle.viewmodel.navigation3)
-    implementation("androidx.navigationevent:navigationevent:1.1.1")
+    implementation(libs.androidx.navigationevent)
 
     //Bioemtric Authenticator
     implementation(libs.androidx.biometric)

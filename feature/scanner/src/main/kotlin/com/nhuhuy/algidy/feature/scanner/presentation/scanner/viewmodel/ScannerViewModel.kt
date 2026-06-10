@@ -54,6 +54,7 @@ class ScannerViewModel(
     )
 
     private var lastProcessedBarcode: String? = null
+    private var lastProcessedFoodDate: FoodDate? = null
 
     init {
         observeBarcodeEvents()
@@ -215,25 +216,39 @@ class ScannerViewModel(
         }
     }
 
+    /**
+     * Observes barcode events and triggers scanning.
+     * Fixed the 'debounce' issue: replaced it with a manual filter to ensure
+     * the first detection is responsive while preventing rapid re-triggers.
+     */
     private fun observeBarcodeEvents() {
         _barcodeEvents
-            .debounce(500.milliseconds)
             .filter { barcode ->
+                // Only process if auto-scan is on, and we are not currently showing a dialog/overlay
                 val isAutoScanned = stateValue.isAutoScanned
                 val isIdle = stateValue.overlay == ScannerOverlay.NONE
+
+                // Prevent re-scanning the same barcode immediately
                 val isNewItem = barcode != lastProcessedBarcode
+
                 isAutoScanned && isIdle && isNewItem
             }
             .onEach { barcode ->
-                Timber.d("Barcode detected: $barcode")
+                // Synchronously set the last processed barcode to prevent race conditions
+                // where multiple 'onBarcodeScan' jobs could start for the same item.
+                lastProcessedBarcode = barcode
+                Timber.d("New Barcode detected: $barcode")
                 onBarcodeScan(barcode)
             }
             .launchIn(viewModelScope)
     }
 
+    /**
+     * Handles the actual scanning logic for a detected barcode.
+     */
     private fun onBarcodeScan(barcodeString: String) {
         viewModelScope.launch {
-            lastProcessedBarcode = barcodeString
+            // Transition to loading state
             _uiState.product {
                 copy(
                     scanResult = UiResult.Loading,
@@ -243,32 +258,42 @@ class ScannerViewModel(
 
             scanBarcodeUseCase.fromBarcode(barcodeString)
                 .onSuccess { foodItem ->
-                    Timber.d("Success: $foodItem")
+                    Timber.d("Successfully scanned product: $foodItem")
                     foodRepository.addFoodItem(foodItem)
+
+                    // On success, hide overlay and inform UI
                     _uiState.product { copy(overlay = ScannerOverlay.NONE) }
                     emitEvent(ScannerEvent.OnSuccess(foodItem = foodItem))
+
+                    // We DO NOT reset lastProcessedBarcode here to avoid immediate re-scanning
+                    // of the same physical item if the camera is still pointed at it.
+                    // It will be reset when a DIFFERENT barcode is seen or manual action occurs.
                 }
                 .onFailure { throwable ->
                     val error = throwable.toUiError()
+                    Timber.e("Failed to scan barcode: $barcodeString, Error: $error")
+                    
                     _uiState.product {
                         copy(
                             labelEvent = LabelEvent.FAILURE,
-                            overlay = ScannerOverlay.NONE
+                            overlay = ScannerOverlay.NONE,
+                            scanResult = UiResult.Idle
                         )
                     }
                     emitEvent(ScannerEvent.OnFailure(error = error))
-                    delay(2000)
+
+                    // Allow re-trying the same barcode after a delay if it failed
+                    delay(3000)
                     _uiState.product {
                         copy(labelEvent = if (stateValue.isAutoScanned) LabelEvent.SCANNING else LabelEvent.AUTO_OFF)
                     }
+                    // Reset to allow re-scanning the same item after the failure message is gone
                     lastProcessedBarcode = null
                 }
 
+            // Ensure we reset scanning result state if not already handled
             _uiState.product {
-                copy(
-                    scanResult = UiResult.Idle,
-                    overlay = ScannerOverlay.NONE
-                )
+                copy(scanResult = UiResult.Idle)
             }
         }
     }
@@ -277,41 +302,69 @@ class ScannerViewModel(
         _barcodeEvents.tryEmit(barcodeString)
     }
 
+    /**
+     * Observes food date detections from the camera.
+     * Uses debounce to ensure the date is stabilized in the camera view
+     * before triggering the heavy processing task.
+     */
     private fun observeFoodDateEvents() {
         _foodDateEvents
             .debounce(800.milliseconds)
-            .filter {
-                stateValue.isAutoScanned && stateValue.overlay == ScannerOverlay.NONE
+            .filter { foodDate ->
+                // Only trigger if in idle state and auto-scanning
+                val isAutoScanned = stateValue.isAutoScanned
+                val isIdle = stateValue.overlay == ScannerOverlay.NONE
+
+                // Ensure we have at least some date info to process
+                val hasData = foodDate.expiryDate != null || foodDate.productionDate != null
+
+                // Prevent re-processing the exact same date result immediately
+                val isNewDate = foodDate != lastProcessedFoodDate
+
+                isAutoScanned && isIdle && hasData && isNewDate
             }
             .onEach { foodDate ->
-                Timber.d("Food Date detected and stabilized: $foodDate")
+                // Synchronously mark as processed to prevent race conditions during heavy UseCase execution
+                lastProcessedFoodDate = foodDate
+                Timber.d("New stabilized Food Date detected: $foodDate")
                 onFoodDateScan(foodDate)
             }
             .launchIn(viewModelScope)
     }
 
+    /**
+     * Processes the detected food date to create a new food item.
+     */
     private suspend fun onFoodDateScan(foodDate: FoodDate) {
         _uiState.product {
             copy(overlay = ScannerOverlay.LOADING_DIALOG)
         }
+
         createFoodItemFromDateUseCase(foodDate = foodDate)
             .onSuccess { foodItem ->
+                Timber.d("Successfully created item from date: $foodItem")
                 _uiState.product {
                     copy(overlay = ScannerOverlay.NONE)
                 }
                 emitEvent(event = ScannerEvent.OnSuccess(foodItem = foodItem))
+
+                // Note: lastProcessedFoodDate remains set to prevent immediate re-scan.
             }
             .onFailure {
+                Timber.e("Failed to create item from detected date: $foodDate")
                 _uiState.product {
                     copy(
                         overlay = ScannerOverlay.NONE,
                         labelEvent = LabelEvent.FAILURE
                     )
                 }
-                delay(2000)
+                // Cooldown period after failure
+                delay(3000)
                 _uiState.product {
                     copy(labelEvent = if (stateValue.isAutoScanned) LabelEvent.SCANNING else LabelEvent.AUTO_OFF)
                 }
+                // Clear the cache on failure to allow a retry
+                lastProcessedFoodDate = null
             }
     }
 

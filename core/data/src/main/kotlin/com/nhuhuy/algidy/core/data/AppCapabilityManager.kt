@@ -1,5 +1,6 @@
 package com.nhuhuy.algidy.core.data
 
+import androidx.annotation.Keep
 import kotlinx.coroutines.flow.StateFlow
 
 interface AppCapabilityManager {
@@ -9,6 +10,7 @@ interface AppCapabilityManager {
     val capabilities: StateFlow<AppCapabilities>
 }
 
+@Keep
 data class AppCapabilities(
     val dynamicColorSupported: Boolean = false,
     val notificationGranted: Boolean = false

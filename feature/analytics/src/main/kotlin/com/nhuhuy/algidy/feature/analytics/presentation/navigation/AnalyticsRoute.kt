@@ -26,6 +26,7 @@ fun AnalyticsRoute(
 
     AnalyticsScreen(
         uiState = uiState,
-        onBackPress = { viewModel.onAction(AnalyticsAction.OnBackClick) }
+        onBackPress = { viewModel.onAction(AnalyticsAction.OnBackClick) },
+        onAction = viewModel::onAction
     )
 }

@@ -4,6 +4,11 @@
 -keep class com.nhuhuy.algidy.core.model.** { *; }
 -keep class com.nhuhuy.algidy.feature.**.presentation.viewmodel.** { *; }
 -keep class com.nhuhuy.algidy.feature.**.domain.model.** { *; }
+-keep class com.nhuhuy.algidy.feature.**.domain.usecase.** { *; }
+-keep class com.nhuhuy.algidy.core.data.repository.** { *; }
+-keep class com.nhuhuy.algidy.core.**.model.** { *;}
+-keep class com.nhuhuy.algidy.feature.**.data.repository.** { *; }
+-keep class com.nhuhuy.algidy.feature.**.presentation.model.** { *; }
 
 # Kotlinx Serialization
 -keepattributes *Annotation*, EnclosingMethod, InnerClasses, Signature
@@ -11,6 +16,22 @@
     @kotlinx.serialization.Serializable *;
 }
 -keep class kotlinx.serialization.internal.EnumSerializer { *; }
+
+# CameraX
+-keep class androidx.camera.core.** { *; }
+-keep class androidx.camera.camera2.** { *; }
+-keep class androidx.camera.lifecycle.** { *; }
+-keep class androidx.camera.view.** { *; }
+-dontwarn androidx.camera.view.**
+-dontwarn androidx.camera.camera2.internal.compat.params.DynamicRangeProfilesCompat
+
+# ML Kit
+-keep class com.google.mlkit.** { *; }
+-keep class com.google.android.gms.internal.mlkit_** { *; }
+-dontwarn com.google.mlkit.**
+
+# Guava (often used with CameraX)
+-dontwarn com.google.common.util.concurrent.ListenableFuture
 
 # Koin
 -keep class io.insertkoin.** { *; }
@@ -39,21 +60,6 @@
 -keep class androidx.biometric.** { *; }
 
 # Loggers (Strip logs in release)
--assumenosideeffects class android.util.Log {
-    public static int v(...);
-    public static int d(...);
-    public static int i(...);
-    public static int w(...);
-    public static int e(...);
-}
-
--assumenosideeffects class timber.log.Timber {
-    public static void v(...);
-    public static void d(...);
-    public static void i(...);
-    public static void w(...);
-    public static void e(...);
-}
 
 # General optimization
 -repackageclasses ''

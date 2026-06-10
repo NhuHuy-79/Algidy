@@ -36,7 +36,7 @@ data class FoodItemEntity(
     val normalizedName: String = "",
 
     @ColumnInfo(name = "category_id")
-    val categoryId: String,
+    val categoryId: String? = null,
 
     @ColumnInfo(name = "location")
     val location: StorageLocation,
