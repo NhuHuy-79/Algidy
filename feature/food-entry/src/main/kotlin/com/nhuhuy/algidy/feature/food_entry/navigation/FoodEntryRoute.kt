@@ -1,5 +1,8 @@
 package com.nhuhuy.algidy.feature.food_entry.navigation
 
+import android.os.Build
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -36,10 +39,22 @@ fun FoodEntryRoute(
     val errorState by viewModel.entryError.collectAsStateWithLifecycle()
     val onAction = viewModel::onAction
 
+    val notificationPermissionLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestPermission(),
+        onResult = { isGranted ->
+            onAction(FoodEntryAction.OnNotificationGranted(isGranted))
+        }
+    )
+
     ObserveEffect(viewModel.uiEvent) { event ->
         when (event) {
             FoodEntryEvent.OnSaveSuccess -> onNavigateBack()
             FoodEntryEvent.NavigateBack -> onNavigateBack()
+            FoodEntryEvent.AskNotificationPermission -> {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    notificationPermissionLauncher.launch(android.Manifest.permission.POST_NOTIFICATIONS)
+                }
+            }
         }
     }
 

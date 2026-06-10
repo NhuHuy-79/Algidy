@@ -7,22 +7,29 @@ import com.nhuhuy.algidy.core.model.validate.FoodValidator
 import com.nhuhuy.algidy.core.presentation.model.CategoryUiModel
 import com.nhuhuy.algidy.core.presentation.viewmodel.BaseViewModel
 import com.nhuhuy.algidy.core.presentation.viewmodel.UiEvent
+import com.nhuhuy.algidy.feature.food_entry.domain.model.FoodEntryPreferences
 import com.nhuhuy.algidy.feature.food_entry.domain.usecase.AddCategoryUseCase
+import com.nhuhuy.algidy.feature.food_entry.domain.usecase.FoodEntryPreferencesUseCase
 import com.nhuhuy.algidy.feature.food_entry.domain.usecase.ObserveCategoriesUseCase
 import com.nhuhuy.algidy.feature.food_entry.domain.usecase.SaveFoodItemUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.WhileSubscribed
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlin.time.Duration.Companion.seconds
 
 class FoodEntryViewModel(
-    initialFoodItem: FoodItem?,
     observeCategoriesUseCase: ObserveCategoriesUseCase,
+    private val foodEntryPreferencesUseCase: FoodEntryPreferencesUseCase,
     private val saveFoodItemUseCase: SaveFoodItemUseCase,
-    private val addCategoryUseCase: AddCategoryUseCase
+    private val addCategoryUseCase: AddCategoryUseCase,
+    initialFoodItem: FoodItem? = null
 ) : BaseViewModel<FoodEntryUiState, FoodEntryEvent, FoodEntryAction>() {
 
     private val _uiState = MutableStateFlow(FoodEntryUiState())
@@ -30,6 +37,10 @@ class FoodEntryViewModel(
 
     private val _entryError = MutableStateFlow(FoodEntryError())
     val entryError = _entryError.asStateFlow()
+
+    val foodEntryPreferences = foodEntryPreferencesUseCase.observe()
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5.seconds), FoodEntryPreferences())
+    private val currentPreferences get() = foodEntryPreferences.value
 
     init {
         initialFoodItem?.let { setEntryData(it) }
@@ -132,16 +143,34 @@ class FoodEntryViewModel(
             FoodEntryAction.OnDismissOverlay -> _uiState.update { it.copy(overlay = FoodEntryOverlay.NONE) }
             FoodEntryAction.OnSaveClick -> saveFood()
             FoodEntryAction.OnBackClick -> emitEvent(FoodEntryEvent.NavigateBack)
+            is FoodEntryAction.OnNotificationGranted -> viewModelScope.launch {
+                if (!currentPreferences.hasAskNotificationPermission) {
+                    foodEntryPreferencesUseCase.askNotificationPermission(true)
+                }
+            }
         }
     }
 
     private fun saveFood() {
-        if (_entryError.value.isValid) {
-            viewModelScope.launch {
-                val foodItem = getResultFoodItem()
-                saveFoodItemUseCase(foodItem)
-                emitEvent(FoodEntryEvent.OnSaveSuccess)
+        if (!_entryError.value.isValid) return
+        if (currentPreferences.addItemFirst && !currentPreferences.hasAskNotificationPermission) {
+            emitEvent(FoodEntryEvent.AskNotificationPermission)
+            return
+        }
+
+        performSave()
+    }
+
+    private fun performSave() {
+        viewModelScope.launch {
+            val foodItem = getResultFoodItem()
+            saveFoodItemUseCase(foodItem)
+
+            if (!currentPreferences.addItemFirst) {
+                foodEntryPreferencesUseCase.addItemFirst(true)
             }
+
+            emitEvent(FoodEntryEvent.OnSaveSuccess)
         }
     }
 
@@ -195,6 +224,7 @@ class FoodEntryViewModel(
 }
 
 sealed interface FoodEntryEvent : UiEvent {
+    data object AskNotificationPermission : FoodEntryEvent
     data object OnSaveSuccess : FoodEntryEvent
     data object NavigateBack : FoodEntryEvent
 }

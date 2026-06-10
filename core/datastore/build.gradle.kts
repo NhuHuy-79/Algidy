@@ -8,6 +8,6 @@ android {
 
 dependencies {
     implementation(project(":core:model"))
-    implementation(libs.androidx.datastore.preferences)
+    api(libs.androidx.datastore.preferences)
     implementation(libs.koin.android)
 }

@@ -30,4 +30,6 @@ sealed interface FoodEntryAction : UiAction {
     data object OnDismissOverlay : FoodEntryAction
     data object OnSaveClick : FoodEntryAction
     data object OnBackClick : FoodEntryAction
+
+    data class OnNotificationGranted(val granted: Boolean) : FoodEntryAction
 }
