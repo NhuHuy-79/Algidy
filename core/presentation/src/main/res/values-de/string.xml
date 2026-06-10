@@ -106,6 +106,9 @@
     <string name="search_history_title">Jüngst</string>
     <string name="search_no_results">Keine Gegenstände gefunden.</string>
 
+    <!--Food Entry Screen-->
+    <string name="food_entry_title">Neue Lebensmittel hinzufügen</string>
+
     <!-- Detail Screen -->
     <string name="detail_title">Detail-Bildschirm</string>
     <string name="detail_subtitle">Vergiss nicht, das zu konsumieren</string>
@@ -159,6 +162,11 @@
     <string name="scanner_barcode_confirm">Bestätigen</string>
     <string name="scanner_preview_title">Vorschau</string>
     <string name="scanner_preview_btn">Start Scan</string>
+
+    <string name="scanner_warning_dialog_title">Probleme beim Scannen\?</string>
+    <string name="scanner_warning_dialog_content">Nachricht: Wir haben Schwierigkeiten, diesen Barcode zu erkennen. Du kannst den Produktcode manuell eingeben, um fortzufahren.</string>
+    <string name="scanner_warning_dialog_confirm">Enter Manuell</string>
+    <string name="scanner_warning_dialog_dismiss">Versuchen Sie es nochmal</string>
 
     <!-- Analytics Screen -->
     <string name="analytics_card">Du hast</string>

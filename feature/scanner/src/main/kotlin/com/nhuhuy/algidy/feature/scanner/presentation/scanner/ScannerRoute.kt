@@ -14,13 +14,15 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.nhuhuy.algidy.core.designsystem.component.AlgidyAlertDialog
 import com.nhuhuy.algidy.core.designsystem.component.BoxLayout
 import com.nhuhuy.algidy.core.model.food.FoodItem
 import com.nhuhuy.algidy.core.presentation.ObserveEffect
 import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.core.presentation.component.TextFieldDialog
 import com.nhuhuy.algidy.feature.scanner.presentation.scanner.component.dialog.ScannerLoadingDialog
-import com.nhuhuy.algidy.feature.scanner.presentation.scanner.viewmodel.AddBarcodeDialogAction
+import com.nhuhuy.algidy.feature.scanner.presentation.scanner.viewmodel.AddBarcodeDialogAction.OnConfirm
+import com.nhuhuy.algidy.feature.scanner.presentation.scanner.viewmodel.AddBarcodeDialogAction.OnValueChange
 import com.nhuhuy.algidy.feature.scanner.presentation.scanner.viewmodel.ScannerAction
 import com.nhuhuy.algidy.feature.scanner.presentation.scanner.viewmodel.ScannerAction.OnAutoScanChange
 import com.nhuhuy.algidy.feature.scanner.presentation.scanner.viewmodel.ScannerAction.OnDateDetected
@@ -33,6 +35,7 @@ import com.nhuhuy.algidy.feature.scanner.presentation.scanner.viewmodel.ScannerE
 import com.nhuhuy.algidy.feature.scanner.presentation.scanner.viewmodel.ScannerOverlay
 import com.nhuhuy.algidy.feature.scanner.presentation.scanner.viewmodel.ScannerUiState
 import com.nhuhuy.algidy.feature.scanner.presentation.scanner.viewmodel.ScannerViewModel
+import com.nhuhuy.algidy.feature.scanner.presentation.scanner.viewmodel.WarningDialogAction
 import org.koin.androidx.compose.koinViewModel
 import timber.log.Timber
 
@@ -128,14 +131,27 @@ fun ScannerRoute(
                 label = stringResource(R.string.scanner_barcode_label),
                 confirmText = stringResource(R.string.scanner_barcode_confirm),
                 onValueChange = { value ->
-                    onAction(AddBarcodeDialogAction.OnValueChange(value))
+                    onAction(OnValueChange(value))
                 },
                 onDismiss = {
                     onAction(OnDismissRequest)
                 },
                 onConfirm = {
-                    onAction(AddBarcodeDialogAction.OnConfirm)
+                    onAction(OnConfirm)
                 }
+            )
+
+            ScannerOverlay.WARNING_DIALOG -> AlgidyAlertDialog(
+                onConfirm = {
+                    onAction(WarningDialogAction.Confirm)
+                },
+                onDismissRequest = {
+                    onAction(OnDismissRequest)
+                },
+                title = stringResource(R.string.scanner_warning_dialog_title),
+                text = stringResource(R.string.scanner_warning_dialog_content),
+                dismissText = stringResource(R.string.scanner_warning_dialog_dismiss),
+                confirmText = stringResource(R.string.scanner_warning_dialog_confirm)
             )
         }
     }

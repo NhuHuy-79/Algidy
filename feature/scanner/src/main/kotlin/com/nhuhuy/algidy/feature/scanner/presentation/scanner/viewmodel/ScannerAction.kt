@@ -20,6 +20,11 @@ sealed interface ScannerAction : UiAction {
     data class OnFoodItemFound(val foodId: String) : ScannerAction
 }
 
+sealed interface WarningDialogAction : ScannerAction {
+    data object Open : WarningDialogAction
+    data object Confirm : WarningDialogAction
+}
+
 sealed interface AddBarcodeDialogAction : ScannerAction {
     data class OnValueChange(val value: String) : AddBarcodeDialogAction
     data object OnConfirm : AddBarcodeDialogAction

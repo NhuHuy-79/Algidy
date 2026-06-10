@@ -106,6 +106,9 @@
     <string name="search_history_title">Gần đây</string>
     <string name="search_no_results">Không tìm thấy thực phẩm nào.</string>
 
+    <!--Food Entry Screen-->
+    <string name="food_entry_title">Thêm thức ăn mới</string>
+
     <!-- Detail Screen -->
     <string name="detail_title">Chi tiết thực phẩm</string>
     <string name="detail_subtitle">Đừng quên xử lý món này nhé</string>
@@ -159,6 +162,11 @@
     <string name="scanner_barcode_confirm">Xác nhận</string>
     <string name="scanner_preview_title">Xem trước</string>
     <string name="scanner_preview_btn">Bắt đầu quét</string>
+
+    <string name="scanner_warning_dialog_title">Bạn gặp sự cố khi quét\?</string>
+    <string name="scanner_warning_dialog_content">Tin nhắn: Chúng tôi gặp sự cố khi nhận dạng mã vạch này. Bạn có thể nhập mã sản phẩm theo cách thủ công để tiếp tục.</string>
+    <string name="scanner_warning_dialog_confirm">Nhập thủ công</string>
+    <string name="scanner_warning_dialog_dismiss">Thử lại</string>
 
     <!-- Analytics Screen -->
     <string name="analytics_card">Bạn có</string>
