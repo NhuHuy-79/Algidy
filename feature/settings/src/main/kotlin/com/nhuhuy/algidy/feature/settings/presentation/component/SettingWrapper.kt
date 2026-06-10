@@ -36,20 +36,18 @@ fun LazyListScope.otherSettingItems(
         key = { index -> "${items[index].type}" }
     ) { index ->
         val item = items[index]
-        if (item.visible) {
-            ToggleItem(
-                position = index.ItemPosition(items.size),
-                item = item,
-                onToggle = { enabled, item ->
-                    onAction(
-                        SettingsAction.ToggleAction(
-                            type = item.type,
-                            enabled = enabled
-                        )
+        ToggleItem(
+            position = index.ItemPosition(items.size),
+            item = item,
+            onToggle = { enabled, item ->
+                onAction(
+                    SettingsAction.ToggleAction(
+                        type = item.type,
+                        enabled = enabled
                     )
-                }
-            )
-        }
+                )
+            }
+        )
     }
 }
 fun LazyListScope.dataSettingItem(

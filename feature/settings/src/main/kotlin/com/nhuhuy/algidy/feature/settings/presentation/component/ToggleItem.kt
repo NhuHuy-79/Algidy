@@ -32,7 +32,8 @@ fun ToggleItem(
     ToggleableSettingItem(
         modifier = modifier,
         position = position,
-        enabled = item.enabled,
+        checked = item.checked,
+        enabled = item.enable,
         text = desc,
         title = title,
         onToggleClick = { enabled ->

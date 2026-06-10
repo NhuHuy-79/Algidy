@@ -20,9 +20,9 @@ sealed interface ClickableType {
 
 @Immutable
 data class SettingToggleItem(
-    val visible: Boolean = true,
+    val enable: Boolean = true,
     val type: ToggleType,
-    val enabled: Boolean = false,
+    val checked: Boolean = false,
 ) : SettingUiItem
 
 enum class ToggleType {
