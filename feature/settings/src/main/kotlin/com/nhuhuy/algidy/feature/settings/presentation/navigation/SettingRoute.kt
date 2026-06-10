@@ -1,5 +1,6 @@
 package com.nhuhuy.algidy.feature.settings.presentation.navigation
 
+import android.Manifest
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -44,6 +45,13 @@ fun SettingRoute(
         }
     }
 
+    val notificationPermission = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestPermission(),
+        onResult = { granted ->
+            onAction(SettingsAction.OnNotificationGranted(granted))
+        }
+    )
+
     ObserveEffect(viewModel.uiEvent) { event ->
         when (event) {
             SettingsEvent.ExportData.SUCCESS -> {
@@ -69,7 +77,7 @@ fun SettingRoute(
 
             SettingsEvent.ImportData.Failure -> {
                 snackBarHostState.showSnackbar(
-                    message = resource.getString(R.string.export_failed),
+                    message = resource.getString(R.string.import_fail),
                 )
 
             }
@@ -85,8 +93,12 @@ fun SettingRoute(
             }
 
             NotifyTimerEvent.Success -> {
-
+                snackBarHostState.showSnackbar(
+                    message = resource.getString(R.string.settings_set_time_success),
+                )
             }
+
+            SettingsEvent.AskNotificationPermission -> notificationPermission.launch(Manifest.permission.POST_NOTIFICATIONS)
         }
     }
 

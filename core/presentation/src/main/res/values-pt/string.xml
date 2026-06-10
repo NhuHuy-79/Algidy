@@ -196,6 +196,7 @@
     <string name="settings_set_time">Notificar às</string>
     <string name="settings_set_time_confirm">Confirmar</string>
     <string name="settings_set_time_cancel">Cancelar</string>
+    <string name="settings_set_time_success">Horário da notificação atualizado!</string>
 
     <string name="setting_language">Idioma</string>
     <string name="setting_font">Fonte</string>

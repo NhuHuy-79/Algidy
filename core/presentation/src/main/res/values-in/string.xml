@@ -196,6 +196,7 @@
     <string name="settings_set_time">Terima Pemberitahuan Di</string>
     <string name="settings_set_time_confirm">Konfirmasi</string>
     <string name="settings_set_time_cancel">Batalkan</string>
+    <string name="settings_set_time_success">Waktu notifikasi diperbarui!</string>
 
     <string name="setting_language">Bahasa</string>
     <string name="setting_font">Font</string>

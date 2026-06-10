@@ -196,6 +196,7 @@
     <string name="settings_set_time">Benachrichtigung erhalten unter</string>
     <string name="settings_set_time_confirm">Bestätigen</string>
     <string name="settings_set_time_cancel">Stornieren</string>
+    <string name="settings_set_time_success">Benachrichtigungszeit aktualisiert!</string>
 
     <string name="setting_language">Sprache</string>
     <string name="setting_font">Taufbecken</string>

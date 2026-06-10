@@ -196,6 +196,7 @@
     <string name="settings_set_time">Recevoir une notification à</string>
     <string name="settings_set_time_confirm">Confirmez</string>
     <string name="settings_set_time_cancel">Annuler</string>
+    <string name="settings_set_time_success">Heure de notification mise à jour !</string>
 
     <string name="setting_language">Langue</string>
     <string name="setting_font">Police</string>

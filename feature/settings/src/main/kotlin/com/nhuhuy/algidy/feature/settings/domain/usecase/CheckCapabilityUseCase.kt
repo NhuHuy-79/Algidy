@@ -16,6 +16,10 @@ class CheckCapabilityUseCase(
         deviceCapableDataStore.setBiometricSupported(appCapabilityManager.isBiometricSupported())
     }
 
+    suspend fun updateNotification(granted: Boolean) {
+        deviceCapableDataStore.setNotificationGranted(granted)
+    }
+
     suspend fun updateBiometric(value: Boolean) {
         deviceCapableDataStore.setBiometricSupported(value)
     }
