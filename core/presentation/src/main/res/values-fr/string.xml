@@ -106,6 +106,9 @@
     <string name="search_history_title">Récent</string>
     <string name="search_no_results">Aucun objet trouvé.</string>
 
+    <!--Food Entry Screen-->
+    <string name="food_entry_title">Ajouter de nouveaux plats</string>
+
     <!-- Detail Screen -->
     <string name="detail_title">Écran de détail</string>
     <string name="detail_subtitle">N’oublie pas de consommer ça</string>
@@ -159,6 +162,11 @@
     <string name="scanner_barcode_confirm">Confirmez</string>
     <string name="scanner_preview_title">Aperçu</string>
     <string name="scanner_preview_btn">Démarrer le scan</string>
+
+    <string name="scanner_warning_dialog_title">Des difficultés à scanner \?</string>
+    <string name="scanner_warning_dialog_content">Message : Nous avons du mal à reconnaître ce code-barres. Vous pouvez entrer le code produit manuellement pour continuer.</string>
+    <string name="scanner_warning_dialog_confirm">Entrer manuellement</string>
+    <string name="scanner_warning_dialog_dismiss">Réessayez</string>
 
     <!-- Analytics Screen -->
     <string name="analytics_card">Tu as</string>

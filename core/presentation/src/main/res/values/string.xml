@@ -164,6 +164,11 @@
     <string name="scanner_preview_title">Preview</string>
     <string name="scanner_preview_btn">Start Scanning</string>
 
+    <string name="scanner_warning_dialog_title">Having trouble scanning?</string>
+    <string name="scanner_warning_dialog_content">Message: We’re having trouble recognizing this barcode. You can enter the product code manually to continue.</string>
+    <string name="scanner_warning_dialog_confirm">Enter Manually</string>
+    <string name="scanner_warning_dialog_dismiss">Try Again</string>
+
     <!-- Analytics Screen -->
     <string name="analytics_card">You have</string>
     <string name="analytics_card_2">this week.</string>

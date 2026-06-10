@@ -106,6 +106,9 @@
     <string name="search_history_title">Terbaru</string>
     <string name="search_no_results">Tidak ada item yang ditemukan.</string>
 
+    <!--Food Entry Screen-->
+    <string name="food_entry_title">Tambahkan Makanan Baru</string>
+
     <!-- Detail Screen -->
     <string name="detail_title">Layar Detail</string>
     <string name="detail_subtitle">Jangan lupa untuk mengonsumsi ini</string>
@@ -159,6 +162,11 @@
     <string name="scanner_barcode_confirm">Konfirmasi</string>
     <string name="scanner_preview_title">Pratinjau</string>
     <string name="scanner_preview_btn">Mulai Pemindaian</string>
+
+    <string name="scanner_warning_dialog_title">Mengalami masalah saat memindai\?</string>
+    <string name="scanner_warning_dialog_content">Pesan: Kami kesulitan mengenali kode batang ini. Anda dapat memasukkan kode produk secara manual untuk melanjutkan.</string>
+    <string name="scanner_warning_dialog_confirm">Masuk Secara Manual</string>
+    <string name="scanner_warning_dialog_dismiss">Coba lagi</string>
 
     <!-- Analytics Screen -->
     <string name="analytics_card">Anda memiliki</string>
