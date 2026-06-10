@@ -107,6 +107,9 @@
     <string name="search_history_title">Recent</string>
     <string name="search_no_results">No items found.</string>
 
+    <!--Food Entry Screen-->
+    <string name="food_entry_title">Add New Food</string>
+
     <!-- Detail Screen -->
     <string name="detail_title">Detail Screen</string>
     <string name="detail_subtitle">Don\'t forget to consume this</string>

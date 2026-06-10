@@ -30,9 +30,9 @@ fun FoodEntryForm(
         // Section: Image picker and preview
         FoodImageSection(
             modifier = Modifier.align(Alignment.CenterHorizontally),
-            imageUri = entryState.imageUri,
-            onImagePick = { onAction(FoodEntryAction.OnImagePick(it)) }
+            imageUri = entryState.imageUri
         )
+
 
         // Section: Basic Name field
         BasicInfoSection(
@@ -40,6 +40,13 @@ fun FoodEntryForm(
             onNameChange = { onAction(FoodEntryAction.OnNameChange(it)) },
             isNameError = errorState.isNameError,
             nameErrorMessage = errorState.nameValidation.asString().orEmpty()
+        )
+
+        // Section: Storage location segmented buttons
+        StorageSection(
+            modifier = Modifier.fillMaxWidth(),
+            selectedLocation = entryState.location,
+            onLocationChange = { onAction(FoodEntryAction.OnStorageLocationChange(it)) }
         )
 
         // Section: Category Selection (Horizontal Row)
@@ -78,11 +85,6 @@ fun FoodEntryForm(
             expiryErrorMessage = errorState.expiryDateValidation.asString().orEmpty()
         )
 
-        // Section: Storage location segmented buttons
-        StorageSection(
-            selectedLocation = entryState.location,
-            onLocationChange = { onAction(FoodEntryAction.OnStorageLocationChange(it)) }
-        )
 
         // Section: Additional notes field
         NotesSection(

@@ -1,90 +1,63 @@
 package com.nhuhuy.algidy.feature.food_entry.presentation.component
 
-import android.net.Uri
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AddPhotoAlternate
 import androidx.compose.material.icons.rounded.CalendarToday
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FilledTonalIconButton
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButtonDefaults
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
+import androidx.compose.material3.MaterialShapes
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.SegmentedButton
-import androidx.compose.material3.SegmentedButtonDefaults
-import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Text
+import androidx.compose.material3.toShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.nhuhuy.algidy.capitalize
+import com.nhuhuy.algidy.core.designsystem.component.AppFilterButton
 import com.nhuhuy.algidy.core.designsystem.component.AppTextField
 import com.nhuhuy.algidy.core.designsystem.component.FoodImageCard
 import com.nhuhuy.algidy.core.model.food.ItemUnit
 import com.nhuhuy.algidy.core.model.food.StorageLocation
-import com.nhuhuy.algidy.core.presentation.PhotoPickerContainer
 import com.nhuhuy.algidy.core.presentation.R
+import com.nhuhuy.algidy.core.presentation.utils.toStringRes
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun FoodImageSection(
     imageUri: String?,
-    onImagePick: (Uri) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Box(
         modifier = modifier
-            .size(160.dp),
-        contentAlignment = Alignment.Center
+            .size(160.dp)
+            .clip(
+                shape = MaterialShapes.Cookie12Sided.toShape()
+            )
     ) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .border(
-                    width = 1.dp,
-                    shape = RoundedCornerShape(16.dp),
-                    color = MaterialTheme.colorScheme.outlineVariant
-                )
-        ) {
-            FoodImageCard(imageUri = imageUri)
-        }
-
-        PhotoPickerContainer(onImagePicked = { uri -> uri?.let { onImagePick(it) } }) { launcher ->
-            FilledTonalIconButton(
-                colors = IconButtonDefaults.filledTonalIconButtonColors(
-                    containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
-                    contentColor = MaterialTheme.colorScheme.primary
-                ),
-                onClick = launcher,
-                modifier = Modifier.align(Alignment.TopEnd)
-            ) {
-                Icon(
-                    imageVector = Icons.Filled.AddPhotoAlternate,
-                    contentDescription = stringResource(R.string.detail_pick_photo)
-                )
-            }
-        }
+        FoodImageCard(imageUri = imageUri, modifier = Modifier.fillMaxSize())
     }
 }
 
@@ -225,13 +198,20 @@ fun StorageSection(
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             fontWeight = FontWeight.Bold
         )
-        SingleChoiceSegmentedButtonRow(modifier = Modifier.fillMaxWidth()) {
-            StorageLocation.entries.forEachIndexed { index, loc ->
-                SegmentedButton(
-                    selected = selectedLocation == loc,
-                    onClick = { onLocationChange(loc) },
-                    shape = SegmentedButtonDefaults.itemShape(index = index, count = StorageLocation.entries.size),
-                    label = { Text(loc.name.capitalize(), style = MaterialTheme.typography.bodySmall) }
+
+        LazyRow(
+            modifier = modifier,
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            items(
+                items = StorageLocation.entries,
+            ) { location ->
+                AppFilterButton(
+                    selected = selectedLocation == location,
+                    label = stringResource(location.toStringRes()),
+                    onClick = {
+                        onLocationChange(location)
+                    }
                 )
             }
         }
