@@ -63,7 +63,7 @@ fun FoodImageCard(
                     Icon(
                         imageVector = placeholderIcon,
                         contentDescription = null,
-                        modifier = Modifier.size(80.dp),
+                        modifier = Modifier.size(56.dp),
                         tint = MaterialTheme.colorScheme.onSecondaryContainer
                     )
                 }

@@ -28,7 +28,6 @@ import org.koin.core.parameter.parametersOf
 
 @Composable
 fun FoodEntryRoute(
-    title: String,
     initialFoodItem: FoodItem?,
     onNavigateBack: () -> Unit
 ) {
@@ -60,7 +59,7 @@ fun FoodEntryRoute(
 
     BoxLayout {
         FoodEntryScreen(
-            title = title,
+            title = initialFoodItem?.name ?: stringResource(R.string.food_entry_title),
             uiState = uiState,
             errorState = errorState,
             onAction = onAction

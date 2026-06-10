@@ -44,9 +44,7 @@ fun ScannerControlBar(
         AutoScanButton(
             modifier = Modifier.size(96.dp),
             autoScanning = isAutoScanned,
-            onClick = onAutoScanChange,
-            enableContainerColor = MaterialTheme.colorScheme.primary,
-            disableContainerColor = MaterialTheme.colorScheme.onSecondaryContainer
+            onClick = onAutoScanChange
         )
 
         AddManuallyBarcodeButton(
