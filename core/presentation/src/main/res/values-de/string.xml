@@ -1,6 +1,6 @@
 <resources>
     <!-- Common -->
-
+    
     <string name="action_ok">OK</string>
     <string name="action_cancel">Stornieren</string>
     <string name="action_save">Speichern</string>
