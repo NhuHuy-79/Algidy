@@ -23,6 +23,7 @@ fun ScannerControlBar(
     onAddManualBarcode: () -> Unit,
     onAutoScanChange: (Boolean) -> Unit
 ) {
+
     Row(
         modifier = modifier
             .fillMaxWidth()

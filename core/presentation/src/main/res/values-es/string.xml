@@ -167,6 +167,7 @@
     <string name="scanner_warning_dialog_content">Mensaje: Nos cuesta reconocer este código de barras. Puedes introducir el código del producto manualmente para continuar.</string>
     <string name="scanner_warning_dialog_confirm">Introduce manualmente</string>
     <string name="scanner_warning_dialog_dismiss">Inténtalo de nuevo</string>
+    <string name="scanner_add_manually_tooltip">\"¿Tiene problemas para escanear\? Agregar manualmente\".</string>
 
     <!-- Analytics Screen -->
     <string name="analytics_card">Sí</string>
@@ -197,6 +198,7 @@
     <string name="settings_set_time_confirm">Confirmar</string>
     <string name="settings_set_time_cancel">Cancelar</string>
     <string name="settings_set_time_success">¡Hora de notificación actualizada!</string>
+    <string name="settings_delete_success">Eliminar datos exitosamente</string>
 
     <string name="setting_language">Idioma</string>
     <string name="setting_font">Fuente</string>

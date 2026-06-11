@@ -16,6 +16,10 @@ sealed interface SettingsEvent : UiEvent {
     }
 }
 
+sealed interface DeleteAll : SettingsEvent {
+    data object Success : DeleteAll
+}
+
 sealed interface NotifyTimerEvent : SettingsEvent {
     data object Error : NotifyTimerEvent
     data object Success : NotifyTimerEvent

@@ -83,6 +83,7 @@ class SettingsViewModel(
             SettingsAction.DeleteAlertDialog.Confirm -> viewModelScope.launch {
                 _overlay.update { SettingsOverlay.NONE }
                 deleteDataUseCase()
+                emitEvent(DeleteAll.Success)
             }
 
             SettingsAction.DeleteAlertDialog.Dismiss -> _overlay.update { SettingsOverlay.NONE }

@@ -10,7 +10,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -44,6 +46,7 @@ fun ScannerRoute(
     onNavigateBack: () -> Unit,
     onNavigateToFoodEntry: (FoodItem) -> Unit,
 ) {
+    val localHapticFeedback = LocalHapticFeedback.current
     val viewModel: ScannerViewModel = koinViewModel()
     val uiState: ScannerUiState by viewModel.uiState.collectAsStateWithLifecycle()
     val onAction = viewModel::onAction
@@ -76,10 +79,13 @@ fun ScannerRoute(
 
     ObserveEffect(viewModel.uiEvent) { event ->
         when (event) {
-            is ScannerEvent.OnSuccess -> onNavigateToFoodEntry(event.foodItem)
+            is ScannerEvent.OnSuccess -> {
+                localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+                onNavigateToFoodEntry(event.foodItem)
+            }
 
             is ScannerEvent.OnFailure -> {
-
+                localHapticFeedback.performHapticFeedback(HapticFeedbackType.Reject)
             }
         }
     }
@@ -94,35 +100,23 @@ fun ScannerRoute(
         ScannerScreen(
             uiState = uiState,
             onClosePress = onNavigateBack,
-            onFlashPress = { isFlashOn: Boolean ->
-                onAction(OnFlashChange(isFlashOn))
-            },
+            onFlashPress = { isFlashOn: Boolean -> onAction(OnFlashChange(isFlashOn)) },
             onAutoScanPress = { autoScanned: Boolean ->
                 onAction(OnAutoScanChange(autoScanned))
             },
             onResultDetected = { barcodeString: String ->
                 onAction(OnResultDetected(barcodeString))
             },
-            onDateDetected = { foodDate ->
-                onAction(OnDateDetected(foodDate))
-            },
-            onSwitchMode = { mode ->
-                onAction(OnScannerModeChange(mode = mode))
-            },
-            onImageStaged = { uri ->
-                onAction(OnImageStaged(uri))
-            },
-            onAddBarcodeManually = {
-                onAction(ScannerAction.OnBarcodeAddManual)
-            }
+            onDateDetected = { foodDate -> onAction(OnDateDetected(foodDate)) },
+            onSwitchMode = { mode -> onAction(OnScannerModeChange(mode = mode)) },
+            onImageStaged = { uri -> onAction(OnImageStaged(uri)) },
+            onAddBarcodeManually = { onAction(ScannerAction.OnBarcodeAddManual) }
         )
 
         when (uiState.overlay) {
             ScannerOverlay.NONE -> Unit
             ScannerOverlay.LOADING_DIALOG -> {
-                ScannerLoadingDialog(
-                    onDismissRequest = { onAction(OnDismissRequest) }
-                )
+                ScannerLoadingDialog(onDismissRequest = { onAction(OnDismissRequest) })
             }
 
             ScannerOverlay.BARCODE_DIALOG -> TextFieldDialog(
@@ -130,24 +124,14 @@ fun ScannerRoute(
                 title = stringResource(R.string.scanner_barcode_dialog_title),
                 label = stringResource(R.string.scanner_barcode_label),
                 confirmText = stringResource(R.string.scanner_barcode_confirm),
-                onValueChange = { value ->
-                    onAction(OnValueChange(value))
-                },
-                onDismiss = {
-                    onAction(OnDismissRequest)
-                },
-                onConfirm = {
-                    onAction(OnConfirm)
-                }
+                onValueChange = { value -> onAction(OnValueChange(value)) },
+                onDismiss = { onAction(OnDismissRequest) },
+                onConfirm = { onAction(OnConfirm) }
             )
 
             ScannerOverlay.WARNING_DIALOG -> AlgidyAlertDialog(
-                onConfirm = {
-                    onAction(WarningDialogAction.Confirm)
-                },
-                onDismissRequest = {
-                    onAction(OnDismissRequest)
-                },
+                onConfirm = { onAction(WarningDialogAction.Confirm) },
+                onDismissRequest = { onAction(OnDismissRequest) },
                 title = stringResource(R.string.scanner_warning_dialog_title),
                 text = stringResource(R.string.scanner_warning_dialog_content),
                 dismissText = stringResource(R.string.scanner_warning_dialog_dismiss),

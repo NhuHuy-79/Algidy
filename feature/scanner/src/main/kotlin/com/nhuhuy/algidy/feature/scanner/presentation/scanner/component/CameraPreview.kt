@@ -13,6 +13,7 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.lifecycle.awaitInstance
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.rounded.DocumentScanner
 import androidx.compose.material.icons.rounded.ErrorOutline
 import androidx.compose.material.icons.rounded.PhotoCamera
@@ -163,6 +164,7 @@ fun LabelEventContainer(
             LabelEvent.AUTO_OFF -> resource.getString(R.string.scanner_label_auto_off)
             LabelEvent.SCANNING -> resource.getString(R.string.scanner_label_scanning)
             LabelEvent.FAILURE -> resource.getString(R.string.scanner_label_failure)
+            LabelEvent.ADD_MANUALLY -> resource.getString(R.string.scanner_add_manually_tooltip)
         }
     }
     val icon = remember(event) {
@@ -171,6 +173,7 @@ fun LabelEventContainer(
             LabelEvent.AUTO_OFF -> Icons.Rounded.PhotoCamera
             LabelEvent.SCANNING -> Icons.Rounded.DocumentScanner
             LabelEvent.FAILURE -> Icons.Rounded.ErrorOutline
+            LabelEvent.ADD_MANUALLY -> Icons.Outlined.Add
         }
     }
 

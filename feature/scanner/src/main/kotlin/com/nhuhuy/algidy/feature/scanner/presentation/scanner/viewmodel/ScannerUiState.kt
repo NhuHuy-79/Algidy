@@ -25,7 +25,7 @@ data class ScannerUiState(
 ) : UiState
 
 enum class LabelEvent {
-    NONE, AUTO_OFF, SCANNING, FAILURE
+    NONE, AUTO_OFF, SCANNING, FAILURE, ADD_MANUALLY
 }
 
 enum class ScannerOverlay{
