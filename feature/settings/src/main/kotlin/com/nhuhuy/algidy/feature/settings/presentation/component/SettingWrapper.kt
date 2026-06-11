@@ -11,6 +11,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.core.presentation.utils.ItemPosition
@@ -26,7 +27,9 @@ fun LazyListScope.otherSettingItems(
     item {
         Text(
             text = stringResource(R.string.setting_other_settings_title),
-            style = MaterialTheme.typography.titleMedium,
+            style = MaterialTheme.typography.titleMedium.copy(
+                fontWeight = FontWeight.Black
+            ),
             modifier = Modifier.padding(vertical = 4.dp)
         )
     }
@@ -60,7 +63,9 @@ fun LazyListScope.dataSettingItem(
     item {
         Text(
             text = stringResource(R.string.setting_data),
-            style = MaterialTheme.typography.titleMedium,
+            style = MaterialTheme.typography.titleMedium.copy(
+                fontWeight = FontWeight.Black
+            ),
             modifier = Modifier.padding(vertical = 4.dp)
         )
     }

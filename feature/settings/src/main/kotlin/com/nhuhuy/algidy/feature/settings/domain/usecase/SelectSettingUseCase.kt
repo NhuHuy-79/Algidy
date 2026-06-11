@@ -4,9 +4,11 @@ import com.nhuhuy.algidy.core.datastore.SettingsDataStore
 import com.nhuhuy.algidy.core.model.setting.AppFont
 import com.nhuhuy.algidy.core.model.setting.AppLanguage
 import com.nhuhuy.algidy.core.model.setting.DarkMode
+import com.nhuhuy.algidy.core.notifications.worker.WorkerScheduler
 
 class SelectSettingUseCase(
-    private val settingsDataStore: SettingsDataStore
+    private val settingsDataStore: SettingsDataStore,
+    private val workerScheduler: WorkerScheduler
 ) {
     suspend fun selectDarkMode(darkMode: DarkMode) {
         settingsDataStore.setDarkMode(darkMode)
@@ -20,5 +22,6 @@ class SelectSettingUseCase(
     suspend fun selectNotifyTime(hour: Int, minutes: Int) {
         settingsDataStore.setHour(hour)
         settingsDataStore.setMinute(minutes)
+        workerScheduler.scheduleCheckExpiryWorker()
     }
 }
