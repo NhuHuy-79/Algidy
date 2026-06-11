@@ -167,6 +167,7 @@
     <string name="scanner_warning_dialog_content">Message : Nous avons du mal à reconnaître ce code-barres. Vous pouvez entrer le code produit manuellement pour continuer.</string>
     <string name="scanner_warning_dialog_confirm">Entrer manuellement</string>
     <string name="scanner_warning_dialog_dismiss">Réessayez</string>
+    <string name="scanner_add_manually_tooltip"><![CDATA[\"Vous rencontrez des difficultés pour numériser \? Ajoutez manuellement.\"]]></string>
 
     <!-- Analytics Screen -->
     <string name="analytics_card">Tu as</string>
@@ -197,6 +198,7 @@
     <string name="settings_set_time_confirm">Confirmez</string>
     <string name="settings_set_time_cancel">Annuler</string>
     <string name="settings_set_time_success">Heure de notification mise à jour !</string>
+    <string name="settings_delete_success">Supprimer les données avec succès</string>
 
     <string name="setting_language">Langue</string>
     <string name="setting_font">Police</string>

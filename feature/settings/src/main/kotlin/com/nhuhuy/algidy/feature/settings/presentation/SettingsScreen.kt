@@ -9,7 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
-import androidx.compose.material.icons.outlined.Timer
+import androidx.compose.material.icons.outlined.AddAlarm
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.Icon
@@ -75,7 +75,7 @@ fun SettingsScreen(
                         onClick = { onAction(SettingsAction.SetNotifyTime.OpenPicker) }
                     ) {
                         Icon(
-                            imageVector = Icons.Outlined.Timer,
+                            imageVector = Icons.Outlined.AddAlarm,
                             contentDescription = "timer"
                         )
                     }

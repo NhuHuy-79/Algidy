@@ -1,17 +1,14 @@
 package com.nhuhuy.algidy.feature.scanner.domain.usecase
 
-import com.nhuhuy.algidy.core.data.repository.FoodRepository
 import com.nhuhuy.algidy.core.model.error_handling.Resource
 import com.nhuhuy.algidy.core.model.food.FoodItem
 import com.nhuhuy.algidy.feature.scanner.domain.model.FoodDate
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-class CreateFoodItemFromDateUseCase(
-    private val foodRepository: FoodRepository
-) {
+class CreateFoodItemFromDateUseCase {
 
-    suspend operator fun invoke(foodDate: FoodDate): Resource<FoodItem> {
+    operator fun invoke(foodDate: FoodDate): Resource<FoodItem> {
         val productionTimestamp =
             foodDate.productionDate?.let { parseToLong(it) } ?: System.currentTimeMillis()
         val expiryTimestamp = foodDate.expiryDate?.let { parseToLong(it) } ?: -1L
@@ -21,7 +18,7 @@ class CreateFoodItemFromDateUseCase(
             expiryDate = expiryTimestamp
         )
 
-        return foodRepository.addFoodItem(foodItem)
+        return Resource.Success(foodItem)
     }
 
     private fun parseToLong(dateStr: String): Long? {
