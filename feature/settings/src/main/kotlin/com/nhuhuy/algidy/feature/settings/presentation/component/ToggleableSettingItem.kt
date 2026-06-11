@@ -31,7 +31,7 @@ fun ToggleableSettingItem(
 ) {
     ListItem(
         colors = ListItemDefaults.colors(
-            containerColor = MaterialTheme.colorScheme.surfaceVariant,
+            containerColor = MaterialTheme.colorScheme.surfaceContainer,
             contentColor = MaterialTheme.colorScheme.onSurfaceVariant
         ),
         modifier = modifier
@@ -100,7 +100,7 @@ fun ClickableSettingItem(
 ) {
     ListItem(
         colors = ListItemDefaults.colors(
-            containerColor = MaterialTheme.colorScheme.surfaceVariant,
+            containerColor = MaterialTheme.colorScheme.surfaceContainer,
             contentColor = MaterialTheme.colorScheme.onSurfaceVariant
         ),
         modifier = modifier

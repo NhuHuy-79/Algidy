@@ -9,7 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
-import androidx.compose.material.icons.outlined.AddAlarm
+import androidx.compose.material.icons.outlined.NotificationAdd
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.Icon
@@ -75,7 +75,7 @@ fun SettingsScreen(
                         onClick = { onAction(SettingsAction.SetNotifyTime.OpenPicker) }
                     ) {
                         Icon(
-                            imageVector = Icons.Outlined.AddAlarm,
+                            imageVector = Icons.Outlined.NotificationAdd,
                             contentDescription = "timer"
                         )
                     }
@@ -93,7 +93,9 @@ fun SettingsScreen(
             item {
                 Text(
                     text = stringResource(R.string.setting_app_theme),
-                    style = MaterialTheme.typography.titleMedium,
+                    style = MaterialTheme.typography.titleMedium.copy(
+                        fontWeight = FontWeight.Black
+                    ),
                     modifier = Modifier.padding(vertical = 8.dp)
                 )
             }
@@ -133,7 +135,9 @@ fun SettingsScreen(
             item {
                 Text(
                     text = stringResource(R.string.setting_language),
-                    style = MaterialTheme.typography.titleMedium,
+                    style = MaterialTheme.typography.titleMedium.copy(
+                        fontWeight = FontWeight.Black
+                    ),
                     modifier = Modifier.padding(vertical = 4.dp)
                 )
             }
@@ -150,7 +154,9 @@ fun SettingsScreen(
             item {
                 Text(
                     text = stringResource(R.string.setting_font),
-                    style = MaterialTheme.typography.titleMedium,
+                    style = MaterialTheme.typography.titleMedium.copy(
+                        fontWeight = FontWeight.Black
+                    ),
                     modifier = Modifier.padding(vertical = 4.dp)
                 )
             }

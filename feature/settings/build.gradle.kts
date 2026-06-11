@@ -9,6 +9,7 @@ android {
 
 dependencies {
     implementation(project(":core:datastore"))
+    implementation(project(":core:notifications"))
     implementation(libs.kotlinx.serialization.core)
     implementation(libs.kotlinx.serialization.json)
 }
