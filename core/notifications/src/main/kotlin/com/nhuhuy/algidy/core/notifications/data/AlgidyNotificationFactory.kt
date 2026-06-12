@@ -36,7 +36,7 @@ class AlgidyNotificationFactory(
         }
 
         return NotificationCompat.Builder(context, NotificationChannelManager.CHANNEL_ALERT_ID)
-            .setSmallIcon(android.R.drawable.ic_dialog_alert)
+            .setSmallIcon(R.drawable.salad)
             .setContentTitle(title)
             .setContentText(content)
             .setStyle(inboxStyle)
@@ -61,7 +61,7 @@ class AlgidyNotificationFactory(
             .bigText(longDetail)
 
         return NotificationCompat.Builder(context, NotificationChannelManager.CHANNEL_REPORT_ID)
-            .setSmallIcon(android.R.drawable.ic_dialog_info)
+            .setSmallIcon(R.drawable.salad)
             .setContentTitle(title)
             .setContentText(shortMessage)
             .setStyle(bigTextStyle)
@@ -83,7 +83,7 @@ class AlgidyNotificationFactory(
         val actionWasted = context.getString(R.string.notif_action_wasted)
 
         return NotificationCompat.Builder(context, NotificationChannelManager.CHANNEL_ALERT_ID)
-            .setSmallIcon(android.R.drawable.ic_dialog_alert)
+            .setSmallIcon(R.drawable.salad)
             .setContentTitle(title)
             .setContentText(message)
             .setPriority(NotificationCompat.PRIORITY_HIGH)

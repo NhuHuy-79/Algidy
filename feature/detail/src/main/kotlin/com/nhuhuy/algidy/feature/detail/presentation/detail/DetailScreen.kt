@@ -12,7 +12,10 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.filled.AddPhotoAlternate
+import androidx.compose.material.icons.rounded.Delete
+import androidx.compose.material.icons.rounded.Edit
 import androidx.compose.material.icons.rounded.Image
+import androidx.compose.material.icons.rounded.Restaurant
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.FilledTonalIconButton
@@ -34,7 +37,6 @@ import com.nhuhuy.algidy.core.designsystem.component.CardLayout
 import com.nhuhuy.algidy.core.designsystem.component.FoodImageCard
 import com.nhuhuy.algidy.core.presentation.PhotoPickerContainer
 import com.nhuhuy.algidy.core.presentation.R
-import com.nhuhuy.algidy.feature.detail.presentation.detail.component.DetailFabMenu
 import com.nhuhuy.algidy.feature.detail.presentation.detail.component.DetailHeroCard
 import com.nhuhuy.algidy.feature.detail.presentation.detail.component.DetailNoteSection
 import com.nhuhuy.algidy.feature.detail.presentation.detail.component.DetailStatsRow
@@ -50,7 +52,7 @@ fun DetailScreen(
     openWastedDialog: () -> Unit,
     openConsumedDialog: () -> Unit
 ) {
-    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
+    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     Scaffold(
         modifier = Modifier
             .fillMaxSize()
@@ -78,16 +80,41 @@ fun DetailScreen(
                         )
                     }
                 },
+                actions = {
+                    FilledTonalIconButton(
+                        onClick = openConsumedDialog,
+                        shape = RoundedCornerShape(8.dp)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Rounded.Restaurant,
+                            contentDescription = null
+                        )
+                    }
+
+                    FilledTonalIconButton(
+                        onClick = openEditSheet,
+                        shape = RoundedCornerShape(8.dp)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Rounded.Edit,
+                            contentDescription = null
+                        )
+                    }
+
+                    FilledTonalIconButton(
+                        onClick = openWastedDialog,
+                        shape = RoundedCornerShape(8.dp)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Rounded.Delete,
+                            contentDescription = null
+                        )
+                    }
+
+                },
                 scrollBehavior = scrollBehavior
             )
         },
-        floatingActionButton = {
-            DetailFabMenu(
-                onEditClick = openEditSheet,
-                onWastedClick = openWastedDialog,
-                onConsumedClick = openConsumedDialog
-            )
-        }
     ) { paddingValues ->
         LazyColumn(
             modifier = Modifier.fillMaxSize(),

@@ -4,7 +4,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.Analytics
-import androidx.compose.material.icons.rounded.Camera
+import androidx.compose.material.icons.rounded.CameraAlt
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.Edit
 import androidx.compose.material.icons.rounded.Settings
@@ -69,7 +69,7 @@ fun InventoryFabMenu(
             containerColor = MaterialTheme.colorScheme.primaryContainer,
             contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
             onClick = onBarcodeScanClick,
-            icon = { Icon(Icons.Rounded.Camera, contentDescription = null) },
+            icon = { Icon(Icons.Rounded.CameraAlt, contentDescription = null) },
             text = { Text(text = stringResource(R.string.inventory_scanner_btn)) },
         )
 

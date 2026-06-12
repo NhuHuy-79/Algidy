@@ -13,6 +13,11 @@ class CheckCapabilityUseCase(
     suspend fun init() {
         deviceCapableDataStore.setDynamicColorSupported(appCapabilityManager.isDynamicColorSupported())
         deviceCapableDataStore.setNotificationGranted(appCapabilityManager.isNotificationGranted())
+        deviceCapableDataStore.setBiometricSupported(appCapabilityManager.isBiometricSupported())
+    }
+
+    suspend fun updateNotification(granted: Boolean) {
+        deviceCapableDataStore.setNotificationGranted(granted)
     }
 
     suspend fun updateBiometric(value: Boolean) {

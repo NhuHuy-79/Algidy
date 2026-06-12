@@ -14,7 +14,7 @@ class ManageDataUseCase(
         return dataBackUpManger.exportDataToZip()
     }
 
-    suspend fun importDate(uriPath: String): Resource<Unit> {
+    suspend fun importData(uriPath: String): Resource<Unit> {
         return dataBackUpManger.restoreEverythingFromZip(uriPath)
     }
 }

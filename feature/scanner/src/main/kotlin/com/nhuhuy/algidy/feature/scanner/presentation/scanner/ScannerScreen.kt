@@ -193,7 +193,7 @@ fun ScannerScreen(
                         scanLineColor = MaterialTheme.colorScheme.secondary,
                         cornerSpacing = screenWidth * 0.5f,
                         cornerCap = 8.dp,
-                        cornerRadius = 16.dp,
+                        cornerRadius = 24.dp,
                         scanHeight = screenWidth * 0.3f
                     )
                 }

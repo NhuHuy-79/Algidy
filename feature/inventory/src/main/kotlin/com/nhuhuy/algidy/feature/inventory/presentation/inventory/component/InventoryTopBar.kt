@@ -2,15 +2,15 @@
 
 package com.nhuhuy.algidy.feature.inventory.presentation.inventory.component
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Category
 import androidx.compose.material.icons.rounded.Check
 import androidx.compose.material.icons.rounded.Event
 import androidx.compose.material.icons.rounded.FilterList
-import androidx.compose.material.icons.rounded.ModeEdit
 import androidx.compose.material.icons.rounded.RestartAlt
 import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material.icons.rounded.SortByAlpha
@@ -19,10 +19,9 @@ import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
-import androidx.compose.material3.FilledIconButton
-import androidx.compose.material3.FilledTonalIconButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MediumFlexibleTopAppBar
 import androidx.compose.material3.Text
@@ -37,7 +36,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.nhuhuy.algidy.core.presentation.R
-import com.nhuhuy.algidy.core.presentation.utils.horizontalRoundedCornerShape
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryAction
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventorySortMode
 
@@ -68,9 +66,8 @@ fun InventoryTopBar(
             Text(text = stringResource(R.string.inventory_subtitle))
         },
         actions = {
-            FilledIconButton(
+            IconButton(
                 onClick = { onAction(InventoryAction.OnSearchClick) },
-                shape = RoundedCornerShape(8.dp)
             ) {
                 Icon(
                     imageVector = Icons.Rounded.Search,
@@ -78,15 +75,17 @@ fun InventoryTopBar(
                 )
             }
 
-            if (categoryEnabled && showCategoryEditMode) {
-                CategoryActionMenu(onAction = onAction)
-            }
-
             FilterSortMenu(
                 isExpiredOnlyActive = isExpiredOnlyActive,
                 currentSortMode = currentSortMode,
                 onAction = onAction
             )
+
+            AnimatedVisibility(
+                visible = categoryEnabled && showCategoryEditMode
+            ) {
+                CategoryActionMenu(onAction = onAction)
+            }
         }
     )
 }
@@ -98,15 +97,11 @@ private fun CategoryActionMenu(
     var expanded by remember { mutableStateOf(false) }
 
     Box {
-        FilledTonalIconButton(
-            shape = horizontalRoundedCornerShape(
-                end = 8.dp,
-                start = 24.dp
-            ),
+        IconButton(
             onClick = { expanded = true }
         ) {
             Icon(
-                imageVector = Icons.Rounded.ModeEdit,
+                imageVector = Icons.Rounded.Category,
                 contentDescription = null
             )
         }
@@ -143,11 +138,7 @@ private fun FilterSortMenu(
     var expanded by remember { mutableStateOf(false) }
 
     Box {
-        FilledTonalIconButton(
-            shape = horizontalRoundedCornerShape(
-                start = 8.dp,
-                end = 24.dp
-            ),
+        IconButton(
             onClick = { expanded = true }
         ) {
             Icon(
@@ -180,7 +171,7 @@ private fun FilterSortMenu(
                     expanded = false
                 }
             )
-            
+
             // Sort by Name
             DropdownMenuItem(
                 text = { Text(stringResource(R.string.inventory_menu_sort_name)) },

@@ -23,10 +23,10 @@ import kotlinx.coroutines.launch
 
 class SettingsViewModel(
     observeSettingStateUseCase: ObserveSettingStateUseCase,
-    checkCapabilityUseCase: CheckCapabilityUseCase,
     private val setToggleSettingUseCase: SetToggleSettingUseCase,
     private val selectSettingUseCase: SelectSettingUseCase,
     private val manageDataUseCase: ManageDataUseCase,
+    private val checkCapabilityUseCase: CheckCapabilityUseCase,
     private val deleteDataUseCase: DeleteAllDataUseCase,
 ) : BaseViewModel<SettingsUiState, SettingsEvent, SettingsAction>() {
     private val _overlay = MutableStateFlow(SettingsOverlay.NONE)
@@ -83,6 +83,7 @@ class SettingsViewModel(
             SettingsAction.DeleteAlertDialog.Confirm -> viewModelScope.launch {
                 _overlay.update { SettingsOverlay.NONE }
                 deleteDataUseCase()
+                emitEvent(DeleteAll.Success)
             }
 
             SettingsAction.DeleteAlertDialog.Dismiss -> _overlay.update { SettingsOverlay.NONE }
@@ -92,12 +93,16 @@ class SettingsViewModel(
 
             is SettingsAction.ImportData -> viewModelScope.launch {
                 val uri = action.uri
-                manageDataUseCase.importDate(uri.toString())
+                manageDataUseCase.importData(uri.toString())
                     .onSuccess { emitEvent(SettingsEvent.ImportData.Success) }
                     .onFailure { emitEvent(SettingsEvent.ImportData.Failure) }
             }
 
             is SettingsAction.SetNotifyTime -> onSetNotifyTimeAction(action)
+            is SettingsAction.OnNotificationGranted -> viewModelScope.launch {
+                checkCapabilityUseCase.updateNotification(action.granted)
+                setToggleSettingUseCase.toggleNotifications(action.granted)
+            }
         }
     }
 
@@ -129,7 +134,17 @@ class SettingsViewModel(
             when (action.type) {
                 ToggleType.BIOMETRIC_AUTH -> setToggleSettingUseCase.toggleBiometricLock(action.enabled)
                 ToggleType.DYNAMIC_COLOR -> setToggleSettingUseCase.toggleDynamicColor(action.enabled)
-                ToggleType.NOTIFICATION -> setToggleSettingUseCase.toggleNotifications(action.enabled)
+                ToggleType.NOTIFICATION -> {
+                    if (action.enabled) {
+                        if (currentState.notificationGranted) {
+                            setToggleSettingUseCase.toggleNotifications(true)
+                        } else {
+                            emitEvent(SettingsEvent.AskNotificationPermission)
+                        }
+                    } else {
+                        setToggleSettingUseCase.toggleNotifications(false)
+                    }
+                }
                 ToggleType.CATEGORY_GROUP -> setToggleSettingUseCase.toggleCategoryGroup(action.enabled)
             }
         }

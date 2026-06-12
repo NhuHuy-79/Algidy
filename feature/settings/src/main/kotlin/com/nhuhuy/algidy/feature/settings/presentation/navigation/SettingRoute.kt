@@ -1,10 +1,13 @@
 package com.nhuhuy.algidy.feature.settings.presentation.navigation
 
+import android.Manifest
 import android.net.Uri
+import android.os.Build
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.DeleteForever
+import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -18,6 +21,7 @@ import com.nhuhuy.algidy.core.presentation.ObserveEffect
 import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.core.presentation.component.AppTimePickerDialog
 import com.nhuhuy.algidy.feature.settings.presentation.SettingsScreen
+import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.DeleteAll
 import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.NotifyTimerEvent
 import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.SettingsAction
 import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.SettingsEvent
@@ -44,6 +48,13 @@ fun SettingRoute(
         }
     }
 
+    val notificationPermission = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestPermission(),
+        onResult = { granted ->
+            onAction(SettingsAction.OnNotificationGranted(granted))
+        }
+    )
+
     ObserveEffect(viewModel.uiEvent) { event ->
         when (event) {
             SettingsEvent.ExportData.SUCCESS -> {
@@ -69,7 +80,7 @@ fun SettingRoute(
 
             SettingsEvent.ImportData.Failure -> {
                 snackBarHostState.showSnackbar(
-                    message = resource.getString(R.string.export_failed),
+                    message = resource.getString(R.string.import_fail),
                 )
 
             }
@@ -85,7 +96,20 @@ fun SettingRoute(
             }
 
             NotifyTimerEvent.Success -> {
+                snackBarHostState.showSnackbar(
+                    message = resource.getString(R.string.settings_set_time_success),
+                )
+            }
 
+            SettingsEvent.AskNotificationPermission -> if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                notificationPermission.launch(Manifest.permission.POST_NOTIFICATIONS)
+            }
+
+            DeleteAll.Success -> {
+                snackBarHostState.showSnackbar(
+                    message = resource.getString(R.string.settings_delete_success),
+                    duration = SnackbarDuration.Short
+                )
             }
         }
     }

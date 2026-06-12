@@ -7,6 +7,7 @@ interface AppCapabilityManager {
 
     fun isNotificationGranted(): Boolean
     fun isDynamicColorSupported(): Boolean
+    fun isBiometricSupported(): Boolean
     val capabilities: StateFlow<AppCapabilities>
 }
 

@@ -4,6 +4,8 @@ import com.nhuhuy.algidy.core.presentation.viewmodel.UiEvent
 
 sealed interface SettingsEvent : UiEvent {
     data object NavigateBack : SettingsEvent
+
+    data object AskNotificationPermission : SettingsEvent
     enum class ExportData : SettingsEvent {
         SUCCESS, FAILURE
     }
@@ -12,6 +14,10 @@ sealed interface SettingsEvent : UiEvent {
         data object Failure : ImportData
         data object PickUri : ImportData
     }
+}
+
+sealed interface DeleteAll : SettingsEvent {
+    data object Success : DeleteAll
 }
 
 sealed interface NotifyTimerEvent : SettingsEvent {

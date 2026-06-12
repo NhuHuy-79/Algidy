@@ -106,6 +106,9 @@
     <string name="search_history_title">Gần đây</string>
     <string name="search_no_results">Không tìm thấy thực phẩm nào.</string>
 
+    <!--Food Entry Screen-->
+    <string name="food_entry_title">Thêm thức ăn mới</string>
+
     <!-- Detail Screen -->
     <string name="detail_title">Chi tiết thực phẩm</string>
     <string name="detail_subtitle">Đừng quên xử lý món này nhé</string>
@@ -160,6 +163,12 @@
     <string name="scanner_preview_title">Xem trước</string>
     <string name="scanner_preview_btn">Bắt đầu quét</string>
 
+    <string name="scanner_warning_dialog_title">Bạn gặp sự cố khi quét\?</string>
+    <string name="scanner_warning_dialog_content">Tin nhắn: Chúng tôi gặp sự cố khi nhận dạng mã vạch này. Bạn có thể nhập mã sản phẩm theo cách thủ công để tiếp tục.</string>
+    <string name="scanner_warning_dialog_confirm">Nhập thủ công</string>
+    <string name="scanner_warning_dialog_dismiss">Thử lại</string>
+    <string name="scanner_add_manually_tooltip">\"Gặp sự cố khi quét\? Thêm thủ công.\"</string>
+
     <!-- Analytics Screen -->
     <string name="analytics_card">Bạn có</string>
     <string name="analytics_card_2">tuần này.</string>
@@ -187,6 +196,8 @@
     <string name="settings_set_time">Cài đặt Nhận Thông báo</string>
     <string name="settings_set_time_confirm">Xác nhận</string>
     <string name="settings_set_time_cancel">Hủy bỏ</string>
+    <string name="settings_set_time_success">Thời gian thông báo được cập nhật!</string>
+    <string name="settings_delete_success">Xóa dữ liệu thành công</string>
 
     <string name="setting_language">Ngôn ngữ</string>
     <string name="setting_font">Font chữ</string>

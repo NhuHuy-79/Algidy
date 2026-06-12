@@ -12,6 +12,7 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
 
             pluginManager.apply {
                 apply("algidy.android.library.compose")
+                apply(libs.findPlugin("ksp").get().get().pluginId)
             }
 
             dependencies {
@@ -29,9 +30,12 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
                 // Koin for DI
                 add("implementation", libs.findLibrary("koin-android").get())
                 add("implementation", libs.findLibrary("koin-compose").get())
+                add("implementation", libs.findLibrary("koin-annotations").get())
+                add("ksp", libs.findLibrary("koin-ksp-compiler").get())
 
                 // Common test dependencies
                 add("testImplementation", libs.findLibrary("junit").get())
+                add("testImplementation", libs.findLibrary("koin-test").get())
                 add("testImplementation", libs.findLibrary("robolectric").get())
                 add("testImplementation", libs.findLibrary("mockk").get())
                 add("testImplementation", libs.findLibrary("kotlinx-coroutines-test").get())

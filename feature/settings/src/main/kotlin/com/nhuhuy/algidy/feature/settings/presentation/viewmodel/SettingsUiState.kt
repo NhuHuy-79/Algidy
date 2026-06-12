@@ -33,29 +33,29 @@ data class SettingsUiState(
     val dynamicColorSetting: SettingToggleItem
         get() = SettingToggleItem(
             type = ToggleType.DYNAMIC_COLOR,
-            visible = dynamicColorSupported,
-            enabled = dynamicColorEnabled
+            enable = dynamicColorSupported,
+            checked = dynamicColorEnabled
         )
 
     val biometricSetting: SettingToggleItem
         get() = SettingToggleItem(
             type = ToggleType.BIOMETRIC_AUTH,
-            visible = biometricSupported,
-            enabled = biometricEnabled
+            enable = biometricSupported,
+            checked = biometricEnabled
         )
 
     val notificationSetting: SettingToggleItem
         get() = SettingToggleItem(
             type = ToggleType.NOTIFICATION,
-            visible = true,
-            enabled = notificationGranted && notificationsEnabled
+            enable = true,
+            checked = notificationGranted && notificationsEnabled
         )
 
     val categorySetting: SettingToggleItem
         get() = SettingToggleItem(
             type = ToggleType.CATEGORY_GROUP,
-            visible = true,
-            enabled = categoryEnabled
+            enable = true,
+            checked = categoryEnabled
         )
 
     val toggleItems: List<SettingToggleItem>

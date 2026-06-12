@@ -1,6 +1,6 @@
 <resources>
     <!-- Common -->
-
+    
     <string name="action_ok">OK</string>
     <string name="action_cancel">Stornieren</string>
     <string name="action_save">Speichern</string>
@@ -106,6 +106,9 @@
     <string name="search_history_title">Jüngst</string>
     <string name="search_no_results">Keine Gegenstände gefunden.</string>
 
+    <!--Food Entry Screen-->
+    <string name="food_entry_title">Neue Lebensmittel hinzufügen</string>
+
     <!-- Detail Screen -->
     <string name="detail_title">Detail-Bildschirm</string>
     <string name="detail_subtitle">Vergiss nicht, das zu konsumieren</string>
@@ -160,6 +163,12 @@
     <string name="scanner_preview_title">Vorschau</string>
     <string name="scanner_preview_btn">Start Scan</string>
 
+    <string name="scanner_warning_dialog_title">Probleme beim Scannen\?</string>
+    <string name="scanner_warning_dialog_content">Nachricht: Wir haben Schwierigkeiten, diesen Barcode zu erkennen. Du kannst den Produktcode manuell eingeben, um fortzufahren.</string>
+    <string name="scanner_warning_dialog_confirm">Enter Manuell</string>
+    <string name="scanner_warning_dialog_dismiss">Versuchen Sie es nochmal</string>
+    <string name="scanner_add_manually_tooltip">„Haben Sie Probleme beim Scannen\? Manuell hinzufügen.“</string>
+
     <!-- Analytics Screen -->
     <string name="analytics_card">Du hast</string>
     <string name="analytics_card_2">Diese Woche.</string>
@@ -188,6 +197,8 @@
     <string name="settings_set_time">Benachrichtigung erhalten unter</string>
     <string name="settings_set_time_confirm">Bestätigen</string>
     <string name="settings_set_time_cancel">Stornieren</string>
+    <string name="settings_set_time_success">Benachrichtigungszeit aktualisiert!</string>
+    <string name="settings_delete_success">Daten erfolgreich löschen</string>
 
     <string name="setting_language">Sprache</string>
     <string name="setting_font">Taufbecken</string>

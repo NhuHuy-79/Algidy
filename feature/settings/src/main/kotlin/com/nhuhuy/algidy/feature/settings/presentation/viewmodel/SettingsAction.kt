@@ -14,6 +14,8 @@ sealed interface SettingsAction : UiAction {
         data object OpenPicker : SetNotifyTime
         data class SetHourAndMinutes(val hour: Int, val minutes: Int) : SetNotifyTime
     }
+
+    data class OnNotificationGranted(val granted: Boolean) : SettingsAction
     data class SetDarkMode(val darkMode: DarkMode) : SettingsAction
     data class ChangeLanguage(val language: AppLanguage) : SettingsAction
     data class ChangeFont(val font: AppFont) : SettingsAction

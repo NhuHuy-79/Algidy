@@ -106,6 +106,9 @@
     <string name="search_history_title">Recentes</string>
     <string name="search_no_results">Nada encontrado.</string>
 
+    <!--Food Entry Screen-->
+    <string name="food_entry_title">Adicione Comida Nova</string>
+
     <!-- Detail Screen -->
     <string name="detail_title">Detalhes</string>
     <string name="detail_subtitle">Não esqueça de consumir</string>
@@ -160,6 +163,12 @@
     <string name="scanner_preview_title">Visualizar</string>
     <string name="scanner_preview_btn">Iniciar Leitura</string>
 
+    <string name="scanner_warning_dialog_title">Está tendo dificuldade para escanear\?</string>
+    <string name="scanner_warning_dialog_content">Mensagem: Estamos tendo dificuldade para reconhecer esse código de barras. Você pode inserir o código do produto manualmente para continuar.</string>
+    <string name="scanner_warning_dialog_confirm">Introduza manualmente</string>
+    <string name="scanner_warning_dialog_dismiss">Tente de novo</string>
+    <string name="scanner_add_manually_tooltip">\"Está com problemas para digitalizar\? Adicione manualmente.\"</string>
+
     <!-- Analytics Screen -->
     <string name="analytics_card">Você tem</string>
     <string name="analytics_card_2">esta semana.</string>
@@ -188,6 +197,8 @@
     <string name="settings_set_time">Notificar às</string>
     <string name="settings_set_time_confirm">Confirmar</string>
     <string name="settings_set_time_cancel">Cancelar</string>
+    <string name="settings_set_time_success">Horário da notificação atualizado!</string>
+    <string name="settings_delete_success">Excluir dados com sucesso</string>
 
     <string name="setting_language">Idioma</string>
     <string name="setting_font">Fonte</string>

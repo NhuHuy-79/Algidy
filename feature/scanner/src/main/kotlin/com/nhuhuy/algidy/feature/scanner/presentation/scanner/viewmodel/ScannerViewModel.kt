@@ -16,7 +16,10 @@ import com.nhuhuy.algidy.feature.scanner.domain.usecase.CreateFoodItemFromDateUs
 import com.nhuhuy.algidy.feature.scanner.domain.usecase.ScanBarcodeUseCase
 import com.nhuhuy.algidy.feature.scanner.domain.usecase.ScanFoodDateUseCase
 import com.nhuhuy.algidy.feature.scanner.presentation.scanner.ScannerMode
+import com.nhuhuy.algidy.feature.scanner.utils.ScannerValidateResult
+import com.nhuhuy.algidy.feature.scanner.utils.ScannerValidator
 import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -27,10 +30,11 @@ import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import kotlin.time.Duration.Companion.milliseconds
-
+import kotlin.time.Duration.Companion.seconds
 
 class ScannerViewModel(
     private val scanBarcodeUseCase: ScanBarcodeUseCase,
@@ -52,6 +56,19 @@ class ScannerViewModel(
         extraBufferCapacity = 1,
         onBufferOverflow = BufferOverflow.DROP_OLDEST
     )
+
+    private var timeoutJob: Job? = null
+
+    private fun startTimeoutWatchdog() {
+        timeoutJob?.cancel()
+        timeoutJob = viewModelScope.launch {
+            delay(5.seconds)
+
+            _uiState.product {
+                copy(labelEvent = LabelEvent.ADD_MANUALLY)
+            }
+        }
+    }
 
     private var lastProcessedBarcode: String? = null
     private var lastProcessedFoodDate: FoodDate? = null
@@ -108,6 +125,7 @@ class ScannerViewModel(
             ScannerAction.OnBarcodeAddManual -> {
                 _uiState.product {
                     copy(
+                        labelEvent = LabelEvent.NONE,
                         overlay = ScannerOverlay.BARCODE_DIALOG,
                         isAutoScanned = false
                     )
@@ -115,6 +133,23 @@ class ScannerViewModel(
             }
 
             is AddBarcodeDialogAction -> onBarcodeDialogAction(action)
+            is WarningDialogAction -> handleWarningDialogAction(action)
+        }
+    }
+
+    private fun handleWarningDialogAction(action: WarningDialogAction) {
+        when (action) {
+            WarningDialogAction.Confirm -> {
+                _uiState.product {
+                    copy(overlay = ScannerOverlay.BARCODE_DIALOG)
+                }
+            }
+
+            WarningDialogAction.Open -> {
+                _uiState.product {
+                    copy(overlay = ScannerOverlay.WARNING_DIALOG)
+                }
+            }
         }
     }
 
@@ -141,15 +176,23 @@ class ScannerViewModel(
                 AddBarcodeDialogAction.OnConfirm -> {
                     val input = currentState.barCodeInput
                     _uiState.product { copy(overlay = ScannerOverlay.LOADING_DIALOG) }
-                    
+
                     scanBarcodeUseCase.fromBarcode(input)
                         .onSuccess { foodItem ->
-                            _uiState.product { copy(overlay = ScannerOverlay.NONE) }
+                            _uiState.product {
+                                copy(
+                                    overlay = ScannerOverlay.NONE,
+                                    errorScannerCount = 0
+                                )
+                            }
                             emitEvent(ScannerEvent.OnSuccess(foodItem = foodItem))
                         }
                         .onFailure {
                             _uiState.product {
-                                copy(overlay = ScannerOverlay.NONE, labelEvent = LabelEvent.FAILURE)
+                                copy(
+                                    overlay = ScannerOverlay.NONE,
+                                    labelEvent = LabelEvent.FAILURE,
+                                )
                             }
                         }
                 }
@@ -223,6 +266,7 @@ class ScannerViewModel(
      */
     private fun observeBarcodeEvents() {
         _barcodeEvents
+            .onStart { startTimeoutWatchdog() }
             .filter { barcode ->
                 // Only process if auto-scan is on, and we are not currently showing a dialog/overlay
                 val isAutoScanned = stateValue.isAutoScanned
@@ -236,9 +280,26 @@ class ScannerViewModel(
             .onEach { barcode ->
                 // Synchronously set the last processed barcode to prevent race conditions
                 // where multiple 'onBarcodeScan' jobs could start for the same item.
+                Timber.d("Barcode Result: $barcode")
+
+                startTimeoutWatchdog()
+
                 lastProcessedBarcode = barcode
-                Timber.d("New Barcode detected: $barcode")
-                onBarcodeScan(barcode)
+                when (ScannerValidator.validateBarcode(barcode)) {
+                    ScannerValidateResult.VALID -> {
+                        startTimeoutWatchdog()
+                        onBarcodeScan(barcode)
+                    }
+
+                    ScannerValidateResult.INVALID -> {
+                        _uiState.product { copy(labelEvent = LabelEvent.FAILURE) }
+                        delay(2000)
+                        _uiState.product {
+                            copy(labelEvent = if (stateValue.isAutoScanned) LabelEvent.SCANNING else LabelEvent.AUTO_OFF)
+                        }
+                        lastProcessedBarcode = null
+                    }
+                }
             }
             .launchIn(viewModelScope)
     }
@@ -252,14 +313,13 @@ class ScannerViewModel(
             _uiState.product {
                 copy(
                     scanResult = UiResult.Loading,
-                    overlay = ScannerOverlay.LOADING_DIALOG
+                    overlay = ScannerOverlay.LOADING_DIALOG,
                 )
             }
 
             scanBarcodeUseCase.fromBarcode(barcodeString)
                 .onSuccess { foodItem ->
                     Timber.d("Successfully scanned product: $foodItem")
-                    foodRepository.addFoodItem(foodItem)
 
                     // On success, hide overlay and inform UI
                     _uiState.product { copy(overlay = ScannerOverlay.NONE) }
@@ -272,7 +332,7 @@ class ScannerViewModel(
                 .onFailure { throwable ->
                     val error = throwable.toUiError()
                     Timber.e("Failed to scan barcode: $barcodeString, Error: $error")
-                    
+
                     _uiState.product {
                         copy(
                             labelEvent = LabelEvent.FAILURE,
@@ -337,7 +397,7 @@ class ScannerViewModel(
      */
     private suspend fun onFoodDateScan(foodDate: FoodDate) {
         _uiState.product {
-            copy(overlay = ScannerOverlay.LOADING_DIALOG)
+            copy(overlay = ScannerOverlay.LOADING_DIALOG, labelEvent = LabelEvent.NONE)
         }
 
         createFoodItemFromDateUseCase(foodDate = foodDate)

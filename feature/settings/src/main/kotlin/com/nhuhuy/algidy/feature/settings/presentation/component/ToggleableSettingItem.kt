@@ -23,14 +23,15 @@ import com.nhuhuy.algidy.core.presentation.utils.toRoundedCornerShape
 fun ToggleableSettingItem(
     position: ItemPosition,
     modifier: Modifier = Modifier,
-    enabled: Boolean = false,
+    enabled: Boolean = true,
+    checked: Boolean = false,
     text: String,
     title: String,
     onToggleClick: (enable: Boolean) -> Unit
 ) {
     ListItem(
         colors = ListItemDefaults.colors(
-            containerColor = MaterialTheme.colorScheme.surfaceVariant,
+            containerColor = MaterialTheme.colorScheme.surfaceContainer,
             contentColor = MaterialTheme.colorScheme.onSurfaceVariant
         ),
         modifier = modifier
@@ -51,7 +52,8 @@ fun ToggleableSettingItem(
         },
         trailingContent = {
             Switch(
-                checked = enabled,
+                enabled = enabled,
+                checked = checked,
                 onCheckedChange = onToggleClick,
                 thumbContent = {
                     Icon(
@@ -73,7 +75,7 @@ private fun ToggleableSettingItemPreview() {
             position = ItemPosition.SINGLE,
             title = "Notifications",
             text = "Receive alerts for expiring food",
-            enabled = true,
+            checked = true,
             onToggleClick = {}
         )
         /*
@@ -98,7 +100,7 @@ fun ClickableSettingItem(
 ) {
     ListItem(
         colors = ListItemDefaults.colors(
-            containerColor = MaterialTheme.colorScheme.surfaceVariant,
+            containerColor = MaterialTheme.colorScheme.surfaceContainer,
             contentColor = MaterialTheme.colorScheme.onSurfaceVariant
         ),
         modifier = modifier

@@ -20,14 +20,15 @@ data class ScannerUiState(
     val labelEvent: LabelEvent = LabelEvent.SCANNING,
     val stagedImageUri: Uri? = null,
     val productionDate: String? = null,
+    val errorScannerCount: Int = 0,
     val expiryDate: String? = null,
 ) : UiState
 
 enum class LabelEvent {
-    NONE, AUTO_OFF, SCANNING, FAILURE
+    NONE, AUTO_OFF, SCANNING, FAILURE, ADD_MANUALLY
 }
 
 enum class ScannerOverlay{
-    NONE, LOADING_DIALOG, BARCODE_DIALOG
+    NONE, LOADING_DIALOG, BARCODE_DIALOG, WARNING_DIALOG
 }
 

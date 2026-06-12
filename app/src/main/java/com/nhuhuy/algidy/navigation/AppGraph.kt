@@ -78,7 +78,7 @@ fun AppGraph(
                         backStack.add(Destination.Analytics)
                     },
                     onNavigateToAddFood = {
-                        backStack.add(Destination.FoodEntry(title = "Add Food"))
+                        backStack.add(Destination.FoodEntry())
                     }
                 )
             }
@@ -99,7 +99,6 @@ fun AppGraph(
                     onNavigateToEdit = { item ->
                         backStack.add(
                             Destination.FoodEntry(
-                                title = "Edit Food",
                                 initialFoodItem = item
                             )
                         )
@@ -141,10 +140,7 @@ fun AppGraph(
                     onNavigateBack = { backStack.removeLastOrNull() },
                     onNavigateToFoodEntry = { item ->
                         backStack.add(
-                            Destination.FoodEntry(
-                                title = "Confirm Food",
-                                initialFoodItem = item
-                            )
+                            Destination.FoodEntry(initialFoodItem = item)
                         )
                     }
                 )
@@ -152,7 +148,6 @@ fun AppGraph(
 
             entry<Destination.FoodEntry> { destination ->
                 FoodEntryRoute(
-                    title = destination.title,
                     initialFoodItem = destination.initialFoodItem,
                     onNavigateBack = backStack::removeLastOrNull
                 )

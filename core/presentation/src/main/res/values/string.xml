@@ -107,6 +107,9 @@
     <string name="search_history_title">Recent</string>
     <string name="search_no_results">No items found.</string>
 
+    <!--Food Entry Screen-->
+    <string name="food_entry_title">Add New Food</string>
+
     <!-- Detail Screen -->
     <string name="detail_title">Detail Screen</string>
     <string name="detail_subtitle">Don\'t forget to consume this</string>
@@ -161,6 +164,12 @@
     <string name="scanner_preview_title">Preview</string>
     <string name="scanner_preview_btn">Start Scanning</string>
 
+    <string name="scanner_warning_dialog_title">Having trouble scanning?</string>
+    <string name="scanner_warning_dialog_content">Message: We’re having trouble recognizing this barcode. You can enter the product code manually to continue.</string>
+    <string name="scanner_warning_dialog_confirm">Enter Manually</string>
+    <string name="scanner_warning_dialog_dismiss">Try Again</string>
+    <string name="scanner_add_manually_tooltip">"Having trouble scanning? Add manually."</string>
+
     <!-- Analytics Screen -->
     <string name="analytics_card">You have</string>
     <string name="analytics_card_2">this week.</string>
@@ -189,6 +198,8 @@
     <string name="settings_set_time">Receive Notification At</string>
     <string name="settings_set_time_confirm">Confirm</string>
     <string name="settings_set_time_cancel">Cancel</string>
+    <string name="settings_set_time_success">Notification time updated!</string>
+    <string name="settings_delete_success">Delete data successfully</string>
 
     <string name="setting_language">Language</string>
     <string name="setting_font">Font</string>

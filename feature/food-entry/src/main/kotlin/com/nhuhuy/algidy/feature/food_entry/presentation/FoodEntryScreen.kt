@@ -7,15 +7,14 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
-import androidx.compose.material.icons.rounded.TaskAlt
-import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material.icons.outlined.AddPhotoAlternate
+import androidx.compose.material.icons.rounded.Check
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FilledTonalIconButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -23,6 +22,7 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.nhuhuy.algidy.core.presentation.PhotoPickerContainer
 import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.feature.food_entry.presentation.component.FoodEntryForm
 import com.nhuhuy.algidy.feature.food_entry.presentation.viewmodel.FoodEntryAction
@@ -44,11 +44,11 @@ fun FoodEntryScreen(
             .fillMaxSize()
             .nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
-            CenterAlignedTopAppBar(
+            TopAppBar(
                 title = {
                     Text(
                         text = title,
-                        style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold)
+                        fontWeight = FontWeight.Black
                     )
                 },
                 navigationIcon = {
@@ -60,12 +60,27 @@ fun FoodEntryScreen(
                     }
                 },
                 actions = {
-                    FilledTonalIconButton(
+                    PhotoPickerContainer(
+                        onImagePicked = { uri ->
+                            uri?.let {
+                                onAction(FoodEntryAction.OnImagePick(uri))
+                            }
+                        }
+                    ) { launcher ->
+                        IconButton(onClick = launcher) {
+                            Icon(
+                                imageVector = Icons.Outlined.AddPhotoAlternate,
+                                contentDescription = stringResource(R.string.detail_pick_photo)
+                            )
+                        }
+                    }
+
+                    IconButton(
                         onClick = { onAction(FoodEntryAction.OnSaveClick) },
                         enabled = errorState.isValid
                     ) {
                         Icon(
-                            imageVector = Icons.Rounded.TaskAlt,
+                            imageVector = Icons.Rounded.Check,
                             contentDescription = stringResource(R.string.action_save)
                         )
                     }
@@ -81,7 +96,7 @@ fun FoodEntryScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
-                .padding(horizontal = 16.dp)
+                .padding(16.dp)
                 .imePadding()
                 .verticalScroll(rememberScrollState())
         )
