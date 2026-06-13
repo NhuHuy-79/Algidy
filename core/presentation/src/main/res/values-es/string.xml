@@ -242,4 +242,25 @@
     <string name="export_success">¡Tus datos se exportan!</string>
     <string name="export_failed">¡No se pueden exportar tus datos!</string>
 
+    <!--Notification-->
+    <string name="notif_expiry_title">¡La comida caducará pronto!</string>
+    <string name="notif_expiry_few_items">Atención: Tus %1$s caducan pronto.</string>
+    <string name="notif_expiry_many_items">Atención: ¡%1$s y %2$d otros artículos caducan pronto!</string>
+
+    <!--Notification Features-->
+    <string name="notif_expiry_multiple_title">Atención: ¡%1$d artículos caducan pronto!</string>
+    <string name="notif_expiry_summary">Advertencia de caducidad</string>
+    <string name="notif_expiry_item_line">- %1$s (quedan %2$d días)</string>
+    <string name="notif_expiry_overflow">...y %1$d otros artículos</string>
+    <string name="notif_expiry_content">Tienes elementos que necesitan atención.</string>
+
+    <string name="notif_weekly_title">Resumen semanal de Algidy</string>
+    <string name="notif_weekly_short">Consumiste %1$d artículos y desperdiciaste %2$d artículos.</string>
+    <string name="notif_weekly_detail">La semana pasada, consumiste con éxito %1$d artículos. Desafortunadamente, se desperdiciaron %2$d artículos. ¡Planifiquemos mejor tus compras con Algidy para la próxima semana!</string>
+
+    <string name="notif_action_prompt_title">¡%1$s ha caducado hoy!</string>
+    <string name="notif_action_prompt_message">¿Has manipulado este artículo\?</string>
+    <string name="notif_action_consumed">Consumado</string>
+    <string name="notif_action_wasted">Desperdiciado</string>
+
 </resources>

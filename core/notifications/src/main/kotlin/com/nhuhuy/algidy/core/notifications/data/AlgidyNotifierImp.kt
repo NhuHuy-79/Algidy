@@ -47,7 +47,7 @@ class AlgidyNotifierImp(
         notificationManager.notify(EXPIRY_ALERT_ID, notification)
     }
 
-    override fun showActionableExpiryPrompt(
+    override suspend fun showActionableExpiryPrompt(
         foodId: String,
         foodName: String,
         image: Bitmap?

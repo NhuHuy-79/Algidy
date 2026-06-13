@@ -242,4 +242,25 @@
     <string name="export_success">I tuoi dati vengono esportati!</string>
     <string name="export_failed">Non posso esportare i tuoi dati!</string>
 
+    <!--Notification-->
+    <string name="notif_expiry_title">Cibo in scadenza!</string>
+    <string name="notif_expiry_few_items">Attenzione: i tuoi %1$ scadranno a breve.</string>
+    <string name="notif_expiry_many_items">Attenzione: %1$se altri %2$d altri articoli scadranno a breve!</string>
+
+    <!--Notification Features-->
+    <string name="notif_expiry_multiple_title">Attenzione: %1$d articoli in scadenza!</string>
+    <string name="notif_expiry_summary">Avviso di scadenza</string>
+    <string name="notif_expiry_item_line">- %1$s (%2$d giorni rimasti)</string>
+    <string name="notif_expiry_overflow">...e %1$d altri elementi</string>
+    <string name="notif_expiry_content">Hai oggetti che richiedono attenzione.</string>
+
+    <string name="notif_weekly_title">Riepilogo settimanale dell\'Algidy</string>
+    <string name="notif_weekly_short">Hai consumato %1$d articoli e sprecato %2$d articoli.</string>
+    <string name="notif_weekly_detail">La settimana scorsa hai consumato con successo %1$d articoli. Sfortunatamente, %2$d articoli sono stati sprecati. Pianifichiamo meglio la tua spesa con Algidy per la prossima settimana!</string>
+
+    <string name="notif_action_prompt_title">%1$s è scaduto oggi!</string>
+    <string name="notif_action_prompt_message">Hai maneggiato questo oggetto\?</string>
+    <string name="notif_action_consumed">Consumato</string>
+    <string name="notif_action_wasted">Sprecato</string>
+
 </resources>

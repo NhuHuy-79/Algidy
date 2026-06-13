@@ -241,4 +241,25 @@
     <string name="export_success">Dữ liệu của bạn đã được xuất ra!</string>
     <string name="export_failed">Xuất dữ liệu thất bại!</string>
 
+    <!--Notification-->
+    <string name="notif_expiry_title">Thực phẩm sắp hết hạn!</string>
+    <string name="notif_expiry_few_items">Lưu ý: %1$s của bạn sắp hết hạn.</string>
+    <string name="notif_expiry_many_items">Lưu ý: %1$s và %2$d các mặt hàng khác sắp hết hạn!</string>
+
+    <!--Notification Features-->
+    <string name="notif_expiry_multiple_title">Lưu ý: %1$d mặt hàng sắp hết hạn!</string>
+    <string name="notif_expiry_summary">Cảnh báo hết hạn</string>
+    <string name="notif_expiry_item_line">- %1$s (còn lại %2$d ngày)</string>
+    <string name="notif_expiry_overflow">...và %1$d mục khác</string>
+    <string name="notif_expiry_content">Bạn có những mục cần quan tâm.</string>
+
+    <string name="notif_weekly_title">Tóm tắt hàng tuần của Algidy</string>
+    <string name="notif_weekly_short">Bạn đã tiêu thụ %1$d mặt hàng và lãng phí %2$d mặt hàng.</string>
+    <string name="notif_weekly_detail">Tuần trước, bạn đã tiêu thụ thành công %1$d mặt hàng. Thật không may, %2$d mục đã bị lãng phí. Hãy lên kế hoạch đi chợ của bạn tốt hơn cùng Algidy cho tuần sắp tới nhé!</string>
+
+    <string name="notif_action_prompt_title">%1$s hôm nay đã hết hạn!</string>
+    <string name="notif_action_prompt_message">Bạn đã xử lý được mục này chưa\?</string>
+    <string name="notif_action_consumed">tiêu thụ</string>
+    <string name="notif_action_wasted">lãng phí</string>
+
 </resources>

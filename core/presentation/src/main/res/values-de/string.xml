@@ -242,4 +242,25 @@
     <string name="export_success">Ihre Daten werden exportiert!</string>
     <string name="export_failed">Du kannst deine Daten nicht exportieren!</string>
 
+    <!--Notification-->
+    <string name="notif_expiry_title">Lebensmittel sind bald abgelaufen!</string>
+    <string name="notif_expiry_few_items">Achtung: Ihre %1$s laufen bald ab.</string>
+    <string name="notif_expiry_many_items">Achtung: %1$s und %2$d weitere Artikel laufen bald ab!</string>
+
+    <!--Notification Features-->
+    <string name="notif_expiry_multiple_title">Achtung: %1$d Artikel laufen bald ab!</string>
+    <string name="notif_expiry_summary">Ablaufwarnung</string>
+    <string name="notif_expiry_item_line">- %1$s (noch %2$d Tage)</string>
+    <string name="notif_expiry_overflow">...und %1$d andere Artikel</string>
+    <string name="notif_expiry_content">Sie haben Dinge, die Ihrer Aufmerksamkeit bedürfen.</string>
+
+    <string name="notif_weekly_title">Algidy wöchentliche Zusammenfassung</string>
+    <string name="notif_weekly_short">Sie haben %1$d Artikel verbraucht und %2$d Artikel verschwendet.</string>
+    <string name="notif_weekly_detail">Letzte Woche haben Sie %1$d Artikel erfolgreich konsumiert. Leider wurden %2$d Artikel verschwendet. Lassen Sie uns mit Algidy Ihre Einkäufe für die kommende Woche besser planen!</string>
+
+    <string name="notif_action_prompt_title">%1$s ist heute abgelaufen!</string>
+    <string name="notif_action_prompt_message">Haben Sie diesen Artikel bearbeitet\?</string>
+    <string name="notif_action_consumed">Verbraucht</string>
+    <string name="notif_action_wasted">Verschwendet</string>
+
 </resources>

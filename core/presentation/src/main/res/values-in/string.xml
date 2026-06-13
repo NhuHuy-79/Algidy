@@ -242,4 +242,25 @@
     <string name="export_success">Data Anda diekspor!</string>
     <string name="export_failed">Tidak dapat mengekspor data Anda!</string>
 
+    <!--Notification-->
+    <string name="notif_expiry_title">Makanan akan segera kedaluwarsa!</string>
+    <string name="notif_expiry_few_items">Perhatian: %1$s Anda akan segera habis masa berlakunya.</string>
+    <string name="notif_expiry_many_items">Perhatian: %1$s dan %2$d item lainnya akan segera kedaluwarsa!</string>
+
+    <!--Notification Features-->
+    <string name="notif_expiry_multiple_title">Perhatian: %1$d item akan segera habis masa berlakunya!</string>
+    <string name="notif_expiry_summary">Peringatan Kedaluwarsa</string>
+    <string name="notif_expiry_item_line">- %1$s (%2$d hari tersisa)</string>
+    <string name="notif_expiry_overflow">...dan %1$d item lainnya</string>
+    <string name="notif_expiry_content">Anda memiliki item yang perlu diperhatikan.</string>
+
+    <string name="notif_weekly_title">Ringkasan Mingguan Algidy</string>
+    <string name="notif_weekly_short">Anda menghabiskan %1$d item dan menyia-nyiakan %2$d item.</string>
+    <string name="notif_weekly_detail">Minggu lalu, Anda berhasil mengonsumsi %1$d item. Sayangnya, %2$d item terbuang sia-sia. Ayo rencanakan belanjaanmu lebih baik bersama Algidy untuk minggu mendatang!</string>
+
+    <string name="notif_action_prompt_title">%1$s telah kedaluwarsa hari ini!</string>
+    <string name="notif_action_prompt_message">Sudahkah Anda menangani item ini\?</string>
+    <string name="notif_action_consumed">Dikonsumsi</string>
+    <string name="notif_action_wasted">Sia-sia</string>
+
 </resources>
