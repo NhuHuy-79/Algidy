@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 @Composable
 fun PhotoPickerContainer(
     onImagePicked: (Uri?) -> Unit,
+    onLaunch: () -> Unit = {},
     content: @Composable (onPhotoPick: () -> Unit) -> Unit,
 ) {
     val photoPickerLauncher = rememberLauncherForActivityResult(
@@ -16,6 +17,7 @@ fun PhotoPickerContainer(
         onResult = { uri -> onImagePicked(uri) }
     )
     val launchPicker = {
+        onLaunch()
         photoPickerLauncher.launch(
             PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
         )

@@ -1,6 +1,5 @@
 package com.nhuhuy.algidy.feature.scanner.presentation.scanner
 
-import android.net.Uri
 import androidx.camera.core.Camera
 import androidx.camera.core.TorchState
 import androidx.compose.foundation.basicMarquee
@@ -42,24 +41,18 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.nhuhuy.algidy.core.presentation.R
-import com.nhuhuy.algidy.feature.scanner.domain.model.FoodDate
 import com.nhuhuy.algidy.feature.scanner.presentation.canvas.ScannerBoundaryCorner
 import com.nhuhuy.algidy.feature.scanner.presentation.scanner.component.CameraPreviewContent
 import com.nhuhuy.algidy.feature.scanner.presentation.scanner.component.LabelEventContainer
 import com.nhuhuy.algidy.feature.scanner.presentation.scanner.component.ScannerControlBar
+import com.nhuhuy.algidy.feature.scanner.presentation.scanner.viewmodel.ScannerAction
 import com.nhuhuy.algidy.feature.scanner.presentation.scanner.viewmodel.ScannerUiState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ScannerScreen(
     uiState: ScannerUiState,
-    onSwitchMode: (ScannerMode) -> Unit,
-    onAddBarcodeManually: () -> Unit,
-    onFlashPress: (Boolean) -> Unit,
-    onAutoScanPress: (Boolean) -> Unit,
-    onResultDetected: (String) -> Unit,
-    onDateDetected: (FoodDate) -> Unit,
-    onImageStaged: (Uri?) -> Unit,
+    onAction: (ScannerAction) -> Unit,
     onClosePress: () -> Unit
 ) {
     var camera by remember { mutableStateOf<Camera?>(null) }
@@ -67,7 +60,7 @@ fun ScannerScreen(
 
     LaunchedEffect(camera) {
         camera?.cameraInfo?.torchState?.observe(lifecycleOwner) { state ->
-            onFlashPress(state == TorchState.ON)
+            onAction(ScannerAction.OnFlashChange(state == TorchState.ON))
         }
     }
 
@@ -119,7 +112,7 @@ fun ScannerScreen(
                                 ScannerMode.BARCODE_SCANNER -> ScannerMode.FOOD_SCANNER
                                 ScannerMode.FOOD_SCANNER -> ScannerMode.BARCODE_SCANNER
                             }
-                            onSwitchMode(newMode)
+                            onAction(ScannerAction.OnScannerModeChange(newMode))
                         }
                     ) {
                         Icon(
@@ -150,9 +143,16 @@ fun ScannerScreen(
             ScannerControlBar(
                 modifier = Modifier.safeDrawingPadding(),
                 isAutoScanned = uiState.isAutoScanned,
-                onAddManualBarcode = onAddBarcodeManually,
-                onAutoScanChange = onAutoScanPress,
-                onImageStaged = onImageStaged
+                onAddManualBarcode = { onAction(ScannerAction.OnBarcodeAddManual) },
+                onAutoScanChange = { auto ->
+                    onAction(ScannerAction.OnAutoScanChange(auto))
+                },
+                onImageStaged = { uri ->
+                    onAction(ScannerAction.OnImageStaged(uri))
+                },
+                onLaunch = {
+                    onAction(ScannerAction.OnAutoScanChange(isAutoScanned = false))
+                }
             )
         }
     ) { innerPadding ->
@@ -176,12 +176,12 @@ fun ScannerScreen(
                     },
                     onResultDetected = { result ->
                         if (uiState.isAutoScanned) {
-                            onResultDetected(result)
+                            onAction(ScannerAction.OnResultDetected(result))
                         }
                     },
                     onDateDetected = { foodDate ->
                         if (uiState.isAutoScanned) {
-                            onDateDetected(foodDate)
+                            onAction(ScannerAction.OnDateDetected(foodDate))
                         }
                     }
                 )
