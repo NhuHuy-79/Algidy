@@ -1,4 +1,4 @@
-package com.nhuhuy.algidy.navigation
+package com.nhuhuy.algidy.core.presentation.navigation
 
 import androidx.navigation3.runtime.NavKey
 import com.nhuhuy.algidy.core.model.food.FoodItem
@@ -31,6 +31,20 @@ sealed interface Destination : NavKey {
     ) : Destination
 
     @Serializable
-    data object Setting : Destination
-}
+    data object PreSetting : Destination
 
+    @Serializable
+    sealed interface Setting : Destination {
+        @Serializable
+        data object Main : Setting
+
+        @Serializable
+        data object Appearance : Setting
+
+        @Serializable
+        data object YourData : Setting
+
+        @Serializable
+        data object OtherSettings : Setting
+    }
+}

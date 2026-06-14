@@ -262,4 +262,17 @@
     <string name="notif_action_consumed">tiêu thụ</string>
     <string name="notif_action_wasted">lãng phí</string>
 
+    <!-- New Setting Screens -->
+    <string name="appearance_title">Xuất hiện</string>
+    <string name="appearance_subtitle">Tùy chỉnh giao diện của ứng dụng</string>
+
+    <string name="your_data_title">Dữ liệu của bạn</string>
+    <string name="your_data_subtitle">Quản lý dữ liệu cục bộ và bản sao lưu của bạn</string>
+
+    <string name="other_settings_title_page">Cài đặt khác</string>
+    <string name="other_settings_subtitle">Thông báo, ngôn ngữ và hơn thế nữa</string>
+
+    <string name="main_settings_title_page">Cài đặt</string>
+    <string name="main_settings_subtitle">Cài đặt ứng dụng chung</string>
+
 </resources>

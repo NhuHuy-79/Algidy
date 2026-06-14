@@ -20,13 +20,14 @@ import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDe
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
+import com.nhuhuy.algidy.core.presentation.navigation.Destination
 import com.nhuhuy.algidy.feature.analytics.presentation.navigation.AnalyticsRoute
 import com.nhuhuy.algidy.feature.detail.presentation.navigation.DetailRoute
 import com.nhuhuy.algidy.feature.food_entry.navigation.FoodEntryRoute
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.InventoryRoute
 import com.nhuhuy.algidy.feature.inventory.presentation.search.SearchInventoryRoute
 import com.nhuhuy.algidy.feature.scanner.presentation.scanner.ScannerRoute
-import com.nhuhuy.algidy.feature.settings.presentation.navigation.SettingRoute
+import com.nhuhuy.algidy.feature.settings.navigation.SettingRoute
 
 @Composable
 fun AppGraph(
@@ -73,7 +74,7 @@ fun AppGraph(
                     },
                     onNavigateToCamera = { backStack.add(Destination.Scanner) },
                     onNavigateToSearch = { backStack.add(Destination.Inventory.Search) },
-                    onNavigateToSetting = { backStack.add(Destination.Setting) },
+                    onNavigateToSetting = { backStack.add(Destination.PreSetting) },
                     onNavigateToAnalytics = {
                         backStack.add(Destination.Analytics)
                     },
@@ -153,7 +154,7 @@ fun AppGraph(
                 )
             }
 
-            entry<Destination.Setting>(
+            entry<Destination.PreSetting>(
                 metadata = NavDisplay.transitionSpec {
                     slideInVertically(
                         initialOffsetY = { it },
@@ -174,9 +175,9 @@ fun AppGraph(
                         animationSpec = tween(400, easing = EaseInCubic)
                     ) + fadeOut(animationSpec = tween(300))
                 }
-            ) {
+            ) { _ ->
                 SettingRoute(
-                    onNavigateBack = backStack::removeLastOrNull
+                    onNavigateBack = backStack::removeLastOrNull,
                 )
             }
         }

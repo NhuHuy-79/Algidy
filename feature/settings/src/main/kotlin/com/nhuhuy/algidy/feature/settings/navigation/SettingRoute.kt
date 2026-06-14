@@ -1,4 +1,4 @@
-package com.nhuhuy.algidy.feature.settings.presentation.navigation
+package com.nhuhuy.algidy.feature.settings.navigation
 
 import android.Manifest
 import android.net.Uri

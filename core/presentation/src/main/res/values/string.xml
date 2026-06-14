@@ -264,5 +264,18 @@
     <string name="notif_action_consumed">Consumed</string>
     <string name="notif_action_wasted">Wasted</string>
 
+    <!-- New Setting Screens -->
+    <string name="appearance_title">Appearance</string>
+    <string name="appearance_subtitle">Customize the look and feel of the app</string>
+
+    <string name="your_data_title">Your Data</string>
+    <string name="your_data_subtitle">Manage your local data and backups</string>
+
+    <string name="other_settings_title_page">Other Settings</string>
+    <string name="other_settings_subtitle">Notifications, Language and more</string>
+
+    <string name="main_settings_title_page">Settings</string>
+    <string name="main_settings_subtitle">General application settings</string>
+
 </resources>
 

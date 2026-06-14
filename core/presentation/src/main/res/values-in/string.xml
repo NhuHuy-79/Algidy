@@ -263,4 +263,17 @@
     <string name="notif_action_consumed">Dikonsumsi</string>
     <string name="notif_action_wasted">Sia-sia</string>
 
+    <!-- New Setting Screens -->
+    <string name="appearance_title">Penampilan</string>
+    <string name="appearance_subtitle">Sesuaikan tampilan dan nuansa aplikasi</string>
+
+    <string name="your_data_title">Data Anda</string>
+    <string name="your_data_subtitle">Kelola data dan cadangan lokal Anda</string>
+
+    <string name="other_settings_title_page">Pengaturan Lainnya</string>
+    <string name="other_settings_subtitle">Pemberitahuan, Bahasa, dan lainnya</string>
+
+    <string name="main_settings_title_page">Pengaturan</string>
+    <string name="main_settings_subtitle">Pengaturan aplikasi umum</string>
+
 </resources>

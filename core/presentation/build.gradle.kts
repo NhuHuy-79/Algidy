@@ -1,5 +1,6 @@
 plugins {
     id("algidy.android.library.compose")
+    alias(libs.plugins.jetbrains.kotlin.serialization)
 }
 
 android {
@@ -20,5 +21,6 @@ dependencies {
 
     //Immutable Collection
     api(libs.kotlinx.collections.immutable)
-
+    api(libs.androidx.navigation3.runtime)
+    api(libs.kotlinx.serialization.json)
 }

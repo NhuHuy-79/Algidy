@@ -263,4 +263,17 @@
     <string name="notif_action_consumed">Consumado</string>
     <string name="notif_action_wasted">Desperdiciado</string>
 
+    <!-- New Setting Screens -->
+    <string name="appearance_title">Apariencia</string>
+    <string name="appearance_subtitle">Personaliza el aspecto y la sensación de la app</string>
+
+    <string name="your_data_title">Tus datos</string>
+    <string name="your_data_subtitle">Gestiona tus datos locales y copias de seguridad</string>
+
+    <string name="other_settings_title_page">Otros escenarios</string>
+    <string name="other_settings_subtitle">Notificaciones, Lenguaje y más</string>
+
+    <string name="main_settings_title_page">Escenarios</string>
+    <string name="main_settings_subtitle">Configuración general de la aplicación</string>
+
 </resources>
