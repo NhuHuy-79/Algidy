@@ -9,4 +9,5 @@ interface CategoryRepository {
     suspend fun addCategory(category: FoodCategory)
     suspend fun updateCategory(category: FoodCategory)
     suspend fun deleteCategory(id: String)
+    suspend fun getCategoryById(id: String): FoodCategory?
 }

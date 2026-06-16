@@ -21,6 +21,12 @@ dependencies {
 
     //Immutable Collection
     api(libs.kotlinx.collections.immutable)
+    //Nav3
     api(libs.androidx.navigation3.runtime)
+    api(libs.androidx.navigation3.ui)
+    api(libs.androidx.lifecycle.viewmodel.navigation3)
+    api(libs.androidx.navigationevent)
+
+    //KotlinSerialization
     api(libs.kotlinx.serialization.json)
 }

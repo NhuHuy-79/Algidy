@@ -46,7 +46,7 @@ data class FoodItem(
         val totalDuration = (expiryDate - purchaseDate).toFloat()
         val remainingDuration = (expiryDate - currentTime).toFloat()
 
-        return (remainingDuration / totalDuration).coerceIn(0f, 1f)
+        return 1f - (remainingDuration / totalDuration).coerceIn(0f, 1f)
     }
 
     fun getRemainingDays(): Int {

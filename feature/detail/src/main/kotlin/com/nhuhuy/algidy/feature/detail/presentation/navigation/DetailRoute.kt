@@ -47,10 +47,8 @@ fun DetailRoute(
         DetailScreen(
             uiState = uiState,
             onBackPress = onNavigateBack,
-            onImageChange = { uri -> onAction(DetailAction.EditEntryAction.OnImageChange(uri)) },
             openEditSheet = { onAction(DetailAction.OnEditItem) },
-            openWastedDialog = { onAction(DetailAction.OnWasteFabPress) },
-            openConsumedDialog = { onAction(DetailAction.OnConsumeFabPress) }
+            onAction = onAction
         )
 
         when (uiState.actionState) {

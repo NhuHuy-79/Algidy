@@ -116,9 +116,9 @@
     <string name="detail_food_stats">Food Stats</string>
     <string name="detail_expiry_progress">Expiry Progress</string>
     <string name="detail_personal_notes">Personal Notes</string>
-    <string name="detail_fab_consume_this">Consumed this</string>
+    <string name="detail_fab_consume_this">Consumed</string>
     <string name="detail_fab_edit_details">Edit Details</string>
-    <string name="detail_fab_mark_as_wasted">Mark as Wasted</string>
+    <string name="detail_fab_mark_as_wasted">Wasted</string>
     <string name="detail_dialog_waste_title">Mark as Wasted?</string>
     <string name="detail_dialog_waste_content">Are you sure this food is no longer usable? It will be moved to your waste history for tracking.</string>
     <string name="detail_dialog_consume_title">Finished Eating?</string>

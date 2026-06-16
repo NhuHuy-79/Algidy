@@ -26,6 +26,15 @@ sealed interface InventoryAction : UiAction {
     data object OnShowExpiredOnly : InventoryAction
 }
 
+
+@Stable
+sealed interface InventoryDetailAction : InventoryAction {
+    data object Open : InventoryDetailAction
+    data object OnEditClick : InventoryDetailAction
+    data object OnConsumedClick : InventoryDetailAction
+    data object OnWastedClick : InventoryDetailAction
+}
+
 @Stable
 sealed interface InventoryFabAction : InventoryAction {
     data class ToggleFabMenu(val value: Boolean) : InventoryFabAction
