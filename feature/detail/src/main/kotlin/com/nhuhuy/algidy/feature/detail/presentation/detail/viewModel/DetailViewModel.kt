@@ -3,15 +3,17 @@ package com.nhuhuy.algidy.feature.detail.presentation.detail.viewModel
 import android.net.Uri
 import androidx.lifecycle.viewModelScope
 import com.nhuhuy.algidy.core.data.util.product
+import com.nhuhuy.algidy.core.model.food.FoodItem
+import com.nhuhuy.algidy.core.presentation.model.CategoryUiModel
 import com.nhuhuy.algidy.core.presentation.viewmodel.BaseViewModel
+import com.nhuhuy.algidy.feature.detail.domain.usecase.GetCurrentCategoryUseCase
+import com.nhuhuy.algidy.feature.detail.domain.usecase.GetFoodDetailUseCase
 import com.nhuhuy.algidy.feature.detail.domain.usecase.MarkFoodAsConsumedUseCase
 import com.nhuhuy.algidy.feature.detail.domain.usecase.MarkFoodAsWastedUseCase
-import com.nhuhuy.algidy.feature.detail.domain.usecase.ObserveFoodDetailUseCase
 import com.nhuhuy.algidy.feature.detail.domain.usecase.UpdateFoodDetailUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 
 class DetailViewModel(
@@ -19,7 +21,8 @@ class DetailViewModel(
     private val markFoodAsConsumedUseCase: MarkFoodAsConsumedUseCase,
     private val markFoodAsWastedUseCase: MarkFoodAsWastedUseCase,
     private val updateFoodDetailUseCase: UpdateFoodDetailUseCase,
-    private val observeFoodDetailUseCase: ObserveFoodDetailUseCase,
+    private val getFoodDetailUseCase: GetFoodDetailUseCase,
+    private val getCurrentCategoryUseCase: GetCurrentCategoryUseCase
 ) : BaseViewModel<DetailUiState, DetailEvent, DetailAction>() {
     private val _uiState = MutableStateFlow(DetailUiState())
     override val uiState: StateFlow<DetailUiState> = _uiState.asStateFlow()
@@ -27,14 +30,16 @@ class DetailViewModel(
 
     init {
         viewModelScope.launch {
-            observeFoodDetailUseCase(foodId = foodItemId)
-                .distinctUntilChanged()
-                .collect { foodItem ->
-                    _uiState.product { copy(detailFoodItem = foodItem) }
-                }
+            val foodItem = getFoodDetailUseCase(foodId = foodItemId) ?: FoodItem()
+            val category = stateValue.detailFoodItem.categoryId?.let { id ->
+                getCurrentCategoryUseCase(id)
+            }
+            val categoryUiModel = category?.let {
+                CategoryUiModel.ByCategory(data = it)
+            } ?: CategoryUiModel.Uncategorized
+
+            _uiState.product { copy(detailFoodItem = foodItem, category = categoryUiModel) }
         }
-
-
     }
 
     override fun onAction(action: DetailAction) {

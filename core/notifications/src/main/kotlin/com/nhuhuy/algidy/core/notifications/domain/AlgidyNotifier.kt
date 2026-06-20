@@ -12,7 +12,7 @@ interface AlgidyNotifier {
     /**
      * Gửi thông báo kèm Nút Hành Động (Action Buttons) để người dùng thao tác nhanh.
      */
-    fun showActionableExpiryPrompt(foodId: String, foodName: String, image: Bitmap?)
+    suspend fun showActionableExpiryPrompt(foodId: String, foodName: String, image: Bitmap?)
 
     /**
      * Gửi báo cáo tổng kết tuần (Im lặng, mức độ ưu tiên thấp).

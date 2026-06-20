@@ -1,6 +1,7 @@
 package com.nhuhuy.algidy.feature.detail.di
 
 import com.nhuhuy.algidy.feature.detail.domain.usecase.GetCategoriesUseCase
+import com.nhuhuy.algidy.feature.detail.domain.usecase.GetCurrentCategoryUseCase
 import com.nhuhuy.algidy.feature.detail.domain.usecase.GetFoodDetailUseCase
 import com.nhuhuy.algidy.feature.detail.domain.usecase.MarkFoodAsConsumedUseCase
 import com.nhuhuy.algidy.feature.detail.domain.usecase.MarkFoodAsWastedUseCase
@@ -19,6 +20,7 @@ val detailModule = module {
     factoryOf(::UpdateFoodDetailUseCase)
     factoryOf(::ObserveFoodDetailUseCase)
     factoryOf(::GetCategoriesUseCase)
+    factoryOf(::GetCurrentCategoryUseCase)
 
     //ViewModel
     viewModelOf(::DetailViewModel)

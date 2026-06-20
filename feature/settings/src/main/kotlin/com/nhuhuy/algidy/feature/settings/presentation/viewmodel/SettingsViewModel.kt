@@ -73,6 +73,7 @@ class SettingsViewModel(
 
             is SettingsAction.ChangeLanguage -> viewModelScope.launch {
                 selectSettingUseCase.selectAppLanguage(action.language)
+                emitEvent(SettingsEvent.NavigateBack)
             }
 
 

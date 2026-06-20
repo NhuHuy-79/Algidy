@@ -25,14 +25,7 @@ import com.nhuhuy.algidy.core.presentation.component.TextFieldDialog
 import com.nhuhuy.algidy.feature.scanner.presentation.scanner.component.dialog.ScannerLoadingDialog
 import com.nhuhuy.algidy.feature.scanner.presentation.scanner.viewmodel.AddBarcodeDialogAction.OnConfirm
 import com.nhuhuy.algidy.feature.scanner.presentation.scanner.viewmodel.AddBarcodeDialogAction.OnValueChange
-import com.nhuhuy.algidy.feature.scanner.presentation.scanner.viewmodel.ScannerAction
-import com.nhuhuy.algidy.feature.scanner.presentation.scanner.viewmodel.ScannerAction.OnAutoScanChange
-import com.nhuhuy.algidy.feature.scanner.presentation.scanner.viewmodel.ScannerAction.OnDateDetected
 import com.nhuhuy.algidy.feature.scanner.presentation.scanner.viewmodel.ScannerAction.OnDismissRequest
-import com.nhuhuy.algidy.feature.scanner.presentation.scanner.viewmodel.ScannerAction.OnFlashChange
-import com.nhuhuy.algidy.feature.scanner.presentation.scanner.viewmodel.ScannerAction.OnImageStaged
-import com.nhuhuy.algidy.feature.scanner.presentation.scanner.viewmodel.ScannerAction.OnResultDetected
-import com.nhuhuy.algidy.feature.scanner.presentation.scanner.viewmodel.ScannerAction.OnScannerModeChange
 import com.nhuhuy.algidy.feature.scanner.presentation.scanner.viewmodel.ScannerEvent
 import com.nhuhuy.algidy.feature.scanner.presentation.scanner.viewmodel.ScannerOverlay
 import com.nhuhuy.algidy.feature.scanner.presentation.scanner.viewmodel.ScannerUiState
@@ -100,17 +93,7 @@ fun ScannerRoute(
         ScannerScreen(
             uiState = uiState,
             onClosePress = onNavigateBack,
-            onFlashPress = { isFlashOn: Boolean -> onAction(OnFlashChange(isFlashOn)) },
-            onAutoScanPress = { autoScanned: Boolean ->
-                onAction(OnAutoScanChange(autoScanned))
-            },
-            onResultDetected = { barcodeString: String ->
-                onAction(OnResultDetected(barcodeString))
-            },
-            onDateDetected = { foodDate -> onAction(OnDateDetected(foodDate)) },
-            onSwitchMode = { mode -> onAction(OnScannerModeChange(mode = mode)) },
-            onImageStaged = { uri -> onAction(OnImageStaged(uri)) },
-            onAddBarcodeManually = { onAction(ScannerAction.OnBarcodeAddManual) }
+            onAction = onAction
         )
 
         when (uiState.overlay) {

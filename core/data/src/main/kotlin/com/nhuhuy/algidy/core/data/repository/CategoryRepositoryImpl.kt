@@ -45,4 +45,10 @@ class CategoryRepositoryImpl(
             categoryDao.deleteCategory(id)
         }
     }
+
+    override suspend fun getCategoryById(id: String): FoodCategory? {
+        return withContext(appDispatchers.io) {
+            categoryDao.getCategoryById(id)?.toDomain()
+        }
+    }
 }

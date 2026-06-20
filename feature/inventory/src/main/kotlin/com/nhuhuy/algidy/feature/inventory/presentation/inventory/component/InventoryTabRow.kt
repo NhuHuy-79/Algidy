@@ -34,9 +34,7 @@ fun InventoryTabRow(
                 text = {
                     Text(
                         text = stringResource(category.toStringRes()),
-                        style = if (selectedTabIndex == index)
-                            MaterialTheme.typography.titleSmall
-                        else MaterialTheme.typography.bodyMedium,
+                        style = MaterialTheme.typography.bodyMedium,
                         color = if (selectedTabIndex == index)
                             MaterialTheme.colorScheme.primary
                         else MaterialTheme.colorScheme.onSurfaceVariant,

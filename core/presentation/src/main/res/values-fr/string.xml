@@ -242,4 +242,38 @@
     <string name="export_success">Vos données sont exportées !</string>
     <string name="export_failed">Impossible d’exporter vos données !</string>
 
+    <!--Notification-->
+    <string name="notif_expiry_title"><![CDATA[Nourriture qui expire bientôt !]]></string>
+    <string name="notif_expiry_few_items"><![CDATA[Attention : Vos %1$ expirent bientôt.]]></string>
+    <string name="notif_expiry_many_items"><![CDATA[Attention : %1$s et %2$d autres articles expirent bientôt !]]></string>
+
+    <!--Notification Features-->
+    <string name="notif_expiry_multiple_title"><![CDATA[Attention : %1$d articles expireront bientôt !]]></string>
+    <string name="notif_expiry_summary">Avertissement d\'expiration</string>
+    <string name="notif_expiry_item_line">- %1$s (%2$d jours restants)</string>
+    <string name="notif_expiry_overflow">...et %1$d autres éléments</string>
+    <string name="notif_expiry_content">Vous avez des éléments qui nécessitent une attention particulière.</string>
+
+    <string name="notif_weekly_title">Résumé hebdomadaire algidy</string>
+    <string name="notif_weekly_short">Vous avez consommé %1$d articles et gaspillé %2$d articles.</string>
+    <string name="notif_weekly_detail"><![CDATA[La semaine dernière, vous avez consommé %1$d articles. Malheureusement, %2$d articles ont été gaspillés. Planifions mieux vos courses avec Algidy pour la semaine à venir !]]></string>
+
+    <string name="notif_action_prompt_title"><![CDATA[%1$s a expiré aujourd\'hui !]]></string>
+    <string name="notif_action_prompt_message"><![CDATA[Avez-vous manipulé cet objet \?]]></string>
+    <string name="notif_action_consumed">Consommé</string>
+    <string name="notif_action_wasted">Gaspillé</string>
+
+    <!-- New Setting Screens -->
+    <string name="appearance_title">Apparence</string>
+    <string name="appearance_subtitle">Personnalisez l’apparence et la sensation de l’application</string>
+
+    <string name="your_data_title">Vos données</string>
+    <string name="your_data_subtitle">Gérez vos données locales et vos sauvegardes</string>
+
+    <string name="other_settings_title_page">Autres univers</string>
+    <string name="other_settings_subtitle">Notifications, langage et plus encore</string>
+
+    <string name="main_settings_title_page">Décors</string>
+    <string name="main_settings_subtitle">Paramètres généraux de l’application</string>
+
 </resources>

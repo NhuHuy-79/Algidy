@@ -116,9 +116,9 @@
     <string name="detail_food_stats">Food Stats</string>
     <string name="detail_expiry_progress">Expiry Progress</string>
     <string name="detail_personal_notes">Personal Notes</string>
-    <string name="detail_fab_consume_this">Consumed this</string>
+    <string name="detail_fab_consume_this">Consumed</string>
     <string name="detail_fab_edit_details">Edit Details</string>
-    <string name="detail_fab_mark_as_wasted">Mark as Wasted</string>
+    <string name="detail_fab_mark_as_wasted">Wasted</string>
     <string name="detail_dialog_waste_title">Mark as Wasted?</string>
     <string name="detail_dialog_waste_content">Are you sure this food is no longer usable? It will be moved to your waste history for tracking.</string>
     <string name="detail_dialog_consume_title">Finished Eating?</string>
@@ -242,6 +242,40 @@
     <string name="import_fail">Import your data failed!</string>
     <string name="export_success">Your data is exported!</string>
     <string name="export_failed">Cannot export your data!</string>
+
+    <!--Notification-->
+    <string name="notif_expiry_title">Food expiring soon!</string>
+    <string name="notif_expiry_few_items">Attention: Your %1$s are expiring soon.</string>
+    <string name="notif_expiry_many_items">Attention: %1$s and %2$d other items are expiring soon!</string>
+
+    <!--Notification Features-->
+    <string name="notif_expiry_multiple_title">Attention: %1$d items expiring soon!</string>
+    <string name="notif_expiry_summary">Expiry Warning</string>
+    <string name="notif_expiry_item_line">- %1$s (%2$d days left)</string>
+    <string name="notif_expiry_overflow">...and %1$d other items</string>
+    <string name="notif_expiry_content">You have items that need attention.</string>
+
+    <string name="notif_weekly_title">Algidy Weekly Summary</string>
+    <string name="notif_weekly_short">You consumed %1$d items and wasted %2$d items.</string>
+    <string name="notif_weekly_detail">Last week, you successfully consumed %1$d items. Unfortunately, %2$d items were wasted. Let\'s plan your groceries better with Algidy for the upcoming week!</string>
+
+    <string name="notif_action_prompt_title">%1$s has expired today!</string>
+    <string name="notif_action_prompt_message">Have you handled this item?</string>
+    <string name="notif_action_consumed">Consumed</string>
+    <string name="notif_action_wasted">Wasted</string>
+
+    <!-- New Setting Screens -->
+    <string name="appearance_title">Appearance</string>
+    <string name="appearance_subtitle">Customize the look and feel of the app</string>
+
+    <string name="your_data_title">Your Data</string>
+    <string name="your_data_subtitle">Manage your local data and backups</string>
+
+    <string name="other_settings_title_page">Other Settings</string>
+    <string name="other_settings_subtitle">Notifications, Language and more</string>
+
+    <string name="main_settings_title_page">Settings</string>
+    <string name="main_settings_subtitle">General application settings</string>
 
 </resources>
 

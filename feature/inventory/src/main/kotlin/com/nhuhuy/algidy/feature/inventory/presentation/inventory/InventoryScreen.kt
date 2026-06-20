@@ -103,7 +103,7 @@ fun InventoryScreen(
                 inventoryResultState = inventoryResultState,
                 sortMode = uiState.sortMode,
                 showExpiredOnly = uiState.showExpiredOnly,
-                onItemClick = { id -> onAction(InventoryAction.OnItemClick(id)) }
+                onItemClick = { item -> onAction(InventoryAction.OnItemClick(item)) }
             )
         } else {
             InventoryPager(
@@ -114,7 +114,7 @@ fun InventoryScreen(
                 sortMode = uiState.sortMode,
                 showExpiredOnly = uiState.showExpiredOnly,
                 inventoryResultState = inventoryResultState,
-                onItemClick = { id -> onAction(InventoryAction.OnItemClick(id)) }
+                onItemClick = { item -> onAction(InventoryAction.OnItemClick(item)) }
             )
         }
     }

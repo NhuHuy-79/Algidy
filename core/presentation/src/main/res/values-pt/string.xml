@@ -242,4 +242,38 @@
     <string name="export_success">Dados exportados com sucesso!</string>
     <string name="export_failed">Não foi possível exportar!</string>
 
+    <!--Notification-->
+    <string name="notif_expiry_title">Alimentos expirando em breve!</string>
+    <string name="notif_expiry_few_items">Atenção: Seus %1$s expirarão em breve.</string>
+    <string name="notif_expiry_many_items">Atenção: %1$s e %2$d outros itens expirarão em breve!</string>
+
+    <!--Notification Features-->
+    <string name="notif_expiry_multiple_title">Atenção: %1$d itens expirarão em breve!</string>
+    <string name="notif_expiry_summary">Aviso de expiração</string>
+    <string name="notif_expiry_item_line">- %1$s (%2$d dias restantes)</string>
+    <string name="notif_expiry_overflow">...e %1$d outros itens</string>
+    <string name="notif_expiry_content">Você tem itens que precisam de atenção.</string>
+
+    <string name="notif_weekly_title">Resumo semanal de Algidy</string>
+    <string name="notif_weekly_short">Você consumiu %1$d itens e desperdiçou %2$d itens.</string>
+    <string name="notif_weekly_detail">Na semana passada, você consumiu %1$d itens com sucesso. Infelizmente, %2$d itens foram desperdiçados. Vamos planejar melhor suas compras com Algidy para a próxima semana!</string>
+
+    <string name="notif_action_prompt_title">%1$s expirou hoje!</string>
+    <string name="notif_action_prompt_message">Você já tratou deste item\?</string>
+    <string name="notif_action_consumed">Consumido</string>
+    <string name="notif_action_wasted">Desperdiçado</string>
+
+    <!-- New Setting Screens -->
+    <string name="appearance_title">Aparência</string>
+    <string name="appearance_subtitle">Personalize a aparência e a sensação do app</string>
+
+    <string name="your_data_title">Seus Dados</string>
+    <string name="your_data_subtitle">Gerencie seus dados locais e backups</string>
+
+    <string name="other_settings_title_page">Outros cenários</string>
+    <string name="other_settings_subtitle">Notificações, Linguagem e mais</string>
+
+    <string name="main_settings_title_page">Configurações</string>
+    <string name="main_settings_subtitle">Configurações gerais da aplicação</string>
+
 </resources>
