@@ -7,11 +7,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import com.nhuhuy.algidy.core.model.food.FoodItem
+import com.nhuhuy.algidy.core.presentation.model.CategoryUiModel
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.InventoryGridList
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.EmptyPage
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.LoadingPage
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.getFilteredAndSortedList
-import com.nhuhuy.algidy.core.presentation.model.CategoryUiModel
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryResultState
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventorySortMode
 import kotlinx.collections.immutable.toImmutableList
@@ -23,7 +24,7 @@ fun InventoryCategoryList(
     inventoryResultState: InventoryResultState,
     sortMode: InventorySortMode,
     showExpiredOnly: Boolean,
-    onItemClick: (String) -> Unit,
+    onItemClick: (FoodItem) -> Unit,
 ) {
     Column(
         modifier = modifier,
@@ -56,7 +57,7 @@ fun InventoryCategoryList(
                 } else InventoryGridList(
                     items = items,
                     onItemClick = { foodItem ->
-                        onItemClick(foodItem.id)
+                        onItemClick(foodItem)
                     }
                 )
             }

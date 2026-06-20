@@ -23,6 +23,7 @@ data class InventoryCombineState(
 data class InventoryUiState(
     val expanded: Boolean = false,
     val currentCategory: CategoryUiModel = CategoryUiModel.All,
+    val currentFoodItem: FoodItem = FoodItem(),
     val categorySheetInput: String = "",
     val overlay: InventoryOverlay = InventoryOverlay.NONE,
     val sortMode: InventorySortMode = InventorySortMode.NONE,
@@ -32,9 +33,9 @@ data class InventoryUiState(
 }
 
 enum class InventoryOverlay {
-    NONE, CATEGORY_EDIT, CATEGORY_DELETE
+    NONE, CATEGORY_EDIT, CATEGORY_DELETE, ITEM_DETAIL
 }
 
 enum class InventorySortMode {
-    BY_NAME, BY_EXPIRY, NONE
+    BY_NAME, BY_EXPIRY, NONE,
 }

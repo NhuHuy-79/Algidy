@@ -1,6 +1,5 @@
 package com.nhuhuy.algidy.feature.inventory.presentation.inventory
 
-import android.Manifest
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -16,16 +15,18 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
-import com.google.accompanist.permissions.rememberPermissionState
 import com.nhuhuy.algidy.core.designsystem.component.AlgidyAlertDialog
 import com.nhuhuy.algidy.core.designsystem.component.BoxLayout
+import com.nhuhuy.algidy.core.model.food.FoodItem
 import com.nhuhuy.algidy.core.presentation.ObserveEffect
 import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.InventoryFabMenu
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.category.CategoryEditDialog
+import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.detail.DetailBottomSheet
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryAction
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryAction.OnEditCategorySheet.OnInputChange
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryAction.OnEditCategorySheet.Save
+import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryDetailAction
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryEvent
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryFabAction
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryOverlay
@@ -35,12 +36,12 @@ import org.koin.androidx.compose.koinViewModel
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun InventoryRoute(
-    onNavigateToDetail: (id: String) -> Unit,
     onNavigateToAnalytics: () -> Unit,
     onNavigateToSearch: () -> Unit,
     onNavigateToCamera: () -> Unit,
     onNavigateToSetting: () -> Unit,
     onNavigateToAddFood: () -> Unit,
+    onNavigateToEditFood: (item: FoodItem) -> Unit,
 ) = BoxLayout {
     val viewModel: InventoryViewModel = koinViewModel()
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -48,16 +49,11 @@ fun InventoryRoute(
     val inventoryResultState by viewModel.resultState.collectAsStateWithLifecycle()
     val onAction = viewModel::onAction
 
-    rememberPermissionState(
-        Manifest.permission.CAMERA
-    )
-
-
     ObserveEffect(viewModel.uiEvent) { event ->
         when (event) {
             InventoryEvent.NavigateToFoodEntry -> onNavigateToAddFood()
             InventoryEvent.NavigateToAnalytics -> onNavigateToAnalytics()
-            is InventoryEvent.NavigateToDetail -> onNavigateToDetail(event.id)
+            is InventoryEvent.NavigateToEdit -> onNavigateToEditFood(event.item)
             InventoryEvent.NavigateToSearch -> onNavigateToSearch()
             InventoryEvent.NavigateToSetting -> onNavigateToSetting()
             InventoryEvent.NavigateToCamera -> onNavigateToCamera()
@@ -81,27 +77,25 @@ fun InventoryRoute(
 
         InventoryOverlay.CATEGORY_EDIT -> CategoryEditDialog(
             value = uiState.categorySheetInput,
-            onValueChange = { category ->
-                onAction(OnInputChange(category))
-            },
-            onDismiss = {
-                onAction(InventoryAction.OnDismiss)
-            },
-            onConfirm = {
-                onAction(Save)
-            }
+            onValueChange = { category -> onAction(OnInputChange(category)) },
+            onDismiss = { onAction(InventoryAction.OnDismiss) },
+            onConfirm = { onAction(Save) }
         )
 
         InventoryOverlay.CATEGORY_DELETE -> AlgidyAlertDialog(
-            onDismissRequest = {
-                onAction(InventoryAction.OnDismiss)
-            },
-            onConfirm = {
-                onAction(InventoryAction.OnDeleteAlertConfirm)
-            },
+            onDismissRequest = { onAction(InventoryAction.OnDismiss) },
+            onConfirm = { onAction(InventoryAction.OnDeleteAlertConfirm) },
             title = stringResource(R.string.delete_category_dialog_title),
             text = stringResource(R.string.delete_category_dialog_content),
             confirmText = stringResource(R.string.delete_category_dialog_confirm)
+        )
+
+        InventoryOverlay.ITEM_DETAIL -> DetailBottomSheet(
+            foodItem = uiState.currentFoodItem,
+            categoryUiModel = uiState.currentCategory,
+            onDismiss = { onAction(InventoryAction.OnDismiss) },
+            onWastedClick = { onAction(InventoryDetailAction.OnWastedClick) },
+            onConsumedClick = { onAction(InventoryDetailAction.OnConsumedClick) }
         )
     }
 

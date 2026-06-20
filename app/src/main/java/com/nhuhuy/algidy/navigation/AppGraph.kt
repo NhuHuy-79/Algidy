@@ -69,18 +69,16 @@ fun AppGraph(
         entryProvider = entryProvider {
             entry<Destination.Inventory.Home> {
                 InventoryRoute(
-                    onNavigateToDetail = { foodItemId ->
-                        backStack.add(Destination.Detail(foodItemId = foodItemId))
-                    },
                     onNavigateToCamera = { backStack.add(Destination.Scanner) },
                     onNavigateToSearch = { backStack.add(Destination.Inventory.Search) },
                     onNavigateToSetting = { backStack.add(Destination.PreSetting) },
                     onNavigateToAnalytics = {
                         backStack.add(Destination.Analytics)
                     },
-                    onNavigateToAddFood = {
-                        backStack.add(Destination.FoodEntry())
-                    }
+                    onNavigateToEditFood = { foodItem ->
+                        backStack.add(Destination.FoodEntry(foodItem))
+                    },
+                    onNavigateToAddFood = { backStack.add(Destination.FoodEntry()) }
                 )
             }
 

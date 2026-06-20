@@ -11,6 +11,8 @@ import com.nhuhuy.algidy.feature.inventory.domain.usecase.category.DeleteCategor
 import com.nhuhuy.algidy.feature.inventory.domain.usecase.category.EditCategoryUseCase
 import com.nhuhuy.algidy.feature.inventory.domain.usecase.category.ObserveCategoriesUseCase
 import com.nhuhuy.algidy.feature.inventory.domain.usecase.food.DeleteFoodItemUseCase
+import com.nhuhuy.algidy.feature.inventory.domain.usecase.food.MarkFoodAsConsumedUseCase
+import com.nhuhuy.algidy.feature.inventory.domain.usecase.food.MarkFoodAsWastedUseCase
 import com.nhuhuy.algidy.feature.inventory.domain.usecase.food.ObserveFoodItemUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -23,13 +25,15 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 class InventoryViewModel(
-    private val observerFoodItemUseCase: ObserveFoodItemUseCase,
     private val addCategoryUseCase: AddCategoryUseCase,
     private val deleteFoodItemUseCase: DeleteFoodItemUseCase,
     private val deleteCategoryUseCase: DeleteCategoryUseCase,
     private val editCategoryUseCase: EditCategoryUseCase,
-    private val observeSettingDataUseCase: ObserveSettingDataUseCase,
-    private val observeCategoriesUseCase: ObserveCategoriesUseCase,
+    private val markFoodAsConsumedUseCase: MarkFoodAsConsumedUseCase,
+    private val markFoodAsWastedUseCase: MarkFoodAsWastedUseCase,
+    observerFoodItemUseCase: ObserveFoodItemUseCase,
+    observeSettingDataUseCase: ObserveSettingDataUseCase,
+    observeCategoriesUseCase: ObserveCategoriesUseCase,
 ) : BaseViewModel<InventoryUiState, InventoryEvent, InventoryAction>() {
     private val _uiState = MutableStateFlow(InventoryUiState())
     override val uiState: StateFlow<InventoryUiState> = _uiState.asStateFlow()
@@ -68,6 +72,7 @@ class InventoryViewModel(
                     deleteFoodItemUseCase(id = action.id)
                 }
             }
+
             InventoryAction.OnDismiss -> _uiState.product { copy(overlay = InventoryOverlay.NONE) }
             is InventoryAction.OnCategorySelect -> _uiState.product {
                 copy(currentCategory = action.categoryUiModel)
@@ -126,7 +131,12 @@ class InventoryViewModel(
             }
 
             is InventoryAction.OnItemClick -> {
-                emitEvent(InventoryEvent.NavigateToDetail(action.id))
+                _uiState.product {
+                    copy(
+                        currentFoodItem = action.item,
+                        overlay = InventoryOverlay.ITEM_DETAIL
+                    )
+                }
             }
 
             InventoryAction.OnResetFilters -> {
@@ -154,6 +164,27 @@ class InventoryViewModel(
             }
 
             is InventoryFabAction -> onFabAction(action)
+            is InventoryDetailAction -> onDetailAction(action)
+        }
+    }
+
+    private fun onDetailAction(action: InventoryDetailAction) {
+        when (action) {
+            InventoryDetailAction.OnConsumedClick -> viewModelScope.launch {
+                markFoodAsConsumedUseCase(foodId = currentState.currentFoodItem.id)
+            }
+
+            InventoryDetailAction.OnEditClick -> viewModelScope.launch {
+                emitEvent(InventoryEvent.NavigateToEdit(item = currentState.currentFoodItem))
+            }
+
+            InventoryDetailAction.OnWastedClick -> viewModelScope.launch {
+                markFoodAsWastedUseCase(foodId = currentState.currentFoodItem.id)
+            }
+
+            InventoryDetailAction.Open -> _uiState.product {
+                copy(overlay = InventoryOverlay.ITEM_DETAIL)
+            }
         }
     }
 
