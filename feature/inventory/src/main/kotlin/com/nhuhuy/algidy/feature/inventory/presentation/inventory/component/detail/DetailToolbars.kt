@@ -9,10 +9,15 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Check
+import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.DeleteForever
+import androidx.compose.material.icons.rounded.Edit
 import androidx.compose.material.icons.rounded.Restaurant
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ButtonGroup
+import androidx.compose.material3.ButtonGroupDefaults
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
@@ -23,7 +28,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.nhuhuy.algidy.core.designsystem.theme.AlgidyTheme
 import com.nhuhuy.algidy.core.presentation.R
@@ -112,13 +116,45 @@ fun DetailToolbars(
     }
 }
 
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
-@Preview
-fun Preview() {
+fun FoodActionGroup() {
+    ButtonGroup(
+        overflowIndicator = { menuState ->
+            ButtonGroupDefaults.OverflowIndicator(menuState)
+        }
+    ) {
+        clickableItem(
+            label = "Consume",
+            icon = {
+                Icon(
+                    Icons.Rounded.Check,
+                    contentDescription = null
+                )
+            },
+            onClick = { }
+        )
 
-    DetailToolbars(
-        modifier = Modifier,
-        onMarkConsumed = {},
-        onMarkWasted = {}
-    )
+        clickableItem(
+            label = "Edit",
+            icon = {
+                Icon(
+                    Icons.Rounded.Edit,
+                    contentDescription = null
+                )
+            },
+            onClick = { }
+        )
+
+        clickableItem(
+            label = "Waste",
+            icon = {
+                Icon(
+                    Icons.Rounded.Delete,
+                    contentDescription = null
+                )
+            },
+            onClick = { }
+        )
+    }
 }

@@ -4,10 +4,10 @@ package com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.det
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.background
+import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -16,14 +16,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Edit
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
-import androidx.compose.material3.FilledTonalIconButton
 import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Icon
 import androidx.compose.material3.LinearWavyProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -52,8 +48,7 @@ import kotlin.math.abs
 fun DetailImage(
     categoryUiModel: CategoryUiModel,
     foodItem: FoodItem,
-    modifier: Modifier = Modifier,
-    onEditClick: () -> Unit = {}
+    modifier: Modifier = Modifier
 ) {
     Card(
         modifier = modifier
@@ -75,8 +70,7 @@ fun DetailImage(
                 imageUri = foodItem.imageUri,
                 name = foodItem.name,
                 location = foodItem.location,
-                categoryUiModel = categoryUiModel,
-                onEditClick = onEditClick
+                categoryUiModel = categoryUiModel
             )
             DetailDateContent(
                 modifier = Modifier.fillMaxWidth(),
@@ -89,18 +83,19 @@ fun DetailImage(
             if (foodItem.notes.isNotBlank()) {
                 Text(
                     text = "Notes",
-                    style = MaterialTheme.typography.bodyLarge,
+                    style = MaterialTheme.typography.labelLarge,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
 
                 Surface(
-                    color = MaterialTheme.colorScheme.secondaryContainer,
+                    color = MaterialTheme.colorScheme.surfaceContainerHighest,
                     shape = RoundedCornerShape(16.dp)
                 ) {
                     Text(
                         text = foodItem.notes,
-                        style = MaterialTheme.typography.bodyLarge,
-                        color = MaterialTheme.colorScheme.onSecondaryContainer,
-                        modifier = Modifier.padding(vertical = 8.dp, horizontal = 16.dp)
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurface,
+                        modifier = Modifier.padding(vertical = 12.dp, horizontal = 16.dp)
                     )
                 }
             }
@@ -116,8 +111,7 @@ fun DetailImageWithCategory(
     imageUri: String?,
     name: String,
     location: StorageLocation,
-    categoryUiModel: CategoryUiModel,
-    onEditClick: () -> Unit
+    categoryUiModel: CategoryUiModel
 
 ) {
     Row(
@@ -139,8 +133,11 @@ fun DetailImageWithCategory(
         ) {
             Text(
                 text = name,
-                maxLines = 2,
-                style = MaterialTheme.typography.headlineSmall
+                maxLines = 1,
+                style = MaterialTheme.typography.headlineSmall.copy(
+                    fontWeight = FontWeight.Medium
+                ),
+                modifier = Modifier.basicMarquee()
             )
             Row(
                 verticalAlignment = Alignment.CenterVertically,
@@ -148,13 +145,11 @@ fun DetailImageWithCategory(
             ) {
                 Text(
                     text = categoryUiModel.toUiText(),
-                    color = MaterialTheme.colorScheme.onSecondary,
-                    style = MaterialTheme.typography.bodyMedium.copy(
-                        fontWeight = FontWeight.Black
-                    ),
+                    color = MaterialTheme.colorScheme.onSecondaryContainer,
+                    style = MaterialTheme.typography.labelMedium,
                     modifier = Modifier
                         .background(
-                            color = MaterialTheme.colorScheme.secondary,
+                            color = MaterialTheme.colorScheme.secondaryContainer,
                             shape = RoundedCornerShape(16.dp)
                         )
                         .padding(horizontal = 12.dp, vertical = 4.dp)
@@ -162,30 +157,17 @@ fun DetailImageWithCategory(
 
                 Text(
                     text = stringResource(location.toStringRes()),
-                    style = MaterialTheme.typography.bodyMedium.copy(
-                        fontWeight = FontWeight.Black
-                    ),
-                    color = MaterialTheme.colorScheme.onTertiary,
+                    style = MaterialTheme.typography.labelMedium,
+                    color = MaterialTheme.colorScheme.onTertiaryContainer,
                     modifier = Modifier
                         .background(
-                            color = MaterialTheme.colorScheme.tertiary,
+                            color = MaterialTheme.colorScheme.tertiaryContainer,
                             shape = RoundedCornerShape(16.dp)
                         )
                         .padding(horizontal = 12.dp, vertical = 4.dp)
                 )
 
             }
-        }
-
-        Spacer(modifier = Modifier.weight(1f))
-
-        FilledTonalIconButton(
-            onClick = onEditClick
-        ) {
-            Icon(
-                imageVector = Icons.Rounded.Edit,
-                contentDescription = null
-            )
         }
     }
 }
@@ -206,12 +188,15 @@ fun DetailDateContent(
         ) {
             Text(
                 text = "Purchase Date",
-                style = MaterialTheme.typography.bodyLarge
+                style = MaterialTheme.typography.labelLarge,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
             )
 
             Text(
                 text = purchaseDate.formatMillisToDate(),
-                style = MaterialTheme.typography.headlineSmall
+                style = MaterialTheme.typography.titleLarge.copy(
+                    fontWeight = FontWeight.SemiBold
+                )
             )
         }
 
@@ -220,12 +205,15 @@ fun DetailDateContent(
         ) {
             Text(
                 text = "Expiry Date",
-                style = MaterialTheme.typography.bodyLarge
+                style = MaterialTheme.typography.labelLarge,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
             )
 
             Text(
                 text = expiryDate.formatMillisToDate(),
-                style = MaterialTheme.typography.headlineSmall
+                style = MaterialTheme.typography.titleLarge.copy(
+                    fontWeight = FontWeight.SemiBold
+                )
             )
         }
 

@@ -15,10 +15,8 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -37,12 +35,9 @@ fun FoodEntryScreen(
     errorState: FoodEntryError,
     onAction: (FoodEntryAction) -> Unit
 ) {
-    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
-
     Scaffold(
         modifier = Modifier
-            .fillMaxSize()
-            .nestedScroll(scrollBehavior.nestedScrollConnection),
+            .fillMaxSize(),
         topBar = {
             TopAppBar(
                 title = {
@@ -85,7 +80,6 @@ fun FoodEntryScreen(
                         )
                     }
                 },
-                scrollBehavior = scrollBehavior
             )
         }
     ) { innerPadding ->

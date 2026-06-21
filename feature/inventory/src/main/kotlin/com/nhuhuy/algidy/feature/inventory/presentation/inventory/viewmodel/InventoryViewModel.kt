@@ -171,14 +171,17 @@ class InventoryViewModel(
     private fun onDetailAction(action: InventoryDetailAction) {
         when (action) {
             InventoryDetailAction.OnConsumedClick -> viewModelScope.launch {
+                _uiState.product { copy(overlay = InventoryOverlay.NONE) }
                 markFoodAsConsumedUseCase(foodId = currentState.currentFoodItem.id)
             }
 
             InventoryDetailAction.OnEditClick -> viewModelScope.launch {
+                _uiState.product { copy(overlay = InventoryOverlay.NONE) }
                 emitEvent(InventoryEvent.NavigateToEdit(item = currentState.currentFoodItem))
             }
 
             InventoryDetailAction.OnWastedClick -> viewModelScope.launch {
+                _uiState.product { copy(overlay = InventoryOverlay.NONE) }
                 markFoodAsWastedUseCase(foodId = currentState.currentFoodItem.id)
             }
 
