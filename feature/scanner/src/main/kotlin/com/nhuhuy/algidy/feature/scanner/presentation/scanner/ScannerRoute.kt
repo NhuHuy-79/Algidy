@@ -105,7 +105,6 @@ fun ScannerRoute(
             ScannerOverlay.BARCODE_DIALOG -> TextFieldDialog(
                 value = uiState.barCodeInput,
                 title = stringResource(R.string.scanner_barcode_dialog_title),
-                label = stringResource(R.string.scanner_barcode_label),
                 confirmText = stringResource(R.string.scanner_barcode_confirm),
                 onValueChange = { value -> onAction(OnValueChange(value)) },
                 onDismiss = { onAction(OnDismissRequest) },

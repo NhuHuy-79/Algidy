@@ -17,6 +17,12 @@ sealed interface InventoryAction : UiAction {
         data object Save : OnEditCategorySheet
     }
 
+    sealed interface OnAddCategory : InventoryAction {
+        data object Open : OnAddCategory
+        data class OnInputChange(val value: String) : OnAddCategory
+        data object Save : OnAddCategory
+    }
+
     data object OnDeleteAlertConfirm: InventoryAction
     data object OnDeleteCategory : InventoryAction
     data object OnSearchClick : InventoryAction

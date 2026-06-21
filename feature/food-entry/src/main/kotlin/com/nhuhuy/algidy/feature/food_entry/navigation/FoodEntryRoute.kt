@@ -1,5 +1,6 @@
 package com.nhuhuy.algidy.feature.food_entry.navigation
 
+import android.Manifest
 import android.os.Build
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -51,7 +52,7 @@ fun FoodEntryRoute(
             FoodEntryEvent.NavigateBack -> onNavigateBack()
             FoodEntryEvent.AskNotificationPermission -> {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                    notificationPermissionLauncher.launch(android.Manifest.permission.POST_NOTIFICATIONS)
+                    notificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
                 }
             }
         }
@@ -96,14 +97,13 @@ fun FoodEntryRoute(
                 TextFieldDialog(
                     modifier = Modifier.padding(horizontal = 16.dp),
                     value = uiState.categoryQuery,
-                    title = stringResource(R.string.category_edit_dialog_title),
-                    label = stringResource(R.string.category_edit_dialog_label),
+                    title = stringResource(R.string.inventory_category_add),
                     confirmText = stringResource(R.string.action_add),
                     onValueChange = { onAction(OnCategoryQueryChange(it)) },
                     onDismiss = { onAction(FoodEntryAction.OnDismissOverlay) },
                     onConfirm = {
                         onAction(OnCategoryConfirm)
-                    }
+                    },
                 )
             }
         }

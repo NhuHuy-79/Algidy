@@ -2,15 +2,14 @@
 
 package com.nhuhuy.algidy.feature.inventory.presentation.inventory.component
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Category
 import androidx.compose.material.icons.rounded.Check
 import androidx.compose.material.icons.rounded.Event
 import androidx.compose.material.icons.rounded.FilterList
+import androidx.compose.material.icons.rounded.MoreVert
 import androidx.compose.material.icons.rounded.RestartAlt
 import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material.icons.rounded.SortByAlpha
@@ -81,17 +80,17 @@ fun InventoryTopBar(
                 onAction = onAction
             )
 
-            AnimatedVisibility(
-                visible = categoryEnabled && showCategoryEditMode
-            ) {
-                CategoryActionMenu(onAction = onAction)
-            }
+            CategoryActionMenu(
+                isCategoryEnabled = categoryEnabled && showCategoryEditMode,
+                onAction = onAction
+            )
         }
     )
 }
 
 @Composable
 private fun CategoryActionMenu(
+    isCategoryEnabled: Boolean,
     onAction: (InventoryAction) -> Unit
 ) {
     var expanded by remember { mutableStateOf(false) }
@@ -101,7 +100,7 @@ private fun CategoryActionMenu(
             onClick = { expanded = true }
         ) {
             Icon(
-                imageVector = Icons.Rounded.Category,
+                imageVector = Icons.Rounded.MoreVert,
                 contentDescription = null
             )
         }
@@ -111,20 +110,30 @@ private fun CategoryActionMenu(
             onDismissRequest = { expanded = false },
             modifier = Modifier.background(MaterialTheme.colorScheme.surfaceContainer)
         ) {
-            DropdownMenuItem(
-                text = { Text(stringResource(R.string.inventory_category_edit)) },
-                onClick = {
-                    onAction(InventoryAction.OnEditCategorySheet.Open)
-                    expanded = false
-                }
-            )
-            DropdownMenuItem(
-                text = { Text(stringResource(R.string.inventory_category_delete)) },
-                onClick = {
-                    onAction(InventoryAction.OnDeleteCategory)
-                    expanded = false
-                }
-            )
+            if (isCategoryEnabled) {
+                DropdownMenuItem(
+                    text = { Text(stringResource(R.string.inventory_category_edit)) },
+                    onClick = {
+                        onAction(InventoryAction.OnEditCategorySheet.Open)
+                        expanded = false
+                    }
+                )
+                DropdownMenuItem(
+                    text = { Text(stringResource(R.string.inventory_category_delete)) },
+                    onClick = {
+                        onAction(InventoryAction.OnDeleteCategory)
+                        expanded = false
+                    }
+                )
+            } else {
+                DropdownMenuItem(
+                    text = { Text(stringResource(R.string.inventory_category_add)) },
+                    onClick = {
+                        onAction(InventoryAction.OnAddCategory.Open)
+                        expanded = false
+                    }
+                )
+            }
         }
     }
 }

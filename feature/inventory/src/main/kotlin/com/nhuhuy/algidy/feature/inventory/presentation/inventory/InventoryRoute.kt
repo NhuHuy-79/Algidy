@@ -20,8 +20,8 @@ import com.nhuhuy.algidy.core.designsystem.component.BoxLayout
 import com.nhuhuy.algidy.core.model.food.FoodItem
 import com.nhuhuy.algidy.core.presentation.ObserveEffect
 import com.nhuhuy.algidy.core.presentation.R
+import com.nhuhuy.algidy.core.presentation.component.TextFieldDialog
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.InventoryFabMenu
-import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.category.CategoryEditDialog
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.detail.DetailBottomSheet
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryAction
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryAction.OnEditCategorySheet.OnInputChange
@@ -75,8 +75,10 @@ fun InventoryRoute(
     when (uiState.overlay) {
         InventoryOverlay.NONE -> Unit
 
-        InventoryOverlay.CATEGORY_EDIT -> CategoryEditDialog(
-            value = uiState.categorySheetInput,
+        InventoryOverlay.CATEGORY_EDIT -> TextFieldDialog(
+            title = stringResource(R.string.category_edit_dialog_title),
+            value = uiState.categoryInput,
+            confirmText = stringResource(R.string.inventory_category_edit_btn),
             onValueChange = { category -> onAction(OnInputChange(category)) },
             onDismiss = { onAction(InventoryAction.OnDismiss) },
             onConfirm = { onAction(Save) }
@@ -97,6 +99,21 @@ fun InventoryRoute(
             onEditClick = { onAction(InventoryDetailAction.OnEditClick) },
             onWastedClick = { onAction(InventoryDetailAction.OnWastedClick) },
             onConsumedClick = { onAction(InventoryDetailAction.OnConsumedClick) }
+        )
+
+        InventoryOverlay.CATEGORY_ADD -> TextFieldDialog(
+            value = uiState.categoryInput,
+            title = stringResource(R.string.inventory_category_add),
+            confirmText = stringResource(R.string.inventory_category_add_btn),
+            onValueChange = {
+                onAction(InventoryAction.OnAddCategory.OnInputChange(it))
+            },
+            onDismiss = {
+                onAction(InventoryAction.OnDismiss)
+            },
+            onConfirm = {
+                onAction(InventoryAction.OnAddCategory.Save)
+            }
         )
     }
 

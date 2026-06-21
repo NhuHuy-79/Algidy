@@ -2,12 +2,19 @@ package com.nhuhuy.algidy.feature.food_entry.presentation.component
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.CheckCircle
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.nhuhuy.algidy.core.designsystem.component.AppButton
+import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.core.presentation.component.asString
 import com.nhuhuy.algidy.feature.food_entry.presentation.viewmodel.FoodEntryAction
 import com.nhuhuy.algidy.feature.food_entry.presentation.viewmodel.FoodEntryError
@@ -80,6 +87,17 @@ fun FoodEntryForm(
         NotesSection(
             notes = entryState.notes,
             onNoteChange = { onAction(FoodEntryAction.OnNoteChange(it)) }
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+        AppButton(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(56.dp),
+            text = stringResource(R.string.action_save),
+            icon = Icons.Rounded.CheckCircle,
+            onClick = {
+                onAction(FoodEntryAction.OnSaveClick)
+            }
         )
     }
 }

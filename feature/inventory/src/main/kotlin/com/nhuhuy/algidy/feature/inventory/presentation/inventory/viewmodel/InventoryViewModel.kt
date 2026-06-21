@@ -85,7 +85,7 @@ class InventoryViewModel(
             }
 
             is InventoryAction.OnEditCategorySheet.OnInputChange -> {
-                _uiState.product { copy(categorySheetInput = action.value) }
+                _uiState.product { copy(categoryInput = action.value) }
             }
 
             InventoryAction.OnEditCategorySheet.Open -> {
@@ -94,7 +94,7 @@ class InventoryViewModel(
                     _uiState.product {
                         copy(
                             overlay = InventoryOverlay.CATEGORY_EDIT,
-                            categorySheetInput = currentCategory.data.name
+                            categoryInput = currentCategory.data.name
                         )
                     }
                 }
@@ -103,7 +103,7 @@ class InventoryViewModel(
             InventoryAction.OnEditCategorySheet.Save -> {
                 viewModelScope.launch {
                     val category = currentState.currentCategory
-                    val text = currentState.categorySheetInput
+                    val text = currentState.categoryInput
                     if (category is CategoryUiModel.ByCategory) {
                         val newCategory = category.data.copy(name = text)
                         editCategoryUseCase(category = newCategory)
@@ -165,6 +165,23 @@ class InventoryViewModel(
 
             is InventoryFabAction -> onFabAction(action)
             is InventoryDetailAction -> onDetailAction(action)
+            is InventoryAction.OnAddCategory.OnInputChange -> {
+                _uiState.product {
+                    copy(categoryInput = action.value)
+                }
+            }
+
+            InventoryAction.OnAddCategory.Open -> {
+                _uiState.product {
+                    copy(overlay = InventoryOverlay.CATEGORY_ADD)
+                }
+            }
+
+            InventoryAction.OnAddCategory.Save -> {
+                viewModelScope.launch {
+                    addCategoryUseCase(currentState.categoryInput)
+                }
+            }
         }
     }
 

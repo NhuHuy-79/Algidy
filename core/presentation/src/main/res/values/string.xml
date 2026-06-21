@@ -85,12 +85,22 @@
     <string name="inventory_sheet_btn">Add Food</string>
 
     <string name="inventory_category_edit">Edit Category</string>
+    <string name="inventory_category_edit_btn">Edit</string>
     <string name="inventory_category_delete">Delete Category</string>
+    <string name="inventory_category_add">Add Category</string>
+    <string name="inventory_category_add_btn">Add</string>
     <string name="category_edit_dialog_title">Edit Category</string>
     <string name="category_edit_dialog_label">Category Name</string>
     <string name="category_search_placeholder">Search or type new category…</string>
     <string name="category_add_new">Add new: \"%1$s\"</string>
     <string name="inventory_menu_filter">Filter</string>
+
+    <string name="inventory_detail_sheet">Detail</string>
+    <string name="inventory_category">Category</string>
+    <string name="inventory_location">Location</string>
+    <string name="inventory_purchase_date">Purchase Date</string>
+    <string name="inventory_expiry_date">Expiry Date</string>
+    <string name="inventory_note">Your note</string>
 
     <string name="delete_category_dialog_title">Delete Category?</string>
     <string name="delete_category_dialog_content">This category and all of its food items will be deleted.</string>

@@ -1,9 +1,7 @@
 package com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.detail
 
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
-import androidx.compose.foundation.background
 import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -11,7 +9,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
@@ -20,7 +17,6 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.LinearWavyProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -38,7 +34,6 @@ import com.nhuhuy.algidy.core.model.food.StorageLocation
 import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.core.presentation.component.toUiText
 import com.nhuhuy.algidy.core.presentation.model.CategoryUiModel
-import com.nhuhuy.algidy.core.presentation.utils.toBackgroundColor
 import com.nhuhuy.algidy.core.presentation.utils.toContentContainerColor
 import com.nhuhuy.algidy.core.presentation.utils.toStringRes
 import com.nhuhuy.algidy.formatMillisToDate
@@ -58,7 +53,10 @@ fun DetailImage(
             containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
             contentColor = MaterialTheme.colorScheme.onSurface
         ),
-        shape = RoundedCornerShape(24.dp)
+        shape = RoundedCornerShape(
+            16
+                .dp
+        )
     ) {
         Column(
             modifier = Modifier
@@ -69,9 +67,18 @@ fun DetailImage(
             DetailImageWithCategory(
                 imageUri = foodItem.imageUri,
                 name = foodItem.name,
-                location = foodItem.location,
+                freshness = foodItem.getFreshnessStatus(),
+                remainingDays = foodItem.getRemainingDays()
+            )
+
+            HorizontalDivider(thickness = 2.dp)
+
+            DetailContentCategory(
+                modifier = Modifier.fillMaxWidth(),
+                storageLocation = foodItem.location,
                 categoryUiModel = categoryUiModel
             )
+
             DetailDateContent(
                 modifier = Modifier.fillMaxWidth(),
                 purchaseDate = foodItem.purchaseDate,
@@ -82,7 +89,7 @@ fun DetailImage(
 
             if (foodItem.notes.isNotBlank()) {
                 Text(
-                    text = "Notes",
+                    text = stringResource(R.string.inventory_note),
                     style = MaterialTheme.typography.labelLarge,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
@@ -102,18 +109,24 @@ fun DetailImage(
 
         }
     }
-
-
 }
 
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun DetailImageWithCategory(
     imageUri: String?,
     name: String,
-    location: StorageLocation,
-    categoryUiModel: CategoryUiModel
-
+    remainingDays: Int,
+    freshness: Freshness,
 ) {
+    val remainingDaysText = when {
+        remainingDays == -1 -> stringResource(R.string.freshness_no_expiry)
+        remainingDays < 0 -> stringResource(R.string.freshness_expired, abs(remainingDays))
+        remainingDays == 0 -> stringResource(R.string.freshness_expires_today)
+        remainingDays == 1 -> stringResource(R.string.freshness_one_day_left)
+        remainingDays < 30 -> stringResource(R.string.freshness_days_left, remainingDays)
+        else -> stringResource(R.string.freshness_months_left, remainingDays / 30)
+    }
     Row(
         modifier = Modifier
             .fillMaxWidth(),
@@ -139,35 +152,14 @@ fun DetailImageWithCategory(
                 ),
                 modifier = Modifier.basicMarquee()
             )
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                Text(
-                    text = categoryUiModel.toUiText(),
-                    color = MaterialTheme.colorScheme.onSecondaryContainer,
-                    style = MaterialTheme.typography.labelMedium,
-                    modifier = Modifier
-                        .background(
-                            color = MaterialTheme.colorScheme.secondaryContainer,
-                            shape = RoundedCornerShape(16.dp)
-                        )
-                        .padding(horizontal = 12.dp, vertical = 4.dp)
-                )
 
-                Text(
-                    text = stringResource(location.toStringRes()),
-                    style = MaterialTheme.typography.labelMedium,
-                    color = MaterialTheme.colorScheme.onTertiaryContainer,
-                    modifier = Modifier
-                        .background(
-                            color = MaterialTheme.colorScheme.tertiaryContainer,
-                            shape = RoundedCornerShape(16.dp)
-                        )
-                        .padding(horizontal = 12.dp, vertical = 4.dp)
-                )
-
-            }
+            Text(
+                text = remainingDaysText,
+                style = MaterialTheme.typography.bodyLarge.copy(
+                    fontWeight = FontWeight.Medium
+                ),
+                color = freshness.toContentContainerColor()
+            )
         }
     }
 }
@@ -184,35 +176,36 @@ fun DetailDateContent(
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Column(
-            verticalArrangement = Arrangement.spacedBy(4.dp)
+            verticalArrangement = Arrangement.spacedBy(4.dp),
         ) {
             Text(
-                text = "Purchase Date",
+                text = stringResource(R.string.inventory_purchase_date),
                 style = MaterialTheme.typography.labelLarge,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
 
             Text(
                 text = purchaseDate.formatMillisToDate(),
-                style = MaterialTheme.typography.titleLarge.copy(
-                    fontWeight = FontWeight.SemiBold
+                style = MaterialTheme.typography.titleMedium.copy(
+                    fontWeight = FontWeight.Medium
                 )
             )
         }
 
         Column(
-            verticalArrangement = Arrangement.spacedBy(4.dp)
+            verticalArrangement = Arrangement.spacedBy(4.dp),
+            horizontalAlignment = Alignment.End
         ) {
             Text(
-                text = "Expiry Date",
+                text = stringResource(R.string.inventory_expiry_date),
                 style = MaterialTheme.typography.labelLarge,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
 
             Text(
                 text = expiryDate.formatMillisToDate(),
-                style = MaterialTheme.typography.titleLarge.copy(
-                    fontWeight = FontWeight.SemiBold
+                style = MaterialTheme.typography.titleMedium.copy(
+                    fontWeight = FontWeight.Medium
                 )
             )
         }
@@ -220,60 +213,52 @@ fun DetailDateContent(
     }
 }
 
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
-fun DetailFoodProgress(
-    progress: Float,
-    remainingDays: Int,
-    visible: Boolean,
-    modifier: Modifier = Modifier,
-    freshness: Freshness,
+fun DetailContentCategory(
+    modifier: Modifier,
+    categoryUiModel: CategoryUiModel,
+    storageLocation: StorageLocation,
 ) {
-    val remainingDaysText = when {
-        remainingDays == -1 -> stringResource(R.string.freshness_no_expiry)
-        remainingDays < 0 -> stringResource(R.string.freshness_expired, abs(remainingDays))
-        remainingDays == 0 -> stringResource(R.string.freshness_expires_today)
-        remainingDays == 1 -> stringResource(R.string.freshness_one_day_left)
-        remainingDays < 30 -> stringResource(R.string.freshness_days_left, remainingDays)
-        else -> stringResource(R.string.freshness_months_left, remainingDays / 30)
-    }
-    AnimatedVisibility(
-        visible = visible,
+    Row(
         modifier = modifier,
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 12.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp),
+            verticalArrangement = Arrangement.spacedBy(4.dp)
         ) {
+            Text(
+                text = stringResource(R.string.inventory_category),
+                style = MaterialTheme.typography.labelLarge,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
 
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                Text(
-                    text = stringResource(freshness.toStringRes()),
-                    style = MaterialTheme.typography.bodyLarge,
-                    color = freshness.toContentContainerColor(),
+            Text(
+                text = categoryUiModel.toUiText(),
+                style = MaterialTheme.typography.titleMedium.copy(
+                    fontWeight = FontWeight.Medium
                 )
-
-                Text(
-                    text = remainingDaysText,
-                    style = MaterialTheme.typography.bodyLarge,
-                    color = freshness.toContentContainerColor()
-                )
-            }
-
-            LinearWavyProgressIndicator(
-                progress = { progress },
-                trackColor = MaterialTheme.colorScheme.onSecondaryContainer,
-                color = freshness.toBackgroundColor(),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(16.dp)
             )
         }
+
+        Column(
+            verticalArrangement = Arrangement.spacedBy(4.dp),
+            horizontalAlignment = Alignment.End
+        ) {
+            Text(
+                text = stringResource(R.string.inventory_location),
+                style = MaterialTheme.typography.labelLarge,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+
+            Text(
+                text = stringResource(storageLocation.toStringRes()),
+                style = MaterialTheme.typography.titleMedium.copy(
+                    fontWeight = FontWeight.Medium
+                )
+            )
+        }
+
     }
 }
+

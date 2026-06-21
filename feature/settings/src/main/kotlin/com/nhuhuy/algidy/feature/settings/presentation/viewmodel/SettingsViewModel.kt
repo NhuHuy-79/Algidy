@@ -140,7 +140,7 @@ class SettingsViewModel(
                         if (currentState.notificationGranted) {
                             setToggleSettingUseCase.toggleNotifications(true)
                         } else {
-                            emitEvent(SettingsEvent.AskNotificationPermission)
+                            emitEvent(SettingsEvent.RequestNotificationPermission)
                         }
                     } else {
                         setToggleSettingUseCase.toggleNotifications(false)
