@@ -94,6 +94,7 @@ fun InventoryRoute(
             foodItem = uiState.currentFoodItem,
             categoryUiModel = uiState.currentCategory,
             onDismiss = { onAction(InventoryAction.OnDismiss) },
+            onEditClick = { onAction(InventoryDetailAction.OnEditClick) },
             onWastedClick = { onAction(InventoryDetailAction.OnWastedClick) },
             onConsumedClick = { onAction(InventoryDetailAction.OnConsumedClick) }
         )

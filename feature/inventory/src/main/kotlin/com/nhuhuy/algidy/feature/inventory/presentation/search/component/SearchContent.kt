@@ -94,7 +94,7 @@ fun SearchContent(
                     },
                     supportingContent = {
                         Text(
-                            text = "${result.location.name.capitalize()} - ${result.quantity}",
+                            text = result.location.name.capitalize(),
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis,
                         )

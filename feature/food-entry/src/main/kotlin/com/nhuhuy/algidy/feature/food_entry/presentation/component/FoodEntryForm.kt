@@ -59,16 +59,6 @@ fun FoodEntryForm(
             }
         )
 
-        // Section: Quantity input and Unit dropdown
-        QuantityUnitSection(
-            quantity = entryState.quantity,
-            itemUnit = entryState.itemUnit,
-            onQuantityChange = { onAction(FoodEntryAction.OnQuantityChange(it)) },
-            onUnitChange = { onAction(FoodEntryAction.OnItemUnitChange(it)) },
-            isQuantityError = errorState.isQuantityError,
-            quantityErrorMessage = errorState.quantityValidation.asString().orEmpty()
-        )
-
         // Section: Purchase and Expiry date pickers
         DateSection(
             purchaseDate = entryState.purchaseDate,

@@ -4,7 +4,6 @@ package com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.det
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.background
-import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -15,26 +14,24 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.ArrowUpward
-import androidx.compose.material.icons.rounded.Timeline
+import androidx.compose.material.icons.rounded.Edit
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.FilledTonalIconButton
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.LinearWavyProgressIndicator
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -48,6 +45,7 @@ import com.nhuhuy.algidy.core.presentation.model.CategoryUiModel
 import com.nhuhuy.algidy.core.presentation.utils.toBackgroundColor
 import com.nhuhuy.algidy.core.presentation.utils.toContentContainerColor
 import com.nhuhuy.algidy.core.presentation.utils.toStringRes
+import com.nhuhuy.algidy.formatMillisToDate
 import kotlin.math.abs
 
 @Composable
@@ -55,15 +53,15 @@ fun DetailImage(
     categoryUiModel: CategoryUiModel,
     foodItem: FoodItem,
     modifier: Modifier = Modifier,
+    onEditClick: () -> Unit = {}
 ) {
-    var showExpiry by remember { mutableStateOf(false) }
     Card(
         modifier = modifier
             .fillMaxWidth()
             .animateContentSize(),
         colors = CardDefaults.cardColors(
-            contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
-            containerColor = MaterialTheme.colorScheme.secondaryContainer
+            containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+            contentColor = MaterialTheme.colorScheme.onSurface
         ),
         shape = RoundedCornerShape(24.dp)
     ) {
@@ -71,24 +69,42 @@ fun DetailImage(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
+            verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             DetailImageWithCategory(
-                showExpiryView = showExpiry,
                 imageUri = foodItem.imageUri,
                 name = foodItem.name,
                 location = foodItem.location,
                 categoryUiModel = categoryUiModel,
-                onExpiryView = { showExpiry = !showExpiry }
+                onEditClick = onEditClick
+            )
+            DetailDateContent(
+                modifier = Modifier.fillMaxWidth(),
+                purchaseDate = foodItem.purchaseDate,
+                expiryDate = foodItem.expiryDate
             )
 
-            DetailFoodProgress(
-                visible = showExpiry,
-                freshness = foodItem.getFreshnessStatus(),
-                progress = foodItem.calculateFreshnessProgress(),
-                remainingDays = foodItem.getRemainingDays(),
-                modifier = Modifier.fillMaxWidth(),
-            )
+            HorizontalDivider(thickness = 2.dp)
+
+            if (foodItem.notes.isNotBlank()) {
+                Text(
+                    text = "Notes",
+                    style = MaterialTheme.typography.bodyLarge,
+                )
+
+                Surface(
+                    color = MaterialTheme.colorScheme.secondaryContainer,
+                    shape = RoundedCornerShape(16.dp)
+                ) {
+                    Text(
+                        text = foodItem.notes,
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = MaterialTheme.colorScheme.onSecondaryContainer,
+                        modifier = Modifier.padding(vertical = 8.dp, horizontal = 16.dp)
+                    )
+                }
+            }
+
         }
     }
 
@@ -97,37 +113,35 @@ fun DetailImage(
 
 @Composable
 fun DetailImageWithCategory(
-    showExpiryView: Boolean,
     imageUri: String?,
     name: String,
     location: StorageLocation,
     categoryUiModel: CategoryUiModel,
-    onExpiryView: () -> Unit
+    onEditClick: () -> Unit
 
 ) {
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         FoodImageCard(
             imageUri = imageUri,
-            modifier = Modifier.size(56.dp)
-        )
+            modifier = Modifier
+                .size(64.dp)
+                .clip(CircleShape)
 
+        )
         Column(
             modifier = Modifier.fillMaxHeight(),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             Text(
                 text = name,
-                maxLines = 1,
-                modifier = Modifier.basicMarquee(),
-                style = MaterialTheme.typography.titleLarge.copy(
-                    fontWeight = FontWeight.Medium
-                )
+                maxLines = 2,
+                style = MaterialTheme.typography.headlineSmall
             )
-
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
@@ -135,45 +149,86 @@ fun DetailImageWithCategory(
                 Text(
                     text = categoryUiModel.toUiText(),
                     color = MaterialTheme.colorScheme.onSecondary,
-                    style = MaterialTheme.typography.labelMedium,
+                    style = MaterialTheme.typography.bodyMedium.copy(
+                        fontWeight = FontWeight.Black
+                    ),
                     modifier = Modifier
                         .background(
                             color = MaterialTheme.colorScheme.secondary,
                             shape = RoundedCornerShape(16.dp)
                         )
-                        .padding(horizontal = 8.dp, vertical = 4.dp)
+                        .padding(horizontal = 12.dp, vertical = 4.dp)
                 )
 
                 Text(
                     text = stringResource(location.toStringRes()),
-                    style = MaterialTheme.typography.labelMedium,
+                    style = MaterialTheme.typography.bodyMedium.copy(
+                        fontWeight = FontWeight.Black
+                    ),
                     color = MaterialTheme.colorScheme.onTertiary,
                     modifier = Modifier
                         .background(
                             color = MaterialTheme.colorScheme.tertiary,
                             shape = RoundedCornerShape(16.dp)
                         )
-                        .padding(horizontal = 8.dp, vertical = 4.dp)
+                        .padding(horizontal = 12.dp, vertical = 4.dp)
                 )
+
             }
         }
 
         Spacer(modifier = Modifier.weight(1f))
 
         FilledTonalIconButton(
-            onClick = onExpiryView,
-            modifier = Modifier.size(24.dp),
-            colors = IconButtonDefaults.iconButtonColors(
-                containerColor = MaterialTheme.colorScheme.primary,
-                contentColor = MaterialTheme.colorScheme.onPrimary
-            )
+            onClick = onEditClick
         ) {
             Icon(
-                imageVector = if (showExpiryView) Icons.Rounded.ArrowUpward else Icons.Rounded.Timeline,
-                contentDescription = null,
-                modifier = Modifier.size(16.dp)
+                imageVector = Icons.Rounded.Edit,
+                contentDescription = null
             )
         }
+    }
+}
+
+@Composable
+fun DetailDateContent(
+    modifier: Modifier,
+    purchaseDate: Long,
+    expiryDate: Long,
+) {
+    Row(
+        modifier = modifier,
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Column(
+            verticalArrangement = Arrangement.spacedBy(4.dp)
+        ) {
+            Text(
+                text = "Purchase Date",
+                style = MaterialTheme.typography.bodyLarge
+            )
+
+            Text(
+                text = purchaseDate.formatMillisToDate(),
+                style = MaterialTheme.typography.headlineSmall
+            )
+        }
+
+        Column(
+            verticalArrangement = Arrangement.spacedBy(4.dp)
+        ) {
+            Text(
+                text = "Expiry Date",
+                style = MaterialTheme.typography.bodyLarge
+            )
+
+            Text(
+                text = expiryDate.formatMillisToDate(),
+                style = MaterialTheme.typography.headlineSmall
+            )
+        }
+
     }
 }
 

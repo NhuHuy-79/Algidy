@@ -61,18 +61,6 @@ class FoodEntryViewModel(
                 _entryError.update { it.copy(nameValidation = FoodValidator.validateName(action.name)) }
             }
 
-            is FoodEntryAction.OnQuantityChange -> {
-                _uiState.update { it.copy(quantity = action.quantity) }
-                _entryError.update {
-                    it.copy(
-                        quantityValidation = FoodValidator.validateQuantity(
-                            action.quantity
-                        )
-                    )
-                }
-            }
-
-            is FoodEntryAction.OnItemUnitChange -> _uiState.update { it.copy(itemUnit = action.unit) }
             is FoodEntryAction.OnStorageLocationChange -> _uiState.update { it.copy(location = action.location) }
             is FoodEntryAction.OnPurchaseDateChange -> {
                 _uiState.update {
@@ -182,8 +170,6 @@ class FoodEntryViewModel(
                 categoryId = foodItem.categoryId ?: "",
                 defaultFoodCategory = foodItem.defaultFoodCategory,
                 location = foodItem.location,
-                quantity = foodItem.quantity,
-                itemUnit = foodItem.itemUnit,
                 purchaseDate = foodItem.purchaseDate,
                 expiryDate = foodItem.expiryDate,
                 imageUri = foodItem.imageUri,
@@ -194,7 +180,6 @@ class FoodEntryViewModel(
         _entryError.update {
             FoodEntryError(
                 nameValidation = FoodValidator.validateName(foodItem.name),
-                quantityValidation = FoodValidator.validateQuantity(foodItem.quantity),
                 purchaseDateValidation = FoodValidator.validatePurchaseDate(foodItem.purchaseDate),
                 expiryDateValidation = FoodValidator.validateExpiryDate(
                     purchaseDate = foodItem.purchaseDate,
@@ -212,8 +197,6 @@ class FoodEntryViewModel(
             categoryId = state.categoryId,
             defaultFoodCategory = state.defaultFoodCategory,
             location = state.location,
-            quantity = state.quantity,
-            itemUnit = state.itemUnit,
             purchaseDate = state.purchaseDate,
             expiryDate = state.expiryDate,
             imageUri = state.imageUri,

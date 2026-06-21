@@ -15,10 +15,6 @@ sealed interface Destination : NavKey {
         data object Search : Inventory
     }
 
-
-    @Serializable
-    data class Detail(val foodItemId: String) : Destination
-
     @Serializable
     data object Analytics : Destination
 

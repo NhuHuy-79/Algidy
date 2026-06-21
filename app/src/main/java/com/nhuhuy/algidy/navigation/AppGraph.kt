@@ -22,7 +22,6 @@ import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
 import com.nhuhuy.algidy.core.presentation.navigation.Destination
 import com.nhuhuy.algidy.feature.analytics.presentation.navigation.AnalyticsRoute
-import com.nhuhuy.algidy.feature.detail.presentation.navigation.DetailRoute
 import com.nhuhuy.algidy.feature.food_entry.navigation.FoodEntryRoute
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.InventoryRoute
 import com.nhuhuy.algidy.feature.inventory.presentation.search.SearchInventoryRoute
@@ -86,21 +85,7 @@ fun AppGraph(
                 SearchInventoryRoute(
                     onNavigateBack = backStack::removeLastOrNull,
                     onNavigateToDetail = { id ->
-                        backStack.add(Destination.Detail(foodItemId = id))
-                    }
-                )
-            }
-
-            entry<Destination.Detail> { destinationDetail ->
-                DetailRoute(
-                    foodItemId = destinationDetail.foodItemId,
-                    onNavigateBack = backStack::removeLastOrNull,
-                    onNavigateToEdit = { item ->
-                        backStack.add(
-                            Destination.FoodEntry(
-                                initialFoodItem = item
-                            )
-                        )
+                        // backStack.add(Destination.Detail(foodItemId = id))
                     }
                 )
             }

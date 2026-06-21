@@ -35,7 +35,6 @@ dependencies {
 
     implementation(project(":feature:inventory"))
     implementation(project(":feature:scanner"))
-    implementation(project(":feature:detail"))
     implementation(project(":feature:analytics"))
     implementation(project(":feature:settings"))
     implementation(project(":feature:food-entry"))

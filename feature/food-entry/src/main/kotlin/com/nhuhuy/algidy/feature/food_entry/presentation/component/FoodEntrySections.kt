@@ -10,11 +10,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.CalendarToday
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.MaterialShapes
@@ -22,21 +19,15 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.toShape
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import com.nhuhuy.algidy.capitalize
 import com.nhuhuy.algidy.core.designsystem.component.AppFilterButton
 import com.nhuhuy.algidy.core.designsystem.component.AppTextField
 import com.nhuhuy.algidy.core.designsystem.component.FoodImageCard
-import com.nhuhuy.algidy.core.model.food.ItemUnit
 import com.nhuhuy.algidy.core.model.food.StorageLocation
 import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.core.presentation.utils.toStringRes
@@ -78,58 +69,6 @@ fun BasicInfoSection(
         errorMessage = nameErrorMessage,
         modifier = modifier
     )
-}
-
-@Composable
-fun QuantityUnitSection(
-    quantity: Double,
-    itemUnit: ItemUnit,
-    onQuantityChange: (Double) -> Unit,
-    onUnitChange: (ItemUnit) -> Unit,
-    isQuantityError: Boolean,
-    quantityErrorMessage: String,
-    modifier: Modifier = Modifier
-) {
-    var menuExpanded by remember { mutableStateOf(false) }
-
-    Row(
-        modifier = modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.spacedBy(12.dp)
-    ) {
-        AppTextField(
-            modifier = Modifier.weight(1f),
-            value = if (quantity == 0.0) "" else "$quantity",
-            onValueChange = { text -> onQuantityChange(text.toDoubleOrNull() ?: 0.0) },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
-            label = stringResource(R.string.confirm_label_quantity),
-            isError = isQuantityError,
-            errorMessage = quantityErrorMessage
-        )
-
-        Box(modifier = Modifier.weight(1f)) {
-            AppTextField(
-                value = itemUnit.name.capitalize(),
-                onValueChange = {},
-                label = stringResource(R.string.confirm_label_unit),
-                readOnly = true,
-                modifier = Modifier.fillMaxWidth()
-            )
-            Box(modifier = Modifier
-                .matchParentSize()
-                .clickable { menuExpanded = true })
-            DropdownMenu(expanded = menuExpanded, onDismissRequest = { menuExpanded = false }) {
-                ItemUnit.entries.forEach { unit ->
-                    DropdownMenuItem(
-                        text = { Text(unit.name.capitalize()) },
-                        onClick = {
-                            onUnitChange(unit)
-                            menuExpanded = false
-                        }
-                    )
-                }
-            }
-        }
-    }
 }
 
 @Composable
