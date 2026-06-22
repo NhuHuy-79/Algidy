@@ -64,7 +64,7 @@ fun AppGraph(
             (slideInHorizontally(initialOffsetX = { -it / 3 }) + fadeIn() + scaleIn(initialScale = 0.9f)) togetherWith
                     (slideOutHorizontally(targetOffsetX = { it }) + fadeOut())
         },
-        onBack = { backStack.removeLastOrNull() },
+        onBack = { if (backStack.isNotEmpty()) backStack.removeLastOrNull() },
         entryProvider = entryProvider {
             entry<Destination.Inventory.Home> {
                 InventoryRoute(
