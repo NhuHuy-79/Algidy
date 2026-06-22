@@ -31,7 +31,7 @@ class CheckExpirationWorker(
                 if (runAttemptCount >= 5) {
                     Result.failure()
                 }
-                val expiringFoods = getExpiryFoodUseCase(dayWarnings = 3)
+                val expiringFoods = getExpiryFoodUseCase()
                 if (expiringFoods.isEmpty()) {
                     Timber.d("No expiry food!")
                     Result.success()

@@ -23,9 +23,7 @@ data class SettingsUiState(
     val darkMode: DarkMode = DarkMode.SYSTEM,
     val language: AppLanguage = AppLanguage.ENGLISH,
     val font: AppFont = AppFont.DEFAULT,
-
     val categoryEnabled: Boolean = false,
-
     val overlay: SettingsOverlay = SettingsOverlay.NONE,
     val hour: Int = 7,
     val minutes: Int = 30
@@ -58,20 +56,11 @@ data class SettingsUiState(
             checked = categoryEnabled
         )
 
-    val toggleItems: List<SettingToggleItem>
-        get() = listOf(
-            notificationSetting,
-            dynamicColorSetting,
-            biometricSetting,
-            categorySetting
-        )
-
-    val clickableItems: List<SettingClickableItem>
+    val dataClickableItems: List<SettingClickableItem>
         get() = listOf(
             SettingClickableItem(type = ClickableType.Export),
             SettingClickableItem(type = ClickableType.Import),
             SettingClickableItem(type = ClickableType.DeleteAll),
-            SettingClickableItem(type = ClickableType.AboutApp),
         )
 }
 

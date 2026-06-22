@@ -53,7 +53,7 @@
 
 
     <!--Biometric Authenticator-->
-    <string name="biometric_title">Algidy Biometric Lock</string>"
+    <string name="biometric_title">Algidy Biometric Lock</string>
     <string name="biometric_subtitle">Use biometric lock to log in</string>
 
     <!-- Errors -->
@@ -200,6 +200,11 @@
     <string name="analytics_weekly_card_content">Start from %1$s</string>
 
     <!-- Settings Screen -->
+    <string name="settings_title">Settings</string>
+    <string name="settings_notifications">Notifications</string>
+    <string name="settings_notifications_desc">Receive alerts for expiring food</string>
+    <string name="settings_notif_permission_required">Notification permission is required for this feature.</string>
+
     <string name="setting_app_theme">Theme</string>
     <string name="setting_dark_mode">Dark</string>
     <string name="setting_light_mode">Light</string>
@@ -212,18 +217,24 @@
     <string name="settings_delete_success">Delete data successfully</string>
 
     <string name="setting_language">Language</string>
+    <string name="setting_lang_english" translatable="false">English</string>
+    <string name="setting_lang_vietnamese" translatable="false">Tiếng Việt</string>
+    <string name="setting_lang_spanish" translatable="false">Español</string>
+    <string name="setting_lang_french" translatable="false">Français</string>
+    <string name="setting_lang_german" translatable="false">Deutsch</string>
+    <string name="setting_lang_portuguese" translatable="false">Português</string>
+    <string name="setting_lang_indonesian" translatable="false">Bahasa Indonesia</string>
+    <string name="setting_lang_italian" translatable="false">Italiano</string>
+
     <string name="setting_font">Font</string>
 
-    <string name="settings_title">Settings</string>
     <string name="settings_dynamic_color">Dynamic Color</string>
     <string name="settings_dynamic_mode_desc">Enable dynamic color for the app</string>
-    <string name="settings_notifications">Notifications</string>
-    <string name="settings_notifications_desc">Receive alerts for expiring food</string>
+
     <string name="setting_biometric">Biometrics Lock</string>
     <string name="setting_biometric_desc">Biometrics lock for the app</string>
 
     <string name="setting_data">Your Data</string>
-    <string name="setting_delete_dialog">Delete your data</string>
     <string name="setting_clear_data">Delete all</string>
     <string name="setting_clear_data_desc">Delete all of your application data.</string>
 
@@ -235,23 +246,34 @@
     <string name="setting_use_category">Use Category</string>
     <string name="setting_use_category_des">Use category to group your foods</string>
 
-    <string name="setting_backup">Back Up</string>
-    <string name="setting_backup_desc">Export or import your foods.</string>
-
     <string name="setting_export">Export</string>
     <string name="setting_export_desc">Export your data in Downloads/Algidy</string>
     <string name="setting_import">Import</string>
     <string name="setting_import_desc">Import your data.</string>
 
     <string name="setting_about_app">About App</string>
-    <string name="setting_about_app_desc">Algidy</string>
-
-    <string name="setting_other_settings_title">Other Settings</string>
+    <string name="setting_about_app_desc">Algidy v%1$s</string>
 
     <string name="import_success">Import your data successfully!</string>
     <string name="import_fail">Import your data failed!</string>
     <string name="export_success">Your data is exported!</string>
     <string name="export_failed">Cannot export your data!</string>
+
+    <!-- New Setting Screens -->
+    <string name="appearance_title">Appearance</string>
+    <string name="appearance_subtitle">Customize the look and feel of the app</string>
+
+    <string name="your_data_title">Your Data</string>
+    <string name="your_data_subtitle">Manage your local data and backups</string>
+
+    <string name="notification_settings_title">Notifications</string>
+    <string name="notification_settings_subtitle">Stay updated on your food freshness</string>
+
+    <string name="other_settings_title_page">Other Settings</string>
+    <string name="other_settings_subtitle">Language, Biometrics and Category groups</string>
+
+    <string name="main_settings_title_page">Settings</string>
+    <string name="main_settings_subtitle">General application settings</string>
 
     <!--Notification-->
     <string name="notif_expiry_title">Food expiring soon!</string>
@@ -273,19 +295,4 @@
     <string name="notif_action_prompt_message">Have you handled this item?</string>
     <string name="notif_action_consumed">Consumed</string>
     <string name="notif_action_wasted">Wasted</string>
-
-    <!-- New Setting Screens -->
-    <string name="appearance_title">Appearance</string>
-    <string name="appearance_subtitle">Customize the look and feel of the app</string>
-
-    <string name="your_data_title">Your Data</string>
-    <string name="your_data_subtitle">Manage your local data and backups</string>
-
-    <string name="other_settings_title_page">Other Settings</string>
-    <string name="other_settings_subtitle">Notifications, Language and more</string>
-
-    <string name="main_settings_title_page">Settings</string>
-    <string name="main_settings_subtitle">General application settings</string>
-
 </resources>
-

@@ -58,6 +58,8 @@ fun InventoryCategoryList(
                     EmptyPage(modifier = Modifier.fillMaxSize())
                 } else InventoryGridList(
                     items = items,
+                    selectedIds = selectedIds,
+                    onItemLongClick = onItemLongClick,
                     onItemClick = { foodItem ->
                         onItemClick(foodItem)
                     }

@@ -233,6 +233,10 @@ class InventoryViewModel(
                     _uiState.product {
                         copy(selectedFoodIds = selectedFoodIds - action.id)
                     }
+                } else {
+                    _uiState.product {
+                        copy(selectedFoodIds = selectedFoodIds + action.id)
+                    }
                 }
             }
 

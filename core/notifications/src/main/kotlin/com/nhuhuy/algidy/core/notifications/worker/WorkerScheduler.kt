@@ -71,10 +71,8 @@ class WorkerSchedulerImp(
             .setRequiresBatteryNotLow(true)
             .build()
 
-        // 1. Tính toán độ trễ cho đến 9:00 sáng Chủ Nhật tiếp theo
         val initialDelayMillis = calculateDelayUntilNextSunday9AM()
 
-        // 2. Tạo Request với Initial Delay
         val weeklyRequest = PeriodicWorkRequestBuilder<WeeklyReportWorker>(
             repeatInterval = 7,
             repeatIntervalTimeUnit = TimeUnit.DAYS
@@ -83,7 +81,7 @@ class WorkerSchedulerImp(
             .setInitialDelay(
                 initialDelayMillis,
                 TimeUnit.MILLISECONDS
-            ) // Ép Worker đợi đến Chủ Nhật
+            )
             .build()
 
 

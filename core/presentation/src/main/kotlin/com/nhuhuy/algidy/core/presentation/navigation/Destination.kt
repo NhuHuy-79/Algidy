@@ -30,17 +30,16 @@ sealed interface Destination : NavKey {
     data object PreSetting : Destination
 
     @Serializable
-    sealed interface Setting : Destination {
-        @Serializable
-        data object Main : Setting
+    data class Setting(
+        val destination: SettingDestination = SettingDestination.Main
+    ) : Destination
+}
 
-        @Serializable
-        data object Appearance : Setting
 
-        @Serializable
-        data object YourData : Setting
-
-        @Serializable
-        data object OtherSettings : Setting
-    }
+enum class SettingDestination {
+    Main,
+    Notification,
+    Appearance,
+    OtherSettings,
+    YourData
 }

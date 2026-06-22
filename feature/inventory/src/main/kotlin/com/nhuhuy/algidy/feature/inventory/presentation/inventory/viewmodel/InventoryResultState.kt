@@ -33,7 +33,6 @@ data class InventoryUiState(
     val isSelectMode: Boolean get() = selectedFoodIds.isNotEmpty()
     val showCategoryEdit : Boolean get() = currentCategory is CategoryUiModel.ByCategory
 }
-
 enum class InventoryOverlay {
     NONE, CATEGORY_EDIT, CATEGORY_DELETE, ITEM_DETAIL, CATEGORY_ADD
 }

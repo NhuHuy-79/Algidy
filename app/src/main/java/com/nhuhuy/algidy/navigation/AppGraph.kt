@@ -70,7 +70,7 @@ fun AppGraph(
                 InventoryRoute(
                     onNavigateToCamera = { backStack.add(Destination.Scanner) },
                     onNavigateToSearch = { backStack.add(Destination.Inventory.Search) },
-                    onNavigateToSetting = { backStack.add(Destination.PreSetting) },
+                    onNavigateToSetting = { backStack.add(Destination.Setting()) },
                     onNavigateToAnalytics = {
                         backStack.add(Destination.Analytics)
                     },
@@ -137,7 +137,7 @@ fun AppGraph(
                 )
             }
 
-            entry<Destination.PreSetting>(
+            entry<Destination.Setting>(
                 metadata = NavDisplay.transitionSpec {
                     slideInVertically(
                         initialOffsetY = { it },
@@ -158,8 +158,10 @@ fun AppGraph(
                         animationSpec = tween(400, easing = EaseInCubic)
                     ) + fadeOut(animationSpec = tween(300))
                 }
-            ) { _ ->
+            ) { setting ->
                 SettingRoute(
+                    destination = setting.destination,
+                    onNavigateToSettingRoute = { destination -> backStack.add(destination) },
                     onNavigateBack = backStack::removeLastOrNull,
                 )
             }

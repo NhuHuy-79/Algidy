@@ -96,7 +96,7 @@ fun DetailImage(
 
                 Surface(
                     color = MaterialTheme.colorScheme.surfaceContainerHighest,
-                    shape = RoundedCornerShape(16.dp)
+                    shape = RoundedCornerShape(4.dp)
                 ) {
                     Text(
                         text = foodItem.notes,

@@ -21,7 +21,8 @@ class ObserveSettingStateUseCase(
             settingsDataStore.appFontFlow,
             settingsDataStore.categoryGroupFlow,
             settingsDataStore.hourFlow,
-            settingsDataStore.minuteFlow
+            settingsDataStore.minuteFlow,
+            settingsDataStore.warningDayFlow
         )
 
         return combine(flows) { array ->
@@ -34,7 +35,8 @@ class ObserveSettingStateUseCase(
                 font = array[5] as AppFont,
                 enabledCategoryGroup = array[6] as Boolean,
                 hour = array[7] as Int,
-                minute = array[8] as Int
+                minute = array[8] as Int,
+                warningDay = array[9] as Int
             )
         }
     }

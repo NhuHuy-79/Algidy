@@ -25,10 +25,11 @@ interface SettingsDataStore {
     val notificationsEnabledFlow: Flow<Boolean>
     val appFontFlow: Flow<AppFont>
     val categoryGroupFlow: Flow<Boolean>
-
+    val warningDayFlow: Flow<Int>
     val hourFlow: Flow<Int>
     val minuteFlow: Flow<Int>
 
+    suspend fun setWarningDay(day: Int)
     suspend fun setCategoryGroup(enabled: Boolean)
     suspend fun setFont(appFont: AppFont)
     suspend fun setLanguage(appLanguage: AppLanguage)
@@ -41,6 +42,11 @@ interface SettingsDataStore {
 }
 
 class SettingsDataStoreImpl(private val context: Context) : SettingsDataStore {
+
+    override val warningDayFlow: Flow<Int>
+        get() = context.dataStore.data.map { preferences ->
+            preferences[UserPreferencesKeys.WARNING_DAYS] ?: 3
+        }
 
     override val categoryGroupFlow: Flow<Boolean> = context.dataStore.data.map { preferences ->
         preferences[UserPreferencesKeys.CATEGORY] ?: false
@@ -76,6 +82,10 @@ class SettingsDataStoreImpl(private val context: Context) : SettingsDataStore {
 
     override val minuteFlow: Flow<Int>
         get() = context.dataStore.data.get(UserPreferencesKeys.MINUTE, 30)
+
+    override suspend fun setWarningDay(day: Int) {
+        context.dataStore.set(UserPreferencesKeys.WARNING_DAYS, day)
+    }
 
     override suspend fun setMinute(minute: Int) {
         context.dataStore.set(UserPreferencesKeys.MINUTE, minute)

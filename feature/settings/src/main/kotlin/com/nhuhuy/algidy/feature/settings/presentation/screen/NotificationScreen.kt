@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
+import androidx.compose.material.icons.outlined.NotificationAdd
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.Icon
@@ -21,13 +22,15 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.nhuhuy.algidy.core.presentation.R
-import com.nhuhuy.algidy.feature.settings.presentation.component.dataSettingItem
+import com.nhuhuy.algidy.core.presentation.utils.ItemPosition
+import com.nhuhuy.algidy.feature.settings.presentation.component.ToggleItem
+import com.nhuhuy.algidy.feature.settings.presentation.model.ToggleType
 import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.SettingsAction
 import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.SettingsUiState
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
 @Composable
-fun DataSettingsScreen(
+fun NotificationScreen(
     uiState: SettingsUiState,
     onAction: (SettingsAction) -> Unit,
 ) {
@@ -37,7 +40,7 @@ fun DataSettingsScreen(
             MediumFlexibleTopAppBar(
                 title = {
                     Text(
-                        text = stringResource(R.string.your_data_title),
+                        text = stringResource(R.string.notification_settings_title),
                         style = MaterialTheme.typography.displaySmall.copy(
                             fontWeight = FontWeight.Black
                         )
@@ -45,7 +48,7 @@ fun DataSettingsScreen(
                 },
                 subtitle = {
                     Text(
-                        text = stringResource(R.string.your_data_subtitle),
+                        text = stringResource(R.string.notification_settings_subtitle),
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -59,6 +62,16 @@ fun DataSettingsScreen(
                             contentDescription = null
                         )
                     }
+                },
+                actions = {
+                    IconButton(
+                        onClick = { onAction(SettingsAction.SetNotifyTime.OpenPicker) }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Outlined.NotificationAdd,
+                            contentDescription = "timer"
+                        )
+                    }
                 }
             )
         }
@@ -68,12 +81,23 @@ fun DataSettingsScreen(
                 .fillMaxSize()
                 .padding(padding),
             contentPadding = PaddingValues(16.dp),
-            verticalArrangement = Arrangement.spacedBy(2.dp)
+            verticalArrangement = Arrangement.spacedBy(4.dp)
         ) {
-            dataSettingItem(
-                items = uiState.dataClickableItems,
-                onAction = onAction
-            )
+            item {
+                ToggleItem(
+                    item = uiState.notificationSetting,
+                    position = ItemPosition.SINGLE,
+                    onToggle = { enabled, _ ->
+                        onAction(
+                            SettingsAction.ToggleAction(
+                                type = ToggleType.NOTIFICATION,
+                                enabled = enabled
+                            )
+                        )
+                    }
+
+                )
+            }
         }
     }
 }

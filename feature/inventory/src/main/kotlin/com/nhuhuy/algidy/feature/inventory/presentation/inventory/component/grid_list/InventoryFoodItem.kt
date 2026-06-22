@@ -25,7 +25,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -57,8 +59,18 @@ fun InventoryFoodItem(
         else -> stringResource(R.string.freshness_months_left, remainingDays / 30)
     }
 
+    val haptic = LocalHapticFeedback.current
+
     Column(
-        modifier = modifier,
+        modifier = modifier
+            .clip(RoundedCornerShape(8.dp))
+            .combinedClickable(
+                onClick = { onItemClick(item) },
+                onLongClick = {
+                    haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                    onLongClick(item)
+                }
+            ),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         Box(
@@ -68,11 +80,6 @@ fun InventoryFoodItem(
                 .background(
                     MaterialTheme.colorScheme.surfaceVariant,
                     shape = RoundedCornerShape(8.dp)
-                )
-                .combinedClickable(
-                    enabled = true,
-                    onClick = { onItemClick(item) },
-                    onLongClick = { onLongClick(item) }
                 )
                 .border(
                     width = 4.dp,

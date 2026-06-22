@@ -25,13 +25,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.nhuhuy.algidy.core.model.setting.DarkMode
+import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.core.presentation.utils.ItemPosition
 import com.nhuhuy.algidy.feature.settings.presentation.component.SelectFontRow
 import com.nhuhuy.algidy.feature.settings.presentation.component.ToggleItem
 import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.SettingsAction
 import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.SettingsUiState
 import com.nhuhuy.algidy.feature.settings.utils.toStringRes
-import com.nhuhuy.algidy.core.presentation.R as CoreR
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
 @Composable
@@ -44,19 +44,19 @@ fun AppearanceScreen(
         topBar = {
             MediumFlexibleTopAppBar(
                 title = {
-                    Column {
-                        Text(
-                            text = stringResource(CoreR.string.appearance_title),
-                            style = MaterialTheme.typography.displaySmall.copy(
-                                fontWeight = FontWeight.Black
-                            )
+                    Text(
+                        text = stringResource(R.string.appearance_title),
+                        style = MaterialTheme.typography.displaySmall.copy(
+                            fontWeight = FontWeight.Black
                         )
-                        Text(
-                            text = stringResource(CoreR.string.appearance_subtitle),
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                    }
+                    )
+                },
+                subtitle = {
+                    Text(
+                        text = stringResource(R.string.appearance_subtitle),
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
                 },
                 navigationIcon = {
                     IconButton(
@@ -81,7 +81,7 @@ fun AppearanceScreen(
             item {
                 Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                     Text(
-                        text = stringResource(CoreR.string.setting_app_theme),
+                        text = stringResource(R.string.setting_app_theme),
                         style = MaterialTheme.typography.titleMedium.copy(
                             fontWeight = FontWeight.Black
                         )
@@ -119,7 +119,7 @@ fun AppearanceScreen(
             item {
                 Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                     Text(
-                        text = stringResource(CoreR.string.setting_font),
+                        text = stringResource(R.string.setting_font),
                         style = MaterialTheme.typography.titleMedium.copy(
                             fontWeight = FontWeight.Black
                         )
@@ -136,7 +136,7 @@ fun AppearanceScreen(
             item {
                 Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                     Text(
-                        text = stringResource(CoreR.string.settings_dynamic_color),
+                        text = stringResource(R.string.settings_dynamic_color),
                         style = MaterialTheme.typography.titleMedium.copy(
                             fontWeight = FontWeight.Black
                         )

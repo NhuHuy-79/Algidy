@@ -6,6 +6,7 @@ sealed interface SettingsEvent : UiEvent {
     data object NavigateBack : SettingsEvent
 
     data object RequestNotificationPermission : SettingsEvent
+    data class ShowSnackbar(val message: String) : SettingsEvent
     enum class ExportData : SettingsEvent {
         SUCCESS, FAILURE
     }

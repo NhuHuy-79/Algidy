@@ -20,7 +20,13 @@ import com.nhuhuy.algidy.core.designsystem.component.BoxLayout
 import com.nhuhuy.algidy.core.presentation.ObserveEffect
 import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.core.presentation.component.AppTimePickerDialog
-import com.nhuhuy.algidy.feature.settings.presentation.SettingsScreen
+import com.nhuhuy.algidy.core.presentation.navigation.Destination
+import com.nhuhuy.algidy.core.presentation.navigation.SettingDestination
+import com.nhuhuy.algidy.feature.settings.presentation.screen.AppearanceScreen
+import com.nhuhuy.algidy.feature.settings.presentation.screen.DataSettingsScreen
+import com.nhuhuy.algidy.feature.settings.presentation.screen.MainSettingsScreen
+import com.nhuhuy.algidy.feature.settings.presentation.screen.NotificationScreen
+import com.nhuhuy.algidy.feature.settings.presentation.screen.OtherSettingsScreen
 import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.DeleteAll
 import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.NotifyTimerEvent
 import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.SettingsAction
@@ -31,6 +37,8 @@ import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun SettingRoute(
+    destination: SettingDestination,
+    onNavigateToSettingRoute: (Destination.Setting) -> Unit,
     onNavigateBack: () -> Unit,
 ) = BoxLayout {
     val viewModel: SettingsViewModel = koinViewModel()
@@ -105,6 +113,13 @@ fun SettingRoute(
                 notificationPermission.launch(Manifest.permission.POST_NOTIFICATIONS)
             }
 
+            is SettingsEvent.ShowSnackbar -> {
+                snackBarHostState.showSnackbar(
+                    message = event.message,
+                    duration = SnackbarDuration.Short
+                )
+            }
+
             DeleteAll.Success -> {
                 snackBarHostState.showSnackbar(
                     message = resource.getString(R.string.settings_delete_success),
@@ -114,11 +129,44 @@ fun SettingRoute(
         }
     }
 
-    SettingsScreen(
+    /*SettingsScreen(
         snackBarHostState = snackBarHostState,
         uiState = uiState,
         onAction = onAction
-    )
+    )*/
+    when (destination) {
+        SettingDestination.Appearance -> AppearanceScreen(
+            uiState = uiState,
+            onAction = onAction
+        )
+
+        SettingDestination.Main -> MainSettingsScreen(
+            onNavigate = onNavigateToSettingRoute,
+            onBackClick = onNavigateBack,
+            onAction = onAction
+        )
+
+        SettingDestination.OtherSettings -> {
+            OtherSettingsScreen(
+                uiState = uiState,
+                onAction = onAction
+            )
+        }
+
+        SettingDestination.YourData -> {
+            DataSettingsScreen(
+                uiState = uiState,
+                onAction = onAction
+            )
+        }
+
+        SettingDestination.Notification -> {
+            NotificationScreen(
+                uiState = uiState,
+                onAction = onAction
+            )
+        }
+    }
 
     when (overlay) {
         SettingsOverlay.NONE -> Unit

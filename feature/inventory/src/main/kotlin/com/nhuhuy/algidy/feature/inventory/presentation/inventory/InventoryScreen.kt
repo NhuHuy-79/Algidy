@@ -163,8 +163,8 @@ fun InventoryGridList(
         columns = StaggeredGridCells.Fixed(3),
         modifier = modifier.fillMaxSize(),
         contentPadding = contentPadding,
-        horizontalArrangement = Arrangement.spacedBy(16.dp),
-        verticalItemSpacing = 16.dp
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        verticalItemSpacing = 12.dp
     ) {
         items(
             items = items,
