@@ -9,4 +9,8 @@ class MarkFoodAsConsumedUseCase(
     suspend operator fun invoke(foodId: String) {
         foodRepository.updateFoodStatus(id = foodId, newStatus = FoodStatus.CONSUMED)
     }
+
+    suspend fun executeWithList(foodIds: List<String>) {
+        foodRepository.updateFoodStatusList(ids = foodIds, newStatus = FoodStatus.CONSUMED)
+    }
 }

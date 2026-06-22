@@ -27,8 +27,10 @@ data class InventoryUiState(
     val categoryInput: String = "",
     val overlay: InventoryOverlay = InventoryOverlay.NONE,
     val sortMode: InventorySortMode = InventorySortMode.NONE,
+    val selectedFoodIds: Set<String> = emptySet(),
     val showExpiredOnly: Boolean = false
 ) : UiState {
+    val isSelectMode: Boolean get() = selectedFoodIds.isNotEmpty()
     val showCategoryEdit : Boolean get() = currentCategory is CategoryUiModel.ByCategory
 }
 

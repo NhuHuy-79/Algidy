@@ -9,4 +9,8 @@ class MarkFoodAsWastedUseCase(
     suspend operator fun invoke(foodId: String) {
         foodRepository.updateFoodStatus(id = foodId, newStatus = FoodStatus.WASTED)
     }
+
+    suspend fun executeWithList(foodIds: List<String>) {
+        foodRepository.updateFoodStatusList(ids = foodIds, newStatus = FoodStatus.WASTED)
+    }
 }

@@ -182,6 +182,8 @@ class InventoryViewModel(
                     addCategoryUseCase(currentState.categoryInput)
                 }
             }
+
+            is InventorySelectAction -> onSelectAction(action)
         }
     }
 
@@ -204,6 +206,68 @@ class InventoryViewModel(
 
             InventoryDetailAction.Open -> _uiState.product {
                 copy(overlay = InventoryOverlay.ITEM_DETAIL)
+            }
+        }
+    }
+
+    private fun onSelectAction(action: InventorySelectAction) {
+        val selectedFoodIds = currentState.selectedFoodIds
+        when (action) {
+            InventorySelectAction.ClearSelection -> {
+                _uiState.product {
+                    copy(selectedFoodIds = emptySet())
+                }
+            }
+
+            InventorySelectAction.ConsumeAll -> viewModelScope.launch {
+                _uiState.product {
+                    copy(selectedFoodIds = emptySet())
+                }
+                markFoodAsConsumedUseCase.executeWithList(
+                    foodIds = currentState.selectedFoodIds.toList()
+                )
+            }
+
+            is InventorySelectAction.OnClick -> {
+                if (action.id in selectedFoodIds) {
+                    _uiState.product {
+                        copy(selectedFoodIds = selectedFoodIds - action.id)
+                    }
+                }
+            }
+
+            is InventorySelectAction.OnLongClick -> {
+                if (action.id in selectedFoodIds) {
+                    _uiState.product {
+                        copy(selectedFoodIds = selectedFoodIds - action.id)
+                    }
+                } else {
+                    _uiState.product {
+                        copy(selectedFoodIds = selectedFoodIds + action.id)
+                    }
+                }
+            }
+
+            InventorySelectAction.SelectAll -> {
+                val allFoods = when (val foodState = resultState.value) {
+                    is InventoryResultState.Success -> foodState.items
+                    else -> emptyList()
+                }
+
+                if (allFoods.isNotEmpty()) {
+                    _uiState.product {
+                        copy(selectedFoodIds = allFoods.map { it.id }.toSet())
+                    }
+                }
+            }
+
+            InventorySelectAction.WasteAll -> viewModelScope.launch {
+                _uiState.product {
+                    copy(selectedFoodIds = emptySet())
+                }
+                markFoodAsWastedUseCase.executeWithList(
+                    foodIds = currentState.selectedFoodIds.toList()
+                )
             }
         }
     }

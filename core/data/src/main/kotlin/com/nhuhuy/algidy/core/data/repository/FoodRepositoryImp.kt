@@ -61,6 +61,15 @@ class FoodRepositoryImpl(
         }
     }
 
+    override suspend fun updateFoodStatusList(
+        ids: List<String>,
+        newStatus: FoodStatus
+    ): Resource<Unit> {
+        return safeCall(dispatcher = appDispatchers.io) {
+            foodDao.updateFoodStatusList(ids, newStatus, System.currentTimeMillis())
+        }
+    }
+
     override suspend fun getFoodById(id: String): FoodItem? {
         return foodDao.getFoodById(id)?.toDomain()
     }

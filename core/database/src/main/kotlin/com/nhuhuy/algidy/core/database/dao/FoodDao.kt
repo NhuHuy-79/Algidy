@@ -33,6 +33,9 @@ interface FoodDao : BaseDao<FoodItemEntity> {
     @Query("UPDATE food_items SET status = :newStatus, resolved_date = :resolvedDate WHERE id = :id")
     suspend fun updateFoodStatus(id: String, newStatus: FoodStatus, resolvedDate: Long)
 
+    @Query("UPDATE food_items SET status = :newStatus, resolved_date = :resolvedDate WHERE id IN (:ids)")
+    suspend fun updateFoodStatusList(ids: List<String>, newStatus: FoodStatus, resolvedDate: Long)
+
     @Query("SELECT * FROM food_items WHERE location = :location")
     fun getFoodItemsByLocation(location: StorageLocation): Flow<List<FoodItemEntity>>
 

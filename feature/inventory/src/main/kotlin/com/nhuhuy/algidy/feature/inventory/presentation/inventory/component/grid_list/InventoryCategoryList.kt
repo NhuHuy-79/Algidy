@@ -24,7 +24,9 @@ fun InventoryCategoryList(
     inventoryResultState: InventoryResultState,
     sortMode: InventorySortMode,
     showExpiredOnly: Boolean,
+    selectedIds: Set<String> = emptySet(),
     onItemClick: (FoodItem) -> Unit,
+    onItemLongClick: (FoodItem) -> Unit
 ) {
     Column(
         modifier = modifier,

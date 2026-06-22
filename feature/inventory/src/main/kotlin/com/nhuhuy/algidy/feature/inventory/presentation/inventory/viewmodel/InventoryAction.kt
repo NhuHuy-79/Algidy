@@ -33,7 +33,16 @@ sealed interface InventoryAction : UiAction {
     data object OnShowExpiredOnly : InventoryAction
 }
 
+@Stable
+sealed interface InventorySelectAction : InventoryAction {
+    data class OnClick(val id: String) : InventorySelectAction
+    data class OnLongClick(val id: String) : InventorySelectAction
+    data object SelectAll : InventorySelectAction
+    data object ClearSelection : InventorySelectAction
 
+    data object ConsumeAll : InventorySelectAction
+    data object WasteAll : InventorySelectAction
+}
 @Stable
 sealed interface InventoryDetailAction : InventoryAction {
     data object Open : InventoryDetailAction

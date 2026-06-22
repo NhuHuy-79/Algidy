@@ -21,6 +21,7 @@ interface FoodRepository {
     //UPDATE
     suspend fun updateFoodItem(item: FoodItem): Resource<Unit>
     suspend fun updateFoodStatus(id: String, newStatus: FoodStatus): Resource<String>
+    suspend fun updateFoodStatusList(ids: List<String>, newStatus: FoodStatus): Resource<Unit>
 
     //DELETE
     suspend fun removeFoodItem(id: String)
