@@ -128,12 +128,6 @@ fun SettingRoute(
             }
         }
     }
-
-    /*SettingsScreen(
-        snackBarHostState = snackBarHostState,
-        uiState = uiState,
-        onAction = onAction
-    )*/
     when (destination) {
         SettingDestination.Appearance -> AppearanceScreen(
             uiState = uiState,

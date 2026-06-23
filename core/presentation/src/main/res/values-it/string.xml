@@ -1,6 +1,6 @@
 <resources>
     <!-- Common -->
-
+    
     <string name="action_ok">OK</string>
     <string name="action_cancel">Cancella</string>
     <string name="action_save">Salva</string>
@@ -52,7 +52,7 @@
 
 
     <!--Biometric Authenticator-->
-    <string name="biometric_title">Blocco biometrico Algidy</string>"
+    <string name="biometric_title">Blocco biometrico Algidy</string>
     <string name="biometric_subtitle">Usa il blocco biometrico per accedere</string>
 
     <!-- Errors -->
@@ -84,12 +84,22 @@
     <string name="inventory_sheet_btn">Aggiungi cibo</string>
 
     <string name="inventory_category_edit">Modifica categoria</string>
+    <string name="inventory_category_edit_btn">Modifica</string>
     <string name="inventory_category_delete">Elimina categoria</string>
+    <string name="inventory_category_add">Aggiungi categoria</string>
+    <string name="inventory_category_add_btn">Aggiungi</string>
     <string name="category_edit_dialog_title">Modifica categoria</string>
     <string name="category_edit_dialog_label">Nome della categoria</string>
     <string name="category_search_placeholder">Cerca o digita nuova categoria...</string>
     <string name="category_add_new">Aggiungi nuovo: \"%1$s\"</string>
     <string name="inventory_menu_filter">Filtro</string>
+
+    <string name="inventory_detail_sheet">Dettagli</string>
+    <string name="inventory_category">Categoria</string>
+    <string name="inventory_location">Posizione</string>
+    <string name="inventory_purchase_date">Data di acquisto</string>
+    <string name="inventory_expiry_date">Data di scadenza</string>
+    <string name="inventory_note">Il tuo biglietto</string>
 
     <string name="delete_category_dialog_title">Elimina categoria\?</string>
     <string name="delete_category_dialog_content">Questa categoria e tutti i suoi alimenti verranno eliminati.</string>
@@ -189,6 +199,11 @@
     <string name="analytics_weekly_card_content">Inizia da %1$s</string>
 
     <!-- Settings Screen -->
+    <string name="settings_title">Impostazioni</string>
+    <string name="settings_notifications">Notifiche</string>
+    <string name="settings_notifications_desc">Ricevi avvisi per alimenti in scadenza</string>
+    <string name="settings_notif_permission_required">Per questa funzione è richiesta la autorizzazione per la notifica.</string>
+
     <string name="setting_app_theme">Tema</string>
     <string name="setting_dark_mode">Buio</string>
     <string name="setting_light_mode">Luce</string>
@@ -201,18 +216,24 @@
     <string name="settings_delete_success">Elimina i dati con successo</string>
 
     <string name="setting_language">Lingua</string>
+    
+    
+    
+    
+    
+    
+    
+    
+
     <string name="setting_font">Fonte</string>
 
-    <string name="settings_title">Impostazioni</string>
     <string name="settings_dynamic_color">Colore Dinamico</string>
     <string name="settings_dynamic_mode_desc">Abilita il colore dinamico per l\'app</string>
-    <string name="settings_notifications">Notifiche</string>
-    <string name="settings_notifications_desc">Ricevi avvisi per alimenti in scadenza</string>
+
     <string name="setting_biometric">Blocco Biometrico</string>
     <string name="setting_biometric_desc">Blocco biometrico per l\'app</string>
 
     <string name="setting_data">I tuoi dati</string>
-    <string name="setting_delete_dialog">Elimina i tuoi dati</string>
     <string name="setting_clear_data">Elimina tutto</string>
     <string name="setting_clear_data_desc">Elimina tutti i dati della tua applicazione.</string>
 
@@ -224,8 +245,9 @@
     <string name="setting_use_category">Categoria di utilizzo</string>
     <string name="setting_use_category_des">Usa la categoria per raggruppare i tuoi cibi</string>
 
-    <string name="setting_backup">Supporto</string>
-    <string name="setting_backup_desc">Esporta o importa i tuoi cibi.</string>
+    <string name="setting_weekly_report">Rapporto settimanale</string>
+    <string name="setting_weekly_report_desc">Riepilogo domenicale del tuo consumo di cibo e degli articoli scaduti.</string>
+
 
     <string name="setting_export">Esportazione</string>
     <string name="setting_export_desc">Esporta i tuoi dati in Download/Algidy</string>
@@ -234,13 +256,33 @@
 
     <string name="setting_about_app">Informazioni sull\'app</string>
     <string name="setting_about_app_desc">Algides</string>
+    <string name="setting_daily_reminder">Promemoria quotidiano</string>
+    <string name="setting_daily_reminder_desc">Ricorda a %1$s</string>
 
-    <string name="setting_other_settings_title">Altri ambienti</string>
+    <plurals name="notification_days_before">
+        <item quantity="one">Notifica la scadenza del cibo 1$d il giorno prima</item>
+        <item quantity="other">Notifica la scadenza del cibo con 1$d giorni prima</item>
+    </plurals>
 
     <string name="import_success">Importa i tuoi dati con successo!</string>
     <string name="import_fail">Importazione dei tuoi dati fallita!</string>
     <string name="export_success">I tuoi dati vengono esportati!</string>
     <string name="export_failed">Non posso esportare i tuoi dati!</string>
+    <!-- New Setting Screens -->
+    <string name="appearance_title">Aspetto</string>
+    <string name="appearance_subtitle">Personalizza l\'aspetto e la sensazione dell\'app</string>
+
+    <string name="your_data_title">I tuoi dati</string>
+    <string name="your_data_subtitle">Gestisci i dati locali e i backup</string>
+
+    <string name="notification_settings_title">Notifiche</string>
+    <string name="notification_settings_subtitle">Rimani aggiornato sulla freschezza del cibo</string>
+
+    <string name="other_settings_title_page">Altri ambienti</string>
+    <string name="other_settings_subtitle">Notifiche, linguaggio e altro ancora</string>
+
+    <string name="main_settings_title_page">Impostazioni</string>
+    <string name="main_settings_subtitle">Impostazioni generali dell\'applicazione</string>
 
     <!--Notification-->
     <string name="notif_expiry_title">Cibo in scadenza!</string>
@@ -262,18 +304,4 @@
     <string name="notif_action_prompt_message">Hai maneggiato questo oggetto\?</string>
     <string name="notif_action_consumed">Consumato</string>
     <string name="notif_action_wasted">Sprecato</string>
-
-    <!-- New Setting Screens -->
-    <string name="appearance_title">Aspetto</string>
-    <string name="appearance_subtitle">Personalizza l\'aspetto e la sensazione dell\'app</string>
-
-    <string name="your_data_title">I tuoi dati</string>
-    <string name="your_data_subtitle">Gestisci i dati locali e i backup</string>
-
-    <string name="other_settings_title_page">Altri ambienti</string>
-    <string name="other_settings_subtitle">Notifiche, linguaggio e altro ancora</string>
-
-    <string name="main_settings_title_page">Impostazioni</string>
-    <string name="main_settings_subtitle">Impostazioni generali dell\'applicazione</string>
-
 </resources>

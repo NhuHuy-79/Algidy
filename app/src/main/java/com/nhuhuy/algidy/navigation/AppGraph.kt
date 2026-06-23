@@ -139,24 +139,25 @@ fun AppGraph(
 
             entry<Destination.Setting>(
                 metadata = NavDisplay.transitionSpec {
-                    slideInVertically(
-                        initialOffsetY = { it },
+                    slideInHorizontally(
+                        initialOffsetX = { it }, 
                         animationSpec = tween(400, easing = EaseOutQuart)
                     ) + fadeIn(animationSpec = tween(300)) togetherWith
                             fadeOut(animationSpec = tween(300))
 
                 } + NavDisplay.popTransitionSpec {
-                    EnterTransition.None togetherWith slideOutVertically(
-                        targetOffsetY = { it },
-                        animationSpec = tween(400, easing = EaseInCubic)
-                    ) + fadeOut(
-                        animationSpec = tween(300)
-                    )
+                    EnterTransition.None togetherWith
+                            slideOutHorizontally(
+                                targetOffsetX = { it },
+                                animationSpec = tween(400, easing = EaseOutQuart)
+                            ) + fadeOut(animationSpec = tween(300))
+
                 } + NavDisplay.predictivePopTransitionSpec {
-                    EnterTransition.None togetherWith slideOutVertically(
-                        targetOffsetY = { it },
-                        animationSpec = tween(400, easing = EaseInCubic)
-                    ) + fadeOut(animationSpec = tween(300))
+                    EnterTransition.None togetherWith
+                            slideOutHorizontally(
+                                targetOffsetX = { it },
+                                animationSpec = tween(400, easing = EaseOutQuart)
+                            ) + fadeOut(animationSpec = tween(300))
                 }
             ) { setting ->
                 SettingRoute(

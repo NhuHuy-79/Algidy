@@ -1,6 +1,6 @@
 <resources>
     <!-- Common -->
-
+    
     <string name="action_ok">OK</string>
     <string name="action_cancel">Batalkan</string>
     <string name="action_save">Simpan</string>
@@ -52,7 +52,7 @@
 
 
     <!--Biometric Authenticator-->
-    <string name="biometric_title">Kunci Biometrik Algidy</string>"
+    <string name="biometric_title">Kunci Biometrik Algidy</string>
     <string name="biometric_subtitle">Gunakan kunci biometrik untuk masuk</string>
 
     <!-- Errors -->
@@ -84,12 +84,22 @@
     <string name="inventory_sheet_btn">Tambahkan Makanan</string>
 
     <string name="inventory_category_edit">Edit Kategori</string>
+    <string name="inventory_category_edit_btn">Sunting</string>
     <string name="inventory_category_delete">Hapus Kategori</string>
+    <string name="inventory_category_add">Tambahkan Kategori</string>
+    <string name="inventory_category_add_btn">Tambahkan</string>
     <string name="category_edit_dialog_title">Edit Kategori</string>
     <string name="category_edit_dialog_label">Nama Kategori</string>
     <string name="category_search_placeholder">Cari atau ketik kategori baru...</string>
     <string name="category_add_new">Tambahkan baru: \"%1$s\"</string>
     <string name="inventory_menu_filter">Filter</string>
+
+    <string name="inventory_detail_sheet">Selengkapnya</string>
+    <string name="inventory_category">Kategori</string>
+    <string name="inventory_location">Lokasi</string>
+    <string name="inventory_purchase_date">Tanggal Pembelian</string>
+    <string name="inventory_expiry_date">Tanggal kedaluwarsa</string>
+    <string name="inventory_note">Catatan Anda</string>
 
     <string name="delete_category_dialog_title">Hapus Kategori\?</string>
     <string name="delete_category_dialog_content">Kategori ini dan semua makanannya akan dihapus.</string>
@@ -189,6 +199,11 @@
     <string name="analytics_weekly_card_content">Mulai dari %1$s</string>
 
     <!-- Settings Screen -->
+    <string name="settings_title">Pengaturan</string>
+    <string name="settings_notifications">Pemberitahuan</string>
+    <string name="settings_notifications_desc">Terima peringatan untuk makanan kedaluwarsa</string>
+    <string name="settings_notif_permission_required">Izin pemberitahuan diperlukan untuk fitur ini.</string>
+
     <string name="setting_app_theme">Tema</string>
     <string name="setting_dark_mode">Gelap</string>
     <string name="setting_light_mode">Cahaya</string>
@@ -201,18 +216,24 @@
     <string name="settings_delete_success">Hapus data berhasil</string>
 
     <string name="setting_language">Bahasa</string>
+    
+    
+    
+    
+    
+    
+    
+    
+
     <string name="setting_font">Font</string>
 
-    <string name="settings_title">Pengaturan</string>
     <string name="settings_dynamic_color">Warna Dinamis</string>
     <string name="settings_dynamic_mode_desc">Aktifkan warna dinamis untuk aplikasi</string>
-    <string name="settings_notifications">Pemberitahuan</string>
-    <string name="settings_notifications_desc">Terima peringatan untuk makanan kedaluwarsa</string>
+
     <string name="setting_biometric">Kunci Biometrik</string>
     <string name="setting_biometric_desc">Kunci biometrik untuk aplikasi</string>
 
     <string name="setting_data">Data Anda</string>
-    <string name="setting_delete_dialog">Menghapus data Anda</string>
     <string name="setting_clear_data">Hapus semua</string>
     <string name="setting_clear_data_desc">Hapus semua data aplikasi Anda.</string>
 
@@ -224,8 +245,9 @@
     <string name="setting_use_category">Gunakan Kategori</string>
     <string name="setting_use_category_des">Gunakan kategori untuk mengelompokkan makanan Anda</string>
 
-    <string name="setting_backup">Cadangkan</string>
-    <string name="setting_backup_desc">Ekspor atau impor makanan Anda.</string>
+    <string name="setting_weekly_report">Laporan Mingguan</string>
+    <string name="setting_weekly_report_desc">Ringkasan hari Minggu dari konsumsi makanan Anda dan barang kedaluwarsa.</string>
+
 
     <string name="setting_export">Ekspor</string>
     <string name="setting_export_desc">Ekspor data Anda di Downloads/Algidy</string>
@@ -234,13 +256,33 @@
 
     <string name="setting_about_app">Tentang Aplikasi</string>
     <string name="setting_about_app_desc">Algides</string>
+    <string name="setting_daily_reminder">Pengingat Harian</string>
+    <string name="setting_daily_reminder_desc">Ingatkan di %1$s</string>
 
-    <string name="setting_other_settings_title">Pengaturan Lainnya</string>
+    <plurals name="notification_days_before">
+        <item quantity="one">Beri tahu kedaluwarsa makanan %1$d sehari sebelumnya</item>
+        <item quantity="other">Beri tahu kedaluwarsa makanan %1$d hari sebelumnya</item>
+    </plurals>
 
     <string name="import_success">Impor data Anda dengan sukses!</string>
     <string name="import_fail">Impor data Anda gagal!</string>
     <string name="export_success">Data Anda diekspor!</string>
     <string name="export_failed">Tidak dapat mengekspor data Anda!</string>
+    <!-- New Setting Screens -->
+    <string name="appearance_title">Penampilan</string>
+    <string name="appearance_subtitle">Sesuaikan tampilan dan nuansa aplikasi</string>
+
+    <string name="your_data_title">Data Anda</string>
+    <string name="your_data_subtitle">Kelola data dan cadangan lokal Anda</string>
+
+    <string name="notification_settings_title">Pemberitahuan</string>
+    <string name="notification_settings_subtitle">Tetap perbarui kesegaran makanan Anda</string>
+
+    <string name="other_settings_title_page">Pengaturan Lainnya</string>
+    <string name="other_settings_subtitle">Pemberitahuan, Bahasa, dan lainnya</string>
+
+    <string name="main_settings_title_page">Pengaturan</string>
+    <string name="main_settings_subtitle">Pengaturan aplikasi umum</string>
 
     <!--Notification-->
     <string name="notif_expiry_title">Makanan akan segera kedaluwarsa!</string>
@@ -262,18 +304,4 @@
     <string name="notif_action_prompt_message">Sudahkah Anda menangani item ini\?</string>
     <string name="notif_action_consumed">Dikonsumsi</string>
     <string name="notif_action_wasted">Sia-sia</string>
-
-    <!-- New Setting Screens -->
-    <string name="appearance_title">Penampilan</string>
-    <string name="appearance_subtitle">Sesuaikan tampilan dan nuansa aplikasi</string>
-
-    <string name="your_data_title">Data Anda</string>
-    <string name="your_data_subtitle">Kelola data dan cadangan lokal Anda</string>
-
-    <string name="other_settings_title_page">Pengaturan Lainnya</string>
-    <string name="other_settings_subtitle">Pemberitahuan, Bahasa, dan lainnya</string>
-
-    <string name="main_settings_title_page">Pengaturan</string>
-    <string name="main_settings_subtitle">Pengaturan aplikasi umum</string>
-
 </resources>

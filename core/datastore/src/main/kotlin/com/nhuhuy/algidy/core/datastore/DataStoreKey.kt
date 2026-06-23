@@ -16,6 +16,7 @@ object UserPreferencesKeys {
     val MINUTE = intPreferencesKey("minute")
 
     val WARNING_DAYS = intPreferencesKey("warning_days")
+    val WEEKLY_REPORT = booleanPreferencesKey("weekly_report")
 }
 
 

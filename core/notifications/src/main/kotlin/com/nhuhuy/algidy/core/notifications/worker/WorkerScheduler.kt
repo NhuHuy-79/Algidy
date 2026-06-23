@@ -30,6 +30,9 @@ interface WorkerScheduler {
     fun scheduleCheckExpiryWorker()
     fun scheduleWeeklyReportWorker()
     fun scheduleWeeklyCleanUpFileWorker()
+
+    fun cancelWeeklyReportWorker()
+    fun cancelCheckExpiryWorker()
 }
 
 class WorkerSchedulerImp(
@@ -38,6 +41,14 @@ class WorkerSchedulerImp(
 ) : WorkerScheduler {
     private val scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
     private val workManager by lazy { WorkManager.getInstance(context) }
+
+    override fun cancelWeeklyReportWorker() {
+        workManager.cancelUniqueWork(WorkerStrings.WEEKLY_WORKER)
+    }
+
+    override fun cancelCheckExpiryWorker() {
+        workManager.cancelUniqueWork(WorkerStrings.DAILY_WORKER)
+    }
 
     override fun scheduleCheckExpiryWorker() {
         scope.launch {

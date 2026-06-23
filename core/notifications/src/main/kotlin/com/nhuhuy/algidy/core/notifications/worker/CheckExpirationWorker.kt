@@ -24,8 +24,8 @@ class CheckExpirationWorker(
     override suspend fun doWork(): Result {
         return withContext(appDispatchers.io) {
             try {
-                if (getNotificationEnabled()) {
-                    Result.success()
+                if (!getNotificationEnabled()) {
+                    return@withContext Result.success()
                 }
 
                 if (runAttemptCount >= 5) {

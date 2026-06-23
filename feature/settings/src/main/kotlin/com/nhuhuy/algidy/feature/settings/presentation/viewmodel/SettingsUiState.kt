@@ -26,7 +26,9 @@ data class SettingsUiState(
     val categoryEnabled: Boolean = false,
     val overlay: SettingsOverlay = SettingsOverlay.NONE,
     val hour: Int = 7,
-    val minutes: Int = 30
+    val minutes: Int = 30,
+    val weeklyReport: Boolean = false,
+    val warningDays: Int = 3,
 ) : UiState {
     val dynamicColorSetting: SettingToggleItem
         get() = SettingToggleItem(
@@ -54,6 +56,13 @@ data class SettingsUiState(
             type = ToggleType.CATEGORY_GROUP,
             enable = true,
             checked = categoryEnabled
+        )
+
+    val weekendReportSetting: SettingToggleItem
+        get() = SettingToggleItem(
+            type = ToggleType.WEEKLY_REPORT,
+            enable = true,
+            checked = weeklyReport
         )
 
     val dataClickableItems: List<SettingClickableItem>

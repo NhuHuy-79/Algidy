@@ -246,6 +246,10 @@
     <string name="setting_use_category">Use Category</string>
     <string name="setting_use_category_des">Use category to group your foods</string>
 
+    <string name="setting_weekly_report">Weekly Report</string>
+    <string name="setting_weekly_report_desc">Sunday summary of your food consumption and expired items.</string>
+
+
     <string name="setting_export">Export</string>
     <string name="setting_export_desc">Export your data in Downloads/Algidy</string>
     <string name="setting_import">Import</string>
@@ -253,12 +257,18 @@
 
     <string name="setting_about_app">About App</string>
     <string name="setting_about_app_desc">Algidy v%1$s</string>
+    <string name="setting_daily_reminder">Daily Reminder</string>
+    <string name="setting_daily_reminder_desc">Remind at %1$s</string>
+
+    <plurals name="notification_days_before">
+        <item quantity="one">Notify food expiry %1$d day before</item>
+        <item quantity="other">Notify food expiry %1$d days before</item>
+    </plurals>
 
     <string name="import_success">Import your data successfully!</string>
     <string name="import_fail">Import your data failed!</string>
     <string name="export_success">Your data is exported!</string>
     <string name="export_failed">Cannot export your data!</string>
-
     <!-- New Setting Screens -->
     <string name="appearance_title">Appearance</string>
     <string name="appearance_subtitle">Customize the look and feel of the app</string>

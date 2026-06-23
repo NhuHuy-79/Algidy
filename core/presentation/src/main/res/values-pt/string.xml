@@ -1,6 +1,6 @@
 <resources>
     <!-- Common -->
-
+    
     <string name="action_ok">OK</string>
     <string name="action_cancel">Cancelar</string>
     <string name="action_save">Salvar</string>
@@ -52,7 +52,7 @@
 
 
     <!--Biometric Authenticator-->
-    <string name="biometric_title">Biometria Algidy</string>"
+    <string name="biometric_title">Biometria Algidy</string>
     <string name="biometric_subtitle">Use biometria para entrar</string>
 
     <!-- Errors -->
@@ -84,12 +84,22 @@
     <string name="inventory_sheet_btn">Adicionar</string>
 
     <string name="inventory_category_edit">Editar Categ.</string>
+    <string name="inventory_category_edit_btn">Edit</string>
     <string name="inventory_category_delete">Excluir Categ.</string>
+    <string name="inventory_category_add">Adicionar Categoria</string>
+    <string name="inventory_category_add_btn">Adicionar</string>
     <string name="category_edit_dialog_title">Editar Categoria</string>
     <string name="category_edit_dialog_label">Nome da Categoria</string>
     <string name="category_search_placeholder">Buscar ou criar categoria…</string>
     <string name="category_add_new">Adicionar: \"%1$s\"</string>
     <string name="inventory_menu_filter">Filtrar</string>
+
+    <string name="inventory_detail_sheet">Detalhes</string>
+    <string name="inventory_category">Categoria</string>
+    <string name="inventory_location">Localização</string>
+    <string name="inventory_purchase_date">Data de Compra</string>
+    <string name="inventory_expiry_date">Data de Expiração</string>
+    <string name="inventory_note">Sua nota</string>
 
     <string name="delete_category_dialog_title">Excluir Categoria?</string>
     <string name="delete_category_dialog_content">Esta categoria e seus alimentos serão excluídos.</string>
@@ -189,6 +199,11 @@
     <string name="analytics_weekly_card_content">A partir de %1$s</string>
 
     <!-- Settings Screen -->
+    <string name="settings_title">Configurações</string>
+    <string name="settings_notifications">Notificações</string>
+    <string name="settings_notifications_desc">Alertas para alimentos a vencer</string>
+    <string name="settings_notif_permission_required">É necessária permissão de notificação para esse recurso.</string>
+
     <string name="setting_app_theme">Tema</string>
     <string name="setting_dark_mode">Escuro</string>
     <string name="setting_light_mode">Claro</string>
@@ -201,18 +216,24 @@
     <string name="settings_delete_success">Excluir dados com sucesso</string>
 
     <string name="setting_language">Idioma</string>
+    
+    
+    
+    
+    
+    
+    
+    
+
     <string name="setting_font">Fonte</string>
 
-    <string name="settings_title">Configurações</string>
     <string name="settings_dynamic_color">Cor Dinâmica</string>
     <string name="settings_dynamic_mode_desc">Ativar cores dinâmicas no app</string>
-    <string name="settings_notifications">Notificações</string>
-    <string name="settings_notifications_desc">Alertas para alimentos a vencer</string>
+
     <string name="setting_biometric">Bloqueio Biométrico</string>
     <string name="setting_biometric_desc">Bloqueio biométrico para o app</string>
 
     <string name="setting_data">Seus Dados</string>
-    <string name="setting_delete_dialog">Excluir seus dados</string>
     <string name="setting_clear_data">Excluir Tudo</string>
     <string name="setting_clear_data_desc">Excluir todos os dados do app.</string>
 
@@ -224,8 +245,9 @@
     <string name="setting_use_category">Usar Categorias</string>
     <string name="setting_use_category_des">Agrupe seus alimentos por categoria</string>
 
-    <string name="setting_backup">Backup</string>
-    <string name="setting_backup_desc">Exporte ou importe seus dados.</string>
+    <string name="setting_weekly_report">Relatório Semanal</string>
+    <string name="setting_weekly_report_desc">Resumo de domingo do seu consumo de alimentos e itens vencidos.</string>
+
 
     <string name="setting_export">Exportar</string>
     <string name="setting_export_desc">Salvar dados em Downloads/Algidy</string>
@@ -234,13 +256,33 @@
 
     <string name="setting_about_app">Sobre o App</string>
     <string name="setting_about_app_desc">Algidy</string>
+    <string name="setting_daily_reminder">Lembrete Diário</string>
+    <string name="setting_daily_reminder_desc">Relembre em %1$s</string>
 
-    <string name="setting_other_settings_title">Outros Ajustes</string>
+    <plurals name="notification_days_before">
+        <item quantity="one">Avise o validade do alimento 1$d um dia antes</item>
+        <item quantity="other">Avise o validade do alimento com 1$d dias de antecedência</item>
+    </plurals>
 
     <string name="import_success">Dados importados com sucesso!</string>
     <string name="import_fail">Falha ao importar dados!</string>
     <string name="export_success">Dados exportados com sucesso!</string>
     <string name="export_failed">Não foi possível exportar!</string>
+    <!-- New Setting Screens -->
+    <string name="appearance_title">Aparência</string>
+    <string name="appearance_subtitle">Personalize a aparência e a sensação do app</string>
+
+    <string name="your_data_title">Seus Dados</string>
+    <string name="your_data_subtitle">Gerencie seus dados locais e backups</string>
+
+    <string name="notification_settings_title">Notificações</string>
+    <string name="notification_settings_subtitle">Fique atualizado sobre a frescura dos seus alimentos</string>
+
+    <string name="other_settings_title_page">Outros cenários</string>
+    <string name="other_settings_subtitle">Notificações, Linguagem e mais</string>
+
+    <string name="main_settings_title_page">Configurações</string>
+    <string name="main_settings_subtitle">Configurações gerais da aplicação</string>
 
     <!--Notification-->
     <string name="notif_expiry_title">Alimentos expirando em breve!</string>
@@ -262,18 +304,4 @@
     <string name="notif_action_prompt_message">Você já tratou deste item\?</string>
     <string name="notif_action_consumed">Consumido</string>
     <string name="notif_action_wasted">Desperdiçado</string>
-
-    <!-- New Setting Screens -->
-    <string name="appearance_title">Aparência</string>
-    <string name="appearance_subtitle">Personalize a aparência e a sensação do app</string>
-
-    <string name="your_data_title">Seus Dados</string>
-    <string name="your_data_subtitle">Gerencie seus dados locais e backups</string>
-
-    <string name="other_settings_title_page">Outros cenários</string>
-    <string name="other_settings_subtitle">Notificações, Linguagem e mais</string>
-
-    <string name="main_settings_title_page">Configurações</string>
-    <string name="main_settings_subtitle">Configurações gerais da aplicação</string>
-
 </resources>

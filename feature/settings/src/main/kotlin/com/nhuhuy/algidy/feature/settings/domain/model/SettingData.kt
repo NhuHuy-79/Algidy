@@ -15,4 +15,5 @@ data class SettingData(
     val hour: Int = 7,
     val minute: Int = 30,
     val warningDay: Int = 3,
+    val weeklyReport: Boolean = false
 )

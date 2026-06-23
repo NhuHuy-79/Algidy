@@ -1,6 +1,6 @@
 <resources>
     <!-- Common -->
-
+    
     <string name="action_ok">OK</string>
     <string name="action_cancel">Hủy</string>
     <string name="action_save">Lưu</string>
@@ -52,7 +52,7 @@
 
 
     <!--Biometric Authenticator-->
-    <string name="biometric_title">Sinh trắc học Algidy</string>"
+    <string name="biometric_title">Sinh trắc học Algidy</string>
     <string name="biometric_subtitle">Dùng sinh trắc học của bạn.</string>
 
     <!-- Errors -->
@@ -84,12 +84,22 @@
     <string name="inventory_sheet_btn">Thêm thực phẩm</string>
 
     <string name="inventory_category_edit">Sửa</string>
+    <string name="inventory_category_edit_btn">Chỉnh sửa</string>
     <string name="inventory_category_delete">Xóa</string>
+    <string name="inventory_category_add">Thêm danh mục</string>
+    <string name="inventory_category_add_btn">Thêm</string>
     <string name="category_edit_dialog_title">Chỉnh sửa danh mục</string>
     <string name="category_edit_dialog_label">Tên danh mục</string>
     <string name="category_search_placeholder">Tìm kiếm hoặc nhập danh mục mới…</string>
     <string name="category_add_new">Thêm mới: \"%1$s\"</string>
     <string name="inventory_menu_filter">Lọc</string>
+
+    <string name="inventory_detail_sheet">Chi tiết</string>
+    <string name="inventory_category">Thể loại</string>
+    <string name="inventory_location">Địa điểm</string>
+    <string name="inventory_purchase_date">Ngày mua</string>
+    <string name="inventory_expiry_date">Ngày hết hạn</string>
+    <string name="inventory_note">Ghi chú của bạn</string>
 
     <string name="delete_category_dialog_title">Xóa thể loại\?</string>
     <string name="delete_category_dialog_content">Danh mục này và tất cả các mặt hàng thực phẩm của nó sẽ bị xóa.</string>
@@ -188,6 +198,11 @@
     <string name="analytics_weekly_card_content">Bắt đầu từ%1$s</string>
 
     <!-- Settings Screen -->
+    <string name="settings_title">Cài đặt</string>
+    <string name="settings_notifications">Thông báo</string>
+    <string name="settings_notifications_desc">Nhận cảnh báo khi thực phẩm sắp hết hạn</string>
+    <string name="settings_notif_permission_required">Cần có quyền thông báo cho tính năng này.</string>
+
     <string name="setting_app_theme">Chủ đề</string>
     <string name="setting_dark_mode">Tối</string>
     <string name="setting_light_mode">Sáng</string>
@@ -200,18 +215,24 @@
     <string name="settings_delete_success">Xóa dữ liệu thành công</string>
 
     <string name="setting_language">Ngôn ngữ</string>
+    
+    
+    
+    
+    
+    
+    
+    
+
     <string name="setting_font">Font chữ</string>
 
-    <string name="settings_title">Cài đặt</string>
     <string name="settings_dynamic_color">Màu động (Dynamic Color)</string>
     <string name="settings_dynamic_mode_desc">Bật màu sắc động theo hệ thống cho ứng dụng</string>
-    <string name="settings_notifications">Thông báo</string>
-    <string name="settings_notifications_desc">Nhận cảnh báo khi thực phẩm sắp hết hạn</string>
+
     <string name="setting_biometric">Khóa sinh trắc học</string>
     <string name="setting_biometric_desc">Sử dụng vân tay để khóa ứng dụng</string>
 
     <string name="setting_data">Dữ liệu của bạn</string>
-    <string name="setting_delete_dialog">Xóa dữ liệu của bạn</string>
     <string name="setting_clear_data">Xóa tất cả</string>
     <string name="setting_clear_data_desc">Xóa toàn bộ dữ liệu ứng dụng của bạn.</string>
 
@@ -223,8 +244,9 @@
     <string name="setting_use_category">Sử dụng Danh mục</string>
     <string name="setting_use_category_des">Sử dụng Danh mục để nhóm thực phẩm của bạn</string>
 
-    <string name="setting_backup">Sao lưu và khôi phục</string>
-    <string name="setting_backup_desc">Xuất hoặc nhập dữ liệu thực phẩm của bạn.</string>
+    <string name="setting_weekly_report">Báo cáo hàng tuần</string>
+    <string name="setting_weekly_report_desc">Tóm tắt Chủ nhật về mức tiêu thụ thực phẩm của bạn và các mặt hàng hết hạn sử dụng.</string>
+
 
     <string name="setting_export">Xuất dữ liệu</string>
     <string name="setting_export_desc">Xuất dữ liệu của bạn vào thư mục Downloads/Algidy</string>
@@ -233,13 +255,33 @@
 
     <string name="setting_about_app">Về ứng dụng</string>
     <string name="setting_about_app_desc">Algidy</string>
+    <string name="setting_daily_reminder">Nhắc nhở hàng ngày</string>
+    <string name="setting_daily_reminder_desc">Nhắc nhở ở %1$s</string>
 
-    <string name="setting_other_settings_title">Cài đặt khác</string>
+    <plurals name="notification_days_before">
+        <item quantity="one">Thông báo hết hạn thực phẩm%1$d ngày trước</item>
+        <item quantity="other">Thông báo hết hạn thực phẩm%1$d ngày trước</item>
+    </plurals>
 
     <string name="import_success">Tải dữ liệu thành công</string>
     <string name="import_fail">Tải dữ liệu thất bại!</string>
     <string name="export_success">Dữ liệu của bạn đã được xuất ra!</string>
     <string name="export_failed">Xuất dữ liệu thất bại!</string>
+    <!-- New Setting Screens -->
+    <string name="appearance_title">Xuất hiện</string>
+    <string name="appearance_subtitle">Tùy chỉnh giao diện của ứng dụng</string>
+
+    <string name="your_data_title">Dữ liệu của bạn</string>
+    <string name="your_data_subtitle">Quản lý dữ liệu cục bộ và bản sao lưu của bạn</string>
+
+    <string name="notification_settings_title">Thông báo</string>
+    <string name="notification_settings_subtitle">Luôn cập nhật độ tươi của thực phẩm</string>
+
+    <string name="other_settings_title_page">Cài đặt khác</string>
+    <string name="other_settings_subtitle">Thông báo, ngôn ngữ và hơn thế nữa</string>
+
+    <string name="main_settings_title_page">Cài đặt</string>
+    <string name="main_settings_subtitle">Cài đặt ứng dụng chung</string>
 
     <!--Notification-->
     <string name="notif_expiry_title">Thực phẩm sắp hết hạn!</string>
@@ -261,18 +303,4 @@
     <string name="notif_action_prompt_message">Bạn đã xử lý được mục này chưa\?</string>
     <string name="notif_action_consumed">tiêu thụ</string>
     <string name="notif_action_wasted">lãng phí</string>
-
-    <!-- New Setting Screens -->
-    <string name="appearance_title">Xuất hiện</string>
-    <string name="appearance_subtitle">Tùy chỉnh giao diện của ứng dụng</string>
-
-    <string name="your_data_title">Dữ liệu của bạn</string>
-    <string name="your_data_subtitle">Quản lý dữ liệu cục bộ và bản sao lưu của bạn</string>
-
-    <string name="other_settings_title_page">Cài đặt khác</string>
-    <string name="other_settings_subtitle">Thông báo, ngôn ngữ và hơn thế nữa</string>
-
-    <string name="main_settings_title_page">Cài đặt</string>
-    <string name="main_settings_subtitle">Cài đặt ứng dụng chung</string>
-
 </resources>

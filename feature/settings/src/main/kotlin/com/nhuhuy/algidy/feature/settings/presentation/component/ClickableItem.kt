@@ -23,6 +23,7 @@ fun ClickableItem(
         is ClickableType.Import -> stringResource(R.string.setting_import)
         ClickableType.DeleteAll -> stringResource(R.string.setting_clear_data)
         ClickableType.AboutApp -> stringResource(R.string.setting_about_app)
+        ClickableType.DailyReminder -> stringResource(R.string.setting_daily_reminder)
     }
 
     val desc = when (item.type) {
@@ -30,6 +31,7 @@ fun ClickableItem(
         is ClickableType.Import -> stringResource(R.string.setting_import_desc)
         ClickableType.DeleteAll -> stringResource(R.string.setting_clear_data_desc)
         ClickableType.AboutApp -> stringResource(R.string.setting_about_app_desc)
+        ClickableType.DailyReminder -> stringResource(R.string.setting_daily_reminder_desc)
     }
 
     ClickableSettingItem(

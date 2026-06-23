@@ -29,6 +29,7 @@ interface SettingsDataStore {
     val hourFlow: Flow<Int>
     val minuteFlow: Flow<Int>
 
+    val weeklyReportFlow: Flow<Boolean>
     suspend fun setWarningDay(day: Int)
     suspend fun setCategoryGroup(enabled: Boolean)
     suspend fun setFont(appFont: AppFont)
@@ -39,10 +40,15 @@ interface SettingsDataStore {
     suspend fun setNotificationsEnabled(enabled: Boolean)
     suspend fun setHour(hour: Int)
     suspend fun setMinute(minute: Int)
+    suspend fun setWeeklyReport(enabled: Boolean)
 }
 
 class SettingsDataStoreImpl(private val context: Context) : SettingsDataStore {
 
+    override val weeklyReportFlow: Flow<Boolean>
+        get() = context.dataStore.data.map { preferences ->
+            preferences[UserPreferencesKeys.WEEKLY_REPORT] ?: false
+        }
     override val warningDayFlow: Flow<Int>
         get() = context.dataStore.data.map { preferences ->
             preferences[UserPreferencesKeys.WARNING_DAYS] ?: 3
@@ -121,5 +127,9 @@ class SettingsDataStoreImpl(private val context: Context) : SettingsDataStore {
 
     override suspend fun setFont(appFont: AppFont) {
         context.dataStore.set(UserPreferencesKeys.FONT, appFont.storeKey)
+    }
+
+    override suspend fun setWeeklyReport(enabled: Boolean) {
+        context.dataStore.set(UserPreferencesKeys.WEEKLY_REPORT, enabled)
     }
 }

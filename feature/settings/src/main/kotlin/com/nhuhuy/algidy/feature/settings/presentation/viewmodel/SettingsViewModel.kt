@@ -48,7 +48,9 @@ class SettingsViewModel(
             font = settingData.font,
             categoryEnabled = settingData.enabledCategoryGroup,
             hour = settingData.hour,
-            minutes = settingData.minute
+            minutes = settingData.minute,
+            warningDays = settingData.warningDay,
+            weeklyReport = settingData.weeklyReport
         )
     }
         .stateIn(
@@ -75,6 +77,10 @@ class SettingsViewModel(
 
             is SettingsAction.ChangeFont -> viewModelScope.launch {
                 selectSettingUseCase.selectAppFont(action.font)
+            }
+
+            is SettingsAction.SetWarningDays -> viewModelScope.launch {
+                selectSettingUseCase.selectDayWarning(action.days)
             }
 
             is SettingsAction.ToggleAction -> onToggleAction(action)
@@ -116,6 +122,10 @@ class SettingsViewModel(
                 ClickableType.DeleteAll -> _overlay.update { SettingsOverlay.DELETE_ALERT_DIALOG }
                 ClickableType.AboutApp -> { /* Handle in UI or logic */
                 }
+
+                ClickableType.DailyReminder -> {
+                    _overlay.update { SettingsOverlay.TIME_PICKER }
+                }
             }
         }
     }
@@ -133,6 +143,8 @@ class SettingsViewModel(
                         setToggleSettingUseCase.toggleNotifications(action.enabled)
                     }
                 }
+
+                ToggleType.WEEKLY_REPORT -> setToggleSettingUseCase.toggleWeeklyReport(action.enabled)
             }
         }
     }

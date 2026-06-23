@@ -1,6 +1,6 @@
 <resources>
     <!-- Common -->
-
+    
     <string name="action_ok">OK</string>
     <string name="action_cancel">Annuler</string>
     <string name="action_save">Sauvegarder</string>
@@ -52,7 +52,7 @@
 
 
     <!--Biometric Authenticator-->
-    <string name="biometric_title">Verrou biométrique Algidy</string>"
+    <string name="biometric_title">Verrou biométrique Algidy</string>
     <string name="biometric_subtitle">Utilisez le verrou biométrique pour vous connecter</string>
 
     <!-- Errors -->
@@ -84,12 +84,22 @@
     <string name="inventory_sheet_btn">Ajouter de la nourriture</string>
 
     <string name="inventory_category_edit">Modifier la catégorie</string>
+    <string name="inventory_category_edit_btn">Édit</string>
     <string name="inventory_category_delete">Supprimer la catégorie</string>
+    <string name="inventory_category_add">Ajouter une catégorie</string>
+    <string name="inventory_category_add_btn">Ajouter</string>
     <string name="category_edit_dialog_title">Modifier la catégorie</string>
     <string name="category_edit_dialog_label">Nom de la catégorie</string>
     <string name="category_search_placeholder">Recherchez ou tapez une nouvelle catégorie...</string>
     <string name="category_add_new">Ajouter du nouveau : « %1$s »</string>
     <string name="inventory_menu_filter">Filtre</string>
+
+    <string name="inventory_detail_sheet">Détails</string>
+    <string name="inventory_category">Catégorie</string>
+    <string name="inventory_location">Emplacement</string>
+    <string name="inventory_purchase_date">Date d’achat</string>
+    <string name="inventory_expiry_date">Date d’expiration</string>
+    <string name="inventory_note">Votre note</string>
 
     <string name="delete_category_dialog_title">Supprimer une catégorie \?</string>
     <string name="delete_category_dialog_content">Cette catégorie et tous ses aliments seront supprimés.</string>
@@ -189,6 +199,11 @@
     <string name="analytics_weekly_card_content">Commencez à partir de %1$s</string>
 
     <!-- Settings Screen -->
+    <string name="settings_title">Décors</string>
+    <string name="settings_notifications">Notifications</string>
+    <string name="settings_notifications_desc">Recevez des alertes pour des aliments expirés</string>
+    <string name="settings_notif_permission_required">Une autorisation de notification est requise pour cette fonctionnalité.</string>
+
     <string name="setting_app_theme">Thème</string>
     <string name="setting_dark_mode">Sombre</string>
     <string name="setting_light_mode">Lumière</string>
@@ -201,18 +216,24 @@
     <string name="settings_delete_success">Supprimer les données avec succès</string>
 
     <string name="setting_language">Langue</string>
+    
+    
+    
+    
+    
+    
+    
+    
+
     <string name="setting_font">Police</string>
 
-    <string name="settings_title">Décors</string>
     <string name="settings_dynamic_color">Couleur dynamique</string>
     <string name="settings_dynamic_mode_desc">Activez la couleur dynamique pour l’application</string>
-    <string name="settings_notifications">Notifications</string>
-    <string name="settings_notifications_desc">Recevez des alertes pour des aliments expirés</string>
+
     <string name="setting_biometric">Verrou biométrique</string>
     <string name="setting_biometric_desc">Verrouillage biométrique pour l’application</string>
 
     <string name="setting_data">Vos données</string>
-    <string name="setting_delete_dialog">Supprimez vos données</string>
     <string name="setting_clear_data">Supprimer tout</string>
     <string name="setting_clear_data_desc">Supprime toutes tes données d’application.</string>
 
@@ -224,8 +245,9 @@
     <string name="setting_use_category">Catégorie d’utilisation</string>
     <string name="setting_use_category_des">Utilisez la catégorie pour regrouper vos aliments</string>
 
-    <string name="setting_backup">Soutien</string>
-    <string name="setting_backup_desc">Exportez ou importez vos aliments.</string>
+    <string name="setting_weekly_report">Rapport hebdomadaire</string>
+    <string name="setting_weekly_report_desc">Résumé du dimanche de votre consommation alimentaire et des articles périmés.</string>
+
 
     <string name="setting_export">Exportation</string>
     <string name="setting_export_desc">Exportez vos données dans Téléchargements/Algidy</string>
@@ -234,13 +256,33 @@
 
     <string name="setting_about_app">À propos de l’application</string>
     <string name="setting_about_app_desc">Algides</string>
+    <string name="setting_daily_reminder">Rappel quotidien</string>
+    <string name="setting_daily_reminder_desc">Rappeler à %1$s</string>
 
-    <string name="setting_other_settings_title">Autres univers</string>
+    <plurals name="notification_days_before">
+        <item quantity="one">Prévenez l’expiration de l’alimentation 1$d par jour</item>
+        <item quantity="other">Prévenez la date d’expiration des aliments 1$d jours avant</item>
+    </plurals>
 
     <string name="import_success">Importez vos données avec succès !</string>
     <string name="import_fail">Importation de vos données échouée !</string>
     <string name="export_success">Vos données sont exportées !</string>
     <string name="export_failed">Impossible d’exporter vos données !</string>
+    <!-- New Setting Screens -->
+    <string name="appearance_title">Apparence</string>
+    <string name="appearance_subtitle">Personnalisez l’apparence et la sensation de l’application</string>
+
+    <string name="your_data_title">Vos données</string>
+    <string name="your_data_subtitle">Gérez vos données locales et vos sauvegardes</string>
+
+    <string name="notification_settings_title">Notifications</string>
+    <string name="notification_settings_subtitle">Restez informé de la fraîcheur de vos aliments</string>
+
+    <string name="other_settings_title_page">Autres univers</string>
+    <string name="other_settings_subtitle">Notifications, langage et plus encore</string>
+
+    <string name="main_settings_title_page">Décors</string>
+    <string name="main_settings_subtitle">Paramètres généraux de l’application</string>
 
     <!--Notification-->
     <string name="notif_expiry_title"><![CDATA[Nourriture qui expire bientôt !]]></string>
@@ -262,18 +304,4 @@
     <string name="notif_action_prompt_message"><![CDATA[Avez-vous manipulé cet objet \?]]></string>
     <string name="notif_action_consumed">Consommé</string>
     <string name="notif_action_wasted">Gaspillé</string>
-
-    <!-- New Setting Screens -->
-    <string name="appearance_title">Apparence</string>
-    <string name="appearance_subtitle">Personnalisez l’apparence et la sensation de l’application</string>
-
-    <string name="your_data_title">Vos données</string>
-    <string name="your_data_subtitle">Gérez vos données locales et vos sauvegardes</string>
-
-    <string name="other_settings_title_page">Autres univers</string>
-    <string name="other_settings_subtitle">Notifications, langage et plus encore</string>
-
-    <string name="main_settings_title_page">Décors</string>
-    <string name="main_settings_subtitle">Paramètres généraux de l’application</string>
-
 </resources>
