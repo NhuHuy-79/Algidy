@@ -30,13 +30,13 @@ import com.nhuhuy.algidy.core.presentation.utils.ItemPosition
 import com.nhuhuy.algidy.feature.settings.presentation.component.SelectFontRow
 import com.nhuhuy.algidy.feature.settings.presentation.component.ToggleItem
 import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.SettingsAction
-import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.SettingsUiState
+import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.SettingsCombineState
 import com.nhuhuy.algidy.feature.settings.utils.toStringRes
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun AppearanceScreen(
-    uiState: SettingsUiState,
+    combineState: SettingsCombineState,
     onAction: (SettingsAction) -> Unit,
 ) {
     Scaffold(
@@ -45,7 +45,7 @@ fun AppearanceScreen(
             MediumFlexibleTopAppBar(
                 title = {
                     Text(
-                        text = stringResource(R.string.appearance_title),
+                        text = stringResource(R.string.setting_about_app),
                         style = MaterialTheme.typography.displaySmall.copy(
                             fontWeight = FontWeight.Black
                         )
@@ -53,7 +53,7 @@ fun AppearanceScreen(
                 },
                 subtitle = {
                     Text(
-                        text = stringResource(R.string.appearance_subtitle),
+                        text = stringResource(R.string.setting_about_app_desc),
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -92,7 +92,7 @@ fun AppearanceScreen(
                         DarkMode.entries.forEachIndexed { index, darkMode ->
                             SegmentedButton(
                                 icon = {
-                                    SegmentedButtonDefaults.Icon(active = uiState.darkMode == darkMode)
+                                    SegmentedButtonDefaults.Icon(active = combineState.darkMode == darkMode)
                                 },
                                 label = {
                                     Text(
@@ -102,7 +102,7 @@ fun AppearanceScreen(
                                         )
                                     )
                                 },
-                                selected = uiState.darkMode == darkMode,
+                                selected = combineState.darkMode == darkMode,
                                 onClick = {
                                     onAction(SettingsAction.SetDarkMode(darkMode))
                                 },
@@ -125,7 +125,7 @@ fun AppearanceScreen(
                         )
                     )
                     SelectFontRow(
-                        currentFont = uiState.font,
+                        currentFont = combineState.font,
                         onFontSelected = { font ->
                             onAction(SettingsAction.ChangeFont(font))
                         }
@@ -142,12 +142,12 @@ fun AppearanceScreen(
                         )
                     )
                     ToggleItem(
-                        item = uiState.dynamicColorSetting,
+                        item = combineState.dynamicColorSetting,
                         position = ItemPosition.SINGLE,
                         onToggle = { enabled, _ ->
                             onAction(
                                 SettingsAction.ToggleAction(
-                                    type = uiState.dynamicColorSetting.type,
+                                    type = combineState.dynamicColorSetting.type,
                                     enabled = enabled
                                 )
                             )

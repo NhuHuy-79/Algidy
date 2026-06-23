@@ -29,7 +29,7 @@ fun verticalRoundedCornerShape(
     bottomStart = bottom
 )
 
-fun Int.ItemPosition(
+fun Int.toItemPosition(
     sizeList: Int
 ): ItemPosition {
     val position = when {

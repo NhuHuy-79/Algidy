@@ -116,6 +116,12 @@
     <string name="search_history_title">Recentes</string>
     <string name="search_no_results">Nada encontrado.</string>
 
+    <plurals name="inventory_selected_title">
+        <item quantity="zero">item selecionado.</item>
+        <item quantity="one">item selecionado.</item>
+        <item quantity="many">itens selecionados.</item>
+    </plurals>
+
     <!--Food Entry Screen-->
     <string name="food_entry_title">Adicione Comida Nova</string>
 
@@ -256,6 +262,16 @@
 
     <string name="setting_about_app">Sobre o App</string>
     <string name="setting_about_app_desc">Algidy</string>
+    <string name="setting_new_features">Novos Recursos</string>
+    <string name="setting_new_features_desc">Verifique as últimas atualizações</string>
+    <string name="setting_copyright">Direitos autorais</string>
+    <string name="setting_copyright_desc">Informações legais e de licença</string>
+    <string name="setting_feedback">Feedback</string>
+    <string name="setting_feedback_desc">Ajude-nos a melhorar</string>
+    <string name="setting_open_source">Código Aberto</string>
+    <string name="setting_open_source_desc">Ver licenças de fonte</string>
+    <string name="setting_privacy_policy">Política de Privacidade</string>
+    <string name="setting_privacy_policy_desc">Sua proteção de dados</string>
     <string name="setting_daily_reminder">Lembrete Diário</string>
     <string name="setting_daily_reminder_desc">Relembre em %1$s</string>
 
@@ -283,7 +299,30 @@
 
     <string name="main_settings_title_page">Configurações</string>
     <string name="main_settings_subtitle">Configurações gerais da aplicação</string>
+    <string name="privacy_policy_content">POLÍTICA DE PRIVACIDADE PARA ALGIDY
+Última atualização: junho de 2026
 
+Bem-vindo a Algidy. Estamos comprometidos em proteger sua privacidade e dados pessoais. Esta Política de Privacidade explica como o Algidy coleta, utiliza e protege suas informações quando você utiliza nosso aplicativo.
+
+1. Coleta e Uso de Informações
+O Algidy foi projetado como uma aplicação offline-first. A grande maioria dos seus dados sobre gestão de alimentos e estoque é armazenada localmente e de forma segura no seu dispositivo usando o Banco de Dados de Salas.
+
+No entanto, para fornecer funcionalidades específicas, podemos solicitar acesso às seguintes funcionalidades do dispositivo:
+
+- Câmera: Precisamos de permissão da câmera para habilitar recursos como escanear códigos de barras de alimentos ou tirar fotos de perfil de produtos. Todo o processamento de imagem é feito instantaneamente no seu dispositivo e nunca é enviado para nenhum servidor remoto sem seu consentimento explícito.
+
+- Notificações: O aplicativo solicita permissão para enviar notificações para lembrar sobre datas de validade dos alimentos, ajudando a reduzir o desperdício de alimentos.
+
+- Dados de Acesso à Internet e Análise: Utilizamos serviços anônimos de análise para coletar dados técnicos sobre desempenho de aplicações e registros de falhas. A permissão da internet é estritamente usada para transmitir esses relatórios de diagnóstico.
+
+2. Armazenamento de Dados
+Todos os registros de inventário, categorias de alimentos e histórico de uso de aplicativos estão contidos inteiramente no armazenamento local do seu dispositivo. Se você desinstalar o aplicativo, todas essas informações serão deletadas permanentemente e não poderão ser recuperadas.
+
+3. Compartilhamento de Dados por Terceiros
+Não vendemos, trocamos ou transferimos seus dados pessoais ou registros de uso para terceiros.
+
+4. Entre em contato conosco
+Se você tiver alguma dúvida ou sugestão sobre esta Política de Privacidade, sinta-se à vontade para entrar em contato com o desenvolvedor pelo e-mail em: nhuhuy.dev\@gmail.com</string>
     <!--Notification-->
     <string name="notif_expiry_title">Alimentos expirando em breve!</string>
     <string name="notif_expiry_few_items">Atenção: Seus %1$s expirarão em breve.</string>

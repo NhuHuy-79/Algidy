@@ -1,17 +1,17 @@
 package com.nhuhuy.algidy.feature.settings.presentation.viewmodel
 
 import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.Stable
+import com.nhuhuy.algidy.core.model.VersionFeatures
 import com.nhuhuy.algidy.core.model.setting.AppFont
 import com.nhuhuy.algidy.core.model.setting.AppLanguage
 import com.nhuhuy.algidy.core.model.setting.DarkMode
 import com.nhuhuy.algidy.core.presentation.viewmodel.UiState
-import com.nhuhuy.algidy.feature.settings.presentation.model.ClickableType
-import com.nhuhuy.algidy.feature.settings.presentation.model.SettingClickableItem
 import com.nhuhuy.algidy.feature.settings.presentation.model.SettingToggleItem
 import com.nhuhuy.algidy.feature.settings.presentation.model.ToggleType
 
 @Immutable
-data class SettingsUiState(
+data class SettingsCombineState(
     val notificationGranted: Boolean = true,
     val biometricSupported: Boolean = true,
     val dynamicColorSupported: Boolean = true,
@@ -24,12 +24,12 @@ data class SettingsUiState(
     val language: AppLanguage = AppLanguage.ENGLISH,
     val font: AppFont = AppFont.DEFAULT,
     val categoryEnabled: Boolean = false,
-    val overlay: SettingsOverlay = SettingsOverlay.NONE,
+    val overlay: SettingsOverlay = SettingsOverlay.None,
     val hour: Int = 7,
     val minutes: Int = 30,
     val weeklyReport: Boolean = false,
     val warningDays: Int = 3,
-) : UiState {
+) {
     val dynamicColorSetting: SettingToggleItem
         get() = SettingToggleItem(
             type = ToggleType.DYNAMIC_COLOR,
@@ -64,15 +64,23 @@ data class SettingsUiState(
             enable = true,
             checked = weeklyReport
         )
-
-    val dataClickableItems: List<SettingClickableItem>
-        get() = listOf(
-            SettingClickableItem(type = ClickableType.Export),
-            SettingClickableItem(type = ClickableType.Import),
-            SettingClickableItem(type = ClickableType.DeleteAll),
-        )
 }
 
-enum class SettingsOverlay {
-    NONE, DELETE_ALERT_DIALOG, TIME_PICKER
+@Stable
+data class SettingsUiState(
+    val versionFeatures: VersionFeatures? = null,
+    val versionName: String = "1.0.0",
+    val overlay: SettingsOverlay = SettingsOverlay.None
+) : UiState
+
+sealed interface SettingsOverlay {
+    data object None : SettingsOverlay
+    data object DeleteAlertDialog : SettingsOverlay
+    data object TimePicker : SettingsOverlay
+    data class NewFeatureSheet(val versionFeatures: VersionFeatures) : SettingsOverlay
+    data object PolicySheet : SettingsOverlay
+    data object CopyrightSheet : SettingsOverlay
+    data object OpenSourceSheet : SettingsOverlay
 }
+
+

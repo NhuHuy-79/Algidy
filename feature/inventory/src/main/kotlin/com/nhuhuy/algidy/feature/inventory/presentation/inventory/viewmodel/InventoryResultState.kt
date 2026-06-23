@@ -2,6 +2,7 @@ package com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel
 
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
+import com.nhuhuy.algidy.core.model.VersionFeatures
 import com.nhuhuy.algidy.core.model.food.FoodItem
 import com.nhuhuy.algidy.core.presentation.model.CategoryUiModel
 import com.nhuhuy.algidy.core.presentation.viewmodel.UiState
@@ -25,18 +26,24 @@ data class InventoryUiState(
     val currentCategory: CategoryUiModel = CategoryUiModel.All,
     val currentFoodItem: FoodItem = FoodItem(),
     val categoryInput: String = "",
-    val overlay: InventoryOverlay = InventoryOverlay.NONE,
+    val overlay: InventoryOverlay = InventoryOverlay.None,
     val sortMode: InventorySortMode = InventorySortMode.NONE,
     val selectedFoodIds: Set<String> = emptySet(),
     val showExpiredOnly: Boolean = false
 ) : UiState {
     val isSelectMode: Boolean get() = selectedFoodIds.isNotEmpty()
-    val showCategoryEdit : Boolean get() = currentCategory is CategoryUiModel.ByCategory
-}
-enum class InventoryOverlay {
-    NONE, CATEGORY_EDIT, CATEGORY_DELETE, ITEM_DETAIL, CATEGORY_ADD
+    val showCategoryEdit: Boolean get() = currentCategory is CategoryUiModel.ByCategory
 }
 
+sealed interface InventoryOverlay {
+    data object None : InventoryOverlay
+    data object CategoryEdit : InventoryOverlay
+    data object CategoryDelete : InventoryOverlay
+    data object ItemDetail : InventoryOverlay
+
+    data object CategoryAdd : InventoryOverlay
+    data class NewFeatureSheet(val versionFeature: VersionFeatures) : InventoryOverlay
+}
 enum class InventorySortMode {
     BY_NAME, BY_EXPIRY, NONE,
 }

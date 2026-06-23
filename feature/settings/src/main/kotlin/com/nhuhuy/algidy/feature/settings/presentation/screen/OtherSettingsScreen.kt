@@ -26,12 +26,12 @@ import com.nhuhuy.algidy.core.presentation.utils.ItemPosition
 import com.nhuhuy.algidy.feature.settings.presentation.component.SelectLanguageRow
 import com.nhuhuy.algidy.feature.settings.presentation.component.ToggleItem
 import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.SettingsAction
-import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.SettingsUiState
+import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.SettingsCombineState
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun OtherSettingsScreen(
-    uiState: SettingsUiState,
+    combineState: SettingsCombineState,
     onAction: (SettingsAction) -> Unit,
 ) {
     Scaffold(
@@ -82,7 +82,7 @@ fun OtherSettingsScreen(
                         )
                     )
                     SelectLanguageRow(
-                        currentLanguage = uiState.language,
+                        currentLanguage = combineState.language,
                         onLanguageSelected = { language ->
                             onAction(SettingsAction.ChangeLanguage(language))
                         }
@@ -93,24 +93,24 @@ fun OtherSettingsScreen(
             item {
                 Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
                     ToggleItem(
-                        item = uiState.biometricSetting,
+                        item = combineState.biometricSetting,
                         position = ItemPosition.TOP,
                         onToggle = { enabled, _ ->
                             onAction(
                                 SettingsAction.ToggleAction(
-                                    type = uiState.biometricSetting.type,
+                                    type = combineState.biometricSetting.type,
                                     enabled = enabled
                                 )
                             )
                         }
                     )
                     ToggleItem(
-                        item = uiState.categorySetting,
+                        item = combineState.categorySetting,
                         position = ItemPosition.BOTTOM,
                         onToggle = { enabled, _ ->
                             onAction(
                                 SettingsAction.ToggleAction(
-                                    type = uiState.categorySetting.type,
+                                    type = combineState.categorySetting.type,
                                     enabled = enabled
                                 )
                             )

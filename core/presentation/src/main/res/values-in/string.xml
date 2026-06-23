@@ -116,6 +116,12 @@
     <string name="search_history_title">Terbaru</string>
     <string name="search_no_results">Tidak ada item yang ditemukan.</string>
 
+    <plurals name="inventory_selected_title">
+        <item quantity="zero">item yang dipilih.</item>
+        <item quantity="one">item yang dipilih.</item>
+        <item quantity="many">item yang dipilih.</item>
+    </plurals>
+
     <!--Food Entry Screen-->
     <string name="food_entry_title">Tambahkan Makanan Baru</string>
 
@@ -256,6 +262,16 @@
 
     <string name="setting_about_app">Tentang Aplikasi</string>
     <string name="setting_about_app_desc">Algides</string>
+    <string name="setting_new_features">Fitur Baru</string>
+    <string name="setting_new_features_desc">Periksa pembaruan terbaru</string>
+    <string name="setting_copyright">Hak Cipta</string>
+    <string name="setting_copyright_desc">Info hukum dan lisensi</string>
+    <string name="setting_feedback">Umpan balik</string>
+    <string name="setting_feedback_desc">Bantu kami meningkatkan</string>
+    <string name="setting_open_source">Sumber Terbuka</string>
+    <string name="setting_open_source_desc">Melihat lisensi sumber</string>
+    <string name="setting_privacy_policy">Kebijakan Privasi</string>
+    <string name="setting_privacy_policy_desc">Perlindungan data Anda</string>
     <string name="setting_daily_reminder">Pengingat Harian</string>
     <string name="setting_daily_reminder_desc">Ingatkan di %1$s</string>
 
@@ -283,7 +299,30 @@
 
     <string name="main_settings_title_page">Pengaturan</string>
     <string name="main_settings_subtitle">Pengaturan aplikasi umum</string>
+    <string name="privacy_policy_content">KEBIJAKAN PRIVASI UNTUK ALGIDY
+Terakhir Diperbarui: Juni 2026
 
+Selamat datang di Algidy. Kami berkomitmen untuk melindungi privasi dan data pribadi Anda. Kebijakan Privasi ini menjelaskan bagaimana Algidy mengumpulkan, menggunakan, dan melindungi informasi Anda saat Anda menggunakan aplikasi kami.
+
+1. Pengumpulan dan Penggunaan Informasi
+Algidy dirancang sebagai aplikasi yang mengutamakan offline. Sebagian besar data Anda mengenai pengelolaan dan inventaris makanan disimpan secara lokal dan aman di perangkat Anda menggunakan Database Ruang.
+
+Namun, untuk menyediakan fungsionalitas tertentu, kami dapat meminta akses ke fitur perangkat berikut:
+
+- Kamera: Kami memerlukan izin Kamera untuk mengaktifkan fitur seperti memindai kode batang makanan atau mengambil foto profil produk. Semua pemrosesan gambar ditangani secara instan di perangkat Anda dan tidak pernah diunggah ke server jarak jauh mana pun tanpa persetujuan eksplisit Anda.
+
+- Pemberitahuan: Aplikasi meminta izin untuk mengirim pemberitahuan untuk mengingatkan Anda tentang tanggal kedaluwarsa makanan, membantu Anda mengurangi limbah makanan.
+
+- Akses Internet dan Data Analitik: Kami menggunakan layanan analitik anonim untuk mengumpulkan data teknis mengenai kinerja aplikasi dan log kerusakan. Izin internet digunakan secara ketat untuk mengirimkan laporan diagnostik ini.
+
+2. Penyimpanan Data
+Semua log inventaris, kategori makanan, dan riwayat penggunaan aplikasi sepenuhnya terkandung dalam penyimpanan perangkat lokal Anda. Jika Anda menghapus aplikasi, semua informasi ini akan dihapus secara permanen dan tidak dapat dipulihkan.
+
+3. Berbagi Data Pihak Ketiga
+Kami tidak menjual, memperdagangkan, atau mentransfer data pribadi atau log penggunaan Anda ke pihak luar mana pun.
+
+4. Hubungi Kami
+Jika Anda memiliki pertanyaan atau saran mengenai Kebijakan Privasi ini, jangan ragu untuk menghubungi pengembang melalui email di: nhuhuy.dev\@gmail.com</string>
     <!--Notification-->
     <string name="notif_expiry_title">Makanan akan segera kedaluwarsa!</string>
     <string name="notif_expiry_few_items">Perhatian: %1$s Anda akan segera habis masa berlakunya.</string>

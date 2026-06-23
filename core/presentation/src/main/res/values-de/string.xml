@@ -116,6 +116,12 @@
     <string name="search_history_title">Jüngst</string>
     <string name="search_no_results">Keine Gegenstände gefunden.</string>
 
+    <plurals name="inventory_selected_title">
+        <item quantity="zero">Ausgewählter Gegenstand.</item>
+        <item quantity="one">Ausgewählter Gegenstand.</item>
+        <item quantity="many">ausgewählte Gegenstände.</item>
+    </plurals>
+
     <!--Food Entry Screen-->
     <string name="food_entry_title">Neue Lebensmittel hinzufügen</string>
 
@@ -256,6 +262,16 @@
 
     <string name="setting_about_app">Über die App</string>
     <string name="setting_about_app_desc">Algides</string>
+    <string name="setting_new_features">Neue Funktionen</string>
+    <string name="setting_new_features_desc">Sehen Sie sich die neuesten Updates an</string>
+    <string name="setting_copyright">Urheberrecht</string>
+    <string name="setting_copyright_desc">Rechts- und Lizenzinformationen</string>
+    <string name="setting_feedback">Rückmeldungen</string>
+    <string name="setting_feedback_desc">Hilf uns, dich zu verbessern</string>
+    <string name="setting_open_source">Open Source</string>
+    <string name="setting_open_source_desc">Quellcode-Lizenzen anzeigen</string>
+    <string name="setting_privacy_policy">Datenschutzerklärung</string>
+    <string name="setting_privacy_policy_desc">Ihr Datenschutz</string>
     <string name="setting_daily_reminder">Tägliche Erinnerung</string>
     <string name="setting_daily_reminder_desc">Erinnern bei 1 %</string>
 
@@ -283,7 +299,30 @@
 
     <string name="main_settings_title_page">Einstellungen</string>
     <string name="main_settings_subtitle">Allgemeine Anwendungseinstellungen</string>
+    <string name="privacy_policy_content">DATENSCHUTZRICHTLINIE FÜR ALGIDIEN
+Zuletzt aktualisiert: Juni 2026
 
+Willkommen in Algidy. Wir setzen uns dafür ein, Ihre Privatsphäre und persönlichen Daten zu schützen. Diese Datenschutzrichtlinie erklärt, wie Algidy Ihre Daten sammelt, nutzt und schützt, wenn Sie unsere Anwendung nutzen.
+
+1. Informationssammlung und -nutzung
+Algidy ist als Offline-First-Anwendung konzipiert. Der Großteil Ihrer Daten zum Lebensmittelmanagement und -inventar wird lokal und sicher auf Ihrem Gerät über die Room-Datenbank gespeichert.
+
+Um jedoch spezifische Funktionen bereitzustellen, können wir den Zugriff auf die folgenden Gerätefunktionen anfordern:
+
+- Kamera: Wir benötigen die Kamera-Erlaubnis, um Funktionen wie das Scannen von Lebensmittel-Barcodes oder das Erstellen von Produktprofilfotos zu aktivieren. Die gesamte Bildverarbeitung erfolgt sofort auf deinem Gerät und wird niemals ohne deine ausdrückliche Zustimmung auf einen entfernten Server hochgeladen.
+
+- Benachrichtigungen: Die App bittet um die Erlaubnis, Benachrichtigungen zu senden, um Sie an die Verfallsdaten der Lebensmittel zu erinnern, was Ihnen hilft, Lebensmittelverschwendung zu reduzieren.
+
+- Internetzugang und Analysedaten: Wir nutzen anonyme Analysedienste, um technische Daten zur Anwendungsleistung und Absturzprotokollen zu sammeln. Die Internetberechtigung wird ausschließlich verwendet, um diese Diagnoseberichte zu übertragen.
+
+2. Datenspeicherung
+Alle Inventarprotokolle, Lebensmittelkategorien und die Nutzungshistorie der App befinden sich vollständig in Ihrem lokalen Gerätespeicher. Wenn Sie die Anwendung deinstallieren, werden all diese Informationen dauerhaft gelöscht und können nicht wiederhergestellt werden.
+
+3. Datenfreigabe durch Dritte
+Wir verkaufen, tauschen oder übertragen Ihre persönlichen Daten oder Nutzungsprotokolle nicht an externe Parteien.
+
+4. Kontaktieren Sie uns
+Wenn Sie Fragen oder Vorschläge zu dieser Datenschutzrichtlinie haben, können Sie den Entwickler gerne per E-Mail unter: nhuhuy.dev\@gmail.com kontaktieren</string>
     <!--Notification-->
     <string name="notif_expiry_title">Lebensmittel sind bald abgelaufen!</string>
     <string name="notif_expiry_few_items">Achtung: Ihre %1$s laufen bald ab.</string>

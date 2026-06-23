@@ -41,5 +41,6 @@ enum class SettingDestination {
     Notification,
     Appearance,
     OtherSettings,
-    YourData
+    YourData,
+    AboutApp
 }
