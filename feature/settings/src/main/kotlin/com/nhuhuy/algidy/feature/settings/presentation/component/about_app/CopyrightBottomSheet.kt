@@ -8,7 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.BuildCircle
+import androidx.compose.material.icons.rounded.Copyright
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialShapes
@@ -43,15 +43,15 @@ fun CopyrightBottomSheet(
             contentAlignment = Alignment.Center
         ) {
             Icon(
-                imageVector = Icons.Rounded.BuildCircle,
+                imageVector = Icons.Rounded.Copyright,
                 contentDescription = null,
                 tint = MaterialTheme.colorScheme.onSecondary
             )
         }
 
         Text(
-            text = stringResource(R.string.setting_open_source),
-            style = MaterialTheme.typography.titleMedium.copy(
+            text = stringResource(R.string.setting_copyright),
+            style = MaterialTheme.typography.titleLarge.copy(
                 fontWeight = FontWeight.Black
             )
         )

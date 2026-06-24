@@ -17,6 +17,8 @@ object UserPreferencesKeys {
 
     val WARNING_DAYS = intPreferencesKey("warning_days")
     val WEEKLY_REPORT = booleanPreferencesKey("weekly_report")
+
+    val APP_VERSION_TO_NOTIFY = intPreferencesKey("app_version_to_notify")
 }
 
 

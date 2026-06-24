@@ -3,6 +3,7 @@ plugins {
     id("org.jetbrains.kotlin.plugin.compose")
     alias(libs.plugins.jetbrains.kotlin.serialization)
     alias(libs.plugins.google.gms.google.services)
+    alias(libs.plugins.aboutlibraries)
     alias(libs.plugins.google.firebase.crashlytics)
 }
 
@@ -11,8 +12,8 @@ android {
     defaultConfig {
         applicationId = "com.nhuhuy.algidy"
         targetSdk = 36
-        versionCode = 2
-        versionName = "1.1.0"
+        versionCode = 3
+        versionName = "1.2.0"
     }
 
     applicationVariants.all {

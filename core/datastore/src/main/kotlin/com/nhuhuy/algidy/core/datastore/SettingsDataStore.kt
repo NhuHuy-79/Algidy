@@ -28,8 +28,9 @@ interface SettingsDataStore {
     val warningDayFlow: Flow<Int>
     val hourFlow: Flow<Int>
     val minuteFlow: Flow<Int>
-
     val weeklyReportFlow: Flow<Boolean>
+
+    val appVersionToNotifyFlow: Flow<Int>
     suspend fun setWarningDay(day: Int)
     suspend fun setCategoryGroup(enabled: Boolean)
     suspend fun setFont(appFont: AppFont)
@@ -41,9 +42,15 @@ interface SettingsDataStore {
     suspend fun setHour(hour: Int)
     suspend fun setMinute(minute: Int)
     suspend fun setWeeklyReport(enabled: Boolean)
+    suspend fun setAppVersionToNotify(version: Int)
 }
 
 class SettingsDataStoreImpl(private val context: Context) : SettingsDataStore {
+
+    override val appVersionToNotifyFlow: Flow<Int>
+        get() = context.dataStore.data.map { preferences ->
+            preferences[UserPreferencesKeys.APP_VERSION_TO_NOTIFY] ?: 1
+        }
 
     override val weeklyReportFlow: Flow<Boolean>
         get() = context.dataStore.data.map { preferences ->
@@ -131,5 +138,9 @@ class SettingsDataStoreImpl(private val context: Context) : SettingsDataStore {
 
     override suspend fun setWeeklyReport(enabled: Boolean) {
         context.dataStore.set(UserPreferencesKeys.WEEKLY_REPORT, enabled)
+    }
+
+    override suspend fun setAppVersionToNotify(version: Int) {
+        context.dataStore.set(UserPreferencesKeys.APP_VERSION_TO_NOTIFY, version)
     }
 }

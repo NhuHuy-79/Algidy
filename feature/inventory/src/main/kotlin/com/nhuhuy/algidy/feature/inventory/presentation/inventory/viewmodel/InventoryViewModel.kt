@@ -6,6 +6,7 @@ import com.nhuhuy.algidy.core.data.util.product
 import com.nhuhuy.algidy.core.presentation.model.CategoryUiModel
 import com.nhuhuy.algidy.core.presentation.model.toUiModel
 import com.nhuhuy.algidy.core.presentation.viewmodel.BaseViewModel
+import com.nhuhuy.algidy.feature.inventory.domain.usecase.GetInventoryPreferenceUseCase
 import com.nhuhuy.algidy.feature.inventory.domain.usecase.ObserveSettingDataUseCase
 import com.nhuhuy.algidy.feature.inventory.domain.usecase.category.AddCategoryUseCase
 import com.nhuhuy.algidy.feature.inventory.domain.usecase.category.DeleteCategoryUseCase
@@ -32,21 +33,28 @@ class InventoryViewModel(
     private val editCategoryUseCase: EditCategoryUseCase,
     private val markFoodAsConsumedUseCase: MarkFoodAsConsumedUseCase,
     private val markFoodAsWastedUseCase: MarkFoodAsWastedUseCase,
+    private val getInventoryPreferenceUseCase: GetInventoryPreferenceUseCase,
     observerFoodItemUseCase: ObserveFoodItemUseCase,
     observeSettingDataUseCase: ObserveSettingDataUseCase,
     observeCategoriesUseCase: ObserveCategoriesUseCase,
     private val appNewFeaturesReader: AppNewFeaturesReader
 ) : BaseViewModel<InventoryUiState, InventoryEvent, InventoryAction>() {
-    private val _uiState = MutableStateFlow(InventoryUiState())
+    private val _uiState = MutableStateFlow(
+        InventoryUiState(
+            currentVersionCode = appNewFeaturesReader.currentVersionCode.toInt()
+        )
+    )
     override val uiState: StateFlow<InventoryUiState> = _uiState.asStateFlow()
 
     val combineState: StateFlow<InventoryCombineState> = combine(
         observeSettingDataUseCase.getCategoryEnabled(),
-        observeCategoriesUseCase()
-    ) { categoryEnabled, categories ->
+        observeCategoriesUseCase(),
+        getInventoryPreferenceUseCase.observe()
+    ) { categoryEnabled, categories, appVersion ->
         InventoryCombineState(
             categoryEnabled = categoryEnabled,
-            categories = categories.toUiModel()
+            categories = categories.toUiModel(),
+            appVersionToNotify = appVersion
         )
     }.stateIn(
         scope = viewModelScope,
@@ -186,12 +194,13 @@ class InventoryViewModel(
             }
 
             is InventorySelectAction -> onSelectAction(action)
-            InventoryAction.ShowAppFeature -> {
+            InventoryAction.ShowAppFeature -> viewModelScope.launch {
                 val newFeature = appNewFeaturesReader.getWhatsNewContent()
                 newFeature?.let {
                     _uiState.product {
                         copy(overlay = InventoryOverlay.NewFeatureSheet(it))
                     }
+                    getInventoryPreferenceUseCase.setVersion(it.versionCode)
                 }
             }
         }

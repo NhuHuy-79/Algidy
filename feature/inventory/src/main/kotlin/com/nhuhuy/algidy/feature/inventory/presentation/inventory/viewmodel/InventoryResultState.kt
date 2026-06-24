@@ -18,10 +18,12 @@ sealed interface InventoryResultState {
 data class InventoryCombineState(
     val categoryEnabled: Boolean = false,
     val categories: List<CategoryUiModel> = listOf(CategoryUiModel.All),
+    val appVersionToNotify: Int = 1
 )
 
 @Immutable
 data class InventoryUiState(
+    val currentVersionCode: Int = 1,
     val expanded: Boolean = false,
     val currentCategory: CategoryUiModel = CategoryUiModel.All,
     val currentFoodItem: FoodItem = FoodItem(),

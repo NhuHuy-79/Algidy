@@ -54,7 +54,6 @@ fun SettingRoute(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val combineState by viewModel.combineState.collectAsStateWithLifecycle()
     val onAction = viewModel::onAction
-
     val snackBarHostState = remember { SnackbarHostState() }
     val resource = LocalResources.current
     val pickZipLauncher = rememberLauncherForActivityResult(

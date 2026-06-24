@@ -52,7 +52,9 @@ fun InventoryRoute(
     val onAction = viewModel::onAction
 
     LaunchedEffect(Unit) {
-        onAction(InventoryAction.ShowAppFeature)
+        if (uiState.currentVersionCode < combineState.appVersionToNotify) {
+            onAction(InventoryAction.ShowAppFeature)
+        }
     }
 
     ObserveEffect(viewModel.uiEvent) { event ->

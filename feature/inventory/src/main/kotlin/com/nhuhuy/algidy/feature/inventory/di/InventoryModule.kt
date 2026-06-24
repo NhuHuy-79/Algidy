@@ -3,6 +3,7 @@ package com.nhuhuy.algidy.feature.inventory.di
 import com.nhuhuy.algidy.feature.inventory.data.repository.SearchRepositoryImp
 import com.nhuhuy.algidy.feature.inventory.domain.repository.SearchRepository
 import com.nhuhuy.algidy.feature.inventory.domain.usecase.GetHistoryResultUseCase
+import com.nhuhuy.algidy.feature.inventory.domain.usecase.GetInventoryPreferenceUseCase
 import com.nhuhuy.algidy.feature.inventory.domain.usecase.ObserveSettingDataUseCase
 import com.nhuhuy.algidy.feature.inventory.domain.usecase.category.AddCategoryUseCase
 import com.nhuhuy.algidy.feature.inventory.domain.usecase.category.DeleteCategoryUseCase
@@ -26,6 +27,7 @@ val inventoryModule = module {
     //repository
     singleOf(::SearchRepositoryImp) bind SearchRepository::class
     //usecase
+    factoryOf(::GetInventoryPreferenceUseCase)
     factoryOf(::DeleteCategoryUseCase)
     factoryOf(::EditCategoryUseCase)
     factoryOf(::GetHistoryResultUseCase)
