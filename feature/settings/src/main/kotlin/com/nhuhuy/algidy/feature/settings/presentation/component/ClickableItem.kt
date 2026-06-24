@@ -2,7 +2,7 @@ package com.nhuhuy.algidy.feature.settings.presentation.component
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Apps
-import androidx.compose.material.icons.rounded.Build
+import androidx.compose.material.icons.rounded.BuildCircle
 import androidx.compose.material.icons.rounded.Copyright
 import androidx.compose.material.icons.rounded.Download
 import androidx.compose.material.icons.rounded.Feedback
@@ -36,7 +36,7 @@ fun ClickableItem(
         ClickableType.Feedback -> Icons.Rounded.Feedback
         ClickableType.Import -> Icons.Rounded.Download
         ClickableType.NewFeatures -> Icons.Rounded.NewReleases
-        ClickableType.OpenSource -> Icons.Rounded.Build
+        ClickableType.OpenSource -> Icons.Rounded.BuildCircle
         ClickableType.PrivacyPolicy -> Icons.Rounded.Policy
     }
 

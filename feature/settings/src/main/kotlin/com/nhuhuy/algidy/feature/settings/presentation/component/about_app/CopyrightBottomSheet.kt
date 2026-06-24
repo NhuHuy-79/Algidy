@@ -21,7 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.nhuhuy.algidy.core.designsystem.component.AppBottomSheet
+import com.nhuhuy.algidy.core.designsystem.component.AppBottomSheetColumn
 import com.nhuhuy.algidy.core.presentation.R
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
@@ -29,7 +29,7 @@ import com.nhuhuy.algidy.core.presentation.R
 fun CopyrightBottomSheet(
     onDismiss: () -> Unit,
 ) {
-    AppBottomSheet(
+    AppBottomSheetColumn(
         modifier = Modifier.padding(8.dp),
         onDismiss = onDismiss,
     ) {

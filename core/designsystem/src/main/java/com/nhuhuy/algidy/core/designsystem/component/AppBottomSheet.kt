@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
-import androidx.compose.material3.ModalBottomSheetProperties
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -18,35 +17,40 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun AppBottomSheet(
     onDismiss: () -> Unit,
+    modifier: Modifier = Modifier,
     content: @Composable () -> Unit
 ) {
+    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+
     ModalBottomSheet(
-        sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
         onDismissRequest = onDismiss,
+        sheetState = sheetState,
+        modifier = modifier,
     ) {
+        // BackHandler đặt ở đây sẽ có quyền ưu tiên cao nhất khi Sheet đang hiển thị
+        BackHandler(enabled = true) {
+            onDismiss()
+        }
         content()
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AppBottomSheet(
-    modifier: Modifier = Modifier,
+fun AppBottomSheetColumn(
     onDismiss: () -> Unit,
+    modifier: Modifier = Modifier,
+    horizontalAlignment: Alignment.Horizontal = Alignment.CenterHorizontally,
+    verticalArrangement: Arrangement.Vertical = Arrangement.spacedBy(4.dp),
     content: @Composable ColumnScope.() -> Unit
 ) {
-    ModalBottomSheet(
-        properties = ModalBottomSheetProperties(shouldDismissOnBackPress = true),
-        sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
-        onDismissRequest = onDismiss,
+    AppBottomSheet(
+        onDismiss = onDismiss
     ) {
-        BackHandler {
-            onDismiss()
-        }
         Column(
             modifier = modifier.fillMaxWidth(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(4.dp)
+            horizontalAlignment = horizontalAlignment,
+            verticalArrangement = verticalArrangement
         ) {
             content()
         }

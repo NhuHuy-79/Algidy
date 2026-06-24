@@ -51,7 +51,7 @@ roborazzi = "1.41.0"
 firebaseCrashlytics = "20.0.6"
 googleGmsGoogleServices = "4.4.4"
 googleFirebaseCrashlytics = "3.0.7"
-aboutLibraries = "11.6.3"
+aboutLibraries = "12.1.0"
 
 [libraries]
 accompanist-permissions = { module = "com.google.accompanist:accompanist-permissions", version.ref = "accompanistPermissions" }

@@ -68,9 +68,13 @@ fun InventoryRoute(
         }
     }
 
-    BackHandler(enabled = uiState.expanded || uiState.overlay != InventoryOverlay.None) {
-        onAction(InventoryAction.OnDismiss)
-        onAction(InventoryFabAction.ToggleFabMenu(false))
+    // Chỉ xử lý Back cho Fab Menu và các Dialog không phải Bottom Sheet
+    BackHandler(enabled = uiState.expanded || uiState.overlay == InventoryOverlay.CategoryAdd || uiState.overlay == InventoryOverlay.CategoryEdit || uiState.overlay == InventoryOverlay.CategoryDelete) {
+        if (uiState.expanded) {
+            onAction(InventoryFabAction.ToggleFabMenu(false))
+        } else {
+            onAction(InventoryAction.OnDismiss)
+        }
     }
 
     InventoryScreen(
