@@ -42,19 +42,19 @@ import com.nhuhuy.algidy.core.presentation.utils.toRoundedCornerShape
 import com.nhuhuy.algidy.feature.settings.presentation.component.ToggleItem
 import com.nhuhuy.algidy.feature.settings.presentation.model.ToggleType
 import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.SettingsAction
-import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.SettingsUiState
+import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.SettingsCombineState
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun NotificationScreen(
-    uiState: SettingsUiState,
+    combineState: SettingsCombineState,
     onAction: (SettingsAction) -> Unit,
 ) {
     val stepsValues = listOf(1, 3, 5, 7)
-    val initialIndex = stepsValues.indexOf(uiState.warningDays).coerceAtLeast(0).toFloat()
-    var selectedIndex by remember(uiState.warningDays) { mutableFloatStateOf(initialIndex) }
+    val initialIndex = stepsValues.indexOf(combineState.warningDays).coerceAtLeast(0).toFloat()
+    var selectedIndex by remember(combineState.warningDays) { mutableFloatStateOf(initialIndex) }
     val actualDayValue = stepsValues[selectedIndex.toInt()]
 
     Scaffold(
@@ -98,7 +98,7 @@ fun NotificationScreen(
         ) {
             item {
                 ToggleItem(
-                    item = uiState.notificationSetting,
+                    item = combineState.notificationSetting,
                     position = ItemPosition.TOP,
                     onToggle = { enabled, _ ->
                         onAction(
@@ -114,7 +114,7 @@ fun NotificationScreen(
 
             item {
                 ToggleItem(
-                    item = uiState.weekendReportSetting,
+                    item = combineState.weekendReportSetting,
                     position = ItemPosition.BOTTOM,
                     onToggle = { enabled, item ->
                         onAction(
@@ -150,7 +150,7 @@ fun NotificationScreen(
                         )
                     },
                     supportingContent = {
-                        RemindTimeText(uiState.hour, uiState.minutes)
+                        RemindTimeText(combineState.hour, combineState.minutes)
                     },
                     leadingContent = {
                         Icon(

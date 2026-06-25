@@ -1,5 +1,6 @@
 package com.nhuhuy.algidy.di
 
+import com.nhuhuy.algidy.core.data.AppNewFeaturesReader
 import com.nhuhuy.algidy.core.data.LocalMediaStorage
 import com.nhuhuy.algidy.core.data.LocalMediaStorageImpl
 import com.nhuhuy.algidy.core.data.repository.CategoryRepository
@@ -17,7 +18,7 @@ import org.koin.dsl.bind
 import org.koin.dsl.module
 
 val dataModule = module {
-    //delegate
+    singleOf(::AppNewFeaturesReader)
     single<FoodRepository> { FoodRepositoryImpl(get(), get(), get()) }
     singleOf(::CategoryRepositoryImpl) bind CategoryRepository::class
     single<AppDispatchers> { DefaultAppDispatchers() }

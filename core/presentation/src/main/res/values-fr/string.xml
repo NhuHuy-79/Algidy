@@ -116,6 +116,12 @@
     <string name="search_history_title">Récent</string>
     <string name="search_no_results">Aucun objet trouvé.</string>
 
+    <plurals name="inventory_selected_title">
+        <item quantity="zero">Objet sélectionné.</item>
+        <item quantity="one">Objet sélectionné.</item>
+        <item quantity="many">Des éléments sélectionnés.</item>
+    </plurals>
+
     <!--Food Entry Screen-->
     <string name="food_entry_title">Ajouter de nouveaux plats</string>
 
@@ -256,6 +262,16 @@
 
     <string name="setting_about_app">À propos de l’application</string>
     <string name="setting_about_app_desc">Algides</string>
+    <string name="setting_new_features">Nouveautés</string>
+    <string name="setting_new_features_desc">Consultez les dernières mises à jour</string>
+    <string name="setting_copyright">Droits d’auteur</string>
+    <string name="setting_copyright_desc">Informations juridiques et sur la licence</string>
+    <string name="setting_feedback">Retour d’information</string>
+    <string name="setting_feedback_desc">Aidez-nous à nous améliorer</string>
+    <string name="setting_open_source">Open Source</string>
+    <string name="setting_open_source_desc">Voir les licences sources</string>
+    <string name="setting_privacy_policy">Politique de confidentialité</string>
+    <string name="setting_privacy_policy_desc">Votre protection des données</string>
     <string name="setting_daily_reminder">Rappel quotidien</string>
     <string name="setting_daily_reminder_desc">Rappeler à %1$s</string>
 
@@ -283,7 +299,30 @@
 
     <string name="main_settings_title_page">Décors</string>
     <string name="main_settings_subtitle">Paramètres généraux de l’application</string>
+    <string name="privacy_policy_content">POLITIQUE DE CONFIDENTIALITÉ POUR ALGIDY
+Dernière mise à jour : juin 2026
 
+Bienvenue à Algidy. Nous nous engageons à protéger votre vie privée et vos données personnelles. Cette Politique de confidentialité explique comment Algidy collecte, utilise et protège vos informations lorsque vous utilisez notre application.
+
+1. Collecte et utilisation de l’information
+Algidy est conçu comme une application hors ligne d’abord. La grande majorité de vos données concernant la gestion et l’inventaire des aliments sont stockées localement et de manière sécurisée sur votre appareil via la base de données Room.
+
+Cependant, pour fournir des fonctionnalités spécifiques, nous pouvons demander l’accès aux fonctionnalités suivantes de l’appareil :
+
+- Appareil photo : Nous avons besoin de l’autorisation de la caméra pour permettre des fonctionnalités telles que la numérisation des codes-barres alimentaires ou la prise de photos de profil produit. Tout le traitement d’image est géré instantanément sur votre appareil et n’est jamais téléchargé sur un serveur distant sans votre consentement explicite.
+
+- Notifications : L’application demande la permission d’envoyer des notifications pour vous rappeler les dates de péremption des aliments, ce qui vous aide à réduire le gaspillage alimentaire.
+
+- Données d’accès à Internet et d’analyse : Nous utilisons des services d’analyse anonymes pour collecter des données techniques concernant la performance des applications et les journaux de plantage. L’autorisation Internet est strictement utilisée pour transmettre ces rapports de diagnostic.
+
+2. Stockage des données
+Tous les journaux d’inventaire, catégories alimentaires et historique d’utilisation des applications sont entièrement contenus dans le stockage local de votre appareil. Si vous désinstallez l’application, toutes ces informations seront définitivement supprimées et ne pourront pas être récupérées.
+
+3. Partage de données par des tiers
+Nous ne vendons, n’échangeons pas et ne transférons pas vos données personnelles ni vos journaux d’utilisation à des tiers non plus.
+
+4. Contactez-nous
+Si vous avez des questions ou suggestions concernant cette Politique de confidentialité, n’hésitez pas à contacter le développeur par email à : nhuhuy.dev\@gmail.com</string>
     <!--Notification-->
     <string name="notif_expiry_title"><![CDATA[Nourriture qui expire bientôt !]]></string>
     <string name="notif_expiry_few_items"><![CDATA[Attention : Vos %1$ expirent bientôt.]]></string>

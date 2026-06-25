@@ -7,6 +7,7 @@ import com.nhuhuy.algidy.core.presentation.viewmodel.UiAction
 
 @Stable
 sealed interface InventoryAction : UiAction {
+    data object ShowAppFeature : InventoryAction
     data class OnCategorySelect(val categoryUiModel: CategoryUiModel) : InventoryAction
     data class RemoveItem(val id: String) : InventoryAction
     data object OnDismiss : InventoryAction
@@ -16,7 +17,6 @@ sealed interface InventoryAction : UiAction {
         data class OnInputChange(val value: String) : OnEditCategorySheet
         data object Save : OnEditCategorySheet
     }
-
     sealed interface OnAddCategory : InventoryAction {
         data object Open : OnAddCategory
         data class OnInputChange(val value: String) : OnAddCategory

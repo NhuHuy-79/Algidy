@@ -33,15 +33,14 @@ import com.nhuhuy.algidy.core.presentation.navigation.Destination
 import com.nhuhuy.algidy.core.presentation.navigation.SettingDestination
 import com.nhuhuy.algidy.core.presentation.utils.ItemPosition
 import com.nhuhuy.algidy.feature.settings.presentation.component.ClickableSettingItem
-import com.nhuhuy.algidy.feature.settings.presentation.model.ClickableType
-import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.SettingsAction
+import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.SettingsUiState
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun MainSettingsScreen(
+    uiState: SettingsUiState,
     onNavigate: (Destination.Setting) -> Unit,
     onBackClick: () -> Unit,
-    onAction: (SettingsAction) -> Unit,
 ) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -136,8 +135,11 @@ fun MainSettingsScreen(
                     position = ItemPosition.BOTTOM,
                     icon = Icons.Rounded.Apps,
                     title = stringResource(R.string.setting_about_app),
-                    description = stringResource(R.string.setting_about_app_desc),
-                    onClick = { onAction(SettingsAction.ClickableAction(ClickableType.AboutApp)) }
+                    description = stringResource(
+                        R.string.setting_about_app_desc,
+                        uiState.versionName
+                    ),
+                    onClick = { onNavigate(Destination.Setting(SettingDestination.AboutApp)) }
                 )
             }
         }

@@ -116,6 +116,12 @@
     <string name="search_history_title">Gần đây</string>
     <string name="search_no_results">Không tìm thấy thực phẩm nào.</string>
 
+    <plurals name="inventory_selected_title">
+        <item quantity="zero">mục đã chọn.</item>
+        <item quantity="one">mục đã chọn.</item>
+        <item quantity="many">các mục đã chọn.</item>
+    </plurals>
+
     <!--Food Entry Screen-->
     <string name="food_entry_title">Thêm thức ăn mới</string>
 
@@ -255,6 +261,16 @@
 
     <string name="setting_about_app">Về ứng dụng</string>
     <string name="setting_about_app_desc">Algidy</string>
+    <string name="setting_new_features">Tính năng mới</string>
+    <string name="setting_new_features_desc">Kiểm tra các bản cập nhật mới nhất</string>
+    <string name="setting_copyright">Bản quyền</string>
+    <string name="setting_copyright_desc">Thông tin pháp lý và giấy phép</string>
+    <string name="setting_feedback">Phản hồi</string>
+    <string name="setting_feedback_desc">Giúp chúng tôi cải thiện</string>
+    <string name="setting_open_source">Mã nguồn mở</string>
+    <string name="setting_open_source_desc">Xem giấy phép nguồn</string>
+    <string name="setting_privacy_policy">Chính sách bảo mật</string>
+    <string name="setting_privacy_policy_desc">Bảo vệ dữ liệu của bạn</string>
     <string name="setting_daily_reminder">Nhắc nhở hàng ngày</string>
     <string name="setting_daily_reminder_desc">Nhắc nhở ở %1$s</string>
 
@@ -282,7 +298,30 @@
 
     <string name="main_settings_title_page">Cài đặt</string>
     <string name="main_settings_subtitle">Cài đặt ứng dụng chung</string>
+    <string name="privacy_policy_content">CHÍNH SÁCH BẢO MẬT CHO ALGIDY
+Cập nhật lần cuối: Tháng Sáu 2026
 
+Chào mừng bạn đến với Algidy. Chúng tôi cam kết bảo vệ quyền riêng tư và dữ liệu cá nhân của bạn. Chính sách bảo mật này giải thích cách Algidy thu thập, sử dụng và bảo vệ thông tin của bạn khi bạn sử dụng ứng dụng của chúng tôi.
+
+1. Thu thập và sử dụng thông tin
+Algidy được thiết kế như một ứng dụng ưu tiên ngoại tuyến. Phần lớn dữ liệu của bạn liên quan đến quản lý thực phẩm và hàng tồn kho được lưu trữ cục bộ và an toàn trên thiết bị của bạn bằng cách sử dụng Cơ sở dữ liệu phòng.
+
+Tuy nhiên, để cung cấp các chức năng cụ thể, chúng tôi có thể yêu cầu quyền truy cập vào các tính năng thiết bị sau:
+
+- Máy ảnh: Chúng tôi yêu cầu quyền Máy ảnh để bật các tính năng như quét mã vạch thực phẩm hoặc chụp ảnh hồ sơ sản phẩm. Tất cả quá trình xử lý hình ảnh được xử lý ngay lập tức trên thiết bị của bạn và không bao giờ được tải lên bất kỳ máy chủ từ xa nào mà không có sự đồng ý rõ ràng của bạn.
+
+- Thông báo: Ứng dụng yêu cầu quyền gửi thông báo nhắc nhở bạn về ngày hết hạn thực phẩm, giúp bạn giảm lãng phí thực phẩm.
+
+- Dữ liệu phân tích và truy cập Internet: Chúng tôi sử dụng các dịch vụ phân tích ẩn danh để thu thập dữ liệu kỹ thuật liên quan đến hiệu suất ứng dụng và nhật ký sự cố. Sự cho phép của Internet được sử dụng nghiêm ngặt để truyền các báo cáo chẩn đoán này.
+
+2. Lưu trữ dữ liệu
+Tất cả nhật ký hàng tồn kho, danh mục thực phẩm và lịch sử sử dụng ứng dụng được chứa hoàn toàn trong bộ nhớ thiết bị cục bộ của bạn. Nếu bạn gỡ cài đặt ứng dụng, tất cả thông tin này sẽ bị xóa vĩnh viễn và không thể khôi phục được.
+
+3. Chia sẻ dữ liệu của bên thứ ba
+Chúng tôi không bán, trao đổi hoặc chuyển dữ liệu cá nhân hoặc nhật ký sử dụng của bạn cho bất kỳ bên ngoài nào.
+
+4. Liên hệ với chúng tôi
+Nếu bạn có bất kỳ câu hỏi hoặc đề xuất nào liên quan đến Chính sách quyền riêng tư này, vui lòng liên hệ với nhà phát triển qua email tại: nhuhuy.dev\@gmail.com</string>
     <!--Notification-->
     <string name="notif_expiry_title">Thực phẩm sắp hết hạn!</string>
     <string name="notif_expiry_few_items">Lưu ý: %1$s của bạn sắp hết hạn.</string>

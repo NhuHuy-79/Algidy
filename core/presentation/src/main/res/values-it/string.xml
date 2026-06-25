@@ -116,6 +116,12 @@
     <string name="search_history_title">Recenti</string>
     <string name="search_no_results">Nessun oggetto trovato.</string>
 
+    <plurals name="inventory_selected_title">
+        <item quantity="zero">Oggetto selezionato.</item>
+        <item quantity="one">Oggetto selezionato.</item>
+        <item quantity="many">Elementi selezionati.</item>
+    </plurals>
+
     <!--Food Entry Screen-->
     <string name="food_entry_title">Aggiungi nuovo cibo</string>
 
@@ -256,6 +262,16 @@
 
     <string name="setting_about_app">Informazioni sull\'app</string>
     <string name="setting_about_app_desc">Algides</string>
+    <string name="setting_new_features">Nuove caratteristiche</string>
+    <string name="setting_new_features_desc">Controlla gli ultimi aggiornamenti</string>
+    <string name="setting_copyright">Copyright</string>
+    <string name="setting_copyright_desc">Informazioni legali e sulla licenza</string>
+    <string name="setting_feedback">Feedback</string>
+    <string name="setting_feedback_desc">Aiutaci a migliorare</string>
+    <string name="setting_open_source">Open Source</string>
+    <string name="setting_open_source_desc">Visualizza licenze sorgente</string>
+    <string name="setting_privacy_policy">Informativa sulla privacy</string>
+    <string name="setting_privacy_policy_desc">La tua protezione dei dati</string>
     <string name="setting_daily_reminder">Promemoria quotidiano</string>
     <string name="setting_daily_reminder_desc">Ricorda a %1$s</string>
 
@@ -283,7 +299,30 @@
 
     <string name="main_settings_title_page">Impostazioni</string>
     <string name="main_settings_subtitle">Impostazioni generali dell\'applicazione</string>
+    <string name="privacy_policy_content">POLITICA SULLA PRIVACY PER ALGIDY
+Ultimo aggiornamento: giugno 2026
 
+Benvenuto ad Algidy. Siamo impegnati a proteggere la tua privacy e i tuoi dati personali. Questa Informativa sulla Privacy spiega come Algidy raccoglie, utilizza e protegge le tue informazioni quando utilizzi la nostra applicazione.
+
+1. Raccolta e utilizzo delle informazioni
+Algidy è progettato come un\'applicazione offline-first. La stragrande maggioranza dei tuoi dati riguardanti la gestione degli alimenti e l\'inventario è archiviata localmente e in modo sicuro sul tuo dispositivo tramite il Room Database.
+
+Tuttavia, per fornire funzionalità specifiche, possiamo richiedere l\'accesso alle seguenti funzionalità del dispositivo:
+
+- Fotocamera: Abbiamo bisogno del permesso della Fotocamera per abilitare funzionalità come la scansione dei codici a barre alimentari o la scattazione di foto profilo del prodotto. Tutta l\'elaborazione delle immagini viene gestita istantaneamente sul tuo dispositivo e non viene mai caricata su alcun server remoto senza il tuo esplicito consenso.
+
+- Notifiche: L\'app richiede il permesso di inviare notifiche per ricordarti le date di scadenza degli alimenti, aiutandoti a ridurre lo spreco.
+
+- Accesso a Internet e dati di analisi: utilizziamo servizi di analisi anonimi per raccogliere dati tecnici riguardanti le prestazioni delle applicazioni e i log dei crash. Il permesso su Internet viene utilizzato esclusivamente per trasmettere questi rapporti diagnostici.
+
+2. Archiviazione dei dati
+Tutti i registri dell\'inventario, le categorie di alimenti e la cronologia di utilizzo delle app sono contenuti interamente all\'interno dello storage locale del tuo dispositivo. Se disinstalli l\'applicazione, tutte queste informazioni verranno cancellate permanentemente e non potranno essere recuperate.
+
+3. Condivisione dei dati da terze parti
+Non vendiamo, scambiamo o trasferiamo in altro modo i tuoi dati personali o i tuoi log di utilizzo a terzi.
+
+4. Contattaci
+Se hai domande o suggerimenti riguardo a questa Informativa sulla Privacy, non esitare a contattare lo sviluppatore via email all\'indirizzo: nhuhuy.dev\@gmail.com</string>
     <!--Notification-->
     <string name="notif_expiry_title">Cibo in scadenza!</string>
     <string name="notif_expiry_few_items">Attenzione: i tuoi %1$ scadranno a breve.</string>

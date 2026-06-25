@@ -1,0 +1,40 @@
+[
+  {
+    "versionCode": 3,
+    "versionName": "v1.2.0",
+    "features": [
+      {
+        "title": "Streamlined Food Description",
+        "description": "Quickly view food details via a sleek Bottom Sheet instead of a full screen.",
+        "icon": "🍲"
+      },
+      {
+        "title": "Multi-Select Action",
+        "description": "Select multiple items to process them instantly and save your time.",
+        "icon": "✅"
+      },
+      {
+        "title": "Customizable Notifications",
+        "description": "Personalize and manage your app alert preferences in the new Settings menu.",
+        "icon": "⚙️"
+      }
+    ],
+    "fixes": [
+      {
+        "title": "Localization Fixes",
+        "description": "Fixed text display bugs across various system languages.",
+        "icon": "🌐"
+      },
+      {
+        "title": "Analytics Data Corrections",
+        "description": "Resolved statistical discrepancies for accurate reporting.",
+        "icon": "📊"
+      },
+      {
+        "title": "Settings & Biometrics Stability",
+        "description": "Fixed notification logic and biometric login issues in Settings.",
+        "icon": "🔒"
+      }
+    ]
+  }
+]

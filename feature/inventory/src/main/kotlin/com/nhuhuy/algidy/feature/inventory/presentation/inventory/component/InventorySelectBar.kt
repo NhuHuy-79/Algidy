@@ -14,7 +14,9 @@ import androidx.compose.material3.MediumFlexibleTopAppBar
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.text.font.FontWeight
+import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryAction
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventorySelectAction
 
@@ -37,7 +39,7 @@ fun InventorySelectBar(
         },
         subtitle = {
             Text(
-                text = "Items Selected"
+                text = pluralStringResource(R.plurals.inventory_selected_title, selectedCount)
             )
         },
         navigationIcon = {

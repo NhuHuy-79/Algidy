@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scrim
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -20,6 +21,7 @@ import com.nhuhuy.algidy.core.designsystem.component.BoxLayout
 import com.nhuhuy.algidy.core.model.food.FoodItem
 import com.nhuhuy.algidy.core.presentation.ObserveEffect
 import com.nhuhuy.algidy.core.presentation.R
+import com.nhuhuy.algidy.core.presentation.component.AppNewFeatureBottomSheet
 import com.nhuhuy.algidy.core.presentation.component.TextFieldDialog
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.InventoryFabMenu
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.detail.DetailBottomSheet
@@ -49,6 +51,12 @@ fun InventoryRoute(
     val inventoryResultState by viewModel.resultState.collectAsStateWithLifecycle()
     val onAction = viewModel::onAction
 
+    LaunchedEffect(Unit) {
+        if (uiState.currentVersionCode < combineState.appVersionToNotify) {
+            onAction(InventoryAction.ShowAppFeature)
+        }
+    }
+
     ObserveEffect(viewModel.uiEvent) { event ->
         when (event) {
             InventoryEvent.NavigateToFoodEntry -> onNavigateToAddFood()
@@ -60,9 +68,13 @@ fun InventoryRoute(
         }
     }
 
-    BackHandler(enabled = uiState.expanded || uiState.overlay != InventoryOverlay.NONE) {
-        onAction(InventoryAction.OnDismiss)
-        onAction(InventoryFabAction.ToggleFabMenu(false))
+    // Chỉ xử lý Back cho Fab Menu và các Dialog không phải Bottom Sheet
+    BackHandler(enabled = uiState.expanded || uiState.overlay == InventoryOverlay.CategoryAdd || uiState.overlay == InventoryOverlay.CategoryEdit || uiState.overlay == InventoryOverlay.CategoryDelete) {
+        if (uiState.expanded) {
+            onAction(InventoryFabAction.ToggleFabMenu(false))
+        } else {
+            onAction(InventoryAction.OnDismiss)
+        }
     }
 
     InventoryScreen(
@@ -72,10 +84,10 @@ fun InventoryRoute(
         onAction = onAction
     )
 
-    when (uiState.overlay) {
-        InventoryOverlay.NONE -> Unit
+    when (val overlay = uiState.overlay) {
+        InventoryOverlay.None -> Unit
 
-        InventoryOverlay.CATEGORY_EDIT -> TextFieldDialog(
+        InventoryOverlay.CategoryEdit -> TextFieldDialog(
             title = stringResource(R.string.category_edit_dialog_title),
             value = uiState.categoryInput,
             confirmText = stringResource(R.string.inventory_category_edit_btn),
@@ -84,7 +96,7 @@ fun InventoryRoute(
             onConfirm = { onAction(Save) }
         )
 
-        InventoryOverlay.CATEGORY_DELETE -> AlgidyAlertDialog(
+        InventoryOverlay.CategoryDelete -> AlgidyAlertDialog(
             onDismissRequest = { onAction(InventoryAction.OnDismiss) },
             onConfirm = { onAction(InventoryAction.OnDeleteAlertConfirm) },
             title = stringResource(R.string.delete_category_dialog_title),
@@ -92,7 +104,7 @@ fun InventoryRoute(
             confirmText = stringResource(R.string.delete_category_dialog_confirm)
         )
 
-        InventoryOverlay.ITEM_DETAIL -> DetailBottomSheet(
+        InventoryOverlay.ItemDetail -> DetailBottomSheet(
             foodItem = uiState.currentFoodItem,
             categoryUiModel = uiState.currentCategory,
             onDismiss = { onAction(InventoryAction.OnDismiss) },
@@ -101,7 +113,7 @@ fun InventoryRoute(
             onConsumedClick = { onAction(InventoryDetailAction.OnConsumedClick) }
         )
 
-        InventoryOverlay.CATEGORY_ADD -> TextFieldDialog(
+        InventoryOverlay.CategoryAdd -> TextFieldDialog(
             value = uiState.categoryInput,
             title = stringResource(R.string.inventory_category_add),
             confirmText = stringResource(R.string.inventory_category_add_btn),
@@ -113,6 +125,13 @@ fun InventoryRoute(
             },
             onConfirm = {
                 onAction(InventoryAction.OnAddCategory.Save)
+            }
+        )
+
+        is InventoryOverlay.NewFeatureSheet -> AppNewFeatureBottomSheet(
+            versionFeatures = overlay.versionFeature,
+            onDismiss = {
+                onAction(InventoryAction.OnDismiss)
             }
         )
     }

@@ -7,6 +7,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
@@ -104,10 +105,14 @@ class MainActivity : AppCompatActivity() {
                     }
                 ) {
                     AppGraph(
-                        modifier = if (isUnlocked) Modifier else Modifier.blur(
-                            radius = 16.dp,
-                            edgeTreatment = BlurredEdgeTreatment(RoundedCornerShape(8.dp))
-                        )
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .then(
+                                if (isUnlocked) Modifier else Modifier.blur(
+                                    radius = 16.dp,
+                                    edgeTreatment = BlurredEdgeTreatment(RoundedCornerShape(8.dp))
+                                )
+                            )
                     )
                 }
             }

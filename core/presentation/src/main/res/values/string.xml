@@ -117,6 +117,13 @@
     <string name="search_history_title">Recent</string>
     <string name="search_no_results">No items found.</string>
 
+    <plurals name="inventory_selected_title">
+        <item quantity="zero">selected item.</item>
+        <item quantity="other">selected item.</item>
+        <item quantity="one">selected item.</item>
+        <item quantity="many">selected items.</item>
+    </plurals>
+
     <!--Food Entry Screen-->
     <string name="food_entry_title">Add New Food</string>
 
@@ -144,7 +151,7 @@
     <string name="confirm_title">Confirm Information</string>
     <string name="confirm_label_name">Food Name</string>
     <string name="confirm_label_category">Category</string>
-    <string name="confirm_placeholder_name">Enter food name...</string>
+    <string name="confirm_placeholder_name">Enter food name…</string>
     <string name="confirm_label_quantity">Quantity</string>
     <string name="confirm_label_unit">Unit</string>
     <string name="confirm_label_purchase_date">Purchase Date</string>
@@ -256,7 +263,17 @@
     <string name="setting_import_desc">Import your data.</string>
 
     <string name="setting_about_app">About App</string>
-    <string name="setting_about_app_desc">Algidy v%1$s</string>
+    <string name="setting_about_app_desc">App info and version</string>
+    <string name="setting_new_features">New Features</string>
+    <string name="setting_new_features_desc">Check latest updates</string>
+    <string name="setting_copyright">Copyright</string>
+    <string name="setting_copyright_desc">Legal and license info</string>
+    <string name="setting_feedback">Feedback</string>
+    <string name="setting_feedback_desc">Help us improve</string>
+    <string name="setting_open_source">Open Source</string>
+    <string name="setting_open_source_desc">View source licenses</string>
+    <string name="setting_privacy_policy">Privacy Policy</string>
+    <string name="setting_privacy_policy_desc">Your data protection</string>
     <string name="setting_daily_reminder">Daily Reminder</string>
     <string name="setting_daily_reminder_desc">Remind at %1$s</string>
 
@@ -284,7 +301,7 @@
 
     <string name="main_settings_title_page">Settings</string>
     <string name="main_settings_subtitle">General application settings</string>
-
+    <string name="privacy_policy_content">PRIVACY POLICY FOR ALGIDY\nLast Updated: June 2026\n\nWelcome to Algidy. We are committed to protecting your privacy and personal data. This Privacy Policy explains how Algidy collects, uses, and safeguards your information when you use our application.\n\n1. Information Collection and Use\nAlgidy is designed as an offline-first application. The vast majority of your data regarding food management and inventory is stored locally and securely on your device using the Room Database.\n\nHowever, to provide specific functionalities, we may request access to the following device features:\n\n- Camera: We require Camera permission to enable features such as scanning food barcodes or taking product profile photos. All image processing is handled instantly on your device and is never uploaded to any remote server without your explicit consent.\n\n- Notifications: The app requests permission to send notifications to remind you about food expiration dates, helping you reduce food waste.\n\n- Internet Access and Analytics Data: We utilize anonymous analytics services to collect technical data regarding application performance and crash logs. Internet permission is strictly used to transmit these diagnostic reports.\n\n2. Data Storage\nAll inventory logs, food categories, and app usage history are contained entirely within your local device storage. If you uninstall the application, all this information will be permanently deleted and cannot be recovered.\n\n3. Third-Party Data Sharing\nWe do not sell, trade, or otherwise transfer your personal data or usage logs to any outside parties.\n\n4. Contact Us\nIf you have any questions or suggestions regarding this Privacy Policy, please feel free to contact the developer via email at: nhuhuy.dev@gmail.com</string>
     <!--Notification-->
     <string name="notif_expiry_title">Food expiring soon!</string>
     <string name="notif_expiry_few_items">Attention: Your %1$s are expiring soon.</string>
@@ -294,7 +311,7 @@
     <string name="notif_expiry_multiple_title">Attention: %1$d items expiring soon!</string>
     <string name="notif_expiry_summary">Expiry Warning</string>
     <string name="notif_expiry_item_line">- %1$s (%2$d days left)</string>
-    <string name="notif_expiry_overflow">...and %1$d other items</string>
+    <string name="notif_expiry_overflow">…and %1$d other items</string>
     <string name="notif_expiry_content">You have items that need attention.</string>
 
     <string name="notif_weekly_title">Algidy Weekly Summary</string>

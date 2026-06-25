@@ -1,8 +1,10 @@
 package com.nhuhuy.algidy.feature.settings.presentation.viewmodel
 
 import androidx.lifecycle.viewModelScope
+import com.nhuhuy.algidy.core.data.AppNewFeaturesReader
 import com.nhuhuy.algidy.core.data.util.onFailure
 import com.nhuhuy.algidy.core.data.util.onSuccess
+import com.nhuhuy.algidy.core.data.util.product
 import com.nhuhuy.algidy.core.presentation.viewmodel.BaseViewModel
 import com.nhuhuy.algidy.feature.settings.domain.usecase.CheckCapabilityUseCase
 import com.nhuhuy.algidy.feature.settings.domain.usecase.DeleteAllDataUseCase
@@ -18,10 +20,10 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class SettingsViewModel(
+    appNewFeaturesReader: AppNewFeaturesReader,
     observeSettingStateUseCase: ObserveSettingStateUseCase,
     private val setToggleSettingUseCase: SetToggleSettingUseCase,
     private val selectSettingUseCase: SelectSettingUseCase,
@@ -29,14 +31,19 @@ class SettingsViewModel(
     private val checkCapabilityUseCase: CheckCapabilityUseCase,
     private val deleteDataUseCase: DeleteAllDataUseCase,
 ) : BaseViewModel<SettingsUiState, SettingsEvent, SettingsAction>() {
-    private val _overlay = MutableStateFlow(SettingsOverlay.NONE)
-    val overlay = _overlay.asStateFlow()
+    private val _uiState = MutableStateFlow(
+        SettingsUiState(
+            versionFeatures = appNewFeaturesReader.getWhatsNewContent(),
+            versionName = appNewFeaturesReader.currentVersionName
+        )
+    )
+    override val uiState: StateFlow<SettingsUiState> = _uiState.asStateFlow()
 
-    override val uiState: StateFlow<SettingsUiState> = combine(
+    val combineState: StateFlow<SettingsCombineState> = combine(
         observeSettingStateUseCase(),
         checkCapabilityUseCase.observe(),
     ) { settingData, capabilities ->
-        SettingsUiState(
+        SettingsCombineState(
             notificationGranted = capabilities.notificationGranted,
             biometricSupported = capabilities.biometricSupported,
             dynamicColorSupported = capabilities.dynamicColorSupported,
@@ -56,13 +63,18 @@ class SettingsViewModel(
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5000),
-            initialValue = SettingsUiState()
+            initialValue = SettingsCombineState()
         )
+
+    val currentCombineState get() = combineState.value
+
 
     override fun onAction(action: SettingsAction) {
         when (action) {
             SettingsAction.OnDismiss,
-            SettingsAction.DeleteAlertDialog.Dismiss -> _overlay.update { SettingsOverlay.NONE }
+            SettingsAction.DeleteAlertDialog.Dismiss -> _uiState.product {
+                copy(overlay = SettingsOverlay.None)
+            }
 
             SettingsAction.OnBackClick -> emitEvent(SettingsEvent.NavigateBack)
 
@@ -98,12 +110,12 @@ class SettingsViewModel(
                 checkCapabilityUseCase.updateNotification(action.granted)
                 setToggleSettingUseCase.toggleNotifications(action.granted)
                 if (!action.granted) {
-                    emitEvent(SettingsEvent.ShowSnackbar("Permission denied. Notifications disabled."))
+                    emitEvent(SettingsEvent.ShowSnackBar("Permission denied. Notifications disabled."))
                 }
             }
 
             SettingsAction.DeleteAlertDialog.Confirm -> viewModelScope.launch {
-                _overlay.update { SettingsOverlay.NONE }
+                _uiState.product { copy(overlay = SettingsOverlay.None) }
                 deleteDataUseCase()
                 emitEvent(DeleteAll.Success)
             }
@@ -118,13 +130,43 @@ class SettingsViewModel(
                         .onSuccess { emitEvent(SettingsEvent.ExportData.SUCCESS) }
                         .onFailure { emitEvent(SettingsEvent.ExportData.FAILURE) }
                 }
+
                 is ClickableType.Import -> emitEvent(SettingsEvent.ImportData.PickUri)
-                ClickableType.DeleteAll -> _overlay.update { SettingsOverlay.DELETE_ALERT_DIALOG }
-                ClickableType.AboutApp -> { /* Handle in UI or logic */
+                ClickableType.DeleteAll -> _uiState.product { copy(overlay = SettingsOverlay.DeleteAlertDialog) }
+                ClickableType.AboutApp -> {
+                    currentState.versionFeatures?.let { newFeatures ->
+                        _uiState.product {
+                            copy(overlay = SettingsOverlay.NewFeatureSheet(newFeatures))
+                        }
+                    }
                 }
 
                 ClickableType.DailyReminder -> {
-                    _overlay.update { SettingsOverlay.TIME_PICKER }
+                    _uiState.product { copy(overlay = SettingsOverlay.TimePicker) }
+                }
+
+                ClickableType.NewFeatures -> {
+                    currentState.versionFeatures?.let {
+                        _uiState.product {
+                            copy(overlay = SettingsOverlay.NewFeatureSheet(it))
+                        }
+                    }
+                }
+
+                ClickableType.CopyRight -> _uiState.product {
+                    copy(overlay = SettingsOverlay.CopyrightSheet)
+                }
+
+                ClickableType.Feedback -> {
+                    emitEvent(SettingsEvent.SendFeedBackEmail)
+                }
+
+                ClickableType.OpenSource -> _uiState.product {
+                    copy(overlay = SettingsOverlay.OpenSourceSheet)
+                }
+
+                ClickableType.PrivacyPolicy -> _uiState.product {
+                    copy(overlay = SettingsOverlay.PolicySheet)
                 }
             }
         }
@@ -137,7 +179,7 @@ class SettingsViewModel(
                 ToggleType.DYNAMIC_COLOR -> setToggleSettingUseCase.toggleDynamicColor(action.enabled)
                 ToggleType.CATEGORY_GROUP -> setToggleSettingUseCase.toggleCategoryGroup(action.enabled)
                 ToggleType.NOTIFICATION -> {
-                    if (action.enabled && !currentState.notificationGranted) {
+                    if (action.enabled && !currentCombineState.notificationGranted) {
                         emitEvent(SettingsEvent.RequestNotificationPermission)
                     } else {
                         setToggleSettingUseCase.toggleNotifications(action.enabled)
@@ -151,9 +193,9 @@ class SettingsViewModel(
 
     private fun onSetNotifyTimeAction(action: SettingsAction.SetNotifyTime) {
         when (action) {
-            SettingsAction.SetNotifyTime.OpenPicker -> _overlay.update { SettingsOverlay.TIME_PICKER }
+            SettingsAction.SetNotifyTime.OpenPicker -> _uiState.product { copy(overlay = SettingsOverlay.TimePicker) }
             is SettingsAction.SetNotifyTime.SetHourAndMinutes -> viewModelScope.launch {
-                _overlay.update { SettingsOverlay.NONE }
+                _uiState.product { copy(overlay = SettingsOverlay.None) }
                 selectSettingUseCase.selectNotifyTime(action.hour, action.minutes)
                 emitEvent(NotifyTimerEvent.Success)
             }
