@@ -3,7 +3,11 @@ package com.nhuhuy.algidy.core.designsystem.component
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.ArrowBackIos
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.ModalBottomSheetProperties
@@ -25,6 +29,7 @@ fun AppBottomSheet(
     ModalBottomSheet(
         onDismissRequest = onDismiss,
         sheetState = sheetState,
+        dragHandle = null,
         modifier = modifier,
         properties = ModalBottomSheetProperties(shouldDismissOnBackPress = true)
     ) {
@@ -45,11 +50,21 @@ fun AppBottomSheetColumn(
         onDismiss = onDismiss,
     ) {
         Column(
-            modifier = modifier.fillMaxWidth(),
+            modifier = modifier
+                .fillMaxSize()
+                .padding(8.dp),
             horizontalAlignment = horizontalAlignment,
             verticalArrangement = verticalArrangement
         ) {
             content()
+            AppButton(
+                text = "Back",
+                modifier = Modifier
+                    .height(48.dp)
+                    .align(Alignment.End),
+                icon = Icons.AutoMirrored.Rounded.ArrowBackIos,
+                onClick = onDismiss
+            )
         }
     }
 }

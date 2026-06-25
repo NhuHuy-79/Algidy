@@ -161,9 +161,7 @@ class SettingsViewModel(
                     emitEvent(SettingsEvent.SendFeedBackEmail)
                 }
 
-                ClickableType.OpenSource -> _uiState.product {
-                    copy(overlay = SettingsOverlay.OpenSourceSheet)
-                }
+                ClickableType.OpenSource -> emitEvent(SettingsEvent.OpenSourceClick)
 
                 ClickableType.PrivacyPolicy -> _uiState.product {
                     copy(overlay = SettingsOverlay.PolicySheet)

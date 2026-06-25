@@ -27,8 +27,8 @@ import com.nhuhuy.algidy.core.presentation.component.AppTimePickerDialog
 import com.nhuhuy.algidy.core.presentation.navigation.Destination
 import com.nhuhuy.algidy.core.presentation.navigation.SettingDestination
 import com.nhuhuy.algidy.feature.settings.presentation.component.about_app.CopyrightBottomSheet
-import com.nhuhuy.algidy.feature.settings.presentation.component.about_app.OpenSourceBottomSheet
 import com.nhuhuy.algidy.feature.settings.presentation.component.about_app.PolicyBottomSheet
+import com.nhuhuy.algidy.feature.settings.presentation.component.open_source.OpenSourceContent
 import com.nhuhuy.algidy.feature.settings.presentation.screen.AboutAppScreen
 import com.nhuhuy.algidy.feature.settings.presentation.screen.AppearanceScreen
 import com.nhuhuy.algidy.feature.settings.presentation.screen.DataSettingsScreen
@@ -43,7 +43,6 @@ import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.SettingsEvent
 import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.SettingsOverlay
 import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.SettingsViewModel
 import org.koin.androidx.compose.koinViewModel
-import timber.log.Timber
 
 @Composable
 fun SettingRoute(
@@ -162,6 +161,10 @@ fun SettingRoute(
                     e.printStackTrace()
                 }
             }
+
+            SettingsEvent.OpenSourceClick -> onNavigateToSettingRoute(
+                Destination.Setting(SettingDestination.OpenSource)
+            )
         }
     }
     when (destination) {
@@ -198,6 +201,12 @@ fun SettingRoute(
             AboutAppScreen(
                 uiState = uiState,
                 onAction = onAction
+            )
+        }
+
+        SettingDestination.OpenSource -> {
+            OpenSourceContent(
+                onBack = onNavigateBack
             )
         }
     }
@@ -248,9 +257,8 @@ fun SettingRoute(
             }
         )
 
-        SettingsOverlay.OpenSourceSheet -> OpenSourceBottomSheet(
-            onDismiss = {
-                Timber.tag("Open Source").d("Dismiss")
+        SettingsOverlay.OpenSourceSheet -> OpenSourceContent(
+            onBack = {
                 onAction(SettingsAction.OnDismiss)
             }
         )
