@@ -1,12 +1,12 @@
 package com.nhuhuy.algidy.core.designsystem.component
 
-import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.ModalBottomSheetProperties
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -26,11 +26,8 @@ fun AppBottomSheet(
         onDismissRequest = onDismiss,
         sheetState = sheetState,
         modifier = modifier,
+        properties = ModalBottomSheetProperties(shouldDismissOnBackPress = true)
     ) {
-        // BackHandler đặt ở đây sẽ có quyền ưu tiên cao nhất khi Sheet đang hiển thị
-        BackHandler(enabled = true) {
-            onDismiss()
-        }
         content()
     }
 }
@@ -45,7 +42,7 @@ fun AppBottomSheetColumn(
     content: @Composable ColumnScope.() -> Unit
 ) {
     AppBottomSheet(
-        onDismiss = onDismiss
+        onDismiss = onDismiss,
     ) {
         Column(
             modifier = modifier.fillMaxWidth(),

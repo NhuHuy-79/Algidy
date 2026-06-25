@@ -188,6 +188,9 @@ class InventoryViewModel(
             }
 
             InventoryAction.OnAddCategory.Save -> {
+                _uiState.product {
+                    copy(overlay = InventoryOverlay.None)
+                }
                 viewModelScope.launch {
                     addCategoryUseCase(currentState.categoryInput)
                 }

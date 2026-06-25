@@ -43,6 +43,7 @@ import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.SettingsEvent
 import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.SettingsOverlay
 import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.SettingsViewModel
 import org.koin.androidx.compose.koinViewModel
+import timber.log.Timber
 
 @Composable
 fun SettingRoute(
@@ -249,6 +250,7 @@ fun SettingRoute(
 
         SettingsOverlay.OpenSourceSheet -> OpenSourceBottomSheet(
             onDismiss = {
+                Timber.tag("Open Source").d("Dismiss")
                 onAction(SettingsAction.OnDismiss)
             }
         )

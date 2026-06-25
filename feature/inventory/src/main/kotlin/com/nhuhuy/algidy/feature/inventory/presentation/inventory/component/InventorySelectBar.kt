@@ -2,7 +2,7 @@ package com.nhuhuy.algidy.feature.inventory.presentation.inventory.component
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Close
-import androidx.compose.material.icons.rounded.Delete
+import androidx.compose.material.icons.rounded.DeleteForever
 import androidx.compose.material.icons.rounded.Restaurant
 import androidx.compose.material.icons.rounded.SelectAll
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -83,7 +83,7 @@ fun InventorySelectBar(
                 }
             ) {
                 Icon(
-                    imageVector = Icons.Rounded.Delete,
+                    imageVector = Icons.Rounded.DeleteForever,
                     contentDescription = null
                 )
             }

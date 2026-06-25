@@ -34,6 +34,7 @@ import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.Inve
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryOverlay
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryViewModel
 import org.koin.androidx.compose.koinViewModel
+import timber.log.Timber
 
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
@@ -70,6 +71,7 @@ fun InventoryRoute(
 
     // Chỉ xử lý Back cho Fab Menu và các Dialog không phải Bottom Sheet
     BackHandler(enabled = uiState.expanded || uiState.overlay == InventoryOverlay.CategoryAdd || uiState.overlay == InventoryOverlay.CategoryEdit || uiState.overlay == InventoryOverlay.CategoryDelete) {
+        Timber.tag("Back Test").d("Clicked")
         if (uiState.expanded) {
             onAction(InventoryFabAction.ToggleFabMenu(false))
         } else {

@@ -22,7 +22,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.mikepenz.aboutlibraries.ui.compose.LibraryDefaults
 import com.mikepenz.aboutlibraries.ui.compose.m3.LibrariesContainer
+import com.mikepenz.aboutlibraries.ui.compose.m3.libraryColors
 import com.nhuhuy.algidy.core.designsystem.component.AppBottomSheetColumn
 import com.nhuhuy.algidy.core.presentation.R
 
@@ -33,6 +35,7 @@ fun OpenSourceBottomSheet(
 ) {
     AppBottomSheetColumn(
         modifier = Modifier
+            .background(color = MaterialTheme.colorScheme.surfaceContainerHigh)
             .padding(16.dp),
         onDismiss = onDismiss
     ) {
@@ -61,7 +64,11 @@ fun OpenSourceBottomSheet(
 
         Spacer(modifier = Modifier.height(8.dp))
         LibrariesContainer(
-            modifier = Modifier.clip(RoundedCornerShape(8.dp))
+            colors = LibraryDefaults.libraryColors(
+                backgroundColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+                contentColor = MaterialTheme.colorScheme.onSurface
+            ),
+            modifier = Modifier.clip(RoundedCornerShape(16.dp)),
         )
     }
 

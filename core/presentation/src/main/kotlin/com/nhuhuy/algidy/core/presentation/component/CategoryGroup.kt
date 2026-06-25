@@ -75,7 +75,8 @@ fun CategoryFilterGroup(
                 label = category.toUiText(),
                 onClick = {
                     onCategoryClick(category)
-                }
+                },
+                modifier = Modifier.animateItem()
             )
         }
     }
