@@ -24,6 +24,8 @@ sealed interface InventoryAction : UiAction {
     }
 
     data object OnDeleteAlertConfirm: InventoryAction
+    data object OnConsumeConfirm : InventoryAction
+    data object OnWasteConfirm : InventoryAction
     data object OnDeleteCategory : InventoryAction
     data object OnSearchClick : InventoryAction
     data class OnItemClick(val item: FoodItem) : InventoryAction

@@ -136,6 +136,23 @@ fun InventoryRoute(
                 onAction(InventoryAction.OnDismiss)
             }
         )
+
+        InventoryOverlay.ConsumeConfirm -> AlgidyAlertDialog(
+            onDismissRequest = { onAction(InventoryAction.OnDismiss) },
+            onConfirm = { onAction(InventoryAction.OnConsumeConfirm) },
+            title = stringResource(R.string.detail_dialog_consume_title),
+            text = stringResource(R.string.detail_dialog_consume_content),
+            confirmText = stringResource(R.string.detail_fab_consume_this)
+        )
+
+        InventoryOverlay.WasteConfirm -> AlgidyAlertDialog(
+            onDismissRequest = { onAction(InventoryAction.OnDismiss) },
+            onConfirm = { onAction(InventoryAction.OnWasteConfirm) },
+            title = stringResource(R.string.detail_dialog_waste_title),
+            text = stringResource(R.string.detail_dialog_waste_content),
+            confirmText = stringResource(R.string.detail_fab_mark_as_wasted),
+            isDestructive = true
+        )
     }
 
     if (uiState.expanded) {

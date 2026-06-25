@@ -132,6 +132,36 @@ class InventoryViewModel(
                 }
             }
 
+            InventoryAction.OnConsumeConfirm -> {
+                viewModelScope.launch {
+                    val ids = if (currentState.isSelectMode) currentState.selectedFoodIds.toList()
+                    else listOf(currentState.currentFoodItem.id)
+
+                    _uiState.product {
+                        copy(
+                            overlay = InventoryOverlay.None,
+                            selectedFoodIds = emptySet()
+                        )
+                    }
+                    markFoodAsConsumedUseCase.executeWithList(foodIds = ids)
+                }
+            }
+
+            InventoryAction.OnWasteConfirm -> {
+                viewModelScope.launch {
+                    val ids = if (currentState.isSelectMode) currentState.selectedFoodIds.toList()
+                    else listOf(currentState.currentFoodItem.id)
+
+                    _uiState.product {
+                        copy(
+                            overlay = InventoryOverlay.None,
+                            selectedFoodIds = emptySet()
+                        )
+                    }
+                    markFoodAsWastedUseCase.executeWithList(foodIds = ids)
+                }
+            }
+
             InventoryAction.OnDeleteCategory -> {
                 _uiState.product { copy(overlay = InventoryOverlay.CategoryDelete) }
             }
@@ -211,9 +241,8 @@ class InventoryViewModel(
 
     private fun onDetailAction(action: InventoryDetailAction) {
         when (action) {
-            InventoryDetailAction.OnConsumedClick -> viewModelScope.launch {
-                _uiState.product { copy(overlay = InventoryOverlay.None) }
-                markFoodAsConsumedUseCase(foodId = currentState.currentFoodItem.id)
+            InventoryDetailAction.OnConsumedClick -> _uiState.product {
+                copy(overlay = InventoryOverlay.ConsumeConfirm)
             }
 
             InventoryDetailAction.OnEditClick -> viewModelScope.launch {
@@ -221,9 +250,8 @@ class InventoryViewModel(
                 emitEvent(InventoryEvent.NavigateToEdit(item = currentState.currentFoodItem))
             }
 
-            InventoryDetailAction.OnWastedClick -> viewModelScope.launch {
-                _uiState.product { copy(overlay = InventoryOverlay.None) }
-                markFoodAsWastedUseCase(foodId = currentState.currentFoodItem.id)
+            InventoryDetailAction.OnWastedClick -> _uiState.product {
+                copy(overlay = InventoryOverlay.WasteConfirm)
             }
 
             InventoryDetailAction.Open -> _uiState.product {
@@ -241,13 +269,8 @@ class InventoryViewModel(
                 }
             }
 
-            InventorySelectAction.ConsumeAll -> viewModelScope.launch {
-                _uiState.product {
-                    copy(selectedFoodIds = emptySet())
-                }
-                markFoodAsConsumedUseCase.executeWithList(
-                    foodIds = currentState.selectedFoodIds.toList()
-                )
+            InventorySelectAction.ConsumeAll -> _uiState.product {
+                copy(overlay = InventoryOverlay.ConsumeConfirm)
             }
 
             is InventorySelectAction.OnClick -> {
@@ -287,13 +310,8 @@ class InventoryViewModel(
                 }
             }
 
-            InventorySelectAction.WasteAll -> viewModelScope.launch {
-                _uiState.product {
-                    copy(selectedFoodIds = emptySet())
-                }
-                markFoodAsWastedUseCase.executeWithList(
-                    foodIds = currentState.selectedFoodIds.toList()
-                )
+            InventorySelectAction.WasteAll -> _uiState.product {
+                copy(overlay = InventoryOverlay.WasteConfirm)
             }
         }
     }
