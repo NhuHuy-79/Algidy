@@ -6,16 +6,16 @@ import android.net.Uri
 import android.os.Build
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.DeleteForever
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalResources
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.vectorResource
 import androidx.core.net.toUri
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.nhuhuy.algidy.core.designsystem.component.AlgidyAlertDialog
@@ -214,6 +214,7 @@ fun SettingRoute(
     when (val overlay = uiState.overlay) {
         SettingsOverlay.None -> Unit
         SettingsOverlay.DeleteAlertDialog -> AlgidyAlertDialog(
+            icon = ImageVector.vectorResource(R.drawable.ic_delete),
             confirmText = stringResource(R.string.delete_data_dialog_confirm),
             dismissText = stringResource(R.string.delete_data_dialog_cancel),
             onDismissRequest = {
@@ -224,7 +225,6 @@ fun SettingRoute(
             },
             title = stringResource(R.string.delete_data_dialog_title),
             text = stringResource(R.string.delete_data_dialog_content),
-            icon = Icons.Rounded.DeleteForever,
         )
 
         SettingsOverlay.TimePicker -> AppTimePickerDialog(

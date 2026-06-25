@@ -5,6 +5,10 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Delete
+import androidx.compose.material.icons.rounded.DeleteForever
+import androidx.compose.material.icons.rounded.Restaurant
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scrim
 import androidx.compose.runtime.Composable
@@ -99,6 +103,7 @@ fun InventoryRoute(
         )
 
         InventoryOverlay.CategoryDelete -> AlgidyAlertDialog(
+            icon = Icons.Rounded.Delete,
             onDismissRequest = { onAction(InventoryAction.OnDismiss) },
             onConfirm = { onAction(InventoryAction.OnDeleteAlertConfirm) },
             title = stringResource(R.string.delete_category_dialog_title),
@@ -138,6 +143,7 @@ fun InventoryRoute(
         )
 
         InventoryOverlay.ConsumeConfirm -> AlgidyAlertDialog(
+            icon = Icons.Rounded.Restaurant,
             onDismissRequest = { onAction(InventoryAction.OnDismiss) },
             onConfirm = { onAction(InventoryAction.OnConsumeConfirm) },
             title = stringResource(R.string.detail_dialog_consume_title),
@@ -146,6 +152,7 @@ fun InventoryRoute(
         )
 
         InventoryOverlay.WasteConfirm -> AlgidyAlertDialog(
+            icon = Icons.Rounded.DeleteForever,
             onDismissRequest = { onAction(InventoryAction.OnDismiss) },
             onConfirm = { onAction(InventoryAction.OnWasteConfirm) },
             title = stringResource(R.string.detail_dialog_waste_title),
