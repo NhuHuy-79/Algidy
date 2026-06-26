@@ -5,6 +5,9 @@ import com.nhuhuy.algidy.core.data.AppNewFeaturesReader
 import com.nhuhuy.algidy.core.data.util.onFailure
 import com.nhuhuy.algidy.core.data.util.onSuccess
 import com.nhuhuy.algidy.core.data.util.product
+import com.nhuhuy.algidy.core.presentation.navigation.Destination
+import com.nhuhuy.algidy.core.presentation.navigation.Navigator
+import com.nhuhuy.algidy.core.presentation.navigation.SettingDestination
 import com.nhuhuy.algidy.core.presentation.viewmodel.BaseViewModel
 import com.nhuhuy.algidy.feature.settings.domain.usecase.CheckCapabilityUseCase
 import com.nhuhuy.algidy.feature.settings.domain.usecase.DeleteAllDataUseCase
@@ -25,6 +28,7 @@ import kotlinx.coroutines.launch
 class SettingsViewModel(
     appNewFeaturesReader: AppNewFeaturesReader,
     observeSettingStateUseCase: ObserveSettingStateUseCase,
+    private val navigator: Navigator,
     private val setToggleSettingUseCase: SetToggleSettingUseCase,
     private val selectSettingUseCase: SelectSettingUseCase,
     private val manageDataUseCase: ManageDataUseCase,
@@ -76,7 +80,7 @@ class SettingsViewModel(
                 copy(overlay = SettingsOverlay.None)
             }
 
-            SettingsAction.OnBackClick -> emitEvent(SettingsEvent.NavigateBack)
+            SettingsAction.OnBackClick -> navigator.navigateBack()
 
             is SettingsAction.SetDarkMode -> viewModelScope.launch {
                 selectSettingUseCase.selectDarkMode(action.darkMode)
@@ -84,7 +88,7 @@ class SettingsViewModel(
 
             is SettingsAction.ChangeLanguage -> viewModelScope.launch {
                 selectSettingUseCase.selectAppLanguage(action.language)
-                emitEvent(SettingsEvent.NavigateBack)
+                navigator.navigateBack()
             }
 
             is SettingsAction.ChangeFont -> viewModelScope.launch {
@@ -161,7 +165,11 @@ class SettingsViewModel(
                     emitEvent(SettingsEvent.SendFeedBackEmail)
                 }
 
-                ClickableType.OpenSource -> emitEvent(SettingsEvent.OpenSourceClick)
+                ClickableType.OpenSource -> navigator.navigateTo(
+                    Destination.Setting(
+                        SettingDestination.OpenSource
+                    )
+                )
 
                 ClickableType.PrivacyPolicy -> _uiState.product {
                     copy(overlay = SettingsOverlay.PolicySheet)

@@ -5,6 +5,7 @@ import com.nhuhuy.algidy.core.model.food.FoodCategory
 import com.nhuhuy.algidy.core.model.food.FoodItem
 import com.nhuhuy.algidy.core.model.validate.FoodValidator
 import com.nhuhuy.algidy.core.presentation.model.CategoryUiModel
+import com.nhuhuy.algidy.core.presentation.navigation.Navigator
 import com.nhuhuy.algidy.core.presentation.viewmodel.BaseViewModel
 import com.nhuhuy.algidy.core.presentation.viewmodel.UiEvent
 import com.nhuhuy.algidy.feature.food_entry.domain.model.FoodEntryPreferences
@@ -29,6 +30,7 @@ class FoodEntryViewModel(
     private val foodEntryPreferencesUseCase: FoodEntryPreferencesUseCase,
     private val saveFoodItemUseCase: SaveFoodItemUseCase,
     private val addCategoryUseCase: AddCategoryUseCase,
+    private val navigator: Navigator,
     initialFoodItem: FoodItem? = null
 ) : BaseViewModel<FoodEntryUiState, FoodEntryEvent, FoodEntryAction>() {
 
@@ -130,7 +132,7 @@ class FoodEntryViewModel(
             is FoodEntryAction.OnShowOverlay -> _uiState.update { it.copy(overlay = action.overlay) }
             FoodEntryAction.OnDismissOverlay -> _uiState.update { it.copy(overlay = FoodEntryOverlay.NONE) }
             FoodEntryAction.OnSaveClick -> saveFood()
-            FoodEntryAction.OnBackClick -> emitEvent(FoodEntryEvent.NavigateBack)
+            FoodEntryAction.OnBackClick -> navigator.navigateBack()
             is FoodEntryAction.OnNotificationGranted -> viewModelScope.launch {
                 if (!currentPreferences.hasAskNotificationPermission) {
                     foodEntryPreferencesUseCase.askNotificationPermission(true)
@@ -158,7 +160,7 @@ class FoodEntryViewModel(
                 foodEntryPreferencesUseCase.addItemFirst(true)
             }
 
-            emitEvent(FoodEntryEvent.OnSaveSuccess)
+            navigator.navigateBack()
         }
     }
 
@@ -168,12 +170,10 @@ class FoodEntryViewModel(
                 id = foodItem.id,
                 name = foodItem.name,
                 categoryId = foodItem.categoryId ?: "",
-                defaultFoodCategory = foodItem.defaultFoodCategory,
                 location = foodItem.location,
                 purchaseDate = foodItem.purchaseDate,
                 expiryDate = foodItem.expiryDate,
                 imageUri = foodItem.imageUri,
-                isFavorite = foodItem.isFavorite,
                 notes = foodItem.notes
             )
         }
@@ -195,12 +195,10 @@ class FoodEntryViewModel(
             id = state.id.ifBlank { java.util.UUID.randomUUID().toString() },
             name = state.name,
             categoryId = state.categoryId,
-            defaultFoodCategory = state.defaultFoodCategory,
             location = state.location,
             purchaseDate = state.purchaseDate,
             expiryDate = state.expiryDate,
             imageUri = state.imageUri,
-            isFavorite = state.isFavorite,
             notes = state.notes
         )
     }
@@ -208,7 +206,5 @@ class FoodEntryViewModel(
 
 sealed interface FoodEntryEvent : UiEvent {
     data object AskNotificationPermission : FoodEntryEvent
-    data object OnSaveSuccess : FoodEntryEvent
-    data object NavigateBack : FoodEntryEvent
 }
 

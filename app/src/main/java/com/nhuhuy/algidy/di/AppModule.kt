@@ -4,6 +4,8 @@ import com.nhuhuy.algidy.AppViewModel
 import com.nhuhuy.algidy.core.data.AppCapabilityManager
 import com.nhuhuy.algidy.core.datastore.DeviceCapableDataStore
 import com.nhuhuy.algidy.core.datastore.DeviceCapableDataStoreImpl
+import com.nhuhuy.algidy.core.presentation.navigation.Navigator
+import com.nhuhuy.algidy.core.presentation.navigation.NavigatorImpl
 import com.nhuhuy.algidy.utils.DefaultAppCapabilityManager
 import org.koin.core.module.dsl.singleOf
 import org.koin.core.module.dsl.viewModelOf
@@ -14,5 +16,6 @@ val appModule = module {
 
     singleOf(::DefaultAppCapabilityManager) bind AppCapabilityManager::class
     singleOf(::DeviceCapableDataStoreImpl) bind DeviceCapableDataStore::class
+    singleOf(::NavigatorImpl) bind Navigator::class
     viewModelOf(::AppViewModel)
 }

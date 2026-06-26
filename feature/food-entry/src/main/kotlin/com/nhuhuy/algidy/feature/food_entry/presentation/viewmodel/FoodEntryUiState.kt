@@ -1,7 +1,6 @@
 package com.nhuhuy.algidy.feature.food_entry.presentation.viewmodel
 
 import androidx.compose.runtime.Immutable
-import com.nhuhuy.algidy.core.model.food.DefaultFoodCategory
 import com.nhuhuy.algidy.core.model.food.StorageLocation
 import com.nhuhuy.algidy.core.model.validate.ValidationResult
 import com.nhuhuy.algidy.core.presentation.model.CategoryUiModel
@@ -14,12 +13,10 @@ data class FoodEntryUiState(
     val categoryId: String? = null,
     val categoryQuery: String = "",
     val categories: List<CategoryUiModel.ByCategory> = emptyList(),
-    val defaultFoodCategory: DefaultFoodCategory = DefaultFoodCategory.OTHERS,
     val location: StorageLocation = StorageLocation.FRIDGE,
     val purchaseDate: Long = System.currentTimeMillis(),
     val expiryDate: Long = -1,
     val imageUri: String? = null,
-    val isFavorite: Boolean = false,
     val notes: String = "",
 
     // Current selected category model

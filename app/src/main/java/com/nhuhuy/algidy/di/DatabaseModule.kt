@@ -12,7 +12,7 @@ val databaseModule = module {
             AppDatabase::class.java,
             "algidy-database"
         )
-            .fallbackToDestructiveMigration(true)
+            .addMigrations(AppDatabase.MIGRATION_12_13)
             .build()
     }
     single { get<AppDatabase>().foodDao() }

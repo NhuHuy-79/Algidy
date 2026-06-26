@@ -48,8 +48,6 @@ fun FoodEntryRoute(
 
     ObserveEffect(viewModel.uiEvent) { event ->
         when (event) {
-            FoodEntryEvent.OnSaveSuccess -> onNavigateBack()
-            FoodEntryEvent.NavigateBack -> onNavigateBack()
             FoodEntryEvent.AskNotificationPermission -> {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                     notificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)

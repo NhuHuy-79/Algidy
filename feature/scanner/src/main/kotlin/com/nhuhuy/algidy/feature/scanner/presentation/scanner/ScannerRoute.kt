@@ -15,6 +15,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LifecycleEventEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.nhuhuy.algidy.core.designsystem.component.AlgidyAlertDialog
 import com.nhuhuy.algidy.core.designsystem.component.BoxLayout
@@ -63,8 +65,9 @@ fun ScannerRoute(
         }
     )
 
-    LaunchedEffect(Unit) {
+    LifecycleEventEffect(Lifecycle.Event.ON_RESUME) {
         if (!hasCameraPermission) {
+            Timber.d("Has permission: ${false}")
             permissionLauncher.launch(Manifest.permission.CAMERA)
         }
     }

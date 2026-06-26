@@ -20,19 +20,36 @@ import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDe
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
+import com.nhuhuy.algidy.core.presentation.ObserveEffect
 import com.nhuhuy.algidy.core.presentation.navigation.Destination
+import com.nhuhuy.algidy.core.presentation.navigation.NavigateEvent
+import com.nhuhuy.algidy.core.presentation.navigation.Navigator
 import com.nhuhuy.algidy.feature.analytics.presentation.navigation.AnalyticsRoute
 import com.nhuhuy.algidy.feature.food_entry.navigation.FoodEntryRoute
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.InventoryRoute
 import com.nhuhuy.algidy.feature.inventory.presentation.search.SearchInventoryRoute
 import com.nhuhuy.algidy.feature.scanner.presentation.scanner.ScannerRoute
 import com.nhuhuy.algidy.feature.settings.navigation.SettingRoute
+import org.koin.compose.koinInject
 
 @Composable
 fun AppGraph(
     modifier: Modifier = Modifier,
 ) {
+    val navigator = koinInject<Navigator>()
     val backStack = remember { mutableStateListOf<Destination>(Destination.Inventory.Home) }
+
+    ObserveEffect(navigator.event) { event ->
+        when (event) {
+            NavigateEvent.NavigateBack -> {
+                if (backStack.isNotEmpty()) backStack.removeLastOrNull()
+            }
+
+            is NavigateEvent.NavigateTo -> {
+                backStack.add(event.destination)
+            }
+        }
+    }
     NavDisplay(
         modifier = modifier,
         backStack = backStack,
@@ -68,16 +85,6 @@ fun AppGraph(
         entryProvider = entryProvider {
             entry<Destination.Inventory.Home> {
                 InventoryRoute(
-                    onNavigateToCamera = { backStack.add(Destination.Scanner) },
-                    onNavigateToSearch = { backStack.add(Destination.Inventory.Search) },
-                    onNavigateToSetting = { backStack.add(Destination.Setting()) },
-                    onNavigateToAnalytics = {
-                        backStack.add(Destination.Analytics)
-                    },
-                    onNavigateToEditFood = { foodItem ->
-                        backStack.add(Destination.FoodEntry(foodItem))
-                    },
-                    onNavigateToAddFood = { backStack.add(Destination.FoodEntry()) }
                 )
             }
 
@@ -92,9 +99,6 @@ fun AppGraph(
 
             entry<Destination.Analytics> {
                 AnalyticsRoute(
-                    onNavigateBack = {
-                        backStack.removeLastOrNull()
-                    }
                 )
             }
 

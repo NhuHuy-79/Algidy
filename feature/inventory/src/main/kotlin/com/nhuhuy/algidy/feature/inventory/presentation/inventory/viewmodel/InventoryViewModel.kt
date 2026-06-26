@@ -5,6 +5,9 @@ import com.nhuhuy.algidy.core.data.AppNewFeaturesReader
 import com.nhuhuy.algidy.core.data.util.product
 import com.nhuhuy.algidy.core.presentation.model.CategoryUiModel
 import com.nhuhuy.algidy.core.presentation.model.toUiModel
+import com.nhuhuy.algidy.core.presentation.navigation.Destination
+import com.nhuhuy.algidy.core.presentation.navigation.Navigator
+import com.nhuhuy.algidy.core.presentation.navigation.SettingDestination
 import com.nhuhuy.algidy.core.presentation.viewmodel.BaseViewModel
 import com.nhuhuy.algidy.feature.inventory.domain.usecase.GetInventoryPreferenceUseCase
 import com.nhuhuy.algidy.feature.inventory.domain.usecase.ObserveSettingDataUseCase
@@ -34,6 +37,7 @@ class InventoryViewModel(
     private val markFoodAsConsumedUseCase: MarkFoodAsConsumedUseCase,
     private val markFoodAsWastedUseCase: MarkFoodAsWastedUseCase,
     private val getInventoryPreferenceUseCase: GetInventoryPreferenceUseCase,
+    private val navigator: Navigator,
     observerFoodItemUseCase: ObserveFoodItemUseCase,
     observeSettingDataUseCase: ObserveSettingDataUseCase,
     observeCategoriesUseCase: ObserveCategoriesUseCase,
@@ -169,7 +173,7 @@ class InventoryViewModel(
             }
 
             InventoryAction.OnSearchClick -> {
-                emitEvent(InventoryEvent.NavigateToSearch)
+                navigator.navigateTo(Destination.Inventory.Search)
             }
 
             is InventoryAction.OnItemClick -> {
@@ -209,7 +213,7 @@ class InventoryViewModel(
                 viewModelScope.launch {
                     getInventoryPreferenceUseCase.setCameraPolicyAccepted(true)
                     _uiState.product { copy(overlay = InventoryOverlay.None) }
-                    emitEvent(InventoryEvent.NavigateToCamera)
+                    navigator.navigateTo(Destination.Scanner)
                 }
             }
 
@@ -257,7 +261,7 @@ class InventoryViewModel(
 
             InventoryDetailAction.OnEditClick -> viewModelScope.launch {
                 _uiState.product { copy(overlay = InventoryOverlay.None) }
-                emitEvent(InventoryEvent.NavigateToEdit(item = currentState.currentFoodItem))
+                navigator.navigateTo(Destination.FoodEntry(initialFoodItem = currentState.currentFoodItem))
             }
 
             InventoryDetailAction.OnWastedClick -> _uiState.product {
@@ -330,13 +334,13 @@ class InventoryViewModel(
         when (action) {
             InventoryFabAction.Analytics -> {
                 _uiState.product { copy(expanded = false) }
-                emitEvent(InventoryEvent.NavigateToAnalytics)
+                navigator.navigateTo(Destination.Analytics)
             }
 
             is InventoryFabAction.BarcodeScan -> {
                 if (action.isPermissionGranted || combineState.value.cameraPolicyAccepted) {
                     _uiState.product { copy(expanded = false) }
-                    emitEvent(InventoryEvent.NavigateToCamera)
+                    navigator.navigateTo(Destination.Scanner)
                 } else {
                     _uiState.product {
                         copy(
@@ -349,12 +353,12 @@ class InventoryViewModel(
 
             InventoryFabAction.Manual -> {
                 _uiState.product { copy(expanded = false) }
-                emitEvent(InventoryEvent.NavigateToFoodEntry)
+                navigator.navigateTo(Destination.FoodEntry())
             }
 
             InventoryFabAction.Setting -> {
                 _uiState.product { copy(expanded = false) }
-                emitEvent(InventoryEvent.NavigateToSetting)
+                navigator.navigateTo(Destination.Setting(SettingDestination.Main))
             }
 
             is InventoryFabAction.ToggleFabMenu -> {

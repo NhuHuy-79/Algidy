@@ -25,8 +25,6 @@ import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
 import com.nhuhuy.algidy.core.designsystem.component.AlgidyAlertDialog
 import com.nhuhuy.algidy.core.designsystem.component.BoxLayout
-import com.nhuhuy.algidy.core.model.food.FoodItem
-import com.nhuhuy.algidy.core.presentation.ObserveEffect
 import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.core.presentation.component.AppNewFeatureBottomSheet
 import com.nhuhuy.algidy.core.presentation.component.TextFieldDialog
@@ -37,7 +35,6 @@ import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.Inve
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryAction.OnEditCategorySheet.OnInputChange
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryAction.OnEditCategorySheet.Save
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryDetailAction
-import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryEvent
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryFabAction
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryOverlay
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryViewModel
@@ -46,14 +43,7 @@ import timber.log.Timber
 
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
-fun InventoryRoute(
-    onNavigateToAnalytics: () -> Unit,
-    onNavigateToSearch: () -> Unit,
-    onNavigateToCamera: () -> Unit,
-    onNavigateToSetting: () -> Unit,
-    onNavigateToAddFood: () -> Unit,
-    onNavigateToEditFood: (item: FoodItem) -> Unit,
-) = BoxLayout {
+fun InventoryRoute() = BoxLayout {
     val viewModel: InventoryViewModel = koinViewModel()
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val combineState by viewModel.combineState.collectAsStateWithLifecycle()
@@ -65,17 +55,6 @@ fun InventoryRoute(
     LaunchedEffect(Unit) {
         if (uiState.currentVersionCode < combineState.appVersionToNotify) {
             onAction(InventoryAction.ShowAppFeature)
-        }
-    }
-
-    ObserveEffect(viewModel.uiEvent) { event ->
-        when (event) {
-            InventoryEvent.NavigateToFoodEntry -> onNavigateToAddFood()
-            InventoryEvent.NavigateToAnalytics -> onNavigateToAnalytics()
-            is InventoryEvent.NavigateToEdit -> onNavigateToEditFood(event.item)
-            InventoryEvent.NavigateToSearch -> onNavigateToSearch()
-            InventoryEvent.NavigateToSetting -> onNavigateToSetting()
-            InventoryEvent.NavigateToCamera -> onNavigateToCamera()
         }
     }
 
