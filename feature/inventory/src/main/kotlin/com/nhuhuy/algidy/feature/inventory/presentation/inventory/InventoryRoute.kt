@@ -68,7 +68,6 @@ fun InventoryRoute(
         }
     }
 
-    // Chỉ xử lý Back cho Fab Menu và các Dialog không phải Bottom Sheet
     BackHandler(enabled = uiState.expanded || uiState.overlay == InventoryOverlay.CategoryAdd || uiState.overlay == InventoryOverlay.CategoryEdit || uiState.overlay == InventoryOverlay.CategoryDelete) {
         if (uiState.expanded) {
             onAction(InventoryFabAction.ToggleFabMenu(false))
