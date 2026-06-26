@@ -33,6 +33,7 @@ sealed interface InventoryAction : UiAction {
     data object OnSortByExpiry : InventoryAction
     data object OnSortByName : InventoryAction
     data object OnShowExpiredOnly : InventoryAction
+    data object OnConfirmCameraPolicy : InventoryAction
 }
 
 @Stable
@@ -59,5 +60,5 @@ sealed interface InventoryFabAction : InventoryAction {
     data object Manual : InventoryFabAction
     data object Analytics : InventoryFabAction
     data object Setting : InventoryFabAction
-    data object BarcodeScan : InventoryFabAction
+    data class BarcodeScan(val isPermissionGranted: Boolean) : InventoryFabAction
 }

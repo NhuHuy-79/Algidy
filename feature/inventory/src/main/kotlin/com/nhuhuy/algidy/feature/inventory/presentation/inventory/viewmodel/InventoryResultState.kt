@@ -18,7 +18,8 @@ sealed interface InventoryResultState {
 data class InventoryCombineState(
     val categoryEnabled: Boolean = false,
     val categories: List<CategoryUiModel> = listOf(CategoryUiModel.All),
-    val appVersionToNotify: Int = 1
+    val appVersionToNotify: Int = 1,
+    val cameraPolicyAccepted: Boolean = false
 )
 
 @Immutable
@@ -47,6 +48,7 @@ sealed interface InventoryOverlay {
     data object ConsumeConfirm : InventoryOverlay
     data object WasteConfirm : InventoryOverlay
     data class NewFeatureSheet(val versionFeature: VersionFeatures) : InventoryOverlay
+    data object CameraPolicySheet : InventoryOverlay
 }
 enum class InventorySortMode {
     BY_NAME, BY_EXPIRY, NONE,

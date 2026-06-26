@@ -84,6 +84,10 @@
     <string name="inventory_sheet_title">Add New Food</string>
     <string name="inventory_sheet_btn">Add Food</string>
 
+    <string name="camera_permission_title">Camera Access Required</string>
+    <string name="camera_permission_description">We need camera access to let you scan QR codes, take profile photos, and utilize AR features within the app. Your privacy is protected, and we never record without your direct action.</string>
+    <string name="camera_permission_confirm_btn">Got it</string>
+
     <string name="inventory_category_edit">Edit Category</string>
     <string name="inventory_category_edit_btn">Edit</string>
     <string name="inventory_category_delete">Delete Category</string>

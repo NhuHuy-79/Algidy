@@ -29,6 +29,7 @@ interface SettingsDataStore {
     val hourFlow: Flow<Int>
     val minuteFlow: Flow<Int>
     val weeklyReportFlow: Flow<Boolean>
+    val cameraPolicyAcceptedFlow: Flow<Boolean>
 
     val appVersionToNotifyFlow: Flow<Int>
     suspend fun setWarningDay(day: Int)
@@ -42,6 +43,7 @@ interface SettingsDataStore {
     suspend fun setHour(hour: Int)
     suspend fun setMinute(minute: Int)
     suspend fun setWeeklyReport(enabled: Boolean)
+    suspend fun setCameraPolicyAccepted(accepted: Boolean)
     suspend fun setAppVersionToNotify(version: Int)
 }
 
@@ -56,6 +58,12 @@ class SettingsDataStoreImpl(private val context: Context) : SettingsDataStore {
         get() = context.dataStore.data.map { preferences ->
             preferences[UserPreferencesKeys.WEEKLY_REPORT] ?: false
         }
+
+    override val cameraPolicyAcceptedFlow: Flow<Boolean>
+        get() = context.dataStore.data.map { preferences ->
+            preferences[UserPreferencesKeys.CAMERA_POLICY_ACCEPTED] ?: false
+        }
+
     override val warningDayFlow: Flow<Int>
         get() = context.dataStore.data.map { preferences ->
             preferences[UserPreferencesKeys.WARNING_DAYS] ?: 3
@@ -138,6 +146,10 @@ class SettingsDataStoreImpl(private val context: Context) : SettingsDataStore {
 
     override suspend fun setWeeklyReport(enabled: Boolean) {
         context.dataStore.set(UserPreferencesKeys.WEEKLY_REPORT, enabled)
+    }
+
+    override suspend fun setCameraPolicyAccepted(accepted: Boolean) {
+        context.dataStore.set(UserPreferencesKeys.CAMERA_POLICY_ACCEPTED, accepted)
     }
 
     override suspend fun setAppVersionToNotify(version: Int) {

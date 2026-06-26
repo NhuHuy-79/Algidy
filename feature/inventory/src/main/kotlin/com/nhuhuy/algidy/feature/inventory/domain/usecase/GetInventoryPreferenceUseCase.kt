@@ -13,4 +13,8 @@ class GetInventoryPreferenceUseCase(
     suspend fun setVersion(version: Int) {
         settingsDataStore.setAppVersionToNotify(version)
     }
+
+    suspend fun setCameraPolicyAccepted(accepted: Boolean) {
+        settingsDataStore.setCameraPolicyAccepted(accepted)
+    }
 }

@@ -49,12 +49,14 @@ class InventoryViewModel(
     val combineState: StateFlow<InventoryCombineState> = combine(
         observeSettingDataUseCase.getCategoryEnabled(),
         observeCategoriesUseCase(),
-        getInventoryPreferenceUseCase.observe()
-    ) { categoryEnabled, categories, appVersion ->
+        getInventoryPreferenceUseCase.observe(),
+        observeSettingDataUseCase.getCameraPolicyAccepted()
+    ) { categoryEnabled, categories, appVersion, cameraPolicyAccepted ->
         InventoryCombineState(
             categoryEnabled = categoryEnabled,
             categories = categories.toUiModel(),
-            appVersionToNotify = appVersion
+            appVersionToNotify = appVersion,
+            cameraPolicyAccepted = cameraPolicyAccepted
         )
     }.stateIn(
         scope = viewModelScope,
@@ -203,6 +205,14 @@ class InventoryViewModel(
                 }
             }
 
+            InventoryAction.OnConfirmCameraPolicy -> {
+                viewModelScope.launch {
+                    getInventoryPreferenceUseCase.setCameraPolicyAccepted(true)
+                    _uiState.product { copy(overlay = InventoryOverlay.None) }
+                    emitEvent(InventoryEvent.NavigateToCamera)
+                }
+            }
+
             is InventoryFabAction -> onFabAction(action)
             is InventoryDetailAction -> onDetailAction(action)
             is InventoryAction.OnAddCategory.OnInputChange -> {
@@ -323,9 +333,18 @@ class InventoryViewModel(
                 emitEvent(InventoryEvent.NavigateToAnalytics)
             }
 
-            InventoryFabAction.BarcodeScan -> {
-                _uiState.product { copy(expanded = false) }
-                emitEvent(InventoryEvent.NavigateToCamera)
+            is InventoryFabAction.BarcodeScan -> {
+                if (action.isPermissionGranted || combineState.value.cameraPolicyAccepted) {
+                    _uiState.product { copy(expanded = false) }
+                    emitEvent(InventoryEvent.NavigateToCamera)
+                } else {
+                    _uiState.product {
+                        copy(
+                            expanded = false,
+                            overlay = InventoryOverlay.CameraPolicySheet
+                        )
+                    }
+                }
             }
 
             InventoryFabAction.Manual -> {

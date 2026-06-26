@@ -29,7 +29,6 @@ fun AppBottomSheet(
     ModalBottomSheet(
         onDismissRequest = onDismiss,
         sheetState = sheetState,
-        dragHandle = null,
         modifier = modifier,
         properties = ModalBottomSheetProperties(shouldDismissOnBackPress = true)
     ) {

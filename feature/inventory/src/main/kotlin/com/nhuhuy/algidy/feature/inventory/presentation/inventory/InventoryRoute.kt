@@ -1,5 +1,6 @@
 package com.nhuhuy.algidy.feature.inventory.presentation.inventory
 
+import android.Manifest
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -20,6 +21,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.isGranted
+import com.google.accompanist.permissions.rememberPermissionState
 import com.nhuhuy.algidy.core.designsystem.component.AlgidyAlertDialog
 import com.nhuhuy.algidy.core.designsystem.component.BoxLayout
 import com.nhuhuy.algidy.core.model.food.FoodItem
@@ -28,6 +31,7 @@ import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.core.presentation.component.AppNewFeatureBottomSheet
 import com.nhuhuy.algidy.core.presentation.component.TextFieldDialog
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.InventoryFabMenu
+import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.PolicyBottomSheet
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.detail.DetailBottomSheet
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryAction
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryAction.OnEditCategorySheet.OnInputChange
@@ -55,6 +59,8 @@ fun InventoryRoute(
     val combineState by viewModel.combineState.collectAsStateWithLifecycle()
     val inventoryResultState by viewModel.resultState.collectAsStateWithLifecycle()
     val onAction = viewModel::onAction
+
+    val cameraPermissionState = rememberPermissionState(Manifest.permission.CAMERA)
 
     LaunchedEffect(Unit) {
         if (uiState.currentVersionCode < combineState.appVersionToNotify) {
@@ -159,6 +165,13 @@ fun InventoryRoute(
             confirmText = stringResource(R.string.detail_fab_mark_as_wasted),
             isDestructive = true
         )
+
+        InventoryOverlay.CameraPolicySheet -> PolicyBottomSheet(
+            onConfirm = { onAction(InventoryAction.OnConfirmCameraPolicy) },
+            onDismiss = {
+                onAction(InventoryAction.OnDismiss)
+            }
+        )
     }
 
     if (uiState.expanded) {
@@ -183,7 +196,9 @@ fun InventoryRoute(
             onExpandClose = { onAction(InventoryFabAction.ToggleFabMenu(it)) },
             onManualClick = { onAction(InventoryFabAction.Manual) },
             onSettingClick = { onAction(InventoryFabAction.Setting) },
-            onBarcodeScanClick = { onAction(InventoryFabAction.BarcodeScan) },
+            onBarcodeScanClick = {
+                onAction(InventoryFabAction.BarcodeScan(cameraPermissionState.status.isGranted))
+            },
             onAnalyticsClick = { onAction(InventoryFabAction.Analytics) }
         )
     }
