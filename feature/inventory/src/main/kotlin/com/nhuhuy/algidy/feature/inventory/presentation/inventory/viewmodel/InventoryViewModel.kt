@@ -213,7 +213,7 @@ class InventoryViewModel(
                 viewModelScope.launch {
                     getInventoryPreferenceUseCase.setCameraPolicyAccepted(true)
                     _uiState.product { copy(overlay = InventoryOverlay.None) }
-                    navigator.navigateTo(Destination.Scanner)
+                    emitEvent(InventoryEvent.RequestCameraPermission)
                 }
             }
 
@@ -239,6 +239,8 @@ class InventoryViewModel(
                     addCategoryUseCase(currentState.categoryInput)
                 }
             }
+
+            is InventoryAction.OnCameraPermissionAccept -> navigator.navigateTo(Destination.Scanner)
 
             is InventorySelectAction -> onSelectAction(action)
             InventoryAction.ShowAppFeature -> viewModelScope.launch {
@@ -338,9 +340,12 @@ class InventoryViewModel(
             }
 
             is InventoryFabAction.BarcodeScan -> {
-                if (action.isPermissionGranted || combineState.value.cameraPolicyAccepted) {
+                if (action.isPermissionGranted) {
                     _uiState.product { copy(expanded = false) }
                     navigator.navigateTo(Destination.Scanner)
+                } else if (combineState.value.cameraPolicyAccepted) {
+                    _uiState.product { copy(expanded = false) }
+                    emitEvent(InventoryEvent.RequestCameraPermission)
                 } else {
                     _uiState.product {
                         copy(

@@ -4,7 +4,6 @@ package com.nhuhuy.algidy.feature.scanner.presentation.scanner.viewmodel
 
 import android.net.Uri
 import androidx.lifecycle.viewModelScope
-import com.nhuhuy.algidy.core.data.repository.FoodRepository
 import com.nhuhuy.algidy.core.data.util.onFailure
 import com.nhuhuy.algidy.core.data.util.onSuccess
 import com.nhuhuy.algidy.core.data.util.product
@@ -39,8 +38,7 @@ import kotlin.time.Duration.Companion.seconds
 class ScannerViewModel(
     private val scanBarcodeUseCase: ScanBarcodeUseCase,
     private val scanFoodDateUseCase: ScanFoodDateUseCase,
-    private val createFoodItemFromDateUseCase: CreateFoodItemFromDateUseCase,
-    private val foodRepository: FoodRepository
+    private val createFoodItemFromDateUseCase: CreateFoodItemFromDateUseCase
 ) : BaseViewModel<ScannerUiState, ScannerEvent, ScannerAction>() {
 
     private val _uiState = MutableStateFlow(ScannerUiState())
@@ -99,26 +97,9 @@ class ScannerViewModel(
                 _uiState.product { copy(overlay = ScannerOverlay.NONE) }
             }
 
-            is ScannerAction.OnFoodItemSaved -> {
-                _uiState.product { copy(foodItemResult = action.foodItem) }
-            }
-
             is ScannerAction.OnImageStaged -> {
                 action.uri?.let { uri ->
                     processUriImage(uri)
-                }
-            }
-
-            is ScannerAction.OnProcessStagedImage -> {
-                processUriImage(action.uri)
-            }
-
-            is ScannerAction.OnFoodItemFound -> {
-                viewModelScope.launch {
-                    val item = foodRepository.getFoodById(action.foodId)
-                    item?.let {
-                        _uiState.product { copy(foodItemResult = it) }
-                    }
                 }
             }
 
@@ -142,12 +123,6 @@ class ScannerViewModel(
             WarningDialogAction.Confirm -> {
                 _uiState.product {
                     copy(overlay = ScannerOverlay.BARCODE_DIALOG)
-                }
-            }
-
-            WarningDialogAction.Open -> {
-                _uiState.product {
-                    copy(overlay = ScannerOverlay.WARNING_DIALOG)
                 }
             }
         }
@@ -240,6 +215,7 @@ class ScannerViewModel(
                     )
                 }
                 emitEvent(ScannerEvent.OnSuccess(foodItem = foodItem))
+
             }
             .onFailure { throwable ->
                 handleUriScanFailure(throwable.toUiError())

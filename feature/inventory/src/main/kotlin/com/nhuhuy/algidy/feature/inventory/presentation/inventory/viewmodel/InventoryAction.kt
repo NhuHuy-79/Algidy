@@ -34,6 +34,7 @@ sealed interface InventoryAction : UiAction {
     data object OnSortByName : InventoryAction
     data object OnShowExpiredOnly : InventoryAction
     data object OnConfirmCameraPolicy : InventoryAction
+    data object OnCameraPermissionAccept : InventoryAction
 }
 
 @Stable

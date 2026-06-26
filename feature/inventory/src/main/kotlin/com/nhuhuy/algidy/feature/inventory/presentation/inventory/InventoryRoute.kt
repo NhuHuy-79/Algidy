@@ -1,7 +1,10 @@
 package com.nhuhuy.algidy.feature.inventory.presentation.inventory
 
 import android.Manifest
+import android.content.pm.PackageManager
 import androidx.activity.compose.BackHandler
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -15,16 +18,22 @@ import androidx.compose.material3.Scrim
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
 import com.nhuhuy.algidy.core.designsystem.component.AlgidyAlertDialog
 import com.nhuhuy.algidy.core.designsystem.component.BoxLayout
+import com.nhuhuy.algidy.core.presentation.ObserveEffect
 import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.core.presentation.component.AppNewFeatureBottomSheet
 import com.nhuhuy.algidy.core.presentation.component.TextFieldDialog
@@ -35,6 +44,7 @@ import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.Inve
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryAction.OnEditCategorySheet.OnInputChange
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryAction.OnEditCategorySheet.Save
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryDetailAction
+import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryEvent
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryFabAction
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryOverlay
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryViewModel
@@ -50,11 +60,44 @@ fun InventoryRoute() = BoxLayout {
     val inventoryResultState by viewModel.resultState.collectAsStateWithLifecycle()
     val onAction = viewModel::onAction
 
+    val context = LocalContext.current
     val cameraPermissionState = rememberPermissionState(Manifest.permission.CAMERA)
+
+    ObserveEffect(flow = viewModel.uiEvent) { event ->
+        when (event) {
+            InventoryEvent.NavigateToScanner -> onAction(InventoryAction.OnCameraPermissionAccept)
+            InventoryEvent.RequestCameraPermission -> {
+                cameraPermissionState.launchPermissionRequest()
+            }
+        }
+    }
 
     LaunchedEffect(Unit) {
         if (uiState.currentVersionCode < combineState.appVersionToNotify) {
             onAction(InventoryAction.ShowAppFeature)
+        }
+    }
+
+    var hasCameraPermission by remember {
+        mutableStateOf(
+            ContextCompat.checkSelfPermission(
+                context,
+                Manifest.permission.CAMERA
+            ) == PackageManager.PERMISSION_GRANTED
+        )
+    }
+
+    rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestPermission(),
+        onResult = { granted ->
+            hasCameraPermission = granted
+            if (granted) onAction(InventoryAction.OnCameraPermissionAccept)
+        }
+    )
+
+    LaunchedEffect(cameraPermissionState.status.isGranted) {
+        if (cameraPermissionState.status.isGranted) {
+            hasCameraPermission = true
         }
     }
 
@@ -111,19 +154,13 @@ fun InventoryRoute() = BoxLayout {
             onValueChange = {
                 onAction(InventoryAction.OnAddCategory.OnInputChange(it))
             },
-            onDismiss = {
-                onAction(InventoryAction.OnDismiss)
-            },
-            onConfirm = {
-                onAction(InventoryAction.OnAddCategory.Save)
-            }
+            onDismiss = { onAction(InventoryAction.OnDismiss) },
+            onConfirm = { onAction(InventoryAction.OnAddCategory.Save) }
         )
 
         is InventoryOverlay.NewFeatureSheet -> AppNewFeatureBottomSheet(
             versionFeatures = overlay.versionFeature,
-            onDismiss = {
-                onAction(InventoryAction.OnDismiss)
-            }
+            onDismiss = { onAction(InventoryAction.OnDismiss) }
         )
 
         InventoryOverlay.ConsumeConfirm -> AlgidyAlertDialog(
@@ -145,12 +182,16 @@ fun InventoryRoute() = BoxLayout {
             isDestructive = true
         )
 
-        InventoryOverlay.CameraPolicySheet -> PolicyBottomSheet(
-            onConfirm = { onAction(InventoryAction.OnConfirmCameraPolicy) },
-            onDismiss = {
-                onAction(InventoryAction.OnDismiss)
+        InventoryOverlay.CameraPolicySheet -> {
+            if (!hasCameraPermission) {
+                PolicyBottomSheet(
+                    onConfirm = {
+                        onAction(InventoryAction.OnConfirmCameraPolicy)
+                    },
+                    onDismiss = { onAction(InventoryAction.OnDismiss) }
+                )
             }
-        )
+        }
     }
 
     if (uiState.expanded) {
