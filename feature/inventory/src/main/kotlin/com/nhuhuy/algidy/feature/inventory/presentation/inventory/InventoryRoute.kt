@@ -5,6 +5,10 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Delete
+import androidx.compose.material.icons.rounded.DeleteForever
+import androidx.compose.material.icons.rounded.Restaurant
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scrim
 import androidx.compose.runtime.Composable
@@ -34,6 +38,7 @@ import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.Inve
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryOverlay
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryViewModel
 import org.koin.androidx.compose.koinViewModel
+import timber.log.Timber
 
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
@@ -69,6 +74,7 @@ fun InventoryRoute(
     }
 
     BackHandler(enabled = uiState.expanded || uiState.overlay == InventoryOverlay.CategoryAdd || uiState.overlay == InventoryOverlay.CategoryEdit || uiState.overlay == InventoryOverlay.CategoryDelete) {
+        Timber.tag("Back Test").d("Clicked")
         if (uiState.expanded) {
             onAction(InventoryFabAction.ToggleFabMenu(false))
         } else {
@@ -96,6 +102,7 @@ fun InventoryRoute(
         )
 
         InventoryOverlay.CategoryDelete -> AlgidyAlertDialog(
+            icon = Icons.Rounded.Delete,
             onDismissRequest = { onAction(InventoryAction.OnDismiss) },
             onConfirm = { onAction(InventoryAction.OnDeleteAlertConfirm) },
             title = stringResource(R.string.delete_category_dialog_title),
@@ -132,6 +139,25 @@ fun InventoryRoute(
             onDismiss = {
                 onAction(InventoryAction.OnDismiss)
             }
+        )
+
+        InventoryOverlay.ConsumeConfirm -> AlgidyAlertDialog(
+            icon = Icons.Rounded.Restaurant,
+            onDismissRequest = { onAction(InventoryAction.OnDismiss) },
+            onConfirm = { onAction(InventoryAction.OnConsumeConfirm) },
+            title = stringResource(R.string.detail_dialog_consume_title),
+            text = stringResource(R.string.detail_dialog_consume_content),
+            confirmText = stringResource(R.string.detail_fab_consume_this)
+        )
+
+        InventoryOverlay.WasteConfirm -> AlgidyAlertDialog(
+            icon = Icons.Rounded.DeleteForever,
+            onDismissRequest = { onAction(InventoryAction.OnDismiss) },
+            onConfirm = { onAction(InventoryAction.OnWasteConfirm) },
+            title = stringResource(R.string.detail_dialog_waste_title),
+            text = stringResource(R.string.detail_dialog_waste_content),
+            confirmText = stringResource(R.string.detail_fab_mark_as_wasted),
+            isDestructive = true
         )
     }
 

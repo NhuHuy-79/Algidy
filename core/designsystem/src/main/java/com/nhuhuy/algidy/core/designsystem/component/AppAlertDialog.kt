@@ -44,7 +44,7 @@ fun AlgidyAlertDialog(
             Text(
                 text = title,
                 style = MaterialTheme.typography.headlineSmall,
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Medium
             )
         },
         text = {
@@ -63,7 +63,7 @@ fun AlgidyAlertDialog(
             ) {
                 Text(
                     text = confirmText,
-                    fontWeight = FontWeight.ExtraBold,
+                    fontWeight = FontWeight.Medium,
                     color = if (isDestructive) MaterialTheme.colorScheme.error else confirmButtonColor
                 )
             }

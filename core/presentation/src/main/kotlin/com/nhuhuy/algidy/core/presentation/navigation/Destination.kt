@@ -42,5 +42,6 @@ enum class SettingDestination {
     Appearance,
     OtherSettings,
     YourData,
-    AboutApp
+    AboutApp,
+    OpenSource
 }

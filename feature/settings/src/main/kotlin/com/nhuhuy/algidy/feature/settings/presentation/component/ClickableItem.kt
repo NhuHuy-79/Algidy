@@ -1,11 +1,11 @@
 package com.nhuhuy.algidy.feature.settings.presentation.component
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.AlternateEmail
 import androidx.compose.material.icons.rounded.Apps
 import androidx.compose.material.icons.rounded.BuildCircle
 import androidx.compose.material.icons.rounded.Copyright
 import androidx.compose.material.icons.rounded.Download
-import androidx.compose.material.icons.rounded.Feedback
 import androidx.compose.material.icons.rounded.NewReleases
 import androidx.compose.material.icons.rounded.NotificationsActive
 import androidx.compose.material.icons.rounded.Policy
@@ -33,7 +33,7 @@ fun ClickableItem(
         ClickableType.DailyReminder -> Icons.Rounded.NotificationsActive
         ClickableType.DeleteAll -> ImageVector.vectorResource(R.drawable.ic_delete)
         ClickableType.Export -> Icons.Rounded.Upload
-        ClickableType.Feedback -> Icons.Rounded.Feedback
+        ClickableType.Feedback -> Icons.Rounded.AlternateEmail
         ClickableType.Import -> Icons.Rounded.Download
         ClickableType.NewFeatures -> Icons.Rounded.NewReleases
         ClickableType.OpenSource -> Icons.Rounded.BuildCircle

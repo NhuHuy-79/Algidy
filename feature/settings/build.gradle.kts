@@ -1,3 +1,4 @@
+
 plugins {
     id("algidy.android.feature")
     alias(libs.plugins.jetbrains.kotlin.serialization)

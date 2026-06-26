@@ -4,6 +4,7 @@ import com.nhuhuy.algidy.core.presentation.viewmodel.UiEvent
 
 sealed interface SettingsEvent : UiEvent {
     data object NavigateBack : SettingsEvent
+    data object OpenSourceClick : SettingsEvent
     data object RequestNotificationPermission : SettingsEvent
     data object SendFeedBackEmail : SettingsEvent
     data class ShowSnackBar(val message: String) : SettingsEvent

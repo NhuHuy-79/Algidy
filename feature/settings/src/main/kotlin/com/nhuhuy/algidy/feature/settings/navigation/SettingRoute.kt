@@ -6,16 +6,16 @@ import android.net.Uri
 import android.os.Build
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.DeleteForever
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalResources
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.vectorResource
 import androidx.core.net.toUri
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.nhuhuy.algidy.core.designsystem.component.AlgidyAlertDialog
@@ -27,8 +27,8 @@ import com.nhuhuy.algidy.core.presentation.component.AppTimePickerDialog
 import com.nhuhuy.algidy.core.presentation.navigation.Destination
 import com.nhuhuy.algidy.core.presentation.navigation.SettingDestination
 import com.nhuhuy.algidy.feature.settings.presentation.component.about_app.CopyrightBottomSheet
-import com.nhuhuy.algidy.feature.settings.presentation.component.about_app.OpenSourceBottomSheet
 import com.nhuhuy.algidy.feature.settings.presentation.component.about_app.PolicyBottomSheet
+import com.nhuhuy.algidy.feature.settings.presentation.component.open_source.OpenSourceContent
 import com.nhuhuy.algidy.feature.settings.presentation.screen.AboutAppScreen
 import com.nhuhuy.algidy.feature.settings.presentation.screen.AppearanceScreen
 import com.nhuhuy.algidy.feature.settings.presentation.screen.DataSettingsScreen
@@ -161,6 +161,10 @@ fun SettingRoute(
                     e.printStackTrace()
                 }
             }
+
+            SettingsEvent.OpenSourceClick -> onNavigateToSettingRoute(
+                Destination.Setting(SettingDestination.OpenSource)
+            )
         }
     }
     when (destination) {
@@ -199,11 +203,18 @@ fun SettingRoute(
                 onAction = onAction
             )
         }
+
+        SettingDestination.OpenSource -> {
+            OpenSourceContent(
+                onBack = onNavigateBack
+            )
+        }
     }
 
     when (val overlay = uiState.overlay) {
         SettingsOverlay.None -> Unit
         SettingsOverlay.DeleteAlertDialog -> AlgidyAlertDialog(
+            icon = ImageVector.vectorResource(R.drawable.ic_delete),
             confirmText = stringResource(R.string.delete_data_dialog_confirm),
             dismissText = stringResource(R.string.delete_data_dialog_cancel),
             onDismissRequest = {
@@ -214,7 +225,6 @@ fun SettingRoute(
             },
             title = stringResource(R.string.delete_data_dialog_title),
             text = stringResource(R.string.delete_data_dialog_content),
-            icon = Icons.Rounded.DeleteForever,
         )
 
         SettingsOverlay.TimePicker -> AppTimePickerDialog(
@@ -247,8 +257,8 @@ fun SettingRoute(
             }
         )
 
-        SettingsOverlay.OpenSourceSheet -> OpenSourceBottomSheet(
-            onDismiss = {
+        SettingsOverlay.OpenSourceSheet -> OpenSourceContent(
+            onBack = {
                 onAction(SettingsAction.OnDismiss)
             }
         )

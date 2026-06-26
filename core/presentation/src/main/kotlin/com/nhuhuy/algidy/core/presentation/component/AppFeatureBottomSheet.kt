@@ -1,13 +1,11 @@
 package com.nhuhuy.algidy.core.presentation.component
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -16,20 +14,15 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.ListItemDefaults
-import androidx.compose.material3.MaterialShapes
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.toShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.text.PlatformTextStyle
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.nhuhuy.algidy.core.designsystem.component.AppBottomSheet
 import com.nhuhuy.algidy.core.designsystem.component.AppButton
 import com.nhuhuy.algidy.core.model.VersionFeatures
@@ -47,7 +40,7 @@ fun AppNewFeatureBottomSheet(
     ) {
         Column(
             modifier = Modifier
-                .fillMaxWidth()
+                .fillMaxSize()
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
@@ -97,30 +90,10 @@ fun AppNewFeatureBottomSheet(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .clip(shape),
-                            leadingContent = {
-                                Box(
-                                    modifier = Modifier
-                                        .size(40.dp)
-                                        .background(
-                                            color = MaterialTheme.colorScheme.tertiaryContainer,
-                                            shape = MaterialShapes.Cookie6Sided.toShape()
-                                        ),
-                                    contentAlignment = Alignment.Center
-                                ) {
-                                    Text(
-                                        text = feature.icon,
-                                        style = TextStyle(
-                                            fontSize = 14.sp,
-                                            platformStyle = PlatformTextStyle(
-                                                includeFontPadding = false
-                                            )
-                                        )
-                                    )
-                                }
-                            },
                             headlineContent = {
                                 Text(
                                     text = feature.title,
+                                    fontWeight = FontWeight.Black
                                 )
                             },
                             supportingContent = {
@@ -159,30 +132,10 @@ fun AppNewFeatureBottomSheet(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .clip(shape),
-                            leadingContent = {
-                                Box(
-                                    modifier = Modifier
-                                        .size(40.dp)
-                                        .background(
-                                            color = MaterialTheme.colorScheme.tertiaryContainer,
-                                            shape = MaterialShapes.Cookie6Sided.toShape()
-                                        ),
-                                    contentAlignment = Alignment.Center
-                                ) {
-                                    Text(
-                                        text = fixItem.icon,
-                                        style = TextStyle(
-                                            fontSize = 14.sp,
-                                            platformStyle = PlatformTextStyle(
-                                                includeFontPadding = false
-                                            )
-                                        )
-                                    )
-                                }
-                            },
                             headlineContent = {
                                 Text(
                                     text = fixItem.title,
+                                    fontWeight = FontWeight.Black
                                 )
                             },
                             supportingContent = {

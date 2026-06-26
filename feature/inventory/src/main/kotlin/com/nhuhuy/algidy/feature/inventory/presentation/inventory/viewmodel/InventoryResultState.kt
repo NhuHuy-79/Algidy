@@ -44,6 +44,8 @@ sealed interface InventoryOverlay {
     data object ItemDetail : InventoryOverlay
 
     data object CategoryAdd : InventoryOverlay
+    data object ConsumeConfirm : InventoryOverlay
+    data object WasteConfirm : InventoryOverlay
     data class NewFeatureSheet(val versionFeature: VersionFeatures) : InventoryOverlay
 }
 enum class InventorySortMode {
