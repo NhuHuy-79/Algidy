@@ -9,7 +9,6 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -22,7 +21,6 @@ import androidx.compose.ui.unit.dp
 import androidx.core.os.LocaleListCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigationevent.compose.LocalNavigationEventDispatcherOwner
 import com.nhuhuy.algidy.core.designsystem.theme.AlgidyTheme
 import com.nhuhuy.algidy.core.model.setting.DarkMode
 import com.nhuhuy.algidy.navigation.AppGraph
@@ -85,7 +83,6 @@ class MainActivity : AppCompatActivity() {
                 }
             }
 
-
             LaunchedEffect(uiState.language) {
                 val currentLocales = AppCompatDelegate.getApplicationLocales()
                 if (currentLocales.isEmpty || currentLocales[0]?.language != uiState.language.isoCode) {
@@ -94,27 +91,25 @@ class MainActivity : AppCompatActivity() {
                     AppCompatDelegate.setApplicationLocales(appLocale)
                 }
             }
-            CompositionLocalProvider(LocalNavigationEventDispatcherOwner provides this) {
-                AlgidyTheme(
-                    fontName = uiState.font.fontName,
-                    dynamicColor = uiState.isDynamicColors,
-                    darkTheme = when (uiState.darkMode) {
-                        DarkMode.DARK -> true
-                        DarkMode.LIGHT -> false
-                        DarkMode.SYSTEM -> isSystemInDarkTheme()
-                    }
-                ) {
-                    AppGraph(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .then(
-                                if (isUnlocked) Modifier else Modifier.blur(
-                                    radius = 16.dp,
-                                    edgeTreatment = BlurredEdgeTreatment(RoundedCornerShape(8.dp))
-                                )
-                            )
-                    )
+            AlgidyTheme(
+                fontName = uiState.font.fontName,
+                dynamicColor = uiState.isDynamicColors,
+                darkTheme = when (uiState.darkMode) {
+                    DarkMode.DARK -> true
+                    DarkMode.LIGHT -> false
+                    DarkMode.SYSTEM -> isSystemInDarkTheme()
                 }
+            ) {
+                AppGraph(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .then(
+                            if (isUnlocked) Modifier else Modifier.blur(
+                                radius = 16.dp,
+                                edgeTreatment = BlurredEdgeTreatment(RoundedCornerShape(8.dp))
+                            )
+                        )
+                )
             }
         }
     }

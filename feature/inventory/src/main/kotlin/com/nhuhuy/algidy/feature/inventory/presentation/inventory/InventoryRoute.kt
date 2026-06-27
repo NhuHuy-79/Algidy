@@ -1,10 +1,7 @@
 package com.nhuhuy.algidy.feature.inventory.presentation.inventory
 
 import android.Manifest
-import android.content.pm.PackageManager
 import androidx.activity.compose.BackHandler
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -18,15 +15,11 @@ import androidx.compose.material3.Scrim
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
@@ -60,7 +53,7 @@ fun InventoryRoute() = BoxLayout {
     val inventoryResultState by viewModel.resultState.collectAsStateWithLifecycle()
     val onAction = viewModel::onAction
 
-    val context = LocalContext.current
+    LocalContext.current
     val cameraPermissionState = rememberPermissionState(Manifest.permission.CAMERA)
 
     ObserveEffect(flow = viewModel.uiEvent) { event ->
@@ -75,29 +68,6 @@ fun InventoryRoute() = BoxLayout {
     LaunchedEffect(Unit) {
         if (uiState.currentVersionCode < combineState.appVersionToNotify) {
             onAction(InventoryAction.ShowAppFeature)
-        }
-    }
-
-    var hasCameraPermission by remember {
-        mutableStateOf(
-            ContextCompat.checkSelfPermission(
-                context,
-                Manifest.permission.CAMERA
-            ) == PackageManager.PERMISSION_GRANTED
-        )
-    }
-
-    rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.RequestPermission(),
-        onResult = { granted ->
-            hasCameraPermission = granted
-            if (granted) onAction(InventoryAction.OnCameraPermissionAccept)
-        }
-    )
-
-    LaunchedEffect(cameraPermissionState.status.isGranted) {
-        if (cameraPermissionState.status.isGranted) {
-            hasCameraPermission = true
         }
     }
 
@@ -183,7 +153,7 @@ fun InventoryRoute() = BoxLayout {
         )
 
         InventoryOverlay.CameraPolicySheet -> {
-            if (!hasCameraPermission) {
+            if (!cameraPermissionState.status.isGranted) {
                 PolicyBottomSheet(
                     onConfirm = {
                         onAction(InventoryAction.OnConfirmCameraPolicy)

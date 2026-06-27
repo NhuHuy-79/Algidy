@@ -96,7 +96,6 @@ fun AppGraph(
                     }
                 )
             }
-
             entry<Destination.Analytics> {
                 AnalyticsRoute(
                 )
