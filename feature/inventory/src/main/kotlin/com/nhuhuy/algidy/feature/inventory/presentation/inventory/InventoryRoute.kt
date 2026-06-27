@@ -1,7 +1,10 @@
 package com.nhuhuy.algidy.feature.inventory.presentation.inventory
 
 import android.Manifest
+import android.content.pm.PackageManager
 import androidx.activity.compose.BackHandler
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -20,10 +23,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.google.accompanist.permissions.ExperimentalPermissionsApi
-import com.google.accompanist.permissions.isGranted
-import com.google.accompanist.permissions.rememberPermissionState
 import com.nhuhuy.algidy.core.designsystem.component.AlgidyAlertDialog
 import com.nhuhuy.algidy.core.designsystem.component.BoxLayout
 import com.nhuhuy.algidy.core.presentation.ObserveEffect
@@ -44,7 +45,6 @@ import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.Inve
 import org.koin.androidx.compose.koinViewModel
 import timber.log.Timber
 
-@OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun InventoryRoute() = BoxLayout {
     val viewModel: InventoryViewModel = koinViewModel()
@@ -53,14 +53,22 @@ fun InventoryRoute() = BoxLayout {
     val inventoryResultState by viewModel.resultState.collectAsStateWithLifecycle()
     val onAction = viewModel::onAction
 
-    LocalContext.current
-    val cameraPermissionState = rememberPermissionState(Manifest.permission.CAMERA)
+    val context = LocalContext.current
+    val permissionLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestPermission(),
+        onResult = { isGranted ->
+            if (isGranted) {
+                onAction(InventoryAction.OnCameraPermissionAccept)
+            }
+        }
+    )
 
     ObserveEffect(flow = viewModel.uiEvent) { event ->
+        Timber.d("Received Event: $event")
         when (event) {
             InventoryEvent.NavigateToScanner -> onAction(InventoryAction.OnCameraPermissionAccept)
             InventoryEvent.RequestCameraPermission -> {
-                cameraPermissionState.launchPermissionRequest()
+                permissionLauncher.launch(Manifest.permission.CAMERA)
             }
         }
     }
@@ -72,7 +80,6 @@ fun InventoryRoute() = BoxLayout {
     }
 
     BackHandler(enabled = uiState.expanded || uiState.overlay == InventoryOverlay.CategoryAdd || uiState.overlay == InventoryOverlay.CategoryEdit || uiState.overlay == InventoryOverlay.CategoryDelete) {
-        Timber.tag("Back Test").d("Clicked")
         if (uiState.expanded) {
             onAction(InventoryFabAction.ToggleFabMenu(false))
         } else {
@@ -153,14 +160,12 @@ fun InventoryRoute() = BoxLayout {
         )
 
         InventoryOverlay.CameraPolicySheet -> {
-            if (!cameraPermissionState.status.isGranted) {
-                PolicyBottomSheet(
-                    onConfirm = {
-                        onAction(InventoryAction.OnConfirmCameraPolicy)
-                    },
-                    onDismiss = { onAction(InventoryAction.OnDismiss) }
-                )
-            }
+            PolicyBottomSheet(
+                onConfirm = {
+                    onAction(InventoryAction.OnConfirmCameraPolicy)
+                },
+                onDismiss = { onAction(InventoryAction.OnDismiss) }
+            )
         }
     }
 
@@ -187,9 +192,15 @@ fun InventoryRoute() = BoxLayout {
             onManualClick = { onAction(InventoryFabAction.Manual) },
             onSettingClick = { onAction(InventoryFabAction.Setting) },
             onBarcodeScanClick = {
-                onAction(InventoryFabAction.BarcodeScan(cameraPermissionState.status.isGranted))
+                val isGranted = ContextCompat.checkSelfPermission(
+                    context,
+                    Manifest.permission.CAMERA
+                ) == PackageManager.PERMISSION_GRANTED
+                Timber.d("BarcodeScan click triggered. isGranted=$isGranted")
+                onAction(InventoryFabAction.BarcodeScan(isGranted))
             },
             onAnalyticsClick = { onAction(InventoryFabAction.Analytics) }
         )
     }
 }
+ 

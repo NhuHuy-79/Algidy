@@ -28,6 +28,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 class InventoryViewModel(
     private val addCategoryUseCase: AddCategoryUseCase,
@@ -82,6 +83,7 @@ class InventoryViewModel(
         )
 
     override fun onAction(action: InventoryAction) {
+        Timber.d("onAction: $action")
         when (action) {
             is InventoryAction.RemoveItem -> {
                 viewModelScope.launch {
@@ -210,10 +212,10 @@ class InventoryViewModel(
             }
 
             InventoryAction.OnConfirmCameraPolicy -> {
+                _uiState.product { copy(overlay = InventoryOverlay.None) }
+                emitEvent(InventoryEvent.RequestCameraPermission)
                 viewModelScope.launch {
                     getInventoryPreferenceUseCase.setCameraPolicyAccepted(true)
-                    _uiState.product { copy(overlay = InventoryOverlay.None) }
-                    emitEvent(InventoryEvent.RequestCameraPermission)
                 }
             }
 
@@ -240,7 +242,10 @@ class InventoryViewModel(
                 }
             }
 
-            is InventoryAction.OnCameraPermissionAccept -> navigator.navigateTo(Destination.Scanner)
+            is InventoryAction.OnCameraPermissionAccept -> {
+                Timber.d("Navigating to Scanner from OnCameraPermissionAccept")
+                navigator.navigateTo(Destination.Scanner)
+            }
 
             is InventorySelectAction -> onSelectAction(action)
             InventoryAction.ShowAppFeature -> viewModelScope.launch {
@@ -333,6 +338,7 @@ class InventoryViewModel(
     }
 
     private fun onFabAction(action: InventoryFabAction) {
+        Timber.d("onFabAction: $action")
         when (action) {
             InventoryFabAction.Analytics -> {
                 _uiState.product { copy(expanded = false) }
@@ -340,19 +346,14 @@ class InventoryViewModel(
             }
 
             is InventoryFabAction.BarcodeScan -> {
+                Timber.d("BarcodeScan: isPermissionGranted=${action.isPermissionGranted}, cameraPolicyAccepted=${combineState.value.cameraPolicyAccepted}")
+                _uiState.product { copy(expanded = false) }
                 if (action.isPermissionGranted) {
-                    _uiState.product { copy(expanded = false) }
-                    navigator.navigateTo(Destination.Scanner)
+                    emitEvent(InventoryEvent.NavigateToScanner)
                 } else if (combineState.value.cameraPolicyAccepted) {
-                    _uiState.product { copy(expanded = false) }
                     emitEvent(InventoryEvent.RequestCameraPermission)
                 } else {
-                    _uiState.product {
-                        copy(
-                            expanded = false,
-                            overlay = InventoryOverlay.CameraPolicySheet
-                        )
-                    }
+                    _uiState.product { copy(overlay = InventoryOverlay.CameraPolicySheet) }
                 }
             }
 
