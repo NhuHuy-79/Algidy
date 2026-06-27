@@ -83,6 +83,10 @@
     <string name="inventory_sheet_title">Tambahkan Makanan Baru</string>
     <string name="inventory_sheet_btn">Tambahkan Makanan</string>
 
+    <string name="camera_permission_title">Akses Kamera Diperlukan</string>
+    <string name="camera_permission_description">Kami memerlukan akses kamera untuk memungkinkan Anda memindai kode QR, mengambil foto profil, dan memanfaatkan fitur AR di dalam aplikasi. Privasi Anda dilindungi, dan kami tidak pernah merekam tanpa tindakan langsung Anda.</string>
+    <string name="camera_permission_confirm_btn">Mengerti.</string>
+
     <string name="inventory_category_edit">Edit Kategori</string>
     <string name="inventory_category_edit_btn">Sunting</string>
     <string name="inventory_category_delete">Hapus Kategori</string>

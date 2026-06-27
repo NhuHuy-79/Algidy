@@ -83,6 +83,10 @@
     <string name="inventory_sheet_title">Añadir comida nueva</string>
     <string name="inventory_sheet_btn">Añadir comida</string>
 
+    <string name="camera_permission_title">Se requiere acceso a la cámara</string>
+    <string name="camera_permission_description">Necesitamos acceso a la cámara para que puedas escanear códigos QR, tomar fotos de perfil y utilizar funciones de realidad aumentada dentro de la app. Tu privacidad está protegida y nunca grabamos sin tu acción directa.</string>
+    <string name="camera_permission_confirm_btn">Entendido</string>
+
     <string name="inventory_category_edit">Editar categoría</string>
     <string name="inventory_category_edit_btn">Edición</string>
     <string name="inventory_category_delete">Eliminar categoría</string>

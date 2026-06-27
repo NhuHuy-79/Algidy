@@ -83,6 +83,10 @@
     <string name="inventory_sheet_title">Thêm thực phẩm mới</string>
     <string name="inventory_sheet_btn">Thêm thực phẩm</string>
 
+    <string name="camera_permission_title">Yêu cầu truy cập máy ảnh</string>
+    <string name="camera_permission_description">Chúng tôi cần quyền truy cập máy ảnh để cho phép bạn quét mã QR, chụp ảnh hồ sơ và sử dụng các tính năng AR trong ứng dụng. Quyền riêng tư của bạn được bảo vệ và chúng tôi không bao giờ ghi lại mà không có hành động trực tiếp của bạn.</string>
+    <string name="camera_permission_confirm_btn">Hiểu rồi</string>
+
     <string name="inventory_category_edit">Sửa</string>
     <string name="inventory_category_edit_btn">Chỉnh sửa</string>
     <string name="inventory_category_delete">Xóa</string>
@@ -331,7 +335,7 @@ Nếu bạn có bất kỳ câu hỏi hoặc đề xuất nào liên quan đến
     <string name="notif_expiry_multiple_title">Lưu ý: %1$d mặt hàng sắp hết hạn!</string>
     <string name="notif_expiry_summary">Cảnh báo hết hạn</string>
     <string name="notif_expiry_item_line">- %1$s (còn lại %2$d ngày)</string>
-    <string name="notif_expiry_overflow">...và %1$d mục khác</string>
+    <string name="notif_expiry_overflow">…và %1$d mục khác</string>
     <string name="notif_expiry_content">Bạn có những mục cần quan tâm.</string>
 
     <string name="notif_weekly_title">Tóm tắt hàng tuần của Algidy</string>
