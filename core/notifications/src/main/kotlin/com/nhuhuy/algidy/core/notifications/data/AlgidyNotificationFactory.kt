@@ -106,13 +106,13 @@ class AlgidyNotificationFactory(
             .setContentIntent(mainIntent)
             // Nút "Đã dùng"
             .addAction(
-                android.R.drawable.ic_menu_edit,
+                com.nhuhuy.algidy.core.designsystem.R.drawable.ic_check_small,
                 actionConsumed,
                 consumeIntent
             )
             // Nút "Vứt bỏ"
             .addAction(
-                android.R.drawable.ic_menu_delete,
+                R.drawable.ic_delete,
                 actionWasted,
                 wasteIntent
             )

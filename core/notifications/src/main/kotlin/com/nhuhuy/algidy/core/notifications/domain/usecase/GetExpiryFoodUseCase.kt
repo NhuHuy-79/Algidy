@@ -4,7 +4,11 @@ import com.nhuhuy.algidy.core.data.repository.FoodRepository
 import com.nhuhuy.algidy.core.datastore.SettingsDataStore
 import com.nhuhuy.algidy.core.model.food.FoodItem
 import kotlinx.coroutines.flow.first
-import java.util.concurrent.TimeUnit
+import timber.log.Timber
+import java.time.Instant
+import java.time.LocalDate
+import java.time.ZoneId
+import java.time.temporal.ChronoUnit
 
 class GetExpiryFoodUseCase(
     private val foodRepository: FoodRepository,
@@ -12,15 +16,28 @@ class GetExpiryFoodUseCase(
 ) {
     suspend operator fun invoke(): List<FoodItem> {
         val allFoods = foodRepository.getAllFoodItems()
-        val dayWarnings = settingsDataStore.warningDayFlow.first()
-        val currentTime = System.currentTimeMillis()
+        val warningDays = settingsDataStore.warningDayFlow.first()
 
-        val warningPeriodMs = TimeUnit.DAYS.toMillis(dayWarnings.toLong())
+        val today = LocalDate.now()
 
-        return allFoods.filter { foodItem ->
-            val timeUnitExpiry = foodItem.expiryDate - currentTime
-            timeUnitExpiry in 0..warningPeriodMs
+        val expiryFoods = allFoods.filter { foodItem ->
+            val expiryDate = Instant
+                .ofEpochMilli(foodItem.expiryDate)
+                .atZone(ZoneId.systemDefault())
+                .toLocalDate()
+
+            val daysLeft = ChronoUnit.DAYS.between(
+                today,
+                expiryDate
+            )
+            Timber.d(
+                "Food=${foodItem.name}, expiry=$expiryDate, today=$today, daysLeft=$daysLeft"
+            )
+            daysLeft in 0..warningDays.toLong()
         }
-    }
 
+        Timber.d("Filtered foods count=${expiryFoods.size}")
+
+        return expiryFoods.sortedBy { it.expiryDate }
+    }
 }

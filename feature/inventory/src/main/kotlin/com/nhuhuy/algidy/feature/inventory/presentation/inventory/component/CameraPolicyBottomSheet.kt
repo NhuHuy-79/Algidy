@@ -30,7 +30,7 @@ import com.nhuhuy.algidy.core.presentation.R
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
-fun PolicyBottomSheet(
+fun CameraPolicyBottomSheet(
     onConfirm: () -> Unit,
     onDismiss: () -> Unit
 ) {
@@ -49,7 +49,7 @@ fun PolicyBottomSheet(
                     .size(40.dp)
                     .background(
                         color = MaterialTheme.colorScheme.secondary,
-                        shape = MaterialShapes.Cookie6Sided.toShape()
+                        shape = MaterialShapes.Cookie12Sided.toShape()
                     ),
                 contentAlignment = Alignment.Center
             ) {
@@ -71,7 +71,7 @@ fun PolicyBottomSheet(
 
             Text(
                 text = stringResource(R.string.camera_permission_description),
-                style = MaterialTheme.typography.bodyLarge,
+                style = MaterialTheme.typography.bodyMedium,
             )
 
             Button(
@@ -81,9 +81,7 @@ fun PolicyBottomSheet(
             ) {
                 Text(
                     text = stringResource(R.string.camera_permission_confirm_btn),
-                    style = MaterialTheme.typography.bodyLarge.copy(
-                        fontWeight = FontWeight.Medium
-                    )
+                    style = MaterialTheme.typography.titleMedium
                 )
             }
         }

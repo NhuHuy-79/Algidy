@@ -31,8 +31,8 @@ import com.nhuhuy.algidy.core.presentation.ObserveEffect
 import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.core.presentation.component.AppNewFeatureBottomSheet
 import com.nhuhuy.algidy.core.presentation.component.TextFieldDialog
+import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.CameraPolicyBottomSheet
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.InventoryFabMenu
-import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.PolicyBottomSheet
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.detail.DetailBottomSheet
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryAction
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryAction.OnEditCategorySheet.OnInputChange
@@ -160,7 +160,7 @@ fun InventoryRoute() = BoxLayout {
         )
 
         InventoryOverlay.CameraPolicySheet -> {
-            PolicyBottomSheet(
+            CameraPolicyBottomSheet(
                 onConfirm = {
                     onAction(InventoryAction.OnConfirmCameraPolicy)
                 },

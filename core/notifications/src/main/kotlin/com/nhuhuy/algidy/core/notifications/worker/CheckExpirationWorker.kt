@@ -7,7 +7,7 @@ import com.nhuhuy.algidy.core.data.util.AppDispatchers
 import com.nhuhuy.algidy.core.notifications.domain.AlgidyNotifier
 import com.nhuhuy.algidy.core.notifications.domain.NotificationFoodItem
 import com.nhuhuy.algidy.core.notifications.domain.usecase.GetExpiryFoodUseCase
-import com.nhuhuy.algidy.core.notifications.domain.usecase.GetNotificationEnabled
+import com.nhuhuy.algidy.core.notifications.domain.usecase.GetNotificationPreferenceUseCase
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit
 class CheckExpirationWorker(
     appContext: Context,
     params: WorkerParameters,
-    private val getNotificationEnabled: GetNotificationEnabled,
+    private val getNotificationPreferenceUseCase: GetNotificationPreferenceUseCase,
     private val getExpiryFoodUseCase: GetExpiryFoodUseCase,
     private val workerScheduler: WorkerScheduler,
     private val notifier: AlgidyNotifier,
@@ -23,18 +23,19 @@ class CheckExpirationWorker(
 ) : CoroutineWorker(appContext = appContext, params = params) {
     override suspend fun doWork(): Result {
         return withContext(appDispatchers.io) {
+            Timber.d("Expiration Worker Check!")
             try {
-                if (!getNotificationEnabled()) {
+                if (!getNotificationPreferenceUseCase()) {
                     return@withContext Result.success()
                 }
 
                 if (runAttemptCount >= 5) {
-                    Result.failure()
+                    return@withContext Result.failure()
                 }
                 val expiringFoods = getExpiryFoodUseCase()
                 if (expiringFoods.isEmpty()) {
                     Timber.d("No expiry food!")
-                    Result.success()
+                    return@withContext Result.success()
                 }
 
                 val currentTime = System.currentTimeMillis()
@@ -53,7 +54,7 @@ class CheckExpirationWorker(
                     notifier.showActionableExpiryPrompt(
                         foodId = food.id,
                         foodName = food.name,
-                        image = null
+                        uriPath = food.imageUri
                     )
                 }
 
@@ -69,14 +70,13 @@ class CheckExpirationWorker(
                     }
                     notifier.showExpiringItemsAlert(notificationItems)
                 }
-
-
                 //Reschedule
-                workerScheduler.scheduleCheckExpiryWorker()
                 Result.success()
             } catch (e: Exception) {
                 Timber.e(e)
                 Result.retry()
+            } finally {
+                workerScheduler.scheduleCheckExpiryWorker()
             }
         }
     }

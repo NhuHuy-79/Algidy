@@ -62,11 +62,6 @@ class WorkerSchedulerImp(
 
             val request = OneTimeWorkRequestBuilder<CheckExpirationWorker>()
                 .setInitialDelay(delay, TimeUnit.MILLISECONDS)
-                .setConstraints(
-                    Constraints.Builder()
-                        .setRequiresBatteryNotLow(true)
-                        .build()
-                )
                 .build()
 
             workManager.enqueueUniqueWork(
@@ -78,17 +73,12 @@ class WorkerSchedulerImp(
     }
 
     override fun scheduleWeeklyReportWorker() {
-        val constraints = Constraints.Builder()
-            .setRequiresBatteryNotLow(true)
-            .build()
-
         val initialDelayMillis = calculateDelayUntilNextSunday9AM()
 
         val weeklyRequest = PeriodicWorkRequestBuilder<WeeklyReportWorker>(
             repeatInterval = 7,
             repeatIntervalTimeUnit = TimeUnit.DAYS
         )
-            .setConstraints(constraints)
             .setInitialDelay(
                 initialDelayMillis,
                 TimeUnit.MILLISECONDS
