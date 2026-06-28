@@ -1,7 +1,6 @@
 package com.nhuhuy.algidy.feature.analytics.domain.model
 
 import com.nhuhuy.algidy.core.model.food.StorageLocation
-import java.time.LocalDate
 
 /**
  * Statistics for food waste by storage location.

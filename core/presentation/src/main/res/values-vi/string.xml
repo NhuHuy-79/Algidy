@@ -4,14 +4,10 @@
     <string name="action_ok">OK</string>
     <string name="action_cancel">Hủy</string>
     <string name="action_save">Lưu</string>
-    <string name="action_discard">Hủy bỏ</string>
     <string name="action_edit">Sửa</string>
     <string name="action_add">Thêm</string>
-    <string name="action_delete">Xóa</string>
     <string name="action_back">Quay lại</string>
     <string name="action_menu">Thao tác</string>
-    <string name="action_view_more">Xem thêm</string>
-    <string name="action_new">Mới</string>
 
     <string name="category_all">Tất cả</string>
     <string name="category_uncategorized">Không phân loại</string>
@@ -63,15 +59,10 @@
     <string name="error_future_date">Ngày mua không thể ở tương lai.</string>
     <string name="error_invalid_date_range">Hạn sử dụng phải bằng hoặc sau ngày mua.</string>
     <string name="error_text_too_short">Tên phải có ít nhất 2 ký tự.</string>
-    <string name="error_image_save_failed">Không thể lưu ảnh.</string>
 
     <!-- Inventory Screen -->
     <string name="inventory_title">Kho lưu trữ</string>
     <string name="inventory_subtitle">Xin chào!</string>
-    <string name="inventory_page_fridge">Ngăn mát</string>
-    <string name="inventory_page_freezer">Ngăn đông</string>
-    <string name="inventory_page_pantry">Tủ đồ khô</string>
-    <string name="inventory_page_other">Khác</string>
     <string name="inventory_empty_title">Tủ đồ của bạn đang trống</string>
     <string name="inventory_empty_content">Hãy theo dõi thực phẩm của bạn để không bao giờ bị lãng phí đồ ăn. Thêm món mới ngay nào!</string>
     <string name="inventory_scanner_btn">Quét mã vạch</string>
@@ -80,8 +71,6 @@
     <string name="inventory_menu_sort_name">Sắp xếp theo tên</string>
     <string name="inventory_menu_expired_only">Chỉ hàng hết hạn</string>
     <string name="inventory_menu_reset">Đặt lại tất cả</string>
-    <string name="inventory_sheet_title">Thêm thực phẩm mới</string>
-    <string name="inventory_sheet_btn">Thêm thực phẩm</string>
 
     <string name="camera_permission_title">Yêu cầu truy cập máy ảnh</string>
     <string name="camera_permission_description">Chúng tôi cần quyền truy cập máy ảnh để cho phép bạn quét mã QR, chụp ảnh hồ sơ và sử dụng các tính năng AR trong ứng dụng. Quyền riêng tư của bạn được bảo vệ và chúng tôi không bao giờ ghi lại mà không có hành động trực tiếp của bạn.</string>
@@ -94,11 +83,8 @@
     <string name="inventory_category_add_btn">Thêm</string>
     <string name="category_edit_dialog_title">Chỉnh sửa danh mục</string>
     <string name="category_edit_dialog_label">Tên danh mục</string>
-    <string name="category_search_placeholder">Tìm kiếm hoặc nhập danh mục mới…</string>
-    <string name="category_add_new">Thêm mới: \"%1$s\"</string>
     <string name="inventory_menu_filter">Lọc</string>
 
-    <string name="inventory_detail_sheet">Chi tiết</string>
     <string name="inventory_category">Thể loại</string>
     <string name="inventory_location">Địa điểm</string>
     <string name="inventory_purchase_date">Ngày mua</string>
@@ -130,43 +116,26 @@
     <string name="food_entry_title">Thêm thức ăn mới</string>
 
     <!-- Detail Screen -->
-    <string name="detail_title">Chi tiết thực phẩm</string>
-    <string name="detail_subtitle">Đừng quên xử lý món này nhé</string>
-    <string name="detail_food_stats">Thống kê thực phẩm</string>
-    <string name="detail_expiry_progress">Tiến độ hạn sử dụng</string>
     <string name="detail_personal_notes">Ghi chú cá nhân</string>
     <string name="detail_fab_consume_this">Đã ăn món này</string>
-    <string name="detail_fab_edit_details">Sửa chi tiết</string>
     <string name="detail_fab_mark_as_wasted">Bỏ đi (Lãng phí)</string>
     <string name="detail_dialog_waste_title">Bỏ thực phẩm này?</string>
     <string name="detail_dialog_waste_content">Bạn có chắc thực phẩm này không còn dùng được nữa? Nó sẽ được chuyển vào lịch sử lãng phí để theo dõi.</string>
     <string name="detail_dialog_consume_title">Đã ăn xong?</string>
     <string name="detail_dialog_consume_content">Tuyệt vời! Chúng tôi sẽ cập nhật kho lưu trữ và chuyển mục này vào lịch sử tiêu thụ của bạn.</string>
-    <string name="detail_edit_sheet_title">Chỉnh sửa thông tin</string>
     <string name="detail_pick_photo">Chọn ảnh</string>
-    <string name="detail_item_details">Chi tiết thực phẩm</string>
-    <string name="detail_edit_image">Chỉnh sửa ảnh</string>
-    <string name="detail_bought">Đã mua</string>
     <string name="detail_no_notes">Chưa có ghi chú nào cho mục này.</string>
 
     <!-- Confirm Screen -->
-    <string name="confirm_title">Xác nhận thông tin</string>
     <string name="confirm_label_name">Tên thực phẩm</string>
     <string name="confirm_label_category">Danh mục</string>
     <string name="confirm_placeholder_name">Nhập tên thực phẩm…</string>
-    <string name="confirm_label_quantity">Số lượng</string>
-    <string name="confirm_label_unit">Đơn vị</string>
     <string name="confirm_label_purchase_date">Ngày mua</string>
     <string name="confirm_label_expiry_date">Hạn sử dụng</string>
     <string name="confirm_date_set">Đặt ngày</string>
     <string name="confirm_label_location">Vị trí lưu trữ</string>
     <string name="confirm_label_notes">Ghi chú</string>
     <string name="confirm_placeholder_notes">Ví dụ: Thương hiệu, ngày mở nắp…</string>
-    <string name="confirm_btn_add">Thêm vào tủ</string>
-    <string name="confirm_dialog_discard_title">Hủy các thay đổi?</string>
-    <string name="confirm_dialog_discard_content">Bạn có chắc muốn quay lại không? Tất cả thông tin thực phẩm bạn vừa nhập sẽ bị mất và không được lưu vào tủ.</string>
-    <string name="confirm_dialog_discard_btn_discard">Hủy bỏ</string>
-    <string name="confirm_dialog_discard_btn_keep">Tiếp tục sửa</string>
 
     <!-- Scanner Screen -->
     <string name="scanner_title_barcode">Quét mã vạch</string>
@@ -178,7 +147,6 @@
     <string name="scanner_label_failure">Quét thất bại</string>
 
     <string name="scanner_barcode_dialog_title">Nhập mã của bạn</string>
-    <string name="scanner_barcode_label">Mã vạch</string>
     <string name="scanner_barcode_confirm">Xác nhận</string>
     <string name="scanner_preview_title">Xem trước</string>
     <string name="scanner_preview_btn">Bắt đầu quét</string>
@@ -190,18 +158,12 @@
     <string name="scanner_add_manually_tooltip">\"Gặp sự cố khi quét\? Thêm thủ công.\"</string>
 
     <!-- Analytics Screen -->
-    <string name="analytics_card">Bạn có</string>
-    <string name="analytics_card_2">tuần này.</string>
-    <plurals name="analytics_product_count">
-        <item quantity="other">Bạn có %1$d thực phẩm trong tuần này</item>
-    </plurals>
     <string name="analytics_title">Thống kê</string>
     <string name="analytics_subtitle">Tổng quan về lãng phí và tác động</string>
     <string name="analytics_card_consumed">Tiêu thụ</string>
     <string name="analytics_card_wasted">Lãng phí</string>
     <string name="analytics_card_others">Khác</string>
     <string name="analytics_card_spoilage_history">Lịch sử Lãng Phí</string>
-    <string name="analytics_card_waste_location">Thực phẩm lãng phí theo vị trí</string>
     <string name="analytics_card_weekly_freshness">Độ tươi mới trong tuần</string>
 
     <string name="analytics_weekly_card">%1$s/7 ngày</string>
@@ -211,7 +173,6 @@
     <string name="settings_title">Cài đặt</string>
     <string name="settings_notifications">Thông báo</string>
     <string name="settings_notifications_desc">Nhận cảnh báo khi thực phẩm sắp hết hạn</string>
-    <string name="settings_notif_permission_required">Cần có quyền thông báo cho tính năng này.</string>
 
     <string name="setting_app_theme">Chủ đề</string>
     <string name="setting_dark_mode">Tối</string>
@@ -242,7 +203,6 @@
     <string name="setting_biometric">Khóa sinh trắc học</string>
     <string name="setting_biometric_desc">Sử dụng vân tay để khóa ứng dụng</string>
 
-    <string name="setting_data">Dữ liệu của bạn</string>
     <string name="setting_clear_data">Xóa tất cả</string>
     <string name="setting_clear_data_desc">Xóa toàn bộ dữ liệu ứng dụng của bạn.</string>
 
@@ -327,12 +287,8 @@ Chúng tôi không bán, trao đổi hoặc chuyển dữ liệu cá nhân hoặ
 4. Liên hệ với chúng tôi
 Nếu bạn có bất kỳ câu hỏi hoặc đề xuất nào liên quan đến Chính sách quyền riêng tư này, vui lòng liên hệ với nhà phát triển qua email tại: nhuhuy.dev\@gmail.com</string>
     <!--Notification-->
-    <string name="notif_expiry_title">Thực phẩm sắp hết hạn!</string>
-    <string name="notif_expiry_few_items">Lưu ý: %1$s của bạn sắp hết hạn.</string>
-    <string name="notif_expiry_many_items">Lưu ý: %1$s và %2$d các mặt hàng khác sắp hết hạn!</string>
 
     <!--Notification Features-->
-    <string name="notif_expiry_multiple_title">Lưu ý: %1$d mặt hàng sắp hết hạn!</string>
     <string name="notif_expiry_review_before_expire">Vui lòng xem lại các mặt hàng của bạn trước khi chúng hết hạn.</string>
     <string name="notif_expiry_next_item_one_day">Tiếp theo: %1$s sẽ hết hạn vào ngày mai!</string>
     <string name="notif_expiry_next_item_days">Tiếp theo: %1$s trong %2$d ngày</string>

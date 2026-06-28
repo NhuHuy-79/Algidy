@@ -5,14 +5,10 @@
     <string name="action_ok">OK</string>
     <string name="action_cancel">Cancel</string>
     <string name="action_save">Save</string>
-    <string name="action_discard">Discard</string>
     <string name="action_edit">Edit</string>
     <string name="action_add">Add</string>
-    <string name="action_delete">Delete</string>
     <string name="action_back">Back</string>
     <string name="action_menu">Menu Actions</string>
-    <string name="action_view_more">View More</string>
-    <string name="action_new">New</string>
 
     <string name="category_all">All</string>
     <string name="category_uncategorized">Uncategorized</string>
@@ -64,15 +60,10 @@
     <string name="error_future_date">Purchase date cannot be in the future.</string>
     <string name="error_invalid_date_range">Expiry date must be after or on the purchase date.</string>
     <string name="error_text_too_short">Name must be at least 2 characters long.</string>
-    <string name="error_image_save_failed">Failed to save image.</string>
 
     <!-- Inventory Screen -->
     <string name="inventory_title">Inventory</string>
     <string name="inventory_subtitle">Welcome!</string>
-    <string name="inventory_page_fridge">Fridge</string>
-    <string name="inventory_page_freezer">Freezer</string>
-    <string name="inventory_page_pantry">Pantry</string>
-    <string name="inventory_page_other">Other</string>
     <string name="inventory_empty_title">Your pantry is empty</string>
     <string name="inventory_empty_content">Keep track of your groceries and never let food go to waste. Start adding item now!</string>
     <string name="inventory_scanner_btn">Scan Barcode</string>
@@ -81,8 +72,6 @@
     <string name="inventory_menu_sort_name">Sort by Name</string>
     <string name="inventory_menu_expired_only">Expired Only</string>
     <string name="inventory_menu_reset">Reset All</string>
-    <string name="inventory_sheet_title">Add New Food</string>
-    <string name="inventory_sheet_btn">Add Food</string>
 
     <string name="camera_permission_title">Camera Access Required</string>
     <string name="camera_permission_description">We need camera access to let you scan QR codes, take profile photos, and utilize AR features within the app. Your privacy is protected, and we never record without your direct action.</string>
@@ -95,11 +84,8 @@
     <string name="inventory_category_add_btn">Add</string>
     <string name="category_edit_dialog_title">Edit Category</string>
     <string name="category_edit_dialog_label">Category Name</string>
-    <string name="category_search_placeholder">Search or type new category…</string>
-    <string name="category_add_new">Add new: \"%1$s\"</string>
     <string name="inventory_menu_filter">Filter</string>
 
-    <string name="inventory_detail_sheet">Detail</string>
     <string name="inventory_category">Category</string>
     <string name="inventory_location">Location</string>
     <string name="inventory_purchase_date">Purchase Date</string>
@@ -132,43 +118,26 @@
     <string name="food_entry_title">Add New Food</string>
 
     <!-- Detail Screen -->
-    <string name="detail_title">Detail Screen</string>
-    <string name="detail_subtitle">Don\'t forget to consume this</string>
-    <string name="detail_food_stats">Food Stats</string>
-    <string name="detail_expiry_progress">Expiry Progress</string>
     <string name="detail_personal_notes">Personal Notes</string>
     <string name="detail_fab_consume_this">Consumed</string>
-    <string name="detail_fab_edit_details">Edit Details</string>
     <string name="detail_fab_mark_as_wasted">Wasted</string>
     <string name="detail_dialog_waste_title">Mark as Wasted?</string>
     <string name="detail_dialog_waste_content">Are you sure this food is no longer usable? It will be moved to your waste history for tracking.</string>
     <string name="detail_dialog_consume_title">Finished Eating?</string>
     <string name="detail_dialog_consume_content">Great! We\'ll update your inventory and move this item to your consumption history.</string>
-    <string name="detail_edit_sheet_title">Edit Information</string>
     <string name="detail_pick_photo">Pick Photo</string>
-    <string name="detail_item_details">Item Details</string>
-    <string name="detail_edit_image">Edit Image</string>
-    <string name="detail_bought">Bought</string>
     <string name="detail_no_notes">No notes for this item yet.</string>
 
     <!-- Confirm Screen -->
-    <string name="confirm_title">Confirm Information</string>
     <string name="confirm_label_name">Food Name</string>
     <string name="confirm_label_category">Category</string>
     <string name="confirm_placeholder_name">Enter food name…</string>
-    <string name="confirm_label_quantity">Quantity</string>
-    <string name="confirm_label_unit">Unit</string>
     <string name="confirm_label_purchase_date">Purchase Date</string>
     <string name="confirm_label_expiry_date">Expiry Date</string>
     <string name="confirm_date_set">Set Date</string>
     <string name="confirm_label_location">Storage Location</string>
     <string name="confirm_label_notes">Notes</string>
     <string name="confirm_placeholder_notes">E.g. Brand, open date…</string>
-    <string name="confirm_btn_add">Add to Pantry</string>
-    <string name="confirm_dialog_discard_title">Discard Changes?</string>
-    <string name="confirm_dialog_discard_content">Are you sure you want to go back? All food information you\'ve entered will be lost and won\'t be saved to your pantry.</string>
-    <string name="confirm_dialog_discard_btn_discard">Discard</string>
-    <string name="confirm_dialog_discard_btn_keep">Keep Editing</string>
 
     <!-- Scanner Screen -->
     <string name="scanner_title_barcode">Barcode Scanner</string>
@@ -180,7 +149,6 @@
     <string name="scanner_label_failure">Scan Failed</string>
 
     <string name="scanner_barcode_dialog_title">Enter your barcode</string>
-    <string name="scanner_barcode_label">Barcode</string>
     <string name="scanner_barcode_confirm">Confirm</string>
     <string name="scanner_preview_title">Preview</string>
     <string name="scanner_preview_btn">Start Scanning</string>
@@ -192,19 +160,12 @@
     <string name="scanner_add_manually_tooltip">"Having trouble scanning? Add manually."</string>
 
     <!-- Analytics Screen -->
-    <string name="analytics_card">You have</string>
-    <string name="analytics_card_2">this week.</string>
-    <plurals name="analytics_product_count">
-        <item quantity="one">You have %1$d product this week</item>
-        <item quantity="other">You have %1$d products this week</item>
-    </plurals>
     <string name="analytics_title">Analytics</string>
     <string name="analytics_subtitle">Overview of waste and impact</string>
     <string name="analytics_card_consumed">Consumed</string>
     <string name="analytics_card_wasted">Wasted</string>
     <string name="analytics_card_others">Others</string>
     <string name="analytics_card_spoilage_history">Spoilage History</string>
-    <string name="analytics_card_waste_location">Wasted Items by Location</string>
     <string name="analytics_card_weekly_freshness">Weekly Freshness</string>
 
     <string name="analytics_weekly_card">%1$s/7 days</string>
@@ -214,7 +175,6 @@
     <string name="settings_title">Settings</string>
     <string name="settings_notifications">Notifications</string>
     <string name="settings_notifications_desc">Receive alerts for expiring food</string>
-    <string name="settings_notif_permission_required">Notification permission is required for this feature.</string>
 
     <string name="setting_app_theme">Theme</string>
     <string name="setting_dark_mode">Dark</string>
@@ -245,7 +205,6 @@
     <string name="setting_biometric">Biometrics Lock</string>
     <string name="setting_biometric_desc">Biometrics lock for the app</string>
 
-    <string name="setting_data">Your Data</string>
     <string name="setting_clear_data">Delete all</string>
     <string name="setting_clear_data_desc">Delete all of your application data.</string>
 
@@ -307,9 +266,6 @@
     <string name="main_settings_subtitle">General application settings</string>
     <string name="privacy_policy_content">PRIVACY POLICY FOR ALGIDY\nLast Updated: June 2026\n\nWelcome to Algidy. We are committed to protecting your privacy and personal data. This Privacy Policy explains how Algidy collects, uses, and safeguards your information when you use our application.\n\n1. Information Collection and Use\nAlgidy is designed as an offline-first application. The vast majority of your data regarding food management and inventory is stored locally and securely on your device using the Room Database.\n\nHowever, to provide specific functionalities, we may request access to the following device features:\n\n- Camera: We require Camera permission to enable features such as scanning food barcodes or taking product profile photos. All image processing is handled instantly on your device and is never uploaded to any remote server without your explicit consent.\n\n- Notifications: The app requests permission to send notifications to remind you about food expiration dates, helping you reduce food waste.\n\n- Internet Access and Analytics Data: We utilize anonymous analytics services to collect technical data regarding application performance and crash logs. Internet permission is strictly used to transmit these diagnostic reports.\n\n2. Data Storage\nAll inventory logs, food categories, and app usage history are contained entirely within your local device storage. If you uninstall the application, all this information will be permanently deleted and cannot be recovered.\n\n3. Third-Party Data Sharing\nWe do not sell, trade, or otherwise transfer your personal data or usage logs to any outside parties.\n\n4. Contact Us\nIf you have any questions or suggestions regarding this Privacy Policy, please feel free to contact the developer via email at: nhuhuy.dev@gmail.com</string>
     <!--Notification-->
-    <string name="notif_expiry_title">Food expiring soon!</string>
-    <string name="notif_expiry_few_items">Attention: Your %1$s are expiring soon.</string>
-    <string name="notif_expiry_many_items">Attention: %1$s and %2$d other items are expiring soon!</string>
 
     <!--Notification Features-->
     <plurals name="notif_expiry_multiple_title">

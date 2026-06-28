@@ -13,12 +13,6 @@ import kotlinx.coroutines.flow.channelFlow
 
 
 class BiometricHandler(private val activity: FragmentActivity) {
-    // Hàm này gọi TRƯỚC khi hiện nút "Đăng nhập bằng vân tay"
-    fun isBiometricAvailable(): Boolean {
-        val manager = BiometricManager.from(activity)
-        val authenticators = BIOMETRIC_STRONG or DEVICE_CREDENTIAL
-        return manager.canAuthenticate(authenticators) == BiometricManager.BIOMETRIC_SUCCESS
-    }
 
     // Hàm này gọi KHI người dùng bấm vào nút "Đăng nhập"
     fun authenticate(): Flow<BiometricResult> = channelFlow {

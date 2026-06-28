@@ -27,9 +27,6 @@ sealed interface Destination : NavKey {
     ) : Destination
 
     @Serializable
-    data object PreSetting : Destination
-
-    @Serializable
     data class Setting(
         val destination: SettingDestination = SettingDestination.Main
     ) : Destination

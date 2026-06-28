@@ -4,14 +4,10 @@
     <string name="action_ok">OK</string>
     <string name="action_cancel">Stornieren</string>
     <string name="action_save">Speichern</string>
-    <string name="action_discard">Abwerfen</string>
     <string name="action_edit">Bearbeitung</string>
     <string name="action_add">Hinzufügen</string>
-    <string name="action_delete">Löschen</string>
     <string name="action_back">Zurück</string>
     <string name="action_menu">Menüaktionen</string>
-    <string name="action_view_more">Mehr anzeigen</string>
-    <string name="action_new">Neu</string>
 
     <string name="category_all">Alle</string>
     <string name="category_uncategorized">Unkategorisiert</string>
@@ -63,15 +59,10 @@
     <string name="error_future_date">Das Kaufdatum kann nicht in der Zukunft liegen.</string>
     <string name="error_invalid_date_range">Das Ablaufdatum muss nach oder am Kaufdatum liegen.</string>
     <string name="error_text_too_short">Der Name muss mindestens zwei Zeichen lang sein.</string>
-    <string name="error_image_save_failed">Bild nicht gespeichert.</string>
 
     <!-- Inventory Screen -->
     <string name="inventory_title">Inventar</string>
     <string name="inventory_subtitle">Willkommen!</string>
-    <string name="inventory_page_fridge">Kühlschrank</string>
-    <string name="inventory_page_freezer">Gefrierschrank</string>
-    <string name="inventory_page_pantry">Vorratskammer</string>
-    <string name="inventory_page_other">Sonstiges</string>
     <string name="inventory_empty_title">Deine Vorratskammer ist leer</string>
     <string name="inventory_empty_content">Behalte deine Lebensmittel im Blick und lass niemals Lebensmittel verschwenden. Fang jetzt an, Gegenstand hinzuzufügen!</string>
     <string name="inventory_scanner_btn">Barcode scannen</string>
@@ -80,8 +71,6 @@
     <string name="inventory_menu_sort_name">Sortieren nach Name</string>
     <string name="inventory_menu_expired_only">Nur abgelaufen</string>
     <string name="inventory_menu_reset">Alles zurücksetzen</string>
-    <string name="inventory_sheet_title">Neue Lebensmittel hinzufügen</string>
-    <string name="inventory_sheet_btn">Fügen Sie Essen hinzu</string>
 
     <string name="camera_permission_title">Kamerazugriff erforderlich</string>
     <string name="camera_permission_description">Wir benötigen Kamerazugang, damit Sie QR-Codes scannen, Profilfotos machen und AR-Funktionen in der App nutzen können. Ihre Privatsphäre ist geschützt, und wir nehmen niemals ohne Ihre direkte Aktion auf.</string>
@@ -94,11 +83,8 @@
     <string name="inventory_category_add_btn">Hinzufügen</string>
     <string name="category_edit_dialog_title">Bearbeitungskategorie</string>
     <string name="category_edit_dialog_label">Kategoriename</string>
-    <string name="category_search_placeholder">Suche oder tippe neue Kategorie...</string>
-    <string name="category_add_new">Neu hinzufügen: \"%1$s\"</string>
     <string name="inventory_menu_filter">Filter</string>
 
-    <string name="inventory_detail_sheet">Detail</string>
     <string name="inventory_category">Kategorie</string>
     <string name="inventory_location">Lage</string>
     <string name="inventory_purchase_date">Kaufdatum</string>
@@ -130,43 +116,26 @@
     <string name="food_entry_title">Neue Lebensmittel hinzufügen</string>
 
     <!-- Detail Screen -->
-    <string name="detail_title">Detail-Bildschirm</string>
-    <string name="detail_subtitle">Vergiss nicht, das zu konsumieren</string>
-    <string name="detail_food_stats">Nahrungswerte</string>
-    <string name="detail_expiry_progress">Ablauffortschritt</string>
     <string name="detail_personal_notes">Persönliche Anmerkungen</string>
     <string name="detail_fab_consume_this">Ich habe das konsumiert</string>
-    <string name="detail_fab_edit_details">Bearbeitungsdetails</string>
     <string name="detail_fab_mark_as_wasted">Markieren Sie als verschwendet</string>
     <string name="detail_dialog_waste_title">Als verschwendet markieren\?</string>
     <string name="detail_dialog_waste_content">Bist du sicher, dass dieses Futter nicht mehr brauchbar ist\? Es wird in deine Abfallhistorie zur Verfolgung verschoben.</string>
     <string name="detail_dialog_consume_title">Fertig mit dem Essen\?</string>
     <string name="detail_dialog_consume_content">Super! Wir aktualisieren Ihren Bestand und übertragen diesen Artikel in Ihre Verbrauchshistorie.</string>
-    <string name="detail_edit_sheet_title">Bearbeitungsinformationen</string>
     <string name="detail_pick_photo">Such dir ein Foto aus</string>
-    <string name="detail_item_details">Gegenstandsdetails</string>
-    <string name="detail_edit_image">Bildbearbeitung</string>
-    <string name="detail_bought">Gekauft</string>
     <string name="detail_no_notes">Für diesen Artikel gibt es noch keine Hinweise.</string>
 
     <!-- Confirm Screen -->
-    <string name="confirm_title">Informationen bestätigen</string>
     <string name="confirm_label_name">Lebensmittelname</string>
     <string name="confirm_label_category">Kategorie</string>
     <string name="confirm_placeholder_name">Geben Sie Lebensmittelname ein...</string>
-    <string name="confirm_label_quantity">Menge</string>
-    <string name="confirm_label_unit">Einheit</string>
     <string name="confirm_label_purchase_date">Kaufdatum</string>
     <string name="confirm_label_expiry_date">Verfallsdatum</string>
     <string name="confirm_date_set">Festlegung von Termin</string>
     <string name="confirm_label_location">Speicherort</string>
     <string name="confirm_label_notes">Anmerkungen</string>
     <string name="confirm_placeholder_notes">Zum Beispiel Marke, offenes Datum...</string>
-    <string name="confirm_btn_add">Zur Speisekammer hinzufügen</string>
-    <string name="confirm_dialog_discard_title">Änderungen abwerfen\?</string>
-    <string name="confirm_dialog_discard_content">Bist du sicher, dass du zurückgehen willst\? Alle Lebensmittelinformationen, die du eingegeben hast, gehen verloren und werden nicht in deiner Speisekammer gespeichert.</string>
-    <string name="confirm_dialog_discard_btn_discard">Abwerfen</string>
-    <string name="confirm_dialog_discard_btn_keep">Weiterbearbeiten</string>
 
     <!-- Scanner Screen -->
     <string name="scanner_title_barcode">Barcode-Scanner</string>
@@ -178,7 +147,6 @@
     <string name="scanner_label_failure">Scan fehlgeschlagen</string>
 
     <string name="scanner_barcode_dialog_title">Gib deinen Barcode ein</string>
-    <string name="scanner_barcode_label">Barcode</string>
     <string name="scanner_barcode_confirm">Bestätigen</string>
     <string name="scanner_preview_title">Vorschau</string>
     <string name="scanner_preview_btn">Start Scan</string>
@@ -190,19 +158,12 @@
     <string name="scanner_add_manually_tooltip">„Haben Sie Probleme beim Scannen\? Manuell hinzufügen.“</string>
 
     <!-- Analytics Screen -->
-    <string name="analytics_card">Du hast</string>
-    <string name="analytics_card_2">Diese Woche.</string>
-    <plurals name="analytics_product_count">
-        <item quantity="one">Du hast diese Woche ein Produkt von 1$d</item>
-        <item quantity="other">Du hast diese Woche Produkte mit 1$d</item>
-    </plurals>
     <string name="analytics_title">Analytik</string>
     <string name="analytics_subtitle">Überblick über Abfall und Auswirkungen</string>
     <string name="analytics_card_consumed">Verzehrt</string>
     <string name="analytics_card_wasted">Verschwendet</string>
     <string name="analytics_card_others">Weitere</string>
     <string name="analytics_card_spoilage_history">Verderbnisgeschichte</string>
-    <string name="analytics_card_waste_location">Verschwendete Gegenstände nach Standort</string>
     <string name="analytics_card_weekly_freshness">Wöchentliche Frische</string>
 
     <string name="analytics_weekly_card">%1$s/7 Tage</string>
@@ -212,7 +173,6 @@
     <string name="settings_title">Einstellungen</string>
     <string name="settings_notifications">Benachrichtigungen</string>
     <string name="settings_notifications_desc">Erhalte Benachrichtigungen über ablaufende Lebensmittel</string>
-    <string name="settings_notif_permission_required">Für diese Funktion ist eine Benachrichtigungsberechtigung erforderlich.</string>
 
     <string name="setting_app_theme">Thema</string>
     <string name="setting_dark_mode">Dunkel</string>
@@ -243,7 +203,6 @@
     <string name="setting_biometric">Biometrie-Sperre</string>
     <string name="setting_biometric_desc">Biometrische Sperre für die App</string>
 
-    <string name="setting_data">Ihre Daten</string>
     <string name="setting_clear_data">Alle löschen</string>
     <string name="setting_clear_data_desc">Löschen Sie alle Ihre Anwendungsdaten.</string>
 
@@ -328,12 +287,8 @@ Wir verkaufen, tauschen oder übertragen Ihre persönlichen Daten oder Nutzungsp
 4. Kontaktieren Sie uns
 Wenn Sie Fragen oder Vorschläge zu dieser Datenschutzrichtlinie haben, können Sie den Entwickler gerne per E-Mail unter: nhuhuy.dev\@gmail.com kontaktieren</string>
     <!--Notification-->
-    <string name="notif_expiry_title">Lebensmittel sind bald abgelaufen!</string>
-    <string name="notif_expiry_few_items">Achtung: Ihre %1$s laufen bald ab.</string>
-    <string name="notif_expiry_many_items">Achtung: %1$s und %2$d weitere Artikel laufen bald ab!</string>
 
     <!--Notification Features-->
-    <string name="notif_expiry_multiple_title">Achtung: %1$d Artikel laufen bald ab!</string>
     <string name="notif_expiry_review_before_expire">Bitte überprüfen Sie Ihre Artikel, bevor sie verfallen.</string>
     <string name="notif_expiry_next_item_one_day">Als Nächstes: %1$s läuft morgen ab!</string>
     <string name="notif_expiry_next_item_days">Als Nächstes: %1$s in %2$d Tagen</string>

@@ -4,14 +4,10 @@
     <string name="action_ok">OK</string>
     <string name="action_cancel">Batalkan</string>
     <string name="action_save">Simpan</string>
-    <string name="action_discard">Buang</string>
     <string name="action_edit">Sunting</string>
     <string name="action_add">Tambahkan</string>
-    <string name="action_delete">Hapus</string>
     <string name="action_back">Kembali</string>
     <string name="action_menu">Tindakan Menu</string>
-    <string name="action_view_more">Lihat Lebih Banyak</string>
-    <string name="action_new">Baru</string>
 
     <string name="category_all">Semua</string>
     <string name="category_uncategorized">Tidak ada kategori</string>
@@ -63,15 +59,10 @@
     <string name="error_future_date">Tanggal pembelian tidak boleh di masa mendatang.</string>
     <string name="error_invalid_date_range">Tanggal kedaluwarsa harus setelah atau pada tanggal pembelian.</string>
     <string name="error_text_too_short">Nama harus minimal 2 karakter.</string>
-    <string name="error_image_save_failed">Gagal menyimpan gambar.</string>
 
     <!-- Inventory Screen -->
     <string name="inventory_title">Inventaris</string>
     <string name="inventory_subtitle">Selamat datang!</string>
-    <string name="inventory_page_fridge">Kulkas</string>
-    <string name="inventory_page_freezer">Freezer</string>
-    <string name="inventory_page_pantry">Dapur</string>
-    <string name="inventory_page_other">Lainnya</string>
     <string name="inventory_empty_title">Dapur Anda kosong</string>
     <string name="inventory_empty_content">Lacak bahan makanan Anda dan jangan pernah membiarkan makanan terbuang sia-sia. Mulailah menambahkan item sekarang!</string>
     <string name="inventory_scanner_btn">Pindai Kode Batang</string>
@@ -80,8 +71,6 @@
     <string name="inventory_menu_sort_name">Urutkan berdasarkan Nama</string>
     <string name="inventory_menu_expired_only">Hanya kedaluwarsa</string>
     <string name="inventory_menu_reset">Atur Ulang Semua</string>
-    <string name="inventory_sheet_title">Tambahkan Makanan Baru</string>
-    <string name="inventory_sheet_btn">Tambahkan Makanan</string>
 
     <string name="camera_permission_title">Akses Kamera Diperlukan</string>
     <string name="camera_permission_description">Kami memerlukan akses kamera untuk memungkinkan Anda memindai kode QR, mengambil foto profil, dan memanfaatkan fitur AR di dalam aplikasi. Privasi Anda dilindungi, dan kami tidak pernah merekam tanpa tindakan langsung Anda.</string>
@@ -94,11 +83,8 @@
     <string name="inventory_category_add_btn">Tambahkan</string>
     <string name="category_edit_dialog_title">Edit Kategori</string>
     <string name="category_edit_dialog_label">Nama Kategori</string>
-    <string name="category_search_placeholder">Cari atau ketik kategori baru...</string>
-    <string name="category_add_new">Tambahkan baru: \"%1$s\"</string>
     <string name="inventory_menu_filter">Filter</string>
 
-    <string name="inventory_detail_sheet">Selengkapnya</string>
     <string name="inventory_category">Kategori</string>
     <string name="inventory_location">Lokasi</string>
     <string name="inventory_purchase_date">Tanggal Pembelian</string>
@@ -130,43 +116,26 @@
     <string name="food_entry_title">Tambahkan Makanan Baru</string>
 
     <!-- Detail Screen -->
-    <string name="detail_title">Layar Detail</string>
-    <string name="detail_subtitle">Jangan lupa untuk mengonsumsi ini</string>
-    <string name="detail_food_stats">Statistik Makanan</string>
-    <string name="detail_expiry_progress">Progres kedaluwarsa</string>
     <string name="detail_personal_notes">Catatan Pribadi</string>
     <string name="detail_fab_consume_this">Mengkonsumsi ini</string>
-    <string name="detail_fab_edit_details">Edit Detail</string>
     <string name="detail_fab_mark_as_wasted">Tandai sebagai Terbuang</string>
     <string name="detail_dialog_waste_title">Tandai sebagai Terbuang sia-sia\?</string>
     <string name="detail_dialog_waste_content">Apakah Anda yakin makanan ini tidak lagi dapat digunakan\? Ini akan dipindahkan ke riwayat limbah Anda untuk dilacak.</string>
     <string name="detail_dialog_consume_title">Selesai makan\?</string>
     <string name="detail_dialog_consume_content">Bagus! Kami akan memperbarui inventaris Anda dan memindahkan item ini ke histori konsumsi Anda.</string>
-    <string name="detail_edit_sheet_title">Edit Informasi</string>
     <string name="detail_pick_photo">Pilih Foto</string>
-    <string name="detail_item_details">Rincian barang</string>
-    <string name="detail_edit_image">Edit Gambar</string>
-    <string name="detail_bought">Dibeli</string>
     <string name="detail_no_notes">Belum ada catatan untuk item ini.</string>
 
     <!-- Confirm Screen -->
-    <string name="confirm_title">Konfirmasi Informasi</string>
     <string name="confirm_label_name">Nama Makanan</string>
     <string name="confirm_label_category">Kategori</string>
     <string name="confirm_placeholder_name">Masukkan nama makanan...</string>
-    <string name="confirm_label_quantity">Kuantitas</string>
-    <string name="confirm_label_unit">Satuan</string>
     <string name="confirm_label_purchase_date">Tanggal Pembelian</string>
     <string name="confirm_label_expiry_date">Tanggal kedaluwarsa</string>
     <string name="confirm_date_set">Tetapkan Tanggal</string>
     <string name="confirm_label_location">Lokasi Penyimpanan</string>
     <string name="confirm_label_notes">Catatan</string>
     <string name="confirm_placeholder_notes">Misalnya Merek, tanggal buka...</string>
-    <string name="confirm_btn_add">Tambahkan ke Pantry</string>
-    <string name="confirm_dialog_discard_title">Buang Perubahan\?</string>
-    <string name="confirm_dialog_discard_content">Apakah Anda yakin ingin kembali\? Semua informasi makanan yang Anda masukkan akan hilang dan tidak akan disimpan ke dapur Anda.</string>
-    <string name="confirm_dialog_discard_btn_discard">Buang</string>
-    <string name="confirm_dialog_discard_btn_keep">Terus Mengedit</string>
 
     <!-- Scanner Screen -->
     <string name="scanner_title_barcode">Pemindai Kode Batang</string>
@@ -178,7 +147,6 @@
     <string name="scanner_label_failure">Pemindaian Gagal</string>
 
     <string name="scanner_barcode_dialog_title">Masukkan kode batang Anda</string>
-    <string name="scanner_barcode_label">Kode batang</string>
     <string name="scanner_barcode_confirm">Konfirmasi</string>
     <string name="scanner_preview_title">Pratinjau</string>
     <string name="scanner_preview_btn">Mulai Pemindaian</string>
@@ -190,19 +158,12 @@
     <string name="scanner_add_manually_tooltip">\"Mengalami masalah saat memindai\? Tambahkan secara manual.\"</string>
 
     <!-- Analytics Screen -->
-    <string name="analytics_card">Anda memiliki</string>
-    <string name="analytics_card_2">minggu ini.</string>
-    <plurals name="analytics_product_count">
-        <item quantity="one">Anda memiliki %1$d produk minggu ini</item>
-        <item quantity="other">Anda memiliki %1$d produk minggu ini</item>
-    </plurals>
     <string name="analytics_title">Analisis</string>
     <string name="analytics_subtitle">Ikhtisar limbah dan dampak</string>
     <string name="analytics_card_consumed">Dikonsumsi</string>
     <string name="analytics_card_wasted">Terbuang sia-sia</string>
     <string name="analytics_card_others">Lainnya</string>
     <string name="analytics_card_spoilage_history">Sejarah Pembusukan</string>
-    <string name="analytics_card_waste_location">Barang yang Terbuang Berdasarkan Lokasi</string>
     <string name="analytics_card_weekly_freshness">Kesegaran Mingguan</string>
 
     <string name="analytics_weekly_card">%1$s/7 hari</string>
@@ -212,7 +173,6 @@
     <string name="settings_title">Pengaturan</string>
     <string name="settings_notifications">Pemberitahuan</string>
     <string name="settings_notifications_desc">Terima peringatan untuk makanan kedaluwarsa</string>
-    <string name="settings_notif_permission_required">Izin pemberitahuan diperlukan untuk fitur ini.</string>
 
     <string name="setting_app_theme">Tema</string>
     <string name="setting_dark_mode">Gelap</string>
@@ -243,7 +203,6 @@
     <string name="setting_biometric">Kunci Biometrik</string>
     <string name="setting_biometric_desc">Kunci biometrik untuk aplikasi</string>
 
-    <string name="setting_data">Data Anda</string>
     <string name="setting_clear_data">Hapus semua</string>
     <string name="setting_clear_data_desc">Hapus semua data aplikasi Anda.</string>
 
@@ -328,12 +287,8 @@ Kami tidak menjual, memperdagangkan, atau mentransfer data pribadi atau log peng
 4. Hubungi Kami
 Jika Anda memiliki pertanyaan atau saran mengenai Kebijakan Privasi ini, jangan ragu untuk menghubungi pengembang melalui email di: nhuhuy.dev\@gmail.com</string>
     <!--Notification-->
-    <string name="notif_expiry_title">Makanan akan segera kedaluwarsa!</string>
-    <string name="notif_expiry_few_items">Perhatian: %1$s Anda akan segera habis masa berlakunya.</string>
-    <string name="notif_expiry_many_items">Perhatian: %1$s dan %2$d item lainnya akan segera kedaluwarsa!</string>
 
     <!--Notification Features-->
-    <string name="notif_expiry_multiple_title">Perhatian: %1$d item akan segera habis masa berlakunya!</string>
     <string name="notif_expiry_review_before_expire">Harap tinjau item Anda sebelum kedaluwarsa.</string>
     <string name="notif_expiry_next_item_one_day">Selanjutnya: %1$s kedaluwarsa besok!</string>
     <string name="notif_expiry_next_item_days">Berikutnya: %1$s dalam %2$d hari</string>
