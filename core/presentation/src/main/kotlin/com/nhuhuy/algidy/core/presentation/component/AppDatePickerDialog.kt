@@ -73,7 +73,6 @@ fun AppTimePickerDialog(
     minutes: Int,
     title: String,
     confirmText: String,
-    dismissText: String,
     onDateSelected: (hour: Int, minutes: Int) -> Unit,
     onDismiss: () -> Unit,
 ) {

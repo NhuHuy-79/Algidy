@@ -12,11 +12,14 @@ val databaseModule = module {
             AppDatabase::class.java,
             "algidy-database"
         )
-            .addMigrations(AppDatabase.MIGRATION_12_13)
+            .addMigrations(
+                AppDatabase.MIGRATION_12_13,
+                AppDatabase.MIGRATION_13_14,
+                AppDatabase.MIGRATION_14_15
+            )
             .build()
     }
     single { get<AppDatabase>().foodDao() }
-    single { get<AppDatabase>().wasteDao() }
     single { get<AppDatabase>().searchDao() }
     single { get<AppDatabase>().categoryDao() }
 }

@@ -8,17 +8,14 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import com.nhuhuy.algidy.core.database.dao.CategoryDao
 import com.nhuhuy.algidy.core.database.dao.FoodDao
 import com.nhuhuy.algidy.core.database.dao.SearchDao
-import com.nhuhuy.algidy.core.database.dao.WasteDao
 import com.nhuhuy.algidy.core.database.entity.CategoryEntity
 import com.nhuhuy.algidy.core.database.entity.FoodItemEntity
 import com.nhuhuy.algidy.core.database.entity.InventoryItemFtsEntity
 import com.nhuhuy.algidy.core.database.entity.SearchHistoryEntity
-import com.nhuhuy.algidy.core.database.entity.WasteEntity
 
 @Database(
     entities = [
         FoodItemEntity::class,
-        WasteEntity::class,
         SearchHistoryEntity::class,
         InventoryItemFtsEntity::class,
         CategoryEntity::class
@@ -33,7 +30,6 @@ import com.nhuhuy.algidy.core.database.entity.WasteEntity
 )
 abstract class AppDatabase : RoomDatabase() {
     abstract fun foodDao(): FoodDao
-    abstract fun wasteDao(): WasteDao
     abstract fun searchDao(): SearchDao
     abstract fun categoryDao(): CategoryDao
 
@@ -79,9 +75,33 @@ abstract class AppDatabase : RoomDatabase() {
                 db.execSQL("CREATE INDEX IF NOT EXISTS `index_food_items_category_id` ON `food_items` (`category_id`)")
             }
         }
+
+        val MIGRATION_13_14 = object : Migration(13, 14) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL(
+                    """
+                    CREATE TABLE IF NOT EXISTS `waste_records` (
+                        `id` TEXT NOT NULL, 
+                        `food_name` TEXT NOT NULL, 
+                        `amount` REAL NOT NULL, 
+                        `unit` TEXT NOT NULL, 
+                        `reason` TEXT NOT NULL, 
+                        `date` INTEGER NOT NULL, 
+                        PRIMARY KEY(`id`)
+                    )
+                    """.trimIndent()
+                )
+            }
+        }
+
+        val MIGRATION_14_15 = object : Migration(14, 15) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL("DROP TABLE IF EXISTS `waste_records`")
+            }
+        }
     }
 }
 
 object DatabaseConstant {
-    const val SCHEMA_VERSION = 13
+    const val SCHEMA_VERSION = 15
 }

@@ -232,7 +232,6 @@ fun SettingRoute(
             minutes = combineState.minutes,
             title = stringResource(R.string.settings_set_time),
             confirmText = stringResource(R.string.settings_set_time_confirm),
-            dismissText = stringResource(R.string.settings_set_time_cancel),
             onDateSelected = { hour, min ->
                 onAction(
                     SetHourAndMinutes(
