@@ -25,7 +25,7 @@ class AlgidyNotifierImp(
         const val EXTRA_FOOD_ID = "EXTRA_FOOD_ID"
     }
 
-    override fun showExpiringItemsAlert(items: List<NotificationFoodItem>) {
+    override suspend fun showExpiringItemsAlert(items: List<NotificationFoodItem>) {
         if (items.isEmpty()) return
         val intent = Intent(Intent.ACTION_VIEW, "algidy://home".toUri()).apply {
             setPackage(context.packageName) // Đảm bảo chỉ app Algidy mới mở được intent này

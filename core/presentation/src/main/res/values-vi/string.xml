@@ -333,10 +333,13 @@ Nếu bạn có bất kỳ câu hỏi hoặc đề xuất nào liên quan đến
 
     <!--Notification Features-->
     <string name="notif_expiry_multiple_title">Lưu ý: %1$d mặt hàng sắp hết hạn!</string>
-    <string name="notif_expiry_summary">Cảnh báo hết hạn</string>
-    <string name="notif_expiry_item_line">- %1$s (còn lại %2$d ngày)</string>
+    <string name="notif_expiry_review_before_expire">Vui lòng xem lại các mặt hàng của bạn trước khi chúng hết hạn.</string>
+    <string name="notif_expiry_next_item_one_day">Tiếp theo: %1$s sẽ hết hạn vào ngày mai!</string>
+    <string name="notif_expiry_next_item_days">Tiếp theo: %1$s trong %2$d ngày</string>
+    <string name="notif_expiry_item_one_day">%1$s: Còn 1 ngày</string>
+    <string name="notif_expiry_item_days">%1$s: %2$d ngày còn lại</string>
     <string name="notif_expiry_overflow">…và %1$d mục khác</string>
-    <string name="notif_expiry_content">Bạn có những mục cần quan tâm.</string>
+    <string name="review_foods">Đánh giá thực phẩm</string>
 
     <string name="notif_weekly_title">Tóm tắt hàng tuần của Algidy</string>
     <string name="notif_weekly_short">Bạn đã tiêu thụ %1$d mặt hàng và lãng phí %2$d mặt hàng.</string>
@@ -344,6 +347,6 @@ Nếu bạn có bất kỳ câu hỏi hoặc đề xuất nào liên quan đến
 
     <string name="notif_action_prompt_title">%1$s hôm nay đã hết hạn!</string>
     <string name="notif_action_prompt_message">Bạn đã xử lý được mục này chưa\?</string>
-    <string name="notif_action_consumed">tiêu thụ</string>
-    <string name="notif_action_wasted">lãng phí</string>
+    <string name="notif_action_consumed">Tiêu thụ</string>
+    <string name="notif_action_wasted">Lãng phí</string>
 </resources>

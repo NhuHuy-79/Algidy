@@ -334,10 +334,13 @@ Se você tiver alguma dúvida ou sugestão sobre esta Política de Privacidade, 
 
     <!--Notification Features-->
     <string name="notif_expiry_multiple_title">Atenção: %1$d itens expirarão em breve!</string>
-    <string name="notif_expiry_summary">Aviso de expiração</string>
-    <string name="notif_expiry_item_line">- %1$s (%2$d dias restantes)</string>
+    <string name="notif_expiry_review_before_expire">Por favor, revise seus itens antes que expirem.</string>
+    <string name="notif_expiry_next_item_one_day">Próximo passo: %1$s expira amanhã!</string>
+    <string name="notif_expiry_next_item_days">A seguir: %1$s em %2$d dias</string>
+    <string name="notif_expiry_item_one_day">%1$s: 1 dia restante</string>
+    <string name="notif_expiry_item_days">%1$s: %2$d dias restantes</string>
     <string name="notif_expiry_overflow">...e %1$d outros itens</string>
-    <string name="notif_expiry_content">Você tem itens que precisam de atenção.</string>
+    <string name="review_foods">Análise de Alimentos</string>
 
     <string name="notif_weekly_title">Resumo semanal de Algidy</string>
     <string name="notif_weekly_short">Você consumiu %1$d itens e desperdiçou %2$d itens.</string>

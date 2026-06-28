@@ -334,10 +334,13 @@ Wenn Sie Fragen oder Vorschläge zu dieser Datenschutzrichtlinie haben, können 
 
     <!--Notification Features-->
     <string name="notif_expiry_multiple_title">Achtung: %1$d Artikel laufen bald ab!</string>
-    <string name="notif_expiry_summary">Ablaufwarnung</string>
-    <string name="notif_expiry_item_line">- %1$s (noch %2$d Tage)</string>
+    <string name="notif_expiry_review_before_expire">Bitte überprüfen Sie Ihre Artikel, bevor sie verfallen.</string>
+    <string name="notif_expiry_next_item_one_day">Als Nächstes: %1$s läuft morgen ab!</string>
+    <string name="notif_expiry_next_item_days">Als Nächstes: %1$s in %2$d Tagen</string>
+    <string name="notif_expiry_item_one_day">%1$s: 1 Tag verbleibend</string>
+    <string name="notif_expiry_item_days">%1$s: %2$d verbleibende Tage</string>
     <string name="notif_expiry_overflow">...und %1$d andere Artikel</string>
-    <string name="notif_expiry_content">Sie haben Dinge, die Ihrer Aufmerksamkeit bedürfen.</string>
+    <string name="review_foods">Rezension von Lebensmitteln</string>
 
     <string name="notif_weekly_title">Algidy wöchentliche Zusammenfassung</string>
     <string name="notif_weekly_short">Sie haben %1$d Artikel verbraucht und %2$d Artikel verschwendet.</string>

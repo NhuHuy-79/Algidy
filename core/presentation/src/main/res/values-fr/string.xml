@@ -334,10 +334,13 @@ Si vous avez des questions ou suggestions concernant cette Politique de confiden
 
     <!--Notification Features-->
     <string name="notif_expiry_multiple_title"><![CDATA[Attention : %1$d articles expireront bientôt !]]></string>
-    <string name="notif_expiry_summary">Avertissement d\'expiration</string>
-    <string name="notif_expiry_item_line">- %1$s (%2$d jours restants)</string>
+    <string name="notif_expiry_review_before_expire">Veuillez examiner vos articles avant leur expiration.</string>
+    <string name="notif_expiry_next_item_one_day">Prochain : %1$s expire demain !</string>
+    <string name="notif_expiry_next_item_days">À suivre : %1$s en %2$d jours</string>
+    <string name="notif_expiry_item_one_day">%1$s : 1 jour restant</string>
+    <string name="notif_expiry_item_days">%1$s : %2$d jours restants</string>
     <string name="notif_expiry_overflow">...et %1$d autres éléments</string>
-    <string name="notif_expiry_content">Vous avez des éléments qui nécessitent une attention particulière.</string>
+    <string name="review_foods">Critique des aliments</string>
 
     <string name="notif_weekly_title">Résumé hebdomadaire algidy</string>
     <string name="notif_weekly_short">Vous avez consommé %1$d articles et gaspillé %2$d articles.</string>

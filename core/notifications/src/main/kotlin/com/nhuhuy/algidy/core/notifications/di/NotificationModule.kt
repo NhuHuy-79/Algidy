@@ -1,5 +1,6 @@
 package com.nhuhuy.algidy.core.notifications.di
 
+import coil3.ImageLoader
 import com.nhuhuy.algidy.core.notifications.data.AlgidyNotificationFactory
 import com.nhuhuy.algidy.core.notifications.data.AlgidyNotifierImp
 import com.nhuhuy.algidy.core.notifications.domain.AlgidyNotifier
@@ -20,8 +21,12 @@ import org.koin.dsl.module
 
 val notificationModule = module {
     singleOf(::WorkerSchedulerImp) bind WorkerScheduler::class
-    singleOf(::AlgidyNotificationFactory)
     singleOf(::AlgidyNotifierImp) bind AlgidyNotifier::class
+    singleOf(::AlgidyNotificationFactory)
+    single<ImageLoader> {
+        ImageLoader(context = get())
+    }
+
 
     // UseCase
     factoryOf(::GetNotificationPreferenceUseCase)

@@ -5,7 +5,7 @@ interface AlgidyNotifier {
     /**
      * Gửi cảnh báo danh sách thực phẩm sắp hỏng (Sử dụng InboxStyle).
      */
-    fun showExpiringItemsAlert(items: List<NotificationFoodItem>)
+    suspend fun showExpiringItemsAlert(items: List<NotificationFoodItem>)
 
     /**
      * Gửi thông báo kèm Nút Hành Động (Action Buttons) để người dùng thao tác nhanh.
@@ -27,5 +27,6 @@ interface AlgidyNotifier {
 data class NotificationFoodItem(
     val id: String,
     val name: String,
-    val daysLeft: Int
+    val daysLeft: Int,
+    val imageUri: String? = null,
 )

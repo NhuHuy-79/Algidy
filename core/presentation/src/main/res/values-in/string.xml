@@ -334,10 +334,13 @@ Jika Anda memiliki pertanyaan atau saran mengenai Kebijakan Privasi ini, jangan 
 
     <!--Notification Features-->
     <string name="notif_expiry_multiple_title">Perhatian: %1$d item akan segera habis masa berlakunya!</string>
-    <string name="notif_expiry_summary">Peringatan Kedaluwarsa</string>
-    <string name="notif_expiry_item_line">- %1$s (%2$d hari tersisa)</string>
+    <string name="notif_expiry_review_before_expire">Harap tinjau item Anda sebelum kedaluwarsa.</string>
+    <string name="notif_expiry_next_item_one_day">Selanjutnya: %1$s kedaluwarsa besok!</string>
+    <string name="notif_expiry_next_item_days">Berikutnya: %1$s dalam %2$d hari</string>
+    <string name="notif_expiry_item_one_day">%1$s: 1 hari tersisa</string>
+    <string name="notif_expiry_item_days">%1$s: %2$d hari tersisa</string>
     <string name="notif_expiry_overflow">...dan %1$d item lainnya</string>
-    <string name="notif_expiry_content">Anda memiliki item yang perlu diperhatikan.</string>
+    <string name="review_foods">Tinjau Makanan</string>
 
     <string name="notif_weekly_title">Ringkasan Mingguan Algidy</string>
     <string name="notif_weekly_short">Anda menghabiskan %1$d item dan menyia-nyiakan %2$d item.</string>

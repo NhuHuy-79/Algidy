@@ -334,10 +334,13 @@ Si tiene alguna pregunta o sugerencia sobre esta Política de Privacidad, no dud
 
     <!--Notification Features-->
     <string name="notif_expiry_multiple_title">Atención: ¡%1$d artículos caducan pronto!</string>
-    <string name="notif_expiry_summary">Advertencia de caducidad</string>
-    <string name="notif_expiry_item_line">- %1$s (quedan %2$d días)</string>
+    <string name="notif_expiry_review_before_expire">Por favor, revisa tus artículos antes de que caduquen.</string>
+    <string name="notif_expiry_next_item_one_day">Lo siguiente: ¡%1$s caduca mañana!</string>
+    <string name="notif_expiry_next_item_days">A continuación: %1$s en %2$d días</string>
+    <string name="notif_expiry_item_one_day">%1$s: 1 día restante</string>
+    <string name="notif_expiry_item_days">%1$s: %2$d días restantes</string>
     <string name="notif_expiry_overflow">...y %1$d otros artículos</string>
-    <string name="notif_expiry_content">Tienes elementos que necesitan atención.</string>
+    <string name="review_foods">Reseña de alimentos</string>
 
     <string name="notif_weekly_title">Resumen semanal de Algidy</string>
     <string name="notif_weekly_short">Consumiste %1$d artículos y desperdiciaste %2$d artículos.</string>

@@ -60,12 +60,11 @@ class CheckExpirationWorker(
 
                 if (expiringSoon.isNotEmpty()) {
                     val notificationItems = expiringSoon.map { food ->
-                        val diff = food.expiryDate - currentTime
-                        val daysLeft = TimeUnit.MILLISECONDS.toDays(diff).toInt().coerceAtLeast(0)
                         NotificationFoodItem(
                             id = food.id,
                             name = food.name,
-                            daysLeft = daysLeft
+                            daysLeft = food.getRemainingDays(),
+                            imageUri = food.imageUri
                         )
                     }
                     notifier.showExpiringItemsAlert(notificationItems)

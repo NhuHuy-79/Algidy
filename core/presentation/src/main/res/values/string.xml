@@ -312,11 +312,17 @@
     <string name="notif_expiry_many_items">Attention: %1$s and %2$d other items are expiring soon!</string>
 
     <!--Notification Features-->
-    <string name="notif_expiry_multiple_title">Attention: %1$d items expiring soon!</string>
-    <string name="notif_expiry_summary">Expiry Warning</string>
-    <string name="notif_expiry_item_line">- %1$s (%2$d days left)</string>
+    <plurals name="notif_expiry_multiple_title">
+        <item quantity="one">Attention: %1$d item expiring soon!</item>
+        <item quantity="other">Attention: %1$d items expiring soon!</item>
+    </plurals>
+    <string name="notif_expiry_review_before_expire">Please review your items before they expire.</string>
+    <string name="notif_expiry_next_item_one_day">Next up: %1$s expires tomorrow!</string>
+    <string name="notif_expiry_next_item_days">Next up: %1$s in %2$d days</string>
+    <string name="notif_expiry_item_one_day">%1$s: 1 day left</string>
+    <string name="notif_expiry_item_days">%1$s: %2$d days left</string>
     <string name="notif_expiry_overflow">…and %1$d other items</string>
-    <string name="notif_expiry_content">You have items that need attention.</string>
+    <string name="review_foods">Review Foods</string>
 
     <string name="notif_weekly_title">Algidy Weekly Summary</string>
     <string name="notif_weekly_short">You consumed %1$d items and wasted %2$d items.</string>
