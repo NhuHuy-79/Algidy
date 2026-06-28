@@ -19,7 +19,6 @@ class SelectSettingUseCase(
 
     suspend fun selectDayWarning(day: Int) {
         settingsDataStore.setWarningDay(day)
-        workerScheduler.scheduleCheckExpiryWorker()
     }
 
     suspend fun selectAppLanguage(language: AppLanguage) {

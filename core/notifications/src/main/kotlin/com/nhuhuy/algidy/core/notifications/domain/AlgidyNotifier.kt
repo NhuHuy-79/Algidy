@@ -1,7 +1,5 @@
 package com.nhuhuy.algidy.core.notifications.domain
 
-import android.graphics.Bitmap
-
 interface AlgidyNotifier {
 
     /**
@@ -12,7 +10,7 @@ interface AlgidyNotifier {
     /**
      * Gửi thông báo kèm Nút Hành Động (Action Buttons) để người dùng thao tác nhanh.
      */
-    suspend fun showActionableExpiryPrompt(foodId: String, foodName: String, image: Bitmap?)
+    suspend fun showActionableExpiryPrompt(foodId: String, foodName: String, uriPath: String?)
 
     /**
      * Gửi báo cáo tổng kết tuần (Im lặng, mức độ ưu tiên thấp).
