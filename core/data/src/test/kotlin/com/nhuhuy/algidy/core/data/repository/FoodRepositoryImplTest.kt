@@ -3,9 +3,7 @@ package com.nhuhuy.algidy.core.data.repository
 import com.nhuhuy.algidy.core.data.util.AppDispatchers
 import com.nhuhuy.algidy.core.database.dao.FoodDao
 import com.nhuhuy.algidy.core.database.entity.FoodItemEntity
-import com.nhuhuy.algidy.core.model.food.DefaultFoodCategory
 import com.nhuhuy.algidy.core.model.food.FoodItem
-import com.nhuhuy.algidy.core.model.food.ItemUnit
 import com.nhuhuy.algidy.core.model.food.StorageLocation
 import com.nhuhuy.algidy.core.network.data_source.FoodRemoteDataSource
 import com.nhuhuy.algidy.toGenericNormalized
@@ -56,12 +54,9 @@ class FoodRepositoryImplTest {
             normalizedName = "milk",
             categoryId = "dairy",
             location = StorageLocation.FRIDGE,
-            quantity = 1.0,
-            itemUnit = ItemUnit.LITER,
             purchaseDate = 1000L,
             expiryDate = 2000L,
             imageUri = "uri",
-            isFavorite = false,
             notes = ""
         )
         coEvery { foodDao.getFoodById(foodId) } returns entity

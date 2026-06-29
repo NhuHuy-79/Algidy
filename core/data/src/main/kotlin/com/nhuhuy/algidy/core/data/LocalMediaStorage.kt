@@ -10,9 +10,7 @@ import com.nhuhuy.algidy.core.model.error_handling.Resource
 import java.io.File
 import java.util.UUID
 
-const val FOLDER_NAME = "Algidy"
 const val FOLDER_IMAGE = "Algidy/Images"
-const val FOLDER_DATA = "Algidy/Data"
 
 interface LocalMediaStorage {
     suspend fun copyImageToInternalStorage(uriPath: String): Resource<String>

@@ -2,6 +2,7 @@ package com.nhuhuy.algidy.feature.analytics.presentation.viewmodel
 
 import androidx.lifecycle.viewModelScope
 import com.nhuhuy.algidy.core.data.util.product
+import com.nhuhuy.algidy.core.presentation.navigation.Navigator
 import com.nhuhuy.algidy.core.presentation.viewmodel.BaseViewModel
 import com.nhuhuy.algidy.feature.analytics.domain.usecase.GetDailyFreshnessStatsUseCase
 import com.nhuhuy.algidy.feature.analytics.domain.usecase.GetSummaryStatsUseCase
@@ -13,7 +14,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.launch
 
 /**
  * ViewModel for the Analytics screen.
@@ -23,7 +23,8 @@ class AnalyticsViewModel(
     getSummaryStatsUseCase: GetSummaryStatsUseCase,
     getWastedByCategoryUseCase: GetWastedByCategoryUseCase,
     getDailyFreshnessStatsUseCase: GetDailyFreshnessStatsUseCase,
-    getWeeklySpoilageHistoryUseCase: GetWeeklySpoilageHistoryUseCase
+    getWeeklySpoilageHistoryUseCase: GetWeeklySpoilageHistoryUseCase,
+    private val navigator: Navigator,
 ) : BaseViewModel<AnalyticsUiState, AnalyticsEvent, AnalyticsAction>() {
 
     private val actionState = MutableStateFlow(ActionAnalyticsState())
@@ -59,9 +60,7 @@ class AnalyticsViewModel(
     override fun onAction(action: AnalyticsAction) {
         when (action) {
             AnalyticsAction.OnBackClick -> {
-                viewModelScope.launch {
-                    emitEvent(AnalyticsEvent.NavigateBack)
-                }
+                navigator.navigateBack()
             }
 
             AnalyticsAction.OnRefresh -> {

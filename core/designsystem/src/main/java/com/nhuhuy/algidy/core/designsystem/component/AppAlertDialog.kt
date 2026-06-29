@@ -25,12 +25,12 @@ fun AlgidyAlertDialog(
     dismissText: String = "Cancel",
     icon: ImageVector? = null,
     confirmButtonColor: Color = MaterialTheme.colorScheme.primary,
-    isDestructive: Boolean = false // Nếu là hành động xóa/hủy, nút sẽ tự đổi sang màu Error
+    isDestructive: Boolean = false
 ) {
     AlertDialog(
         modifier = modifier,
         onDismissRequest = onDismissRequest,
-        shape = RoundedCornerShape(28.dp), // Bo góc lớn chuẩn M3 Expressive
+        shape = RoundedCornerShape(28.dp),
         icon = icon?.let {
             {
                 Icon(
@@ -44,7 +44,7 @@ fun AlgidyAlertDialog(
             Text(
                 text = title,
                 style = MaterialTheme.typography.headlineSmall,
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Medium
             )
         },
         text = {
@@ -63,7 +63,7 @@ fun AlgidyAlertDialog(
             ) {
                 Text(
                     text = confirmText,
-                    fontWeight = FontWeight.ExtraBold,
+                    fontWeight = FontWeight.Medium,
                     color = if (isDestructive) MaterialTheme.colorScheme.error else confirmButtonColor
                 )
             }

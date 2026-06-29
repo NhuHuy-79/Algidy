@@ -1,17 +1,13 @@
 <resources>
     <!-- Common -->
-
+    
     <string name="action_ok">Vale</string>
     <string name="action_cancel">Cancelar</string>
     <string name="action_save">Salvar</string>
-    <string name="action_discard">Descartar</string>
     <string name="action_edit">Edición</string>
     <string name="action_add">Añadir</string>
-    <string name="action_delete">Borrar</string>
     <string name="action_back">Atrás</string>
     <string name="action_menu">Acciones del menú</string>
-    <string name="action_view_more">Ver más</string>
-    <string name="action_new">Nuevo</string>
 
     <string name="category_all">Todos</string>
     <string name="category_uncategorized">Sin categorizar</string>
@@ -52,7 +48,7 @@
 
 
     <!--Biometric Authenticator-->
-    <string name="biometric_title">Bloqueo biométrico Algidy</string>"
+    <string name="biometric_title">Bloqueo biométrico Algidy</string>
     <string name="biometric_subtitle">Usa el bloqueo biométrico para iniciar sesión</string>
 
     <!-- Errors -->
@@ -63,15 +59,10 @@
     <string name="error_future_date">La fecha de compra no puede ser en el futuro.</string>
     <string name="error_invalid_date_range">La fecha de caducidad debe ser después o en la fecha de compra.</string>
     <string name="error_text_too_short">El nombre debe tener al menos 2 caracteres.</string>
-    <string name="error_image_save_failed">No se pudo guardar la imagen.</string>
 
     <!-- Inventory Screen -->
     <string name="inventory_title">Inventario</string>
     <string name="inventory_subtitle">¡Bienvenido!</string>
-    <string name="inventory_page_fridge">Frigorífico</string>
-    <string name="inventory_page_freezer">Congelador</string>
-    <string name="inventory_page_pantry">Despensa</string>
-    <string name="inventory_page_other">Otros</string>
     <string name="inventory_empty_title">Tu despensa está vacía</string>
     <string name="inventory_empty_content">Lleva un control de tus compras y nunca dejes que la comida se desperdicie. ¡Empieza a añadir el artículo ahora!</string>
     <string name="inventory_scanner_btn">Código de barras de escaneo</string>
@@ -80,16 +71,25 @@
     <string name="inventory_menu_sort_name">Ordenar por nombre</string>
     <string name="inventory_menu_expired_only">Solo caducado</string>
     <string name="inventory_menu_reset">Reiniciar todo</string>
-    <string name="inventory_sheet_title">Añadir comida nueva</string>
-    <string name="inventory_sheet_btn">Añadir comida</string>
+
+    <string name="camera_permission_title">Se requiere acceso a la cámara</string>
+    <string name="camera_permission_description">Necesitamos acceso a la cámara para que puedas escanear códigos QR, tomar fotos de perfil y utilizar funciones de realidad aumentada dentro de la app. Tu privacidad está protegida y nunca grabamos sin tu acción directa.</string>
+    <string name="camera_permission_confirm_btn">Entendido</string>
 
     <string name="inventory_category_edit">Editar categoría</string>
+    <string name="inventory_category_edit_btn">Edición</string>
     <string name="inventory_category_delete">Eliminar categoría</string>
+    <string name="inventory_category_add">Añadir categoría</string>
+    <string name="inventory_category_add_btn">Añadir</string>
     <string name="category_edit_dialog_title">Editar categoría</string>
     <string name="category_edit_dialog_label">Nombre de la categoría</string>
-    <string name="category_search_placeholder">Buscar o escribir nueva categoría...</string>
-    <string name="category_add_new">Añadir nuevo: \"%1$s\"</string>
     <string name="inventory_menu_filter">Filtro</string>
+
+    <string name="inventory_category">Categoría</string>
+    <string name="inventory_location">Ubicación</string>
+    <string name="inventory_purchase_date">Fecha de compra</string>
+    <string name="inventory_expiry_date">Fecha de caducidad</string>
+    <string name="inventory_note">Tu nota</string>
 
     <string name="delete_category_dialog_title">¿Eliminar categoría\?</string>
     <string name="delete_category_dialog_content">Esta categoría y todos sus alimentos serán eliminados.</string>
@@ -106,47 +106,36 @@
     <string name="search_history_title">Recientes</string>
     <string name="search_no_results">No se han encontrado objetos.</string>
 
+    <plurals name="inventory_selected_title">
+        <item quantity="zero">Elemento seleccionado.</item>
+        <item quantity="one">Elemento seleccionado.</item>
+        <item quantity="many">Elementos seleccionados.</item>
+    </plurals>
+
     <!--Food Entry Screen-->
     <string name="food_entry_title">Añadir comida nueva</string>
 
     <!-- Detail Screen -->
-    <string name="detail_title">Pantalla de Detalle</string>
-    <string name="detail_subtitle">No olvides consumir esto</string>
-    <string name="detail_food_stats">Estadísticas alimentarias</string>
-    <string name="detail_expiry_progress">Progreso de caducidad</string>
     <string name="detail_personal_notes">Notas personales</string>
     <string name="detail_fab_consume_this">Me lo he consumido</string>
-    <string name="detail_fab_edit_details">Detalles de edición</string>
     <string name="detail_fab_mark_as_wasted">Mark como Wasted</string>
     <string name="detail_dialog_waste_title">¿Marcado como desperdiciado\?</string>
     <string name="detail_dialog_waste_content">¿Estás seguro de que esta comida ya no es utilizable\? Se trasladará a tu historial de residuos para su seguimiento.</string>
     <string name="detail_dialog_consume_title">¿Has terminado de comer\?</string>
     <string name="detail_dialog_consume_content">¡Genial! Actualizaremos tu inventario y trasladaremos este artículo a tu historial de consumo.</string>
-    <string name="detail_edit_sheet_title">Información de edición</string>
     <string name="detail_pick_photo">Foto de la púa</string>
-    <string name="detail_item_details">Detalles del artículo</string>
-    <string name="detail_edit_image">Editar imagen</string>
-    <string name="detail_bought">Comprado</string>
     <string name="detail_no_notes">Todavía no hay notas sobre este artículo.</string>
 
     <!-- Confirm Screen -->
-    <string name="confirm_title">Confirmar información</string>
     <string name="confirm_label_name">Nombre de la comida</string>
     <string name="confirm_label_category">Categoría</string>
     <string name="confirm_placeholder_name">Aquí entra el nombre de la comida...</string>
-    <string name="confirm_label_quantity">Cantidad</string>
-    <string name="confirm_label_unit">Unidad</string>
     <string name="confirm_label_purchase_date">Fecha de compra</string>
     <string name="confirm_label_expiry_date">Fecha de caducidad</string>
     <string name="confirm_date_set">Fecha fija</string>
     <string name="confirm_label_location">Ubicación de almacenamiento</string>
     <string name="confirm_label_notes">Notas</string>
     <string name="confirm_placeholder_notes">Por ejemplo, marca, fecha de apertura...</string>
-    <string name="confirm_btn_add">Añadir a la despensa</string>
-    <string name="confirm_dialog_discard_title">¿Cambios en descartes\?</string>
-    <string name="confirm_dialog_discard_content">¿Estás seguro de que quieres volver\? Toda la información sobre alimentos que hayas introducido se perderá y no se guardará en tu despensa.</string>
-    <string name="confirm_dialog_discard_btn_discard">Descartar</string>
-    <string name="confirm_dialog_discard_btn_keep">Sigue editando</string>
 
     <!-- Scanner Screen -->
     <string name="scanner_title_barcode">Escáner de códigos de barras</string>
@@ -158,7 +147,6 @@
     <string name="scanner_label_failure">Escaneo fallido</string>
 
     <string name="scanner_barcode_dialog_title">Introduce tu código de barras</string>
-    <string name="scanner_barcode_label">Código de barras</string>
     <string name="scanner_barcode_confirm">Confirmar</string>
     <string name="scanner_preview_title">Avance</string>
     <string name="scanner_preview_btn">Iniciar escaneo</string>
@@ -170,25 +158,22 @@
     <string name="scanner_add_manually_tooltip">\"¿Tiene problemas para escanear\? Agregar manualmente\".</string>
 
     <!-- Analytics Screen -->
-    <string name="analytics_card">Sí</string>
-    <string name="analytics_card_2">Esta semana.</string>
-    <plurals name="analytics_product_count">
-        <item quantity="one">Esta semana tienes un 1$d de producto</item>
-        <item quantity="other">Esta semana tienes productos con un 1 % de dólares</item>
-    </plurals>
     <string name="analytics_title">Analítica</string>
     <string name="analytics_subtitle">Visión general de los residuos e impacto</string>
     <string name="analytics_card_consumed">Consumido</string>
     <string name="analytics_card_wasted">Desperdiciado</string>
     <string name="analytics_card_others">Otros</string>
     <string name="analytics_card_spoilage_history">Historial de deterioro</string>
-    <string name="analytics_card_waste_location">Objetos desperdiciados por ubicación</string>
     <string name="analytics_card_weekly_freshness">Frescura semanal</string>
 
     <string name="analytics_weekly_card">%1$s/7 días</string>
     <string name="analytics_weekly_card_content">Empieza desde %1$s</string>
 
     <!-- Settings Screen -->
+    <string name="settings_title">Escenarios</string>
+    <string name="settings_notifications">Notificaciones</string>
+    <string name="settings_notifications_desc">Recibe alertas por alimentos caducados</string>
+
     <string name="setting_app_theme">Tema</string>
     <string name="setting_dark_mode">Oscuro</string>
     <string name="setting_light_mode">Luz</string>
@@ -199,20 +184,26 @@
     <string name="settings_set_time_cancel">Cancelar</string>
     <string name="settings_set_time_success">¡Hora de notificación actualizada!</string>
     <string name="settings_delete_success">Eliminar datos exitosamente</string>
+    <string name="settings_delete_failure">¡Fallo en eliminar datos!</string>
 
     <string name="setting_language">Idioma</string>
+    
+    
+    
+    
+    
+    
+    
+    
+
     <string name="setting_font">Fuente</string>
 
-    <string name="settings_title">Escenarios</string>
     <string name="settings_dynamic_color">Color Dinámico</string>
     <string name="settings_dynamic_mode_desc">Activa el color dinámico para la app</string>
-    <string name="settings_notifications">Notificaciones</string>
-    <string name="settings_notifications_desc">Recibe alertas por alimentos caducados</string>
+
     <string name="setting_biometric">Bloqueo de biometría</string>
     <string name="setting_biometric_desc">Bloqueo de biometría para la aplicación</string>
 
-    <string name="setting_data">Tus datos</string>
-    <string name="setting_delete_dialog">Elimina tus datos</string>
     <string name="setting_clear_data">Elimina todo</string>
     <string name="setting_clear_data_desc">Elimina todos los datos de tu aplicación.</string>
 
@@ -224,8 +215,9 @@
     <string name="setting_use_category">Categoría de uso</string>
     <string name="setting_use_category_des">Usa la categoría para agrupar tus alimentos</string>
 
-    <string name="setting_backup">Respaldo</string>
-    <string name="setting_backup_desc">Exporta o importa tus alimentos.</string>
+    <string name="setting_weekly_report">Informe semanal</string>
+    <string name="setting_weekly_report_desc">Resumen del domingo de tu consumo de alimentos y productos caducados.</string>
+
 
     <string name="setting_export">Exportación</string>
     <string name="setting_export_desc">Exporta tus datos en Descargas/Algidy</string>
@@ -234,12 +226,90 @@
 
     <string name="setting_about_app">Acerca de la app</string>
     <string name="setting_about_app_desc">Algides</string>
+    <string name="setting_new_features">Nuevas características</string>
+    <string name="setting_new_features_desc">Consulta las últimas actualizaciones</string>
+    <string name="setting_copyright">Derechos de autor</string>
+    <string name="setting_copyright_desc">Información legal y de licencias</string>
+    <string name="setting_feedback">Retroalimentación</string>
+    <string name="setting_feedback_desc">Ayúdanos a mejorar</string>
+    <string name="setting_open_source">Código abierto</string>
+    <string name="setting_open_source_desc">Ver licencias fuente</string>
+    <string name="setting_privacy_policy">Política de privacidad</string>
+    <string name="setting_privacy_policy_desc">Tu protección de datos</string>
+    <string name="setting_daily_reminder">Recordatorio diario</string>
+    <string name="setting_daily_reminder_desc">Recordar en %1$s</string>
 
-    <string name="setting_other_settings_title">Otros escenarios</string>
+    <plurals name="notification_days_before">
+        <item quantity="one">Notifica la caducidad de los alimentos con un 1 % de antelación</item>
+        <item quantity="other">Notifica el caducidad de los alimentos 1$d días antes</item>
+    </plurals>
 
     <string name="import_success">¡Importa tus datos con éxito!</string>
     <string name="import_fail">¡Importación de tus datos fallada!</string>
     <string name="export_success">¡Tus datos se exportan!</string>
     <string name="export_failed">¡No se pueden exportar tus datos!</string>
+    <!-- New Setting Screens -->
+    <string name="appearance_title">Apariencia</string>
+    <string name="appearance_subtitle">Personaliza el aspecto y la sensación de la app</string>
 
+    <string name="your_data_title">Tus datos</string>
+    <string name="your_data_subtitle">Gestiona tus datos locales y copias de seguridad</string>
+
+    <string name="notification_settings_title">Notificaciones</string>
+    <string name="notification_settings_subtitle">Mantente al día sobre la frescura de tus alimentos</string>
+
+    <string name="other_settings_title_page">Otros escenarios</string>
+    <string name="other_settings_subtitle">Notificaciones, Lenguaje y más</string>
+
+    <string name="main_settings_title_page">Escenarios</string>
+    <string name="main_settings_subtitle">Configuración general de la aplicación</string>
+    <string name="privacy_policy_content">POLÍTICA DE PRIVACIDAD PARA ALGIDY
+Última actualización: junio de 2026
+
+Bienvenido a Algidy. Estamos comprometidos a proteger tu privacidad y tus datos personales. Esta Política de Privacidad explica cómo Algidy recopila, utiliza y protege tu información cuando utilizas nuestra aplicación.
+
+1. Recogida y uso de información
+Algidy está diseñado como una aplicación offline-first. La gran mayoría de tus datos sobre la gestión y el inventario de alimentos se almacenan localmente y de forma segura en tu dispositivo usando la Base de Datos de Salas.
+
+Sin embargo, para proporcionar funcionalidades específicas, podemos solicitar acceso a las siguientes funciones del dispositivo:
+
+- Cámara: Necesitamos permiso de cámara para habilitar funciones como escanear códigos de barras de alimentos o tomar fotos de perfil de productos. Todo el procesamiento de imágenes se gestiona instantáneamente en tu dispositivo y nunca se sube a ningún servidor remoto sin tu consentimiento explícito.
+
+- Notificaciones: La aplicación solicita permiso para enviar notificaciones que te recuerden las fechas de caducidad de los alimentos, ayudándote a reducir el desperdicio de alimentos.
+
+- Datos de Acceso a Internet y Análisis: Utilizamos servicios anónimos de análisis para recopilar datos técnicos sobre el rendimiento de aplicaciones y registros de fallos. El permiso de Internet se utiliza estrictamente para transmitir estos informes diagnósticos.
+
+2. Almacenamiento de datos
+Todos los registros de inventario, categorías de alimentos e historial de uso de aplicaciones se almacenan íntegramente en el almacenamiento local de tu dispositivo. Si desinstalas la aplicación, toda esta información se eliminará permanentemente y no podrá recuperarse.
+
+3. Compartición de datos por terceros
+No vendemos, intercambiamos ni transferimos de ninguna manera tus datos personales ni registros de uso a terceros.
+
+4. Contáctanos
+Si tiene alguna pregunta o sugerencia sobre esta Política de Privacidad, no dude en contactar con el desarrollador por correo electrónico en: nhuhuy.dev\@gmail.com</string>
+    <!--Notification-->
+
+    <!--Notification Features-->
+    <string name="notif_expiry_summary">Aviso de caducidad</string>
+    <string name="notif_expiry_content">Hay cosas que necesitan atención.</string>
+    <plurals name="notif_expiry_multiple_title">
+        <item quantity="one">Atención: ¡el artículo con 1$d caduca pronto!</item>
+        <item quantity="other">Atención: ¡los artículos con 1$d caducan pronto!</item>
+    </plurals>
+    <string name="notif_expiry_review_before_expire">Por favor, revisa tus artículos antes de que caduquen.</string>
+    <string name="notif_expiry_next_item_one_day">Lo siguiente: ¡%1$s caduca mañana!</string>
+    <string name="notif_expiry_next_item_days">A continuación: %1$s en %2$d días</string>
+    <string name="notif_expiry_item_one_day">%1$s: 1 día restante</string>
+    <string name="notif_expiry_item_days">%1$s: %2$d días restantes</string>
+    <string name="notif_expiry_overflow">...y %1$d otros artículos</string>
+    <string name="review_foods">Reseña de alimentos</string>
+
+    <string name="notif_weekly_title">Resumen semanal de Algidy</string>
+    <string name="notif_weekly_short">Consumiste %1$d artículos y desperdiciaste %2$d artículos.</string>
+    <string name="notif_weekly_detail">La semana pasada, consumiste con éxito %1$d artículos. Desafortunadamente, se desperdiciaron %2$d artículos. ¡Planifiquemos mejor tus compras con Algidy para la próxima semana!</string>
+
+    <string name="notif_action_prompt_title">¡%1$s ha caducado hoy!</string>
+    <string name="notif_action_prompt_message">¿Has manipulado este artículo\?</string>
+    <string name="notif_action_consumed">Consumado</string>
+    <string name="notif_action_wasted">Desperdiciado</string>
 </resources>

@@ -21,7 +21,6 @@ import com.nhuhuy.algidy.di.dataModule
 import com.nhuhuy.algidy.di.databaseModule
 import com.nhuhuy.algidy.di.networkModule
 import com.nhuhuy.algidy.feature.analytics.di.analyticsModule
-import com.nhuhuy.algidy.feature.detail.di.detailModule
 import com.nhuhuy.algidy.feature.food_entry.di.foodEntryModule
 import com.nhuhuy.algidy.feature.inventory.di.inventoryModule
 import com.nhuhuy.algidy.feature.scanner.di.scannerModule
@@ -79,7 +78,6 @@ class AlgidyApp : Application(), KoinComponent, SingletonImageLoader.Factory {
                     dataModule,
                     networkModule,
                     inventoryModule,
-                    detailModule,
                     analyticsModule,
                     scannerModule,
                     foodEntryModule,

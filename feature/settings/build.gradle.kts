@@ -1,3 +1,4 @@
+
 plugins {
     id("algidy.android.feature")
     alias(libs.plugins.jetbrains.kotlin.serialization)
@@ -12,4 +13,6 @@ dependencies {
     implementation(project(":core:notifications"))
     implementation(libs.kotlinx.serialization.core)
     implementation(libs.kotlinx.serialization.json)
+    implementation(libs.aboutlibraries.compose)
+
 }

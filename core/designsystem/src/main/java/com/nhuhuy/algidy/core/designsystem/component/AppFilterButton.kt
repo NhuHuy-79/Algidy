@@ -25,7 +25,7 @@ fun AppFilterButton(
     onClick: () -> Unit
 ){
     val animatedDpValue by animateDpAsState(
-        targetValue = if (selected) 48.dp else 8.dp,
+        targetValue = if (selected) 48.dp else 4.dp,
         label = "animated_dp"
     )
 
@@ -39,7 +39,7 @@ fun AppFilterButton(
         Text(
             text = label,
             modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
-            style = MaterialTheme.typography.bodyLarge.copy(
+            style = MaterialTheme.typography.bodyMedium.copy(
                 fontWeight = FontWeight.Medium
             ),
             color = if (selected) activeContentColor else disabledContentColor

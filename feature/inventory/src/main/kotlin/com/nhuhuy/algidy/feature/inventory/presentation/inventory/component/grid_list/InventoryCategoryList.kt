@@ -7,11 +7,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import com.nhuhuy.algidy.core.model.food.FoodItem
+import com.nhuhuy.algidy.core.presentation.model.CategoryUiModel
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.InventoryGridList
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.EmptyPage
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.LoadingPage
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.getFilteredAndSortedList
-import com.nhuhuy.algidy.core.presentation.model.CategoryUiModel
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryResultState
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventorySortMode
 import kotlinx.collections.immutable.toImmutableList
@@ -23,7 +24,9 @@ fun InventoryCategoryList(
     inventoryResultState: InventoryResultState,
     sortMode: InventorySortMode,
     showExpiredOnly: Boolean,
-    onItemClick: (String) -> Unit,
+    selectedIds: Set<String> = emptySet(),
+    onItemClick: (FoodItem) -> Unit,
+    onItemLongClick: (FoodItem) -> Unit
 ) {
     Column(
         modifier = modifier,
@@ -55,8 +58,10 @@ fun InventoryCategoryList(
                     EmptyPage(modifier = Modifier.fillMaxSize())
                 } else InventoryGridList(
                     items = items,
+                    selectedIds = selectedIds,
+                    onItemLongClick = onItemLongClick,
                     onItemClick = { foodItem ->
-                        onItemClick(foodItem.id)
+                        onItemClick(foodItem)
                     }
                 )
             }

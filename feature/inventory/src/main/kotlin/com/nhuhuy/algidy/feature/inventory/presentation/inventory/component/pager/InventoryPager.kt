@@ -7,6 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import com.nhuhuy.algidy.core.model.food.FoodItem
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.InventoryGridList
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.EmptyPage
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.LoadingPage
@@ -20,9 +21,11 @@ fun InventoryPager(
     pagerState: PagerState,
     sortMode: InventorySortMode,
     showExpiredOnly: Boolean,
+    selectedIds: Set<String>,
     modifier: Modifier = Modifier,
     inventoryResultState: InventoryResultState,
-    onItemClick: (id: String) -> Unit
+    onItemClick: (item: FoodItem) -> Unit,
+    onItemLongClick: (item: FoodItem) -> Unit,
 ) {
     HorizontalPager(
         state = pagerState,
@@ -51,8 +54,10 @@ fun InventoryPager(
                     EmptyPage(modifier = Modifier.fillMaxSize())
                 } else InventoryGridList(
                     items = items,
+                    selectedIds = selectedIds,
+                    onItemLongClick = onItemLongClick,
                     onItemClick = { foodItem ->
-                        onItemClick(foodItem.id)
+                        onItemClick(foodItem)
                     }
                 )
             }

@@ -28,37 +28,52 @@ class AnalyticsRepositoryImpl(
 
     override fun getSummaryStats(): Flow<SummaryStats> =
         foodRepository.observeAllFoodItems().map { items ->
-            val activeItems = items.filter { it.status == FoodStatus.ACTIVE }
-            val wastedItems = items.filter { it.status == FoodStatus.WASTED }
-            val consumedItems = items.filter { it.status == FoodStatus.CONSUMED }
-
             // Calculate current week boundaries
             val now = LocalDate.now()
             val weekStart = now.with(java.time.DayOfWeek.MONDAY)
             val weekEnd = weekStart.plusDays(6)
 
-            // Items that were resolved this week or are currently active
-            val itemsInCurrentWeekCount = items.count {
-                val resolvedDate = it.resolvedDate?.toLocalDate()
-                val isResolvedInWeek = resolvedDate != null && !resolvedDate.isBefore(weekStart) && !resolvedDate.isAfter(weekEnd)
-                isResolvedInWeek || it.status == FoodStatus.ACTIVE
+            val wastedInWeek = items.filter {
+                it.status == FoodStatus.WASTED &&
+                        it.resolvedDate?.toLocalDate()?.let { date ->
+                            !date.isBefore(weekStart) && !date.isAfter(weekEnd)
+                        } == true
             }
+            val consumedInWeek = items.filter {
+                it.status == FoodStatus.CONSUMED &&
+                        it.resolvedDate?.toLocalDate()?.let { date ->
+                            !date.isBefore(weekStart) && !date.isAfter(weekEnd)
+                        } == true
+            }
+            val activeItems = items.filter { it.status == FoodStatus.ACTIVE }
+
+            // Total products "active" in the current context: resolved this week OR still active
+            val itemsInCurrentWeekCount = wastedInWeek.size + consumedInWeek.size + activeItems.size
 
             SummaryStats(
                 weeklyCount = itemsInCurrentWeekCount,
-                wastedCount = wastedItems.size,
-                consumedCount = consumedItems.size,
+                wastedCount = wastedInWeek.size,
+                consumedCount = consumedInWeek.size,
                 otherCount = activeItems.size
             )
         }
 
     override fun getWastedByCategory(): Flow<List<CategoryWasteStats>> =
         foodRepository.observeAllFoodItems().map { items ->
-            val wastedItems = items.filter { it.status == FoodStatus.WASTED }
-            val totalWasted = wastedItems.size.toFloat()
+            val now = LocalDate.now()
+            val weekStart = now.with(java.time.DayOfWeek.MONDAY)
+            val weekEnd = weekStart.plusDays(6)
+
+            val wastedInWeek = items.filter {
+                it.status == FoodStatus.WASTED &&
+                        it.resolvedDate?.toLocalDate()?.let { date ->
+                            !date.isBefore(weekStart) && !date.isAfter(weekEnd)
+                        } == true
+            }
+            val totalWasted = wastedInWeek.size.toFloat()
 
             StorageLocation.entries.map { location ->
-                val count = wastedItems.count { it.location == location }
+                val count = wastedInWeek.count { it.location == location }
                 CategoryWasteStats(
                     location = location,
                     percentage = if (totalWasted > 0) count / totalWasted else 0f

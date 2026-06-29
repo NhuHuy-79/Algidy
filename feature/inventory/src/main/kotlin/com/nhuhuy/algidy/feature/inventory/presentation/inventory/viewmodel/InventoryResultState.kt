@@ -2,6 +2,7 @@ package com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel
 
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
+import com.nhuhuy.algidy.core.model.VersionFeatures
 import com.nhuhuy.algidy.core.model.food.FoodItem
 import com.nhuhuy.algidy.core.presentation.model.CategoryUiModel
 import com.nhuhuy.algidy.core.presentation.viewmodel.UiState
@@ -17,24 +18,38 @@ sealed interface InventoryResultState {
 data class InventoryCombineState(
     val categoryEnabled: Boolean = false,
     val categories: List<CategoryUiModel> = listOf(CategoryUiModel.All),
+    val appVersionToNotify: Int = 1,
+    val cameraPolicyAccepted: Boolean = false
 )
 
 @Immutable
 data class InventoryUiState(
+    val currentVersionCode: Int = 1,
     val expanded: Boolean = false,
     val currentCategory: CategoryUiModel = CategoryUiModel.All,
-    val categorySheetInput: String = "",
-    val overlay: InventoryOverlay = InventoryOverlay.NONE,
+    val currentFoodItem: FoodItem = FoodItem(),
+    val categoryInput: String = "",
+    val overlay: InventoryOverlay = InventoryOverlay.None,
     val sortMode: InventorySortMode = InventorySortMode.NONE,
+    val selectedFoodIds: Set<String> = emptySet(),
     val showExpiredOnly: Boolean = false
 ) : UiState {
-    val showCategoryEdit : Boolean get() = currentCategory is CategoryUiModel.ByCategory
+    val isSelectMode: Boolean get() = selectedFoodIds.isNotEmpty()
+    val showCategoryEdit: Boolean get() = currentCategory is CategoryUiModel.ByCategory
 }
 
-enum class InventoryOverlay {
-    NONE, CATEGORY_EDIT, CATEGORY_DELETE
-}
+sealed interface InventoryOverlay {
+    data object None : InventoryOverlay
+    data object CategoryEdit : InventoryOverlay
+    data object CategoryDelete : InventoryOverlay
+    data object ItemDetail : InventoryOverlay
 
+    data object CategoryAdd : InventoryOverlay
+    data object ConsumeConfirm : InventoryOverlay
+    data object WasteConfirm : InventoryOverlay
+    data class NewFeatureSheet(val versionFeature: VersionFeatures) : InventoryOverlay
+    data object CameraPolicySheet : InventoryOverlay
+}
 enum class InventorySortMode {
-    BY_NAME, BY_EXPIRY, NONE
+    BY_NAME, BY_EXPIRY, NONE,
 }

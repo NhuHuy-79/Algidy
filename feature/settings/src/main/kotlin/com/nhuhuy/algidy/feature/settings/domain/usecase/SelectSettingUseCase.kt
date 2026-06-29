@@ -16,6 +16,11 @@ class SelectSettingUseCase(
     suspend fun selectAppFont(appFont: AppFont) {
         settingsDataStore.setFont(appFont)
     }
+
+    suspend fun selectDayWarning(day: Int) {
+        settingsDataStore.setWarningDay(day)
+    }
+
     suspend fun selectAppLanguage(language: AppLanguage) {
         settingsDataStore.setLanguage(language)
     }

@@ -12,11 +12,18 @@ data class SettingClickableItem(
 
 @Stable
 sealed interface ClickableType {
+    data object DailyReminder : ClickableType
     data object Export : ClickableType
     data object Import : ClickableType
     data object DeleteAll : ClickableType
     data object AboutApp : ClickableType
+    data object NewFeatures : ClickableType
+    data object CopyRight : ClickableType
+    data object Feedback : ClickableType
+    data object PrivacyPolicy : ClickableType
+    data object OpenSource : ClickableType
 }
+
 
 @Immutable
 data class SettingToggleItem(
@@ -26,6 +33,6 @@ data class SettingToggleItem(
 ) : SettingUiItem
 
 enum class ToggleType {
-    DYNAMIC_COLOR, BIOMETRIC_AUTH, NOTIFICATION, CATEGORY_GROUP
+    DYNAMIC_COLOR, BIOMETRIC_AUTH, NOTIFICATION, CATEGORY_GROUP, WEEKLY_REPORT
 }
 

@@ -1,6 +1,5 @@
 package com.nhuhuy.algidy.core.presentation
 
-import com.nhuhuy.algidy.core.model.error_handling.Resource
 import java.io.IOException
 
 sealed interface UiResult<out T> {
@@ -13,14 +12,6 @@ sealed interface UiResult<out T> {
 sealed interface UiError{
     data object LostConnection: UiError
     data object Unknown : UiError
-}
-
-fun <T> Resource<T>.toUiStateResult(): UiResult<T> {
-    return when (this) {
-        is Resource.Failure -> UiResult.Failure(throwable.toUiError())
-        is Resource.Loading -> UiResult.Loading
-        is Resource.Success -> UiResult.Success(data)
-    }
 }
 
 fun Throwable.toUiError(): UiError = when (this) {

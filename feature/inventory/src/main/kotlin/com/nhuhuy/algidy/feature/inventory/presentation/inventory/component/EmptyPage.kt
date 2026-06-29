@@ -12,6 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.nhuhuy.algidy.core.presentation.R
@@ -33,7 +34,9 @@ fun EmptyPage(
 
         Text(
             text = stringResource(R.string.inventory_empty_title),
-            style = MaterialTheme.typography.titleSmall
+            style = MaterialTheme.typography.bodyLarge.copy(
+                fontWeight = FontWeight.Medium
+            )
         )
 
         Text(

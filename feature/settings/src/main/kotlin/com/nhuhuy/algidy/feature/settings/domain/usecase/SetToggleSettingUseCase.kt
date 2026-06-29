@@ -9,6 +9,10 @@ class SetToggleSettingUseCase(
         settingsDataStore.setBiometricLock(enable)
     }
 
+    suspend fun toggleWeeklyReport(enabled: Boolean) {
+        settingsDataStore.setWeeklyReport(enabled)
+    }
+
     suspend fun toggleNotifications(enable: Boolean) {
         settingsDataStore.setNotificationsEnabled(enable)
     }

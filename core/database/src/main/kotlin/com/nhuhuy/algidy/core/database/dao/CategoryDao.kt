@@ -21,5 +21,9 @@ interface CategoryDao : BaseDao<CategoryEntity>{
     @Query("DELETE FROM categories WHERE id = :id")
     suspend fun deleteCategory(id: String)
 
+    @Query("SELECT * FROM categories WHERE id = :id")
+    suspend fun getCategoryById(id: String): CategoryEntity?
 
+    @Query("DELETE FROM categories")
+    suspend fun deleteAllCategories()
 }

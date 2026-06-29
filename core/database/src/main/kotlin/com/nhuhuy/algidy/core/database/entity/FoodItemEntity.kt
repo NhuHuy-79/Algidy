@@ -6,7 +6,6 @@ import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
 import com.nhuhuy.algidy.core.model.food.FoodStatus
-import com.nhuhuy.algidy.core.model.food.ItemUnit
 import com.nhuhuy.algidy.core.model.food.StorageLocation
 
 /**
@@ -41,12 +40,6 @@ data class FoodItemEntity(
     @ColumnInfo(name = "location")
     val location: StorageLocation,
 
-    @ColumnInfo(name = "quantity")
-    val quantity: Double,
-
-    @ColumnInfo(name = "item_unit")
-    val itemUnit: ItemUnit,
-
     @ColumnInfo(name = "purchase_date")
     val purchaseDate: Long,
 
@@ -55,9 +48,6 @@ data class FoodItemEntity(
 
     @ColumnInfo(name = "image_uri")
     val imageUri: String?,
-
-    @ColumnInfo(name = "is_favorite")
-    val isFavorite: Boolean,
 
     @ColumnInfo(name = "notes")
     val notes: String,

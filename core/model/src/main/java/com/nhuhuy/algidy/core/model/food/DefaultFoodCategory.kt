@@ -9,9 +9,5 @@ enum class DefaultFoodCategory {
     DAIRY_EGGS,
     OTHERS;
 
-    companion object {
-        fun fromName(name: String?): DefaultFoodCategory {
-            return entries.find { it.name.equals(name, ignoreCase = true) } ?: OTHERS
-        }
-    }
+    companion object
 }

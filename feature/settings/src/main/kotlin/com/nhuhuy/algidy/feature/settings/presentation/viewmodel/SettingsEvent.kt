@@ -4,8 +4,10 @@ import com.nhuhuy.algidy.core.presentation.viewmodel.UiEvent
 
 sealed interface SettingsEvent : UiEvent {
     data object NavigateBack : SettingsEvent
-
-    data object AskNotificationPermission : SettingsEvent
+    data object OpenSourceClick : SettingsEvent
+    data object RequestNotificationPermission : SettingsEvent
+    data object SendFeedBackEmail : SettingsEvent
+    data class ShowSnackBar(val message: String) : SettingsEvent
     enum class ExportData : SettingsEvent {
         SUCCESS, FAILURE
     }
@@ -18,6 +20,7 @@ sealed interface SettingsEvent : UiEvent {
 
 sealed interface DeleteAll : SettingsEvent {
     data object Success : DeleteAll
+    data object Failure : DeleteAll
 }
 
 sealed interface NotifyTimerEvent : SettingsEvent {

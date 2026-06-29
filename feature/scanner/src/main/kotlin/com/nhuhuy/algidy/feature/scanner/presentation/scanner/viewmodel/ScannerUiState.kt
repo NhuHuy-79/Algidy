@@ -1,6 +1,5 @@
 package com.nhuhuy.algidy.feature.scanner.presentation.scanner.viewmodel
 
-import android.net.Uri
 import androidx.compose.runtime.Immutable
 import com.nhuhuy.algidy.core.model.food.FoodItem
 import com.nhuhuy.algidy.core.presentation.UiResult
@@ -15,11 +14,8 @@ data class ScannerUiState(
     val isAutoScanned: Boolean = true,
     val isFlashOn: Boolean = false,
     val scanResult: UiResult<FoodItem> = UiResult.Idle,
-    val foodItemResult: FoodItem = FoodItem(),
     val overlay: ScannerOverlay = ScannerOverlay.NONE,
     val labelEvent: LabelEvent = LabelEvent.SCANNING,
-    val stagedImageUri: Uri? = null,
-    val productionDate: String? = null,
     val errorScannerCount: Int = 0,
     val expiryDate: String? = null,
 ) : UiState

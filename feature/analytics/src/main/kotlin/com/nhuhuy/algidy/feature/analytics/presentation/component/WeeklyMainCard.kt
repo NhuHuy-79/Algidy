@@ -64,7 +64,7 @@ fun WeeklyProgressCard(
     Box(
         modifier = modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(16.dp))
+            .clip(RoundedCornerShape(24.dp))
             .background(disabledBackgroundColor)
     ) {
         Box(
@@ -72,6 +72,7 @@ fun WeeklyProgressCard(
                 .fillMaxHeight()
                 .fillMaxWidth(fraction = progress)
                 .background(activeBackgroundColor)
+                .clip(RoundedCornerShape(24.dp))
         )
 
 

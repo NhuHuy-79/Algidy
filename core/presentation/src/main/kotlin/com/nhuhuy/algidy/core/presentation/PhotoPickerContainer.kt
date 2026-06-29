@@ -9,29 +9,16 @@ import androidx.compose.runtime.Composable
 @Composable
 fun PhotoPickerContainer(
     onImagePicked: (Uri?) -> Unit,
-    content: @Composable (onPhotoPick: () -> Unit) -> Unit,
+    onLaunch: () -> Unit = {},
+    content: @Composable (() -> Unit) -> Unit
 ) {
-    val photoPickerLauncher = rememberLauncherForActivityResult(
+    val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.PickVisualMedia(),
         onResult = { uri -> onImagePicked(uri) }
     )
-    val launchPicker = {
-        photoPickerLauncher.launch(
-            PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
-        )
-    }
-    content(launchPicker)
-}
 
-@Composable
-fun PlaceholderImage(
-    onImagePicked: (Uri) -> Unit,
-) {
-    PhotoPickerContainer(
-        onImagePicked = { uri ->
-            uri?.let { onImagePicked(it) }
-        }
-    ) { _ ->
-        // This is just a placeholder, in a real scenario you'd call onPhotoPick() on click
+    content {
+        onLaunch()
+        launcher.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
     }
 }

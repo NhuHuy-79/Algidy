@@ -3,7 +3,7 @@ package com.nhuhuy.algidy.core.notifications.data
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
-import com.nhuhuy.algidy.core.notifications.R
+import com.nhuhuy.algidy.core.presentation.R
 
 object NotificationChannelManager {
     const val CHANNEL_ALERT_ID = "alert_channel"

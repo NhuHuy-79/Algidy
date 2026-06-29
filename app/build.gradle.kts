@@ -3,6 +3,7 @@ plugins {
     id("org.jetbrains.kotlin.plugin.compose")
     alias(libs.plugins.jetbrains.kotlin.serialization)
     alias(libs.plugins.google.gms.google.services)
+    alias(libs.plugins.aboutlibraries)
     alias(libs.plugins.google.firebase.crashlytics)
 }
 
@@ -11,8 +12,8 @@ android {
     defaultConfig {
         applicationId = "com.nhuhuy.algidy"
         targetSdk = 36
-        versionCode = 2
-        versionName = "1.1.0"
+        versionCode = 3
+        versionName = "1.2.0"
     }
 
     applicationVariants.all {
@@ -35,7 +36,6 @@ dependencies {
 
     implementation(project(":feature:inventory"))
     implementation(project(":feature:scanner"))
-    implementation(project(":feature:detail"))
     implementation(project(":feature:analytics"))
     implementation(project(":feature:settings"))
     implementation(project(":feature:food-entry"))
@@ -59,10 +59,7 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
 
     // Navigation 3
-    implementation(libs.androidx.navigation3.runtime)
-    implementation(libs.androidx.navigation3.ui)
-    implementation(libs.androidx.lifecycle.viewmodel.navigation3)
-    implementation(libs.androidx.navigationevent)
+
 
     //Bioemtric Authenticator
     implementation(libs.androidx.biometric)

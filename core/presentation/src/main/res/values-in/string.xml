@@ -1,17 +1,13 @@
 <resources>
     <!-- Common -->
-
+    
     <string name="action_ok">OK</string>
     <string name="action_cancel">Batalkan</string>
     <string name="action_save">Simpan</string>
-    <string name="action_discard">Buang</string>
     <string name="action_edit">Sunting</string>
     <string name="action_add">Tambahkan</string>
-    <string name="action_delete">Hapus</string>
     <string name="action_back">Kembali</string>
     <string name="action_menu">Tindakan Menu</string>
-    <string name="action_view_more">Lihat Lebih Banyak</string>
-    <string name="action_new">Baru</string>
 
     <string name="category_all">Semua</string>
     <string name="category_uncategorized">Tidak ada kategori</string>
@@ -52,7 +48,7 @@
 
 
     <!--Biometric Authenticator-->
-    <string name="biometric_title">Kunci Biometrik Algidy</string>"
+    <string name="biometric_title">Kunci Biometrik Algidy</string>
     <string name="biometric_subtitle">Gunakan kunci biometrik untuk masuk</string>
 
     <!-- Errors -->
@@ -63,15 +59,10 @@
     <string name="error_future_date">Tanggal pembelian tidak boleh di masa mendatang.</string>
     <string name="error_invalid_date_range">Tanggal kedaluwarsa harus setelah atau pada tanggal pembelian.</string>
     <string name="error_text_too_short">Nama harus minimal 2 karakter.</string>
-    <string name="error_image_save_failed">Gagal menyimpan gambar.</string>
 
     <!-- Inventory Screen -->
     <string name="inventory_title">Inventaris</string>
     <string name="inventory_subtitle">Selamat datang!</string>
-    <string name="inventory_page_fridge">Kulkas</string>
-    <string name="inventory_page_freezer">Freezer</string>
-    <string name="inventory_page_pantry">Dapur</string>
-    <string name="inventory_page_other">Lainnya</string>
     <string name="inventory_empty_title">Dapur Anda kosong</string>
     <string name="inventory_empty_content">Lacak bahan makanan Anda dan jangan pernah membiarkan makanan terbuang sia-sia. Mulailah menambahkan item sekarang!</string>
     <string name="inventory_scanner_btn">Pindai Kode Batang</string>
@@ -80,16 +71,25 @@
     <string name="inventory_menu_sort_name">Urutkan berdasarkan Nama</string>
     <string name="inventory_menu_expired_only">Hanya kedaluwarsa</string>
     <string name="inventory_menu_reset">Atur Ulang Semua</string>
-    <string name="inventory_sheet_title">Tambahkan Makanan Baru</string>
-    <string name="inventory_sheet_btn">Tambahkan Makanan</string>
+
+    <string name="camera_permission_title">Akses Kamera Diperlukan</string>
+    <string name="camera_permission_description">Kami memerlukan akses kamera untuk memungkinkan Anda memindai kode QR, mengambil foto profil, dan memanfaatkan fitur AR di dalam aplikasi. Privasi Anda dilindungi, dan kami tidak pernah merekam tanpa tindakan langsung Anda.</string>
+    <string name="camera_permission_confirm_btn">Mengerti.</string>
 
     <string name="inventory_category_edit">Edit Kategori</string>
+    <string name="inventory_category_edit_btn">Sunting</string>
     <string name="inventory_category_delete">Hapus Kategori</string>
+    <string name="inventory_category_add">Tambahkan Kategori</string>
+    <string name="inventory_category_add_btn">Tambahkan</string>
     <string name="category_edit_dialog_title">Edit Kategori</string>
     <string name="category_edit_dialog_label">Nama Kategori</string>
-    <string name="category_search_placeholder">Cari atau ketik kategori baru...</string>
-    <string name="category_add_new">Tambahkan baru: \"%1$s\"</string>
     <string name="inventory_menu_filter">Filter</string>
+
+    <string name="inventory_category">Kategori</string>
+    <string name="inventory_location">Lokasi</string>
+    <string name="inventory_purchase_date">Tanggal Pembelian</string>
+    <string name="inventory_expiry_date">Tanggal kedaluwarsa</string>
+    <string name="inventory_note">Catatan Anda</string>
 
     <string name="delete_category_dialog_title">Hapus Kategori\?</string>
     <string name="delete_category_dialog_content">Kategori ini dan semua makanannya akan dihapus.</string>
@@ -106,47 +106,36 @@
     <string name="search_history_title">Terbaru</string>
     <string name="search_no_results">Tidak ada item yang ditemukan.</string>
 
+    <plurals name="inventory_selected_title">
+        <item quantity="zero">item yang dipilih.</item>
+        <item quantity="one">item yang dipilih.</item>
+        <item quantity="many">item yang dipilih.</item>
+    </plurals>
+
     <!--Food Entry Screen-->
     <string name="food_entry_title">Tambahkan Makanan Baru</string>
 
     <!-- Detail Screen -->
-    <string name="detail_title">Layar Detail</string>
-    <string name="detail_subtitle">Jangan lupa untuk mengonsumsi ini</string>
-    <string name="detail_food_stats">Statistik Makanan</string>
-    <string name="detail_expiry_progress">Progres kedaluwarsa</string>
     <string name="detail_personal_notes">Catatan Pribadi</string>
     <string name="detail_fab_consume_this">Mengkonsumsi ini</string>
-    <string name="detail_fab_edit_details">Edit Detail</string>
     <string name="detail_fab_mark_as_wasted">Tandai sebagai Terbuang</string>
     <string name="detail_dialog_waste_title">Tandai sebagai Terbuang sia-sia\?</string>
     <string name="detail_dialog_waste_content">Apakah Anda yakin makanan ini tidak lagi dapat digunakan\? Ini akan dipindahkan ke riwayat limbah Anda untuk dilacak.</string>
     <string name="detail_dialog_consume_title">Selesai makan\?</string>
     <string name="detail_dialog_consume_content">Bagus! Kami akan memperbarui inventaris Anda dan memindahkan item ini ke histori konsumsi Anda.</string>
-    <string name="detail_edit_sheet_title">Edit Informasi</string>
     <string name="detail_pick_photo">Pilih Foto</string>
-    <string name="detail_item_details">Rincian barang</string>
-    <string name="detail_edit_image">Edit Gambar</string>
-    <string name="detail_bought">Dibeli</string>
     <string name="detail_no_notes">Belum ada catatan untuk item ini.</string>
 
     <!-- Confirm Screen -->
-    <string name="confirm_title">Konfirmasi Informasi</string>
     <string name="confirm_label_name">Nama Makanan</string>
     <string name="confirm_label_category">Kategori</string>
     <string name="confirm_placeholder_name">Masukkan nama makanan...</string>
-    <string name="confirm_label_quantity">Kuantitas</string>
-    <string name="confirm_label_unit">Satuan</string>
     <string name="confirm_label_purchase_date">Tanggal Pembelian</string>
     <string name="confirm_label_expiry_date">Tanggal kedaluwarsa</string>
     <string name="confirm_date_set">Tetapkan Tanggal</string>
     <string name="confirm_label_location">Lokasi Penyimpanan</string>
     <string name="confirm_label_notes">Catatan</string>
     <string name="confirm_placeholder_notes">Misalnya Merek, tanggal buka...</string>
-    <string name="confirm_btn_add">Tambahkan ke Pantry</string>
-    <string name="confirm_dialog_discard_title">Buang Perubahan\?</string>
-    <string name="confirm_dialog_discard_content">Apakah Anda yakin ingin kembali\? Semua informasi makanan yang Anda masukkan akan hilang dan tidak akan disimpan ke dapur Anda.</string>
-    <string name="confirm_dialog_discard_btn_discard">Buang</string>
-    <string name="confirm_dialog_discard_btn_keep">Terus Mengedit</string>
 
     <!-- Scanner Screen -->
     <string name="scanner_title_barcode">Pemindai Kode Batang</string>
@@ -158,7 +147,6 @@
     <string name="scanner_label_failure">Pemindaian Gagal</string>
 
     <string name="scanner_barcode_dialog_title">Masukkan kode batang Anda</string>
-    <string name="scanner_barcode_label">Kode batang</string>
     <string name="scanner_barcode_confirm">Konfirmasi</string>
     <string name="scanner_preview_title">Pratinjau</string>
     <string name="scanner_preview_btn">Mulai Pemindaian</string>
@@ -170,25 +158,22 @@
     <string name="scanner_add_manually_tooltip">\"Mengalami masalah saat memindai\? Tambahkan secara manual.\"</string>
 
     <!-- Analytics Screen -->
-    <string name="analytics_card">Anda memiliki</string>
-    <string name="analytics_card_2">minggu ini.</string>
-    <plurals name="analytics_product_count">
-        <item quantity="one">Anda memiliki %1$d produk minggu ini</item>
-        <item quantity="other">Anda memiliki %1$d produk minggu ini</item>
-    </plurals>
     <string name="analytics_title">Analisis</string>
     <string name="analytics_subtitle">Ikhtisar limbah dan dampak</string>
     <string name="analytics_card_consumed">Dikonsumsi</string>
     <string name="analytics_card_wasted">Terbuang sia-sia</string>
     <string name="analytics_card_others">Lainnya</string>
     <string name="analytics_card_spoilage_history">Sejarah Pembusukan</string>
-    <string name="analytics_card_waste_location">Barang yang Terbuang Berdasarkan Lokasi</string>
     <string name="analytics_card_weekly_freshness">Kesegaran Mingguan</string>
 
     <string name="analytics_weekly_card">%1$s/7 hari</string>
     <string name="analytics_weekly_card_content">Mulai dari %1$s</string>
 
     <!-- Settings Screen -->
+    <string name="settings_title">Pengaturan</string>
+    <string name="settings_notifications">Pemberitahuan</string>
+    <string name="settings_notifications_desc">Terima peringatan untuk makanan kedaluwarsa</string>
+
     <string name="setting_app_theme">Tema</string>
     <string name="setting_dark_mode">Gelap</string>
     <string name="setting_light_mode">Cahaya</string>
@@ -199,20 +184,26 @@
     <string name="settings_set_time_cancel">Batalkan</string>
     <string name="settings_set_time_success">Waktu notifikasi diperbarui!</string>
     <string name="settings_delete_success">Hapus data berhasil</string>
+    <string name="settings_delete_failure">Hapus data gagal!</string>
 
     <string name="setting_language">Bahasa</string>
+    
+    
+    
+    
+    
+    
+    
+    
+
     <string name="setting_font">Font</string>
 
-    <string name="settings_title">Pengaturan</string>
     <string name="settings_dynamic_color">Warna Dinamis</string>
     <string name="settings_dynamic_mode_desc">Aktifkan warna dinamis untuk aplikasi</string>
-    <string name="settings_notifications">Pemberitahuan</string>
-    <string name="settings_notifications_desc">Terima peringatan untuk makanan kedaluwarsa</string>
+
     <string name="setting_biometric">Kunci Biometrik</string>
     <string name="setting_biometric_desc">Kunci biometrik untuk aplikasi</string>
 
-    <string name="setting_data">Data Anda</string>
-    <string name="setting_delete_dialog">Menghapus data Anda</string>
     <string name="setting_clear_data">Hapus semua</string>
     <string name="setting_clear_data_desc">Hapus semua data aplikasi Anda.</string>
 
@@ -224,8 +215,9 @@
     <string name="setting_use_category">Gunakan Kategori</string>
     <string name="setting_use_category_des">Gunakan kategori untuk mengelompokkan makanan Anda</string>
 
-    <string name="setting_backup">Cadangkan</string>
-    <string name="setting_backup_desc">Ekspor atau impor makanan Anda.</string>
+    <string name="setting_weekly_report">Laporan Mingguan</string>
+    <string name="setting_weekly_report_desc">Ringkasan hari Minggu dari konsumsi makanan Anda dan barang kedaluwarsa.</string>
+
 
     <string name="setting_export">Ekspor</string>
     <string name="setting_export_desc">Ekspor data Anda di Downloads/Algidy</string>
@@ -234,12 +226,90 @@
 
     <string name="setting_about_app">Tentang Aplikasi</string>
     <string name="setting_about_app_desc">Algides</string>
+    <string name="setting_new_features">Fitur Baru</string>
+    <string name="setting_new_features_desc">Periksa pembaruan terbaru</string>
+    <string name="setting_copyright">Hak Cipta</string>
+    <string name="setting_copyright_desc">Info hukum dan lisensi</string>
+    <string name="setting_feedback">Umpan balik</string>
+    <string name="setting_feedback_desc">Bantu kami meningkatkan</string>
+    <string name="setting_open_source">Sumber Terbuka</string>
+    <string name="setting_open_source_desc">Melihat lisensi sumber</string>
+    <string name="setting_privacy_policy">Kebijakan Privasi</string>
+    <string name="setting_privacy_policy_desc">Perlindungan data Anda</string>
+    <string name="setting_daily_reminder">Pengingat Harian</string>
+    <string name="setting_daily_reminder_desc">Ingatkan di %1$s</string>
 
-    <string name="setting_other_settings_title">Pengaturan Lainnya</string>
+    <plurals name="notification_days_before">
+        <item quantity="one">Beri tahu kedaluwarsa makanan %1$d sehari sebelumnya</item>
+        <item quantity="other">Beri tahu kedaluwarsa makanan %1$d hari sebelumnya</item>
+    </plurals>
 
     <string name="import_success">Impor data Anda dengan sukses!</string>
     <string name="import_fail">Impor data Anda gagal!</string>
     <string name="export_success">Data Anda diekspor!</string>
     <string name="export_failed">Tidak dapat mengekspor data Anda!</string>
+    <!-- New Setting Screens -->
+    <string name="appearance_title">Penampilan</string>
+    <string name="appearance_subtitle">Sesuaikan tampilan dan nuansa aplikasi</string>
 
+    <string name="your_data_title">Data Anda</string>
+    <string name="your_data_subtitle">Kelola data dan cadangan lokal Anda</string>
+
+    <string name="notification_settings_title">Pemberitahuan</string>
+    <string name="notification_settings_subtitle">Tetap perbarui kesegaran makanan Anda</string>
+
+    <string name="other_settings_title_page">Pengaturan Lainnya</string>
+    <string name="other_settings_subtitle">Pemberitahuan, Bahasa, dan lainnya</string>
+
+    <string name="main_settings_title_page">Pengaturan</string>
+    <string name="main_settings_subtitle">Pengaturan aplikasi umum</string>
+    <string name="privacy_policy_content">KEBIJAKAN PRIVASI UNTUK ALGIDY
+Terakhir Diperbarui: Juni 2026
+
+Selamat datang di Algidy. Kami berkomitmen untuk melindungi privasi dan data pribadi Anda. Kebijakan Privasi ini menjelaskan bagaimana Algidy mengumpulkan, menggunakan, dan melindungi informasi Anda saat Anda menggunakan aplikasi kami.
+
+1. Pengumpulan dan Penggunaan Informasi
+Algidy dirancang sebagai aplikasi yang mengutamakan offline. Sebagian besar data Anda mengenai pengelolaan dan inventaris makanan disimpan secara lokal dan aman di perangkat Anda menggunakan Database Ruang.
+
+Namun, untuk menyediakan fungsionalitas tertentu, kami dapat meminta akses ke fitur perangkat berikut:
+
+- Kamera: Kami memerlukan izin Kamera untuk mengaktifkan fitur seperti memindai kode batang makanan atau mengambil foto profil produk. Semua pemrosesan gambar ditangani secara instan di perangkat Anda dan tidak pernah diunggah ke server jarak jauh mana pun tanpa persetujuan eksplisit Anda.
+
+- Pemberitahuan: Aplikasi meminta izin untuk mengirim pemberitahuan untuk mengingatkan Anda tentang tanggal kedaluwarsa makanan, membantu Anda mengurangi limbah makanan.
+
+- Akses Internet dan Data Analitik: Kami menggunakan layanan analitik anonim untuk mengumpulkan data teknis mengenai kinerja aplikasi dan log kerusakan. Izin internet digunakan secara ketat untuk mengirimkan laporan diagnostik ini.
+
+2. Penyimpanan Data
+Semua log inventaris, kategori makanan, dan riwayat penggunaan aplikasi sepenuhnya terkandung dalam penyimpanan perangkat lokal Anda. Jika Anda menghapus aplikasi, semua informasi ini akan dihapus secara permanen dan tidak dapat dipulihkan.
+
+3. Berbagi Data Pihak Ketiga
+Kami tidak menjual, memperdagangkan, atau mentransfer data pribadi atau log penggunaan Anda ke pihak luar mana pun.
+
+4. Hubungi Kami
+Jika Anda memiliki pertanyaan atau saran mengenai Kebijakan Privasi ini, jangan ragu untuk menghubungi pengembang melalui email di: nhuhuy.dev\@gmail.com</string>
+    <!--Notification-->
+
+    <!--Notification Features-->
+    <string name="notif_expiry_summary">Peringatan kedaluwarsa</string>
+    <string name="notif_expiry_content">Anda memiliki item yang perlu diperhatikan.</string>
+    <plurals name="notif_expiry_multiple_title">
+        <item quantity="one">Perhatian: Item %1$d segera kedaluwarsa!</item>
+        <item quantity="other">Perhatian: %1$d item akan segera kedaluwarsa!</item>
+    </plurals>
+    <string name="notif_expiry_review_before_expire">Harap tinjau item Anda sebelum kedaluwarsa.</string>
+    <string name="notif_expiry_next_item_one_day">Selanjutnya: %1$s kedaluwarsa besok!</string>
+    <string name="notif_expiry_next_item_days">Berikutnya: %1$s dalam %2$d hari</string>
+    <string name="notif_expiry_item_one_day">%1$s: 1 hari tersisa</string>
+    <string name="notif_expiry_item_days">%1$s: %2$d hari tersisa</string>
+    <string name="notif_expiry_overflow">...dan %1$d item lainnya</string>
+    <string name="review_foods">Tinjau Makanan</string>
+
+    <string name="notif_weekly_title">Ringkasan Mingguan Algidy</string>
+    <string name="notif_weekly_short">Anda menghabiskan %1$d item dan menyia-nyiakan %2$d item.</string>
+    <string name="notif_weekly_detail">Minggu lalu, Anda berhasil mengonsumsi %1$d item. Sayangnya, %2$d item terbuang sia-sia. Ayo rencanakan belanjaanmu lebih baik bersama Algidy untuk minggu mendatang!</string>
+
+    <string name="notif_action_prompt_title">%1$s telah kedaluwarsa hari ini!</string>
+    <string name="notif_action_prompt_message">Sudahkah Anda menangani item ini\?</string>
+    <string name="notif_action_consumed">Dikonsumsi</string>
+    <string name="notif_action_wasted">Sia-sia</string>
 </resources>

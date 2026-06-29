@@ -19,6 +19,7 @@ import com.nhuhuy.algidy.core.presentation.PhotoPickerContainer
 fun ScannerControlBar(
     modifier: Modifier = Modifier,
     isAutoScanned: Boolean,
+    onLaunch: () -> Unit,
     onImageStaged: (Uri?) -> Unit,
     onAddManualBarcode: () -> Unit,
     onAutoScanChange: (Boolean) -> Unit
@@ -32,7 +33,8 @@ fun ScannerControlBar(
         verticalAlignment = Alignment.CenterVertically
     ) {
         PhotoPickerContainer(
-            onImagePicked = onImageStaged
+            onImagePicked = onImageStaged,
+            onLaunch = onLaunch
         ) { launcher ->
             SelectImageButton(
                 modifier = Modifier.size(56.dp),

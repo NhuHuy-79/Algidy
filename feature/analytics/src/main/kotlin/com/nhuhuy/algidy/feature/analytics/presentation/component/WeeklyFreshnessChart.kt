@@ -23,7 +23,7 @@ import com.nhuhuy.algidy.core.designsystem.component.CardLayout
 import com.nhuhuy.algidy.core.model.food.Freshness
 import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.core.presentation.utils.toBackgroundColor
-import com.nhuhuy.algidy.core.presentation.utils.toBackgroundContainerColor
+import com.nhuhuy.algidy.core.presentation.utils.toContentColor
 import com.nhuhuy.algidy.core.presentation.utils.toContentContainerColor
 import com.nhuhuy.algidy.core.presentation.utils.toStringRes
 import com.nhuhuy.algidy.feature.analytics.presentation.viewmodel.ExpiryChartUiModel
@@ -148,8 +148,8 @@ fun FreshnessCategoryRow(
             AppFilterButton(
                 selected = selectedFreshness == freshness,
                 label = stringResource(freshness.toStringRes()),
-                activeContainerColor = freshness.toBackgroundContainerColor(),
-                activeContentColor = freshness.toContentContainerColor(),
+                activeContainerColor = freshness.toBackgroundColor(),
+                activeContentColor = freshness.toContentColor(),
                 onClick = {
                     onSelectFreshness(freshness)
                 }
