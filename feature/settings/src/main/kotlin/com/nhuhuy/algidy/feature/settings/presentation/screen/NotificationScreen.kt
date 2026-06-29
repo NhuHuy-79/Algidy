@@ -23,6 +23,8 @@ import androidx.compose.material3.MediumFlexibleTopAppBar
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -49,6 +51,7 @@ import java.time.format.DateTimeFormatter
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun NotificationScreen(
+    snackBarHost: SnackbarHostState,
     combineState: SettingsCombineState,
     onAction: (SettingsAction) -> Unit,
 ) {
@@ -58,6 +61,9 @@ fun NotificationScreen(
     val actualDayValue = stepsValues[selectedIndex.toInt()]
 
     Scaffold(
+        snackbarHost = {
+            SnackbarHost(hostState = snackBarHost)
+        },
         modifier = Modifier.fillMaxSize(),
         topBar = {
             MediumFlexibleTopAppBar(
@@ -226,7 +232,7 @@ fun RemindTimeText(hour: Int, minute: Int) {
     val appLocale = LocalConfiguration.current.locales[0]
 
     val localTime = LocalTime.of(hour, minute)
-    val timeFormatter = DateTimeFormatter.ofPattern("hh:mm", appLocale)
+    val timeFormatter = DateTimeFormatter.ofPattern("HH:mm", appLocale)
     val formattedTimeNumbers = localTime.format(timeFormatter)
 
     val amPmFormatter = DateTimeFormatter.ofPattern("a", appLocale)

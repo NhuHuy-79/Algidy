@@ -184,6 +184,7 @@
     <string name="settings_set_time_cancel">Hủy bỏ</string>
     <string name="settings_set_time_success">Thời gian thông báo được cập nhật!</string>
     <string name="settings_delete_success">Xóa dữ liệu thành công</string>
+    <string name="settings_delete_failure">Xóa dữ liệu không thành công!</string>
 
     <string name="setting_language">Ngôn ngữ</string>
     
@@ -289,6 +290,12 @@ Nếu bạn có bất kỳ câu hỏi hoặc đề xuất nào liên quan đến
     <!--Notification-->
 
     <!--Notification Features-->
+    <string name="notif_expiry_summary">Cảnh báo hết hạn</string>
+    <string name="notif_expiry_content">Bạn có những mục cần chú ý.</string>
+    <plurals name="notif_expiry_multiple_title">
+        <item quantity="one">Chú ý: Mặt hàng %1$d sắp hết hạn!</item>
+        <item quantity="other">Chú ý: Các mặt hàng %1$d sắp hết hạn!</item>
+    </plurals>
     <string name="notif_expiry_review_before_expire">Vui lòng xem lại các mặt hàng của bạn trước khi chúng hết hạn.</string>
     <string name="notif_expiry_next_item_one_day">Tiếp theo: %1$s sẽ hết hạn vào ngày mai!</string>
     <string name="notif_expiry_next_item_days">Tiếp theo: %1$s trong %2$d ngày</string>

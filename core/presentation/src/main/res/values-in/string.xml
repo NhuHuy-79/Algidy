@@ -184,6 +184,7 @@
     <string name="settings_set_time_cancel">Batalkan</string>
     <string name="settings_set_time_success">Waktu notifikasi diperbarui!</string>
     <string name="settings_delete_success">Hapus data berhasil</string>
+    <string name="settings_delete_failure">Hapus data gagal!</string>
 
     <string name="setting_language">Bahasa</string>
     
@@ -289,6 +290,12 @@ Jika Anda memiliki pertanyaan atau saran mengenai Kebijakan Privasi ini, jangan 
     <!--Notification-->
 
     <!--Notification Features-->
+    <string name="notif_expiry_summary">Peringatan kedaluwarsa</string>
+    <string name="notif_expiry_content">Anda memiliki item yang perlu diperhatikan.</string>
+    <plurals name="notif_expiry_multiple_title">
+        <item quantity="one">Perhatian: Item %1$d segera kedaluwarsa!</item>
+        <item quantity="other">Perhatian: %1$d item akan segera kedaluwarsa!</item>
+    </plurals>
     <string name="notif_expiry_review_before_expire">Harap tinjau item Anda sebelum kedaluwarsa.</string>
     <string name="notif_expiry_next_item_one_day">Selanjutnya: %1$s kedaluwarsa besok!</string>
     <string name="notif_expiry_next_item_days">Berikutnya: %1$s dalam %2$d hari</string>

@@ -184,6 +184,7 @@
     <string name="settings_set_time_cancel">Stornieren</string>
     <string name="settings_set_time_success">Benachrichtigungszeit aktualisiert!</string>
     <string name="settings_delete_success">Daten erfolgreich löschen</string>
+    <string name="settings_delete_failure">Daten löschen fehlgeschlagen!</string>
 
     <string name="setting_language">Sprache</string>
     
@@ -289,6 +290,12 @@ Wenn Sie Fragen oder Vorschläge zu dieser Datenschutzrichtlinie haben, können 
     <!--Notification-->
 
     <!--Notification Features-->
+    <string name="notif_expiry_summary">Ablaufwarnung</string>
+    <string name="notif_expiry_content">Du hast Dinge, die Aufmerksamkeit brauchen.</string>
+    <plurals name="notif_expiry_multiple_title">
+        <item quantity="one">Achtung: %1$d Item läuft bald ab!</item>
+        <item quantity="other">Achtung: 1$d-Artikel laufen bald ab!</item>
+    </plurals>
     <string name="notif_expiry_review_before_expire">Bitte überprüfen Sie Ihre Artikel, bevor sie verfallen.</string>
     <string name="notif_expiry_next_item_one_day">Als Nächstes: %1$s läuft morgen ab!</string>
     <string name="notif_expiry_next_item_days">Als Nächstes: %1$s in %2$d Tagen</string>

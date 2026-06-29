@@ -185,7 +185,8 @@
     <string name="settings_set_time_confirm">Confirm</string>
     <string name="settings_set_time_cancel">Cancel</string>
     <string name="settings_set_time_success">Notification time updated!</string>
-    <string name="settings_delete_success">Delete data successfully</string>
+    <string name="settings_delete_success">Delete data successfully!</string>
+    <string name="settings_delete_failure">Delete data fail!</string>
 
     <string name="setting_language">Language</string>
     <string name="setting_lang_english" translatable="false">English</string>

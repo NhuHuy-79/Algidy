@@ -184,6 +184,7 @@
     <string name="settings_set_time_cancel">Cancella</string>
     <string name="settings_set_time_success">Ora della notifica aggiornata!</string>
     <string name="settings_delete_success">Elimina i dati con successo</string>
+    <string name="settings_delete_failure">Cancella dati fallito!</string>
 
     <string name="setting_language">Lingua</string>
     
@@ -289,6 +290,12 @@ Se hai domande o suggerimenti riguardo a questa Informativa sulla Privacy, non e
     <!--Notification-->
 
     <!--Notification Features-->
+    <string name="notif_expiry_summary">Avviso di scadenza</string>
+    <string name="notif_expiry_content">Hai oggetti che richiedono attenzione.</string>
+    <plurals name="notif_expiry_multiple_title">
+        <item quantity="one">Attenzione: 1$d articolo in scadenza imminente!</item>
+        <item quantity="other">Attenzione: gli articoli con 1$d scadono presto!</item>
+    </plurals>
     <string name="notif_expiry_review_before_expire">Per favore, rivedi i tuoi articoli prima che scadano.</string>
     <string name="notif_expiry_next_item_one_day">Prossimo: %1$s scade domani!</string>
     <string name="notif_expiry_next_item_days">Prossimo: %1$s in %2$d giorni</string>

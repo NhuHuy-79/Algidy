@@ -4,7 +4,10 @@ import com.nhuhuy.algidy.core.data.mapper.toDomain
 import com.nhuhuy.algidy.core.data.mapper.toEntity
 import com.nhuhuy.algidy.core.data.util.AppDispatchers
 import com.nhuhuy.algidy.core.data.util.safeCall
+import com.nhuhuy.algidy.core.database.TransactionRunner
+import com.nhuhuy.algidy.core.database.dao.CategoryDao
 import com.nhuhuy.algidy.core.database.dao.FoodDao
+import com.nhuhuy.algidy.core.database.dao.SearchDao
 import com.nhuhuy.algidy.core.model.error_handling.Resource
 import com.nhuhuy.algidy.core.model.food.FoodItem
 import com.nhuhuy.algidy.core.model.food.FoodStatus
@@ -16,7 +19,10 @@ import kotlinx.coroutines.withContext
 
 class FoodRepositoryImpl(
     private val appDispatchers: AppDispatchers,
+    private val transactionRunner: TransactionRunner,
     private val foodDao: FoodDao,
+    private val categoryDao: CategoryDao,
+    private val searchDao: SearchDao,
     private val foodRemoteDataSource: FoodRemoteDataSource
 ) : FoodRepository {
     override suspend fun scanFoodBarcode(barcodeString: String): Resource<FoodItem> {
@@ -102,7 +108,13 @@ class FoodRepositoryImpl(
         foodDao.deleteFoodById(id)
     }
 
-    override suspend fun deleteAllFoodItems() {
-        foodDao.deleteAllFoods()
+    override suspend fun deleteAllFoodItems(): Resource<Unit> {
+        return safeCall(dispatcher = appDispatchers.io) {
+            transactionRunner.run {
+                categoryDao.deleteAllCategories()
+                foodDao.deleteAllFoods()
+                searchDao.clearAllSearchHistory()
+            }
+        }
     }
 }

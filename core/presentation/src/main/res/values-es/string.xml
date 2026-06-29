@@ -184,6 +184,7 @@
     <string name="settings_set_time_cancel">Cancelar</string>
     <string name="settings_set_time_success">¡Hora de notificación actualizada!</string>
     <string name="settings_delete_success">Eliminar datos exitosamente</string>
+    <string name="settings_delete_failure">¡Fallo en eliminar datos!</string>
 
     <string name="setting_language">Idioma</string>
     
@@ -289,6 +290,12 @@ Si tiene alguna pregunta o sugerencia sobre esta Política de Privacidad, no dud
     <!--Notification-->
 
     <!--Notification Features-->
+    <string name="notif_expiry_summary">Aviso de caducidad</string>
+    <string name="notif_expiry_content">Hay cosas que necesitan atención.</string>
+    <plurals name="notif_expiry_multiple_title">
+        <item quantity="one">Atención: ¡el artículo con 1$d caduca pronto!</item>
+        <item quantity="other">Atención: ¡los artículos con 1$d caducan pronto!</item>
+    </plurals>
     <string name="notif_expiry_review_before_expire">Por favor, revisa tus artículos antes de que caduquen.</string>
     <string name="notif_expiry_next_item_one_day">Lo siguiente: ¡%1$s caduca mañana!</string>
     <string name="notif_expiry_next_item_days">A continuación: %1$s en %2$d días</string>

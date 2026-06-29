@@ -184,6 +184,7 @@
     <string name="settings_set_time_cancel">Cancelar</string>
     <string name="settings_set_time_success">Horário da notificação atualizado!</string>
     <string name="settings_delete_success">Excluir dados com sucesso</string>
+    <string name="settings_delete_failure">Falha no deletar dados!</string>
 
     <string name="setting_language">Idioma</string>
     
@@ -289,6 +290,12 @@ Se você tiver alguma dúvida ou sugestão sobre esta Política de Privacidade, 
     <!--Notification-->
 
     <!--Notification Features-->
+    <string name="notif_expiry_summary">Aviso de Validade</string>
+    <string name="notif_expiry_content">Você tem itens que precisam de atenção.</string>
+    <plurals name="notif_expiry_multiple_title">
+        <item quantity="one">Atenção: 1$d item expirando em breve!</item>
+        <item quantity="other">Atenção: 1$d itens expirando em breve!</item>
+    </plurals>
     <string name="notif_expiry_review_before_expire">Por favor, revise seus itens antes que expirem.</string>
     <string name="notif_expiry_next_item_one_day">Próximo passo: %1$s expira amanhã!</string>
     <string name="notif_expiry_next_item_days">A seguir: %1$s em %2$d dias</string>

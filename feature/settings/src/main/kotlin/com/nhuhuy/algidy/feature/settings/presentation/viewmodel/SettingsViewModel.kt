@@ -121,7 +121,8 @@ class SettingsViewModel(
             SettingsAction.DeleteAlertDialog.Confirm -> viewModelScope.launch {
                 _uiState.product { copy(overlay = SettingsOverlay.None) }
                 deleteDataUseCase()
-                emitEvent(DeleteAll.Success)
+                    .onSuccess { emitEvent(DeleteAll.Success) }
+                    .onFailure { emitEvent(DeleteAll.Failure) }
             }
         }
     }

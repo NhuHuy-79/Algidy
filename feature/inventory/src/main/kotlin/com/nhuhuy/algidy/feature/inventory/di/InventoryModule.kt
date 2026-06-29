@@ -17,15 +17,15 @@ import com.nhuhuy.algidy.feature.inventory.domain.usecase.food.ObserveFoodItemUs
 import com.nhuhuy.algidy.feature.inventory.domain.usecase.food.SearchFoodUseCase
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryViewModel
 import com.nhuhuy.algidy.feature.inventory.presentation.search.viewmodel.SearchViewModel
+import org.koin.core.module.dsl.bind
 import org.koin.core.module.dsl.factoryOf
 import org.koin.core.module.dsl.singleOf
 import org.koin.core.module.dsl.viewModelOf
-import org.koin.dsl.bind
 import org.koin.dsl.module
 
 val inventoryModule = module {
     //repository
-    singleOf(::SearchRepositoryImp) bind SearchRepository::class
+    singleOf(::SearchRepositoryImp) { bind<SearchRepository>() }
     //usecase
     factoryOf(::GetInventoryPreferenceUseCase)
     factoryOf(::DeleteCategoryUseCase)

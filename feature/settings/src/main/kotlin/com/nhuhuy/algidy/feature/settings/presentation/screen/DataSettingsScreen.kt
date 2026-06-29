@@ -16,6 +16,8 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MediumFlexibleTopAppBar
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -34,6 +36,7 @@ import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.SettingsAction
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun DataSettingsScreen(
+    snackBarHost: SnackbarHostState,
     onAction: (SettingsAction) -> Unit,
 ) {
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
@@ -43,6 +46,9 @@ fun DataSettingsScreen(
         SettingClickableItem(type = ClickableType.DeleteAll),
     )
     Scaffold(
+        snackbarHost = {
+            SnackbarHost(hostState = snackBarHost)
+        },
         modifier = Modifier
             .fillMaxSize()
             .nestedScroll(scrollBehavior.nestedScrollConnection),

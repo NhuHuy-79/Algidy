@@ -25,5 +25,5 @@ interface FoodRepository {
 
     //DELETE
     suspend fun removeFoodItem(id: String)
-    suspend fun deleteAllFoodItems()
+    suspend fun deleteAllFoodItems(): Resource<Unit>
 }

@@ -20,6 +20,7 @@ sealed interface SettingsEvent : UiEvent {
 
 sealed interface DeleteAll : SettingsEvent {
     data object Success : DeleteAll
+    data object Failure : DeleteAll
 }
 
 sealed interface NotifyTimerEvent : SettingsEvent {

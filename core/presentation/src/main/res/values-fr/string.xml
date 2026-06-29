@@ -184,6 +184,7 @@
     <string name="settings_set_time_cancel">Annuler</string>
     <string name="settings_set_time_success">Heure de notification mise à jour !</string>
     <string name="settings_delete_success">Supprimer les données avec succès</string>
+    <string name="settings_delete_failure">Suppression des données échouée !</string>
 
     <string name="setting_language">Langue</string>
     
@@ -289,6 +290,12 @@ Si vous avez des questions ou suggestions concernant cette Politique de confiden
     <!--Notification-->
 
     <!--Notification Features-->
+    <string name="notif_expiry_summary">Avertissement d’expiration</string>
+    <string name="notif_expiry_content">Vous avez des objets qui nécessitent de l’attention.</string>
+    <plurals name="notif_expiry_multiple_title">
+        <item quantity="one">Attention : article à 1$d qui expire bientôt !</item>
+        <item quantity="other">Attention : les articles à 1 % de 1$ expirent bientôt !</item>
+    </plurals>
     <string name="notif_expiry_review_before_expire">Veuillez examiner vos articles avant leur expiration.</string>
     <string name="notif_expiry_next_item_one_day">Prochain : %1$s expire demain !</string>
     <string name="notif_expiry_next_item_days">À suivre : %1$s en %2$d jours</string>

@@ -78,13 +78,16 @@ fun SettingRoute(
             SettingsEvent.ExportData.SUCCESS -> {
                 snackBarHostState.showSnackbar(
                     message = resource.getString(R.string.export_success),
-                    withDismissAction = true
+                    withDismissAction = true,
+                    duration = SnackbarDuration.Short
                 )
             }
 
             SettingsEvent.ExportData.FAILURE -> {
                 snackBarHostState.showSnackbar(
                     message = resource.getString(R.string.export_failed),
+                    withDismissAction = true,
+                    duration = SnackbarDuration.Short
                 )
 
             }
@@ -92,6 +95,8 @@ fun SettingRoute(
             SettingsEvent.ImportData.Success -> {
                 snackBarHostState.showSnackbar(
                     message = resource.getString(R.string.import_success),
+                    withDismissAction = true,
+                    duration = SnackbarDuration.Short
                 )
 
             }
@@ -99,6 +104,8 @@ fun SettingRoute(
             SettingsEvent.ImportData.Failure -> {
                 snackBarHostState.showSnackbar(
                     message = resource.getString(R.string.import_fail),
+                    withDismissAction = true,
+                    duration = SnackbarDuration.Short
                 )
 
             }
@@ -116,6 +123,8 @@ fun SettingRoute(
             NotifyTimerEvent.Success -> {
                 snackBarHostState.showSnackbar(
                     message = resource.getString(R.string.settings_set_time_success),
+                    withDismissAction = true,
+                    duration = SnackbarDuration.Short
                 )
             }
 
@@ -133,7 +142,16 @@ fun SettingRoute(
             DeleteAll.Success -> {
                 snackBarHostState.showSnackbar(
                     message = resource.getString(R.string.settings_delete_success),
-                    duration = SnackbarDuration.Short
+                    duration = SnackbarDuration.Short,
+                    withDismissAction = true
+                )
+            }
+
+            DeleteAll.Failure -> {
+                snackBarHostState.showSnackbar(
+                    message = resource.getString(R.string.settings_delete_failure),
+                    duration = SnackbarDuration.Short,
+                    withDismissAction = true
                 )
             }
 
@@ -187,11 +205,15 @@ fun SettingRoute(
         }
 
         SettingDestination.YourData -> {
-            DataSettingsScreen(onAction = onAction)
+            DataSettingsScreen(
+                snackBarHost = snackBarHostState,
+                onAction = onAction
+            )
         }
 
         SettingDestination.Notification -> {
             NotificationScreen(
+                snackBarHost = snackBarHostState,
                 combineState = combineState,
                 onAction = onAction
             )
