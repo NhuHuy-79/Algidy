@@ -29,7 +29,8 @@ val foodEntryModule = module {
             foodEntryPreferencesUseCase = get(),
             saveFoodItemUseCase = get(),
             addCategoryUseCase = get(),
-            initialFoodItem = initialFoodItem
+            initialFoodItem = initialFoodItem,
+            navigator = get()
         )
     }
 }

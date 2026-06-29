@@ -2,6 +2,7 @@
 
 package com.nhuhuy.algidy.feature.inventory.presentation.inventory
 
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -27,6 +28,7 @@ import com.nhuhuy.algidy.core.model.food.Freshness
 import com.nhuhuy.algidy.core.model.food.StorageLocation
 import com.nhuhuy.algidy.core.presentation.component.CategoryFilterGroup
 import com.nhuhuy.algidy.core.presentation.model.CategoryUiModel
+import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.InventorySelectBar
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.InventoryTabRow
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.InventoryTopBar
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.grid_list.InventoryCategoryList
@@ -35,6 +37,7 @@ import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.page
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryAction
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryCombineState
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryResultState
+import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventorySelectAction
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventorySortMode
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryUiState
 import com.nhuhuy.algidy.feature.inventory.utils.GridCategory
@@ -59,14 +62,25 @@ fun InventoryScreen(
         modifier = Modifier.fillMaxSize(),
         topBar = {
             Column {
-                InventoryTopBar(
-                    showCategoryEditMode = uiState.showCategoryEdit,
-                    isExpiredOnlyActive = uiState.showExpiredOnly,
-                    categoryEnabled = combineState.categoryEnabled,
-                    currentSortMode = uiState.sortMode,
-                    onAction = onAction,
-                    scrollBehavior = scrollBehavior
-                )
+                AnimatedContent(
+                    targetState = uiState.isSelectMode
+                ) { selectedMode ->
+                    if (!selectedMode) {
+                        InventoryTopBar(
+                            showCategoryEditMode = uiState.showCategoryEdit,
+                            isExpiredOnlyActive = uiState.showExpiredOnly,
+                            categoryEnabled = combineState.categoryEnabled,
+                            currentSortMode = uiState.sortMode,
+                            onAction = onAction,
+                            scrollBehavior = scrollBehavior
+                        )
+                    } else {
+                        InventorySelectBar(
+                            selectedCount = uiState.selectedFoodIds.size,
+                            onAction = onAction
+                        )
+                    }
+                }
 
                 if (combineState.categoryEnabled) {
                     CategoryFilterGroup(
@@ -102,8 +116,16 @@ fun InventoryScreen(
                 currentCategory = uiState.currentCategory,
                 inventoryResultState = inventoryResultState,
                 sortMode = uiState.sortMode,
+                selectedIds = uiState.selectedFoodIds,
                 showExpiredOnly = uiState.showExpiredOnly,
-                onItemClick = { item -> onAction(InventoryAction.OnItemClick(item)) }
+                onItemClick = { item ->
+                    if (uiState.isSelectMode) {
+                        onAction(InventorySelectAction.OnClick(item.id))
+                    } else {
+                        onAction(InventoryAction.OnItemClick(item))
+                    }
+                },
+                onItemLongClick = { item -> onAction(InventorySelectAction.OnLongClick(id = item.id)) }
             )
         } else {
             InventoryPager(
@@ -112,9 +134,17 @@ fun InventoryScreen(
                     .padding(paddingValues),
                 pagerState = pagerState,
                 sortMode = uiState.sortMode,
+                selectedIds = uiState.selectedFoodIds,
                 showExpiredOnly = uiState.showExpiredOnly,
                 inventoryResultState = inventoryResultState,
-                onItemClick = { item -> onAction(InventoryAction.OnItemClick(item)) }
+                onItemClick = { item ->
+                    if (uiState.isSelectMode) {
+                        onAction(InventorySelectAction.OnClick(item.id))
+                    } else {
+                        onAction(InventoryAction.OnItemClick(item))
+                    }
+                },
+                onItemLongClick = { item -> onAction(InventorySelectAction.OnLongClick(item.id)) }
             )
         }
     }
@@ -122,17 +152,19 @@ fun InventoryScreen(
 
 @Composable
 fun InventoryGridList(
-    items: ImmutableList<FoodItem>,
-    onItemClick: (FoodItem) -> Unit,
     modifier: Modifier = Modifier,
+    items: ImmutableList<FoodItem>,
+    selectedIds: Set<String> = emptySet(),
+    onItemClick: (FoodItem) -> Unit,
+    onItemLongClick: (FoodItem) -> Unit = {},
     contentPadding: PaddingValues = PaddingValues(16.dp)
 ) {
     LazyVerticalStaggeredGrid(
         columns = StaggeredGridCells.Fixed(3),
         modifier = modifier.fillMaxSize(),
         contentPadding = contentPadding,
-        horizontalArrangement = Arrangement.spacedBy(16.dp),
-        verticalItemSpacing = 16.dp
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        verticalItemSpacing = 12.dp
     ) {
         items(
             items = items,
@@ -140,7 +172,9 @@ fun InventoryGridList(
         ) { foodItem ->
             InventoryFoodItem(
                 item = foodItem,
+                isSelected = foodItem.id in selectedIds,
                 onItemClick = onItemClick,
+                onLongClick = onItemLongClick,
                 modifier = Modifier
                     .animateItem()
             )

@@ -1,10 +1,11 @@
 package com.nhuhuy.algidy.core.notifications.di
 
+import coil3.ImageLoader
 import com.nhuhuy.algidy.core.notifications.data.AlgidyNotificationFactory
 import com.nhuhuy.algidy.core.notifications.data.AlgidyNotifierImp
 import com.nhuhuy.algidy.core.notifications.domain.AlgidyNotifier
 import com.nhuhuy.algidy.core.notifications.domain.usecase.GetExpiryFoodUseCase
-import com.nhuhuy.algidy.core.notifications.domain.usecase.GetNotificationEnabled
+import com.nhuhuy.algidy.core.notifications.domain.usecase.GetNotificationPreferenceUseCase
 import com.nhuhuy.algidy.core.notifications.domain.usecase.GetWeeklySummaryUseCase
 import com.nhuhuy.algidy.core.notifications.domain.usecase.UpdateFoodStatusUseCase
 import com.nhuhuy.algidy.core.notifications.worker.CheckExpirationWorker
@@ -13,18 +14,22 @@ import com.nhuhuy.algidy.core.notifications.worker.WeeklyReportWorker
 import com.nhuhuy.algidy.core.notifications.worker.WorkerScheduler
 import com.nhuhuy.algidy.core.notifications.worker.WorkerSchedulerImp
 import org.koin.androidx.workmanager.dsl.workerOf
+import org.koin.core.module.dsl.bind
 import org.koin.core.module.dsl.factoryOf
 import org.koin.core.module.dsl.singleOf
-import org.koin.dsl.bind
 import org.koin.dsl.module
 
 val notificationModule = module {
-    singleOf(::WorkerSchedulerImp) bind WorkerScheduler::class
+    singleOf(::WorkerSchedulerImp) { bind<WorkerScheduler>() }
+    singleOf(::AlgidyNotifierImp) { bind<AlgidyNotifier>() }
     singleOf(::AlgidyNotificationFactory)
-    singleOf(::AlgidyNotifierImp) bind AlgidyNotifier::class
+    single<ImageLoader> {
+        ImageLoader(context = get())
+    }
+
 
     // UseCase
-    factoryOf(::GetNotificationEnabled)
+    factoryOf(::GetNotificationPreferenceUseCase)
     factoryOf(::GetExpiryFoodUseCase)
     factoryOf(::UpdateFoodStatusUseCase)
     factoryOf(::GetWeeklySummaryUseCase)

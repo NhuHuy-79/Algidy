@@ -15,10 +15,6 @@ sealed interface Destination : NavKey {
         data object Search : Inventory
     }
 
-
-    @Serializable
-    data class Detail(val foodItemId: String) : Destination
-
     @Serializable
     data object Analytics : Destination
 
@@ -31,20 +27,18 @@ sealed interface Destination : NavKey {
     ) : Destination
 
     @Serializable
-    data object PreSetting : Destination
+    data class Setting(
+        val destination: SettingDestination = SettingDestination.Main
+    ) : Destination
+}
 
-    @Serializable
-    sealed interface Setting : Destination {
-        @Serializable
-        data object Main : Setting
 
-        @Serializable
-        data object Appearance : Setting
-
-        @Serializable
-        data object YourData : Setting
-
-        @Serializable
-        data object OtherSettings : Setting
-    }
+enum class SettingDestination {
+    Main,
+    Notification,
+    Appearance,
+    OtherSettings,
+    YourData,
+    AboutApp,
+    OpenSource
 }

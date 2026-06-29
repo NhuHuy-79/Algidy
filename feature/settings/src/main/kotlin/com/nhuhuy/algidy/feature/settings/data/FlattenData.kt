@@ -1,7 +1,6 @@
 package com.nhuhuy.algidy.feature.settings.data
 
 import com.nhuhuy.algidy.core.model.food.FoodStatus
-import com.nhuhuy.algidy.core.model.food.ItemUnit
 import com.nhuhuy.algidy.core.model.food.StorageLocation
 import kotlinx.serialization.Serializable
 
@@ -26,12 +25,9 @@ data class FlattenFoodData(
     val normalizedName: String,
     val categoryId: String?,
     val location: StorageLocation,
-    val quantity: Double,
-    val itemUnit: ItemUnit,
     val purchaseDate: Long,
     val expiryDate: Long,
     val imageUri: String?,
-    val isFavorite: Boolean,
     val notes: String,
     val status: FoodStatus,
     val resolvedDate: Long? = null

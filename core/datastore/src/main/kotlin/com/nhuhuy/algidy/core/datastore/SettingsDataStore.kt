@@ -25,10 +25,14 @@ interface SettingsDataStore {
     val notificationsEnabledFlow: Flow<Boolean>
     val appFontFlow: Flow<AppFont>
     val categoryGroupFlow: Flow<Boolean>
-
+    val warningDayFlow: Flow<Int>
     val hourFlow: Flow<Int>
     val minuteFlow: Flow<Int>
+    val weeklyReportFlow: Flow<Boolean>
+    val cameraPolicyAcceptedFlow: Flow<Boolean>
 
+    val appVersionToNotifyFlow: Flow<Int>
+    suspend fun setWarningDay(day: Int)
     suspend fun setCategoryGroup(enabled: Boolean)
     suspend fun setFont(appFont: AppFont)
     suspend fun setLanguage(appLanguage: AppLanguage)
@@ -38,9 +42,32 @@ interface SettingsDataStore {
     suspend fun setNotificationsEnabled(enabled: Boolean)
     suspend fun setHour(hour: Int)
     suspend fun setMinute(minute: Int)
+    suspend fun setWeeklyReport(enabled: Boolean)
+    suspend fun setCameraPolicyAccepted(accepted: Boolean)
+    suspend fun setAppVersionToNotify(version: Int)
 }
 
 class SettingsDataStoreImpl(private val context: Context) : SettingsDataStore {
+
+    override val appVersionToNotifyFlow: Flow<Int>
+        get() = context.dataStore.data.map { preferences ->
+            preferences[UserPreferencesKeys.APP_VERSION_TO_NOTIFY] ?: 1
+        }
+
+    override val weeklyReportFlow: Flow<Boolean>
+        get() = context.dataStore.data.map { preferences ->
+            preferences[UserPreferencesKeys.WEEKLY_REPORT] ?: false
+        }
+
+    override val cameraPolicyAcceptedFlow: Flow<Boolean>
+        get() = context.dataStore.data.map { preferences ->
+            preferences[UserPreferencesKeys.CAMERA_POLICY_ACCEPTED] ?: false
+        }
+
+    override val warningDayFlow: Flow<Int>
+        get() = context.dataStore.data.map { preferences ->
+            preferences[UserPreferencesKeys.WARNING_DAYS] ?: 3
+        }
 
     override val categoryGroupFlow: Flow<Boolean> = context.dataStore.data.map { preferences ->
         preferences[UserPreferencesKeys.CATEGORY] ?: false
@@ -77,6 +104,10 @@ class SettingsDataStoreImpl(private val context: Context) : SettingsDataStore {
     override val minuteFlow: Flow<Int>
         get() = context.dataStore.data.get(UserPreferencesKeys.MINUTE, 30)
 
+    override suspend fun setWarningDay(day: Int) {
+        context.dataStore.set(UserPreferencesKeys.WARNING_DAYS, day)
+    }
+
     override suspend fun setMinute(minute: Int) {
         context.dataStore.set(UserPreferencesKeys.MINUTE, minute)
     }
@@ -111,5 +142,17 @@ class SettingsDataStoreImpl(private val context: Context) : SettingsDataStore {
 
     override suspend fun setFont(appFont: AppFont) {
         context.dataStore.set(UserPreferencesKeys.FONT, appFont.storeKey)
+    }
+
+    override suspend fun setWeeklyReport(enabled: Boolean) {
+        context.dataStore.set(UserPreferencesKeys.WEEKLY_REPORT, enabled)
+    }
+
+    override suspend fun setCameraPolicyAccepted(accepted: Boolean) {
+        context.dataStore.set(UserPreferencesKeys.CAMERA_POLICY_ACCEPTED, accepted)
+    }
+
+    override suspend fun setAppVersionToNotify(version: Int) {
+        context.dataStore.set(UserPreferencesKeys.APP_VERSION_TO_NOTIFY, version)
     }
 }

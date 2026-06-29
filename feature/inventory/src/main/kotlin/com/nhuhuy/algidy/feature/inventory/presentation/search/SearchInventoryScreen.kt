@@ -18,8 +18,12 @@ import androidx.compose.material3.SearchBar
 import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.nhuhuy.algidy.core.presentation.R
@@ -35,6 +39,10 @@ fun SearchInventoryScreen(
     onBackClick: () -> Unit,
     onAction: (SearchAction) -> Unit,
 ) {
+    val focusRequester = remember { FocusRequester() }
+    LaunchedEffect(Unit) {
+        focusRequester.requestFocus()
+    }
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -51,6 +59,7 @@ fun SearchInventoryScreen(
             ),
             inputField = {
                 SearchBarDefaults.InputField(
+                    modifier = Modifier.focusRequester(focusRequester),
                     query = uiState.query,
                     onQueryChange = { query ->
                         onAction(SearchAction.OnQueryChange(query))

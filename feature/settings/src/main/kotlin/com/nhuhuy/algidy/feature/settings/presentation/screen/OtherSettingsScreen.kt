@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
-import androidx.compose.material.icons.outlined.NotificationAdd
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.Icon
@@ -22,17 +21,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.core.presentation.utils.ItemPosition
 import com.nhuhuy.algidy.feature.settings.presentation.component.SelectLanguageRow
 import com.nhuhuy.algidy.feature.settings.presentation.component.ToggleItem
 import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.SettingsAction
-import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.SettingsUiState
-import com.nhuhuy.algidy.core.presentation.R as CoreR
+import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.SettingsCombineState
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun OtherSettingsScreen(
-    uiState: SettingsUiState,
+    combineState: SettingsCombineState,
     onAction: (SettingsAction) -> Unit,
 ) {
     Scaffold(
@@ -40,19 +39,19 @@ fun OtherSettingsScreen(
         topBar = {
             MediumFlexibleTopAppBar(
                 title = {
-                    Column {
-                        Text(
-                            text = stringResource(CoreR.string.other_settings_title_page),
-                            style = MaterialTheme.typography.displaySmall.copy(
-                                fontWeight = FontWeight.Black
-                            )
+                    Text(
+                        text = stringResource(R.string.other_settings_title_page),
+                        style = MaterialTheme.typography.displaySmall.copy(
+                            fontWeight = FontWeight.Black
                         )
-                        Text(
-                            text = stringResource(CoreR.string.other_settings_subtitle),
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                    }
+                    )
+                },
+                subtitle = {
+                    Text(
+                        text = stringResource(R.string.other_settings_subtitle),
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
                 },
                 navigationIcon = {
                     IconButton(
@@ -61,16 +60,6 @@ fun OtherSettingsScreen(
                         Icon(
                             imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
                             contentDescription = null
-                        )
-                    }
-                },
-                actions = {
-                    IconButton(
-                        onClick = { onAction(SettingsAction.SetNotifyTime.OpenPicker) }
-                    ) {
-                        Icon(
-                            imageVector = Icons.Outlined.NotificationAdd,
-                            contentDescription = "timer"
                         )
                     }
                 }
@@ -87,13 +76,13 @@ fun OtherSettingsScreen(
             item {
                 Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                     Text(
-                        text = stringResource(CoreR.string.setting_language),
+                        text = stringResource(R.string.setting_language),
                         style = MaterialTheme.typography.titleMedium.copy(
                             fontWeight = FontWeight.Black
                         )
                     )
                     SelectLanguageRow(
-                        currentLanguage = uiState.language,
+                        currentLanguage = combineState.language,
                         onLanguageSelected = { language ->
                             onAction(SettingsAction.ChangeLanguage(language))
                         }
@@ -102,44 +91,26 @@ fun OtherSettingsScreen(
             }
 
             item {
-                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                    Text(
-                        text = stringResource(CoreR.string.settings_notifications),
-                        style = MaterialTheme.typography.titleMedium.copy(
-                            fontWeight = FontWeight.Black
-                        )
-                    )
+                Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
                     ToggleItem(
-                        item = uiState.notificationSetting,
+                        item = combineState.biometricSetting,
                         position = ItemPosition.TOP,
                         onToggle = { enabled, _ ->
                             onAction(
                                 SettingsAction.ToggleAction(
-                                    type = uiState.notificationSetting.type,
+                                    type = combineState.biometricSetting.type,
                                     enabled = enabled
                                 )
                             )
                         }
                     )
                     ToggleItem(
-                        item = uiState.biometricSetting,
-                        position = ItemPosition.MIDDLE,
-                        onToggle = { enabled, _ ->
-                            onAction(
-                                SettingsAction.ToggleAction(
-                                    type = uiState.biometricSetting.type,
-                                    enabled = enabled
-                                )
-                            )
-                        }
-                    )
-                    ToggleItem(
-                        item = uiState.categorySetting,
+                        item = combineState.categorySetting,
                         position = ItemPosition.BOTTOM,
                         onToggle = { enabled, _ ->
                             onAction(
                                 SettingsAction.ToggleAction(
-                                    type = uiState.categorySetting.type,
+                                    type = combineState.categorySetting.type,
                                     enabled = enabled
                                 )
                             )

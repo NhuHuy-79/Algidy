@@ -1,6 +1,10 @@
 package com.nhuhuy.algidy.core.model.food
 
 import kotlinx.serialization.Serializable
+import java.time.Instant
+import java.time.LocalDate
+import java.time.ZoneId
+import java.time.temporal.ChronoUnit
 import java.util.UUID
 
 @Serializable
@@ -8,14 +12,10 @@ data class FoodItem(
     val id: String = UUID.randomUUID().toString(),
     val name: String = "",
     val categoryId: String? = null,
-    val defaultFoodCategory: DefaultFoodCategory = DefaultFoodCategory.OTHERS,
     val location: StorageLocation = StorageLocation.FRIDGE,
-    val quantity: Double = 0.0,
-    val itemUnit: ItemUnit = ItemUnit.KG,
     val purchaseDate: Long = System.currentTimeMillis(),
     val expiryDate: Long = -1,
     val imageUri: String? = null,
-    val isFavorite: Boolean = false,
     val notes: String = "",
     val status: FoodStatus = FoodStatus.ACTIVE,
     val resolvedDate: Long? = null
@@ -52,9 +52,17 @@ data class FoodItem(
     fun getRemainingDays(): Int {
         if (expiryDate == -1L) return -1
 
-        val currentTime = System.currentTimeMillis()
-        val diff = expiryDate - currentTime
-        return (diff / (24 * 60 * 60 * 1000)).toInt()
+        val today = LocalDate.now()
+
+        val expiryLocalDate = Instant
+            .ofEpochMilli(expiryDate)
+            .atZone(ZoneId.systemDefault())
+            .toLocalDate()
+
+        return ChronoUnit.DAYS.between(
+            today,
+            expiryLocalDate
+        ).toInt()
     }
 }
 

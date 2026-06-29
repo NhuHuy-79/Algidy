@@ -1,5 +1,6 @@
 package com.nhuhuy.algidy.di
 
+import com.nhuhuy.algidy.core.data.AppNewFeaturesReader
 import com.nhuhuy.algidy.core.data.LocalMediaStorage
 import com.nhuhuy.algidy.core.data.LocalMediaStorageImpl
 import com.nhuhuy.algidy.core.data.repository.CategoryRepository
@@ -12,16 +13,16 @@ import com.nhuhuy.algidy.feature.scanner.data.MLKitBarcodeScanner
 import com.nhuhuy.algidy.feature.scanner.data.MLKitFoodDateScanner
 import com.nhuhuy.algidy.feature.scanner.domain.BarcodeScanner
 import com.nhuhuy.algidy.feature.scanner.domain.FoodDateScanner
+import org.koin.core.module.dsl.bind
 import org.koin.core.module.dsl.singleOf
-import org.koin.dsl.bind
 import org.koin.dsl.module
 
 val dataModule = module {
-    //delegate
-    single<FoodRepository> { FoodRepositoryImpl(get(), get(), get()) }
-    singleOf(::CategoryRepositoryImpl) bind CategoryRepository::class
-    single<AppDispatchers> { DefaultAppDispatchers() }
+    singleOf(::AppNewFeaturesReader)
+    singleOf(::FoodRepositoryImpl) { bind<FoodRepository>() }
+    singleOf(::CategoryRepositoryImpl) { bind<CategoryRepository>() }
+    singleOf(::DefaultAppDispatchers) { bind<AppDispatchers>() }
     single<BarcodeScanner> { MLKitBarcodeScanner(get()) }
     single<FoodDateScanner> { MLKitFoodDateScanner(get(), get()) }
-    singleOf(::LocalMediaStorageImpl) bind LocalMediaStorage::class
+    singleOf(::LocalMediaStorageImpl) { bind<LocalMediaStorage>() }
 }

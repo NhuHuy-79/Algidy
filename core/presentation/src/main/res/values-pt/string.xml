@@ -1,17 +1,13 @@
 <resources>
     <!-- Common -->
-
+    
     <string name="action_ok">OK</string>
     <string name="action_cancel">Cancelar</string>
     <string name="action_save">Salvar</string>
-    <string name="action_discard">Descartar</string>
     <string name="action_edit">Editar</string>
     <string name="action_add">Adicionar</string>
-    <string name="action_delete">Excluir</string>
     <string name="action_back">Voltar</string>
     <string name="action_menu">Ações do Menu</string>
-    <string name="action_view_more">Ver Mais</string>
-    <string name="action_new">Novo</string>
 
     <string name="category_all">Todos</string>
     <string name="category_uncategorized">Sem categoria</string>
@@ -52,7 +48,7 @@
 
 
     <!--Biometric Authenticator-->
-    <string name="biometric_title">Biometria Algidy</string>"
+    <string name="biometric_title">Biometria Algidy</string>
     <string name="biometric_subtitle">Use biometria para entrar</string>
 
     <!-- Errors -->
@@ -63,15 +59,10 @@
     <string name="error_future_date">A compra não pode estar no futuro.</string>
     <string name="error_invalid_date_range">A validade deve ser após a compra.</string>
     <string name="error_text_too_short">O nome deve ter no mínimo 2 letras.</string>
-    <string name="error_image_save_failed">Falha ao salvar a foto.</string>
 
     <!-- Inventory Screen -->
     <string name="inventory_title">Estoque</string>
     <string name="inventory_subtitle">Bem-vindo(a)!</string>
-    <string name="inventory_page_fridge">Geladeira</string>
-    <string name="inventory_page_freezer">Freezer</string>
-    <string name="inventory_page_pantry">Despensa</string>
-    <string name="inventory_page_other">Outro</string>
     <string name="inventory_empty_title">Sua despensa está vazia</string>
     <string name="inventory_empty_content">Monitore suas compras e evite desperdícios. Adicione itens agora!</string>
     <string name="inventory_scanner_btn">Ler Código</string>
@@ -80,16 +71,25 @@
     <string name="inventory_menu_sort_name">Por Nome</string>
     <string name="inventory_menu_expired_only">Só Vencidos</string>
     <string name="inventory_menu_reset">Redefinir</string>
-    <string name="inventory_sheet_title">Novo Alimento</string>
-    <string name="inventory_sheet_btn">Adicionar</string>
+
+    <string name="camera_permission_title">Acesso à Câmera Necessário</string>
+    <string name="camera_permission_description">Precisamos de acesso à câmera para que você possa escanear códigos QR, tirar fotos de perfil e utilizar recursos de AR dentro do aplicativo. Sua privacidade está protegida, e nunca gravamos sem sua ação direta.</string>
+    <string name="camera_permission_confirm_btn">Entendi</string>
 
     <string name="inventory_category_edit">Editar Categ.</string>
+    <string name="inventory_category_edit_btn">Edit</string>
     <string name="inventory_category_delete">Excluir Categ.</string>
+    <string name="inventory_category_add">Adicionar Categoria</string>
+    <string name="inventory_category_add_btn">Adicionar</string>
     <string name="category_edit_dialog_title">Editar Categoria</string>
     <string name="category_edit_dialog_label">Nome da Categoria</string>
-    <string name="category_search_placeholder">Buscar ou criar categoria…</string>
-    <string name="category_add_new">Adicionar: \"%1$s\"</string>
     <string name="inventory_menu_filter">Filtrar</string>
+
+    <string name="inventory_category">Categoria</string>
+    <string name="inventory_location">Localização</string>
+    <string name="inventory_purchase_date">Data de Compra</string>
+    <string name="inventory_expiry_date">Data de Expiração</string>
+    <string name="inventory_note">Sua nota</string>
 
     <string name="delete_category_dialog_title">Excluir Categoria?</string>
     <string name="delete_category_dialog_content">Esta categoria e seus alimentos serão excluídos.</string>
@@ -106,47 +106,36 @@
     <string name="search_history_title">Recentes</string>
     <string name="search_no_results">Nada encontrado.</string>
 
+    <plurals name="inventory_selected_title">
+        <item quantity="zero">item selecionado.</item>
+        <item quantity="one">item selecionado.</item>
+        <item quantity="many">itens selecionados.</item>
+    </plurals>
+
     <!--Food Entry Screen-->
     <string name="food_entry_title">Adicione Comida Nova</string>
 
     <!-- Detail Screen -->
-    <string name="detail_title">Detalhes</string>
-    <string name="detail_subtitle">Não esqueça de consumir</string>
-    <string name="detail_food_stats">Status</string>
-    <string name="detail_expiry_progress">Progresso</string>
     <string name="detail_personal_notes">Notas Pessoais</string>
     <string name="detail_fab_consume_this">Já Consumi</string>
-    <string name="detail_fab_edit_details">Editar Info</string>
     <string name="detail_fab_mark_as_wasted">Marcar Desperdício</string>
     <string name="detail_dialog_waste_title">Marcar Desperdício?</string>
     <string name="detail_dialog_waste_content">Tem certeza de que não é mais utilizável? Será movido para o histórico de perdas.</string>
     <string name="detail_dialog_consume_title">Terminou de Comer?</string>
     <string name="detail_dialog_consume_content">Ótimo! Atualizaremos o estoque e moveremos para o histórico de consumo.</string>
-    <string name="detail_edit_sheet_title">Editar Info</string>
     <string name="detail_pick_photo">Escolher Foto</string>
-    <string name="detail_item_details">Detalhes do Item</string>
-    <string name="detail_edit_image">Editar Imagem</string>
-    <string name="detail_bought">Comprado</string>
     <string name="detail_no_notes">Ainda sem notas.</string>
 
     <!-- Confirm Screen -->
-    <string name="confirm_title">Confirmar Dados</string>
     <string name="confirm_label_name">Nome do Alimento</string>
     <string name="confirm_label_category">Categoria</string>
     <string name="confirm_placeholder_name">Digite o nome...</string>
-    <string name="confirm_label_quantity">Quantidade</string>
-    <string name="confirm_label_unit">Unidade</string>
     <string name="confirm_label_purchase_date">Data de Compra</string>
     <string name="confirm_label_expiry_date">Data de Validade</string>
     <string name="confirm_date_set">Definir</string>
     <string name="confirm_label_location">Local de Armazen.</string>
     <string name="confirm_label_notes">Notas</string>
     <string name="confirm_placeholder_notes">Ex: Marca, data aberto…</string>
-    <string name="confirm_btn_add">Add à Despensa</string>
-    <string name="confirm_dialog_discard_title">Descartar Mudanças?</string>
-    <string name="confirm_dialog_discard_content">Tem certeza que deseja voltar? As informações inseridas serão perdidas e não serão salvas.</string>
-    <string name="confirm_dialog_discard_btn_discard">Descartar</string>
-    <string name="confirm_dialog_discard_btn_keep">Continuar</string>
 
     <!-- Scanner Screen -->
     <string name="scanner_title_barcode">Ler Código de Barras</string>
@@ -158,7 +147,6 @@
     <string name="scanner_label_failure">Falha na Leitura</string>
 
     <string name="scanner_barcode_dialog_title">Insira o código</string>
-    <string name="scanner_barcode_label">Código de Barras</string>
     <string name="scanner_barcode_confirm">Confirmar</string>
     <string name="scanner_preview_title">Visualizar</string>
     <string name="scanner_preview_btn">Iniciar Leitura</string>
@@ -170,25 +158,22 @@
     <string name="scanner_add_manually_tooltip">\"Está com problemas para digitalizar\? Adicione manualmente.\"</string>
 
     <!-- Analytics Screen -->
-    <string name="analytics_card">Você tem</string>
-    <string name="analytics_card_2">esta semana.</string>
-    <plurals name="analytics_product_count">
-        <item quantity="one">Você tem %1$d produto esta semana</item>
-        <item quantity="other">Você tem %1$d produtos esta semana</item>
-    </plurals>
     <string name="analytics_title">Estatísticas</string>
     <string name="analytics_subtitle">Visão geral de perdas e impacto</string>
     <string name="analytics_card_consumed">Consumido</string>
     <string name="analytics_card_wasted">Desperdiçado</string>
     <string name="analytics_card_others">Outros</string>
     <string name="analytics_card_spoilage_history">Histórico de Perdas</string>
-    <string name="analytics_card_waste_location">Desperdícios por Local</string>
     <string name="analytics_card_weekly_freshness">Frescor Semanal</string>
 
     <string name="analytics_weekly_card">%1$s/7 dias</string>
     <string name="analytics_weekly_card_content">A partir de %1$s</string>
 
     <!-- Settings Screen -->
+    <string name="settings_title">Configurações</string>
+    <string name="settings_notifications">Notificações</string>
+    <string name="settings_notifications_desc">Alertas para alimentos a vencer</string>
+
     <string name="setting_app_theme">Tema</string>
     <string name="setting_dark_mode">Escuro</string>
     <string name="setting_light_mode">Claro</string>
@@ -199,20 +184,26 @@
     <string name="settings_set_time_cancel">Cancelar</string>
     <string name="settings_set_time_success">Horário da notificação atualizado!</string>
     <string name="settings_delete_success">Excluir dados com sucesso</string>
+    <string name="settings_delete_failure">Falha no deletar dados!</string>
 
     <string name="setting_language">Idioma</string>
+    
+    
+    
+    
+    
+    
+    
+    
+
     <string name="setting_font">Fonte</string>
 
-    <string name="settings_title">Configurações</string>
     <string name="settings_dynamic_color">Cor Dinâmica</string>
     <string name="settings_dynamic_mode_desc">Ativar cores dinâmicas no app</string>
-    <string name="settings_notifications">Notificações</string>
-    <string name="settings_notifications_desc">Alertas para alimentos a vencer</string>
+
     <string name="setting_biometric">Bloqueio Biométrico</string>
     <string name="setting_biometric_desc">Bloqueio biométrico para o app</string>
 
-    <string name="setting_data">Seus Dados</string>
-    <string name="setting_delete_dialog">Excluir seus dados</string>
     <string name="setting_clear_data">Excluir Tudo</string>
     <string name="setting_clear_data_desc">Excluir todos os dados do app.</string>
 
@@ -224,8 +215,9 @@
     <string name="setting_use_category">Usar Categorias</string>
     <string name="setting_use_category_des">Agrupe seus alimentos por categoria</string>
 
-    <string name="setting_backup">Backup</string>
-    <string name="setting_backup_desc">Exporte ou importe seus dados.</string>
+    <string name="setting_weekly_report">Relatório Semanal</string>
+    <string name="setting_weekly_report_desc">Resumo de domingo do seu consumo de alimentos e itens vencidos.</string>
+
 
     <string name="setting_export">Exportar</string>
     <string name="setting_export_desc">Salvar dados em Downloads/Algidy</string>
@@ -234,25 +226,83 @@
 
     <string name="setting_about_app">Sobre o App</string>
     <string name="setting_about_app_desc">Algidy</string>
+    <string name="setting_new_features">Novos Recursos</string>
+    <string name="setting_new_features_desc">Verifique as últimas atualizações</string>
+    <string name="setting_copyright">Direitos autorais</string>
+    <string name="setting_copyright_desc">Informações legais e de licença</string>
+    <string name="setting_feedback">Feedback</string>
+    <string name="setting_feedback_desc">Ajude-nos a melhorar</string>
+    <string name="setting_open_source">Código Aberto</string>
+    <string name="setting_open_source_desc">Ver licenças de fonte</string>
+    <string name="setting_privacy_policy">Política de Privacidade</string>
+    <string name="setting_privacy_policy_desc">Sua proteção de dados</string>
+    <string name="setting_daily_reminder">Lembrete Diário</string>
+    <string name="setting_daily_reminder_desc">Relembre em %1$s</string>
 
-    <string name="setting_other_settings_title">Outros Ajustes</string>
+    <plurals name="notification_days_before">
+        <item quantity="one">Avise o validade do alimento 1$d um dia antes</item>
+        <item quantity="other">Avise o validade do alimento com 1$d dias de antecedência</item>
+    </plurals>
 
     <string name="import_success">Dados importados com sucesso!</string>
     <string name="import_fail">Falha ao importar dados!</string>
     <string name="export_success">Dados exportados com sucesso!</string>
     <string name="export_failed">Não foi possível exportar!</string>
+    <!-- New Setting Screens -->
+    <string name="appearance_title">Aparência</string>
+    <string name="appearance_subtitle">Personalize a aparência e a sensação do app</string>
 
+    <string name="your_data_title">Seus Dados</string>
+    <string name="your_data_subtitle">Gerencie seus dados locais e backups</string>
+
+    <string name="notification_settings_title">Notificações</string>
+    <string name="notification_settings_subtitle">Fique atualizado sobre a frescura dos seus alimentos</string>
+
+    <string name="other_settings_title_page">Outros cenários</string>
+    <string name="other_settings_subtitle">Notificações, Linguagem e mais</string>
+
+    <string name="main_settings_title_page">Configurações</string>
+    <string name="main_settings_subtitle">Configurações gerais da aplicação</string>
+    <string name="privacy_policy_content">POLÍTICA DE PRIVACIDADE PARA ALGIDY
+Última atualização: junho de 2026
+
+Bem-vindo a Algidy. Estamos comprometidos em proteger sua privacidade e dados pessoais. Esta Política de Privacidade explica como o Algidy coleta, utiliza e protege suas informações quando você utiliza nosso aplicativo.
+
+1. Coleta e Uso de Informações
+O Algidy foi projetado como uma aplicação offline-first. A grande maioria dos seus dados sobre gestão de alimentos e estoque é armazenada localmente e de forma segura no seu dispositivo usando o Banco de Dados de Salas.
+
+No entanto, para fornecer funcionalidades específicas, podemos solicitar acesso às seguintes funcionalidades do dispositivo:
+
+- Câmera: Precisamos de permissão da câmera para habilitar recursos como escanear códigos de barras de alimentos ou tirar fotos de perfil de produtos. Todo o processamento de imagem é feito instantaneamente no seu dispositivo e nunca é enviado para nenhum servidor remoto sem seu consentimento explícito.
+
+- Notificações: O aplicativo solicita permissão para enviar notificações para lembrar sobre datas de validade dos alimentos, ajudando a reduzir o desperdício de alimentos.
+
+- Dados de Acesso à Internet e Análise: Utilizamos serviços anônimos de análise para coletar dados técnicos sobre desempenho de aplicações e registros de falhas. A permissão da internet é estritamente usada para transmitir esses relatórios de diagnóstico.
+
+2. Armazenamento de Dados
+Todos os registros de inventário, categorias de alimentos e histórico de uso de aplicativos estão contidos inteiramente no armazenamento local do seu dispositivo. Se você desinstalar o aplicativo, todas essas informações serão deletadas permanentemente e não poderão ser recuperadas.
+
+3. Compartilhamento de Dados por Terceiros
+Não vendemos, trocamos ou transferimos seus dados pessoais ou registros de uso para terceiros.
+
+4. Entre em contato conosco
+Se você tiver alguma dúvida ou sugestão sobre esta Política de Privacidade, sinta-se à vontade para entrar em contato com o desenvolvedor pelo e-mail em: nhuhuy.dev\@gmail.com</string>
     <!--Notification-->
-    <string name="notif_expiry_title">Alimentos expirando em breve!</string>
-    <string name="notif_expiry_few_items">Atenção: Seus %1$s expirarão em breve.</string>
-    <string name="notif_expiry_many_items">Atenção: %1$s e %2$d outros itens expirarão em breve!</string>
 
     <!--Notification Features-->
-    <string name="notif_expiry_multiple_title">Atenção: %1$d itens expirarão em breve!</string>
-    <string name="notif_expiry_summary">Aviso de expiração</string>
-    <string name="notif_expiry_item_line">- %1$s (%2$d dias restantes)</string>
-    <string name="notif_expiry_overflow">...e %1$d outros itens</string>
+    <string name="notif_expiry_summary">Aviso de Validade</string>
     <string name="notif_expiry_content">Você tem itens que precisam de atenção.</string>
+    <plurals name="notif_expiry_multiple_title">
+        <item quantity="one">Atenção: 1$d item expirando em breve!</item>
+        <item quantity="other">Atenção: 1$d itens expirando em breve!</item>
+    </plurals>
+    <string name="notif_expiry_review_before_expire">Por favor, revise seus itens antes que expirem.</string>
+    <string name="notif_expiry_next_item_one_day">Próximo passo: %1$s expira amanhã!</string>
+    <string name="notif_expiry_next_item_days">A seguir: %1$s em %2$d dias</string>
+    <string name="notif_expiry_item_one_day">%1$s: 1 dia restante</string>
+    <string name="notif_expiry_item_days">%1$s: %2$d dias restantes</string>
+    <string name="notif_expiry_overflow">...e %1$d outros itens</string>
+    <string name="review_foods">Análise de Alimentos</string>
 
     <string name="notif_weekly_title">Resumo semanal de Algidy</string>
     <string name="notif_weekly_short">Você consumiu %1$d itens e desperdiçou %2$d itens.</string>
@@ -262,18 +312,4 @@
     <string name="notif_action_prompt_message">Você já tratou deste item\?</string>
     <string name="notif_action_consumed">Consumido</string>
     <string name="notif_action_wasted">Desperdiçado</string>
-
-    <!-- New Setting Screens -->
-    <string name="appearance_title">Aparência</string>
-    <string name="appearance_subtitle">Personalize a aparência e a sensação do app</string>
-
-    <string name="your_data_title">Seus Dados</string>
-    <string name="your_data_subtitle">Gerencie seus dados locais e backups</string>
-
-    <string name="other_settings_title_page">Outros cenários</string>
-    <string name="other_settings_subtitle">Notificações, Linguagem e mais</string>
-
-    <string name="main_settings_title_page">Configurações</string>
-    <string name="main_settings_subtitle">Configurações gerais da aplicação</string>
-
 </resources>

@@ -25,18 +25,6 @@ class FoodValidatorTest {
     }
 
     @Test
-    fun `validateQuantity should return NEGATIVE_VALUE when quantity is less than 0`() {
-        val result = FoodValidator.validateQuantity(-1.0)
-        assertEquals(ValidationResult.NEGATIVE_VALUE, result)
-    }
-
-    @Test
-    fun `validateQuantity should return SUCCESS when quantity is 0 or more`() {
-        assertEquals(ValidationResult.SUCCESS, FoodValidator.validateQuantity(0.0))
-        assertEquals(ValidationResult.SUCCESS, FoodValidator.validateQuantity(10.5))
-    }
-
-    @Test
     fun `validatePurchaseDate should return FUTURE_DATE when date is tomorrow`() {
         val tomorrow = Calendar.getInstance().apply {
             add(Calendar.DAY_OF_YEAR, 1)

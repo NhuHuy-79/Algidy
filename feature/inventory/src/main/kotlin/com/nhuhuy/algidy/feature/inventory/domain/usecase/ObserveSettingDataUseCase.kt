@@ -9,4 +9,8 @@ class ObserveSettingDataUseCase(
     fun getCategoryEnabled(): Flow<Boolean> {
         return settingsDataStore.categoryGroupFlow
     }
+
+    fun getCameraPolicyAccepted(): Flow<Boolean> {
+        return settingsDataStore.cameraPolicyAcceptedFlow
+    }
 }

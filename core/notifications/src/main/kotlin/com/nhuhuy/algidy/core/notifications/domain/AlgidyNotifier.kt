@@ -1,18 +1,16 @@
 package com.nhuhuy.algidy.core.notifications.domain
 
-import android.graphics.Bitmap
-
 interface AlgidyNotifier {
 
     /**
      * Gửi cảnh báo danh sách thực phẩm sắp hỏng (Sử dụng InboxStyle).
      */
-    fun showExpiringItemsAlert(items: List<NotificationFoodItem>)
+    suspend fun showExpiringItemsAlert(items: List<NotificationFoodItem>)
 
     /**
      * Gửi thông báo kèm Nút Hành Động (Action Buttons) để người dùng thao tác nhanh.
      */
-    suspend fun showActionableExpiryPrompt(foodId: String, foodName: String, image: Bitmap?)
+    suspend fun showActionableExpiryPrompt(foodId: String, foodName: String, uriPath: String?)
 
     /**
      * Gửi báo cáo tổng kết tuần (Im lặng, mức độ ưu tiên thấp).
@@ -29,5 +27,6 @@ interface AlgidyNotifier {
 data class NotificationFoodItem(
     val id: String,
     val name: String,
-    val daysLeft: Int
+    val daysLeft: Int,
+    val imageUri: String? = null,
 )

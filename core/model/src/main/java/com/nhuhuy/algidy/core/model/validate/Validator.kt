@@ -27,13 +27,6 @@ object FoodValidator {
         }
     }
 
-    fun validateQuantity(quantity: Double): ValidationResult {
-        return when {
-            quantity < 0 -> ValidationResult.NEGATIVE_VALUE
-            else -> ValidationResult.SUCCESS
-        }
-    }
-
     fun validateExpiryDate(expiryDate: Long, purchaseDate: Long = -1L): ValidationResult {
         if (expiryDate == -1L) return ValidationResult.EMPTY_FIELD
         if (purchaseDate != -1L) {

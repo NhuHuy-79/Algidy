@@ -15,43 +15,97 @@ import coil3.request.SuccessResult
 import coil3.request.allowHardware
 import com.nhuhuy.algidy.core.notifications.domain.NotificationFoodItem
 import com.nhuhuy.algidy.core.presentation.R
+import timber.log.Timber
 
 
 class AlgidyNotificationFactory(
+    private val imageLoader: ImageLoader,
     private val context: Context
 ) {
 
-    fun createExpiringItemsAlert(
+    suspend fun createExpiringItemsAlert(
         items: List<NotificationFoodItem>,
         pendingIntent: PendingIntent
     ): Notification {
-        val title = context.getString(R.string.notif_expiry_multiple_title, items.size)
-        val summary = context.getString(R.string.notif_expiry_summary)
-        val content = context.getString(R.string.notif_expiry_content)
+
+        val sortedItems = items.sortedBy { it.daysLeft }
+
+        val title = context.resources.getQuantityString(
+            R.plurals.notif_expiry_multiple_title,
+            sortedItems.size,
+            sortedItems.size
+        )
+
+        val content = context.getString(
+            R.string.notif_expiry_review_before_expire
+        )
+
+        val nextExpiry = sortedItems.firstOrNull()
+
+        val summaryText = nextExpiry?.let {
+            when (it.daysLeft) {
+                1 -> context.getString(R.string.notif_expiry_next_item_one_day, it.name)
+
+                else -> context.getString(
+                    R.string.notif_expiry_next_item_days,
+                    it.name,
+                    it.daysLeft
+                )
+            }
+        }
 
         val inboxStyle = NotificationCompat.InboxStyle()
             .setBigContentTitle(title)
-            .setSummaryText(summary)
 
-        items.take(5).forEach { food ->
-            val line = context.getString(R.string.notif_expiry_item_line, food.name, food.daysLeft)
+        summaryText?.let {
+            inboxStyle.setSummaryText(it)
+        }
+
+        sortedItems.take(5).forEach { food ->
+            val line = when (food.daysLeft) {
+                1 -> context.getString(R.string.notif_expiry_item_one_day, food.name)
+                else -> context.getString(R.string.notif_expiry_item_days, food.name, food.daysLeft)
+            }
+
             inboxStyle.addLine(line)
         }
 
-        if (items.size > 5) {
-            val overflowCount = items.size - 5
-            val overflowText = context.getString(R.string.notif_expiry_overflow, overflowCount)
-            inboxStyle.addLine(overflowText)
+        if (sortedItems.size > 5) {
+            inboxStyle.addLine(
+                context.getString(
+                    R.string.notif_expiry_overflow,
+                    sortedItems.size - 5
+                )
+            )
         }
 
-        return NotificationCompat.Builder(context, NotificationChannelManager.CHANNEL_ALERT_ID)
-            .setSmallIcon(com.nhuhuy.algidy.core.notifications.R.drawable.salad)
+        val bitmap = items.map { it.imageUri }.find { it != null }?.let {
+            loadBitmap(
+                context = context,
+                uri = it.toUri()
+            )
+        }
+
+        return NotificationCompat.Builder(
+            context,
+            NotificationChannelManager.CHANNEL_ALERT_ID
+        )
+            .setSmallIcon(
+                com.nhuhuy.algidy.core.notifications.R.drawable.salad
+            )
             .setContentTitle(title)
             .setContentText(content)
             .setStyle(inboxStyle)
-            .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setLargeIcon(bitmap)
             .setContentIntent(pendingIntent)
             .setAutoCancel(true)
+            .setOnlyAlertOnce(true)
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .addAction(
+                com.nhuhuy.algidy.core.designsystem.R.drawable.ic_grocery,
+                context.getString(R.string.review_foods),
+                pendingIntent
+            )
             .build()
     }
 
@@ -106,15 +160,21 @@ class AlgidyNotificationFactory(
             .setContentIntent(mainIntent)
             // Nút "Đã dùng"
             .addAction(
-                android.R.drawable.ic_menu_edit,
+                com.nhuhuy.algidy.core.designsystem.R.drawable.ic_check_small,
                 actionConsumed,
                 consumeIntent
             )
             // Nút "Vứt bỏ"
             .addAction(
-                android.R.drawable.ic_menu_delete,
+                com.nhuhuy.algidy.core.designsystem.R.drawable.ic_delete,
                 actionWasted,
                 wasteIntent
+            )
+            .setStyle(
+                bitmap?.let {
+                    NotificationCompat.BigTextStyle()
+                        .setBigContentTitle(message)
+                }
             )
             .setLargeIcon(bitmap)
             .setAutoCancel(true)
@@ -125,21 +185,23 @@ class AlgidyNotificationFactory(
         context: Context,
         uri: Uri
     ): Bitmap? {
-        val loader = ImageLoader(context)
+        return try {
+            val request = ImageRequest.Builder(context)
+                .data(uri)
+                .allowHardware(false)
+                .size(256, 256)
+                .build()
 
-        val request = ImageRequest.Builder(context)
-            .data(uri)
-            .allowHardware(false)
-            .build()
+            val result = imageLoader.execute(request)
 
-        val result = loader.execute(request)
+            (result as? SuccessResult)
+                ?.image
+                ?.asDrawable(context.resources)
+                ?.toBitmap()
 
-        if (result is SuccessResult) {
-            val bitmap = result.image
-                .asDrawable(context.resources)
-                .toBitmap()
-
-            return bitmap
-        } else return null
+        } catch (e: Exception) {
+            Timber.w(e, "Failed to load notification image: $uri")
+            null
+        }
     }
 }

@@ -1,7 +1,6 @@
 package com.nhuhuy.algidy.feature.food_entry.presentation.viewmodel
 
 import android.net.Uri
-import com.nhuhuy.algidy.core.model.food.ItemUnit
 import com.nhuhuy.algidy.core.model.food.StorageLocation
 import com.nhuhuy.algidy.core.presentation.model.CategoryUiModel
 import com.nhuhuy.algidy.core.presentation.viewmodel.UiAction
@@ -11,12 +10,10 @@ import com.nhuhuy.algidy.core.presentation.viewmodel.UiAction
  */
 sealed interface FoodEntryAction : UiAction {
     data class OnNameChange(val name: String) : FoodEntryAction
-    data class OnQuantityChange(val quantity: Double) : FoodEntryAction
     data class OnStorageLocationChange(val location: StorageLocation) : FoodEntryAction
     data class OnExpiryDateChange(val expiryDate: Long) : FoodEntryAction
     data class OnPurchaseDateChange(val purchaseDate: Long) : FoodEntryAction
     data class OnNoteChange(val note: String) : FoodEntryAction
-    data class OnItemUnitChange(val unit: ItemUnit) : FoodEntryAction
     data class OnImagePick(val uri: Uri) : FoodEntryAction
     
     // Category related actions

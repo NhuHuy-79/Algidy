@@ -1,45 +1,67 @@
 package com.nhuhuy.algidy.core.presentation.component
 
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.ModeEdit
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Icon
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import com.nhuhuy.algidy.core.designsystem.component.AppTextField
+import androidx.compose.ui.unit.dp
 import com.nhuhuy.algidy.core.presentation.R
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TextFieldDialog(
     modifier: Modifier = Modifier,
-    icon: ImageVector = Icons.Rounded.ModeEdit,
     value: String,
     title: String,
-    label: String,
     confirmText: String,
     dismissText: String = stringResource(R.string.action_cancel),
     onValueChange: (String) -> Unit,
     onDismiss: () -> Unit,
     onConfirm: () -> Unit
 ) {
+    val focusRequester = remember { FocusRequester() }
+    LaunchedEffect(Unit) {
+        focusRequester.requestFocus()
+    }
+
     AlertDialog(
         modifier = modifier,
         onDismissRequest = onDismiss,
         confirmButton = {
-            TextButton(onClick = onConfirm) {
-                Text(text = confirmText)
+            Button(
+                colors = ButtonDefaults.buttonColors(
+                    contentColor = MaterialTheme.colorScheme.onPrimary,
+                    containerColor = MaterialTheme.colorScheme.primary
+                ),
+                onClick = onConfirm
+            ) {
+                Text(
+                    text = confirmText,
+                    style = MaterialTheme.typography.labelLarge
+                )
             }
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text(text = dismissText)
+                Text(
+                    text = dismissText,
+                    style = MaterialTheme.typography.labelLarge
+                )
             }
         },
         title = {
@@ -50,18 +72,15 @@ fun TextFieldDialog(
                 )
             )
         },
-        icon = {
-            Icon(
-                imageVector = icon,
-                contentDescription = null
-            )
-        },
         text = {
-            AppTextField(
+            OutlinedTextField(
+                shape = RoundedCornerShape(8.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(56.dp)
+                    .focusRequester(focusRequester),
                 value = value,
                 onValueChange = onValueChange,
-                modifier = Modifier.fillMaxWidth(),
-                label = label,
             )
         }
     )

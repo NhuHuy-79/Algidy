@@ -41,7 +41,7 @@ fun AppTextField(
             onValueChange = onValueChange,
             modifier = Modifier.fillMaxWidth(),
             readOnly = readOnly,
-            shape = RoundedCornerShape(20.dp),
+            shape = RoundedCornerShape(8.dp),
             label = {
                 Text(
                     text = label,

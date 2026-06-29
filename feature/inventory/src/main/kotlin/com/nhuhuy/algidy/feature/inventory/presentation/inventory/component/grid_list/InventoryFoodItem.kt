@@ -1,7 +1,8 @@
 package com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.grid_list
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.border
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -23,7 +24,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -40,7 +44,9 @@ import kotlin.math.abs
 fun InventoryFoodItem(
     modifier: Modifier = Modifier,
     item: FoodItem,
-    onItemClick: (item: FoodItem) -> Unit
+    isSelected: Boolean = false,
+    onItemClick: (item: FoodItem) -> Unit,
+    onLongClick: (item: FoodItem) -> Unit = {},
 ) {
     val freshness = item.getFreshnessStatus()
     val remainingDays = item.getRemainingDays()
@@ -53,8 +59,18 @@ fun InventoryFoodItem(
         else -> stringResource(R.string.freshness_months_left, remainingDays / 30)
     }
 
+    val haptic = LocalHapticFeedback.current
+
     Column(
-        modifier = modifier,
+        modifier = modifier
+            .clip(RoundedCornerShape(8.dp))
+            .combinedClickable(
+                onClick = { onItemClick(item) },
+                onLongClick = {
+                    haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                    onLongClick(item)
+                }
+            ),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         Box(
@@ -65,7 +81,11 @@ fun InventoryFoodItem(
                     MaterialTheme.colorScheme.surfaceVariant,
                     shape = RoundedCornerShape(8.dp)
                 )
-                .clickable { onItemClick(item) }
+                .border(
+                    width = 4.dp,
+                    color = if (isSelected) MaterialTheme.colorScheme.primary else Color.Transparent,
+                    shape = RoundedCornerShape(8.dp)
+                )
         ) {
             AsyncImage(
                 model = item.imageUri,

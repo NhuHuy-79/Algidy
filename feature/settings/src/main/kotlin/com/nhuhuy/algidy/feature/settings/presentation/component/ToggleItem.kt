@@ -20,6 +20,7 @@ fun ToggleItem(
         ToggleType.DYNAMIC_COLOR -> stringResource(R.string.settings_dynamic_color)
         ToggleType.NOTIFICATION -> stringResource(R.string.settings_notifications)
         ToggleType.CATEGORY_GROUP -> stringResource(R.string.setting_use_category)
+        ToggleType.WEEKLY_REPORT -> stringResource(R.string.setting_weekly_report)
     }
 
     val desc = when (item.type) {
@@ -27,6 +28,7 @@ fun ToggleItem(
         ToggleType.DYNAMIC_COLOR -> stringResource(R.string.settings_dynamic_mode_desc)
         ToggleType.NOTIFICATION -> stringResource(R.string.settings_notifications_desc)
         ToggleType.CATEGORY_GROUP -> stringResource(R.string.setting_use_category_des)
+        ToggleType.WEEKLY_REPORT -> stringResource(R.string.setting_weekly_report_desc)
     }
 
     ToggleableSettingItem(

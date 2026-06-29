@@ -14,6 +14,12 @@ object UserPreferencesKeys {
     val CATEGORY = booleanPreferencesKey("category")
     val HOUR = intPreferencesKey("hour")
     val MINUTE = intPreferencesKey("minute")
+
+    val WARNING_DAYS = intPreferencesKey("warning_days")
+    val WEEKLY_REPORT = booleanPreferencesKey("weekly_report")
+
+    val APP_VERSION_TO_NOTIFY = intPreferencesKey("app_version_to_notify")
+    val CAMERA_POLICY_ACCEPTED = booleanPreferencesKey("camera_policy_accepted")
 }
 
 

@@ -4,7 +4,6 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
 import androidx.core.net.toUri
 import com.nhuhuy.algidy.core.notifications.domain.AlgidyNotifier
 import com.nhuhuy.algidy.core.notifications.domain.NotificationFoodItem
@@ -26,7 +25,7 @@ class AlgidyNotifierImp(
         const val EXTRA_FOOD_ID = "EXTRA_FOOD_ID"
     }
 
-    override fun showExpiringItemsAlert(items: List<NotificationFoodItem>) {
+    override suspend fun showExpiringItemsAlert(items: List<NotificationFoodItem>) {
         if (items.isEmpty()) return
         val intent = Intent(Intent.ACTION_VIEW, "algidy://home".toUri()).apply {
             setPackage(context.packageName) // Đảm bảo chỉ app Algidy mới mở được intent này
@@ -50,14 +49,14 @@ class AlgidyNotifierImp(
     override suspend fun showActionableExpiryPrompt(
         foodId: String,
         foodName: String,
-        image: Bitmap?
+        uriPath: String?
     ) {
         val mainIntent = Intent(Intent.ACTION_VIEW, "algidy://food/$foodId".toUri()).apply {
             setPackage(context.packageName)
         }
         val mainPendingIntent = PendingIntent.getActivity(
             context,
-            foodId.hashCode(), // Dùng hashcode để tạo request code duy nhất
+            foodId.hashCode(),
             mainIntent,
             PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
         )
@@ -85,6 +84,7 @@ class AlgidyNotifierImp(
         )
 
         val notification = notificationFactory.createActionableExpiryPrompt(
+            uriPath = uriPath,
             foodName = foodName,
             mainIntent = mainPendingIntent,
             consumeIntent = consumePendingIntent,

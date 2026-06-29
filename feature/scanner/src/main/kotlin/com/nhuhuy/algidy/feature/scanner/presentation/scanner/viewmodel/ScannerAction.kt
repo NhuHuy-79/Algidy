@@ -1,7 +1,6 @@
 package com.nhuhuy.algidy.feature.scanner.presentation.scanner.viewmodel
 
 import android.net.Uri
-import com.nhuhuy.algidy.core.model.food.FoodItem
 import com.nhuhuy.algidy.core.presentation.viewmodel.UiAction
 import com.nhuhuy.algidy.feature.scanner.domain.model.FoodDate
 import com.nhuhuy.algidy.feature.scanner.presentation.scanner.ScannerMode
@@ -13,15 +12,11 @@ sealed interface ScannerAction : UiAction {
     data class OnAutoScanChange(val isAutoScanned: Boolean) : ScannerAction
     data class OnResultDetected(val barcodeString: String) : ScannerAction
     data class OnDateDetected(val foodDate: FoodDate) : ScannerAction
-    data class OnFoodItemSaved(val foodItem: FoodItem) : ScannerAction
     data class OnImageStaged(val uri: Uri?) : ScannerAction
     data object OnBarcodeAddManual : ScannerAction
-    data class OnProcessStagedImage(val uri: Uri) : ScannerAction
-    data class OnFoodItemFound(val foodId: String) : ScannerAction
 }
 
 sealed interface WarningDialogAction : ScannerAction {
-    data object Open : WarningDialogAction
     data object Confirm : WarningDialogAction
 }
 

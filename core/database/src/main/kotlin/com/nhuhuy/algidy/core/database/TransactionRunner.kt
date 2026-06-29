@@ -1,17 +1,22 @@
 package com.nhuhuy.algidy.core.database
 
+import androidx.room.RoomDatabase
 import androidx.room.withTransaction
 
+
 interface TransactionRunner {
-    suspend fun <T> run(
-        block: suspend () -> T
-    ): T
+    suspend fun run(
+        onTransaction: suspend () -> Unit
+    )
 }
 
-class TransactionRunnerImpl(
-    private val database: AppDatabase
+class RoomTransactionRunner(
+    private val db: RoomDatabase
 ) : TransactionRunner {
-    override suspend fun <T> run(block: suspend () -> T): T {
-        return database.withTransaction(block)
+    override suspend fun run(onTransaction: suspend () -> Unit) {
+        db.withTransaction {
+            onTransaction()
+        }
     }
 }
+

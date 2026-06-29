@@ -1,29 +1,44 @@
 package com.nhuhuy.algidy.feature.settings.navigation
 
 import android.Manifest
+import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.DeleteForever
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalResources
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.vectorResource
+import androidx.core.net.toUri
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.nhuhuy.algidy.core.designsystem.component.AlgidyAlertDialog
 import com.nhuhuy.algidy.core.designsystem.component.BoxLayout
 import com.nhuhuy.algidy.core.presentation.ObserveEffect
 import com.nhuhuy.algidy.core.presentation.R
+import com.nhuhuy.algidy.core.presentation.component.AppNewFeatureBottomSheet
 import com.nhuhuy.algidy.core.presentation.component.AppTimePickerDialog
-import com.nhuhuy.algidy.feature.settings.presentation.SettingsScreen
+import com.nhuhuy.algidy.core.presentation.navigation.Destination
+import com.nhuhuy.algidy.core.presentation.navigation.SettingDestination
+import com.nhuhuy.algidy.feature.settings.presentation.component.about_app.CopyrightBottomSheet
+import com.nhuhuy.algidy.feature.settings.presentation.component.about_app.PolicyBottomSheet
+import com.nhuhuy.algidy.feature.settings.presentation.component.open_source.OpenSourceContent
+import com.nhuhuy.algidy.feature.settings.presentation.screen.AboutAppScreen
+import com.nhuhuy.algidy.feature.settings.presentation.screen.AppearanceScreen
+import com.nhuhuy.algidy.feature.settings.presentation.screen.DataSettingsScreen
+import com.nhuhuy.algidy.feature.settings.presentation.screen.MainSettingsScreen
+import com.nhuhuy.algidy.feature.settings.presentation.screen.NotificationScreen
+import com.nhuhuy.algidy.feature.settings.presentation.screen.OtherSettingsScreen
 import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.DeleteAll
 import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.NotifyTimerEvent
 import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.SettingsAction
+import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.SettingsAction.SetNotifyTime.SetHourAndMinutes
 import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.SettingsEvent
 import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.SettingsOverlay
 import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.SettingsViewModel
@@ -31,13 +46,14 @@ import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun SettingRoute(
+    destination: SettingDestination,
+    onNavigateToSettingRoute: (Destination.Setting) -> Unit,
     onNavigateBack: () -> Unit,
 ) = BoxLayout {
     val viewModel: SettingsViewModel = koinViewModel()
-    val overlay by viewModel.overlay.collectAsStateWithLifecycle()
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val combineState by viewModel.combineState.collectAsStateWithLifecycle()
     val onAction = viewModel::onAction
-
     val snackBarHostState = remember { SnackbarHostState() }
     val resource = LocalResources.current
     val pickZipLauncher = rememberLauncherForActivityResult(
@@ -55,18 +71,23 @@ fun SettingRoute(
         }
     )
 
+    val context = LocalContext.current
+
     ObserveEffect(viewModel.uiEvent) { event ->
         when (event) {
             SettingsEvent.ExportData.SUCCESS -> {
                 snackBarHostState.showSnackbar(
                     message = resource.getString(R.string.export_success),
-                    withDismissAction = true
+                    withDismissAction = true,
+                    duration = SnackbarDuration.Short
                 )
             }
 
             SettingsEvent.ExportData.FAILURE -> {
                 snackBarHostState.showSnackbar(
                     message = resource.getString(R.string.export_failed),
+                    withDismissAction = true,
+                    duration = SnackbarDuration.Short
                 )
 
             }
@@ -74,6 +95,8 @@ fun SettingRoute(
             SettingsEvent.ImportData.Success -> {
                 snackBarHostState.showSnackbar(
                     message = resource.getString(R.string.import_success),
+                    withDismissAction = true,
+                    duration = SnackbarDuration.Short
                 )
 
             }
@@ -81,6 +104,8 @@ fun SettingRoute(
             SettingsEvent.ImportData.Failure -> {
                 snackBarHostState.showSnackbar(
                     message = resource.getString(R.string.import_fail),
+                    withDismissAction = true,
+                    duration = SnackbarDuration.Short
                 )
 
             }
@@ -98,31 +123,120 @@ fun SettingRoute(
             NotifyTimerEvent.Success -> {
                 snackBarHostState.showSnackbar(
                     message = resource.getString(R.string.settings_set_time_success),
+                    withDismissAction = true,
+                    duration = SnackbarDuration.Short
                 )
             }
 
-            SettingsEvent.AskNotificationPermission -> if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            SettingsEvent.RequestNotificationPermission -> if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 notificationPermission.launch(Manifest.permission.POST_NOTIFICATIONS)
+            }
+
+            is SettingsEvent.ShowSnackBar -> {
+                snackBarHostState.showSnackbar(
+                    message = event.message,
+                    duration = SnackbarDuration.Short
+                )
             }
 
             DeleteAll.Success -> {
                 snackBarHostState.showSnackbar(
                     message = resource.getString(R.string.settings_delete_success),
-                    duration = SnackbarDuration.Short
+                    duration = SnackbarDuration.Short,
+                    withDismissAction = true
                 )
             }
+
+            DeleteAll.Failure -> {
+                snackBarHostState.showSnackbar(
+                    message = resource.getString(R.string.settings_delete_failure),
+                    duration = SnackbarDuration.Short,
+                    withDismissAction = true
+                )
+            }
+
+            SettingsEvent.SendFeedBackEmail -> {
+                val intent = Intent(Intent.ACTION_SENDTO).apply {
+                    data = "mailto:".toUri()
+                    putExtra(Intent.EXTRA_EMAIL, arrayOf("nguyennhuhuy42@gmail.com"))
+                    putExtra(Intent.EXTRA_SUBJECT, "[Algidy Feedback] Bug Report & Suggestions")
+                    val emailBody = """
+            --- Device Info (Do not delete) ---
+            App Version: ${uiState.versionName}
+            Android OS: API ${Build.VERSION.SDK_INT} (${Build.VERSION.RELEASE})
+            Device Model: ${Build.MANUFACTURER} ${Build.MODEL}
+            -----------------------------------
+            
+            Please write your feedback or bug description below:
+            
+        """.trimIndent()
+                    putExtra(Intent.EXTRA_TEXT, emailBody)
+                }
+
+                try {
+                    context.startActivity(intent)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
+
+            SettingsEvent.OpenSourceClick -> onNavigateToSettingRoute(
+                Destination.Setting(SettingDestination.OpenSource)
+            )
+        }
+    }
+    when (destination) {
+        SettingDestination.Appearance -> AppearanceScreen(
+            combineState = combineState,
+            onAction = onAction
+        )
+
+        SettingDestination.Main -> MainSettingsScreen(
+            uiState = uiState,
+            onNavigate = onNavigateToSettingRoute,
+            onBackClick = onNavigateBack
+        )
+
+        SettingDestination.OtherSettings -> {
+            OtherSettingsScreen(
+                combineState = combineState,
+                onAction = onAction
+            )
+        }
+
+        SettingDestination.YourData -> {
+            DataSettingsScreen(
+                snackBarHost = snackBarHostState,
+                onAction = onAction
+            )
+        }
+
+        SettingDestination.Notification -> {
+            NotificationScreen(
+                snackBarHost = snackBarHostState,
+                combineState = combineState,
+                onAction = onAction
+            )
+        }
+
+        SettingDestination.AboutApp -> {
+            AboutAppScreen(
+                uiState = uiState,
+                onAction = onAction
+            )
+        }
+
+        SettingDestination.OpenSource -> {
+            OpenSourceContent(
+                onBack = onNavigateBack
+            )
         }
     }
 
-    SettingsScreen(
-        snackBarHostState = snackBarHostState,
-        uiState = uiState,
-        onAction = onAction
-    )
-
-    when (overlay) {
-        SettingsOverlay.NONE -> Unit
-        SettingsOverlay.DELETE_ALERT_DIALOG -> AlgidyAlertDialog(
+    when (val overlay = uiState.overlay) {
+        SettingsOverlay.None -> Unit
+        SettingsOverlay.DeleteAlertDialog -> AlgidyAlertDialog(
+            icon = ImageVector.vectorResource(R.drawable.ic_delete),
             confirmText = stringResource(R.string.delete_data_dialog_confirm),
             dismissText = stringResource(R.string.delete_data_dialog_cancel),
             onDismissRequest = {
@@ -133,23 +247,44 @@ fun SettingRoute(
             },
             title = stringResource(R.string.delete_data_dialog_title),
             text = stringResource(R.string.delete_data_dialog_content),
-            icon = Icons.Rounded.DeleteForever,
         )
 
-        SettingsOverlay.TIME_PICKER -> AppTimePickerDialog(
-            hour = uiState.hour,
-            minutes = uiState.minutes,
+        SettingsOverlay.TimePicker -> AppTimePickerDialog(
+            hour = combineState.hour,
+            minutes = combineState.minutes,
             title = stringResource(R.string.settings_set_time),
             confirmText = stringResource(R.string.settings_set_time_confirm),
-            dismissText = stringResource(R.string.settings_set_time_cancel),
             onDateSelected = { hour, min ->
                 onAction(
-                    SettingsAction.SetNotifyTime.SetHourAndMinutes(
+                    SetHourAndMinutes(
                         hour = hour,
                         minutes = min
                     )
                 )
             },
+            onDismiss = {
+                onAction(SettingsAction.OnDismiss)
+            }
+        )
+
+        is SettingsOverlay.NewFeatureSheet -> AppNewFeatureBottomSheet(
+            versionFeatures = overlay.versionFeatures,
+            onDismiss = { onAction(SettingsAction.OnDismiss) }
+        )
+
+        SettingsOverlay.CopyrightSheet -> CopyrightBottomSheet(
+            onDismiss = {
+                onAction(SettingsAction.OnDismiss)
+            }
+        )
+
+        SettingsOverlay.OpenSourceSheet -> OpenSourceContent(
+            onBack = {
+                onAction(SettingsAction.OnDismiss)
+            }
+        )
+
+        SettingsOverlay.PolicySheet -> PolicyBottomSheet(
             onDismiss = {
                 onAction(SettingsAction.OnDismiss)
             }

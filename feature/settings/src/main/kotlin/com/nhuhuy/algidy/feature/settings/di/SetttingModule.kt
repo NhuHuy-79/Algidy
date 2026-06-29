@@ -16,16 +16,16 @@ import com.nhuhuy.algidy.feature.settings.domain.usecase.SelectSettingUseCase
 import com.nhuhuy.algidy.feature.settings.domain.usecase.SetToggleSettingUseCase
 import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.SettingsViewModel
 import org.koin.android.ext.koin.androidContext
+import org.koin.core.module.dsl.bind
 import org.koin.core.module.dsl.factoryOf
 import org.koin.core.module.dsl.singleOf
 import org.koin.core.module.dsl.viewModelOf
-import org.koin.dsl.bind
 import org.koin.dsl.module
 
 val settingModule = module {
     single<SettingsDataStore> { SettingsDataStoreImpl(context = androidContext()) }
-    singleOf(::DatabaseBackUpManagerImpl) bind DatabaseBackUpManager::class
-    singleOf(::ImageBackUpManagerImpl) bind ImageBackUpManager::class
+    singleOf(::DatabaseBackUpManagerImpl) { bind<DatabaseBackUpManager>() }
+    singleOf(::ImageBackUpManagerImpl) { bind<ImageBackUpManager>() }
     singleOf(::DataBackUpManger)
 
     factoryOf(::ObserveSettingStateUseCase)

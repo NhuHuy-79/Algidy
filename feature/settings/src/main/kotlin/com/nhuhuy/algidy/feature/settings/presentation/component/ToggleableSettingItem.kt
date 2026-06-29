@@ -1,6 +1,11 @@
 package com.nhuhuy.algidy.feature.settings.presentation.component
 
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsPressedAsState
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.ArrowOutward
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.ListItemDefaults
@@ -8,12 +13,15 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.nhuhuy.algidy.core.designsystem.R
 import com.nhuhuy.algidy.core.designsystem.theme.AlgidyTheme
 import com.nhuhuy.algidy.core.presentation.utils.ItemPosition
@@ -98,14 +106,24 @@ fun ClickableSettingItem(
     title: String,
     onClick: () -> Unit
 ) {
+    val interactionSource = remember { MutableInteractionSource() }
+    val isPressed by interactionSource.collectIsPressedAsState()
+    val animatedShape by animateDpAsState(
+        targetValue = if (isPressed) 24.dp else 8.dp
+    )
     ListItem(
         colors = ListItemDefaults.colors(
             containerColor = MaterialTheme.colorScheme.surfaceContainer,
             contentColor = MaterialTheme.colorScheme.onSurfaceVariant
         ),
         modifier = modifier
-            .clip(position.toRoundedCornerShape())
+            .clip(
+                position.toRoundedCornerShape(
+                    small = animatedShape
+                )
+            )
             .clickable(
+                interactionSource = interactionSource,
                 onClick = onClick
             ),
         leadingContent = {
@@ -120,6 +138,12 @@ fun ClickableSettingItem(
                 style = MaterialTheme.typography.titleMedium.copy(
                     fontWeight = FontWeight.Medium
                 )
+            )
+        },
+        trailingContent = {
+            Icon(
+                imageVector = Icons.Rounded.ArrowOutward,
+                contentDescription = null
             )
         },
         supportingContent = {

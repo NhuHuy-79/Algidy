@@ -30,6 +30,9 @@ interface WorkerScheduler {
     fun scheduleCheckExpiryWorker()
     fun scheduleWeeklyReportWorker()
     fun scheduleWeeklyCleanUpFileWorker()
+
+    fun cancelWeeklyReportWorker()
+    fun cancelCheckExpiryWorker()
 }
 
 class WorkerSchedulerImp(
@@ -38,6 +41,14 @@ class WorkerSchedulerImp(
 ) : WorkerScheduler {
     private val scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
     private val workManager by lazy { WorkManager.getInstance(context) }
+
+    override fun cancelWeeklyReportWorker() {
+        workManager.cancelUniqueWork(WorkerStrings.WEEKLY_WORKER)
+    }
+
+    override fun cancelCheckExpiryWorker() {
+        workManager.cancelUniqueWork(WorkerStrings.DAILY_WORKER)
+    }
 
     override fun scheduleCheckExpiryWorker() {
         scope.launch {
@@ -51,11 +62,6 @@ class WorkerSchedulerImp(
 
             val request = OneTimeWorkRequestBuilder<CheckExpirationWorker>()
                 .setInitialDelay(delay, TimeUnit.MILLISECONDS)
-                .setConstraints(
-                    Constraints.Builder()
-                        .setRequiresBatteryNotLow(true)
-                        .build()
-                )
                 .build()
 
             workManager.enqueueUniqueWork(
@@ -67,23 +73,16 @@ class WorkerSchedulerImp(
     }
 
     override fun scheduleWeeklyReportWorker() {
-        val constraints = Constraints.Builder()
-            .setRequiresBatteryNotLow(true)
-            .build()
-
-        // 1. Tính toán độ trễ cho đến 9:00 sáng Chủ Nhật tiếp theo
         val initialDelayMillis = calculateDelayUntilNextSunday9AM()
 
-        // 2. Tạo Request với Initial Delay
         val weeklyRequest = PeriodicWorkRequestBuilder<WeeklyReportWorker>(
             repeatInterval = 7,
             repeatIntervalTimeUnit = TimeUnit.DAYS
         )
-            .setConstraints(constraints)
             .setInitialDelay(
                 initialDelayMillis,
                 TimeUnit.MILLISECONDS
-            ) // Ép Worker đợi đến Chủ Nhật
+            )
             .build()
 
 

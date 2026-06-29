@@ -19,6 +19,7 @@ sealed interface SettingsAction : UiAction {
     data class SetDarkMode(val darkMode: DarkMode) : SettingsAction
     data class ChangeLanguage(val language: AppLanguage) : SettingsAction
     data class ChangeFont(val font: AppFont) : SettingsAction
+    data class SetWarningDays(val days: Int) : SettingsAction
     data object OnBackClick : SettingsAction
     sealed interface DeleteAlertDialog {
         data object Dismiss : SettingsAction

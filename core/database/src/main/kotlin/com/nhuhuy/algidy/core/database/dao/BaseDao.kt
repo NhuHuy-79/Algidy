@@ -1,6 +1,5 @@
 package com.nhuhuy.algidy.core.database.dao
 
-import androidx.room.Update
 import androidx.room.Upsert
 
 interface BaseDao<T> {

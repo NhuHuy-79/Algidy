@@ -1,14 +1,12 @@
 package com.nhuhuy.algidy.core.database.dao
 
 import androidx.room.Dao
-import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import com.nhuhuy.algidy.core.database.entity.FoodItemEntity
 import com.nhuhuy.algidy.core.model.food.FoodStatus
-import com.nhuhuy.algidy.core.model.food.StorageLocation
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -33,16 +31,14 @@ interface FoodDao : BaseDao<FoodItemEntity> {
     @Query("UPDATE food_items SET status = :newStatus, resolved_date = :resolvedDate WHERE id = :id")
     suspend fun updateFoodStatus(id: String, newStatus: FoodStatus, resolvedDate: Long)
 
-    @Query("SELECT * FROM food_items WHERE location = :location")
-    fun getFoodItemsByLocation(location: StorageLocation): Flow<List<FoodItemEntity>>
+    @Query("UPDATE food_items SET status = :newStatus, resolved_date = :resolvedDate WHERE id IN (:ids)")
+    suspend fun updateFoodStatusList(ids: List<String>, newStatus: FoodStatus, resolvedDate: Long)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertFood(food: FoodItemEntity)
 
     @Update
     suspend fun updateFood(newFood: FoodItemEntity)
-    @Delete
-    suspend fun deleteFood(food: FoodItemEntity)
 
     @Query("DELETE FROM food_items")
     suspend fun deleteAllFoods()

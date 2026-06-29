@@ -2,17 +2,11 @@ package com.nhuhuy.algidy.feature.inventory.utils
 
 import androidx.annotation.StringRes
 import com.nhuhuy.algidy.core.presentation.R
-import kotlinx.collections.immutable.ImmutableList
-import kotlinx.collections.immutable.toImmutableList
 
 enum class GridCategory {
     ALL, FRIDGE, FREEZE, PANTRY, OTHER,
 }
 
-
-fun getGridCategories(): ImmutableList<GridCategory> {
-    return GridCategory.entries.toImmutableList()
-}
 
 @StringRes
 fun GridCategory.toStringRes(): Int {

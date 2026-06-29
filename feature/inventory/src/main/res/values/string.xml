@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--Search Screen-->
-    <string name="search_screen_placeholder">Search your product in fridge…</string>
-    <string name="search_screen_history">Recent</string>
 </resources>
