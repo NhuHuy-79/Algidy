@@ -22,7 +22,6 @@ navigation3Runtime = "1.2.0-alpha01"
 playServicesMlkitBarcodeScanning = "18.3.1"
 playServicesMlkitTextRecognition = "19.0.1"
 room = "2.7.2"
-googleAi = "0.9.0"
 ksp = "2.1.21-2.0.2"
 material3Android = "1.5.0-alpha16"
 coreSplashScreen = "1.0.1"
@@ -48,10 +47,6 @@ timber = "5.0.1"
 androidxDatastore = "1.2.1"
 androidxWork = "2.11.2"
 androidxAppcompat = "1.7.1"
-roborazzi = "1.41.0"
-firebaseCrashlytics = "20.0.6"
-googleGmsGoogleServices = "4.4.4"
-googleFirebaseCrashlytics = "3.0.7"
 aboutLibraries = "12.1.0"
 uiTextGoogleFonts = "1.7.0"
 
@@ -102,7 +97,6 @@ play-services-mlkit-text-recognition = { module = "com.google.android.gms:play-s
 room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
 room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
-google-ai-client = { group = "com.google.ai.client.generativeai", name = "generativeai", version.ref = "googleAi" }
 retrofit-core = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
 retrofit-kotlin-serialization = { group = "com.squareup.retrofit2", name = "converter-kotlinx-serialization", version.ref = "retrofit" }
 okhttp-logging = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp" }
@@ -125,9 +119,6 @@ koin-test = { group = "io.insert-koin", name = "koin-test", version.ref = "koin"
 androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigation3" }
 
 # Testing
-roborazzi = { group = "io.github.takahirom.roborazzi", name = "roborazzi", version.ref = "roborazzi" }
-roborazzi-compose = { group = "io.github.takahirom.roborazzi", name = "roborazzi-compose", version.ref = "roborazzi" }
-roborazzi-junitRule = { group = "io.github.takahirom.roborazzi", name = "roborazzi-junit-rule", version.ref = "roborazzi" }
 robolectric = { group = "org.robolectric", name = "robolectric", version.ref = "robolectric" }
 mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
 mockk-android = { group = "io.mockk", name = "mockk-android", version.ref = "mockk" }
@@ -138,7 +129,6 @@ turbine = { group = "app.cash.turbine", name = "turbine", version.ref = "turbine
 android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "agp" }
 kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
 compose-gradlePlugin = { group = "org.jetbrains.kotlin", name = "compose-compiler-gradle-plugin", version.ref = "kotlin" }
-firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics", version.ref = "firebaseCrashlytics" }
 
 #About library
 aboutlibraries-compose = { module = "com.mikepenz:aboutlibraries-compose-m3", version.ref = "aboutLibraries" }
@@ -153,7 +143,4 @@ ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 room = { id = "androidx.room", version.ref = "room" }
 #Serialization
 jetbrains-kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
-roborazzi = { id = "io.github.takahirom.roborazzi", version.ref = "roborazzi" }
-google-gms-google-services = { id = "com.google.gms.google-services", version.ref = "googleGmsGoogleServices" }
-google-firebase-crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "googleFirebaseCrashlytics" }
 aboutlibraries = { id = "com.mikepenz.aboutlibraries.plugin", version.ref = "aboutLibraries" }
