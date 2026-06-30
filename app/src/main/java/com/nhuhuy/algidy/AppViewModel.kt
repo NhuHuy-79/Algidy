@@ -8,10 +8,13 @@ import com.nhuhuy.algidy.core.model.setting.AppLanguage
 import com.nhuhuy.algidy.core.model.setting.DarkMode
 import com.nhuhuy.algidy.feature.settings.domain.usecase.CheckCapabilityUseCase
 import com.nhuhuy.algidy.feature.settings.domain.usecase.ObserveSettingStateUseCase
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 @Immutable
@@ -26,12 +29,19 @@ data class AppUiState(
 
 sealed interface AppAction {
     data class UpdateBiometricSupported(val value: Boolean) : AppAction
+    data class UpdateAppUnlock(val unlock: Boolean) : AppAction
+    data object TriggerBiometric : AppAction
 }
 
 class AppViewModel(
     observeSettingStateUseCase: ObserveSettingStateUseCase,
     private val checkCapabilityUseCase: CheckCapabilityUseCase,
 ) : ViewModel() {
+    private val _isUnLocked = MutableStateFlow(false)
+    val isUnlocked = _isUnLocked.asStateFlow()
+
+    private val _biometricEvent = MutableStateFlow(0)
+    val biometricTrigger = _biometricEvent.asStateFlow()
     init {
         viewModelScope.launch {
             checkCapabilityUseCase.init()
@@ -57,6 +67,11 @@ class AppViewModel(
                     checkCapabilityUseCase.updateBiometric(action.value)
                 }
             }
+            is AppAction.TriggerBiometric -> _biometricEvent.update {
+                it + 1
+            }
+
+            is AppAction.UpdateAppUnlock -> _isUnLocked.update { action.unlock }
         }
     }
 }

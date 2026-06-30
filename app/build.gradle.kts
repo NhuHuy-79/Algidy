@@ -28,6 +28,10 @@ android {
         versionName = "1.2.0"
     }
 
+    buildFeatures {
+        buildConfig = true
+    }
+
 
     applicationVariants.all {
         val variant = this
@@ -71,9 +75,7 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
 
     // Navigation 3
-
-
-    //Bioemtric Authenticator
+    //Biometric Authenticator
     implementation(libs.androidx.biometric)
 
     //Serialization

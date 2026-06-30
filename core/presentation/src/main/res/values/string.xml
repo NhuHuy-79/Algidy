@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <!--App String-->
+    <string name="biometric_auth_failed">Biometric Authentication Failed!</string>
     <!-- Common -->
     <string name="app_name" translatable="false">Algidy</string>
     <string name="action_ok">OK</string>

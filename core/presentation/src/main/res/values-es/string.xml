@@ -1,4 +1,7 @@
 <resources>
+
+    <!--App String-->
+    <string name="biometric_auth_failed">¡Fallo en la autenticación biométrica!</string>
     <!-- Common -->
     
     <string name="action_ok">Vale</string>

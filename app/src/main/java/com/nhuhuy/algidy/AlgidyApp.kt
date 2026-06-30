@@ -31,7 +31,6 @@ import org.koin.core.context.GlobalContext.startKoin
 import org.koin.core.logger.Level
 import timber.log.Timber
 
-
 class AlgidyApp : Application(), KoinComponent, SingletonImageLoader.Factory {
     private val workerScheduler: WorkerScheduler by inject()
 

@@ -1,4 +1,7 @@
 <resources>
+
+    <!--App String-->
+    <string name="biometric_auth_failed">Xác thực sinh trắc học không thành công!</string>
     <!-- Common -->
     
     <string name="action_ok">OK</string>

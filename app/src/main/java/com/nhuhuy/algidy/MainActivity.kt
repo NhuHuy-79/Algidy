@@ -1,6 +1,7 @@
 package com.nhuhuy.algidy
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -11,9 +12,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.BlurredEdgeTreatment
 import androidx.compose.ui.draw.blur
@@ -43,35 +41,46 @@ class MainActivity : AppCompatActivity() {
         setContent {
             val uiState: AppUiState by viewModel.appUiState.collectAsStateWithLifecycle()
             val onAction = viewModel::onAction
-            var isUnlocked by rememberSaveable { mutableStateOf(false) }
-
-            LaunchedEffect(uiState.isSplashScreen) {
+            val isUnlocked by viewModel.isUnlocked.collectAsStateWithLifecycle()
+            val biometricTriggerCount by viewModel.biometricTrigger.collectAsStateWithLifecycle()
+            LaunchedEffect(uiState.isSplashScreen, biometricTriggerCount) {
                 if (!uiState.isSplashScreen) {
                     if (!uiState.isBiometricLock) {
-                        isUnlocked = true
+                        onAction(AppAction.UpdateAppUnlock(true))
                     } else if (!isUnlocked) {
                         biometricHandler.authenticate().collect { result ->
                             when (result) {
                                 BiometricResult.Success -> {
-                                    isUnlocked = true
+                                    onAction(AppAction.UpdateAppUnlock(true))
                                 }
 
                                 BiometricResult.Failed -> {
-                                    // Vân tay không khớp, giữ nguyên trạng thái, không unlock
-                                    isUnlocked = false
-                                    // Có thể hiện thông báo "Vân tay không khớp"
+                                    Toast.makeText(
+                                        this@MainActivity, this@MainActivity.getString(
+                                            com.nhuhuy.algidy.core.presentation.R.string.biometric_auth_failed
+                                        ), Toast.LENGTH_SHORT
+                                    ).show()
+                                    onAction(AppAction.UpdateAppUnlock(false))
                                 }
 
                                 is BiometricResult.Error -> {
-                                    isUnlocked = false // Mặc định không cho mở khóa nếu có lỗi
-
+                                    Toast.makeText(
+                                        this@MainActivity, this@MainActivity.getString(
+                                            com.nhuhuy.algidy.core.presentation.R.string.biometric_auth_failed
+                                        ), Toast.LENGTH_SHORT
+                                    ).show()
+                                    onAction(AppAction.UpdateAppUnlock(false))
                                     when (result) {
                                         BiometricResult.Error.NotSupported -> {
                                             onAction(AppAction.UpdateBiometricSupported(false))
                                         }
-                                        // Các lỗi khác (NotEnrolled, LockedOut, HasError) -> Thông báo cho người dùng
-                                        else -> {
 
+                                        else -> {
+                                            Toast.makeText(
+                                                this@MainActivity, this@MainActivity.getString(
+                                                    com.nhuhuy.algidy.core.presentation.R.string.biometric_auth_failed
+                                                ), Toast.LENGTH_SHORT
+                                            ).show()
                                         }
                                     }
                                 }
@@ -112,6 +121,11 @@ class MainActivity : AppCompatActivity() {
                 )
             }
         }
+    }
+
+    override fun onResume() {
+        viewModel.onAction(AppAction.TriggerBiometric)
+        super.onResume()
     }
 }
 
