@@ -2,12 +2,24 @@ plugins {
     id("algidy.android.application")
     id("org.jetbrains.kotlin.plugin.compose")
     alias(libs.plugins.jetbrains.kotlin.serialization)
-    alias(libs.plugins.google.gms.google.services)
     alias(libs.plugins.aboutlibraries)
-    alias(libs.plugins.google.firebase.crashlytics)
 }
 
 android {
+    flavorDimensions += "store"
+
+    productFlavors {
+        create("play") {
+            dimension = "store"
+            buildConfigField("boolean", "IS_FOSS", "false")
+        }
+
+        create("foss") {
+            dimension = "store"
+            buildConfigField("boolean", "IS_FOSS", "true")
+        }
+    }
+
     namespace = "com.nhuhuy.algidy"
     defaultConfig {
         applicationId = "com.nhuhuy.algidy"
@@ -15,6 +27,7 @@ android {
         versionCode = 3
         versionName = "1.2.0"
     }
+
 
     applicationVariants.all {
         val variant = this
@@ -50,7 +63,6 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
-    implementation(libs.firebase.crashlytics)
 
     // Koin & Navigation
     implementation(libs.koin.android)
