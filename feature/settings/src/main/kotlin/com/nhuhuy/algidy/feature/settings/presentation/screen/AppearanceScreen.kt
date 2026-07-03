@@ -27,7 +27,6 @@ import androidx.compose.ui.unit.dp
 import com.nhuhuy.algidy.core.model.setting.DarkMode
 import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.core.presentation.utils.ItemPosition
-import com.nhuhuy.algidy.feature.settings.presentation.component.SelectFontRow
 import com.nhuhuy.algidy.feature.settings.presentation.component.ToggleItem
 import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.SettingsAction
 import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.SettingsCombineState
@@ -113,23 +112,6 @@ fun AppearanceScreen(
                             )
                         }
                     }
-                }
-            }
-
-            item {
-                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                    Text(
-                        text = stringResource(R.string.setting_font),
-                        style = MaterialTheme.typography.titleMedium.copy(
-                            fontWeight = FontWeight.Black
-                        )
-                    )
-                    SelectFontRow(
-                        currentFont = combineState.font,
-                        onFontSelected = { font ->
-                            onAction(SettingsAction.ChangeFont(font))
-                        }
-                    )
                 }
             }
 
