@@ -26,6 +26,7 @@ fun InventoryPager(
     inventoryResultState: InventoryResultState,
     onItemClick: (item: FoodItem) -> Unit,
     onItemLongClick: (item: FoodItem) -> Unit,
+    onAddManuallyClick: () -> Unit,
 ) {
     HorizontalPager(
         state = pagerState,
@@ -51,7 +52,10 @@ fun InventoryPager(
                 }.toImmutableList()
 
                 if (items.isEmpty()) {
-                    EmptyPage(modifier = Modifier.fillMaxSize())
+                    EmptyPage(
+                        onClick = onAddManuallyClick,
+                        modifier = Modifier.fillMaxSize()
+                    )
                 } else InventoryGridList(
                     items = items,
                     selectedIds = selectedIds,

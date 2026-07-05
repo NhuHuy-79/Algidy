@@ -19,6 +19,7 @@ import com.nhuhuy.algidy.feature.inventory.domain.usecase.food.DeleteFoodItemUse
 import com.nhuhuy.algidy.feature.inventory.domain.usecase.food.MarkFoodAsConsumedUseCase
 import com.nhuhuy.algidy.feature.inventory.domain.usecase.food.MarkFoodAsWastedUseCase
 import com.nhuhuy.algidy.feature.inventory.domain.usecase.food.ObserveFoodItemUseCase
+import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryOverlay.NewFeatureSheet
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -252,11 +253,13 @@ class InventoryViewModel(
                 val newFeature = appNewFeaturesReader.getWhatsNewContent()
                 newFeature?.let {
                     _uiState.product {
-                        copy(overlay = InventoryOverlay.NewFeatureSheet(it))
+                        copy(overlay = NewFeatureSheet(it))
                     }
                     getInventoryPreferenceUseCase.setVersion(it.versionCode)
                 }
             }
+
+            InventoryAction.OnEmptyPageClick -> navigator.navigateTo(Destination.FoodEntry())
         }
     }
 

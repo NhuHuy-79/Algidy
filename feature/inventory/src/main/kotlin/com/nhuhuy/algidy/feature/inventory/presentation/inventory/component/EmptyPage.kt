@@ -3,8 +3,11 @@ package com.nhuhuy.algidy.feature.inventory.presentation.inventory.component
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Edit
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -15,11 +18,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.nhuhuy.algidy.core.designsystem.component.AppButton
 import com.nhuhuy.algidy.core.presentation.R
 
 @Composable
 fun EmptyPage(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit = {},
 ) {
     Column(
         modifier = modifier.padding(horizontal = 32.dp),
@@ -43,6 +48,13 @@ fun EmptyPage(
             text = stringResource(R.string.inventory_empty_content),
             style = MaterialTheme.typography.bodyMedium,
             textAlign = TextAlign.Center
+        )
+
+        AppButton(
+            modifier = Modifier.height(48.dp),
+            text = stringResource(R.string.inventory_manually_btn),
+            icon = Icons.Rounded.Edit,
+            onClick = onClick
         )
     }
 }

@@ -19,12 +19,12 @@ fun AppLanguage.toStringRes(): Int {
     return when (this) {
         AppLanguage.ENGLISH -> R.string.setting_lang_english
         AppLanguage.VIETNAMESE -> R.string.setting_lang_vietnamese
-        AppLanguage.SPANISH -> R.string.setting_lang_spanish
+        /*AppLanguage.SPANISH -> R.string.setting_lang_spanish
         AppLanguage.FRENCH -> R.string.setting_lang_french
         AppLanguage.GERMAN -> R.string.setting_lang_german
         AppLanguage.PORTUGUESE -> R.string.setting_lang_portuguese
         AppLanguage.INDONESIAN -> R.string.setting_lang_indonesian
-        AppLanguage.ITALIAN -> R.string.setting_lang_italian
+        AppLanguage.ITALIAN -> R.string.setting_lang_italian*/
     }
 }
 

@@ -26,4 +26,5 @@ interface FoodRepository {
     //DELETE
     suspend fun removeFoodItem(id: String)
     suspend fun deleteAllFoodItems(): Resource<Unit>
+    suspend fun deleteFoodAfterDay(day: Long): Resource<Unit>
 }

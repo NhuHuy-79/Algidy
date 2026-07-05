@@ -4,12 +4,14 @@ import coil3.ImageLoader
 import com.nhuhuy.algidy.core.notifications.data.AlgidyNotificationFactory
 import com.nhuhuy.algidy.core.notifications.data.AlgidyNotifierImp
 import com.nhuhuy.algidy.core.notifications.domain.AlgidyNotifier
+import com.nhuhuy.algidy.core.notifications.domain.usecase.DeleteOldFoodUseCase
 import com.nhuhuy.algidy.core.notifications.domain.usecase.GetExpiryFoodUseCase
 import com.nhuhuy.algidy.core.notifications.domain.usecase.GetNotificationPreferenceUseCase
 import com.nhuhuy.algidy.core.notifications.domain.usecase.GetWeeklySummaryUseCase
 import com.nhuhuy.algidy.core.notifications.domain.usecase.UpdateFoodStatusUseCase
 import com.nhuhuy.algidy.core.notifications.worker.CheckExpirationWorker
 import com.nhuhuy.algidy.core.notifications.worker.CleanUpFileWorker
+import com.nhuhuy.algidy.core.notifications.worker.DeleteOldFoodWorker
 import com.nhuhuy.algidy.core.notifications.worker.WeeklyReportWorker
 import com.nhuhuy.algidy.core.notifications.worker.WorkerScheduler
 import com.nhuhuy.algidy.core.notifications.worker.WorkerSchedulerImp
@@ -33,9 +35,11 @@ val notificationModule = module {
     factoryOf(::GetExpiryFoodUseCase)
     factoryOf(::UpdateFoodStatusUseCase)
     factoryOf(::GetWeeklySummaryUseCase)
+    factoryOf(::DeleteOldFoodUseCase)
 
     // Workers
     workerOf(::CheckExpirationWorker)
     workerOf(::WeeklyReportWorker)
     workerOf(::CleanUpFileWorker)
+    workerOf(::DeleteOldFoodWorker)
 }

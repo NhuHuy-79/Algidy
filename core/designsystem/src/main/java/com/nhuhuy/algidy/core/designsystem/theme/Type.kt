@@ -1,7 +1,6 @@
 package com.nhuhuy.algidy.core.designsystem.theme
 
 import androidx.compose.material3.Typography
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.googlefonts.GoogleFont
@@ -30,21 +29,25 @@ fun getTypographyForFont(): Typography {
          Font(googleFont = googleFontName, fontProvider = provider, weight = FontWeight.Bold)
      )*/
 
-    return Typography(
-        displayLarge = TextStyle(fontFamily = MontserratFontFamily),
-        displayMedium = TextStyle(fontFamily = MontserratFontFamily),
-        displaySmall = TextStyle(fontFamily = MontserratFontFamily),
-        headlineLarge = TextStyle(fontFamily = MontserratFontFamily),
-        headlineMedium = TextStyle(fontFamily = MontserratFontFamily),
-        headlineSmall = TextStyle(fontFamily = MontserratFontFamily),
-        titleLarge = TextStyle(fontFamily = MontserratFontFamily),
-        titleMedium = TextStyle(fontFamily = MontserratFontFamily),
-        titleSmall = TextStyle(fontFamily = MontserratFontFamily),
-        bodyLarge = TextStyle(fontFamily = MontserratFontFamily),
-        bodyMedium = TextStyle(fontFamily = MontserratFontFamily),
-        bodySmall = TextStyle(fontFamily = MontserratFontFamily),
-        labelLarge = TextStyle(fontFamily = MontserratFontFamily),
-        labelMedium = TextStyle(fontFamily = MontserratFontFamily),
-        labelSmall = TextStyle(fontFamily = MontserratFontFamily)
-    )
+    val defaultTypography = Typography()
+
+    return defaultTypography.run {
+        copy(
+            displayLarge = displayLarge.copy(fontFamily = MontserratFontFamily),
+            displayMedium = displayMedium.copy(fontFamily = MontserratFontFamily),
+            displaySmall = displaySmall.copy(fontFamily = MontserratFontFamily),
+            headlineLarge = headlineLarge.copy(fontFamily = MontserratFontFamily),
+            headlineMedium = headlineMedium.copy(fontFamily = MontserratFontFamily),
+            headlineSmall = headlineSmall.copy(fontFamily = MontserratFontFamily),
+            titleLarge = titleLarge.copy(fontFamily = MontserratFontFamily),
+            titleMedium = titleMedium.copy(fontFamily = MontserratFontFamily),
+            titleSmall = titleSmall.copy(fontFamily = MontserratFontFamily),
+            bodyLarge = bodyLarge.copy(fontFamily = MontserratFontFamily),
+            bodyMedium = bodyMedium.copy(fontFamily = MontserratFontFamily),
+            bodySmall = bodySmall.copy(fontFamily = MontserratFontFamily),
+            labelLarge = labelLarge.copy(fontFamily = MontserratFontFamily),
+            labelMedium = labelMedium.copy(fontFamily = MontserratFontFamily),
+            labelSmall = labelSmall.copy(fontFamily = MontserratFontFamily)
+        )
+    }
 }

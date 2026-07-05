@@ -125,6 +125,9 @@ fun InventoryScreen(
                         onAction(InventoryAction.OnItemClick(item))
                     }
                 },
+                onAddManuallyClick = {
+                    onAction(InventoryAction.OnEmptyPageClick)
+                },
                 onItemLongClick = { item -> onAction(InventorySelectAction.OnLongClick(id = item.id)) }
             )
         } else {
@@ -144,6 +147,7 @@ fun InventoryScreen(
                         onAction(InventoryAction.OnItemClick(item))
                     }
                 },
+                onAddManuallyClick = { onAction(InventoryAction.OnEmptyPageClick) },
                 onItemLongClick = { item -> onAction(InventorySelectAction.OnLongClick(item.id)) }
             )
         }

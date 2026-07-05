@@ -29,6 +29,7 @@ import com.nhuhuy.algidy.core.presentation.navigation.SettingDestination
 import com.nhuhuy.algidy.feature.settings.presentation.component.about_app.CopyrightBottomSheet
 import com.nhuhuy.algidy.feature.settings.presentation.component.about_app.PolicyBottomSheet
 import com.nhuhuy.algidy.feature.settings.presentation.component.open_source.OpenSourceContent
+import com.nhuhuy.algidy.feature.settings.presentation.component.other_setting.SelectLanguageBottomSheet
 import com.nhuhuy.algidy.feature.settings.presentation.screen.AboutAppScreen
 import com.nhuhuy.algidy.feature.settings.presentation.screen.AppearanceScreen
 import com.nhuhuy.algidy.feature.settings.presentation.screen.DataSettingsScreen
@@ -273,21 +274,21 @@ fun SettingRoute(
         )
 
         SettingsOverlay.CopyrightSheet -> CopyrightBottomSheet(
-            onDismiss = {
-                onAction(SettingsAction.OnDismiss)
-            }
+            onDismiss = { onAction(SettingsAction.OnDismiss) }
         )
 
         SettingsOverlay.OpenSourceSheet -> OpenSourceContent(
-            onBack = {
-                onAction(SettingsAction.OnDismiss)
-            }
+            onBack = { onAction(SettingsAction.OnDismiss) }
         )
 
         SettingsOverlay.PolicySheet -> PolicyBottomSheet(
-            onDismiss = {
-                onAction(SettingsAction.OnDismiss)
-            }
+            onDismiss = { onAction(SettingsAction.OnDismiss) }
+        )
+
+        is SettingsOverlay.LanguageSheet -> SelectLanguageBottomSheet(
+            currentLanguage = combineState.language,
+            onLanguageSelect = { language -> onAction(SettingsAction.ChangeLanguage(language)) },
+            onDismiss = { onAction(SettingsAction.OnDismiss) }
         )
     }
 }

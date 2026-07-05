@@ -77,6 +77,7 @@ sealed interface SettingsOverlay {
     data object None : SettingsOverlay
     data object DeleteAlertDialog : SettingsOverlay
     data object TimePicker : SettingsOverlay
+    data class LanguageSheet(val currentLanguage: AppLanguage) : SettingsOverlay
     data class NewFeatureSheet(val versionFeatures: VersionFeatures) : SettingsOverlay
     data object PolicySheet : SettingsOverlay
     data object CopyrightSheet : SettingsOverlay

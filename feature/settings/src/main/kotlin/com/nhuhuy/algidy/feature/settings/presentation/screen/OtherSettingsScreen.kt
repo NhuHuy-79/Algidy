@@ -23,8 +23,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.core.presentation.utils.ItemPosition
-import com.nhuhuy.algidy.feature.settings.presentation.component.SelectLanguageRow
+import com.nhuhuy.algidy.feature.settings.presentation.component.ClickableItem
 import com.nhuhuy.algidy.feature.settings.presentation.component.ToggleItem
+import com.nhuhuy.algidy.feature.settings.presentation.model.ClickableType
+import com.nhuhuy.algidy.feature.settings.presentation.model.SettingClickableItem
 import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.SettingsAction
 import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.SettingsCombineState
 
@@ -74,20 +76,15 @@ fun OtherSettingsScreen(
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             item {
-                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                    Text(
-                        text = stringResource(R.string.setting_language),
-                        style = MaterialTheme.typography.titleMedium.copy(
-                            fontWeight = FontWeight.Black
-                        )
-                    )
-                    SelectLanguageRow(
-                        currentLanguage = combineState.language,
-                        onLanguageSelected = { language ->
-                            onAction(SettingsAction.ChangeLanguage(language))
-                        }
-                    )
-                }
+                ClickableItem(
+                    item = SettingClickableItem(
+                        type = ClickableType.Language(currentLanguage = combineState.language)
+                    ),
+                    position = ItemPosition.SINGLE,
+                    onClick = { settingClickableItem ->
+                        onAction(SettingsAction.ClickableAction(settingClickableItem.type))
+                    }
+                )
             }
 
             item {

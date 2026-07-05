@@ -5,7 +5,7 @@ import com.nhuhuy.algidy.core.data.AppNewFeaturesReader
 import com.nhuhuy.algidy.core.data.util.onFailure
 import com.nhuhuy.algidy.core.data.util.onSuccess
 import com.nhuhuy.algidy.core.data.util.product
-import com.nhuhuy.algidy.core.presentation.navigation.Destination
+import com.nhuhuy.algidy.core.presentation.navigation.Destination.Setting
 import com.nhuhuy.algidy.core.presentation.navigation.Navigator
 import com.nhuhuy.algidy.core.presentation.navigation.SettingDestination
 import com.nhuhuy.algidy.core.presentation.viewmodel.BaseViewModel
@@ -167,13 +167,21 @@ class SettingsViewModel(
                 }
 
                 ClickableType.OpenSource -> navigator.navigateTo(
-                    Destination.Setting(
+                    Setting(
                         SettingDestination.OpenSource
                     )
                 )
 
                 ClickableType.PrivacyPolicy -> _uiState.product {
                     copy(overlay = SettingsOverlay.PolicySheet)
+                }
+
+                is ClickableType.Language -> _uiState.product {
+                    copy(
+                        overlay = SettingsOverlay.LanguageSheet(
+                            currentLanguage = action.type.currentLanguage
+                        )
+                    )
                 }
             }
         }
