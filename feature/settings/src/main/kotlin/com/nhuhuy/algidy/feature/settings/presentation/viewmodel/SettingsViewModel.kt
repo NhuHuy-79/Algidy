@@ -17,6 +17,7 @@ import com.nhuhuy.algidy.feature.settings.domain.usecase.SelectSettingUseCase
 import com.nhuhuy.algidy.feature.settings.domain.usecase.SetToggleSettingUseCase
 import com.nhuhuy.algidy.feature.settings.presentation.model.ClickableType
 import com.nhuhuy.algidy.feature.settings.presentation.model.ToggleType
+import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.SettingsEvent.ShowSnackBar
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -61,7 +62,8 @@ class SettingsViewModel(
             hour = settingData.hour,
             minutes = settingData.minute,
             warningDays = settingData.warningDay,
-            weeklyReport = settingData.weeklyReport
+            weeklyReport = settingData.weeklyReport,
+            deleteThresholdDays = settingData.deleteThresholdDays
         )
     }
         .stateIn(
@@ -114,7 +116,7 @@ class SettingsViewModel(
                 checkCapabilityUseCase.updateNotification(action.granted)
                 setToggleSettingUseCase.toggleNotifications(action.granted)
                 if (!action.granted) {
-                    emitEvent(SettingsEvent.ShowSnackBar("Permission denied. Notifications disabled."))
+                    emitEvent(ShowSnackBar("Permission denied. Notifications disabled."))
                 }
             }
 
@@ -123,6 +125,10 @@ class SettingsViewModel(
                 deleteDataUseCase()
                     .onSuccess { emitEvent(DeleteAll.Success) }
                     .onFailure { emitEvent(DeleteAll.Failure) }
+            }
+
+            is SettingsAction.SetDeleteThresholdDays -> viewModelScope.launch {
+                selectSettingUseCase.selectDeleteThresholdDays(action.thresholdDays)
             }
         }
     }

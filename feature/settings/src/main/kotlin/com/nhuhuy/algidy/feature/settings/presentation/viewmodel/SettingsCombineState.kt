@@ -29,6 +29,7 @@ data class SettingsCombineState(
     val minutes: Int = 30,
     val weeklyReport: Boolean = false,
     val warningDays: Int = 3,
+    val deleteThresholdDays: Int = 0,
 ) {
     val dynamicColorSetting: SettingToggleItem
         get() = SettingToggleItem(

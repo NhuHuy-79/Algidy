@@ -16,7 +16,6 @@ private val MontserratFontFamily = FontFamily(
     androidx.compose.ui.text.font.Font(R.font.montserrat_regular, weight = FontWeight.Normal),
     androidx.compose.ui.text.font.Font(R.font.montserrat_bold, weight = FontWeight.Bold),
     androidx.compose.ui.text.font.Font(R.font.montserrat_semi_bold, weight = FontWeight.SemiBold),
-    androidx.compose.ui.text.font.Font(R.font.montserrat_black, weight = FontWeight.Black),
     androidx.compose.ui.text.font.Font(R.font.montserrat_medium, weight = FontWeight.Medium),
 )
 

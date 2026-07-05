@@ -223,7 +223,6 @@
     <string name="setting_weekly_report">Weekly Report</string>
     <string name="setting_weekly_report_desc">Sunday summary of your food consumption and expired items.</string>
 
-
     <string name="setting_export">Export</string>
     <string name="setting_export_desc">Export your data in Downloads/Algidy</string>
     <string name="setting_import">Import</string>
@@ -249,10 +248,18 @@
         <item quantity="other">Notify food expiry %1$d days before</item>
     </plurals>
 
+    <string name="settings_never_delete">Never delete expired food</string>
+
+    <plurals name="settings_delete_threshold">
+        <item quantity="one">Delete expired foods after %1$d day</item>
+        <item quantity="other">Delete expired foods after %1$d days</item>
+    </plurals>
+
     <string name="import_success">Import your data successfully!</string>
     <string name="import_fail">Import your data failed!</string>
     <string name="export_success">Your data is exported!</string>
     <string name="export_failed">Cannot export your data!</string>
+
     <!-- New Setting Screens -->
     <string name="appearance_title">Appearance</string>
     <string name="appearance_subtitle">Customize the look and feel of the app</string>

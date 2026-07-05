@@ -45,7 +45,7 @@ interface SettingsDataStore {
     suspend fun setWeeklyReport(enabled: Boolean)
     suspend fun setCameraPolicyAccepted(accepted: Boolean)
     suspend fun setAppVersionToNotify(version: Int)
-    suspend fun setThreshold(threshold: Int)
+    suspend fun setDeleteThresholdDays(threshold: Int)
 }
 
 class SettingsDataStoreImpl(private val context: Context) : SettingsDataStore {
@@ -161,7 +161,7 @@ class SettingsDataStoreImpl(private val context: Context) : SettingsDataStore {
         context.dataStore.set(UserPreferencesKeys.APP_VERSION_TO_NOTIFY, version)
     }
 
-    override suspend fun setThreshold(threshold: Int) {
+    override suspend fun setDeleteThresholdDays(threshold: Int) {
         context.dataStore.set(UserPreferencesKeys.DELETE_THRESHOLD, threshold)
     }
 }

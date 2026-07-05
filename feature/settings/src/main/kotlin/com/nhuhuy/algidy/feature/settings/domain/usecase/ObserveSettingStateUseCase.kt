@@ -23,7 +23,8 @@ class ObserveSettingStateUseCase(
             settingsDataStore.hourFlow,
             settingsDataStore.minuteFlow,
             settingsDataStore.warningDayFlow,
-            settingsDataStore.weeklyReportFlow
+            settingsDataStore.weeklyReportFlow,
+            settingsDataStore.deleteThreshold
         )
 
         return combine(flows) { array ->
@@ -38,7 +39,8 @@ class ObserveSettingStateUseCase(
                 hour = array[7] as Int,
                 minute = array[8] as Int,
                 warningDay = array[9] as Int,
-                weeklyReport = array[10] as Boolean
+                weeklyReport = array[10] as Boolean,
+                deleteThresholdDays = array[11] as Int
             )
         }
     }

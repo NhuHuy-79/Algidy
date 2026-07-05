@@ -10,7 +10,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Alarm
 import androidx.compose.material.icons.rounded.EditNotifications
-import androidx.compose.material.icons.rounded.HourglassBottom
+import androidx.compose.material.icons.rounded.NotificationImportant
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.FilledIconButton
@@ -33,9 +33,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.nhuhuy.algidy.core.presentation.R
@@ -55,10 +57,21 @@ fun NotificationScreen(
     combineState: SettingsCombineState,
     onAction: (SettingsAction) -> Unit,
 ) {
-    val stepsValues = listOf(1, 3, 5, 7)
-    val initialIndex = stepsValues.indexOf(combineState.warningDays).coerceAtLeast(0).toFloat()
+    val expiryStepValues = listOf(1, 3, 5, 7)
+    val initialIndex = expiryStepValues.indexOf(combineState.warningDays).coerceAtLeast(0).toFloat()
     var selectedIndex by remember(combineState.warningDays) { mutableFloatStateOf(initialIndex) }
-    val actualDayValue = stepsValues[selectedIndex.toInt()]
+    val actualDayValue = expiryStepValues[selectedIndex.toInt()]
+
+    val deleteThresholdStepValue = listOf(0, 7, 14, 21, 28)
+    val initialDeleteIndex =
+        deleteThresholdStepValue.indexOf(combineState.deleteThresholdDays).coerceAtLeast(0)
+            .toFloat()
+    var selectedDeleteIndex by remember(combineState.deleteThresholdDays) {
+        mutableFloatStateOf(
+            initialDeleteIndex
+        )
+    }
+    val actualDeleteValue = deleteThresholdStepValue[selectedDeleteIndex.toInt()]
 
     Scaffold(
         snackbarHost = {
@@ -182,7 +195,7 @@ fun NotificationScreen(
             item {
                 ListItem(
                     modifier = Modifier.clip(
-                        ItemPosition.BOTTOM.toRoundedCornerShape()
+                        ItemPosition.MIDDLE.toRoundedCornerShape()
                     ),
                     colors = ListItemDefaults.colors(
                         containerColor = MaterialTheme.colorScheme.surfaceContainer,
@@ -205,10 +218,10 @@ fun NotificationScreen(
                             value = selectedIndex,
                             onValueChange = {
                                 selectedIndex = it
-                                onAction(SettingsAction.SetWarningDays(stepsValues[it.toInt()]))
+                                onAction(SettingsAction.SetWarningDays(expiryStepValues[it.toInt()]))
                             },
-                            valueRange = 0f..(stepsValues.lastIndex.toFloat()),
-                            steps = stepsValues.size - 2,
+                            valueRange = 0f..(expiryStepValues.lastIndex.toFloat()),
+                            steps = expiryStepValues.size - 2,
                             colors = SliderDefaults.colors(
                                 thumbColor = MaterialTheme.colorScheme.primary,
                                 activeTrackColor = MaterialTheme.colorScheme.primary
@@ -217,7 +230,59 @@ fun NotificationScreen(
                     },
                     leadingContent = {
                         Icon(
-                            imageVector = Icons.Rounded.HourglassBottom,
+                            imageVector = Icons.Rounded.NotificationImportant,
+                            contentDescription = null
+                        )
+                    },
+                )
+            }
+
+            item {
+                ListItem(
+                    modifier = Modifier.clip(
+                        ItemPosition.BOTTOM.toRoundedCornerShape()
+                    ),
+                    colors = ListItemDefaults.colors(
+                        containerColor = MaterialTheme.colorScheme.surfaceContainer,
+                        contentColor = MaterialTheme.colorScheme.onSurface
+                    ),
+                    headlineContent = {
+                        Text(
+                            text = if (actualDeleteValue == 0)
+                                stringResource(R.string.settings_never_delete)
+                            else
+                                pluralStringResource(
+                                    id = R.plurals.settings_delete_threshold,
+                                    count = actualDeleteValue,
+                                    actualDeleteValue
+                                )
+                        )
+                    },
+                    supportingContent = {
+                        Slider(
+                            modifier = Modifier
+                                .height(36.dp)
+                                .padding(vertical = 8.dp),
+                            value = selectedDeleteIndex,
+                            onValueChange = {
+                                selectedDeleteIndex = it
+                                onAction(
+                                    SettingsAction.SetDeleteThresholdDays(
+                                        deleteThresholdStepValue[it.toInt()]
+                                    )
+                                )
+                            },
+                            valueRange = 0f..(deleteThresholdStepValue.lastIndex.toFloat()),
+                            steps = deleteThresholdStepValue.size - 2,
+                            colors = SliderDefaults.colors(
+                                thumbColor = MaterialTheme.colorScheme.primary,
+                                activeTrackColor = MaterialTheme.colorScheme.primary
+                            )
+                        )
+                    },
+                    leadingContent = {
+                        Icon(
+                            imageVector = ImageVector.vectorResource(R.drawable.ic_delete),
                             contentDescription = null
                         )
                     },

@@ -29,4 +29,9 @@ class SelectSettingUseCase(
         settingsDataStore.setMinute(minutes)
         workerScheduler.scheduleCheckExpiryWorker()
     }
+
+    suspend fun selectDeleteThresholdDays(day: Int) {
+        settingsDataStore.setDeleteThresholdDays(day)
+        workerScheduler.scheduleWeeklyDeleteFoodWorker()
+    }
 }
