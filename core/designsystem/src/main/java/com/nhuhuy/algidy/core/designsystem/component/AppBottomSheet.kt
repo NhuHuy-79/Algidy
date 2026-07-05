@@ -4,10 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.rounded.ArrowBackIos
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.ModalBottomSheetProperties
@@ -56,14 +53,6 @@ fun AppBottomSheetColumn(
             verticalArrangement = verticalArrangement
         ) {
             content()
-            AppButton(
-                text = "Back",
-                modifier = Modifier
-                    .height(48.dp)
-                    .align(Alignment.End),
-                icon = Icons.AutoMirrored.Rounded.ArrowBackIos,
-                onClick = onDismiss
-            )
         }
     }
 }
