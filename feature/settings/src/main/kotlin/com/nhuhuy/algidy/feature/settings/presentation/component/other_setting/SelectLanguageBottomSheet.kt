@@ -66,7 +66,9 @@ fun SelectLanguageBottomSheet(
                     Text(
                         modifier = Modifier.padding(16.dp),
                         text = language.name.capitalize(),
-                        style = MaterialTheme.typography.bodyMedium
+                        style = MaterialTheme.typography.bodyMedium.copy(
+                            fontWeight = FontWeight.Medium
+                        )
                     )
                 }
             }

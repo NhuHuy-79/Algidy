@@ -55,7 +55,7 @@ fun DetailBottomSheet(
                 .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            DetailImage(
+            DetailMainContent(
                 categoryUiModel = categoryUiModel,
                 foodItem = foodItem
             )

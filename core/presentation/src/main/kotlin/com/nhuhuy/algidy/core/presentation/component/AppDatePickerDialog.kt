@@ -1,5 +1,6 @@
 package com.nhuhuy.algidy.core.presentation.component
 
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
@@ -22,6 +23,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.nhuhuy.algidy.core.presentation.R
 
@@ -82,7 +84,7 @@ fun AppTimePickerDialog(
         is24Hour = is24Hour
     )
 
-    var displayMode by remember { mutableStateOf(TimePickerDisplayMode.Picker) }
+    var displayMode by remember { mutableStateOf(TimePickerDisplayMode.Input) }
 
     TimePickerDialog(
         onDismissRequest = onDismiss,
@@ -103,11 +105,10 @@ fun AppTimePickerDialog(
         },
         title = {
             Text(
+                modifier = Modifier.fillMaxWidth(),
                 text = title,
-                style = MaterialTheme.typography.titleLarge.copy(
-                    fontWeight = FontWeight.Black
-                ),
-                modifier = Modifier.padding(start = 24.dp, end = 12.dp, top = 16.dp)
+                style = MaterialTheme.typography.titleLarge,
+                textAlign = TextAlign.Center
             )
         },
         modeToggleButton = {

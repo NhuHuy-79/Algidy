@@ -9,7 +9,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Alarm
-import androidx.compose.material.icons.rounded.EditNotifications
+import androidx.compose.material.icons.rounded.ModeEdit
 import androidx.compose.material.icons.rounded.NotificationImportant
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
@@ -184,7 +184,7 @@ fun NotificationScreen(
                             }
                         ) {
                             Icon(
-                                imageVector = Icons.Rounded.EditNotifications,
+                                imageVector = Icons.Rounded.ModeEdit,
                                 contentDescription = null
                             )
                         }

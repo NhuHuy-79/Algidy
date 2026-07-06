@@ -40,7 +40,7 @@ import com.nhuhuy.algidy.formatMillisToDate
 import kotlin.math.abs
 
 @Composable
-fun DetailImage(
+fun DetailMainContent(
     categoryUiModel: CategoryUiModel,
     foodItem: FoodItem,
     modifier: Modifier = Modifier
