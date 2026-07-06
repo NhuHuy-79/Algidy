@@ -184,7 +184,7 @@
     <string name="setting_light_mode">Light</string>
     <string name="setting_system_mode">System</string>
 
-    <string name="settings_set_time">Receive Notification At</string>
+    <string name="settings_set_time">Notification Alarm</string>
     <string name="settings_set_time_confirm">Confirm</string>
     <string name="settings_set_time_cancel">Cancel</string>
     <string name="settings_set_time_success">Notification time updated!</string>
@@ -248,7 +248,7 @@
         <item quantity="other">Notify food expiry %1$d days before</item>
     </plurals>
 
-    <string name="settings_never_delete">Never delete expired food</string>
+    <string name="settings_never_delete_expired_food">Never delete expired food</string>
 
     <plurals name="settings_delete_threshold">
         <item quantity="one">Delete expired foods after %1$d day</item>

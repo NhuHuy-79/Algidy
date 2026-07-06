@@ -249,7 +249,7 @@ fun NotificationScreen(
                     headlineContent = {
                         Text(
                             text = if (actualDeleteValue == 0)
-                                stringResource(R.string.settings_never_delete)
+                                stringResource(R.string.settings_never_delete_expired_food)
                             else
                                 pluralStringResource(
                                     id = R.plurals.settings_delete_threshold,
