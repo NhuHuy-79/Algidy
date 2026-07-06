@@ -67,6 +67,8 @@
         <!--Receiver-->
         <receiver
             android:name=".widget.ExpiryFoodWidgetReceiver"
+            android:description="@string/widget_weekly_food_description"
+            android:label="@string/widget_weekly_food_title"
             android:exported="false">
 
             <intent-filter>

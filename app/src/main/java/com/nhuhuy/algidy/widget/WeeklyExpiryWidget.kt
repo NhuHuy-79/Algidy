@@ -2,6 +2,7 @@ package com.nhuhuy.algidy.widget
 
 import android.content.Context
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.glance.ColorFilter
@@ -10,6 +11,7 @@ import androidx.glance.GlanceModifier
 import androidx.glance.Image
 import androidx.glance.ImageProvider
 import androidx.glance.LocalContext
+import androidx.glance.action.Action
 import androidx.glance.action.ActionParameters
 import androidx.glance.action.actionParametersOf
 import androidx.glance.action.clickable
@@ -30,6 +32,7 @@ import androidx.glance.layout.fillMaxSize
 import androidx.glance.layout.fillMaxWidth
 import androidx.glance.layout.height
 import androidx.glance.layout.padding
+import androidx.glance.layout.width
 import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
@@ -53,6 +56,7 @@ import org.koin.core.component.inject
 
 val foodIdKey = ActionParameters.Key<String>(CallbackScheduler.FOOD_ID)
 
+
 class WeeklyExpiryWidget : GlanceAppWidget(), KoinComponent {
     private val getThisWeekFoods: GetFoodsUseCase by inject()
 
@@ -62,19 +66,7 @@ class WeeklyExpiryWidget : GlanceAppWidget(), KoinComponent {
     ) {
         val foods = getThisWeekFoods.getThisWeek()
         provideContent {
-            WeeklyExpiryContent(
-                foods = foods,
-                onConsume = { item ->
-                    actionRunCallback<ConsumeFoodCallBack>(
-                        parameters = actionParametersOf(
-                            foodIdKey to item.id
-                        )
-                    )
-                },
-                onWastedAll = {
-
-                }
-            )
+            WeeklyExpiryContent(foods = foods)
         }
     }
 }
@@ -82,8 +74,6 @@ class WeeklyExpiryWidget : GlanceAppWidget(), KoinComponent {
 @Composable
 fun WeeklyExpiryContent(
     foods: List<FoodItem>,
-    onConsume: (item: FoodItem) -> Unit,
-    onWastedAll: () -> Unit,
 ) {
     val context = LocalContext.current
     Column(
@@ -100,7 +90,7 @@ fun WeeklyExpiryContent(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
-                text = "In This Week",
+                text = stringResource(com.nhuhuy.algidy.core.presentation.R.string.widget_weekly_food_title),
                 style = TextStyle(
                     fontWeight = FontWeight.Medium,
                     fontSize = 18.sp,
@@ -123,10 +113,10 @@ fun WeeklyExpiryContent(
                     )
                 ),
                 modifier = GlanceModifier
-                    .clickable {
-                        onWastedAll()
-                    }
+                    .clickable(onClick = actionRunCallback<WasteAllFoodsCallback>())
             )
+
+            Spacer(modifier = GlanceModifier.width(16.dp))
 
             Image(
                 provider = ImageProvider(R.drawable.ic_refresh),
@@ -160,9 +150,12 @@ fun WeeklyExpiryContent(
                         WidgetFoodItem(
                             itemName = item.name,
                             itemLocalStorage = context.getString(item.location.toStringRes()),
-                            onConsume = {
-                                onConsume(item)
-                            }
+                            onConsume = actionRunCallback<ConsumeFoodCallBack>(
+                                parameters = actionParametersOf(
+                                    foodIdKey to item.id
+                                )
+                            )
+
                         )
                     }
                 }
@@ -173,7 +166,7 @@ fun WeeklyExpiryContent(
                         contentAlignment = Alignment.Center
                     ) {
                         Text(
-                            text = "No expiry food today.",
+                            text = context.getString(com.nhuhuy.algidy.core.presentation.R.string.widget_weekly_empty_food),
                             style = TextStyle(
                                 fontSize = 14.sp,
                                 fontWeight = FontWeight.Medium,
@@ -194,7 +187,7 @@ fun WeeklyExpiryContent(
 fun WidgetFoodItem(
     itemName: String,
     itemLocalStorage: String,
-    onConsume: () -> Unit,
+    onConsume: Action
 ) {
     Box(
         modifier = GlanceModifier.fillMaxWidth()
@@ -206,6 +199,7 @@ fun WidgetFoodItem(
             .padding(horizontal = 16.dp, vertical = 8.dp),
     ) {
         Row(
+            modifier = GlanceModifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Spacer(modifier = GlanceModifier.height(16.dp))
@@ -245,8 +239,7 @@ fun WidgetFoodItem(
                         night = onSurfaceDark
                     )
                 ),
-                modifier = GlanceModifier
-                    .clickable { onConsume() }
+                modifier = GlanceModifier.clickable(onConsume)
             )
         }
     }

@@ -9,6 +9,9 @@ import com.nhuhuy.algidy.core.presentation.navigation.NavigatorImpl
 import com.nhuhuy.algidy.utils.AppInitializer
 import com.nhuhuy.algidy.utils.DefaultAppCapabilityManager
 import com.nhuhuy.algidy.widget.usecase.GetFoodsUseCase
+import com.nhuhuy.algidy.widget.worker.ConsumeFoodWorker
+import com.nhuhuy.algidy.widget.worker.WasteWeeklyAllFoodsWorker
+import org.koin.androidx.workmanager.dsl.workerOf
 import org.koin.core.module.dsl.bind
 import org.koin.core.module.dsl.factoryOf
 import org.koin.core.module.dsl.singleOf
@@ -25,4 +28,8 @@ val appModule = module {
 
     //UseCase
     factoryOf(::GetFoodsUseCase)
+
+    //Worker
+    workerOf(::ConsumeFoodWorker)
+    workerOf(::WasteWeeklyAllFoodsWorker)
 }

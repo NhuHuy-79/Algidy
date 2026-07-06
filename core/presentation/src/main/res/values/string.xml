@@ -301,4 +301,10 @@
     <string name="notif_action_prompt_message">Have you handled this item?</string>
     <string name="notif_action_consumed">Consumed</string>
     <string name="notif_action_wasted">Wasted</string>
+
+    <!--Widget -->
+    <string name="widget_weekly_food_title">Exploring This Week</string>
+    <string name="widget_weekly_empty_food">No expiring food this week.</string>
+    <string name="widget_weekly_food_description">Shows foods expiring this week and quick actions.
+    </string>
 </resources>

@@ -320,4 +320,7 @@ Nếu bạn có bất kỳ câu hỏi hoặc đề xuất nào liên quan đến
     <string name="notif_action_prompt_message">Bạn đã xử lý được mục này chưa\?</string>
     <string name="notif_action_consumed">Tiêu thụ</string>
     <string name="notif_action_wasted">Lãng phí</string>
+    <string name="widget_weekly_food_title">Trong Tuần</string>
+    <string name="widget_weekly_empty_food">Tuần này không có thực phẩm hết hạn.</string>
+    <string name="widget_weekly_food_description">Hiển thị  thực phẩm hết hạn trong tuần và các tính năng tức thời.</string>
 </resources>

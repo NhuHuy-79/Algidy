@@ -36,4 +36,14 @@ class CallbackScheduler(
         )
     }
 
+    fun scheduleWasteWeeklyAllFoodsWorker() {
+        val request = OneTimeWorkRequestBuilder<WasteWeeklyAllFoodsWorker>()
+            .build()
+        workerManager.enqueueUniqueWork(
+            uniqueWorkName = "waste_weekly_all_foods_worker",
+            existingWorkPolicy = ExistingWorkPolicy.KEEP,
+            request = request
+        )
+    }
+
 }

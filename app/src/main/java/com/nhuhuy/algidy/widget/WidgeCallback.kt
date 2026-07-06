@@ -22,7 +22,7 @@ class WasteAllFoodsCallback : ActionCallback {
         glanceId: GlanceId,
         parameters: ActionParameters
     ) {
-
+        CallbackScheduler(context).scheduleWasteWeeklyAllFoodsWorker()
     }
 }
 
