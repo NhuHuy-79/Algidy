@@ -78,7 +78,7 @@ fun OtherSettingsScreen(
             item {
                 ClickableItem(
                     item = SettingClickableItem(
-                        type = ClickableType.Language(currentLanguage = combineState.language)
+                        type = ClickableType.Language(currentLanguage = combineState.appearancePreferences.appLanguage)
                     ),
                     position = ItemPosition.SINGLE,
                     onClick = { settingClickableItem ->

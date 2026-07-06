@@ -2,11 +2,13 @@ package com.nhuhuy.algidy.feature.settings.presentation.viewmodel
 
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
+import com.nhuhuy.algidy.core.datastore.model.AppearancePreferences
+import com.nhuhuy.algidy.core.datastore.model.GeneralPreferences
+import com.nhuhuy.algidy.core.datastore.model.NotificationPreferences
 import com.nhuhuy.algidy.core.model.VersionFeatures
-import com.nhuhuy.algidy.core.model.setting.AppFont
 import com.nhuhuy.algidy.core.model.setting.AppLanguage
-import com.nhuhuy.algidy.core.model.setting.DarkMode
 import com.nhuhuy.algidy.core.presentation.viewmodel.UiState
+import com.nhuhuy.algidy.feature.settings.domain.model.SettingDataPreferences
 import com.nhuhuy.algidy.feature.settings.presentation.model.SettingToggleItem
 import com.nhuhuy.algidy.feature.settings.presentation.model.ToggleType
 
@@ -15,27 +17,18 @@ data class SettingsCombineState(
     val notificationGranted: Boolean = true,
     val biometricSupported: Boolean = true,
     val dynamicColorSupported: Boolean = true,
-
-    val notificationsEnabled: Boolean = true,
     val biometricEnabled: Boolean = false,
-    val dynamicColorEnabled: Boolean = false,
-
-    val darkMode: DarkMode = DarkMode.SYSTEM,
-    val language: AppLanguage = AppLanguage.ENGLISH,
-    val font: AppFont = AppFont.DEFAULT,
-    val categoryEnabled: Boolean = false,
     val overlay: SettingsOverlay = SettingsOverlay.None,
-    val hour: Int = 7,
-    val minutes: Int = 30,
-    val weeklyReport: Boolean = false,
-    val warningDays: Int = 3,
-    val deleteThresholdDays: Int = 0,
+    val settingPref: SettingDataPreferences = SettingDataPreferences(),
+    val notificationPreferences: NotificationPreferences = NotificationPreferences(),
+    val appearancePreferences: AppearancePreferences = AppearancePreferences(),
+    val generalPreferences: GeneralPreferences = GeneralPreferences()
 ) {
     val dynamicColorSetting: SettingToggleItem
         get() = SettingToggleItem(
             type = ToggleType.DYNAMIC_COLOR,
             enable = dynamicColorSupported,
-            checked = dynamicColorEnabled
+            checked = appearancePreferences.enableDynamicColor
         )
 
     val biometricSetting: SettingToggleItem
@@ -49,21 +42,21 @@ data class SettingsCombineState(
         get() = SettingToggleItem(
             type = ToggleType.NOTIFICATION,
             enable = true,
-            checked = notificationGranted && notificationsEnabled
+            checked = notificationGranted && notificationPreferences.enableNotification
         )
 
     val categorySetting: SettingToggleItem
         get() = SettingToggleItem(
             type = ToggleType.CATEGORY_GROUP,
             enable = true,
-            checked = categoryEnabled
+            checked = appearancePreferences.enableCategoryGroup
         )
 
     val weekendReportSetting: SettingToggleItem
         get() = SettingToggleItem(
             type = ToggleType.WEEKLY_REPORT,
             enable = true,
-            checked = weeklyReport
+            checked = notificationPreferences.enableWeeklyReport
         )
 }
 

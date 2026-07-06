@@ -58,15 +58,22 @@ fun NotificationScreen(
     onAction: (SettingsAction) -> Unit,
 ) {
     val expiryStepValues = listOf(1, 3, 5, 7)
-    val initialIndex = expiryStepValues.indexOf(combineState.warningDays).coerceAtLeast(0).toFloat()
-    var selectedIndex by remember(combineState.warningDays) { mutableFloatStateOf(initialIndex) }
+    val initialIndex =
+        expiryStepValues.indexOf(combineState.notificationPreferences.warningFoodThreshold)
+            .coerceAtLeast(0).toFloat()
+    var selectedIndex by remember(combineState.notificationPreferences.warningFoodThreshold) {
+        mutableFloatStateOf(
+            initialIndex
+        )
+    }
     val actualDayValue = expiryStepValues[selectedIndex.toInt()]
 
     val deleteThresholdStepValue = listOf(0, 7, 14, 21, 28)
     val initialDeleteIndex =
-        deleteThresholdStepValue.indexOf(combineState.deleteThresholdDays).coerceAtLeast(0)
+        deleteThresholdStepValue.indexOf(combineState.notificationPreferences.deleteFoodThreshold)
+            .coerceAtLeast(0)
             .toFloat()
-    var selectedDeleteIndex by remember(combineState.deleteThresholdDays) {
+    var selectedDeleteIndex by remember(combineState.notificationPreferences.deleteFoodThreshold) {
         mutableFloatStateOf(
             initialDeleteIndex
         )
@@ -169,7 +176,12 @@ fun NotificationScreen(
                         )
                     },
                     supportingContent = {
-                        RemindTimeText(combineState.hour, combineState.minutes)
+                        combineState.apply {
+                            RemindTimeText(
+                                notificationPreferences.hour,
+                                notificationPreferences.minutes
+                            )
+                        }
                     },
                     leadingContent = {
                         Icon(

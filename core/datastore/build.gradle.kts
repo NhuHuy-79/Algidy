@@ -1,5 +1,6 @@
 plugins {
     id("algidy.android.library")
+    alias(libs.plugins.jetbrains.kotlin.serialization)
 }
 
 android {

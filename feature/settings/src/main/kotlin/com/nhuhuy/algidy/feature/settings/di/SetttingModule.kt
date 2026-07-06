@@ -14,6 +14,7 @@ import com.nhuhuy.algidy.feature.settings.domain.usecase.ManageDataUseCase
 import com.nhuhuy.algidy.feature.settings.domain.usecase.ObserveSettingStateUseCase
 import com.nhuhuy.algidy.feature.settings.domain.usecase.SelectSettingUseCase
 import com.nhuhuy.algidy.feature.settings.domain.usecase.SetToggleSettingUseCase
+import com.nhuhuy.algidy.feature.settings.domain.usecase.UpdatePreferencesUseCase
 import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.SettingsViewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.module.dsl.bind
@@ -35,6 +36,7 @@ val settingModule = module {
     factoryOf(::ImportDataUseCase)
     factoryOf(::DeleteAllDataUseCase)
     factoryOf(::CheckCapabilityUseCase)
+    factoryOf(::UpdatePreferencesUseCase)
 
     viewModelOf(::SettingsViewModel)
 }

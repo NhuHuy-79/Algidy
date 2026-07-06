@@ -8,6 +8,7 @@ import com.nhuhuy.algidy.core.model.setting.AppLanguage
 import com.nhuhuy.algidy.core.model.setting.DarkMode
 import com.nhuhuy.algidy.feature.settings.domain.usecase.CheckCapabilityUseCase
 import com.nhuhuy.algidy.feature.settings.domain.usecase.ObserveSettingStateUseCase
+import com.nhuhuy.algidy.utils.AppInitializer
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -36,6 +37,7 @@ sealed interface AppAction {
 class AppViewModel(
     observeSettingStateUseCase: ObserveSettingStateUseCase,
     private val checkCapabilityUseCase: CheckCapabilityUseCase,
+    private val appInitializer: AppInitializer,
 ) : ViewModel() {
     private val _isUnLocked = MutableStateFlow(false)
     val isUnlocked = _isUnLocked.asStateFlow()
@@ -45,6 +47,7 @@ class AppViewModel(
     init {
         viewModelScope.launch {
             checkCapabilityUseCase.init()
+            appInitializer.initialize()
         }
     }
     val appUiState: StateFlow<AppUiState> = observeSettingStateUseCase().map { settingData ->

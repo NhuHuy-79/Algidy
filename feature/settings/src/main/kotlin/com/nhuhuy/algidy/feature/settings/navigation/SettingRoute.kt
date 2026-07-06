@@ -251,8 +251,8 @@ fun SettingRoute(
         )
 
         SettingsOverlay.TimePicker -> AppTimePickerDialog(
-            hour = combineState.hour,
-            minutes = combineState.minutes,
+            hour = combineState.notificationPreferences.hour,
+            minutes = combineState.notificationPreferences.minutes,
             title = stringResource(R.string.settings_set_time),
             confirmText = stringResource(R.string.settings_set_time_confirm),
             onDateSelected = { hour, min ->
@@ -286,7 +286,7 @@ fun SettingRoute(
         )
 
         is SettingsOverlay.LanguageSheet -> SelectLanguageBottomSheet(
-            currentLanguage = combineState.language,
+            currentLanguage = combineState.appearancePreferences.appLanguage,
             onLanguageSelect = { language -> onAction(SettingsAction.ChangeLanguage(language)) },
             onDismiss = { onAction(SettingsAction.OnDismiss) }
         )

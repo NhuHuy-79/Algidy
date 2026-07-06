@@ -91,7 +91,7 @@ fun AppearanceScreen(
                         DarkMode.entries.forEachIndexed { index, darkMode ->
                             SegmentedButton(
                                 icon = {
-                                    SegmentedButtonDefaults.Icon(active = combineState.darkMode == darkMode)
+                                    SegmentedButtonDefaults.Icon(active = combineState.appearancePreferences.darkMode == darkMode)
                                 },
                                 label = {
                                     Text(
@@ -101,7 +101,7 @@ fun AppearanceScreen(
                                         )
                                     )
                                 },
-                                selected = combineState.darkMode == darkMode,
+                                selected = combineState.appearancePreferences.darkMode == darkMode,
                                 onClick = {
                                     onAction(SettingsAction.SetDarkMode(darkMode))
                                 },

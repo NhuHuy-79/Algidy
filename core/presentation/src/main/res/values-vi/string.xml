@@ -243,7 +243,7 @@
     <string name="setting_daily_reminder_desc">Nhắc nhở lúc %1$s</string>
 
     <plurals name="notification_days_before">
-        <item quantity="other">Thông báo hết hạn thực phẩm%1$d ngày trước</item>
+        <item quantity="other">Thông báo hết hạn thực phẩm %1$d ngày trước</item>
     </plurals>
 
     <string name="settings_never_delete_expired_food">Không xóa thực phẩm hết hạn</string>

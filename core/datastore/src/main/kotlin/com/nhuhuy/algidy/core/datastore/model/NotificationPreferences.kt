@@ -1,4 +1,4 @@
-package com.nhuhuy.algidy.core.datastore
+package com.nhuhuy.algidy.core.datastore.model
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
@@ -25,7 +25,7 @@ data class NotificationPreferences(
     }
 }
 
-class NotificationDataStoreImpl(
+class NotificationDataStore(
     private val json: Json,
     private val dataStore: DataStore<Preferences>
 ) : BaseDataStore<NotificationPreferences> {
