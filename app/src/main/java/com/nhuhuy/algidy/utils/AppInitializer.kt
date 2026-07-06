@@ -22,8 +22,8 @@ class AppInitializer(
         }
     }
 
-    private suspend fun <T> runMigrator(
-        migrator: BaseMigrator<T>
+    private suspend fun runMigrator(
+        migrator: BaseMigrator
     ) {
         try {
             if (!migrator.shouldMigrate()) {
