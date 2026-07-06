@@ -1,11 +1,13 @@
 package com.nhuhuy.algidy
 
 import java.time.Duration
+import java.time.Instant
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZoneId
 
 fun Long.formatMillisToDate(): String {
-    val date = java.time.Instant.ofEpochMilli(this)
+    val date = Instant.ofEpochMilli(this)
         .atZone(ZoneId.systemDefault())
         .toLocalDate()
     val formatter = java.time.format.DateTimeFormatter.ofPattern("MMM dd")
@@ -35,3 +37,8 @@ fun calculateDelayMillis(
         .toMillis()
 }
 
+fun Long.toLocalDate(): LocalDate {
+    return Instant.ofEpochMilli(this)
+        .atZone(ZoneId.systemDefault())
+        .toLocalDate()
+}

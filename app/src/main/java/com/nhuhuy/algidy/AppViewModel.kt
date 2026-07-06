@@ -50,13 +50,14 @@ class AppViewModel(
             appInitializer.initialize()
         }
     }
-    val appUiState: StateFlow<AppUiState> = observeSettingStateUseCase().map { settingData ->
+
+    val appUiState: StateFlow<AppUiState> =
+        observeSettingStateUseCase.observe().map { settingData ->
         AppUiState(
-            darkMode = settingData.darkMode,
-            isDynamicColors = settingData.enableDynamicColor,
-            isBiometricLock = settingData.enableBiometricsLock,
-            language = settingData.language,
-            font = settingData.font,
+            darkMode = settingData.appearancePreferences.darkMode,
+            isDynamicColors = settingData.appearancePreferences.enableDynamicColor,
+            isBiometricLock = settingData.enableBiometric,
+            language = settingData.appearancePreferences.appLanguage,
             isSplashScreen = false
         )
     }.stateIn(

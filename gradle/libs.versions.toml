@@ -5,6 +5,7 @@ biometric = "1.1.0"
 cameraCore = "1.5.0-alpha05"
 composeChartsVersion = "0.1.10"
 entityExtraction = "16.0.0-beta6"
+glanceAppwidget = "1.2.0-rc01"
 guava = "33.0.0-android"
 koinAndroidxWorkmanager = "4.0.0"
 kotlin = "2.1.21"
@@ -62,6 +63,8 @@ androidx-camera-view = { module = "androidx.camera:camera-view", version.ref = "
 androidx-compose-ui-text-google-fonts = { module = "androidx.compose.ui:ui-text-google-fonts", version.ref = "uiTextGoogleFonts" }
 androidx-core-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "coreSplashScreen" }
 androidx-datastore-preferences = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "androidxDatastore" }
+androidx-glance-appwidget = { module = "androidx.glance:glance-appwidget", version.ref = "glanceAppwidget" }
+androidx-glance-material3 = { module = "androidx.glance:glance-material3", version.ref = "glanceAppwidget" }
 androidx-navigationevent = { module = "androidx.navigationevent:navigationevent", version.ref = "navigationevent" }
 androidx-sqlite-ktx = { module = "androidx.sqlite:sqlite-ktx", version.ref = "sqliteKtx" }
 androidx-work-runtime-ktx = { group = "androidx.work", name = "work-runtime-ktx", version.ref = "androidxWork" }

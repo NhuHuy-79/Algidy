@@ -17,7 +17,6 @@ interface FoodRepository {
     suspend fun getAllFoodItems(): List<FoodItem>
     fun observeAllActiveFoodItems(): Flow<List<FoodItem>>
     fun observeAllFoodItems(): Flow<List<FoodItem>>
-
     //UPDATE
     suspend fun updateFoodItem(item: FoodItem): Resource<Unit>
     suspend fun updateFoodStatus(id: String, newStatus: FoodStatus): Resource<String>

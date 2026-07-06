@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.nhuhuy.algidy.feature.inventory.utils.GridCategory
 import com.nhuhuy.algidy.feature.inventory.utils.toStringRes
@@ -38,7 +39,8 @@ fun InventoryTabRow(
                         color = if (selectedTabIndex == index)
                             MaterialTheme.colorScheme.primary
                         else MaterialTheme.colorScheme.onSurfaceVariant,
-                        maxLines = 1
+                        maxLines = 1,
+                        fontWeight = if (selectedTabIndex == index) FontWeight.Medium else FontWeight.Normal
                     )
                 }
             )

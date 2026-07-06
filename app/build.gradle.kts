@@ -74,9 +74,12 @@ dependencies {
     implementation(libs.koin.androidx.workmanager)
     implementation(libs.androidx.navigation.compose)
 
-    // Navigation 3
     //Biometric Authenticator
     implementation(libs.androidx.biometric)
+
+    //Glance
+    implementation(libs.androidx.glance.appwidget)
+    implementation(libs.androidx.glance.material3)
 
     //Serialization
     implementation(libs.kotlinx.serialization.core)
