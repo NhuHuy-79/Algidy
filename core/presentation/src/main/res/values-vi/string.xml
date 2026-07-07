@@ -323,4 +323,6 @@ Nếu bạn có bất kỳ câu hỏi hoặc đề xuất nào liên quan đến
     <string name="widget_weekly_food_title">Trong Tuần</string>
     <string name="widget_weekly_empty_food">Tuần này không có thực phẩm hết hạn.</string>
     <string name="widget_weekly_food_description">Hiển thị  thực phẩm hết hạn trong tuần và các tính năng tức thời.</string>
+    <string name="widget_weekly_freshness_title">Độ tươi Hàng tuần</string>
+    <string name="widget_weekly_freshness_description">Hiển thị độ tươi của thực phẩm của bạn trong tuần.</string>
 </resources>

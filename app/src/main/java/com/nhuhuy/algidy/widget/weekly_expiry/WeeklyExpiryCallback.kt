@@ -1,4 +1,4 @@
-package com.nhuhuy.algidy.widget
+package com.nhuhuy.algidy.widget.weekly_expiry
 
 import android.content.Context
 import androidx.glance.GlanceId

@@ -1,13 +1,13 @@
-package com.nhuhuy.algidy.widget
+package com.nhuhuy.algidy.widget.weekly_expiry
 
 import android.content.Context
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.glance.ColorFilter
 import androidx.glance.GlanceId
 import androidx.glance.GlanceModifier
+import androidx.glance.GlanceTheme
 import androidx.glance.Image
 import androidx.glance.ImageProvider
 import androidx.glance.LocalContext
@@ -17,12 +17,11 @@ import androidx.glance.action.actionParametersOf
 import androidx.glance.action.clickable
 import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.action.actionRunCallback
-import androidx.glance.appwidget.background
 import androidx.glance.appwidget.cornerRadius
 import androidx.glance.appwidget.lazy.LazyColumn
-import androidx.glance.appwidget.lazy.itemsIndexed
+import androidx.glance.appwidget.lazy.items
 import androidx.glance.appwidget.provideContent
-import androidx.glance.color.ColorProvider
+import androidx.glance.background
 import androidx.glance.layout.Alignment
 import androidx.glance.layout.Box
 import androidx.glance.layout.Column
@@ -37,22 +36,14 @@ import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
 import com.nhuhuy.algidy.R
-import com.nhuhuy.algidy.core.designsystem.theme.onPrimaryContainerDark
-import com.nhuhuy.algidy.core.designsystem.theme.onPrimaryContainerLight
-import com.nhuhuy.algidy.core.designsystem.theme.onSecondaryContainerDark
-import com.nhuhuy.algidy.core.designsystem.theme.onSecondaryContainerLight
-import com.nhuhuy.algidy.core.designsystem.theme.onSurfaceDark
-import com.nhuhuy.algidy.core.designsystem.theme.onSurfaceLight
-import com.nhuhuy.algidy.core.designsystem.theme.secondaryContainerDark
-import com.nhuhuy.algidy.core.designsystem.theme.secondaryContainerLight
-import com.nhuhuy.algidy.core.designsystem.theme.surfaceContainerDark
-import com.nhuhuy.algidy.core.designsystem.theme.surfaceContainerLight
-import com.nhuhuy.algidy.core.model.food.FoodItem
 import com.nhuhuy.algidy.core.presentation.utils.toStringRes
+import com.nhuhuy.algidy.widget.state.FoodWidgetModel
+import com.nhuhuy.algidy.widget.state.toFoodWidgetModelList
 import com.nhuhuy.algidy.widget.usecase.GetFoodsUseCase
 import com.nhuhuy.algidy.widget.worker.CallbackScheduler
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
+import timber.log.Timber
 
 val foodIdKey = ActionParameters.Key<String>(CallbackScheduler.FOOD_ID)
 
@@ -64,25 +55,31 @@ class WeeklyExpiryWidget : GlanceAppWidget(), KoinComponent {
         context: Context,
         id: GlanceId
     ) {
-        val foods = getThisWeekFoods.getThisWeek()
+        val foods = getThisWeekFoods.getThisWeek().toFoodWidgetModelList()
         provideContent {
             WeeklyExpiryContent(foods = foods)
         }
+    }
+
+    override fun onCompositionError(
+        context: Context,
+        glanceId: GlanceId,
+        appWidgetId: Int,
+        throwable: Throwable
+    ) {
+        Timber.e(throwable)
     }
 }
 
 @Composable
 fun WeeklyExpiryContent(
-    foods: List<FoodItem>,
+    foods: List<FoodWidgetModel>,
 ) {
     val context = LocalContext.current
     Column(
         modifier = GlanceModifier
             .fillMaxSize()
-            .background(
-                day = surfaceContainerLight,
-                night = surfaceContainerDark
-            )
+            .background(GlanceTheme.colors.surface)
             .padding(16.dp)
     ) {
         Row(
@@ -90,14 +87,11 @@ fun WeeklyExpiryContent(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
-                text = stringResource(com.nhuhuy.algidy.core.presentation.R.string.widget_weekly_food_title),
+                text = context.getString(com.nhuhuy.algidy.core.presentation.R.string.widget_weekly_food_title),
                 style = TextStyle(
                     fontWeight = FontWeight.Medium,
                     fontSize = 18.sp,
-                    color = ColorProvider(
-                        day = onPrimaryContainerLight,
-                        night = onPrimaryContainerDark
-                    )
+                    color = GlanceTheme.colors.onSurface
                 )
             )
 
@@ -107,10 +101,7 @@ fun WeeklyExpiryContent(
                 provider = ImageProvider(com.nhuhuy.algidy.core.designsystem.R.drawable.ic_delete),
                 contentDescription = null,
                 colorFilter = ColorFilter.tint(
-                    colorProvider = ColorProvider(
-                        day = onPrimaryContainerLight,
-                        night = onPrimaryContainerDark
-                    )
+                    colorProvider = GlanceTheme.colors.onPrimaryContainer
                 ),
                 modifier = GlanceModifier
                     .clickable(onClick = actionRunCallback<WasteAllFoodsCallback>())
@@ -122,10 +113,7 @@ fun WeeklyExpiryContent(
                 provider = ImageProvider(R.drawable.ic_refresh),
                 contentDescription = null,
                 colorFilter = ColorFilter.tint(
-                    colorProvider = ColorProvider(
-                        day = onPrimaryContainerLight,
-                        night = onPrimaryContainerDark
-                    )
+                    colorProvider = GlanceTheme.colors.onPrimaryContainer
                 ),
                 modifier = GlanceModifier
                     .clickable(
@@ -140,16 +128,17 @@ fun WeeklyExpiryContent(
             modifier = GlanceModifier.fillMaxSize(),
         ) {
             if (foods.isNotEmpty()) {
-                itemsIndexed(
-                    items = foods
-                ) { index: Int, item: FoodItem ->
+                items(
+                    items = foods,
+                    itemId = { it.hashCode().toLong() }
+                ) { item: FoodWidgetModel ->
                     Box(
                         modifier = GlanceModifier
                             .padding(bottom = 8.dp)
                     ) {
                         WidgetFoodItem(
                             itemName = item.name,
-                            itemLocalStorage = context.getString(item.location.toStringRes()),
+                            itemLocalStorage = context.getString(item.storageLocation.toStringRes()),
                             onConsume = actionRunCallback<ConsumeFoodCallBack>(
                                 parameters = actionParametersOf(
                                     foodIdKey to item.id
@@ -170,10 +159,7 @@ fun WeeklyExpiryContent(
                             style = TextStyle(
                                 fontSize = 14.sp,
                                 fontWeight = FontWeight.Medium,
-                                color = ColorProvider(
-                                    day = onSurfaceLight,
-                                    night = onSurfaceDark
-                                )
+                                color = GlanceTheme.colors.onSurface
                             )
                         )
                     }
@@ -192,10 +178,7 @@ fun WidgetFoodItem(
     Box(
         modifier = GlanceModifier.fillMaxWidth()
             .cornerRadius(8.dp)
-            .background(
-                day = secondaryContainerLight,
-                night = secondaryContainerDark
-            )
+            .background(GlanceTheme.colors.secondaryContainer)
             .padding(horizontal = 16.dp, vertical = 8.dp),
     ) {
         Row(
@@ -209,10 +192,7 @@ fun WidgetFoodItem(
                     style = TextStyle(
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Medium,
-                        color = ColorProvider(
-                            day = onSecondaryContainerLight,
-                            night = onSecondaryContainerDark
-                        )
+                        color = GlanceTheme.colors.onSecondaryContainer
                     )
                 )
                 Spacer(modifier = GlanceModifier.height(4.dp))
@@ -221,10 +201,7 @@ fun WidgetFoodItem(
                     style = TextStyle(
                         fontSize = 12.sp,
                         fontWeight = FontWeight.Medium,
-                        color = ColorProvider(
-                            day = onSecondaryContainerLight,
-                            night = onSecondaryContainerDark
-                        )
+                        color = GlanceTheme.colors.onSecondaryContainer
                     )
                 )
             }
@@ -234,10 +211,7 @@ fun WidgetFoodItem(
                 provider = ImageProvider(R.drawable.ic_restaurant),
                 contentDescription = null,
                 colorFilter = ColorFilter.tint(
-                    colorProvider = ColorProvider(
-                        day = onSurfaceLight,
-                        night = onSurfaceDark
-                    )
+                    colorProvider = GlanceTheme.colors.onSurface
                 ),
                 modifier = GlanceModifier.clickable(onConsume)
             )
