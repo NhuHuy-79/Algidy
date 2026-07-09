@@ -13,24 +13,7 @@ colorful analytics.</p>
 ## 📷 Screenshots
 
 <div align="center">
-  <table>
-    <tr>
-      <td align="center"><b>Home</b></td>
-      <td align="center"><b>Scanner</b></td>
-    </tr>
-    <tr>
-      <td><img src="screenshot/home.png" width="280" alt="Home Screen"></td>
-      <td><img src="screenshot/scanner.png" width="280" alt="Scanner Screen"></td>
-    </tr>
-    <tr>
-      <td align="center"><b>Analytics</b></td>
-      <td align="center"><b>Settings</b></td>
-    </tr>
-    <tr>
-      <td><img src="screenshot/analytics.png" width="280" alt="Analytics Screen"></td>
-      <td><img src="screenshot/settings.png" width="280" alt="Settings Screen"></td>
-    </tr>
-  </table>
+  <img src="screenshot/algidy_banner.png" width="1920" alt=""/>
 </div>
 
 ---
