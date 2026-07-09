@@ -38,7 +38,7 @@
 * **Image Loading:** Coil 3.
 * **Camera / ML:** CameraX, Google ML Kit (Barcode, OCR, Entity Extraction).
 * **Concurrency:** Kotlin Coroutines & Flow.
-
+* **Home Screen Widgets:** Monitor expiring foods and weekly freshness progress directly from your home screen.
 ---
 
 ## 🔨 Build from Source
