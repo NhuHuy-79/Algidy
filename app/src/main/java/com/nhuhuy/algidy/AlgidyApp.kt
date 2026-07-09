@@ -9,9 +9,6 @@ import coil3.disk.directory
 import coil3.memory.MemoryCache
 import coil3.network.okhttp.OkHttpNetworkFetcherFactory
 import coil3.request.crossfade
-import com.google.firebase.Firebase
-import com.google.firebase.crashlytics.FirebaseCrashlytics
-import com.google.firebase.crashlytics.crashlytics
 import com.nhuhuy.algidy.core.data.FOLDER_IMAGE
 import com.nhuhuy.algidy.core.notifications.data.NotificationChannelManager
 import com.nhuhuy.algidy.core.notifications.di.notificationModule
@@ -25,7 +22,6 @@ import com.nhuhuy.algidy.feature.food_entry.di.foodEntryModule
 import com.nhuhuy.algidy.feature.inventory.di.inventoryModule
 import com.nhuhuy.algidy.feature.scanner.di.scannerModule
 import com.nhuhuy.algidy.feature.settings.di.settingModule
-import com.nhuhuy.algidy.utils.CrashlyticsTree
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.androidx.workmanager.koin.workManagerFactory
@@ -35,10 +31,8 @@ import org.koin.core.context.GlobalContext.startKoin
 import org.koin.core.logger.Level
 import timber.log.Timber
 
-
 class AlgidyApp : Application(), KoinComponent, SingletonImageLoader.Factory {
     private val workerScheduler: WorkerScheduler by inject()
-    private lateinit var firebaseCrashlytics: FirebaseCrashlytics
 
     override fun newImageLoader(context: PlatformContext): ImageLoader {
         return ImageLoader.Builder(context)
@@ -103,10 +97,6 @@ class AlgidyApp : Application(), KoinComponent, SingletonImageLoader.Factory {
     private fun plantTimber() {
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
-        } else {
-            firebaseCrashlytics = Firebase.crashlytics
-            firebaseCrashlytics.isCrashlyticsCollectionEnabled = true
-            Timber.plant(CrashlyticsTree(firebaseCrashlytics))
         }
     }
 }

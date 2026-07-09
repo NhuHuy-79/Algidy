@@ -2,12 +2,13 @@ package com.nhuhuy.algidy.core.model.setting
 
 enum class AppLanguage(val isoCode: String) {
     ENGLISH("en"),
-    SPANISH("es"),
-    FRENCH("fr"),
-    GERMAN("de"),
-    PORTUGUESE("pt"),
-    INDONESIAN("id"),
-    ITALIAN("it"),
+
+    /*  SPANISH("es"),
+      FRENCH("fr"),
+      GERMAN("de"),
+      PORTUGUESE("pt"),
+      INDONESIAN("id"),
+      ITALIAN("it"),*/
     VIETNAMESE("vi");
 
     companion object {

@@ -35,6 +35,7 @@ sealed interface InventoryAction : UiAction {
     data object OnShowExpiredOnly : InventoryAction
     data object OnConfirmCameraPolicy : InventoryAction
     data object OnCameraPermissionAccept : InventoryAction
+    data object OnEmptyPageClick : InventoryAction
 }
 
 @Stable

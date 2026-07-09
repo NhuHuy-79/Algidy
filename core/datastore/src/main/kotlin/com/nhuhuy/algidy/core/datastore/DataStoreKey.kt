@@ -17,9 +17,12 @@ object UserPreferencesKeys {
 
     val WARNING_DAYS = intPreferencesKey("warning_days")
     val WEEKLY_REPORT = booleanPreferencesKey("weekly_report")
+    val DELETE_THRESHOLD = intPreferencesKey("delete_threshold")
+
 
     val APP_VERSION_TO_NOTIFY = intPreferencesKey("app_version_to_notify")
     val CAMERA_POLICY_ACCEPTED = booleanPreferencesKey("camera_policy_accepted")
+
 }
 
 

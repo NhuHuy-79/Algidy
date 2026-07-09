@@ -45,4 +45,7 @@ interface FoodDao : BaseDao<FoodItemEntity> {
 
     @Query("DELETE FROM food_items WHERE id = :id")
     suspend fun deleteFoodById(id: String)
+
+    @Query("DELETE FROM food_items WHERE expiry_date < :timestamp")
+    suspend fun deleteFoodBeforeTimestamp(timestamp: Long)
 }

@@ -2,6 +2,7 @@ package com.nhuhuy.algidy.feature.settings.presentation.model
 
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
+import com.nhuhuy.algidy.core.model.setting.AppLanguage
 
 sealed interface SettingUiItem
 
@@ -15,6 +16,7 @@ sealed interface ClickableType {
     data object DailyReminder : ClickableType
     data object Export : ClickableType
     data object Import : ClickableType
+    data class Language(val currentLanguage: AppLanguage) : ClickableType
     data object DeleteAll : ClickableType
     data object AboutApp : ClickableType
     data object NewFeatures : ClickableType

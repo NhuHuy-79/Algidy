@@ -117,4 +117,10 @@ class FoodRepositoryImpl(
             }
         }
     }
+
+    override suspend fun deleteFoodAfterDay(day: Long): Resource<Unit> {
+        return safeCall(dispatcher = appDispatchers.io) {
+            foodDao.deleteFoodBeforeTimestamp(day)
+        }
+    }
 }

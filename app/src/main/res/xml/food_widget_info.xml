@@ -1,0 +1,13 @@
+<!-- res/xml/food_widget_info.xml -->
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:description="@string/widget_weekly_food_description"
+    android:minHeight="120dp"
+    android:resizeMode="horizontal|vertical"
+    android:updatePeriodMillis="0"
+    android:minWidth="240dp"
+    android:previewImage="@drawable/weekly_food_widget_preview"
+    android:targetCellWidth="5"
+    android:targetCellHeight="2"
+    android:widgetCategory="home_screen"
+    tools:targetApi="31" />

@@ -1,0 +1,40 @@
+[
+  {
+    "versionCode": 4,
+    "versionName": "v1.3.0",
+    "features": [
+      {
+        "title": "Home Screen Widget",
+        "description": "Track expiring foods directly from your home screen with the new Algidy widget.",
+        "icon": "📱"
+      },
+      {
+        "title": "Improved Settings Experience",
+        "description": "Refined settings layout with clearer options and easier customization.",
+        "icon": "⚙️"
+      },
+      {
+        "title": "Enhanced Food Management",
+        "description": "Various workflow improvements to help you organize and manage food items more efficiently.",
+        "icon": "🥫"
+      }
+    ],
+    "fixes": [
+      {
+        "title": "Language Support Optimization",
+        "description": "Removed low-quality translations and streamlined language support for a more consistent experience.",
+        "icon": "🌐"
+      },
+      {
+        "title": "Widget Reliability Improvements",
+        "description": "Improved widget update behavior and overall stability across supported devices.",
+        "icon": "🔄"
+      },
+      {
+        "title": "General Bug Fixes & Performance",
+        "description": "Fixed minor issues and optimized app performance throughout the application.",
+        "icon": "🚀"
+      }
+    ]
+  }
+]

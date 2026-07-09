@@ -14,12 +14,10 @@ import kotlinx.coroutines.flow.channelFlow
 
 class BiometricHandler(private val activity: FragmentActivity) {
 
-    // Hàm này gọi KHI người dùng bấm vào nút "Đăng nhập"
     fun authenticate(): Flow<BiometricResult> = channelFlow {
         val authenticators = BIOMETRIC_STRONG or DEVICE_CREDENTIAL
         val manager = BiometricManager.from(activity)
 
-        // Kiểm tra nhanh trước khi bắt đầu
         when (manager.canAuthenticate(authenticators)) {
             BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED -> {
                 trySend(BiometricResult.Error.NotEnrolled)
@@ -31,6 +29,20 @@ class BiometricHandler(private val activity: FragmentActivity) {
             BiometricManager.BIOMETRIC_ERROR_UNSUPPORTED -> {
                 trySend(BiometricResult.Error.NotSupported)
                 channel.close(); return@channelFlow
+            }
+
+            BiometricManager.BIOMETRIC_ERROR_SECURITY_UPDATE_REQUIRED -> {
+                trySend(BiometricResult.Error.NotSupported)
+                channel.close(); return@channelFlow
+            }
+
+            BiometricManager.BIOMETRIC_STATUS_UNKNOWN -> {
+                trySend(BiometricResult.Error.NotSupported)
+                channel.close(); return@channelFlow
+            }
+
+            BiometricManager.BIOMETRIC_SUCCESS -> {
+                TODO()
             }
         }
 
@@ -75,7 +87,7 @@ class BiometricHandler(private val activity: FragmentActivity) {
 sealed interface BiometricResult {
     data object Idle : BiometricResult
     data object Success : BiometricResult
-    data object Failed : BiometricResult // Vân tay sai
+    data object Failed : BiometricResult
 
     sealed interface Error : BiometricResult {
         data object NotSupported : Error

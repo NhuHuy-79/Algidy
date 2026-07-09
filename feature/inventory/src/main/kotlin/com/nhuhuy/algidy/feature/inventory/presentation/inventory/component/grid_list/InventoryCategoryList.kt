@@ -26,7 +26,8 @@ fun InventoryCategoryList(
     showExpiredOnly: Boolean,
     selectedIds: Set<String> = emptySet(),
     onItemClick: (FoodItem) -> Unit,
-    onItemLongClick: (FoodItem) -> Unit
+    onItemLongClick: (FoodItem) -> Unit,
+    onAddManuallyClick: () -> Unit
 ) {
     Column(
         modifier = modifier,
@@ -55,7 +56,10 @@ fun InventoryCategoryList(
                 }.toImmutableList()
 
                 if (items.isEmpty()) {
-                    EmptyPage(modifier = Modifier.fillMaxSize())
+                    EmptyPage(
+                        onClick = onAddManuallyClick,
+                        modifier = Modifier.fillMaxSize()
+                    )
                 } else InventoryGridList(
                     items = items,
                     selectedIds = selectedIds,

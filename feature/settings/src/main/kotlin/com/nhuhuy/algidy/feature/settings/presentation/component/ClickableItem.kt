@@ -6,6 +6,7 @@ import androidx.compose.material.icons.rounded.Apps
 import androidx.compose.material.icons.rounded.BuildCircle
 import androidx.compose.material.icons.rounded.Copyright
 import androidx.compose.material.icons.rounded.Download
+import androidx.compose.material.icons.rounded.Language
 import androidx.compose.material.icons.rounded.NewReleases
 import androidx.compose.material.icons.rounded.NotificationsActive
 import androidx.compose.material.icons.rounded.Policy
@@ -19,6 +20,7 @@ import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.core.presentation.utils.ItemPosition
 import com.nhuhuy.algidy.feature.settings.presentation.model.ClickableType
 import com.nhuhuy.algidy.feature.settings.presentation.model.SettingClickableItem
+import com.nhuhuy.algidy.feature.settings.utils.toStringRes
 
 @Composable
 fun ClickableItem(
@@ -38,6 +40,7 @@ fun ClickableItem(
         ClickableType.NewFeatures -> Icons.Rounded.NewReleases
         ClickableType.OpenSource -> Icons.Rounded.BuildCircle
         ClickableType.PrivacyPolicy -> Icons.Rounded.Policy
+        is ClickableType.Language -> Icons.Rounded.Language
     }
 
     val title = when (item.type) {
@@ -51,6 +54,7 @@ fun ClickableItem(
         ClickableType.Feedback -> stringResource(R.string.setting_feedback)
         ClickableType.OpenSource -> stringResource(R.string.setting_open_source)
         ClickableType.PrivacyPolicy -> stringResource(R.string.setting_privacy_policy)
+        is ClickableType.Language -> stringResource(R.string.setting_language)
     }
 
     val desc = when (item.type) {
@@ -64,6 +68,7 @@ fun ClickableItem(
         ClickableType.Feedback -> stringResource(R.string.setting_feedback_desc)
         ClickableType.OpenSource -> stringResource(R.string.setting_open_source_desc)
         ClickableType.PrivacyPolicy -> stringResource(R.string.setting_privacy_policy_desc)
+        is ClickableType.Language -> stringResource(item.type.currentLanguage.toStringRes())
     }
 
     ClickableSettingItem(

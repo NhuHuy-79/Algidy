@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <!--App String-->
+    <string name="biometric_auth_failed">Biometric Authentication Failed!</string>
     <!-- Common -->
     <string name="app_name" translatable="false">Algidy</string>
     <string name="action_ok">OK</string>
@@ -181,7 +184,7 @@
     <string name="setting_light_mode">Light</string>
     <string name="setting_system_mode">System</string>
 
-    <string name="settings_set_time">Receive Notification At</string>
+    <string name="settings_set_time">Notification Alarm</string>
     <string name="settings_set_time_confirm">Confirm</string>
     <string name="settings_set_time_cancel">Cancel</string>
     <string name="settings_set_time_success">Notification time updated!</string>
@@ -220,7 +223,6 @@
     <string name="setting_weekly_report">Weekly Report</string>
     <string name="setting_weekly_report_desc">Sunday summary of your food consumption and expired items.</string>
 
-
     <string name="setting_export">Export</string>
     <string name="setting_export_desc">Export your data in Downloads/Algidy</string>
     <string name="setting_import">Import</string>
@@ -246,10 +248,18 @@
         <item quantity="other">Notify food expiry %1$d days before</item>
     </plurals>
 
+    <string name="settings_never_delete_expired_food">Never delete expired food</string>
+
+    <plurals name="settings_delete_threshold">
+        <item quantity="one">Delete expired foods after %1$d week</item>
+        <item quantity="other">Delete expired foods after %1$d weeks</item>
+    </plurals>
+
     <string name="import_success">Import your data successfully!</string>
     <string name="import_fail">Import your data failed!</string>
     <string name="export_success">Your data is exported!</string>
     <string name="export_failed">Cannot export your data!</string>
+
     <!-- New Setting Screens -->
     <string name="appearance_title">Appearance</string>
     <string name="appearance_subtitle">Customize the look and feel of the app</string>
@@ -291,4 +301,13 @@
     <string name="notif_action_prompt_message">Have you handled this item?</string>
     <string name="notif_action_consumed">Consumed</string>
     <string name="notif_action_wasted">Wasted</string>
+
+    <!--Widget -->
+    <string name="widget_weekly_food_title">Exploring This Week</string>
+    <string name="widget_weekly_empty_food">No expiring food this week.</string>
+    <string name="widget_weekly_food_description">Shows foods expiring this week and quick actions.
+    </string>
+
+    <string name="widget_weekly_freshness_title">Weekly Freshness</string>
+    <string name="widget_weekly_freshness_description">Show your freshness of foods this week.</string>
 </resources>

@@ -98,7 +98,7 @@ fun AlgidyTheme(
     }
 
     val extendedColors = if (darkTheme) DarkFoodStateColors else LightFoodStateColors
-    val dynamicFontFamily = getTypographyForFont(fontName)
+    val dynamicFontFamily = getTypographyForFont()
 
     val view = LocalView.current
     if (!view.isInEditMode) {

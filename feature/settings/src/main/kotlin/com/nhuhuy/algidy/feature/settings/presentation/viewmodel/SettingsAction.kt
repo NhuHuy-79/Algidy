@@ -6,6 +6,7 @@ import com.nhuhuy.algidy.core.model.setting.AppLanguage
 import com.nhuhuy.algidy.core.model.setting.DarkMode
 import com.nhuhuy.algidy.core.presentation.viewmodel.UiAction
 import com.nhuhuy.algidy.feature.settings.presentation.model.ClickableType
+import com.nhuhuy.algidy.feature.settings.presentation.model.SettingSliderItem
 import com.nhuhuy.algidy.feature.settings.presentation.model.ToggleType
 
 sealed interface SettingsAction : UiAction {
@@ -20,6 +21,7 @@ sealed interface SettingsAction : UiAction {
     data class ChangeLanguage(val language: AppLanguage) : SettingsAction
     data class ChangeFont(val font: AppFont) : SettingsAction
     data class SetWarningDays(val days: Int) : SettingsAction
+    data class SetDeleteThresholdDays(val thresholdDays: Int) : SettingsAction
     data object OnBackClick : SettingsAction
     sealed interface DeleteAlertDialog {
         data object Dismiss : SettingsAction
@@ -32,9 +34,15 @@ sealed interface SettingsAction : UiAction {
         val type: ClickableType
     ) : SettingsAction
 
+
     data class ToggleAction(
         val type: ToggleType,
         val enabled: Boolean
+    ) : SettingsAction
+
+    data class SliderAction(
+        val value: Int,
+        val type: SettingSliderItem
     ) : SettingsAction
 }
 

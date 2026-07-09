@@ -24,15 +24,14 @@ object WorkerStrings {
     const val DAILY_WORKER = "DAILY_CHECK_EXPIRY_WORKER"
     const val WEEKLY_WORKER = "WEEKLY_SUMMARY_WORKER"
     const val CLEAN_FILE_WORKER = "CLEAN_FILE_WORKER"
+    const val DELETE_OLD_FOOD_WORKER = "DELETE_OLD_FOOD_WORKER"
 }
 
 interface WorkerScheduler {
     fun scheduleCheckExpiryWorker()
     fun scheduleWeeklyReportWorker()
     fun scheduleWeeklyCleanUpFileWorker()
-
-    fun cancelWeeklyReportWorker()
-    fun cancelCheckExpiryWorker()
+    fun scheduleWeeklyDeleteFoodWorker()
 }
 
 class WorkerSchedulerImp(
@@ -41,14 +40,6 @@ class WorkerSchedulerImp(
 ) : WorkerScheduler {
     private val scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
     private val workManager by lazy { WorkManager.getInstance(context) }
-
-    override fun cancelWeeklyReportWorker() {
-        workManager.cancelUniqueWork(WorkerStrings.WEEKLY_WORKER)
-    }
-
-    override fun cancelCheckExpiryWorker() {
-        workManager.cancelUniqueWork(WorkerStrings.DAILY_WORKER)
-    }
 
     override fun scheduleCheckExpiryWorker() {
         scope.launch {
@@ -106,8 +97,30 @@ class WorkerSchedulerImp(
 
         // Dùng Unique với OneTimeWork
         workManager.enqueueUniqueWork(
-            WorkerStrings.CLEAN_FILE_WORKER,
+            WorkerStrings.DELETE_OLD_FOOD_WORKER,
             ExistingWorkPolicy.KEEP,
+            cleanUpRequest
+        )
+    }
+
+    override fun scheduleWeeklyDeleteFoodWorker() {
+        val constraints = Constraints.Builder()
+            .setRequiresBatteryNotLow(true)
+            .setRequiresDeviceIdle(true)
+            .build()
+
+        val initialDelayMillis = calculateDelayUntilNextSunday9AM()
+
+        val cleanUpRequest = PeriodicWorkRequestBuilder<DeleteOldFoodWorker>(
+            7, TimeUnit.DAYS
+        )
+            .setConstraints(constraints)
+            .setInitialDelay(initialDelayMillis, TimeUnit.MILLISECONDS)
+            .build()
+
+        workManager.enqueueUniquePeriodicWork(
+            WorkerStrings.DELETE_OLD_FOOD_WORKER,
+            ExistingPeriodicWorkPolicy.UPDATE,
             cleanUpRequest
         )
     }
@@ -121,8 +134,6 @@ class WorkerSchedulerImp(
             .withSecond(0)
             .withNano(0)
 
-        // Nếu thời điểm hiện tại đã vượt qua 9h sáng Chủ Nhật tuần này,
-        // thì phải cộng thêm 1 tuần để dời sang Chủ Nhật tuần sau.
         if (now.isAfter(nextTarget) || now.isEqual(nextTarget)) {
             nextTarget = nextTarget.plusWeeks(1)
         }

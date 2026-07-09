@@ -78,5 +78,5 @@ enum class ItemUnit(val type: UnitType) {
 }
 
 enum class Freshness {
-    EXPIRED, URGENT, WARNING, FRESH
+    FRESH, URGENT, WARNING, EXPIRED
 }

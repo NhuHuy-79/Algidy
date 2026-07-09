@@ -64,10 +64,17 @@ fun ToggleableSettingItem(
                 checked = checked,
                 onCheckedChange = onToggleClick,
                 thumbContent = {
-                    Icon(
-                        imageVector = ImageVector.vectorResource(R.drawable.ic_check_small),
-                        contentDescription = null
-                    )
+                    if (checked) {
+                        Icon(
+                            imageVector = ImageVector.vectorResource(R.drawable.ic_check_small),
+                            contentDescription = null
+                        )
+                    } else {
+                        Icon(
+                            imageVector = ImageVector.vectorResource(R.drawable.ic_close_small),
+                            contentDescription = null
+                        )
+                    }
                 }
             )
         }

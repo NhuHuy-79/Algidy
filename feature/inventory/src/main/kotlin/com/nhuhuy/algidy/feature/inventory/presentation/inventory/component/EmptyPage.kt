@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -19,7 +20,8 @@ import com.nhuhuy.algidy.core.presentation.R
 
 @Composable
 fun EmptyPage(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit = {},
 ) {
     Column(
         modifier = modifier.padding(horizontal = 32.dp),
@@ -44,5 +46,16 @@ fun EmptyPage(
             style = MaterialTheme.typography.bodyMedium,
             textAlign = TextAlign.Center
         )
+
+        TextButton(
+            onClick = onClick
+        ) {
+            Text(
+                text = stringResource(R.string.inventory_manually_btn),
+                style = MaterialTheme.typography.bodyLarge,
+                color = MaterialTheme.colorScheme.primary,
+                fontWeight = FontWeight.Medium
+            )
+        }
     }
 }

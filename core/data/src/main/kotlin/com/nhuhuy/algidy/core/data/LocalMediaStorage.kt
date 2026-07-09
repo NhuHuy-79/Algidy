@@ -15,8 +15,9 @@ const val FOLDER_IMAGE = "Algidy/Images"
 interface LocalMediaStorage {
     suspend fun copyImageToInternalStorage(uriPath: String): Resource<String>
     suspend fun deleteImageFromInternalStorage(uriPath: String): Resource<Unit>
-
+    fun deleteAllFromInternalStorage()
     suspend fun getAllUriPath(): Resource<List<String>>
+
 }
 
 class LocalMediaStorageImpl(
@@ -83,6 +84,14 @@ class LocalMediaStorageImpl(
                 Uri.fromFile(file).toString()
             }
         }
+    }
+
+    override fun deleteAllFromInternalStorage() {
+        val directory = File(context.filesDir, FOLDER_IMAGE)
+        if (!directory.exists() || !directory.isDirectory) {
+            return
+        }
+        directory.deleteRecursively()
     }
 
     private fun getFileExtension(uri: Uri): String? {

@@ -2,19 +2,36 @@ plugins {
     id("algidy.android.application")
     id("org.jetbrains.kotlin.plugin.compose")
     alias(libs.plugins.jetbrains.kotlin.serialization)
-    alias(libs.plugins.google.gms.google.services)
     alias(libs.plugins.aboutlibraries)
-    alias(libs.plugins.google.firebase.crashlytics)
 }
 
 android {
+    flavorDimensions += "store"
+
+    productFlavors {
+        create("play") {
+            dimension = "store"
+            buildConfigField("boolean", "IS_FOSS", "false")
+        }
+
+        create("foss") {
+            dimension = "store"
+            buildConfigField("boolean", "IS_FOSS", "true")
+        }
+    }
+
     namespace = "com.nhuhuy.algidy"
     defaultConfig {
         applicationId = "com.nhuhuy.algidy"
         targetSdk = 36
-        versionCode = 3
-        versionName = "1.2.0"
+        versionCode = 4
+        versionName = "1.3.0"
     }
+
+    buildFeatures {
+        buildConfig = true
+    }
+
 
     applicationVariants.all {
         val variant = this
@@ -50,7 +67,6 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
-    implementation(libs.firebase.crashlytics)
 
     // Koin & Navigation
     implementation(libs.koin.android)
@@ -58,11 +74,14 @@ dependencies {
     implementation(libs.koin.androidx.workmanager)
     implementation(libs.androidx.navigation.compose)
 
-    // Navigation 3
-
-
-    //Bioemtric Authenticator
+    //Biometric Authenticator
     implementation(libs.androidx.biometric)
+
+    //Glance
+    implementation(libs.androidx.glance.appwidget)
+    implementation(libs.androidx.glance.material3)
+    implementation(libs.androidx.glance.preview)
+    implementation(libs.androidx.glance.appwidget.preview)
 
     //Serialization
     implementation(libs.kotlinx.serialization.core)
