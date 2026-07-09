@@ -106,18 +106,21 @@ class WorkerSchedulerImp(
     override fun scheduleWeeklyDeleteFoodWorker() {
         val constraints = Constraints.Builder()
             .setRequiresBatteryNotLow(true)
+            .setRequiresDeviceIdle(true)
             .build()
+
         val initialDelayMillis = calculateDelayUntilNextSunday9AM()
 
-        val cleanUpRequest = OneTimeWorkRequestBuilder<DeleteOldFoodWorker>()
+        val cleanUpRequest = PeriodicWorkRequestBuilder<DeleteOldFoodWorker>(
+            7, TimeUnit.DAYS
+        )
             .setConstraints(constraints)
             .setInitialDelay(initialDelayMillis, TimeUnit.MILLISECONDS)
             .build()
 
-        // Dùng Unique với OneTimeWork
-        workManager.enqueueUniqueWork(
+        workManager.enqueueUniquePeriodicWork(
             WorkerStrings.DELETE_OLD_FOOD_WORKER,
-            ExistingWorkPolicy.REPLACE,
+            ExistingPeriodicWorkPolicy.UPDATE,
             cleanUpRequest
         )
     }
@@ -131,8 +134,6 @@ class WorkerSchedulerImp(
             .withSecond(0)
             .withNano(0)
 
-        // Nếu thời điểm hiện tại đã vượt qua 9h sáng Chủ Nhật tuần này,
-        // thì phải cộng thêm 1 tuần để dời sang Chủ Nhật tuần sau.
         if (now.isAfter(nextTarget) || now.isEqual(nextTarget)) {
             nextTarget = nextTarget.plusWeeks(1)
         }

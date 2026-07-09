@@ -14,7 +14,6 @@ import timber.log.Timber
 class DeleteOldFoodWorker(
     private val appDispatchers: AppDispatchers,
     private val deleteOldFoodUseCase: DeleteOldFoodUseCase,
-    private val workerScheduler: WorkerScheduler,
     context: Context,
     workerParams: WorkerParameters,
 ) : CoroutineWorker(context, workerParams) {
@@ -33,8 +32,6 @@ class DeleteOldFoodWorker(
             } catch (e: Exception) {
                 Timber.e(e)
                 Result.failure()
-            } finally {
-                workerScheduler.scheduleWeeklyDeleteFoodWorker()
             }
         }
     }

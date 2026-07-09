@@ -15,6 +15,7 @@ import com.nhuhuy.algidy.feature.settings.domain.usecase.ManageDataUseCase
 import com.nhuhuy.algidy.feature.settings.domain.usecase.ObserveSettingStateUseCase
 import com.nhuhuy.algidy.feature.settings.domain.usecase.UpdatePreferencesUseCase
 import com.nhuhuy.algidy.feature.settings.presentation.model.ClickableType
+import com.nhuhuy.algidy.feature.settings.presentation.model.SettingSliderItem
 import com.nhuhuy.algidy.feature.settings.presentation.model.ToggleType
 import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.SettingsEvent.ShowSnackBar
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -97,7 +98,7 @@ class SettingsViewModel(
             is SettingsAction.SetWarningDays -> viewModelScope.launch {
                 updatePreferencesUseCase.updateNotification(
                     currentCombineState.notificationPreferences.copy(
-                        warningFoodThreshold = action.days
+                        warningFoodThresholdDays = action.days
                     )
                 )
             }
@@ -135,10 +136,12 @@ class SettingsViewModel(
             is SettingsAction.SetDeleteThresholdDays -> viewModelScope.launch {
                 updatePreferencesUseCase.updateNotification(
                     currentCombineState.notificationPreferences.copy(
-                        deleteFoodThreshold = action.thresholdDays
+                        deleteFoodThresholdDayInWeek = action.thresholdDays
                     )
                 )
             }
+
+            is SettingsAction.SliderAction -> onSliderAction(action)
         }
     }
 
@@ -245,6 +248,30 @@ class SettingsViewModel(
                 }
             }
         }
+    }
+
+    private fun onSliderAction(action: SettingsAction.SliderAction) {
+        viewModelScope.launch {
+            when (action.type) {
+                is SettingSliderItem.ExpiredDeleteThreshold -> {
+                    updatePreferencesUseCase.updateNotification(
+                        currentCombineState.notificationPreferences.copy(
+                            //Threshold Weeks
+                            deleteFoodThresholdDayInWeek = action.value * 7
+                        )
+                    )
+                }
+
+                is SettingSliderItem.ExpiryWarningThreshold -> {
+                    updatePreferencesUseCase.updateNotification(
+                        currentCombineState.notificationPreferences.copy(
+                            warningFoodThresholdDays = action.value
+                        )
+                    )
+                }
+            }
+        }
+
     }
 
     private fun onSetNotifyTimeAction(action: SettingsAction.SetNotifyTime) {

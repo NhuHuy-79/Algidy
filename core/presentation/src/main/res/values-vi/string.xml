@@ -249,7 +249,7 @@
     <string name="settings_never_delete_expired_food">Không xóa thực phẩm hết hạn</string>
 
     <plurals name="settings_delete_threshold">
-        <item quantity="other">Xóa thực phẩm hết hạn sau  %1$d ngày</item>
+        <item quantity="other">Xóa thực phẩm hết hạn sau  %1$d tuần</item>
     </plurals>
 
     <string name="import_success">Tải dữ liệu thành công</string>

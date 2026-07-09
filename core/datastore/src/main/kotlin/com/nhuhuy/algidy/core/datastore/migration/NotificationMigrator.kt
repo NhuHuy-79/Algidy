@@ -31,10 +31,10 @@ class NotificationMigrator(
                 ?: currentData.enableNotification,
             enableWeeklyReport = oldPrefs[UserPreferencesKeys.WEEKLY_REPORT]
                 ?: currentData.enableWeeklyReport,
-            warningFoodThreshold = oldPrefs[UserPreferencesKeys.WARNING_DAYS]
-                ?: currentData.warningFoodThreshold,
-            deleteFoodThreshold = oldPrefs[UserPreferencesKeys.DELETE_THRESHOLD]
-                ?: currentData.deleteFoodThreshold,
+            warningFoodThresholdDays = oldPrefs[UserPreferencesKeys.WARNING_DAYS]
+                ?: currentData.warningFoodThresholdDays,
+            deleteFoodThresholdDayInWeek = oldPrefs[UserPreferencesKeys.DELETE_THRESHOLD]
+                ?: currentData.deleteFoodThresholdDayInWeek,
             hour = oldPrefs[UserPreferencesKeys.HOUR] ?: currentData.hour,
             minutes = oldPrefs[UserPreferencesKeys.MINUTE] ?: currentData.minutes
         )

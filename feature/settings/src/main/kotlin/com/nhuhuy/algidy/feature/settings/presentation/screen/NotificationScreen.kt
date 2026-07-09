@@ -3,14 +3,12 @@ package com.nhuhuy.algidy.feature.settings.presentation.screen
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Alarm
 import androidx.compose.material.icons.rounded.ModeEdit
-import androidx.compose.material.icons.rounded.NotificationImportant
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.FilledIconButton
@@ -21,29 +19,22 @@ import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MediumFlexibleTopAppBar
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Slider
-import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.core.presentation.utils.ItemPosition
 import com.nhuhuy.algidy.core.presentation.utils.toRoundedCornerShape
+import com.nhuhuy.algidy.feature.settings.presentation.component.SliderItem
 import com.nhuhuy.algidy.feature.settings.presentation.component.ToggleItem
+import com.nhuhuy.algidy.feature.settings.presentation.model.SettingSliderItem
 import com.nhuhuy.algidy.feature.settings.presentation.model.ToggleType
 import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.SettingsAction
 import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.SettingsCombineState
@@ -57,29 +48,6 @@ fun NotificationScreen(
     combineState: SettingsCombineState,
     onAction: (SettingsAction) -> Unit,
 ) {
-    val expiryStepValues = listOf(1, 3, 5, 7)
-    val initialIndex =
-        expiryStepValues.indexOf(combineState.notificationPreferences.warningFoodThreshold)
-            .coerceAtLeast(0).toFloat()
-    var selectedIndex by remember(combineState.notificationPreferences.warningFoodThreshold) {
-        mutableFloatStateOf(
-            initialIndex
-        )
-    }
-    val actualDayValue = expiryStepValues[selectedIndex.toInt()]
-
-    val deleteThresholdStepValue = listOf(0, 7, 14, 21, 28)
-    val initialDeleteIndex =
-        deleteThresholdStepValue.indexOf(combineState.notificationPreferences.deleteFoodThreshold)
-            .coerceAtLeast(0)
-            .toFloat()
-    var selectedDeleteIndex by remember(combineState.notificationPreferences.deleteFoodThreshold) {
-        mutableFloatStateOf(
-            initialDeleteIndex
-        )
-    }
-    val actualDeleteValue = deleteThresholdStepValue[selectedDeleteIndex.toInt()]
-
     Scaffold(
         snackbarHost = {
             SnackbarHost(hostState = snackBarHost)
@@ -205,101 +173,27 @@ fun NotificationScreen(
             }
 
             item {
-                ListItem(
-                    modifier = Modifier.clip(
-                        ItemPosition.MIDDLE.toRoundedCornerShape()
-                    ),
-                    colors = ListItemDefaults.colors(
-                        containerColor = MaterialTheme.colorScheme.surfaceContainer,
-                        contentColor = MaterialTheme.colorScheme.onSurface
-                    ),
-                    headlineContent = {
-                        Text(
-                            text = pluralStringResource(
-                                id = R.plurals.notification_days_before,
-                                count = actualDayValue,
-                                actualDayValue
-                            )
-                        )
-                    },
-                    supportingContent = {
-                        Slider(
-                            modifier = Modifier
-                                .height(36.dp)
-                                .padding(vertical = 8.dp),
-                            value = selectedIndex,
-                            onValueChange = {
-                                selectedIndex = it
-                                onAction(SettingsAction.SetWarningDays(expiryStepValues[it.toInt()]))
-                            },
-                            valueRange = 0f..(expiryStepValues.lastIndex.toFloat()),
-                            steps = expiryStepValues.size - 2,
-                            colors = SliderDefaults.colors(
-                                thumbColor = MaterialTheme.colorScheme.primary,
-                                activeTrackColor = MaterialTheme.colorScheme.primary
-                            )
-                        )
-                    },
-                    leadingContent = {
-                        Icon(
-                            imageVector = Icons.Rounded.NotificationImportant,
-                            contentDescription = null
-                        )
-                    },
+                SliderItem(
+                    currentValue = combineState.notificationPreferences.warningFoodThresholdDays,
+                    itemPosition = ItemPosition.MIDDLE,
+                    settingItem = SettingSliderItem.ExpiryWarningThreshold,
+                    onSliderChange = { sliderItem: SettingSliderItem, value: Int ->
+                        onAction(SettingsAction.SliderAction(value = value, type = sliderItem))
+                    }
                 )
             }
 
             item {
-                ListItem(
-                    modifier = Modifier.clip(
-                        ItemPosition.BOTTOM.toRoundedCornerShape()
-                    ),
-                    colors = ListItemDefaults.colors(
-                        containerColor = MaterialTheme.colorScheme.surfaceContainer,
-                        contentColor = MaterialTheme.colorScheme.onSurface
-                    ),
-                    headlineContent = {
-                        Text(
-                            text = if (actualDeleteValue == 0)
-                                stringResource(R.string.settings_never_delete_expired_food)
-                            else
-                                pluralStringResource(
-                                    id = R.plurals.settings_delete_threshold,
-                                    count = actualDeleteValue,
-                                    actualDeleteValue
-                                )
-                        )
-                    },
-                    supportingContent = {
-                        Slider(
-                            modifier = Modifier
-                                .height(36.dp)
-                                .padding(vertical = 8.dp),
-                            value = selectedDeleteIndex,
-                            onValueChange = {
-                                selectedDeleteIndex = it
-                                onAction(
-                                    SettingsAction.SetDeleteThresholdDays(
-                                        deleteThresholdStepValue[it.toInt()]
-                                    )
-                                )
-                            },
-                            valueRange = 0f..(deleteThresholdStepValue.lastIndex.toFloat()),
-                            steps = deleteThresholdStepValue.size - 2,
-                            colors = SliderDefaults.colors(
-                                thumbColor = MaterialTheme.colorScheme.primary,
-                                activeTrackColor = MaterialTheme.colorScheme.primary
-                            )
-                        )
-                    },
-                    leadingContent = {
-                        Icon(
-                            imageVector = ImageVector.vectorResource(R.drawable.ic_delete),
-                            contentDescription = null
-                        )
-                    },
+                SliderItem(
+                    currentValue = combineState.notificationPreferences.deleteFoodThresholdDayInWeek / 7,
+                    itemPosition = ItemPosition.BOTTOM,
+                    settingItem = SettingSliderItem.ExpiredDeleteThreshold,
+                    onSliderChange = { sliderItem: SettingSliderItem, value: Int ->
+                        onAction(SettingsAction.SliderAction(value = value, type = sliderItem))
+                    }
                 )
             }
+
         }
     }
 }

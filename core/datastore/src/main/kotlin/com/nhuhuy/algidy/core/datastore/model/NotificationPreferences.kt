@@ -13,8 +13,8 @@ import kotlinx.serialization.json.Json
 
 @Serializable
 data class NotificationPreferences(
-    val deleteFoodThreshold: Int = 0,
-    val warningFoodThreshold: Int = 0,
+    val deleteFoodThresholdDayInWeek: Int = 0,
+    val warningFoodThresholdDays: Int = 0,
     val hour: Int = 7,
     val minutes: Int = 30,
     val enableWeeklyReport: Boolean = true,

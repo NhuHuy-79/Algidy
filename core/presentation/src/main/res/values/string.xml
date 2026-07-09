@@ -251,8 +251,8 @@
     <string name="settings_never_delete_expired_food">Never delete expired food</string>
 
     <plurals name="settings_delete_threshold">
-        <item quantity="one">Delete expired foods after %1$d day</item>
-        <item quantity="other">Delete expired foods after %1$d days</item>
+        <item quantity="one">Delete expired foods after %1$d week</item>
+        <item quantity="other">Delete expired foods after %1$d weeks</item>
     </plurals>
 
     <string name="import_success">Import your data successfully!</string>

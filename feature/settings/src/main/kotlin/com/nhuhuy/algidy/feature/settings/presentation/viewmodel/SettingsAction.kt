@@ -6,6 +6,7 @@ import com.nhuhuy.algidy.core.model.setting.AppLanguage
 import com.nhuhuy.algidy.core.model.setting.DarkMode
 import com.nhuhuy.algidy.core.presentation.viewmodel.UiAction
 import com.nhuhuy.algidy.feature.settings.presentation.model.ClickableType
+import com.nhuhuy.algidy.feature.settings.presentation.model.SettingSliderItem
 import com.nhuhuy.algidy.feature.settings.presentation.model.ToggleType
 
 sealed interface SettingsAction : UiAction {
@@ -33,9 +34,15 @@ sealed interface SettingsAction : UiAction {
         val type: ClickableType
     ) : SettingsAction
 
+
     data class ToggleAction(
         val type: ToggleType,
         val enabled: Boolean
+    ) : SettingsAction
+
+    data class SliderAction(
+        val value: Int,
+        val type: SettingSliderItem
     ) : SettingsAction
 }
 
