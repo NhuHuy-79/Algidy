@@ -41,6 +41,7 @@ fun InventoryCategoryList(
             )
 
             is InventoryResultState.Empty -> EmptyPage(
+                onClick = onAddManuallyClick,
                 modifier = Modifier
                     .fillMaxSize()
                     .align(Alignment.CenterHorizontally)

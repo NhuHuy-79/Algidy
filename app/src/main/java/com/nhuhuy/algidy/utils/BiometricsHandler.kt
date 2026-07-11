@@ -42,7 +42,6 @@ class BiometricHandler(private val activity: FragmentActivity) {
             }
 
             BiometricManager.BIOMETRIC_SUCCESS -> {
-                TODO()
             }
         }
 

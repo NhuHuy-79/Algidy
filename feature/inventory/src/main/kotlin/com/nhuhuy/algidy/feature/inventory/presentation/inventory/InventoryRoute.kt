@@ -79,7 +79,7 @@ fun InventoryRoute() = BoxLayout {
         }
     }
 
-    BackHandler(enabled = uiState.expanded || uiState.overlay == InventoryOverlay.CategoryAdd || uiState.overlay == InventoryOverlay.CategoryEdit || uiState.overlay == InventoryOverlay.CategoryDelete) {
+    BackHandler(enabled = uiState.expanded || uiState.overlay != InventoryOverlay.None) {
         if (uiState.expanded) {
             onAction(InventoryFabAction.ToggleFabMenu(false))
         } else {
