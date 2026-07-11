@@ -6,26 +6,12 @@ plugins {
 }
 
 android {
-    flavorDimensions += "store"
-
-    productFlavors {
-        create("play") {
-            dimension = "store"
-            buildConfigField("boolean", "IS_FOSS", "false")
-        }
-
-        create("foss") {
-            dimension = "store"
-            buildConfigField("boolean", "IS_FOSS", "true")
-        }
-    }
-
     namespace = "com.nhuhuy.algidy"
     defaultConfig {
         applicationId = "com.nhuhuy.algidy"
         targetSdk = 36
-        versionCode = 4
-        versionName = "1.3.0"
+        versionCode = 5
+        versionName = "1.3.1"
     }
 
     buildFeatures {

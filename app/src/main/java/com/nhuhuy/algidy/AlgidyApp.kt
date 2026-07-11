@@ -56,8 +56,6 @@ class AlgidyApp : Application(), KoinComponent, SingletonImageLoader.Factory {
 
     override fun onCreate() {
         super.onCreate()
-
-        // Timber & Crashlytics setup
         plantTimber()
 
         //Koin for DI

@@ -21,7 +21,7 @@ class AppNewFeaturesReader(
 
     fun getWhatsNewContent(): VersionFeatures? {
         return try {
-            val inputStream = context.resources.openRawResource(R.raw.whats_new_4)
+            val inputStream = context.resources.openRawResource(R.raw.whats_new_5)
             val jsonString = inputStream.bufferedReader().use { it.readText() }
             val allVersions = jsonConfig.decodeFromString<List<VersionFeatures>>(jsonString)
             allVersions.firstOrNull { it.versionCode == currentVersionCode.toInt() }
