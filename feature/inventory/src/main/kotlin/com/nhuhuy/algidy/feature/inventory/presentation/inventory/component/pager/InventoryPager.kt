@@ -39,6 +39,7 @@ fun InventoryPager(
             )
 
             is InventoryResultState.Empty -> EmptyPage(
+                onClick = onAddManuallyClick,
                 modifier = Modifier.fillMaxSize()
             )
 

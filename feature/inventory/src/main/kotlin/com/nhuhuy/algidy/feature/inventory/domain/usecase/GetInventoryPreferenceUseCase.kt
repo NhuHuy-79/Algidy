@@ -1,20 +1,18 @@
 package com.nhuhuy.algidy.feature.inventory.domain.usecase
 
-import com.nhuhuy.algidy.core.datastore.SettingsDataStore
+import com.nhuhuy.algidy.core.datastore.model.GeneralDataStore
+import com.nhuhuy.algidy.core.datastore.model.GeneralPreferences
 import kotlinx.coroutines.flow.Flow
 
 class GetInventoryPreferenceUseCase(
-    private val settingsDataStore: SettingsDataStore
+    private val generalDataStore: GeneralDataStore
 ) {
-    fun observe(): Flow<Int> {
-        return settingsDataStore.appVersionToNotifyFlow
+    fun observe(): Flow<GeneralPreferences> {
+        return generalDataStore.preferencesFlow
     }
 
-    suspend fun setVersion(version: Int) {
-        settingsDataStore.setAppVersionToNotify(version)
+    suspend fun updatePreferences(generalPreferences: GeneralPreferences) {
+        generalDataStore.setPreference(generalPreferences)
     }
 
-    suspend fun setCameraPolicyAccepted(accepted: Boolean) {
-        settingsDataStore.setCameraPolicyAccepted(accepted)
-    }
 }

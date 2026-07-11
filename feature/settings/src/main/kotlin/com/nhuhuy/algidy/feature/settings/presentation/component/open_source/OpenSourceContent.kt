@@ -26,6 +26,7 @@ import com.mikepenz.aboutlibraries.Libs
 import com.mikepenz.aboutlibraries.ui.compose.util.author
 import com.mikepenz.aboutlibraries.util.withContext
 import com.nhuhuy.algidy.core.presentation.R
+import com.nhuhuy.algidy.feature.settings.domain.model.LibraryModel
 import kotlinx.collections.immutable.toImmutableList
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
@@ -35,7 +36,15 @@ fun OpenSourceContent(
 ) {
     val context = LocalContext.current
     val libs = Libs.Builder().withContext(context).build()
-        .libraries
+        .libraries.map {
+            LibraryModel(
+                id = it.uniqueId,
+                name = it.name,
+                author = it.author,
+                licenses = it.licenses.map { license -> license.name },
+                versionName = it.artifactVersion.orEmpty()
+            )
+        }.distinct()
     Scaffold(
         topBar = {
             MediumFlexibleTopAppBar(
@@ -76,14 +85,14 @@ fun OpenSourceContent(
         ) {
             items(
                 items = libs,
-                key = { lib -> lib.uniqueId }
+                key = { lib -> lib.id }
             ) { library ->
                 LibraryItem(
                     name = library.name,
                     modifier = Modifier.fillMaxWidth(),
                     author = library.author,
-                    licenses = library.licenses.map { it.name }.toImmutableList(),
-                    versionName = library.artifactVersion.orEmpty()
+                    licenses = library.licenses.toImmutableList(),
+                    versionName = library.versionName
                 )
             }
         }

@@ -1,0 +1,35 @@
+[
+  {
+    "versionCode": 5,
+    "versionName": "v1.3.1",
+    "features": [
+      {
+        "title": "Cleaner Library",
+        "description": "Improved library organization to keep your collection tidy and easier to browse.",
+        "icon": "📚"
+      }
+    ],
+    "fixes": [
+      {
+        "title": "Biometric Login Improvements",
+        "description": "Improved reliability when unlocking the app with biometrics.",
+        "icon": "🔐"
+      },
+      {
+        "title": "More Reliable Settings",
+        "description": "Fixed issues affecting app preferences and settings.",
+        "icon": "⚙️"
+      },
+      {
+        "title": "Better Data Consistency",
+        "description": "Resolved issues that could cause duplicate items to appear.",
+        "icon": "✨"
+      },
+      {
+        "title": "Bug Fixes & Stability",
+        "description": "Various fixes and optimizations for a smoother experience.",
+        "icon": "🚀"
+      }
+    ]
+  }
+]

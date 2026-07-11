@@ -74,12 +74,12 @@ fun InventoryRoute() = BoxLayout {
     }
 
     LaunchedEffect(Unit) {
-        if (uiState.currentVersionCode < combineState.appVersionToNotify) {
+        if (uiState.currentVersionCode < combineState.generalPreferences.appVersionToNotify) {
             onAction(InventoryAction.ShowAppFeature)
         }
     }
 
-    BackHandler(enabled = uiState.expanded || uiState.overlay == InventoryOverlay.CategoryAdd || uiState.overlay == InventoryOverlay.CategoryEdit || uiState.overlay == InventoryOverlay.CategoryDelete) {
+    BackHandler(enabled = uiState.expanded || uiState.overlay != InventoryOverlay.None) {
         if (uiState.expanded) {
             onAction(InventoryFabAction.ToggleFabMenu(false))
         } else {

@@ -1,17 +1,16 @@
 package com.nhuhuy.algidy.core.notifications.domain.usecase
 
 import com.nhuhuy.algidy.core.data.repository.FoodRepository
-import com.nhuhuy.algidy.core.datastore.SettingsDataStore
+import com.nhuhuy.algidy.core.datastore.model.NotificationDataStore
 import com.nhuhuy.algidy.core.model.error_handling.Resource
-import kotlinx.coroutines.flow.first
 import java.util.Calendar
 
 class DeleteOldFoodUseCase(
     private val foodRepository: FoodRepository,
-    private val settingsDataStore: SettingsDataStore,
+    private val notificationDataStore: NotificationDataStore
 ) {
     suspend operator fun invoke(): Resource<Unit> {
-        val daysThreshold = settingsDataStore.deleteThreshold.first()
+        val daysThreshold = notificationDataStore.getPreferences().deleteFoodThresholdDayInWeek
 
         if (daysThreshold <= 0) return Resource.Success(Unit)
 

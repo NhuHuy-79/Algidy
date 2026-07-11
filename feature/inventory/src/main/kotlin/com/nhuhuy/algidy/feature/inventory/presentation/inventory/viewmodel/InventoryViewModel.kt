@@ -56,13 +56,11 @@ class InventoryViewModel(
         observeSettingDataUseCase.getCategoryEnabled(),
         observeCategoriesUseCase(),
         getInventoryPreferenceUseCase.observe(),
-        observeSettingDataUseCase.getCameraPolicyAccepted()
-    ) { categoryEnabled, categories, appVersion, cameraPolicyAccepted ->
+    ) { categoryEnabled, categories, generaPreferences ->
         InventoryCombineState(
             categoryEnabled = categoryEnabled,
             categories = categories.toUiModel(),
-            appVersionToNotify = appVersion,
-            cameraPolicyAccepted = cameraPolicyAccepted
+            generalPreferences = generaPreferences
         )
     }.stateIn(
         scope = viewModelScope,
@@ -70,6 +68,7 @@ class InventoryViewModel(
         initialValue = InventoryCombineState()
     )
 
+    private val currentCombineState get() = combineState.value
 
     val resultState: StateFlow<InventoryResultState> = observerFoodItemUseCase()
         .map { items ->
@@ -216,7 +215,11 @@ class InventoryViewModel(
                 _uiState.product { copy(overlay = InventoryOverlay.None) }
                 emitEvent(InventoryEvent.RequestCameraPermission)
                 viewModelScope.launch {
-                    getInventoryPreferenceUseCase.setCameraPolicyAccepted(true)
+                    getInventoryPreferenceUseCase.updatePreferences(
+                        generalPreferences = currentCombineState.generalPreferences.copy(
+                            isCameraPolicyAccepted = true
+                        )
+                    )
                 }
             }
 
@@ -255,7 +258,11 @@ class InventoryViewModel(
                     _uiState.product {
                         copy(overlay = NewFeatureSheet(it))
                     }
-                    getInventoryPreferenceUseCase.setVersion(it.versionCode)
+                    getInventoryPreferenceUseCase.updatePreferences(
+                        generalPreferences = currentCombineState.generalPreferences.copy(
+                            appVersionToNotify = it.versionCode
+                        )
+                    )
                 }
             }
 
@@ -349,11 +356,10 @@ class InventoryViewModel(
             }
 
             is InventoryFabAction.BarcodeScan -> {
-                Timber.d("BarcodeScan: isPermissionGranted=${action.isPermissionGranted}, cameraPolicyAccepted=${combineState.value.cameraPolicyAccepted}")
                 _uiState.product { copy(expanded = false) }
                 if (action.isPermissionGranted) {
                     emitEvent(InventoryEvent.NavigateToScanner)
-                } else if (combineState.value.cameraPolicyAccepted) {
+                } else if (combineState.value.generalPreferences.isCameraPolicyAccepted) {
                     emitEvent(InventoryEvent.RequestCameraPermission)
                 } else {
                     _uiState.product { copy(overlay = InventoryOverlay.CameraPolicySheet) }

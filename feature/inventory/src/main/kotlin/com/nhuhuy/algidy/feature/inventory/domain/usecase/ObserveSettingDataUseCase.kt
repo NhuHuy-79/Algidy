@@ -1,16 +1,16 @@
 package com.nhuhuy.algidy.feature.inventory.domain.usecase
 
-import com.nhuhuy.algidy.core.datastore.SettingsDataStore
+import com.nhuhuy.algidy.core.datastore.model.AppearanceDataStore
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
 class ObserveSettingDataUseCase(
-    private val settingsDataStore: SettingsDataStore
+    private val appearanceDataStore: AppearanceDataStore,
 ) {
     fun getCategoryEnabled(): Flow<Boolean> {
-        return settingsDataStore.categoryGroupFlow
+        return appearanceDataStore.preferencesFlow.map {
+            it.enableCategoryGroup
+        }
     }
 
-    fun getCameraPolicyAccepted(): Flow<Boolean> {
-        return settingsDataStore.cameraPolicyAcceptedFlow
-    }
 }

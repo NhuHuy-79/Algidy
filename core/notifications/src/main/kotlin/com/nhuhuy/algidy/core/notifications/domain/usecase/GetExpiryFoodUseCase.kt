@@ -1,7 +1,7 @@
 package com.nhuhuy.algidy.core.notifications.domain.usecase
 
 import com.nhuhuy.algidy.core.data.repository.FoodRepository
-import com.nhuhuy.algidy.core.datastore.SettingsDataStore
+import com.nhuhuy.algidy.core.datastore.model.NotificationDataStore
 import com.nhuhuy.algidy.core.model.food.FoodItem
 import kotlinx.coroutines.flow.first
 import timber.log.Timber
@@ -12,11 +12,12 @@ import java.time.temporal.ChronoUnit
 
 class GetExpiryFoodUseCase(
     private val foodRepository: FoodRepository,
-    private val settingsDataStore: SettingsDataStore,
+    private val notificationDataStore: NotificationDataStore,
 ) {
     suspend operator fun invoke(): List<FoodItem> {
         val allFoods = foodRepository.getAllFoodItems()
-        val warningDays = settingsDataStore.warningDayFlow.first()
+        val prefs = notificationDataStore.preferencesFlow.first()
+        val warningDays = prefs.warningFoodThresholdDays
 
         val today = LocalDate.now()
 
