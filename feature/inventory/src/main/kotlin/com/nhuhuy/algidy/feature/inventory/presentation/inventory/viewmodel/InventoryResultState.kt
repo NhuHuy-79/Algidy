@@ -2,6 +2,7 @@ package com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel
 
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
+import com.nhuhuy.algidy.core.datastore.model.GeneralPreferences
 import com.nhuhuy.algidy.core.model.VersionFeatures
 import com.nhuhuy.algidy.core.model.food.FoodItem
 import com.nhuhuy.algidy.core.presentation.model.CategoryUiModel
@@ -18,8 +19,7 @@ sealed interface InventoryResultState {
 data class InventoryCombineState(
     val categoryEnabled: Boolean = false,
     val categories: List<CategoryUiModel> = listOf(CategoryUiModel.All),
-    val appVersionToNotify: Int = 1,
-    val cameraPolicyAccepted: Boolean = false
+    val generalPreferences: GeneralPreferences = GeneralPreferences(),
 )
 
 @Immutable
