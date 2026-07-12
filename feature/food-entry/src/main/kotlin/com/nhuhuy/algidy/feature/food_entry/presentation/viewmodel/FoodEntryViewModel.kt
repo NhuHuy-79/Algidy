@@ -1,6 +1,7 @@
 package com.nhuhuy.algidy.feature.food_entry.presentation.viewmodel
 
 import androidx.lifecycle.viewModelScope
+import com.nhuhuy.algidy.core.data.util.product
 import com.nhuhuy.algidy.core.model.food.FoodCategory
 import com.nhuhuy.algidy.core.model.food.FoodItem
 import com.nhuhuy.algidy.core.model.validate.FoodValidator
@@ -46,6 +47,15 @@ class FoodEntryViewModel(
 
     init {
         initialFoodItem?.let { setEntryData(it) }
+        viewModelScope.launch {
+            val category = initialFoodItem?.categoryId?.let {
+                addCategoryUseCase.getCurrentCategory(it)
+            }
+
+            val categoryUiModel =
+                category?.let { CategoryUiModel.ByCategory(it) } ?: CategoryUiModel.All
+            _uiState.product { copy(currentCategory = categoryUiModel) }
+        }
 
         observeCategoriesUseCase().onEach { categories ->
             _uiState.update {

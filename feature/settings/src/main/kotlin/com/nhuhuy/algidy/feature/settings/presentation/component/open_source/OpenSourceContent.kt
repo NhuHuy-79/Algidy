@@ -44,7 +44,7 @@ fun OpenSourceContent(
                 licenses = it.licenses.map { license -> license.name },
                 versionName = it.artifactVersion.orEmpty()
             )
-        }.distinct()
+        }.distinctBy { it.name }
     Scaffold(
         topBar = {
             MediumFlexibleTopAppBar(
