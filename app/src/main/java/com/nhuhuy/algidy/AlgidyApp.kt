@@ -1,6 +1,7 @@
 package com.nhuhuy.algidy
 
 import android.app.Application
+import androidx.work.Configuration
 import coil3.ImageLoader
 import coil3.PlatformContext
 import coil3.SingletonImageLoader
@@ -24,6 +25,7 @@ import com.nhuhuy.algidy.feature.scanner.di.scannerModule
 import com.nhuhuy.algidy.feature.settings.di.settingModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
+import org.koin.androidx.workmanager.factory.KoinWorkerFactory
 import org.koin.androidx.workmanager.koin.workManagerFactory
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
@@ -31,8 +33,15 @@ import org.koin.core.context.GlobalContext.startKoin
 import org.koin.core.logger.Level
 import timber.log.Timber
 
-class AlgidyApp : Application(), KoinComponent, SingletonImageLoader.Factory {
+class AlgidyApp : Application(), KoinComponent, SingletonImageLoader.Factory,
+    Configuration.Provider {
     private val workerScheduler: WorkerScheduler by inject()
+
+    override val workManagerConfiguration: Configuration
+        get() = Configuration.Builder()
+            .setWorkerFactory(KoinWorkerFactory())
+            .setMinimumLoggingLevel(android.util.Log.DEBUG)
+            .build()
 
     override fun newImageLoader(context: PlatformContext): ImageLoader {
         return ImageLoader.Builder(context)

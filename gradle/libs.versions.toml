@@ -20,6 +20,7 @@ kotlinxCoroutinesPlayServices = "1.10.2"
 lifecycle = "2.8.7"
 activityCompose = "1.13.0"
 composeBom = "2026.06.00"
+materialKolor = "5.0.0-alpha07"
 navigation3Runtime = "1.2.0-alpha01"
 playServicesMlkitBarcodeScanning = "18.3.1"
 playServicesMlkitTextRecognition = "19.0.1"
@@ -98,6 +99,7 @@ androidx-material3 = { group = "androidx.compose.material3", name = "material3" 
 androidx-material3-android = { group = "androidx.compose.material3", name = "material3-android", version.ref = "material3Android" }
 androidx-material-icons-extended = { group = "androidx.compose.material", name = "material-icons-extended" }
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinxCoroutinesAndroid" }
+material-kolor = { module = "com.materialkolor:material-kolor", version.ref = "materialKolor" }
 play-services-mlkit-barcode-scanning = { module = "com.google.android.gms:play-services-mlkit-barcode-scanning", version.ref = "playServicesMlkitBarcodeScanning" }
 play-services-mlkit-text-recognition = { module = "com.google.android.gms:play-services-mlkit-text-recognition", version.ref = "playServicesMlkitTextRecognition" }
 room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }

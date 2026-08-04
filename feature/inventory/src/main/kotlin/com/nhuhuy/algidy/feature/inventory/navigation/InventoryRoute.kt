@@ -1,4 +1,4 @@
-package com.nhuhuy.algidy.feature.inventory.presentation.inventory
+package com.nhuhuy.algidy.feature.inventory.navigation
 
 import android.Manifest
 import android.content.pm.PackageManager
@@ -31,6 +31,7 @@ import com.nhuhuy.algidy.core.presentation.ObserveEffect
 import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.core.presentation.component.AppNewFeatureBottomSheet
 import com.nhuhuy.algidy.core.presentation.component.TextFieldDialog
+import com.nhuhuy.algidy.feature.inventory.presentation.inventory.InventoryScreen
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.CameraPolicyBottomSheet
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.InventoryFabMenu
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.detail.DetailBottomSheet

@@ -1,8 +1,9 @@
-package com.nhuhuy.algidy.feature.inventory.presentation.search
+package com.nhuhuy.algidy.feature.inventory.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.nhuhuy.algidy.feature.inventory.presentation.search.SearchInventoryScreen
 import com.nhuhuy.algidy.feature.inventory.presentation.search.viewmodel.SearchViewModel
 import org.koin.androidx.compose.koinViewModel
 
