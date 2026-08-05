@@ -9,6 +9,7 @@ import com.nhuhuy.algidy.core.presentation.navigation.Destination.Setting
 import com.nhuhuy.algidy.core.presentation.navigation.Navigator
 import com.nhuhuy.algidy.core.presentation.navigation.SettingDestination
 import com.nhuhuy.algidy.core.presentation.viewmodel.BaseViewModel
+import com.nhuhuy.algidy.feature.settings.data.WidgetExceptionLogger
 import com.nhuhuy.algidy.feature.settings.domain.usecase.CheckCapabilityUseCase
 import com.nhuhuy.algidy.feature.settings.domain.usecase.DeleteAllDataUseCase
 import com.nhuhuy.algidy.feature.settings.domain.usecase.ManageDataUseCase
@@ -18,6 +19,10 @@ import com.nhuhuy.algidy.feature.settings.presentation.model.ClickableType
 import com.nhuhuy.algidy.feature.settings.presentation.model.SettingSliderItem
 import com.nhuhuy.algidy.feature.settings.presentation.model.ToggleType
 import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.SettingsEvent.ShowSnackBar
+import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.SettingsOverlay.LanguageSheet
+import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.SettingsOverlay.NewFeatureSheet
+import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.SettingsOverlay.None
+import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.SettingsOverlay.WidgetDebugSheet
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -29,6 +34,7 @@ import kotlinx.coroutines.launch
 class SettingsViewModel(
     appNewFeaturesReader: AppNewFeaturesReader,
     observeSettingStateUseCase: ObserveSettingStateUseCase,
+    private val widgetExceptionLogger: WidgetExceptionLogger,
     private val navigator: Navigator,
     private val manageDataUseCase: ManageDataUseCase,
     private val checkCapabilityUseCase: CheckCapabilityUseCase,
@@ -47,7 +53,8 @@ class SettingsViewModel(
     val combineState: StateFlow<SettingsCombineState> = combine(
         observeSettingStateUseCase.observe(),
         checkCapabilityUseCase.observe(),
-    ) { settingPrefs, capabilities ->
+        widgetExceptionLogger.latestLog(),
+    ) { settingPrefs, capabilities, log ->
         SettingsCombineState(
             notificationGranted = capabilities.notificationGranted,
             biometricSupported = capabilities.biometricSupported,
@@ -55,7 +62,8 @@ class SettingsViewModel(
             dynamicColorSupported = capabilities.dynamicColorSupported,
             appearancePreferences = settingPrefs.appearancePreferences,
             notificationPreferences = settingPrefs.notificationPreferences,
-            generalPreferences = settingPrefs.generalPreferences
+            generalPreferences = settingPrefs.generalPreferences,
+            exceptionLog = log
         )
     }
         .stateIn(
@@ -70,7 +78,7 @@ class SettingsViewModel(
         when (action) {
             SettingsAction.OnDismiss,
             SettingsAction.DeleteAlertDialog.Dismiss -> _uiState.product {
-                copy(overlay = SettingsOverlay.None)
+                copy(overlay = None)
             }
 
             SettingsAction.OnBackClick -> navigator.navigateBack()
@@ -127,7 +135,7 @@ class SettingsViewModel(
             }
 
             SettingsAction.DeleteAlertDialog.Confirm -> viewModelScope.launch {
-                _uiState.product { copy(overlay = SettingsOverlay.None) }
+                _uiState.product { copy(overlay = None) }
                 deleteDataUseCase()
                     .onSuccess { emitEvent(DeleteAll.Success) }
                     .onFailure { emitEvent(DeleteAll.Failure) }
@@ -149,6 +157,10 @@ class SettingsViewModel(
                     )
                 )
             }
+
+            SettingsAction.ClearLog -> viewModelScope.launch {
+                widgetExceptionLogger.clear()
+            }
         }
     }
 
@@ -166,7 +178,7 @@ class SettingsViewModel(
                 ClickableType.AboutApp -> {
                     currentState.versionFeatures?.let { newFeatures ->
                         _uiState.product {
-                            copy(overlay = SettingsOverlay.NewFeatureSheet(newFeatures))
+                            copy(overlay = NewFeatureSheet(newFeatures))
                         }
                     }
                 }
@@ -178,7 +190,7 @@ class SettingsViewModel(
                 ClickableType.NewFeatures -> {
                     currentState.versionFeatures?.let {
                         _uiState.product {
-                            copy(overlay = SettingsOverlay.NewFeatureSheet(it))
+                            copy(overlay = NewFeatureSheet(it))
                         }
                     }
                 }
@@ -203,10 +215,12 @@ class SettingsViewModel(
 
                 is ClickableType.Language -> _uiState.product {
                     copy(
-                        overlay = SettingsOverlay.LanguageSheet(
-                            currentLanguage = action.type.currentLanguage
-                        )
+                        overlay = LanguageSheet(currentLanguage = action.type.currentLanguage)
                     )
+                }
+
+                ClickableType.WidgetDebug -> _uiState.product {
+                    copy(overlay = WidgetDebugSheet)
                 }
             }
         }
@@ -285,7 +299,7 @@ class SettingsViewModel(
         when (action) {
             SettingsAction.SetNotifyTime.OpenPicker -> _uiState.product { copy(overlay = SettingsOverlay.TimePicker) }
             is SettingsAction.SetNotifyTime.SetHourAndMinutes -> viewModelScope.launch {
-                _uiState.product { copy(overlay = SettingsOverlay.None) }
+                _uiState.product { copy(overlay = None) }
                 updatePreferencesUseCase.updateNotification(
                     currentCombineState.notificationPreferences.copy(
                         hour = action.hour,

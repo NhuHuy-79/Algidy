@@ -47,5 +47,7 @@ sealed interface SettingsAction : UiAction {
         val value: Int,
         val type: SettingSliderItem
     ) : SettingsAction
+
+    data object ClearLog : SettingsAction
 }
 

@@ -1,6 +1,8 @@
 package com.nhuhuy.algidy.feature.settings.presentation.component
 
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
@@ -47,6 +49,7 @@ fun ColorPresetPicker(
             ) {
                 SeedColor.entries.forEach { color ->
                     AppFilterButton(
+                        modifier = Modifier.animateContentSize(),
                         leadingContent = {
                             if (enabled) {
                                 Surface(
@@ -65,11 +68,23 @@ fun ColorPresetPicker(
             }
         }
     ) {
-        Text(
-            text = "Color Preset",
-            style = MaterialTheme.typography.titleMedium,
-            color = MaterialTheme.colorScheme.onSurface
-        )
+        Column(
+            verticalArrangement = Arrangement.spacedBy(4.dp)
+        ) {
+            Text(
+                text = "Color Preset",
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.onSurface
+            )
+
+            if (!enabled) {
+                Text(
+                    text = "You must disable dynamic color to select color accent!",
+                    style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.onSecondaryContainer
+                )
+            }
+        }
     }
 }
 

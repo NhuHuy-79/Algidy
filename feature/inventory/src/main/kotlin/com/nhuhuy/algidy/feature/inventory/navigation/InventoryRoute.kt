@@ -7,8 +7,8 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.DeleteForever
@@ -184,10 +184,11 @@ fun InventoryRoute() = BoxLayout {
         modifier = Modifier
             .fillMaxSize()
             .padding(bottom = 16.dp, end = 16.dp)
-            .safeDrawingPadding(),
+            .navigationBarsPadding(),
         contentAlignment = Alignment.BottomEnd
     ) {
         InventoryFabMenu(
+            modifier = Modifier,
             expanded = uiState.expanded,
             onExpandClose = { onAction(InventoryFabAction.ToggleFabMenu(it)) },
             onManualClick = { onAction(InventoryFabAction.Manual) },
