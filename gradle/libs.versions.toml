@@ -1,6 +1,10 @@
 [versions]
 accompanistPermissions = "0.37.3"
 agp = "9.1.0"
+android-compileSdk = "36"
+android-jvmTarget = "17"
+android-minSdk = "30"
+android-targetSdk = "36"
 biometric = "1.1.0"
 cameraCore = "1.5.0-alpha05"
 composeChartsVersion = "0.1.10"
