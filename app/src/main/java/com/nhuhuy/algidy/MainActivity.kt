@@ -21,7 +21,6 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.nhuhuy.algidy.core.designsystem.theme.AlgidyDynamicTheme
 import com.nhuhuy.algidy.core.model.setting.DarkMode
-import com.nhuhuy.algidy.core.model.setting.SeedColor
 import com.nhuhuy.algidy.core.presentation.utils.toColor
 import com.nhuhuy.algidy.navigation.AppGraph
 import com.nhuhuy.algidy.utils.BiometricHandler
@@ -103,7 +102,7 @@ class MainActivity : AppCompatActivity() {
                 }
             }
             AlgidyDynamicTheme(
-                seedColor = SeedColor.EMERALD.toColor(),
+                seedColor = uiState.seedColor.toColor(),
                 dynamicColor = uiState.isDynamicColors,
                 darkTheme = when (uiState.darkMode) {
                     DarkMode.DARK -> true

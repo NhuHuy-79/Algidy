@@ -14,5 +14,5 @@ dependencies {
     api(libs.coil.network.okhttp)
 
     implementation(libs.androidx.compose.ui.text.google.fonts)
-    implementation(libs.material.kolor)
+    api(libs.material.kolor)
 }

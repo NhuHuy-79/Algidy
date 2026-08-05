@@ -4,6 +4,7 @@ import android.net.Uri
 import com.nhuhuy.algidy.core.model.setting.AppFont
 import com.nhuhuy.algidy.core.model.setting.AppLanguage
 import com.nhuhuy.algidy.core.model.setting.DarkMode
+import com.nhuhuy.algidy.core.model.setting.SeedColor
 import com.nhuhuy.algidy.core.presentation.viewmodel.UiAction
 import com.nhuhuy.algidy.feature.settings.presentation.model.ClickableType
 import com.nhuhuy.algidy.feature.settings.presentation.model.SettingSliderItem
@@ -22,6 +23,8 @@ sealed interface SettingsAction : UiAction {
     data class ChangeFont(val font: AppFont) : SettingsAction
     data class SetWarningDays(val days: Int) : SettingsAction
     data class SetDeleteThresholdDays(val thresholdDays: Int) : SettingsAction
+    data class SetSeedColorPreset(val seedColor: SeedColor) : SettingsAction
+
     data object OnBackClick : SettingsAction
     sealed interface DeleteAlertDialog {
         data object Dismiss : SettingsAction

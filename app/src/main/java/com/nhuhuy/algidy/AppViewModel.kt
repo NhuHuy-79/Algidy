@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.nhuhuy.algidy.core.model.setting.AppFont
 import com.nhuhuy.algidy.core.model.setting.AppLanguage
 import com.nhuhuy.algidy.core.model.setting.DarkMode
+import com.nhuhuy.algidy.core.model.setting.SeedColor
 import com.nhuhuy.algidy.feature.settings.domain.usecase.CheckCapabilityUseCase
 import com.nhuhuy.algidy.feature.settings.domain.usecase.ObserveSettingStateUseCase
 import com.nhuhuy.algidy.utils.AppInitializer
@@ -26,6 +27,7 @@ data class AppUiState(
     val isDynamicColors: Boolean = false,
     val isBiometricLock: Boolean = false,
     val isSplashScreen: Boolean = true,
+    val seedColor: SeedColor = SeedColor.EMERALD,
 )
 
 sealed interface AppAction {
@@ -58,7 +60,8 @@ class AppViewModel(
             isDynamicColors = settingData.appearancePreferences.enableDynamicColor,
             isBiometricLock = settingData.enableBiometric,
             language = settingData.appearancePreferences.appLanguage,
-            isSplashScreen = false
+            isSplashScreen = false,
+            seedColor = settingData.appearancePreferences.seedColor
         )
     }.stateIn(
         viewModelScope, SharingStarted.WhileSubscribed(5000), AppUiState()

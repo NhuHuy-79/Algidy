@@ -1,19 +1,21 @@
 package com.nhuhuy.algidy.core.designsystem.theme
 
 import android.app.Activity
+import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
+import androidx.compose.material3.MaterialExpressiveTheme
 import androidx.compose.material3.MotionScheme
+import androidx.compose.material3.dynamicDarkColorScheme
+import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
-import com.materialkolor.DynamicMaterialExpressiveTheme
-import com.materialkolor.PaletteStyle
-import com.materialkolor.dynamiccolor.ColorSpec
-import com.materialkolor.rememberDynamicMaterialThemeState
+import com.materialkolor.rememberDynamicColorScheme
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
@@ -23,13 +25,14 @@ fun AlgidyDynamicTheme(
     dynamicColor: Boolean = true,
     content: @Composable () -> Unit
 ) {
-    val dynamicThemeState = rememberDynamicMaterialThemeState(
-        isDark = darkTheme,
-        style = PaletteStyle.TonalSpot,
-        contrastLevel = -1.0,
-        specVersion = ColorSpec.SpecVersion.SPEC_2025,
+    val context = LocalContext.current
+    val colorScheme = if (dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+        if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
+    } else rememberDynamicColorScheme(
         seedColor = seedColor,
+        isDark = darkTheme,
     )
+
 
     val extendedColors = if (darkTheme) DarkFoodStateColors else LightFoodStateColors
     val dynamicFontFamily = getTypographyForFont()
@@ -47,10 +50,10 @@ fun AlgidyDynamicTheme(
     CompositionLocalProvider(
         LocalFoodStateColors provides extendedColors,
     ) {
-        DynamicMaterialExpressiveTheme(
-            motionScheme = MotionScheme.expressive(),
-            state = dynamicThemeState,
+        MaterialExpressiveTheme(
             typography = dynamicFontFamily,
+            colorScheme = colorScheme,
+            motionScheme = MotionScheme.expressive(),
             content = content
         )
     }

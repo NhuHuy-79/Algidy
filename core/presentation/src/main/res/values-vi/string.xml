@@ -200,8 +200,8 @@
     
 
     <string name="setting_font">Font chữ</string>
-
-    <string name="settings_dynamic_color">Màu động (Dynamic Color)</string>
+    <string name="setting_color_source">Chọn Nguồn màu</string>
+    <string name="settings_dynamic_color">Màu Tự Động</string>
     <string name="settings_dynamic_mode_desc">Bật màu sắc động theo hệ thống cho ứng dụng</string>
 
     <string name="setting_biometric">Khóa sinh trắc học</string>

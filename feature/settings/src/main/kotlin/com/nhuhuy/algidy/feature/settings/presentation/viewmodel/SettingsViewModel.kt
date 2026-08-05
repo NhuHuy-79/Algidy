@@ -142,6 +142,13 @@ class SettingsViewModel(
             }
 
             is SettingsAction.SliderAction -> onSliderAction(action)
+            is SettingsAction.SetSeedColorPreset -> viewModelScope.launch {
+                updatePreferencesUseCase.updateAppearance(
+                    currentCombineState.appearancePreferences.copy(
+                        seedColor = action.seedColor
+                    )
+                )
+            }
         }
     }
 

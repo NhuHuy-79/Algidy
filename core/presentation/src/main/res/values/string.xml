@@ -202,7 +202,7 @@
     <string name="setting_lang_italian" translatable="false">Italiano</string>
 
     <string name="setting_font">Font</string>
-
+    <string name="setting_color_source">Color Source</string>
     <string name="settings_dynamic_color">Dynamic Color</string>
     <string name="settings_dynamic_mode_desc">Enable dynamic color for the app</string>
 
