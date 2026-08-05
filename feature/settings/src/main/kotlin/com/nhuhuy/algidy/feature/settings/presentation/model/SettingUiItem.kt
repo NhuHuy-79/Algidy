@@ -24,6 +24,7 @@ sealed interface ClickableType {
     data object Feedback : ClickableType
     data object PrivacyPolicy : ClickableType
     data object OpenSource : ClickableType
+    data object WidgetDebug : ClickableType
 }
 
 

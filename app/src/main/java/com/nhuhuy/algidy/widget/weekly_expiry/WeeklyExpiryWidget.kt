@@ -37,10 +37,15 @@ import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
 import com.nhuhuy.algidy.R
 import com.nhuhuy.algidy.core.presentation.utils.toStringRes
+import com.nhuhuy.algidy.feature.settings.data.WidgetExceptionLogger
+import com.nhuhuy.algidy.widget.ErrorStateWidget
 import com.nhuhuy.algidy.widget.state.FoodWidgetModel
 import com.nhuhuy.algidy.widget.state.toFoodWidgetModelList
 import com.nhuhuy.algidy.widget.usecase.GetFoodsUseCase
 import com.nhuhuy.algidy.widget.worker.CallbackScheduler
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import timber.log.Timber
@@ -50,14 +55,22 @@ val foodIdKey = ActionParameters.Key<String>(CallbackScheduler.FOOD_ID)
 
 class WeeklyExpiryWidget : GlanceAppWidget(), KoinComponent {
     private val getThisWeekFoods: GetFoodsUseCase by inject()
+    private val widgetExceptionLogger: WidgetExceptionLogger by inject()
 
     override suspend fun provideGlance(
         context: Context,
         id: GlanceId
     ) {
-        val foods = getThisWeekFoods.getThisWeek().toFoodWidgetModelList()
-        provideContent {
-            WeeklyExpiryContent(foods = foods)
+        try {
+            val foods = getThisWeekFoods.getThisWeek().toFoodWidgetModelList()
+            provideContent {
+                WeeklyExpiryContent(foods = foods)
+            }
+        } catch (e: Exception) {
+            widgetExceptionLogger.log(e, glanceId = "$id")
+            provideContent {
+                ErrorStateWidget()
+            }
         }
     }
 
@@ -68,6 +81,15 @@ class WeeklyExpiryWidget : GlanceAppWidget(), KoinComponent {
         throwable: Throwable
     ) {
         Timber.e(throwable)
+        CoroutineScope(Dispatchers.IO).launch {
+            widgetExceptionLogger.log(throwable, "$glanceId")
+        }
+        super.onCompositionError(
+            context,
+            glanceId,
+            appWidgetId,
+            throwable
+        )
     }
 }
 

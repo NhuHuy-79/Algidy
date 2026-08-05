@@ -202,9 +202,13 @@
     <string name="setting_lang_italian" translatable="false">Italiano</string>
 
     <string name="setting_font">Font</string>
-
+    <string name="setting_color_source">Color Source</string>
     <string name="settings_dynamic_color">Dynamic Color</string>
     <string name="settings_dynamic_mode_desc">Enable dynamic color for the app</string>
+
+    <string name="setting_accent_color">Accent Color</string>
+    <string name="setting_accent_color_warning">You must disable dynamic color to select
+    color accent!</string>
 
     <string name="setting_biometric">Biometrics Lock</string>
     <string name="setting_biometric_desc">Biometrics lock for the app</string>
@@ -242,10 +246,16 @@
     <string name="setting_privacy_policy_desc">Your data protection</string>
     <string name="setting_daily_reminder">Daily Reminder</string>
     <string name="setting_daily_reminder_desc">Remind at %1$s</string>
+    <string name="setting_widget_debug">Widget Debug</string>
+    <string name="setting_widget_debug_desc">View widget errors and diagnostics</string>
+    <string name="setting_widget_debug_empty">No error found!</string>
+
+    <string name="setting_action_clear">Clear Log</string>
+    <string name="setting_action_copy_to_clipboard">Copy to Clipboard</string>
 
     <plurals name="notification_days_before">
-        <item quantity="one">Notify food expiry %1$d day before</item>
-        <item quantity="other">Notify food expiry %1$d days before</item>
+        <item quantity="one">Start reminders %1$d day before expiry</item>
+        <item quantity="other">Start reminders %1$d days before expiry</item>
     </plurals>
 
     <string name="settings_never_delete_expired_food">Never delete expired food</string>
@@ -303,6 +313,8 @@
     <string name="notif_action_wasted">Wasted</string>
 
     <!--Widget -->
+    <string name="widget_error">Widget Error</string>
+
     <string name="widget_weekly_food_title">Exploring This Week</string>
     <string name="widget_weekly_empty_food">No expiring food this week.</string>
     <string name="widget_weekly_food_description">Shows foods expiring this week and quick actions.

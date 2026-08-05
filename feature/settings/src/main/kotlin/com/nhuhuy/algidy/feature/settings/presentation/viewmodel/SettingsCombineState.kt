@@ -22,7 +22,8 @@ data class SettingsCombineState(
     val settingPref: SettingDataPreferences = SettingDataPreferences(),
     val notificationPreferences: NotificationPreferences = NotificationPreferences(),
     val appearancePreferences: AppearancePreferences = AppearancePreferences(),
-    val generalPreferences: GeneralPreferences = GeneralPreferences()
+    val generalPreferences: GeneralPreferences = GeneralPreferences(),
+    val exceptionLog: String? = null,
 ) {
     val dynamicColorSetting: SettingToggleItem
         get() = SettingToggleItem(
@@ -76,6 +77,7 @@ sealed interface SettingsOverlay {
     data object PolicySheet : SettingsOverlay
     data object CopyrightSheet : SettingsOverlay
     data object OpenSourceSheet : SettingsOverlay
+    data object WidgetDebugSheet : SettingsOverlay
 }
 
 

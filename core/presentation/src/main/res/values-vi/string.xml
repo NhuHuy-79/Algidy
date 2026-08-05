@@ -200,10 +200,11 @@
     
 
     <string name="setting_font">Font chữ</string>
-
-    <string name="settings_dynamic_color">Màu động (Dynamic Color)</string>
+    <string name="setting_color_source">Chọn Nguồn màu</string>
+    <string name="settings_dynamic_color">Màu Tự Động</string>
     <string name="settings_dynamic_mode_desc">Bật màu sắc động theo hệ thống cho ứng dụng</string>
-
+    <string name="setting_accent_color">Màu Tự Chọn</string>
+    <string name="setting_accent_color_warning">Bạn cần bỏ màu tự động để chọn màu thủ công!</string>
     <string name="setting_biometric">Khóa sinh trắc học</string>
     <string name="setting_biometric_desc">Sử dụng vân tay để mở khóa ứng dụng</string>
 
@@ -241,9 +242,15 @@
     <string name="setting_privacy_policy_desc">Bảo vệ dữ liệu của bạn</string>
     <string name="setting_daily_reminder">Nhắc nhở hàng ngày</string>
     <string name="setting_daily_reminder_desc">Nhắc nhở lúc %1$s</string>
+    <string name="setting_widget_debug">Kiểm tra Widget</string>
+    <string name="setting_widget_debug_desc">Kiểm tra và phân tích các lỗi widget.</string>
+    <string name="setting_widget_debug_empty">Chưa tìm ra lỗi!</string>
+
+    <string name="setting_action_clear">Xóa Log</string>
+    <string name="setting_action_copy_to_clipboard">Chép vào Clipboard</string>
 
     <plurals name="notification_days_before">
-        <item quantity="other">Thông báo hết hạn thực phẩm %1$d ngày trước</item>
+        <item quantity="other">Thông báo %1$d ngày trước khi thực phẩm hết hạn</item>
     </plurals>
 
     <string name="settings_never_delete_expired_food">Không xóa thực phẩm hết hạn</string>
@@ -320,6 +327,7 @@ Nếu bạn có bất kỳ câu hỏi hoặc đề xuất nào liên quan đến
     <string name="notif_action_prompt_message">Bạn đã xử lý được mục này chưa\?</string>
     <string name="notif_action_consumed">Tiêu thụ</string>
     <string name="notif_action_wasted">Lãng phí</string>
+    <string name="widget_error">Có lỗi xảy ra.</string>
     <string name="widget_weekly_food_title">Trong Tuần</string>
     <string name="widget_weekly_empty_food">Tuần này không có thực phẩm hết hạn.</string>
     <string name="widget_weekly_food_description">Hiển thị  thực phẩm hết hạn trong tuần và các tính năng tức thời.</string>

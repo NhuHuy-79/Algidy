@@ -18,6 +18,10 @@ class AddCategoryUseCase(
     private val categoryRepository: CategoryRepository
 ) {
     suspend operator fun invoke(category: FoodCategory) = categoryRepository.addCategory(category)
+
+    suspend fun getCurrentCategory(categoryId: String): FoodCategory? {
+        return categoryRepository.getCategoryById(categoryId)
+    }
 }
 
 class SaveFoodItemUseCase(

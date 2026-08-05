@@ -26,8 +26,8 @@ import com.nhuhuy.algidy.core.presentation.navigation.NavigateEvent
 import com.nhuhuy.algidy.core.presentation.navigation.Navigator
 import com.nhuhuy.algidy.feature.analytics.presentation.navigation.AnalyticsRoute
 import com.nhuhuy.algidy.feature.food_entry.navigation.FoodEntryRoute
-import com.nhuhuy.algidy.feature.inventory.presentation.inventory.InventoryRoute
-import com.nhuhuy.algidy.feature.inventory.presentation.search.SearchInventoryRoute
+import com.nhuhuy.algidy.feature.inventory.navigation.InventoryRoute
+import com.nhuhuy.algidy.feature.inventory.navigation.SearchInventoryRoute
 import com.nhuhuy.algidy.feature.scanner.presentation.scanner.ScannerRoute
 import com.nhuhuy.algidy.feature.settings.navigation.SettingRoute
 import org.koin.compose.koinInject

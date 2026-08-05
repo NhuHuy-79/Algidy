@@ -87,6 +87,7 @@ class WorkerSchedulerImp(
 
     override fun scheduleWeeklyCleanUpFileWorker() {
         val constraints = Constraints.Builder()
+            .setRequiresDeviceIdle(true)
             .setRequiresBatteryNotLow(true)
             .build()
         val initialDelayMillis = calculateDelayUntilNextSunday9AM()
@@ -96,7 +97,6 @@ class WorkerSchedulerImp(
             .setInitialDelay(initialDelayMillis, TimeUnit.MILLISECONDS)
             .build()
 
-        // Dùng Unique với OneTimeWork
         workManager.enqueueUniqueWork(
             WorkerStrings.DELETE_OLD_FOOD_WORKER,
             ExistingWorkPolicy.KEEP,

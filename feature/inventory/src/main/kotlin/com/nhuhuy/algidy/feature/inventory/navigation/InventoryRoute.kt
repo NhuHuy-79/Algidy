@@ -1,4 +1,4 @@
-package com.nhuhuy.algidy.feature.inventory.presentation.inventory
+package com.nhuhuy.algidy.feature.inventory.navigation
 
 import android.Manifest
 import android.content.pm.PackageManager
@@ -7,8 +7,8 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.DeleteForever
@@ -31,6 +31,7 @@ import com.nhuhuy.algidy.core.presentation.ObserveEffect
 import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.core.presentation.component.AppNewFeatureBottomSheet
 import com.nhuhuy.algidy.core.presentation.component.TextFieldDialog
+import com.nhuhuy.algidy.feature.inventory.presentation.inventory.InventoryScreen
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.CameraPolicyBottomSheet
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.InventoryFabMenu
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.detail.DetailBottomSheet
@@ -183,10 +184,11 @@ fun InventoryRoute() = BoxLayout {
         modifier = Modifier
             .fillMaxSize()
             .padding(bottom = 16.dp, end = 16.dp)
-            .safeDrawingPadding(),
+            .navigationBarsPadding(),
         contentAlignment = Alignment.BottomEnd
     ) {
         InventoryFabMenu(
+            modifier = Modifier,
             expanded = uiState.expanded,
             onExpandClose = { onAction(InventoryFabAction.ToggleFabMenu(it)) },
             onManualClick = { onAction(InventoryFabAction.Manual) },

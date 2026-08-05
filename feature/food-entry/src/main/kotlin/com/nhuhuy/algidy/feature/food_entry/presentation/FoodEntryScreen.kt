@@ -1,6 +1,10 @@
 package com.nhuhuy.algidy.feature.food_entry.presentation
 
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
@@ -26,7 +30,7 @@ import com.nhuhuy.algidy.feature.food_entry.presentation.viewmodel.FoodEntryActi
 import com.nhuhuy.algidy.feature.food_entry.presentation.viewmodel.FoodEntryError
 import com.nhuhuy.algidy.feature.food_entry.presentation.viewmodel.FoodEntryUiState
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
 fun FoodEntryScreen(
     title: String,
@@ -81,7 +85,9 @@ fun FoodEntryScreen(
                 .padding(innerPadding)
                 .padding(16.dp)
                 .imePadding()
+                .consumeWindowInsets(WindowInsets.ime)
                 .verticalScroll(rememberScrollState())
+
         )
     }
 }

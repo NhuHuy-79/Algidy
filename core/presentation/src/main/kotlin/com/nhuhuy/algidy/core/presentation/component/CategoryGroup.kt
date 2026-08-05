@@ -73,9 +73,7 @@ fun CategoryFilterGroup(
             AppFilterButton(
                 selected = selectedCategory == category,
                 label = category.toUiText(),
-                onClick = {
-                    onCategoryClick(category)
-                },
+                onClick = { onCategoryClick(category) },
                 modifier = Modifier.animateItem()
             )
         }
