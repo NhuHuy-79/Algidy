@@ -8,7 +8,7 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import com.nhuhuy.algidy.calculateDelayMillis
-import com.nhuhuy.algidy.core.datastore.SettingsDataStore
+import com.nhuhuy.algidy.core.datastore.model.NotificationDataStore
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -36,15 +36,16 @@ interface WorkerScheduler {
 
 class WorkerSchedulerImp(
     private val context: Context,
-    private val settingsDataStore: SettingsDataStore,
+    private val notificationDataStore: NotificationDataStore,
 ) : WorkerScheduler {
     private val scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
     private val workManager by lazy { WorkManager.getInstance(context) }
 
     override fun scheduleCheckExpiryWorker() {
         scope.launch {
-            val hour = settingsDataStore.hourFlow.first()
-            val minute = settingsDataStore.minuteFlow.first()
+            val prefs = notificationDataStore.preferencesFlow.first()
+            val hour = prefs.hour
+            val minute = prefs.minutes
 
             val delay = calculateDelayMillis(
                 hour = hour,
@@ -86,6 +87,7 @@ class WorkerSchedulerImp(
 
     override fun scheduleWeeklyCleanUpFileWorker() {
         val constraints = Constraints.Builder()
+            .setRequiresDeviceIdle(true)
             .setRequiresBatteryNotLow(true)
             .build()
         val initialDelayMillis = calculateDelayUntilNextSunday9AM()
@@ -95,7 +97,6 @@ class WorkerSchedulerImp(
             .setInitialDelay(initialDelayMillis, TimeUnit.MILLISECONDS)
             .build()
 
-        // Dùng Unique với OneTimeWork
         workManager.enqueueUniqueWork(
             WorkerStrings.DELETE_OLD_FOOD_WORKER,
             ExistingWorkPolicy.KEEP,

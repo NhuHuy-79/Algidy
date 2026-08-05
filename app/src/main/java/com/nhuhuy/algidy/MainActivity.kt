@@ -19,8 +19,9 @@ import androidx.compose.ui.unit.dp
 import androidx.core.os.LocaleListCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.nhuhuy.algidy.core.designsystem.theme.AlgidyTheme
+import com.nhuhuy.algidy.core.designsystem.theme.AlgidyDynamicTheme
 import com.nhuhuy.algidy.core.model.setting.DarkMode
+import com.nhuhuy.algidy.core.presentation.utils.toColor
 import com.nhuhuy.algidy.navigation.AppGraph
 import com.nhuhuy.algidy.utils.BiometricHandler
 import com.nhuhuy.algidy.utils.BiometricResult
@@ -100,8 +101,8 @@ class MainActivity : AppCompatActivity() {
                     AppCompatDelegate.setApplicationLocales(appLocale)
                 }
             }
-            AlgidyTheme(
-                fontName = uiState.font.fontName,
+            AlgidyDynamicTheme(
+                seedColor = uiState.seedColor.toColor(),
                 dynamicColor = uiState.isDynamicColors,
                 darkTheme = when (uiState.darkMode) {
                     DarkMode.DARK -> true

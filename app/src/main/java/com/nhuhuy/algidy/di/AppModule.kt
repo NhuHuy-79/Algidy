@@ -6,6 +6,8 @@ import com.nhuhuy.algidy.core.datastore.DeviceCapableDataStore
 import com.nhuhuy.algidy.core.datastore.DeviceCapableDataStoreImpl
 import com.nhuhuy.algidy.core.presentation.navigation.Navigator
 import com.nhuhuy.algidy.core.presentation.navigation.NavigatorImpl
+import com.nhuhuy.algidy.feature.settings.data.WidgetExceptionLogger
+import com.nhuhuy.algidy.feature.settings.data.WidgetExceptionLoggerImpl
 import com.nhuhuy.algidy.utils.AppInitializer
 import com.nhuhuy.algidy.utils.DefaultAppCapabilityManager
 import com.nhuhuy.algidy.widget.usecase.GetFoodsUseCase
@@ -16,6 +18,7 @@ import org.koin.core.module.dsl.bind
 import org.koin.core.module.dsl.factoryOf
 import org.koin.core.module.dsl.singleOf
 import org.koin.core.module.dsl.viewModelOf
+import org.koin.dsl.bind
 import org.koin.dsl.module
 
 val appModule = module {
@@ -28,6 +31,7 @@ val appModule = module {
 
     //UseCase
     factoryOf(::GetFoodsUseCase)
+    factoryOf(::WidgetExceptionLoggerImpl) bind WidgetExceptionLogger::class
 
     //Worker
     workerOf(::ConsumeFoodWorker)

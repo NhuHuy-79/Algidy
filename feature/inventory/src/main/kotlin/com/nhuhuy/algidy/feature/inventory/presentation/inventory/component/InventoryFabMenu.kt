@@ -44,7 +44,7 @@ fun InventoryFabMenu(
             ToggleFloatingActionButton(
                 modifier = Modifier,
                 containerSize = { value ->
-                    lerp(start = 72.dp, stop = 56.dp, fraction = value)
+                    lerp(start = 80.dp, stop = 56.dp, fraction = value)
                 },
                 containerColor = { value ->
                     lerp(

@@ -11,6 +11,7 @@ import androidx.compose.material.icons.rounded.NewReleases
 import androidx.compose.material.icons.rounded.NotificationsActive
 import androidx.compose.material.icons.rounded.Policy
 import androidx.compose.material.icons.rounded.Upload
+import androidx.compose.material.icons.rounded.Widgets
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -41,6 +42,7 @@ fun ClickableItem(
         ClickableType.OpenSource -> Icons.Rounded.BuildCircle
         ClickableType.PrivacyPolicy -> Icons.Rounded.Policy
         is ClickableType.Language -> Icons.Rounded.Language
+        ClickableType.WidgetDebug -> Icons.Rounded.Widgets
     }
 
     val title = when (item.type) {
@@ -55,6 +57,7 @@ fun ClickableItem(
         ClickableType.OpenSource -> stringResource(R.string.setting_open_source)
         ClickableType.PrivacyPolicy -> stringResource(R.string.setting_privacy_policy)
         is ClickableType.Language -> stringResource(R.string.setting_language)
+        ClickableType.WidgetDebug -> stringResource(R.string.setting_widget_debug)
     }
 
     val desc = when (item.type) {
@@ -69,6 +72,7 @@ fun ClickableItem(
         ClickableType.OpenSource -> stringResource(R.string.setting_open_source_desc)
         ClickableType.PrivacyPolicy -> stringResource(R.string.setting_privacy_policy_desc)
         is ClickableType.Language -> stringResource(item.type.currentLanguage.toStringRes())
+        ClickableType.WidgetDebug -> stringResource(R.string.setting_widget_debug_desc)
     }
 
     ClickableSettingItem(

@@ -1,6 +1,7 @@
 package com.nhuhuy.algidy.feature.settings.navigation
 
 import android.Manifest
+import android.content.ClipData
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
@@ -11,7 +12,10 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.ClipEntry
+import androidx.compose.ui.platform.LocalClipboard
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalResources
 import androidx.compose.ui.res.stringResource
@@ -26,6 +30,7 @@ import com.nhuhuy.algidy.core.presentation.component.AppNewFeatureBottomSheet
 import com.nhuhuy.algidy.core.presentation.component.AppTimePickerDialog
 import com.nhuhuy.algidy.core.presentation.navigation.Destination
 import com.nhuhuy.algidy.core.presentation.navigation.SettingDestination
+import com.nhuhuy.algidy.feature.settings.presentation.component.WidgetDebugBottomSheet
 import com.nhuhuy.algidy.feature.settings.presentation.component.about_app.CopyrightBottomSheet
 import com.nhuhuy.algidy.feature.settings.presentation.component.about_app.PolicyBottomSheet
 import com.nhuhuy.algidy.feature.settings.presentation.component.open_source.OpenSourceContent
@@ -39,10 +44,12 @@ import com.nhuhuy.algidy.feature.settings.presentation.screen.OtherSettingsScree
 import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.DeleteAll
 import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.NotifyTimerEvent
 import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.SettingsAction
+import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.SettingsAction.ChangeLanguage
 import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.SettingsAction.SetNotifyTime.SetHourAndMinutes
 import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.SettingsEvent
 import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.SettingsOverlay
 import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.SettingsViewModel
+import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -73,6 +80,8 @@ fun SettingRoute(
     )
 
     val context = LocalContext.current
+    val clipboardManager = LocalClipboard.current
+    val scope = rememberCoroutineScope()
 
     ObserveEffect(viewModel.uiEvent) { event ->
         when (event) {
@@ -195,6 +204,7 @@ fun SettingRoute(
         SettingDestination.Main -> MainSettingsScreen(
             uiState = uiState,
             onNavigate = onNavigateToSettingRoute,
+            onAction = onAction,
             onBackClick = onNavigateBack
         )
 
@@ -287,8 +297,26 @@ fun SettingRoute(
 
         is SettingsOverlay.LanguageSheet -> SelectLanguageBottomSheet(
             currentLanguage = combineState.appearancePreferences.appLanguage,
-            onLanguageSelect = { language -> onAction(SettingsAction.ChangeLanguage(language)) },
+            onLanguageSelect = { language -> onAction(ChangeLanguage(language)) },
             onDismiss = { onAction(SettingsAction.OnDismiss) }
+        )
+
+        SettingsOverlay.WidgetDebugSheet -> WidgetDebugBottomSheet(
+            log = combineState.exceptionLog,
+            onDismiss = { onAction(SettingsAction.OnDismiss) },
+            onCopyToClipboard = { log ->
+                scope.launch {
+                    clipboardManager.setClipEntry(
+                        ClipEntry(
+                            ClipData.newPlainText(
+                                "Widget Log",
+                                log
+                            )
+                        )
+                    )
+                }
+            },
+            onClear = { onAction(SettingsAction.ClearLog) }
         )
     }
 }

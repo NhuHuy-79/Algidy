@@ -3,7 +3,9 @@ package com.nhuhuy.algidy.feature.settings.presentation.screen
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
@@ -27,6 +29,7 @@ import androidx.compose.ui.unit.dp
 import com.nhuhuy.algidy.core.model.setting.DarkMode
 import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.core.presentation.utils.ItemPosition
+import com.nhuhuy.algidy.feature.settings.presentation.component.ColorPresetPicker
 import com.nhuhuy.algidy.feature.settings.presentation.component.ToggleItem
 import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.SettingsAction
 import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.SettingsCombineState
@@ -75,7 +78,7 @@ fun AppearanceScreen(
                 .fillMaxSize()
                 .padding(padding),
             contentPadding = PaddingValues(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+            verticalArrangement = Arrangement.spacedBy(4.dp)
         ) {
             item {
                 Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -115,6 +118,8 @@ fun AppearanceScreen(
                 }
             }
 
+            item { Spacer(modifier = Modifier.height(12.dp)) }
+
             item {
                 Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                     Text(
@@ -125,7 +130,7 @@ fun AppearanceScreen(
                     )
                     ToggleItem(
                         item = combineState.dynamicColorSetting,
-                        position = ItemPosition.SINGLE,
+                        position = ItemPosition.TOP,
                         onToggle = { enabled, _ ->
                             onAction(
                                 SettingsAction.ToggleAction(
@@ -136,6 +141,16 @@ fun AppearanceScreen(
                         }
                     )
                 }
+            }
+
+            item {
+                ColorPresetPicker(
+                    enabled = !combineState.appearancePreferences.enableDynamicColor,
+                    seedColor = combineState.appearancePreferences.seedColor,
+                    onSeedColorSelect = { color ->
+                        onAction(SettingsAction.SetSeedColorPreset(color))
+                    }
+                )
             }
         }
     }

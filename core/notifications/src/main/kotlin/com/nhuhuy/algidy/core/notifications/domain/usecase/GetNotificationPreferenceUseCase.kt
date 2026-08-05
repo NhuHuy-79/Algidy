@@ -1,20 +1,19 @@
 package com.nhuhuy.algidy.core.notifications.domain.usecase
 
-import com.nhuhuy.algidy.core.datastore.SettingsDataStore
-import kotlinx.coroutines.flow.first
+import com.nhuhuy.algidy.core.datastore.model.NotificationDataStore
 
 class GetNotificationPreferenceUseCase(
-    private val settingsDataStore: SettingsDataStore
+    private val notificationDataStore: NotificationDataStore
 ) {
     suspend operator fun invoke(): Boolean {
-        return settingsDataStore.notificationsEnabledFlow.first()
+        return notificationDataStore.getPreferences().enableNotification
     }
 
     suspend fun getNotificationEnabled(): Boolean {
-        return settingsDataStore.notificationsEnabledFlow.first()
+        return notificationDataStore.getPreferences().enableNotification
     }
 
     suspend fun getWeeklyReportEnabled(): Boolean {
-        return settingsDataStore.weeklyReportFlow.first()
+        return notificationDataStore.getPreferences().enableWeeklyReport
     }
 }

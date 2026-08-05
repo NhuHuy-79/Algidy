@@ -1,0 +1,25 @@
+[
+  {
+    "versionCode": 6,
+    "versionName": "v1.4.0",
+    "features": [
+      {
+        "title": "Custom Accent Colors",
+        "description": "Added support for manually selecting an accent color when Dynamic Color is unavailable or disabled.",
+        "icon": "🎨"
+      },
+      {
+        "title": "Widget Diagnostics",
+        "description": "Added a widget diagnostics screen to help identify, inspect, and report widget-related issues.",
+        "icon": "🧩"
+      }
+    ],
+    "fixes": [
+      {
+        "title": "Polish & Improvements",
+        "description": "Minor interface refinements and general improvements across the app.",
+        "icon": "✨"
+      }
+    ]
+  }
+]

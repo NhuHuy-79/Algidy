@@ -18,7 +18,7 @@ data class NotificationPreferences(
     val hour: Int = 7,
     val minutes: Int = 30,
     val enableWeeklyReport: Boolean = true,
-    val enableNotification: Boolean = false,
+    val enableNotification: Boolean = true,
 ) {
     companion object {
         val preferencesKey = stringPreferencesKey("notification_prefs")

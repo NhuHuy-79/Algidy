@@ -22,24 +22,38 @@ import androidx.glance.layout.padding
 import com.nhuhuy.algidy.MainActivity
 import com.nhuhuy.algidy.core.designsystem.R
 import com.nhuhuy.algidy.core.model.food.Freshness
+import com.nhuhuy.algidy.feature.settings.data.WidgetExceptionLogger
 import com.nhuhuy.algidy.widget.state.WeeklyFreshnessModel
 import com.nhuhuy.algidy.widget.state.toWeeklyFreshnessModel
 import com.nhuhuy.algidy.widget.usecase.GetFoodsUseCase
 import com.nhuhuy.algidy.widget.weekly_progress.component.FreshnessColumn
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import timber.log.Timber
 
 class WeeklyFreshnessWidget : GlanceAppWidget(), KoinComponent {
     private val getFoodsUseCase: GetFoodsUseCase by inject()
+    private val widgetExceptionLogger: WidgetExceptionLogger by inject()
     override suspend fun provideGlance(
         context: Context,
         id: GlanceId
     ) {
         val weeklyFreshness = getFoodsUseCase.getThisWeek().toWeeklyFreshnessModel()
-        provideContent {
-            GlanceTheme {
-                WeeklyFreshnessContent(weeklyFreshness = weeklyFreshness)
+        try {
+            provideContent {
+                GlanceTheme {
+                    WeeklyFreshnessContent(weeklyFreshness = weeklyFreshness)
+                }
+            }
+        } catch (e: Exception) {
+            widgetExceptionLogger.log(e, "$id")
+            provideContent {
+                GlanceTheme {
+                    WeeklyFreshnessContent(weeklyFreshness = weeklyFreshness)
+                }
             }
         }
     }
@@ -51,6 +65,15 @@ class WeeklyFreshnessWidget : GlanceAppWidget(), KoinComponent {
         throwable: Throwable
     ) {
         Timber.e(throwable)
+        CoroutineScope(Dispatchers.IO).launch {
+            widgetExceptionLogger.log(throwable, "$glanceId")
+        }
+        super.onCompositionError(
+            context,
+            glanceId,
+            appWidgetId,
+            throwable
+        )
     }
 }
 

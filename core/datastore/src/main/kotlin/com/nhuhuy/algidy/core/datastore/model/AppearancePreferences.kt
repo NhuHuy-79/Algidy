@@ -8,6 +8,7 @@ import com.nhuhuy.algidy.core.datastore.utils.decodeFromFlow
 import com.nhuhuy.algidy.core.datastore.utils.encodeToDataStore
 import com.nhuhuy.algidy.core.model.setting.AppLanguage
 import com.nhuhuy.algidy.core.model.setting.DarkMode
+import com.nhuhuy.algidy.core.model.setting.SeedColor
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.serialization.Serializable
@@ -19,6 +20,7 @@ data class AppearancePreferences(
     val appLanguage: AppLanguage = AppLanguage.ENGLISH,
     val enableDynamicColor: Boolean = false,
     val enableCategoryGroup: Boolean = false,
+    val seedColor: SeedColor = SeedColor.EMERALD,
 ) {
     companion object {
         val preferencesKey = stringPreferencesKey("appearance_prefs")

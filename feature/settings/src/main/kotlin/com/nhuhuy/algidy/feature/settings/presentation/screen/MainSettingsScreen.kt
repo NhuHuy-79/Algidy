@@ -14,6 +14,7 @@ import androidx.compose.material.icons.rounded.ColorLens
 import androidx.compose.material.icons.rounded.NotificationsActive
 import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.material.icons.rounded.Storage
+import androidx.compose.material.icons.rounded.Widgets
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.Icon
@@ -33,12 +34,15 @@ import com.nhuhuy.algidy.core.presentation.navigation.Destination
 import com.nhuhuy.algidy.core.presentation.navigation.SettingDestination
 import com.nhuhuy.algidy.core.presentation.utils.ItemPosition
 import com.nhuhuy.algidy.feature.settings.presentation.component.ClickableSettingItem
+import com.nhuhuy.algidy.feature.settings.presentation.model.ClickableType
+import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.SettingsAction
 import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.SettingsUiState
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun MainSettingsScreen(
     uiState: SettingsUiState,
+    onAction: (SettingsAction) -> Unit,
     onNavigate: (Destination.Setting) -> Unit,
     onBackClick: () -> Unit,
 ) {
@@ -123,6 +127,18 @@ fun MainSettingsScreen(
                     title = stringResource(R.string.other_settings_title_page),
                     description = stringResource(R.string.other_settings_subtitle),
                     onClick = { onNavigate(Destination.Setting(SettingDestination.OtherSettings)) }
+                )
+            }
+
+            item {
+                ClickableSettingItem(
+                    position = ItemPosition.MIDDLE,
+                    icon = Icons.Rounded.Widgets,
+                    title = stringResource(R.string.setting_widget_debug),
+                    description = stringResource(R.string.setting_widget_debug_desc),
+                    onClick = {
+                        onAction(SettingsAction.ClickableAction(ClickableType.WidgetDebug))
+                    }
                 )
             }
 
