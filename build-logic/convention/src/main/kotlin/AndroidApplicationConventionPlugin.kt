@@ -14,17 +14,17 @@ import java.util.Properties
 class AndroidApplicationConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
-            extensions.getByType<VersionCatalogsExtension>().named("libs")
+            val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
 
             with(pluginManager) {
                 apply("com.android.application")
-                apply("org.jetbrains.kotlin.android")
                 apply("org.jetbrains.kotlin.plugin.compose")
             }
 
             extensions.configure<ApplicationExtension> {
                 configureKotlinAndroid(this)
-                defaultConfig.targetSdk = 36
+                defaultConfig.targetSdk =
+                    libs.findVersion("android-targetSdk").get().toString().toInt()
 
                 testOptions.animationsDisabled = true
 
@@ -52,7 +52,7 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
                 }
 
                 buildTypes {
-                    getByName("release") {
+                    release {
                         isMinifyEnabled = true
                         isShrinkResources = true
                         proguardFiles(

@@ -19,6 +19,7 @@ android {
     }
 
 
+    /*
     applicationVariants.all {
         val variant = this
         variant.outputs.all {
@@ -27,6 +28,7 @@ android {
             output.outputFileName = fileName
         }
     }
+    */
 }
 
 dependencies {
