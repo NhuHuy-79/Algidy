@@ -2,6 +2,6 @@
     <item
         android:width="80.dp"
         android:height="80.dp"
-        android:drawable="@drawable/app_icon"
+        android:drawable="@drawable/ic_algidy"
         android:gravity="center" />
 </layer-list>

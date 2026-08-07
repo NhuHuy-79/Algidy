@@ -91,7 +91,7 @@ class AlgidyNotificationFactory(
             NotificationChannelManager.CHANNEL_ALERT_ID
         )
             .setSmallIcon(
-                com.nhuhuy.algidy.core.notifications.R.drawable.salad
+                com.nhuhuy.algidy.core.notifications.R.drawable.ic_notification
             )
             .setContentTitle(title)
             .setContentText(content)
@@ -124,7 +124,7 @@ class AlgidyNotificationFactory(
             .bigText(longDetail)
 
         return NotificationCompat.Builder(context, NotificationChannelManager.CHANNEL_REPORT_ID)
-            .setSmallIcon(com.nhuhuy.algidy.core.notifications.R.drawable.salad)
+            .setSmallIcon(com.nhuhuy.algidy.core.notifications.R.drawable.ic_notification)
             .setContentTitle(title)
             .setContentText(shortMessage)
             .setStyle(bigTextStyle)
@@ -153,7 +153,7 @@ class AlgidyNotificationFactory(
         }
 
         return NotificationCompat.Builder(context, NotificationChannelManager.CHANNEL_ALERT_ID)
-            .setSmallIcon(com.nhuhuy.algidy.core.notifications.R.drawable.salad)
+            .setSmallIcon(com.nhuhuy.algidy.core.notifications.R.drawable.ic_notification)
             .setContentTitle(title)
             .setContentText(message)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
