@@ -16,6 +16,8 @@ sealed interface SettingsEvent : UiEvent {
         data object Failure : ImportData
         data object PickUri : ImportData
     }
+
+    data object NavigateToGithub : SettingsEvent
 }
 
 sealed interface DeleteAll : SettingsEvent {

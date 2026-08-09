@@ -16,6 +16,10 @@ import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
+import com.nhuhuy.algidy.core.designsystem.tokens.AlgidyShapes
+import com.nhuhuy.algidy.core.designsystem.tokens.AlgidySpacing
+import com.nhuhuy.algidy.core.designsystem.tokens.LocalAlgidyShapes
+import com.nhuhuy.algidy.core.designsystem.tokens.LocalAlgidySpacing
 
 private val DarkColorScheme = darkColorScheme(
     primary = primaryDark,
@@ -112,6 +116,8 @@ fun AlgidyTheme(
 
     CompositionLocalProvider(
         LocalFoodStateColors provides extendedColors,
+        LocalAlgidySpacing provides AlgidySpacing(),
+        LocalAlgidyShapes provides AlgidyShapes(),
     ) {
         MaterialExpressiveTheme(
             motionScheme = MotionScheme.expressive(),
@@ -126,4 +132,12 @@ object AlgidyTheme {
     val extendedColors: FoodStateColors
         @Composable
         get() = LocalFoodStateColors.current
+
+    val spacing: AlgidySpacing
+        @Composable
+        get() = LocalAlgidySpacing.current
+
+    val shapes: AlgidyShapes
+        @Composable
+        get() = LocalAlgidyShapes.current
 }

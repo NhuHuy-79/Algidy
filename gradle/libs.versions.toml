@@ -54,7 +54,7 @@ timber = "5.0.1"
 androidxDatastore = "1.2.1"
 androidxWork = "2.11.2"
 androidxAppcompat = "1.7.1"
-aboutLibraries = "12.1.0"
+aboutLibraries = "14.0.0"
 uiTextGoogleFonts = "1.7.0"
 
 [libraries]

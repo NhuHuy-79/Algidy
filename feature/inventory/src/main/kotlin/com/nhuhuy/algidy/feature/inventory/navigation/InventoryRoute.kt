@@ -75,7 +75,7 @@ fun InventoryRoute() = BoxLayout {
     }
 
     LaunchedEffect(Unit) {
-        if (uiState.currentVersionCode < combineState.generalPreferences.appVersionToNotify) {
+        if (uiState.currentVersionCode > combineState.generalPreferences.appVersionToNotify) {
             onAction(InventoryAction.ShowAppFeature)
         }
     }

@@ -2,7 +2,10 @@ package com.nhuhuy.algidy.feature.settings.presentation.screen
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -24,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.core.presentation.utils.toItemPosition
 import com.nhuhuy.algidy.feature.settings.presentation.component.ClickableItem
+import com.nhuhuy.algidy.feature.settings.presentation.component.about_app.AlgidyMainCard
 import com.nhuhuy.algidy.feature.settings.presentation.model.ClickableType
 import com.nhuhuy.algidy.feature.settings.presentation.model.SettingClickableItem
 import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.SettingsAction
@@ -82,6 +86,16 @@ fun AboutAppScreen(
             contentPadding = PaddingValues(16.dp),
             verticalArrangement = Arrangement.spacedBy(2.dp)
         ) {
+            item {
+                AlgidyMainCard(
+                    modifier = Modifier.fillMaxWidth(),
+                    appVersion = uiState.versionName,
+                    onGithubClick = { onAction(SettingsAction.OnGithubClick) }
+                )
+            }
+
+            item { Spacer(modifier = Modifier.height(14.dp)) }
+
             itemsIndexed(
                 items = aboutAppItem
             ) { index, item ->

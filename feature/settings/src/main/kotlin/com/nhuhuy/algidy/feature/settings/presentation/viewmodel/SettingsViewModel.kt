@@ -161,6 +161,8 @@ class SettingsViewModel(
             SettingsAction.ClearLog -> viewModelScope.launch {
                 widgetExceptionLogger.clear()
             }
+
+            SettingsAction.OnGithubClick -> emitEvent(SettingsEvent.NavigateToGithub)
         }
     }
 

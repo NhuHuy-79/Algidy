@@ -25,6 +25,8 @@ sealed interface SettingsAction : UiAction {
     data class SetDeleteThresholdDays(val thresholdDays: Int) : SettingsAction
     data class SetSeedColorPreset(val seedColor: SeedColor) : SettingsAction
 
+    data object OnGithubClick : SettingsAction
+
     data object OnBackClick : SettingsAction
     sealed interface DeleteAlertDialog {
         data object Dismiss : SettingsAction

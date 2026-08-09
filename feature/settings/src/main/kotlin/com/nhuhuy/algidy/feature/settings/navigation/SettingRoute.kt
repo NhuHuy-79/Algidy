@@ -29,6 +29,7 @@ import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.core.presentation.component.AppNewFeatureBottomSheet
 import com.nhuhuy.algidy.core.presentation.component.AppTimePickerDialog
 import com.nhuhuy.algidy.core.presentation.navigation.Destination
+import com.nhuhuy.algidy.core.presentation.navigation.Destination.Setting
 import com.nhuhuy.algidy.core.presentation.navigation.SettingDestination
 import com.nhuhuy.algidy.feature.settings.presentation.component.WidgetDebugBottomSheet
 import com.nhuhuy.algidy.feature.settings.presentation.component.about_app.CopyrightBottomSheet
@@ -55,7 +56,7 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun SettingRoute(
     destination: SettingDestination,
-    onNavigateToSettingRoute: (Destination.Setting) -> Unit,
+    onNavigateToSettingRoute: (Setting) -> Unit,
     onNavigateBack: () -> Unit,
 ) = BoxLayout {
     val viewModel: SettingsViewModel = koinViewModel()
@@ -191,8 +192,14 @@ fun SettingRoute(
             }
 
             SettingsEvent.OpenSourceClick -> onNavigateToSettingRoute(
-                Destination.Setting(SettingDestination.OpenSource)
+                Setting(SettingDestination.OpenSource)
             )
+
+            SettingsEvent.NavigateToGithub -> {
+                val intent =
+                    Intent(Intent.ACTION_VIEW, "https://github.com/NhuHuy-79/Algidy".toUri())
+                context.startActivity(intent)
+            }
         }
     }
     when (destination) {
