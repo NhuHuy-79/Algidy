@@ -83,7 +83,6 @@ class InventoryViewModel(
         )
 
     override fun onAction(action: InventoryAction) {
-        Timber.d("onAction: $action")
         when (action) {
             is InventoryAction.RemoveItem -> {
                 viewModelScope.launch {
@@ -254,13 +253,14 @@ class InventoryViewModel(
             is InventorySelectAction -> onSelectAction(action)
             InventoryAction.ShowAppFeature -> viewModelScope.launch {
                 val newFeature = appNewFeaturesReader.getWhatsNewContent()
-                newFeature?.let {
+
+                newFeature?.let { versionFeatures ->
                     _uiState.product {
-                        copy(overlay = NewFeatureSheet(it))
+                        copy(overlay = NewFeatureSheet(versionFeatures))
                     }
                     getInventoryPreferenceUseCase.updatePreferences(
                         generalPreferences = currentCombineState.generalPreferences.copy(
-                            appVersionToNotify = it.versionCode
+                            appVersionToNotify = versionFeatures.versionCode
                         )
                     )
                 }

@@ -33,6 +33,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
+import com.nhuhuy.algidy.core.designsystem.tokens.LocalAlgidyShapes
 import com.nhuhuy.algidy.core.model.food.FoodItem
 import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.core.presentation.utils.toBackgroundColor
@@ -60,6 +61,7 @@ fun InventoryFoodItem(
     }
 
     val haptic = LocalHapticFeedback.current
+    val localShape = LocalAlgidyShapes.current
 
     Column(
         modifier = modifier
@@ -79,12 +81,12 @@ fun InventoryFoodItem(
                 .aspectRatio(0.65f)
                 .background(
                     MaterialTheme.colorScheme.surfaceVariant,
-                    shape = RoundedCornerShape(8.dp)
+                    shape = localShape.large
                 )
                 .border(
                     width = 4.dp,
                     color = if (isSelected) MaterialTheme.colorScheme.primary else Color.Transparent,
-                    shape = RoundedCornerShape(8.dp)
+                    shape = localShape.large
                 )
         ) {
             AsyncImage(
@@ -93,7 +95,7 @@ fun InventoryFoodItem(
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .fillMaxSize()
-                    .clip(RoundedCornerShape(8.dp))
+                    .clip(localShape.large)
             )
 
             if (item.imageUri.isNullOrEmpty()) {
@@ -109,8 +111,8 @@ fun InventoryFoodItem(
             Surface(
                 color = freshness.toBackgroundColor(),
                 shape = RoundedCornerShape(
-                    topStart = 4.dp,
-                    bottomStart = 4.dp,
+                    topStart = 8.dp,
+                    bottomStart = 8.dp,
                     topEnd = 16.dp,
                     bottomEnd = 16.dp
                 ),
@@ -142,8 +144,8 @@ fun InventoryFoodItem(
                 shape = RoundedCornerShape(
                     topStart = 16.dp,
                     bottomStart = 16.dp,
-                    topEnd = 4.dp,
-                    bottomEnd = 4.dp
+                    topEnd = 8.dp,
+                    bottomEnd = 8.dp
                 ),
                 contentColor = freshness.toContentColor(),
                 modifier = Modifier

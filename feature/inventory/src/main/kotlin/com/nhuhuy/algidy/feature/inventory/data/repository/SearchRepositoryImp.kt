@@ -35,8 +35,6 @@ class SearchRepositoryImp(
         val sanitizedQuery = normalizedQuery.trim().replace(Regex("[^a-zA-Z0-9\\s]"), "")
         if (sanitizedQuery.isEmpty()) return emptyList()
 
-        // Phân tách các từ và thêm * vào mỗi từ để tìm kiếm linh hoạt hơn
-        // Ví dụ: "thịt bò" -> "thịt* bò*"
         val ftsQuery = sanitizedQuery.split(Regex("\\s+"))
             .filter { it.isNotEmpty() }
             .joinToString(" ") { "$it*" }

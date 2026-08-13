@@ -1,4 +1,4 @@
-package com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.pager
+package com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.grid_list
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.pager.HorizontalPager

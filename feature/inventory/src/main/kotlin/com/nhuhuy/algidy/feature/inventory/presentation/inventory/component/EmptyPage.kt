@@ -16,6 +16,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.nhuhuy.algidy.core.designsystem.theme.AlgidyTheme
 import com.nhuhuy.algidy.core.presentation.R
 
 @Composable
@@ -23,9 +24,13 @@ fun EmptyPage(
     modifier: Modifier = Modifier,
     onClick: () -> Unit = {},
 ) {
+    val spacing = AlgidyTheme.spacing
     Column(
-        modifier = modifier.padding(horizontal = 32.dp),
-        verticalArrangement = Arrangement.spacedBy(12.dp, alignment = Alignment.CenterVertically),
+        modifier = modifier.padding(horizontal = spacing.medium),
+        verticalArrangement = Arrangement.spacedBy(
+            space = spacing.small,
+            alignment = Alignment.CenterVertically
+        ),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Image(

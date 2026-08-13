@@ -30,7 +30,7 @@ fun AppFilterButton(
     onClick: () -> Unit
 ){
     val animatedDpValue by animateDpAsState(
-        targetValue = if (selected) 48.dp else 8.dp,
+        targetValue = if (selected) 24.dp else 12.dp,
         label = "animated_dp"
     )
 

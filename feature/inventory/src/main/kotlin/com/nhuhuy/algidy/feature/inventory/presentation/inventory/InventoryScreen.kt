@@ -33,7 +33,7 @@ import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.Inve
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.InventoryTopBar
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.grid_list.InventoryCategoryList
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.grid_list.InventoryFoodItem
-import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.pager.InventoryPager
+import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.grid_list.InventoryPager
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryAction
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryCombineState
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryResultState

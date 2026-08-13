@@ -5,16 +5,11 @@ import android.content.pm.PackageManager
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.DeleteForever
 import androidx.compose.material.icons.rounded.Restaurant
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scrim
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -33,7 +28,7 @@ import com.nhuhuy.algidy.core.presentation.component.AppNewFeatureBottomSheet
 import com.nhuhuy.algidy.core.presentation.component.TextFieldDialog
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.InventoryScreen
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.CameraPolicyBottomSheet
-import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.InventoryFabMenu
+import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.InventoryVerticalToolbar
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.detail.DetailBottomSheet
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryAction
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryAction.OnEditCategorySheet.OnInputChange
@@ -74,7 +69,10 @@ fun InventoryRoute() = BoxLayout {
         }
     }
 
-    LaunchedEffect(Unit) {
+    LaunchedEffect(
+        key1 = uiState.currentVersionCode,
+        key2 = combineState.generalPreferences.appVersionToNotify
+    ) {
         if (uiState.currentVersionCode > combineState.generalPreferences.appVersionToNotify) {
             onAction(InventoryAction.ShowAppFeature)
         }
@@ -93,6 +91,23 @@ fun InventoryRoute() = BoxLayout {
         combineState = combineState,
         inventoryResultState = inventoryResultState,
         onAction = onAction
+    )
+
+    InventoryVerticalToolbar(
+        state = uiState,
+        onAction = onAction,
+        modifier = Modifier
+            .align(Alignment.CenterEnd)
+            .padding(horizontal = 24.dp),
+        onExpandChange = { onAction(InventoryFabAction.ToggleFabMenu(!uiState.expanded)) },
+        onBarcodeScanClick = {
+            val isGranted = ContextCompat.checkSelfPermission(
+                context,
+                Manifest.permission.CAMERA
+            ) == PackageManager.PERMISSION_GRANTED
+            onAction(InventoryFabAction.BarcodeScan(isGranted))
+        },
+        onAddManuallyClick = { onAction(InventoryFabAction.Manual) }
     )
 
     when (val overlay = uiState.overlay) {
@@ -170,39 +185,29 @@ fun InventoryRoute() = BoxLayout {
         }
     }
 
-    if (uiState.expanded) {
-        Scrim(
-            color = MaterialTheme.colorScheme.surface,
-            onClick = { onAction(InventoryFabAction.ToggleFabMenu(false)) },
-            contentDescription = "scrim",
-            modifier = Modifier.fillMaxSize(),
-            alpha = { 0.6f }
-        )
-    }
-
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(bottom = 16.dp, end = 16.dp)
-            .navigationBarsPadding(),
-        contentAlignment = Alignment.BottomEnd
-    ) {
-        InventoryFabMenu(
-            modifier = Modifier,
-            expanded = uiState.expanded,
-            onExpandClose = { onAction(InventoryFabAction.ToggleFabMenu(it)) },
-            onManualClick = { onAction(InventoryFabAction.Manual) },
-            onSettingClick = { onAction(InventoryFabAction.Setting) },
-            onBarcodeScanClick = {
-                val isGranted = ContextCompat.checkSelfPermission(
-                    context,
-                    Manifest.permission.CAMERA
-                ) == PackageManager.PERMISSION_GRANTED
-                Timber.d("BarcodeScan click triggered. isGranted=$isGranted")
-                onAction(InventoryFabAction.BarcodeScan(isGranted))
-            },
-            onAnalyticsClick = { onAction(InventoryFabAction.Analytics) }
-        )
-    }
+    /*  Box(
+          modifier = Modifier
+              .fillMaxSize()
+              .padding(bottom = 120.dp, end = 16.dp)
+              .navigationBarsPadding(),
+          contentAlignment = Alignment.BottomEnd
+      ) {
+          InventoryFabMenu(
+              modifier = Modifier,
+              expanded = uiState.expanded,
+              onExpandClose = { onAction(InventoryFabAction.ToggleFabMenu(it)) },
+              onManualClick = { onAction(InventoryFabAction.Manual) },
+              onSettingClick = { onAction(InventoryFabAction.Setting) },
+              onBarcodeScanClick = {
+                  val isGranted = ContextCompat.checkSelfPermission(
+                      context,
+                      Manifest.permission.CAMERA
+                  ) == PackageManager.PERMISSION_GRANTED
+                  Timber.d("BarcodeScan click triggered. isGranted=$isGranted")
+                  onAction(InventoryFabAction.BarcodeScan(isGranted))
+              },
+              onAnalyticsClick = { onAction(InventoryFabAction.Analytics) }
+          )
+      }*/
 }
  
