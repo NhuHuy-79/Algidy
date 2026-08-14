@@ -3,8 +3,6 @@ package com.nhuhuy.algidy.navigation
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
@@ -16,7 +14,6 @@ import com.nhuhuy.algidy.core.designsystem.tokens.LocalAlgidySpacing
 @Composable
 fun FloatingBottomBarScaffold(
     modifier: Modifier = Modifier,
-    floatingActionButton: @Composable (() -> Unit)? = null,
     bottomBar: @Composable () -> Unit,
     content: @Composable () -> Unit
 ) {
@@ -26,7 +23,6 @@ fun FloatingBottomBarScaffold(
         contentAlignment = Alignment.Center
     ) {
         content()
-
         Column(
             modifier = Modifier
                 .align(Alignment.BottomCenter)
@@ -35,10 +31,6 @@ fun FloatingBottomBarScaffold(
             verticalArrangement = Arrangement.spacedBy(localSpacing.medium),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Row {
-                Spacer(modifier = Modifier.weight(1f))
-                floatingActionButton?.invoke()
-            }
             bottomBar()
         }
 

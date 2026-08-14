@@ -81,7 +81,7 @@ fun InventoryFoodGridItem(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(localSpacing.small)
+            verticalArrangement = Arrangement.spacedBy(localSpacing.extraSmall)
         ) {
             Text(
                 text = item.name,
@@ -131,7 +131,7 @@ private fun ExpiryLabel(
             )
             Text(
                 text = remainingDaysText,
-                style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.Medium),
+                style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.SemiBold),
                 maxLines = 2
             )
         }

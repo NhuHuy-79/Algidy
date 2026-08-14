@@ -11,13 +11,9 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.BlurredEdgeTreatment
-import androidx.compose.ui.draw.blur
-import androidx.compose.ui.unit.dp
 import androidx.core.os.LocaleListCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -50,7 +46,7 @@ class MainActivity : AppCompatActivity() {
             navigationBarStyle = SystemBarStyle.dark(scrim = Color.TRANSPARENT)
         )
         setContent {
-            val backstack = rememberNavBackStack(Destination.Inventory.Home)
+            val backStack = rememberNavBackStack(Destination.Inventory.Home)
             val uiState: AppUiState by viewModel.appUiState.collectAsStateWithLifecycle()
             val onAction = viewModel::onAction
             val isUnlocked by viewModel.isUnlocked.collectAsStateWithLifecycle()
@@ -121,35 +117,28 @@ class MainActivity : AppCompatActivity() {
                     DarkMode.SYSTEM -> isSystemInDarkTheme()
                 }
             ) {
-
                 FloatingBottomBarScaffold(
+                    modifier = Modifier.fillMaxSize(),
                     bottomBar = {
-                        val currentBottomBarItem = backstack.map { it.toBottomBarItem() }
+                        val currentBottomBarItem = backStack.map { it.toBottomBarItem() }
                             .lastOrNull() ?: BottomBarItem.HOME
                         AnimatedVisibility(
-                            visible = backstack.lastOrNull() !is Destination.Scanner,
+                            visible = backStack.lastOrNull() !is Destination.Scanner,
                         ) {
                             BottomFloatingBar(
                                 modifier = Modifier,
                                 selectedBottomBarItem = currentBottomBarItem,
                                 onBottomBarClick = { item ->
                                     val destination = item.toDestination()
-                                    backstack.add(destination)
+                                    backStack.add(destination)
                                 }
                             )
                         }
-                    }
+                    },
                 ) {
                     AppGraph(
-                        backStack = backstack,
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .then(
-                                if (isUnlocked) Modifier else Modifier.blur(
-                                    radius = 16.dp,
-                                    edgeTreatment = BlurredEdgeTreatment(RoundedCornerShape(8.dp))
-                                )
-                            )
+                        modifier = Modifier,
+                        backStack = backStack,
                     )
                 }
             }

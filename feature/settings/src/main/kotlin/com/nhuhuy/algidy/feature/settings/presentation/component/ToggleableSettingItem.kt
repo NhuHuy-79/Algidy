@@ -142,9 +142,7 @@ fun ClickableSettingItem(
         headlineContent = {
             Text(
                 text = title,
-                style = MaterialTheme.typography.titleMedium.copy(
-                    fontWeight = FontWeight.Medium
-                )
+                style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.SemiBold)
             )
         },
         trailingContent = {

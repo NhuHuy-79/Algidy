@@ -91,8 +91,7 @@ fun AppGraph(
             entry<Destination.Inventory.Search> {
                 SearchInventoryRoute(
                     onNavigateBack = backStack::removeLastOrNull,
-                    onNavigateToDetail = { id ->
-                        // backStack.add(Destination.Detail(foodItemId = id))
+                    onNavigateToDetail = {
                     }
                 )
             }

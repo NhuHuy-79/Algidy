@@ -105,8 +105,9 @@ fun InventoryRoute() = BoxLayout {
     AnimatedVisibility(
         visible = !uiState.isSelectMode,
         modifier = Modifier
-            .align(Alignment.CenterEnd)
-            .padding(horizontal = 24.dp),
+            .align(Alignment.BottomEnd)
+            .padding(horizontal = 16.dp)
+            .padding(bottom = 144.dp),
         enter = fadeIn(
             animationSpec = tween(durationMillis = 200)
         ) + slideInHorizontally(
