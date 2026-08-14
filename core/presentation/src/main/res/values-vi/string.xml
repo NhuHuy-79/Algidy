@@ -37,9 +37,9 @@
 
     <!-- Freshness -->
     <string name="freshness_no_expiry">Không có hạn sử dụng</string>
-    <string name="freshness_expired">Hết hạn %1$s ngày trước</string>
-    <string name="freshness_expires_today">Hết hạn hôm nay</string>
-    <string name="freshness_one_day_left">Hết hạn ngày mai</string>
+    <string name="freshness_expired">%1$s ngày trước</string>
+    <string name="freshness_expires_today">Hôm nay</string>
+    <string name="freshness_one_day_left">Ngày mai</string>
     <string name="freshness_days_left">Còn %1$s ngày</string>
     <string name="freshness_months_left">Còn %1$s tháng</string>
 

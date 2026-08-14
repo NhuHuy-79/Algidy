@@ -33,6 +33,7 @@ data class AppUiState(
 sealed interface AppAction {
     data class UpdateBiometricSupported(val value: Boolean) : AppAction
     data class UpdateAppUnlock(val unlock: Boolean) : AppAction
+    data class OnAddFabExchange(val exchange: Boolean) : AppAction
     data object TriggerBiometric : AppAction
 }
 
@@ -43,6 +44,9 @@ class AppViewModel(
 ) : ViewModel() {
     private val _isUnLocked = MutableStateFlow(false)
     val isUnlocked = _isUnLocked.asStateFlow()
+
+    private val _isAddFabExpanded = MutableStateFlow(false)
+    val isAddFabExpanded = _isAddFabExpanded.asStateFlow()
 
     private val _biometricEvent = MutableStateFlow(0)
     val biometricTrigger = _biometricEvent.asStateFlow()
@@ -79,6 +83,7 @@ class AppViewModel(
             }
 
             is AppAction.UpdateAppUnlock -> _isUnLocked.update { action.unlock }
+            is AppAction.OnAddFabExchange -> _isAddFabExpanded.update { action.exchange }
         }
     }
 }

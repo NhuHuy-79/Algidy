@@ -12,9 +12,9 @@ import androidx.compose.material.icons.automirrored.rounded.Label
 import androidx.compose.material.icons.rounded.Event
 import androidx.compose.material.icons.rounded.FilterList
 import androidx.compose.material.icons.rounded.RestartAlt
-import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material.icons.rounded.SortByAlpha
 import androidx.compose.material.icons.rounded.WarningAmber
+import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -24,17 +24,16 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.MediumFlexibleTopAppBar
 import androidx.compose.material3.MenuDefaults
 import androidx.compose.material3.MenuItemShapes
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -47,49 +46,17 @@ import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.Inve
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun InventoryTopBar(
-    isExpiredOnlyActive: Boolean,
-    categoryEnabled: Boolean,
-    showCategoryEditMode: Boolean,
-    currentSortMode: InventorySortMode,
-    onAction: (InventoryAction) -> Unit,
-    modifier: Modifier = Modifier,
-    scrollBehavior: TopAppBarScrollBehavior? = null
+    title: String,
+    modifier: Modifier = Modifier
 ) {
-    MediumFlexibleTopAppBar(
+    CenterAlignedTopAppBar(
         modifier = modifier,
-        scrollBehavior = scrollBehavior,
         title = {
             Text(
-                text = stringResource(R.string.inventory_title),
+                text = title,
                 style = MaterialTheme.typography.displaySmall.copy(
                     fontWeight = FontWeight.Black
                 )
-            )
-
-        },
-        subtitle = {
-            Text(text = stringResource(R.string.inventory_subtitle))
-        },
-        actions = {
-            IconButton(
-                onClick = { onAction(InventoryAction.OnSearchClick) },
-            ) {
-                Icon(
-                    imageVector = Icons.Rounded.Search,
-                    contentDescription = null
-                )
-            }
-
-            FilterSortMenu(
-                isExpiredOnlyActive = isExpiredOnlyActive,
-                currentSortMode = currentSortMode,
-                onAction = onAction
-            )
-
-            CategoryActionMenu(
-                modifier = Modifier.padding(end = LocalAlgidySpacing.current.small),
-                isCategoryEnabled = categoryEnabled && showCategoryEditMode,
-                onAction = onAction
             )
         }
     )
@@ -110,8 +77,8 @@ fun CategoryActionMenu(
         IconButton(
             shape = CircleShape,
             colors = IconButtonDefaults.iconButtonColors(
-                containerColor = if (expanded) scheme.secondaryContainer else scheme.surfaceContainer,
-                contentColor = if (expanded) scheme.onSecondaryContainer else scheme.onSurface
+                containerColor = if (expanded) scheme.primary else scheme.secondaryContainer,
+                contentColor = if (expanded) scheme.onPrimary else scheme.onSecondaryContainer
             ),
             onClick = { expanded = true }
         ) {
@@ -175,19 +142,14 @@ fun FilterSortMenu(
         IconButton(
             shape = CircleShape,
             colors = IconButtonDefaults.iconButtonColors(
-                containerColor = if (expanded) scheme.secondaryContainer else scheme.surfaceContainer,
-                contentColor = if (expanded) scheme.onSecondaryContainer else scheme.onSurface
+                containerColor = if (expanded) scheme.primary else scheme.secondaryContainer,
+                contentColor = if (expanded) scheme.onPrimary else scheme.onSecondaryContainer
             ),
             onClick = { expanded = true }
         ) {
             Icon(
                 imageVector = Icons.Rounded.FilterList,
                 contentDescription = stringResource(R.string.inventory_menu_filter),
-                tint = if (isExpiredOnlyActive || currentSortMode != InventorySortMode.NONE) {
-                    scheme.primary
-                } else {
-                    scheme.onSurface
-                }
             )
         }
 
@@ -205,12 +167,12 @@ fun FilterSortMenu(
                     selectedShape = LocalAlgidyShapes.current.medium
                 ),
                 colors = MenuDefaults.selectableItemColors(
-                    selectedTextColor = scheme.onSecondary,
+                    selectedTextColor = scheme.onSecondaryContainer,
                     textColor = scheme.onSurface,
-                    containerColor = scheme.surfaceContainer,
-                    selectedContainerColor = scheme.secondary,
+                    containerColor = Color.Transparent,
+                    selectedContainerColor = scheme.secondaryContainer,
                     leadingIconColor = scheme.onSurface,
-                    selectedLeadingIconColor = scheme.onSecondary
+                    selectedLeadingIconColor = scheme.onSecondaryContainer
                 ),
                 text = { Text(stringResource(R.string.inventory_menu_sort_expiry)) },
                 leadingIcon = { Icon(Icons.Rounded.Event, null, Modifier.size(18.dp)) },
@@ -228,12 +190,12 @@ fun FilterSortMenu(
                     selectedShape = LocalAlgidyShapes.current.medium
                 ),
                 colors = MenuDefaults.selectableItemColors(
-                    selectedTextColor = scheme.onSecondary,
+                    selectedTextColor = scheme.onSecondaryContainer,
                     textColor = scheme.onSurface,
-                    containerColor = scheme.surfaceContainer,
-                    selectedContainerColor = scheme.secondary,
+                    containerColor = Color.Transparent,
+                    selectedContainerColor = scheme.secondaryContainer,
                     leadingIconColor = scheme.onSurface,
-                    selectedLeadingIconColor = scheme.onSecondary
+                    selectedLeadingIconColor = scheme.onSecondaryContainer
                 ),
                 text = { Text(stringResource(R.string.inventory_menu_sort_name)) },
                 leadingIcon = { Icon(Icons.Rounded.SortByAlpha, null, Modifier.size(18.dp)) },
@@ -251,12 +213,12 @@ fun FilterSortMenu(
                     selectedShape = LocalAlgidyShapes.current.medium
                 ),
                 colors = MenuDefaults.selectableItemColors(
-                    selectedTextColor = scheme.onSecondary,
+                    selectedTextColor = scheme.onSecondaryContainer,
                     textColor = scheme.onSurface,
-                    containerColor = scheme.surfaceContainer,
-                    selectedContainerColor = scheme.secondary,
+                    containerColor = Color.Transparent,
+                    selectedContainerColor = scheme.secondaryContainer,
                     leadingIconColor = scheme.onSurface,
-                    selectedLeadingIconColor = scheme.onSecondary
+                    selectedLeadingIconColor = scheme.onSecondaryContainer
                 ),
                 text = { Text(stringResource(R.string.inventory_menu_expired_only)) },
                 leadingIcon = { Icon(Icons.Rounded.WarningAmber, null, Modifier.size(18.dp)) },

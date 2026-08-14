@@ -20,6 +20,7 @@ data class InventoryCombineState(
     val categoryEnabled: Boolean = false,
     val categories: List<CategoryUiModel> = listOf(CategoryUiModel.All),
     val generalPreferences: GeneralPreferences = GeneralPreferences(),
+    val isLoaded: Boolean = false
 )
 
 @Immutable

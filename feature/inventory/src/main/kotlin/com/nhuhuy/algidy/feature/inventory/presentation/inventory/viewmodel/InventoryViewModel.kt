@@ -60,7 +60,8 @@ class InventoryViewModel(
         InventoryCombineState(
             categoryEnabled = categoryEnabled,
             categories = categories.toUiModel(),
-            generalPreferences = generaPreferences
+            generalPreferences = generaPreferences,
+            isLoaded = true
         )
     }.stateIn(
         scope = viewModelScope,
@@ -258,12 +259,13 @@ class InventoryViewModel(
                     _uiState.product {
                         copy(overlay = NewFeatureSheet(versionFeatures))
                     }
-                    getInventoryPreferenceUseCase.updatePreferences(
-                        generalPreferences = currentCombineState.generalPreferences.copy(
-                            appVersionToNotify = versionFeatures.versionCode
-                        )
-                    )
                 }
+
+                getInventoryPreferenceUseCase.updatePreferences(
+                    generalPreferences = currentCombineState.generalPreferences.copy(
+                        appVersionToNotify = currentState.currentVersionCode
+                    )
+                )
             }
 
             InventoryAction.OnEmptyPageClick -> navigator.navigateTo(Destination.FoodEntry())

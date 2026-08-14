@@ -4,11 +4,14 @@ package com.nhuhuy.algidy.feature.inventory.presentation.inventory
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
@@ -18,21 +21,25 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.nhuhuy.algidy.core.designsystem.tokens.LocalAlgidyShapes
+import com.nhuhuy.algidy.core.designsystem.tokens.LocalAlgidySpacing
 import com.nhuhuy.algidy.core.model.food.FoodItem
 import com.nhuhuy.algidy.core.model.food.Freshness
 import com.nhuhuy.algidy.core.model.food.StorageLocation
+import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.core.presentation.component.CategoryFilterGroup
 import com.nhuhuy.algidy.core.presentation.model.CategoryUiModel
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.InventorySelectBar
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.InventoryTabRow
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.InventoryTopBar
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.grid_list.InventoryCategoryList
-import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.grid_list.InventoryFoodItem
+import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.grid_list.InventoryFoodGridItem
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.grid_list.InventoryPager
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryAction
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryCombineState
@@ -54,9 +61,9 @@ fun InventoryScreen(
     onAction: (InventoryAction) -> Unit,
 ) {
     val categories = GridCategory.entries.toImmutableList()
-    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
     val pagerState = rememberPagerState(pageCount = { categories.size })
     val scope = rememberCoroutineScope()
+    val localSpacing = LocalAlgidySpacing.current
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -67,12 +74,8 @@ fun InventoryScreen(
                 ) { selectedMode ->
                     if (!selectedMode) {
                         InventoryTopBar(
-                            showCategoryEditMode = uiState.showCategoryEdit,
-                            isExpiredOnlyActive = uiState.showExpiredOnly,
-                            categoryEnabled = combineState.categoryEnabled,
-                            currentSortMode = uiState.sortMode,
-                            onAction = onAction,
-                            scrollBehavior = scrollBehavior
+                            title = stringResource(R.string.inventory_title),
+                            modifier = Modifier.fillMaxWidth(),
                         )
                     } else {
                         InventorySelectBar(
@@ -81,6 +84,8 @@ fun InventoryScreen(
                         )
                     }
                 }
+
+                Spacer(modifier = Modifier.height(localSpacing.large))
 
                 if (combineState.categoryEnabled) {
                     CategoryFilterGroup(
@@ -164,23 +169,28 @@ fun InventoryGridList(
     contentPadding: PaddingValues = PaddingValues(16.dp)
 ) {
     LazyVerticalStaggeredGrid(
-        columns = StaggeredGridCells.Fixed(3),
+        columns = StaggeredGridCells.Fixed(2),
         modifier = modifier.fillMaxSize(),
         contentPadding = contentPadding,
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        horizontalArrangement = Arrangement.spacedBy(12.dp),
         verticalItemSpacing = 12.dp
     ) {
         items(
             items = items,
             key = { it.id }
         ) { foodItem ->
-            InventoryFoodItem(
+            val localShape = LocalAlgidyShapes.current
+            InventoryFoodGridItem(
                 item = foodItem,
                 isSelected = foodItem.id in selectedIds,
-                onItemClick = onItemClick,
-                onLongClick = onItemLongClick,
                 modifier = Modifier
                     .animateItem()
+                    .clip(localShape.large)
+                    .combinedClickable(
+                        enabled = true,
+                        onClick = { onItemClick(foodItem) },
+                        onLongClick = { onItemLongClick(foodItem) }
+                    )
             )
         }
     }

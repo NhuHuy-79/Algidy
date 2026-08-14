@@ -1,5 +1,6 @@
 package com.nhuhuy.algidy
 
+import android.graphics.Color
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.SystemBarStyle
@@ -7,6 +8,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -19,10 +21,18 @@ import androidx.compose.ui.unit.dp
 import androidx.core.os.LocaleListCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation3.runtime.rememberNavBackStack
 import com.nhuhuy.algidy.core.designsystem.theme.AlgidyDynamicTheme
 import com.nhuhuy.algidy.core.model.setting.DarkMode
+import com.nhuhuy.algidy.core.presentation.R
+import com.nhuhuy.algidy.core.presentation.navigation.Destination
 import com.nhuhuy.algidy.core.presentation.utils.toColor
 import com.nhuhuy.algidy.navigation.AppGraph
+import com.nhuhuy.algidy.navigation.BottomBarItem
+import com.nhuhuy.algidy.navigation.BottomFloatingBar
+import com.nhuhuy.algidy.navigation.FloatingBottomBarScaffold
+import com.nhuhuy.algidy.navigation.toBottomBarItem
+import com.nhuhuy.algidy.navigation.toDestination
 import com.nhuhuy.algidy.utils.BiometricHandler
 import com.nhuhuy.algidy.utils.BiometricResult
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -37,9 +47,10 @@ class MainActivity : AppCompatActivity() {
         }
         super.onCreate(savedInstanceState)
         enableEdgeToEdge(
-            navigationBarStyle = SystemBarStyle.dark(scrim = android.graphics.Color.TRANSPARENT)
+            navigationBarStyle = SystemBarStyle.dark(scrim = Color.TRANSPARENT)
         )
         setContent {
+            val backstack = rememberNavBackStack(Destination.Inventory.Home)
             val uiState: AppUiState by viewModel.appUiState.collectAsStateWithLifecycle()
             val onAction = viewModel::onAction
             val isUnlocked by viewModel.isUnlocked.collectAsStateWithLifecycle()
@@ -58,7 +69,7 @@ class MainActivity : AppCompatActivity() {
                                 BiometricResult.Failed -> {
                                     Toast.makeText(
                                         this@MainActivity, this@MainActivity.getString(
-                                            com.nhuhuy.algidy.core.presentation.R.string.biometric_auth_failed
+                                            R.string.biometric_auth_failed
                                         ), Toast.LENGTH_SHORT
                                     ).show()
                                     onAction(AppAction.UpdateAppUnlock(false))
@@ -67,7 +78,7 @@ class MainActivity : AppCompatActivity() {
                                 is BiometricResult.Error -> {
                                     Toast.makeText(
                                         this@MainActivity, this@MainActivity.getString(
-                                            com.nhuhuy.algidy.core.presentation.R.string.biometric_auth_failed
+                                            R.string.biometric_auth_failed
                                         ), Toast.LENGTH_SHORT
                                     ).show()
                                     onAction(AppAction.UpdateAppUnlock(false))
@@ -79,7 +90,7 @@ class MainActivity : AppCompatActivity() {
                                         else -> {
                                             Toast.makeText(
                                                 this@MainActivity, this@MainActivity.getString(
-                                                    com.nhuhuy.algidy.core.presentation.R.string.biometric_auth_failed
+                                                    R.string.biometric_auth_failed
                                                 ), Toast.LENGTH_SHORT
                                             ).show()
                                         }
@@ -110,16 +121,37 @@ class MainActivity : AppCompatActivity() {
                     DarkMode.SYSTEM -> isSystemInDarkTheme()
                 }
             ) {
-                AppGraph(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .then(
-                            if (isUnlocked) Modifier else Modifier.blur(
-                                radius = 16.dp,
-                                edgeTreatment = BlurredEdgeTreatment(RoundedCornerShape(8.dp))
+
+                FloatingBottomBarScaffold(
+                    bottomBar = {
+                        val currentBottomBarItem = backstack.map { it.toBottomBarItem() }
+                            .lastOrNull() ?: BottomBarItem.HOME
+                        AnimatedVisibility(
+                            visible = backstack.lastOrNull() !is Destination.Scanner,
+                        ) {
+                            BottomFloatingBar(
+                                modifier = Modifier,
+                                selectedBottomBarItem = currentBottomBarItem,
+                                onBottomBarClick = { item ->
+                                    val destination = item.toDestination()
+                                    backstack.add(destination)
+                                }
                             )
-                        )
-                )
+                        }
+                    }
+                ) {
+                    AppGraph(
+                        backStack = backstack,
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .then(
+                                if (isUnlocked) Modifier else Modifier.blur(
+                                    radius = 16.dp,
+                                    edgeTreatment = BlurredEdgeTreatment(RoundedCornerShape(8.dp))
+                                )
+                            )
+                    )
+                }
             }
         }
     }

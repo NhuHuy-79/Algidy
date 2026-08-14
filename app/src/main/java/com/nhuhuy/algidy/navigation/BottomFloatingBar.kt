@@ -16,10 +16,10 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Analytics
-import androidx.compose.material.icons.outlined.Home
+import androidx.compose.material.icons.outlined.Inventory
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material.icons.rounded.Analytics
-import androidx.compose.material.icons.rounded.Home
+import androidx.compose.material.icons.rounded.Inventory
 import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.FloatingToolbarDefaults
@@ -48,8 +48,8 @@ enum class BottomBarItem(
 ) {
     HOME(
         label = R.string.inventory_title,
-        selectedIcon = Icons.Rounded.Home,
-        unselectedIcon = Icons.Outlined.Home
+        selectedIcon = Icons.Rounded.Inventory,
+        unselectedIcon = Icons.Outlined.Inventory
     ),
 
     ANALYTICS(

@@ -5,6 +5,13 @@ import android.content.pm.PackageManager
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.slideInHorizontally
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Delete
@@ -15,6 +22,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -71,9 +79,10 @@ fun InventoryRoute() = BoxLayout {
 
     LaunchedEffect(
         key1 = uiState.currentVersionCode,
-        key2 = combineState.generalPreferences.appVersionToNotify
+        key2 = combineState.generalPreferences.appVersionToNotify,
+        key3 = combineState.isLoaded
     ) {
-        if (uiState.currentVersionCode > combineState.generalPreferences.appVersionToNotify) {
+        if (combineState.isLoaded && uiState.currentVersionCode > combineState.generalPreferences.appVersionToNotify) {
             onAction(InventoryAction.ShowAppFeature)
         }
     }
@@ -93,22 +102,40 @@ fun InventoryRoute() = BoxLayout {
         onAction = onAction
     )
 
-    InventoryVerticalToolbar(
-        state = uiState,
-        onAction = onAction,
+    AnimatedVisibility(
+        visible = !uiState.isSelectMode,
         modifier = Modifier
             .align(Alignment.CenterEnd)
             .padding(horizontal = 24.dp),
-        onExpandChange = { onAction(InventoryFabAction.ToggleFabMenu(!uiState.expanded)) },
-        onBarcodeScanClick = {
-            val isGranted = ContextCompat.checkSelfPermission(
-                context,
-                Manifest.permission.CAMERA
-            ) == PackageManager.PERMISSION_GRANTED
-            onAction(InventoryFabAction.BarcodeScan(isGranted))
-        },
-        onAddManuallyClick = { onAction(InventoryFabAction.Manual) }
-    )
+        enter = fadeIn(
+            animationSpec = tween(durationMillis = 200)
+        ) + slideInHorizontally(
+            initialOffsetX = { fullWidth -> fullWidth },
+            animationSpec = spring(
+                dampingRatio = Spring.DampingRatioLowBouncy,
+                stiffness = Spring.StiffnessMediumLow
+            )
+        ) + scaleIn(
+            transformOrigin = TransformOrigin(1f, 0.5f),
+            initialScale = 0.8f,
+            animationSpec = tween(durationMillis = 250)
+        ),
+    ) {
+        InventoryVerticalToolbar(
+            state = uiState,
+            onAction = onAction,
+            onExpandChange = { onAction(InventoryFabAction.ToggleFabMenu(!uiState.expanded)) },
+            onBarcodeScanClick = {
+                val isGranted = ContextCompat.checkSelfPermission(
+                    context,
+                    Manifest.permission.CAMERA
+                ) == PackageManager.PERMISSION_GRANTED
+                onAction(InventoryFabAction.BarcodeScan(isGranted))
+            },
+            onSearchClick = { onAction(InventoryAction.OnSearchClick) },
+            onAddManuallyClick = { onAction(InventoryFabAction.Manual) }
+        )
+    }
 
     when (val overlay = uiState.overlay) {
         InventoryOverlay.None -> Unit
@@ -184,30 +211,5 @@ fun InventoryRoute() = BoxLayout {
             )
         }
     }
-
-    /*  Box(
-          modifier = Modifier
-              .fillMaxSize()
-              .padding(bottom = 120.dp, end = 16.dp)
-              .navigationBarsPadding(),
-          contentAlignment = Alignment.BottomEnd
-      ) {
-          InventoryFabMenu(
-              modifier = Modifier,
-              expanded = uiState.expanded,
-              onExpandClose = { onAction(InventoryFabAction.ToggleFabMenu(it)) },
-              onManualClick = { onAction(InventoryFabAction.Manual) },
-              onSettingClick = { onAction(InventoryFabAction.Setting) },
-              onBarcodeScanClick = {
-                  val isGranted = ContextCompat.checkSelfPermission(
-                      context,
-                      Manifest.permission.CAMERA
-                  ) == PackageManager.PERMISSION_GRANTED
-                  Timber.d("BarcodeScan click triggered. isGranted=$isGranted")
-                  onAction(InventoryFabAction.BarcodeScan(isGranted))
-              },
-              onAnalyticsClick = { onAction(InventoryFabAction.Analytics) }
-          )
-      }*/
 }
  
