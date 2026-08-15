@@ -1,11 +1,15 @@
 package com.nhuhuy.algidy.feature.inventory.presentation.model
 
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
+import androidx.compose.ui.res.stringResource
 import com.nhuhuy.algidy.core.model.food.FoodItem
 import com.nhuhuy.algidy.core.model.food.Freshness
 import com.nhuhuy.algidy.core.model.food.StorageLocation
+import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.core.presentation.model.CategoryUiModel
 import com.nhuhuy.algidy.core.presentation.model.toUiModel
+import kotlin.math.abs
 
 @Immutable
 data class FoodCardUiModel(
@@ -38,8 +42,23 @@ fun FoodItem.toFoodCardUiModel(): FoodCardUiModel {
     )
 }
 
+
 fun List<FoodItem>.toFoodCardUiModel(): List<FoodCardUiModel> {
     return map { it.toFoodCardUiModel() }
+}
+
+@Composable
+fun readableRemainDays(remainingDays: Int): String {
+    val remainingDaysText = when {
+        remainingDays == -1 -> stringResource(R.string.freshness_no_expiry)
+        remainingDays < 0 -> stringResource(R.string.freshness_expired, abs(remainingDays))
+        remainingDays == 0 -> stringResource(R.string.freshness_expires_today)
+        remainingDays == 1 -> stringResource(R.string.freshness_one_day_left)
+        remainingDays < 30 -> stringResource(R.string.freshness_days_left, remainingDays)
+        else -> stringResource(R.string.freshness_months_left, remainingDays / 30)
+    }
+
+    return remainingDaysText
 }
 
 

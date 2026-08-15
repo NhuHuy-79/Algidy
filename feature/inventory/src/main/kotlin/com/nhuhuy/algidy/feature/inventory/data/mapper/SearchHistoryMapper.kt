@@ -1,14 +1,14 @@
 package com.nhuhuy.algidy.feature.inventory.data.mapper
 
 import com.nhuhuy.algidy.core.database.entity.SearchHistoryEntity
-import com.nhuhuy.algidy.feature.inventory.domain.model.HistoryResult
+import com.nhuhuy.algidy.feature.inventory.domain.model.SearchHistory
 
-fun SearchHistoryEntity.toDomain() = HistoryResult(
+fun SearchHistoryEntity.toDomain() = SearchHistory(
     id = id,
     name = query,
     timeStamp = timestamp
 )
 
-fun HistoryResult.toSearchHistoryEntity() = SearchHistoryEntity(
+fun SearchHistory.toSearchHistoryEntity() = SearchHistoryEntity(
     query = name
 )

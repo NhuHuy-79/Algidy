@@ -28,7 +28,6 @@ import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.Inve
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryOverlay
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryViewModel
 import org.koin.androidx.compose.koinViewModel
-import timber.log.Timber
 
 @Composable
 fun InventoryRoute() = BoxLayout {
@@ -37,6 +36,7 @@ fun InventoryRoute() = BoxLayout {
     val combineState by viewModel.combineState.collectAsStateWithLifecycle()
     val inventoryResultState by viewModel.resultState.collectAsStateWithLifecycle()
     val onAction = viewModel::onAction
+
     val context = LocalContext.current
     val permissionLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestPermission(),
@@ -48,7 +48,6 @@ fun InventoryRoute() = BoxLayout {
     )
 
     ObserveEffect(flow = viewModel.uiEvent) { event ->
-        Timber.d("Received Event: $event")
         when (event) {
             InventoryEvent.NavigateToScanner -> onAction(InventoryAction.OnCameraPermissionAccept)
             InventoryEvent.RequestCameraPermission -> {

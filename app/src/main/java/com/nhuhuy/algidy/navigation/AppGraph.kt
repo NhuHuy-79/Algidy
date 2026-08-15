@@ -90,9 +90,7 @@ fun AppGraph(
 
             entry<Destination.Inventory.Search> {
                 SearchInventoryRoute(
-                    onNavigateBack = backStack::removeLastOrNull,
-                    onNavigateToDetail = {
-                    }
+                    onNavigateBack = backStack::removeLastOrNull
                 )
             }
             entry<Destination.Analytics> {

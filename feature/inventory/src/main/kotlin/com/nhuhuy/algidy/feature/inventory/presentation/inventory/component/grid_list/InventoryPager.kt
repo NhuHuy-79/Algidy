@@ -11,14 +11,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.nhuhuy.algidy.feature.inventory.presentation.inventory.getFilteredAndSortedList
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryResultState
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventorySortMode
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.getDataOrEmpty
 import com.nhuhuy.algidy.feature.inventory.presentation.model.FoodCardUiModel
 import com.nhuhuy.algidy.feature.inventory.utils.GridCategory
+import com.nhuhuy.algidy.feature.inventory.utils.getFilteredAndSortedList
 import com.nhuhuy.algidy.feature.inventory.utils.toStringRes
 import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.ImmutableSet
 import kotlinx.collections.immutable.toImmutableList
 
 @Composable
@@ -26,13 +27,13 @@ fun InventoryPager(
     pagerState: PagerState,
     sortMode: InventorySortMode,
     showExpiredOnly: Boolean,
-    selectedIds: Set<String>,
+    selectedIds: ImmutableSet<String>,
     inventoryResultState: InventoryResultState,
     onItemClick: (item: FoodCardUiModel) -> Unit,
     onItemLongClick: (item: FoodCardUiModel) -> Unit,
     onAddManuallyClick: () -> Unit,
 ) {
-    InventoryContent(
+    InventoryGridContent(
         inventoryResultState = inventoryResultState,
         selectedIds = selectedIds,
         onItemClick = onItemClick,

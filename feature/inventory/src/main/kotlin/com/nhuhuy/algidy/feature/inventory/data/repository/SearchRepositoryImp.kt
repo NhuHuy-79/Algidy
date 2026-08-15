@@ -6,7 +6,7 @@ import com.nhuhuy.algidy.core.database.dao.SearchDao
 import com.nhuhuy.algidy.core.model.food.FoodItem
 import com.nhuhuy.algidy.feature.inventory.data.mapper.toDomain
 import com.nhuhuy.algidy.feature.inventory.data.mapper.toSearchHistoryEntity
-import com.nhuhuy.algidy.feature.inventory.domain.model.HistoryResult
+import com.nhuhuy.algidy.feature.inventory.domain.model.SearchHistory
 import com.nhuhuy.algidy.feature.inventory.domain.repository.SearchRepository
 import com.nhuhuy.algidy.toGenericNormalized
 import kotlinx.coroutines.withContext
@@ -15,13 +15,13 @@ class SearchRepositoryImp(
     private val appDispatchers: AppDispatchers,
     private val searchDao: SearchDao
 ) : SearchRepository {
-    override suspend fun addHistoryResult(historyResult: HistoryResult) {
+    override suspend fun addHistoryResult(searchHistory: SearchHistory) {
         return withContext(appDispatchers.io) {
-            searchDao.insertSearchHistory(historyResult.toSearchHistoryEntity())
+            searchDao.insertSearchHistory(searchHistory.toSearchHistoryEntity())
         }
     }
 
-    override suspend fun getHistoryResultList(): List<HistoryResult> {
+    override suspend fun getHistoryResultList(): List<SearchHistory> {
         return withContext(appDispatchers.io) {
             searchDao.getRecentSearchHistory().map { historyEntity ->
                 historyEntity.toDomain()

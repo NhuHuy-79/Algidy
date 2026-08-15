@@ -28,6 +28,7 @@ import androidx.compose.material.icons.rounded.FileDownload
 import androidx.compose.material.icons.rounded.FileUpload
 import androidx.compose.material.icons.rounded.FilterList
 import androidx.compose.material.icons.rounded.Gavel
+import androidx.compose.material.icons.rounded.History
 import androidx.compose.material.icons.rounded.Hive
 import androidx.compose.material.icons.rounded.Inventory
 import androidx.compose.material.icons.rounded.Language
@@ -82,6 +83,9 @@ object AlgidyIcons {
         val SelectAll = IconProvider.ImageVectorIcon(Icons.Rounded.SelectAll)
         val AddCategory = IconProvider.ImageVectorIcon(Icons.Rounded.Add)
         val DeleteCategory = IconProvider.ImageVectorIcon(Icons.Rounded.Delete)
+
+        val LastHistory = IconProvider.ImageVectorIcon(Icons.Rounded.History)
+        val HistoryAction = IconProvider.ImageVectorIcon(Icons.AutoMirrored.Rounded.ArrowForward)
     }
 
     object Analytics {

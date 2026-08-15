@@ -28,13 +28,12 @@ import com.nhuhuy.algidy.core.designsystem.icon.AppIcon
 import com.nhuhuy.algidy.core.designsystem.tokens.LocalAlgidyShapes
 import com.nhuhuy.algidy.core.designsystem.tokens.LocalAlgidySpacing
 import com.nhuhuy.algidy.core.model.food.Freshness
-import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.core.presentation.component.FoodImage
 import com.nhuhuy.algidy.core.presentation.utils.toBackgroundColor
 import com.nhuhuy.algidy.core.presentation.utils.toContentColor
 import com.nhuhuy.algidy.core.presentation.utils.toStringRes
 import com.nhuhuy.algidy.feature.inventory.presentation.model.FoodCardUiModel
-import kotlin.math.abs
+import com.nhuhuy.algidy.feature.inventory.presentation.model.readableRemainDays
 
 @Composable
 fun InventoryFoodGridItem(
@@ -101,15 +100,6 @@ private fun ExpiryLabel(
     remainingDays: Int,
 ) {
     val localShape = LocalAlgidyShapes.current
-    val remainingDaysText = when {
-        remainingDays == -1 -> stringResource(R.string.freshness_no_expiry)
-        remainingDays < 0 -> stringResource(R.string.freshness_expired, abs(remainingDays))
-        remainingDays == 0 -> stringResource(R.string.freshness_expires_today)
-        remainingDays == 1 -> stringResource(R.string.freshness_one_day_left)
-        remainingDays < 30 -> stringResource(R.string.freshness_days_left, remainingDays)
-        else -> stringResource(R.string.freshness_months_left, remainingDays / 30)
-    }
-
     Surface(
         color = freshness.toBackgroundColor(),
         shape = localShape.large,
@@ -126,7 +116,7 @@ private fun ExpiryLabel(
                 modifier = Modifier.size(16.dp)
             )
             Text(
-                text = remainingDaysText,
+                text = readableRemainDays(remainingDays),
                 style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.SemiBold),
                 maxLines = 2
             )

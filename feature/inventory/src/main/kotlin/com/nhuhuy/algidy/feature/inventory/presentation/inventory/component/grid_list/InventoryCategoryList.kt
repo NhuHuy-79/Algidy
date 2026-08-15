@@ -2,11 +2,12 @@ package com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.gri
 
 import androidx.compose.runtime.Composable
 import com.nhuhuy.algidy.core.presentation.model.CategoryUiModel
-import com.nhuhuy.algidy.feature.inventory.presentation.inventory.getFilteredAndSortedList
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryResultState
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventorySortMode
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.getDataOrEmpty
 import com.nhuhuy.algidy.feature.inventory.presentation.model.FoodCardUiModel
+import com.nhuhuy.algidy.feature.inventory.utils.getFilteredAndSortedList
+import kotlinx.collections.immutable.ImmutableSet
 import kotlinx.collections.immutable.toImmutableList
 
 @Composable
@@ -15,12 +16,12 @@ fun InventoryCategoryList(
     inventoryResultState: InventoryResultState,
     sortMode: InventorySortMode,
     showExpiredOnly: Boolean,
-    selectedIds: Set<String> = emptySet(),
+    selectedIds: ImmutableSet<String>,
     onItemClick: (FoodCardUiModel) -> Unit,
     onItemLongClick: (FoodCardUiModel) -> Unit,
     onAddManuallyClick: () -> Unit
 ) {
-    InventoryContent(
+    InventoryGridContent(
         inventoryResultState = inventoryResultState,
         selectedIds = selectedIds,
         onItemClick = onItemClick,

@@ -35,7 +35,6 @@ import com.nhuhuy.algidy.feature.inventory.presentation.search.viewmodel.SearchU
 @Composable
 fun SearchInventoryScreen(
     uiState: SearchUiState,
-    onNavigateToDetail: (id: String) -> Unit,
     onBackClick: () -> Unit,
     onAction: (SearchAction) -> Unit,
 ) {
@@ -103,7 +102,6 @@ fun SearchInventoryScreen(
             SearchContent(
                 uiState = uiState,
                 onAction = onAction,
-                onSearchResultClick = onNavigateToDetail
             )
         }
     }
