@@ -29,7 +29,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.nhuhuy.algidy.core.designsystem.tokens.LocalAlgidyShapes
 import com.nhuhuy.algidy.core.designsystem.tokens.LocalAlgidySpacing
-import com.nhuhuy.algidy.core.model.food.FoodItem
 import com.nhuhuy.algidy.core.model.food.Freshness
 import com.nhuhuy.algidy.core.model.food.StorageLocation
 import com.nhuhuy.algidy.core.presentation.R
@@ -47,6 +46,7 @@ import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.Inve
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventorySelectAction
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventorySortMode
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryUiState
+import com.nhuhuy.algidy.feature.inventory.presentation.model.FoodCardUiModel
 import com.nhuhuy.algidy.feature.inventory.utils.GridCategory
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
@@ -54,7 +54,7 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3ExpressiveApi::class)
 @Composable
-fun InventoryScreen(
+internal fun InventoryScreen(
     uiState: InventoryUiState,
     combineState: InventoryCombineState,
     inventoryResultState: InventoryResultState,
@@ -162,10 +162,10 @@ fun InventoryScreen(
 @Composable
 fun InventoryGridList(
     modifier: Modifier = Modifier,
-    items: ImmutableList<FoodItem>,
+    items: ImmutableList<FoodCardUiModel>,
     selectedIds: Set<String> = emptySet(),
-    onItemClick: (FoodItem) -> Unit,
-    onItemLongClick: (FoodItem) -> Unit = {},
+    onItemClick: (FoodCardUiModel) -> Unit,
+    onItemLongClick: (FoodCardUiModel) -> Unit = {},
     contentPadding: PaddingValues = PaddingValues(16.dp)
 ) {
     LazyVerticalStaggeredGrid(
@@ -200,11 +200,11 @@ fun InventoryGridList(
     }
 }
 
-fun List<FoodItem>.getFilteredAndSortedList(
+fun List<FoodCardUiModel>.getFilteredAndSortedList(
     category: CategoryUiModel,
     showExpiredOnly: Boolean,
     sortMode: InventorySortMode
-): List<FoodItem> {
+): List<FoodCardUiModel> {
     val filteredByCategory = when (category) {
         CategoryUiModel.All -> this
         is CategoryUiModel.ByCategory -> this.filter {
@@ -217,7 +217,7 @@ fun List<FoodItem>.getFilteredAndSortedList(
     }
 
     val filteredByStatus = if (showExpiredOnly) {
-        filteredByCategory.filter { it.getFreshnessStatus() == Freshness.EXPIRED }
+        filteredByCategory.filter { it.freshness == Freshness.EXPIRED }
     } else {
         filteredByCategory
     }
@@ -237,11 +237,11 @@ fun List<FoodItem>.getFilteredAndSortedList(
     }
 }
 
-fun List<FoodItem>.getFilteredAndSortedList(
+fun List<FoodCardUiModel>.getFilteredAndSortedList(
     pageIndex: Int,
     sortMode: InventorySortMode,
     showExpiredOnly: Boolean
-): List<FoodItem> {
+): List<FoodCardUiModel> {
     val filteredByLocation = when (pageIndex) {
         0 -> this
         1 -> this.filter { it.location == StorageLocation.FRIDGE }
@@ -252,7 +252,7 @@ fun List<FoodItem>.getFilteredAndSortedList(
     }
 
     val filteredByStatus = if (showExpiredOnly) {
-        filteredByLocation.filter { it.getFreshnessStatus() == Freshness.EXPIRED }
+        filteredByLocation.filter { it.freshness == Freshness.EXPIRED }
     } else {
         filteredByLocation
     }

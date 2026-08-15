@@ -6,42 +6,23 @@ import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.Spring
-import androidx.compose.animation.core.spring
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.scaleIn
-import androidx.compose.animation.slideInHorizontally
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Delete
-import androidx.compose.material.icons.rounded.DeleteForever
-import androidx.compose.material.icons.rounded.Restaurant
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.nhuhuy.algidy.core.designsystem.component.AlgidyAlertDialog
 import com.nhuhuy.algidy.core.designsystem.component.BoxLayout
+import com.nhuhuy.algidy.core.designsystem.motion.AlgidyMotion
 import com.nhuhuy.algidy.core.presentation.ObserveEffect
-import com.nhuhuy.algidy.core.presentation.R
-import com.nhuhuy.algidy.core.presentation.component.AppNewFeatureBottomSheet
-import com.nhuhuy.algidy.core.presentation.component.TextFieldDialog
+import com.nhuhuy.algidy.feature.inventory.presentation.inventory.InventoryOverlayContainer
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.InventoryScreen
-import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.CameraPolicyBottomSheet
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.InventoryVerticalToolbar
-import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.detail.DetailBottomSheet
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryAction
-import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryAction.OnEditCategorySheet.OnInputChange
-import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryAction.OnEditCategorySheet.Save
-import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryDetailAction
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryEvent
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryFabAction
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryOverlay
@@ -56,7 +37,6 @@ fun InventoryRoute() = BoxLayout {
     val combineState by viewModel.combineState.collectAsStateWithLifecycle()
     val inventoryResultState by viewModel.resultState.collectAsStateWithLifecycle()
     val onAction = viewModel::onAction
-
     val context = LocalContext.current
     val permissionLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestPermission(),
@@ -108,19 +88,8 @@ fun InventoryRoute() = BoxLayout {
             .align(Alignment.BottomEnd)
             .padding(horizontal = 16.dp)
             .padding(bottom = 144.dp),
-        enter = fadeIn(
-            animationSpec = tween(durationMillis = 200)
-        ) + slideInHorizontally(
-            initialOffsetX = { fullWidth -> fullWidth },
-            animationSpec = spring(
-                dampingRatio = Spring.DampingRatioLowBouncy,
-                stiffness = Spring.StiffnessMediumLow
-            )
-        ) + scaleIn(
-            transformOrigin = TransformOrigin(1f, 0.5f),
-            initialScale = 0.8f,
-            animationSpec = tween(durationMillis = 250)
-        ),
+        enter = AlgidyMotion.verticalToolbar.enter,
+        exit = AlgidyMotion.verticalToolbar.exit
     ) {
         InventoryVerticalToolbar(
             state = uiState,
@@ -138,79 +107,9 @@ fun InventoryRoute() = BoxLayout {
         )
     }
 
-    when (val overlay = uiState.overlay) {
-        InventoryOverlay.None -> Unit
-
-        InventoryOverlay.CategoryEdit -> TextFieldDialog(
-            title = stringResource(R.string.category_edit_dialog_title),
-            value = uiState.categoryInput,
-            confirmText = stringResource(R.string.inventory_category_edit_btn),
-            onValueChange = { category -> onAction(OnInputChange(category)) },
-            onDismiss = { onAction(InventoryAction.OnDismiss) },
-            onConfirm = { onAction(Save) }
-        )
-
-        InventoryOverlay.CategoryDelete -> AlgidyAlertDialog(
-            icon = Icons.Rounded.Delete,
-            onDismissRequest = { onAction(InventoryAction.OnDismiss) },
-            onConfirm = { onAction(InventoryAction.OnDeleteAlertConfirm) },
-            title = stringResource(R.string.delete_category_dialog_title),
-            text = stringResource(R.string.delete_category_dialog_content),
-            confirmText = stringResource(R.string.delete_category_dialog_confirm)
-        )
-
-        InventoryOverlay.ItemDetail -> DetailBottomSheet(
-            foodItem = uiState.currentFoodItem,
-            categoryUiModel = uiState.currentCategory,
-            onDismiss = { onAction(InventoryAction.OnDismiss) },
-            onEditClick = { onAction(InventoryDetailAction.OnEditClick) },
-            onWastedClick = { onAction(InventoryDetailAction.OnWastedClick) },
-            onConsumedClick = { onAction(InventoryDetailAction.OnConsumedClick) }
-        )
-
-        InventoryOverlay.CategoryAdd -> TextFieldDialog(
-            value = uiState.categoryInput,
-            title = stringResource(R.string.inventory_category_add),
-            confirmText = stringResource(R.string.inventory_category_add_btn),
-            onValueChange = {
-                onAction(InventoryAction.OnAddCategory.OnInputChange(it))
-            },
-            onDismiss = { onAction(InventoryAction.OnDismiss) },
-            onConfirm = { onAction(InventoryAction.OnAddCategory.Save) }
-        )
-
-        is InventoryOverlay.NewFeatureSheet -> AppNewFeatureBottomSheet(
-            versionFeatures = overlay.versionFeature,
-            onDismiss = { onAction(InventoryAction.OnDismiss) }
-        )
-
-        InventoryOverlay.ConsumeConfirm -> AlgidyAlertDialog(
-            icon = Icons.Rounded.Restaurant,
-            onDismissRequest = { onAction(InventoryAction.OnDismiss) },
-            onConfirm = { onAction(InventoryAction.OnConsumeConfirm) },
-            title = stringResource(R.string.detail_dialog_consume_title),
-            text = stringResource(R.string.detail_dialog_consume_content),
-            confirmText = stringResource(R.string.detail_fab_consume_this)
-        )
-
-        InventoryOverlay.WasteConfirm -> AlgidyAlertDialog(
-            icon = Icons.Rounded.DeleteForever,
-            onDismissRequest = { onAction(InventoryAction.OnDismiss) },
-            onConfirm = { onAction(InventoryAction.OnWasteConfirm) },
-            title = stringResource(R.string.detail_dialog_waste_title),
-            text = stringResource(R.string.detail_dialog_waste_content),
-            confirmText = stringResource(R.string.detail_fab_mark_as_wasted),
-            isDestructive = true
-        )
-
-        InventoryOverlay.CameraPolicySheet -> {
-            CameraPolicyBottomSheet(
-                onConfirm = {
-                    onAction(InventoryAction.OnConfirmCameraPolicy)
-                },
-                onDismiss = { onAction(InventoryAction.OnDismiss) }
-            )
-        }
-    }
+    InventoryOverlayContainer(
+        uiState = uiState,
+        onAction = onAction
+    )
 }
  

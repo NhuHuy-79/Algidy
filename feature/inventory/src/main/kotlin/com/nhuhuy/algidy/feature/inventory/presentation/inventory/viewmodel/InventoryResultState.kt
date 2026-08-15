@@ -4,14 +4,14 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
 import com.nhuhuy.algidy.core.datastore.model.GeneralPreferences
 import com.nhuhuy.algidy.core.model.VersionFeatures
-import com.nhuhuy.algidy.core.model.food.FoodItem
 import com.nhuhuy.algidy.core.presentation.model.CategoryUiModel
 import com.nhuhuy.algidy.core.presentation.viewmodel.UiState
+import com.nhuhuy.algidy.feature.inventory.presentation.model.FoodCardUiModel
 
 @Stable
 sealed interface InventoryResultState {
     object Loading : InventoryResultState
-    data class Success(val items: List<FoodItem>) : InventoryResultState
+    data class Success(val items: List<FoodCardUiModel>) : InventoryResultState
     object Empty : InventoryResultState
 }
 
@@ -28,7 +28,7 @@ data class InventoryUiState(
     val currentVersionCode: Int = 1,
     val expanded: Boolean = false,
     val currentCategory: CategoryUiModel = CategoryUiModel.All,
-    val currentFoodItem: FoodItem = FoodItem(),
+    val currentFoodItem: FoodCardUiModel = FoodCardUiModel(),
     val categoryInput: String = "",
     val overlay: InventoryOverlay = InventoryOverlay.None,
     val sortMode: InventorySortMode = InventorySortMode.NONE,

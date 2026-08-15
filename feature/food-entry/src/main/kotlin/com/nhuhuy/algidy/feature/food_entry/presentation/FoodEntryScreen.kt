@@ -33,7 +33,6 @@ import com.nhuhuy.algidy.feature.food_entry.presentation.viewmodel.FoodEntryUiSt
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
 fun FoodEntryScreen(
-    title: String,
     uiState: FoodEntryUiState,
     errorState: FoodEntryError,
     onAction: (FoodEntryAction) -> Unit
@@ -45,7 +44,7 @@ fun FoodEntryScreen(
             TopAppBar(
                 title = {
                     Text(
-                        text = title,
+                        text = uiState.name.ifBlank { stringResource(R.string.food_entry_title) },
                         fontWeight = FontWeight.Black
                     )
                 },

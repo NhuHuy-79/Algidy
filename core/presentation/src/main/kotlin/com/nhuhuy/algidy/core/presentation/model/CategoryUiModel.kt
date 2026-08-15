@@ -10,6 +10,12 @@ sealed interface CategoryUiModel {
     data object Uncategorized : CategoryUiModel
 }
 
+fun FoodCategory?.toUiModel(): CategoryUiModel {
+    return this?.let {
+        CategoryUiModel.ByCategory(it)
+    } ?: CategoryUiModel.Uncategorized
+}
+
 
 fun List<FoodCategory>.toUiModel(): List<CategoryUiModel> {
     return listOf(CategoryUiModel.All) + this.map {

@@ -20,6 +20,7 @@ import com.nhuhuy.algidy.feature.inventory.domain.usecase.food.MarkFoodAsConsume
 import com.nhuhuy.algidy.feature.inventory.domain.usecase.food.MarkFoodAsWastedUseCase
 import com.nhuhuy.algidy.feature.inventory.domain.usecase.food.ObserveFoodItemUseCase
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryOverlay.NewFeatureSheet
+import com.nhuhuy.algidy.feature.inventory.presentation.model.toFoodCardUiModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -31,7 +32,7 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
-class InventoryViewModel(
+internal class InventoryViewModel(
     private val addCategoryUseCase: AddCategoryUseCase,
     private val deleteFoodItemUseCase: DeleteFoodItemUseCase,
     private val deleteCategoryUseCase: DeleteCategoryUseCase,
@@ -46,9 +47,7 @@ class InventoryViewModel(
     private val appNewFeaturesReader: AppNewFeaturesReader
 ) : BaseViewModel<InventoryUiState, InventoryEvent, InventoryAction>() {
     private val _uiState = MutableStateFlow(
-        InventoryUiState(
-            currentVersionCode = appNewFeaturesReader.currentVersionCode.toInt()
-        )
+        InventoryUiState(currentVersionCode = appNewFeaturesReader.currentVersionCode.toInt())
     )
     override val uiState: StateFlow<InventoryUiState> = _uiState.asStateFlow()
 
@@ -74,7 +73,7 @@ class InventoryViewModel(
     val resultState: StateFlow<InventoryResultState> = observerFoodItemUseCase()
         .map { items ->
             if (items.isEmpty()) InventoryResultState.Empty
-            else InventoryResultState.Success(items = items)
+            else InventoryResultState.Success(items = items.toFoodCardUiModel())
         }
         .onStart { emit(InventoryResultState.Loading) }
         .stateIn(
@@ -280,7 +279,7 @@ class InventoryViewModel(
 
             InventoryDetailAction.OnEditClick -> viewModelScope.launch {
                 _uiState.product { copy(overlay = InventoryOverlay.None) }
-                navigator.navigateTo(Destination.FoodEntry(initialFoodItem = currentState.currentFoodItem))
+                navigator.navigateTo(Destination.FoodEntry(foodId = currentState.currentFoodItem.id))
             }
 
             InventoryDetailAction.OnWastedClick -> _uiState.product {

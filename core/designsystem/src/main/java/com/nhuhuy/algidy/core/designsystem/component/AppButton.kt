@@ -1,7 +1,6 @@
 package com.nhuhuy.algidy.core.designsystem.component
 
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -35,15 +34,14 @@ fun AppButton(
     Button(
         enabled = enabled,
         onClick = onClick,
-        modifier = modifier
-            .height(48.dp),
-        shape = RoundedCornerShape(8.dp),
+        modifier = modifier,
+        shape = RoundedCornerShape(32.dp),
         colors = colors
     ) {
         Icon(
             imageVector = icon,
             contentDescription = null,
-            modifier = Modifier.size(ButtonDefaults.IconSize)
+            modifier = Modifier
         )
 
         Spacer(Modifier.size(ButtonDefaults.IconSpacing))

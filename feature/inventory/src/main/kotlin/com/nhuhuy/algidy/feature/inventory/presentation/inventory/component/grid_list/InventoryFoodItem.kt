@@ -12,11 +12,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Timer
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -26,25 +23,25 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.nhuhuy.algidy.core.designsystem.icon.AlgidyIcons
+import com.nhuhuy.algidy.core.designsystem.icon.AppIcon
 import com.nhuhuy.algidy.core.designsystem.tokens.LocalAlgidyShapes
 import com.nhuhuy.algidy.core.designsystem.tokens.LocalAlgidySpacing
-import com.nhuhuy.algidy.core.model.food.FoodItem
 import com.nhuhuy.algidy.core.model.food.Freshness
 import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.core.presentation.component.FoodImage
 import com.nhuhuy.algidy.core.presentation.utils.toBackgroundColor
 import com.nhuhuy.algidy.core.presentation.utils.toContentColor
 import com.nhuhuy.algidy.core.presentation.utils.toStringRes
+import com.nhuhuy.algidy.feature.inventory.presentation.model.FoodCardUiModel
 import kotlin.math.abs
 
 @Composable
 fun InventoryFoodGridItem(
     modifier: Modifier = Modifier,
-    item: FoodItem,
+    item: FoodCardUiModel,
     isSelected: Boolean = false,
 ) {
-    val freshness = item.getFreshnessStatus()
-    val remainingDays = item.getRemainingDays()
     val localShape = LocalAlgidyShapes.current
     val localSpacing = LocalAlgidySpacing.current
     val scheme = MaterialTheme.colorScheme
@@ -72,8 +69,8 @@ fun InventoryFoodGridItem(
                 modifier = Modifier
                     .padding(16.dp)
                     .align(Alignment.TopStart),
-                freshness = freshness,
-                remainingDays = remainingDays
+                freshness = item.freshness,
+                remainingDays = item.remainDays
             )
         }
         Spacer(modifier = Modifier.height(localSpacing.small))
@@ -124,9 +121,8 @@ private fun ExpiryLabel(
             horizontalArrangement = Arrangement.spacedBy(4.dp),
             modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
         ) {
-            Icon(
-                imageVector = Icons.Rounded.Timer,
-                contentDescription = null,
+            AppIcon(
+                iconProvider = AlgidyIcons.Inventory.RemainDays,
                 modifier = Modifier.size(16.dp)
             )
             Text(

@@ -77,7 +77,7 @@ class DatabaseBackUpManagerImpl(
 
     override suspend fun getAllImageUris(): List<String> {
         return foodDao.getAllFoodItems().mapNotNull { foodItemEntity ->
-            foodItemEntity.imageUri
+            foodItemEntity.foodItem.imageUri
         }
     }
 

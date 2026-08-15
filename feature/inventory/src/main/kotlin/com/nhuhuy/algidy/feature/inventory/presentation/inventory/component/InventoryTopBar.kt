@@ -5,15 +5,9 @@ package com.nhuhuy.algidy.feature.inventory.presentation.inventory.component
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.Label
-import androidx.compose.material.icons.rounded.Event
-import androidx.compose.material.icons.rounded.FilterList
-import androidx.compose.material.icons.rounded.RestartAlt
-import androidx.compose.material.icons.rounded.SortByAlpha
-import androidx.compose.material.icons.rounded.WarningAmber
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -37,6 +31,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.nhuhuy.algidy.core.designsystem.icon.AlgidyIcons
+import com.nhuhuy.algidy.core.designsystem.icon.AppIcon
 import com.nhuhuy.algidy.core.designsystem.tokens.LocalAlgidyShapes
 import com.nhuhuy.algidy.core.designsystem.tokens.LocalAlgidySpacing
 import com.nhuhuy.algidy.core.presentation.R
@@ -147,10 +143,7 @@ fun FilterSortMenu(
             ),
             onClick = { expanded = true }
         ) {
-            Icon(
-                imageVector = Icons.Rounded.FilterList,
-                contentDescription = stringResource(R.string.inventory_menu_filter),
-            )
+            AppIcon(iconProvider = AlgidyIcons.Inventory.FilterFood)
         }
 
         DropdownMenu(
@@ -175,7 +168,9 @@ fun FilterSortMenu(
                     selectedLeadingIconColor = scheme.onSecondaryContainer
                 ),
                 text = { Text(stringResource(R.string.inventory_menu_sort_expiry)) },
-                leadingIcon = { Icon(Icons.Rounded.Event, null, Modifier.size(18.dp)) },
+                leadingIcon = {
+                    AppIcon(iconProvider = AlgidyIcons.Inventory.SortByExpiry)
+                },
                 onClick = {
                     onAction(InventoryAction.OnSortByExpiry)
                     expanded = false
@@ -198,7 +193,9 @@ fun FilterSortMenu(
                     selectedLeadingIconColor = scheme.onSecondaryContainer
                 ),
                 text = { Text(stringResource(R.string.inventory_menu_sort_name)) },
-                leadingIcon = { Icon(Icons.Rounded.SortByAlpha, null, Modifier.size(18.dp)) },
+                leadingIcon = {
+                    AppIcon(iconProvider = AlgidyIcons.Inventory.SortByName)
+                },
                 onClick = {
                     onAction(InventoryAction.OnSortByName)
                     expanded = false
@@ -221,7 +218,9 @@ fun FilterSortMenu(
                     selectedLeadingIconColor = scheme.onSecondaryContainer
                 ),
                 text = { Text(stringResource(R.string.inventory_menu_expired_only)) },
-                leadingIcon = { Icon(Icons.Rounded.WarningAmber, null, Modifier.size(18.dp)) },
+                leadingIcon = {
+                    AppIcon(iconProvider = AlgidyIcons.Inventory.ExpiryOnly)
+                },
                 onClick = {
                     onAction(InventoryAction.OnShowExpiredOnly)
                     expanded = false
@@ -238,7 +237,9 @@ fun FilterSortMenu(
             DropdownMenuItem(
                 shape = LocalAlgidyShapes.current.medium,
                 text = { Text(stringResource(R.string.inventory_menu_reset)) },
-                leadingIcon = { Icon(Icons.Rounded.RestartAlt, null) },
+                leadingIcon = {
+                    AppIcon(iconProvider = AlgidyIcons.Inventory.ResetFilter)
+                },
                 onClick = {
                     onAction(InventoryAction.OnResetFilters)
                     expanded = false

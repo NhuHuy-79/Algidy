@@ -1,7 +1,6 @@
 package com.nhuhuy.algidy.core.presentation.navigation
 
 import androidx.navigation3.runtime.NavKey
-import com.nhuhuy.algidy.core.model.food.FoodItem
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -22,9 +21,7 @@ sealed interface Destination : NavKey {
     data object Scanner : Destination
 
     @Serializable
-    data class FoodEntry(
-        val initialFoodItem: FoodItem? = null
-    ) : Destination
+    data class FoodEntry(val foodId: String? = null) : Destination
 
     @Serializable
     data class Setting(

@@ -12,7 +12,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.nhuhuy.algidy.core.designsystem.component.BoxLayout
-import com.nhuhuy.algidy.core.model.food.FoodItem
 import com.nhuhuy.algidy.core.presentation.ObserveEffect
 import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.core.presentation.component.AppDatePickerDialog
@@ -29,11 +28,11 @@ import org.koin.core.parameter.parametersOf
 
 @Composable
 fun FoodEntryRoute(
-    initialFoodItem: FoodItem?,
+    foodId: String?,
     onNavigateBack: () -> Unit
 ) {
     val viewModel: FoodEntryViewModel = koinViewModel(
-        parameters = { parametersOf(initialFoodItem) }
+        parameters = { parametersOf(foodId) }
     )
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val errorState by viewModel.entryError.collectAsStateWithLifecycle()
@@ -58,7 +57,6 @@ fun FoodEntryRoute(
 
     BoxLayout {
         FoodEntryScreen(
-            title = initialFoodItem?.name ?: stringResource(R.string.food_entry_title),
             uiState = uiState,
             errorState = errorState,
             onAction = onAction

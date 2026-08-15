@@ -126,7 +126,7 @@ fun AppGraph(
                     onNavigateBack = { backStack.removeLastOrNull() },
                     onNavigateToFoodEntry = { item ->
                         backStack.add(
-                            Destination.FoodEntry(initialFoodItem = item)
+                            Destination.FoodEntry(foodId = item.id)
                         )
                     }
                 )
@@ -134,7 +134,7 @@ fun AppGraph(
 
             entry<Destination.FoodEntry> { destination ->
                 FoodEntryRoute(
-                    initialFoodItem = destination.initialFoodItem,
+                    foodId = destination.foodId,
                     onNavigateBack = backStack::removeLastOrNull
                 )
             }

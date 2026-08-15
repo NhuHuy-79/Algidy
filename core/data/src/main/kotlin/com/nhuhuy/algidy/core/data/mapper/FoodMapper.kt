@@ -1,6 +1,7 @@
 package com.nhuhuy.algidy.core.data.mapper
 
 import com.nhuhuy.algidy.core.database.entity.FoodItemEntity
+import com.nhuhuy.algidy.core.database.entity.FoodItemWithCategory
 import com.nhuhuy.algidy.core.model.food.FoodItem
 import com.nhuhuy.algidy.core.model.food.StorageLocation
 import com.nhuhuy.algidy.core.network.model.FoodApiResponse
@@ -16,7 +17,7 @@ fun FoodApiResponse.toDomain() = FoodItem(
     purchaseDate = System.currentTimeMillis(),
     expiryDate = -1,
     imageUri = product?.imageUrl,
-    notes = ""
+    note = ""
 )
 
 fun FoodItemEntity.toDomain() = FoodItem(
@@ -27,9 +28,23 @@ fun FoodItemEntity.toDomain() = FoodItem(
     purchaseDate = purchaseDate,
     expiryDate = expiryDate,
     imageUri = imageUri,
-    notes = notes,
+    note = notes,
     status = status,
     resolvedDate = resolvedDate
+)
+
+fun FoodItemWithCategory.toDomain() = FoodItem(
+    id = foodItem.id,
+    name = foodItem.name,
+    categoryId = foodItem.categoryId,
+    location = foodItem.location,
+    purchaseDate = foodItem.purchaseDate,
+    expiryDate = foodItem.expiryDate,
+    imageUri = foodItem.imageUri,
+    note = foodItem.notes,
+    status = foodItem.status,
+    resolvedDate = foodItem.resolvedDate,
+    category = category?.toDomain()
 )
 
 fun FoodItem.toEntity() = FoodItemEntity(
@@ -41,7 +56,7 @@ fun FoodItem.toEntity() = FoodItemEntity(
     purchaseDate = purchaseDate,
     expiryDate = expiryDate,
     imageUri = imageUri,
-    notes = notes,
+    notes = note,
     status = status,
     resolvedDate = resolvedDate
 )

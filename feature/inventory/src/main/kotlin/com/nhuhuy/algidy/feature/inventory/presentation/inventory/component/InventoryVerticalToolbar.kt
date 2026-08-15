@@ -3,18 +3,9 @@ package com.nhuhuy.algidy.feature.inventory.presentation.inventory.component
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Add
-import androidx.compose.material.icons.rounded.CameraAlt
-import androidx.compose.material.icons.rounded.Close
-import androidx.compose.material.icons.rounded.Edit
-import androidx.compose.material.icons.rounded.KeyboardArrowDown
-import androidx.compose.material.icons.rounded.KeyboardArrowUp
-import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.FloatingToolbarDefaults
-import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
@@ -26,6 +17,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.nhuhuy.algidy.core.designsystem.icon.AlgidyIcons
+import com.nhuhuy.algidy.core.designsystem.icon.AppIcon
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryAction
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryUiState
 
@@ -57,9 +50,8 @@ fun InventoryVerticalToolbar(
                     contentColor = if (!state.expanded) scheme.onPrimary else scheme.onSecondary
                 )
             ) {
-                Icon(
-                    imageVector = if (state.expanded) Icons.Rounded.Close else Icons.Rounded.Add,
-                    contentDescription = null
+                AppIcon(
+                    iconProvider = if (state.expanded) AlgidyIcons.Close else AlgidyIcons.Inventory.AddFood
                 )
             }
         }
@@ -80,10 +72,7 @@ fun InventoryVerticalToolbar(
                     topEnd = 16.dp
                 )
             ) {
-                Icon(
-                    imageVector = Icons.Rounded.CameraAlt,
-                    contentDescription = null
-                )
+                AppIcon(iconProvider = AlgidyIcons.Inventory.ScanFood)
             }
         }
 
@@ -103,10 +92,7 @@ fun InventoryVerticalToolbar(
                     topEnd = 8.dp
                 )
             ) {
-                Icon(
-                    imageVector = Icons.Rounded.Edit,
-                    contentDescription = null
-                )
+                AppIcon(iconProvider = AlgidyIcons.Inventory.EditFood)
             }
         }
 
@@ -114,13 +100,8 @@ fun InventoryVerticalToolbar(
             visible = expanded
         ) {
             Column {
-                IconButton(
-                    onClick = onSearchClick
-                ) {
-                    Icon(
-                        imageVector = Icons.Rounded.Search,
-                        contentDescription = null
-                    )
+                IconButton(onClick = onSearchClick) {
+                    AppIcon(iconProvider = AlgidyIcons.Inventory.SearchFood)
                 }
 
                 FilterSortMenu(
@@ -136,12 +117,9 @@ fun InventoryVerticalToolbar(
             }
         }
 
-        IconButton(
-            onClick = { expanded = !expanded }
-        ) {
-            Icon(
-                imageVector = if (expanded) Icons.Rounded.KeyboardArrowUp else Icons.Rounded.KeyboardArrowDown,
-                contentDescription = null
+        IconButton(onClick = { expanded = !expanded }) {
+            AppIcon(
+                iconProvider = if (expanded) AlgidyIcons.Inventory.CloseToolbar else AlgidyIcons.Inventory.ExpandToolbar
             )
         }
     }

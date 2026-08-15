@@ -27,6 +27,7 @@ import com.nhuhuy.algidy.navigation.AppGraph
 import com.nhuhuy.algidy.navigation.BottomBarItem
 import com.nhuhuy.algidy.navigation.BottomFloatingBar
 import com.nhuhuy.algidy.navigation.FloatingBottomBarScaffold
+import com.nhuhuy.algidy.navigation.hideBottomBar
 import com.nhuhuy.algidy.navigation.toBottomBarItem
 import com.nhuhuy.algidy.navigation.toDestination
 import com.nhuhuy.algidy.utils.BiometricHandler
@@ -123,7 +124,7 @@ class MainActivity : AppCompatActivity() {
                         val currentBottomBarItem = backStack.map { it.toBottomBarItem() }
                             .lastOrNull() ?: BottomBarItem.HOME
                         AnimatedVisibility(
-                            visible = backStack.lastOrNull() !is Destination.Scanner,
+                            visible = !hideBottomBar(currentDestination = backStack.lastOrNull()),
                         ) {
                             BottomFloatingBar(
                                 modifier = Modifier,

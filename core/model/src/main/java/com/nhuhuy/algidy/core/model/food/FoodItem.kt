@@ -1,13 +1,11 @@
 package com.nhuhuy.algidy.core.model.food
 
-import kotlinx.serialization.Serializable
 import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneId
 import java.time.temporal.ChronoUnit
 import java.util.UUID
 
-@Serializable
 data class FoodItem(
     val id: String = UUID.randomUUID().toString(),
     val name: String = "",
@@ -16,9 +14,10 @@ data class FoodItem(
     val purchaseDate: Long = System.currentTimeMillis(),
     val expiryDate: Long = -1,
     val imageUri: String? = null,
-    val notes: String = "",
+    val note: String = "",
     val status: FoodStatus = FoodStatus.ACTIVE,
-    val resolvedDate: Long? = null
+    val resolvedDate: Long? = null,
+    val category: FoodCategory? = null,
 ) {
     fun getFreshnessStatus(): Freshness {
         val currentTime = System.currentTimeMillis()

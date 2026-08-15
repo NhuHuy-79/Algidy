@@ -49,7 +49,7 @@ class FoodMapperTest {
         assertEquals(entity.purchaseDate, domain.purchaseDate)
         assertEquals(entity.expiryDate, domain.expiryDate)
         assertEquals(entity.imageUri, domain.imageUri)
-        assertEquals(entity.notes, domain.notes)
+        assertEquals(entity.notes, domain.note)
         assertEquals(entity.status, domain.status)
     }
 
@@ -63,7 +63,7 @@ class FoodMapperTest {
             purchaseDate = 1000L,
             expiryDate = 2000L,
             imageUri = "uri",
-            notes = "note",
+            note = "note",
             status = FoodStatus.ACTIVE,
             resolvedDate = null
         )
@@ -76,7 +76,7 @@ class FoodMapperTest {
         assertEquals(domain.purchaseDate, entity.purchaseDate)
         assertEquals(domain.expiryDate, entity.expiryDate)
         assertEquals(domain.imageUri, entity.imageUri)
-        assertEquals(domain.notes, entity.notes)
+        assertEquals(domain.note, entity.notes)
         assertEquals(domain.status, entity.status)
     }
 }

@@ -28,7 +28,7 @@ import com.nhuhuy.algidy.core.designsystem.component.FoodImageCard
 import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.feature.inventory.presentation.search.viewmodel.SearchAction
 import com.nhuhuy.algidy.feature.inventory.presentation.search.viewmodel.SearchUiState
-import com.nhuhuy.algidy.formatMillisToDate
+import com.nhuhuy.algidy.toReadableText
 
 @Composable
 fun SearchContent(
@@ -101,7 +101,7 @@ fun SearchContent(
                     },
                     trailingContent = {
                         Text(
-                            text = result.expiryDate.formatMillisToDate(),
+                            text = result.expiryDate.toReadableText(),
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis,
                         )

@@ -14,13 +14,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Analytics
-import androidx.compose.material.icons.outlined.Inventory
-import androidx.compose.material.icons.outlined.Settings
-import androidx.compose.material.icons.rounded.Analytics
-import androidx.compose.material.icons.rounded.Inventory
-import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.FloatingToolbarDefaults
 import androidx.compose.material3.HorizontalFloatingToolbar
@@ -37,31 +30,34 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation3.runtime.NavKey
+import com.nhuhuy.algidy.core.designsystem.icon.AlgidyIcons
+import com.nhuhuy.algidy.core.designsystem.icon.IconProvider
+import com.nhuhuy.algidy.core.designsystem.icon.toImageVector
 import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.core.presentation.navigation.Destination
 import com.nhuhuy.algidy.core.presentation.navigation.SettingDestination
 
 enum class BottomBarItem(
     @field:StringRes val label: Int,
-    val selectedIcon: ImageVector,
-    val unselectedIcon: ImageVector
+    val selectedIcon: IconProvider,
+    val unselectedIcon: IconProvider
 ) {
     HOME(
         label = R.string.inventory_title,
-        selectedIcon = Icons.Rounded.Inventory,
-        unselectedIcon = Icons.Outlined.Inventory
+        selectedIcon = AlgidyIcons.BottomBar.SelectedInventory,
+        unselectedIcon = AlgidyIcons.BottomBar.UnselectedInventory
     ),
 
     ANALYTICS(
         label = R.string.analytics_title,
-        selectedIcon = Icons.Rounded.Analytics,
-        unselectedIcon = Icons.Outlined.Analytics
+        selectedIcon = AlgidyIcons.BottomBar.SelectedAnalytics,
+        unselectedIcon = AlgidyIcons.BottomBar.UnselectedAnalytics
     ),
 
     SETTINGS(
         label = R.string.settings_title,
-        selectedIcon = Icons.Rounded.Settings,
-        unselectedIcon = Icons.Outlined.Settings
+        selectedIcon = AlgidyIcons.BottomBar.SelectedSettings,
+        unselectedIcon = AlgidyIcons.BottomBar.UnselectedSettings
     )
 }
 
@@ -72,6 +68,14 @@ fun NavKey.toBottomBarItem(): BottomBarItem? {
         is Destination.Inventory, Destination.Scanner -> BottomBarItem.HOME
         is Destination.Setting -> BottomBarItem.SETTINGS
         else -> null
+    }
+}
+
+fun hideBottomBar(currentDestination: NavKey?): Boolean {
+    return when (currentDestination) {
+        is Destination.FoodEntry -> true
+        is Destination.Scanner -> true
+        else -> false
     }
 }
 
@@ -99,9 +103,9 @@ fun BottomFloatingBar(
     ) {
         BottomBarItem.entries.forEach { bottomBarItem ->
             ToolBarIcon(
-                selectedIcon = bottomBarItem.selectedIcon,
+                selectedIcon = bottomBarItem.selectedIcon.toImageVector(),
                 label = stringResource(bottomBarItem.label),
-                unselectedIcon = bottomBarItem.unselectedIcon,
+                unselectedIcon = bottomBarItem.unselectedIcon.toImageVector(),
                 selected = bottomBarItem == selectedBottomBarItem,
                 onClick = { onBottomBarClick(bottomBarItem) }
             )

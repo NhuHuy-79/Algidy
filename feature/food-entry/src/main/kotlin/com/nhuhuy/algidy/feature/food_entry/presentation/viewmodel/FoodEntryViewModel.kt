@@ -12,6 +12,7 @@ import com.nhuhuy.algidy.core.presentation.viewmodel.UiEvent
 import com.nhuhuy.algidy.feature.food_entry.domain.model.FoodEntryPreferences
 import com.nhuhuy.algidy.feature.food_entry.domain.usecase.AddCategoryUseCase
 import com.nhuhuy.algidy.feature.food_entry.domain.usecase.FoodEntryPreferencesUseCase
+import com.nhuhuy.algidy.feature.food_entry.domain.usecase.GetFoodByIdUseCase
 import com.nhuhuy.algidy.feature.food_entry.domain.usecase.ObserveCategoriesUseCase
 import com.nhuhuy.algidy.feature.food_entry.domain.usecase.SaveFoodItemUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -27,12 +28,13 @@ import kotlinx.coroutines.launch
 import kotlin.time.Duration.Companion.seconds
 
 class FoodEntryViewModel(
+    foodId: String?,
     observeCategoriesUseCase: ObserveCategoriesUseCase,
+    private val getFoodByIdUseCase: GetFoodByIdUseCase,
     private val foodEntryPreferencesUseCase: FoodEntryPreferencesUseCase,
     private val saveFoodItemUseCase: SaveFoodItemUseCase,
     private val addCategoryUseCase: AddCategoryUseCase,
     private val navigator: Navigator,
-    initialFoodItem: FoodItem? = null
 ) : BaseViewModel<FoodEntryUiState, FoodEntryEvent, FoodEntryAction>() {
 
     private val _uiState = MutableStateFlow(FoodEntryUiState())
@@ -46,9 +48,9 @@ class FoodEntryViewModel(
     private val currentPreferences get() = foodEntryPreferences.value
 
     init {
-        initialFoodItem?.let { setEntryData(it) }
         viewModelScope.launch {
-            val category = initialFoodItem?.categoryId?.let {
+            val foodItem = foodId?.let { getFoodByIdUseCase(it) }
+            val category = foodItem?.categoryId?.let {
                 addCategoryUseCase.getCurrentCategory(it)
             }
 
@@ -184,7 +186,7 @@ class FoodEntryViewModel(
                 purchaseDate = foodItem.purchaseDate,
                 expiryDate = foodItem.expiryDate,
                 imageUri = foodItem.imageUri,
-                notes = foodItem.notes
+                notes = foodItem.note
             )
         }
         _entryError.update {
@@ -209,7 +211,7 @@ class FoodEntryViewModel(
             purchaseDate = state.purchaseDate,
             expiryDate = state.expiryDate,
             imageUri = state.imageUri,
-            notes = state.notes
+            note = state.notes
         )
     }
 }

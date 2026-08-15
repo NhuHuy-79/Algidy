@@ -1,13 +1,7 @@
 package com.nhuhuy.algidy.feature.inventory.presentation.inventory.component
 
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Close
-import androidx.compose.material.icons.rounded.DeleteForever
-import androidx.compose.material.icons.rounded.Restaurant
-import androidx.compose.material.icons.rounded.SelectAll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
-import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MediumFlexibleTopAppBar
@@ -16,6 +10,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.text.font.FontWeight
+import com.nhuhuy.algidy.core.designsystem.icon.AlgidyIcons
+import com.nhuhuy.algidy.core.designsystem.icon.AppIcon
 import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryAction
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventorySelectAction
@@ -38,54 +34,32 @@ fun InventorySelectBar(
             )
         },
         subtitle = {
-            Text(
-                text = pluralStringResource(R.plurals.inventory_selected_title, selectedCount)
-            )
+            Text(text = pluralStringResource(R.plurals.inventory_selected_title, selectedCount))
         },
         navigationIcon = {
             IconButton(
-                onClick = {
-                    onAction(InventorySelectAction.ClearSelection)
-                }
+                onClick = { onAction(InventorySelectAction.ClearSelection) }
             ) {
-                Icon(
-                    imageVector = Icons.Rounded.Close,
-                    contentDescription = null
-                )
+                AppIcon(iconProvider = AlgidyIcons.Close)
             }
         },
         actions = {
             IconButton(
-                onClick = {
-                    onAction(InventorySelectAction.SelectAll)
-                }
+                onClick = { onAction(InventorySelectAction.SelectAll) }
             ) {
-                Icon(
-                    imageVector = Icons.Rounded.SelectAll,
-                    contentDescription = null
-                )
+                AppIcon(iconProvider = AlgidyIcons.Inventory.SelectAll)
             }
 
             IconButton(
-                onClick = {
-                    onAction(InventorySelectAction.ConsumeAll)
-                }
+                onClick = { onAction(InventorySelectAction.ConsumeAll) }
             ) {
-                Icon(
-                    imageVector = Icons.Rounded.Restaurant,
-                    contentDescription = null
-                )
+                AppIcon(iconProvider = AlgidyIcons.ConsumeFood)
             }
 
             IconButton(
-                onClick = {
-                    onAction(InventorySelectAction.WasteAll)
-                }
+                onClick = { onAction(InventorySelectAction.WasteAll) }
             ) {
-                Icon(
-                    imageVector = Icons.Rounded.DeleteForever,
-                    contentDescription = null
-                )
+                AppIcon(iconProvider = AlgidyIcons.WasteFood)
             }
         }
     )
