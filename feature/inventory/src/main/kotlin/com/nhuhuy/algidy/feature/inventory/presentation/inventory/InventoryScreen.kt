@@ -23,6 +23,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
@@ -35,11 +36,11 @@ import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.core.presentation.component.CategoryFilterGroup
 import com.nhuhuy.algidy.core.presentation.model.CategoryUiModel
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.InventorySelectBar
-import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.InventoryTabRow
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.InventoryTopBar
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.grid_list.InventoryCategoryList
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.grid_list.InventoryFoodGridItem
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.grid_list.InventoryPager
+import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.grid_list.InventoryTabRow
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryAction
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryCombineState
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryResultState
@@ -113,48 +114,49 @@ internal fun InventoryScreen(
             alpha = if (uiState.expanded) 0.2f else 1f
         ),
     ) { paddingValues ->
-        if (combineState.categoryEnabled) {
-            InventoryCategoryList(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(paddingValues),
-                currentCategory = uiState.currentCategory,
-                inventoryResultState = inventoryResultState,
-                sortMode = uiState.sortMode,
-                selectedIds = uiState.selectedFoodIds,
-                showExpiredOnly = uiState.showExpiredOnly,
-                onItemClick = { item ->
-                    if (uiState.isSelectMode) {
-                        onAction(InventorySelectAction.OnClick(item.id))
-                    } else {
-                        onAction(InventoryAction.OnItemClick(item))
-                    }
-                },
-                onAddManuallyClick = {
-                    onAction(InventoryAction.OnEmptyPageClick)
-                },
-                onItemLongClick = { item -> onAction(InventorySelectAction.OnLongClick(id = item.id)) }
-            )
-        } else {
-            InventoryPager(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(paddingValues),
-                pagerState = pagerState,
-                sortMode = uiState.sortMode,
-                selectedIds = uiState.selectedFoodIds,
-                showExpiredOnly = uiState.showExpiredOnly,
-                inventoryResultState = inventoryResultState,
-                onItemClick = { item ->
-                    if (uiState.isSelectMode) {
-                        onAction(InventorySelectAction.OnClick(item.id))
-                    } else {
-                        onAction(InventoryAction.OnItemClick(item))
-                    }
-                },
-                onAddManuallyClick = { onAction(InventoryAction.OnEmptyPageClick) },
-                onItemLongClick = { item -> onAction(InventorySelectAction.OnLongClick(item.id)) }
-            )
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            if (combineState.categoryEnabled) {
+                InventoryCategoryList(
+                    currentCategory = uiState.currentCategory,
+                    inventoryResultState = inventoryResultState,
+                    sortMode = uiState.sortMode,
+                    selectedIds = uiState.selectedFoodIds,
+                    showExpiredOnly = uiState.showExpiredOnly,
+                    onItemClick = { item ->
+                        if (uiState.isSelectMode) {
+                            onAction(InventorySelectAction.OnClick(item.id))
+                        } else {
+                            onAction(InventoryAction.OnItemClick(item))
+                        }
+                    },
+                    onAddManuallyClick = {
+                        onAction(InventoryAction.OnEmptyPageClick)
+                    },
+                    onItemLongClick = { item -> onAction(InventorySelectAction.OnLongClick(id = item.id)) }
+                )
+            } else {
+                InventoryPager(
+                    pagerState = pagerState,
+                    sortMode = uiState.sortMode,
+                    selectedIds = uiState.selectedFoodIds,
+                    showExpiredOnly = uiState.showExpiredOnly,
+                    inventoryResultState = inventoryResultState,
+                    onItemClick = { item ->
+                        if (uiState.isSelectMode) {
+                            onAction(InventorySelectAction.OnClick(item.id))
+                        } else {
+                            onAction(InventoryAction.OnItemClick(item))
+                        }
+                    },
+                    onAddManuallyClick = { onAction(InventoryAction.OnEmptyPageClick) },
+                    onItemLongClick = { item -> onAction(InventorySelectAction.OnLongClick(item.id)) }
+                )
+            }
         }
     }
 }

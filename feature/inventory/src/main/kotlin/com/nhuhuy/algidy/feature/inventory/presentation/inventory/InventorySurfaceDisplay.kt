@@ -8,7 +8,6 @@ import com.nhuhuy.algidy.core.designsystem.icon.toImageVector
 import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.core.presentation.component.AppNewFeatureBottomSheet
 import com.nhuhuy.algidy.core.presentation.component.TextFieldDialog
-import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.CameraPolicyBottomSheet
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.detail.DetailBottomSheet
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryAction
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryAction.OnEditCategorySheet.OnInputChange
@@ -18,7 +17,7 @@ import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.Inve
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryUiState
 
 @Composable
-fun InventoryOverlayContainer(
+internal fun InventoryOverlayContainer(
     uiState: InventoryUiState,
     onAction: (InventoryAction) -> Unit
 ) {
@@ -88,11 +87,13 @@ fun InventoryOverlayContainer(
             isDestructive = true
         )
 
-        InventoryOverlay.CameraPolicySheet -> {
-            CameraPolicyBottomSheet(
-                onConfirm = { onAction(InventoryAction.OnConfirmCameraPolicy) },
-                onDismiss = onDismiss
-            )
-        }
+        InventoryOverlay.CameraPolicySheet -> AlgidyAlertDialog(
+            icon = AlgidyIcons.Inventory.ScanFood.toImageVector(),
+            onDismissRequest = onDismiss,
+            onConfirm = { onAction(InventoryAction.OnConfirmCameraPolicy) },
+            title = stringResource(R.string.camera_permission_title),
+            text = stringResource(R.string.camera_permission_description),
+            confirmText = stringResource(R.string.camera_permission_confirm_btn),
+        )
     }
 }

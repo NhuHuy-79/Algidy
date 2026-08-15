@@ -33,6 +33,9 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 
 internal class InventoryViewModel(
+    observerFoodItemUseCase: ObserveFoodItemUseCase,
+    observeSettingDataUseCase: ObserveSettingDataUseCase,
+    observeCategoriesUseCase: ObserveCategoriesUseCase,
     private val addCategoryUseCase: AddCategoryUseCase,
     private val deleteFoodItemUseCase: DeleteFoodItemUseCase,
     private val deleteCategoryUseCase: DeleteCategoryUseCase,
@@ -41,9 +44,6 @@ internal class InventoryViewModel(
     private val markFoodAsWastedUseCase: MarkFoodAsWastedUseCase,
     private val getInventoryPreferenceUseCase: GetInventoryPreferenceUseCase,
     private val navigator: Navigator,
-    observerFoodItemUseCase: ObserveFoodItemUseCase,
-    observeSettingDataUseCase: ObserveSettingDataUseCase,
-    observeCategoriesUseCase: ObserveCategoriesUseCase,
     private val appNewFeaturesReader: AppNewFeaturesReader
 ) : BaseViewModel<InventoryUiState, InventoryEvent, InventoryAction>() {
     private val _uiState = MutableStateFlow(
@@ -246,7 +246,6 @@ internal class InventoryViewModel(
             }
 
             is InventoryAction.OnCameraPermissionAccept -> {
-                Timber.d("Navigating to Scanner from OnCameraPermissionAccept")
                 navigator.navigateTo(Destination.Scanner)
             }
 

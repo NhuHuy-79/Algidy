@@ -15,6 +15,14 @@ sealed interface InventoryResultState {
     object Empty : InventoryResultState
 }
 
+fun InventoryResultState.getDataOrEmpty(): List<FoodCardUiModel> {
+    return if (this is InventoryResultState.Success) {
+        this.items
+    } else {
+        emptyList()
+    }
+}
+
 @Immutable
 data class InventoryCombineState(
     val categoryEnabled: Boolean = false,
