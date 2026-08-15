@@ -67,6 +67,10 @@ private fun SearchResultListItem(
         shapes = ListItemDefaults.segmentedShapes(
             index = index,
             count = count,
+            defaultShapes = ListItemDefaults.shapes(
+                shape = localShape.medium,
+                pressedShape = localShape.large
+            )
         ),
         leadingContent = {
             FoodImage(

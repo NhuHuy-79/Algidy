@@ -223,7 +223,7 @@ internal class InventoryViewModel(
             }
 
             is InventoryFabAction -> onFabAction(action)
-            is InventoryDetailAction -> onDetailAction(action)
+            is InventoryDetailAction -> Unit
             is InventoryAction.OnAddCategory.OnInputChange -> {
                 _uiState.product {
                     copy(categoryInput = action.value)
@@ -267,27 +267,6 @@ internal class InventoryViewModel(
             }
 
             InventoryAction.OnEmptyPageClick -> navigator.navigateTo(Destination.FoodEntry())
-        }
-    }
-
-    private fun onDetailAction(action: InventoryDetailAction) {
-        when (action) {
-            InventoryDetailAction.OnConsumedClick -> _uiState.product {
-                copy(overlay = InventoryOverlay.ConsumeConfirm)
-            }
-
-            InventoryDetailAction.OnEditClick -> viewModelScope.launch {
-                _uiState.product { copy(overlay = InventoryOverlay.None) }
-                navigator.navigateTo(Destination.FoodEntry(foodId = currentState.currentFoodItem.id))
-            }
-
-            InventoryDetailAction.OnWastedClick -> _uiState.product {
-                copy(overlay = InventoryOverlay.WasteConfirm)
-            }
-
-            InventoryDetailAction.Open -> _uiState.product {
-                copy(overlay = InventoryOverlay.ItemDetail)
-            }
         }
     }
 

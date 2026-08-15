@@ -2,9 +2,13 @@ package com.nhuhuy.algidy.feature.inventory.presentation.search.viewmodel
 
 import androidx.lifecycle.viewModelScope
 import com.nhuhuy.algidy.core.data.util.product
+import com.nhuhuy.algidy.core.presentation.navigation.Navigator
 import com.nhuhuy.algidy.core.presentation.viewmodel.BaseViewModel
 import com.nhuhuy.algidy.feature.inventory.domain.usecase.GetHistoryResultUseCase
 import com.nhuhuy.algidy.feature.inventory.domain.usecase.food.SearchFoodUseCase
+import com.nhuhuy.algidy.feature.inventory.presentation.model.toFoodCardUiModel
+import com.nhuhuy.algidy.feature.inventory.presentation.search.viewmodel.SearchUiSurface.DetailBottomSheet
+import com.nhuhuy.algidy.feature.inventory.presentation.search.viewmodel.SearchUiSurface.None
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -13,6 +17,7 @@ import kotlinx.coroutines.launch
 class SearchViewModel(
     private val getHistoryResultUseCase: GetHistoryResultUseCase,
     private val searchFoodUseCase: SearchFoodUseCase,
+    private val navigator: Navigator,
 ) : BaseViewModel<SearchUiState, SearchEvent, SearchAction>() {
     private val _uiState = MutableStateFlow(SearchUiState())
     override val uiState: StateFlow<SearchUiState>
@@ -23,16 +28,13 @@ class SearchViewModel(
             val historyResults = getHistoryResultUseCase().sortedByDescending { historyResult ->
                 historyResult.timeStamp
             }.distinctBy { it.name }
-                .map { it.name }
-            _uiState.product { copy(searchHistory = historyResults) }
+            _uiState.product { copy(searchHistories = historyResults) }
         }
     }
 
     override fun onAction(action: SearchAction) {
         when (action) {
-            SearchAction.OnBack -> {
-                //On Back button
-            }
+            SearchAction.OnBack -> navigator.navigateBack()
 
             SearchAction.OnClearQuery -> {
                 _uiState.product { copy(query = "") }
@@ -52,8 +54,24 @@ class SearchViewModel(
 
             is SearchAction.OnSearch -> viewModelScope.launch {
                 _uiState.product { copy(isLoading = true) }
-                val searchResults = searchFoodUseCase(currentState.query)
-                _uiState.product { copy(searchResults = searchResults, isLoading = false) }
+
+                val searchResults = searchFoodUseCase(currentState.query).toFoodCardUiModel()
+
+                _uiState.product {
+                    copy(searchResults = searchResults, isLoading = false)
+                }
+            }
+
+            is SearchAction.OnSearchResultClick -> {
+                _uiState.product {
+                    copy(
+                        surface = DetailBottomSheet(action.searchResult)
+                    )
+                }
+            }
+
+            SearchAction.OnDismiss -> {
+                _uiState.product { copy(surface = None) }
             }
         }
     }

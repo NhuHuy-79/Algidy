@@ -8,13 +8,12 @@ import com.nhuhuy.algidy.core.designsystem.icon.toImageVector
 import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.core.presentation.component.AppNewFeatureBottomSheet
 import com.nhuhuy.algidy.core.presentation.component.TextFieldDialog
-import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.detail.DetailBottomSheet
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryAction
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryAction.OnEditCategorySheet.OnInputChange
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryAction.OnEditCategorySheet.Save
-import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryDetailAction
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryOverlay
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryUiState
+import com.nhuhuy.algidy.feature.inventory.presentation.shared.DetailBottomSheetRoute
 
 @Composable
 internal fun InventoryOverlayContainer(
@@ -43,12 +42,9 @@ internal fun InventoryOverlayContainer(
             confirmText = stringResource(R.string.delete_category_dialog_confirm)
         )
 
-        InventoryOverlay.ItemDetail -> DetailBottomSheet(
+        InventoryOverlay.ItemDetail -> DetailBottomSheetRoute(
             foodItem = uiState.currentFoodItem,
-            onDismiss = onDismiss,
-            onEditClick = { onAction(InventoryDetailAction.OnEditClick) },
-            onWastedClick = { onAction(InventoryDetailAction.OnWastedClick) },
-            onConsumedClick = { onAction(InventoryDetailAction.OnConsumedClick) }
+            onDismiss = onDismiss
         )
 
         InventoryOverlay.CategoryAdd -> TextFieldDialog(
@@ -66,7 +62,6 @@ internal fun InventoryOverlayContainer(
             versionFeatures = overlay.versionFeature,
             onDismiss = onDismiss
         )
-
 
         InventoryOverlay.ConsumeConfirm -> AlgidyAlertDialog(
             icon = AlgidyIcons.ConsumeFood.toImageVector(),

@@ -17,6 +17,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import com.nhuhuy.algidy.core.designsystem.icon.AlgidyIcons
 import com.nhuhuy.algidy.core.designsystem.icon.AppIcon
+import com.nhuhuy.algidy.core.designsystem.tokens.LocalAlgidyShapes
 import com.nhuhuy.algidy.core.designsystem.tokens.LocalAlgidySpacing
 import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.feature.inventory.domain.model.SearchHistory
@@ -74,12 +75,17 @@ private fun RecentSearchListItem(
     modifier: Modifier = Modifier,
     onClick: () -> Unit
 ) {
+    val localShape = LocalAlgidyShapes.current
     SegmentedListItem(
         modifier = modifier,
         onClick = onClick,
         shapes = ListItemDefaults.segmentedShapes(
             index = index,
             count = count,
+            defaultShapes = ListItemDefaults.shapes(
+                shape = localShape.medium,
+                pressedShape = localShape.large
+            )
         ),
         leadingContent = { AppIcon(iconProvider = AlgidyIcons.Inventory.LastHistory) },
         trailingContent = { AppIcon(iconProvider = AlgidyIcons.Inventory.HistoryAction) },

@@ -26,6 +26,7 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.nhuhuy.algidy.core.designsystem.tokens.LocalAlgidySpacing
 import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.feature.inventory.presentation.search.component.SearchContent
 import com.nhuhuy.algidy.feature.inventory.presentation.search.viewmodel.SearchAction
@@ -94,12 +95,14 @@ fun SearchInventoryScreen(
                 )
             }
         ) {
+            val localSpacing = LocalAlgidySpacing.current
             AnimatedVisibility(
                 visible = uiState.isLoading
             ) {
                 LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
             }
             SearchContent(
+                modifier = Modifier.padding(localSpacing.medium),
                 uiState = uiState,
                 onAction = onAction,
             )
