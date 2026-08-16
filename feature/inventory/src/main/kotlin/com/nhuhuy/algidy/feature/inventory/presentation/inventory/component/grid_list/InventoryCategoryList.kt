@@ -5,7 +5,7 @@ import com.nhuhuy.algidy.core.presentation.model.CategoryUiModel
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryResultState
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventorySortMode
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.getDataOrEmpty
-import com.nhuhuy.algidy.feature.inventory.presentation.model.FoodCardUiModel
+import com.nhuhuy.algidy.feature.inventory.presentation.model.FoodUiModel
 import com.nhuhuy.algidy.feature.inventory.utils.getFilteredAndSortedList
 import kotlinx.collections.immutable.ImmutableSet
 import kotlinx.collections.immutable.toImmutableList
@@ -17,8 +17,8 @@ fun InventoryCategoryList(
     sortMode: InventorySortMode,
     showExpiredOnly: Boolean,
     selectedIds: ImmutableSet<String>,
-    onItemClick: (FoodCardUiModel) -> Unit,
-    onItemLongClick: (FoodCardUiModel) -> Unit,
+    onItemClick: (FoodUiModel) -> Unit,
+    onItemLongClick: (FoodUiModel) -> Unit,
     onAddManuallyClick: () -> Unit
 ) {
     InventoryGridContent(

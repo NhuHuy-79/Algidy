@@ -4,13 +4,13 @@ import com.nhuhuy.algidy.core.model.food.Freshness
 import com.nhuhuy.algidy.core.model.food.StorageLocation
 import com.nhuhuy.algidy.core.presentation.model.CategoryUiModel
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventorySortMode
-import com.nhuhuy.algidy.feature.inventory.presentation.model.FoodCardUiModel
+import com.nhuhuy.algidy.feature.inventory.presentation.model.FoodUiModel
 
-fun List<FoodCardUiModel>.getFilteredAndSortedList(
+fun List<FoodUiModel>.getFilteredAndSortedList(
     category: CategoryUiModel,
     showExpiredOnly: Boolean,
     sortMode: InventorySortMode
-): List<FoodCardUiModel> {
+): List<FoodUiModel> {
     val filteredByCategory = when (category) {
         CategoryUiModel.All -> this
         is CategoryUiModel.ByCategory -> this.filter {
@@ -43,11 +43,11 @@ fun List<FoodCardUiModel>.getFilteredAndSortedList(
     }
 }
 
-fun List<FoodCardUiModel>.getFilteredAndSortedList(
+fun List<FoodUiModel>.getFilteredAndSortedList(
     pageIndex: Int,
     sortMode: InventorySortMode,
     showExpiredOnly: Boolean
-): List<FoodCardUiModel> {
+): List<FoodUiModel> {
     val filteredByLocation = when (pageIndex) {
         0 -> this
         1 -> this.filter { it.location == StorageLocation.FRIDGE }

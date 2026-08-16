@@ -13,6 +13,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SegmentedListItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
@@ -22,15 +23,15 @@ import com.nhuhuy.algidy.core.designsystem.icon.AppIcon
 import com.nhuhuy.algidy.core.designsystem.tokens.LocalAlgidyShapes
 import com.nhuhuy.algidy.core.designsystem.tokens.LocalAlgidySpacing
 import com.nhuhuy.algidy.core.presentation.component.FoodImage
-import com.nhuhuy.algidy.feature.inventory.presentation.model.FoodCardUiModel
+import com.nhuhuy.algidy.feature.inventory.presentation.model.FoodUiModel
 import com.nhuhuy.algidy.feature.inventory.presentation.model.readableRemainDays
 import kotlinx.collections.immutable.ImmutableList
 
 @Composable
 internal fun SearchResultContent(
     modifier: Modifier = Modifier,
-    searchResults: ImmutableList<FoodCardUiModel>,
-    onItemClick: (item: FoodCardUiModel) -> Unit
+    searchResults: ImmutableList<FoodUiModel>,
+    onItemClick: (item: FoodUiModel) -> Unit
 ) {
     val localSpacing = LocalAlgidySpacing.current
     LazyColumn(
@@ -56,7 +57,7 @@ internal fun SearchResultContent(
 private fun SearchResultListItem(
     index: Int,
     count: Int,
-    item: FoodCardUiModel,
+    item: FoodUiModel,
     modifier: Modifier = Modifier,
     onClick: () -> Unit
 ) {
@@ -68,15 +69,19 @@ private fun SearchResultListItem(
             index = index,
             count = count,
             defaultShapes = ListItemDefaults.shapes(
-                shape = localShape.medium,
-                pressedShape = localShape.large
+                shape = localShape.large,
             )
+        ),
+        verticalAlignment = Alignment.CenterVertically,
+        colors = ListItemDefaults.colors(
+            containerColor = MaterialTheme.colorScheme.surfaceContainer,
+            contentColor = MaterialTheme.colorScheme.onSurface,
         ),
         leadingContent = {
             FoodImage(
                 imageUrl = item.imageUri,
                 modifier = Modifier
-                    .size(36.dp)
+                    .size(64.dp)
                     .clip(localShape.large)
             )
         },
@@ -86,7 +91,7 @@ private fun SearchResultListItem(
         supportingContent = {
             Text(
                 text = readableRemainDays(remainingDays = item.remainDays),
-                style = MaterialTheme.typography.labelMedium.copy(
+                style = MaterialTheme.typography.labelLarge.copy(
                     fontWeight = FontWeight.Medium
                 )
             )
@@ -94,7 +99,7 @@ private fun SearchResultListItem(
     ) {
         Text(
             text = item.name,
-            style = MaterialTheme.typography.bodyLarge.copy(
+            style = MaterialTheme.typography.titleLarge.copy(
                 fontWeight = FontWeight.SemiBold
             )
         )

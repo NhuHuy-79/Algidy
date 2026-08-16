@@ -34,7 +34,7 @@ import com.nhuhuy.algidy.core.presentation.model.CategoryUiModel
 import com.nhuhuy.algidy.core.presentation.utils.toBackgroundContainerColor
 import com.nhuhuy.algidy.core.presentation.utils.toContentContainerColor
 import com.nhuhuy.algidy.core.presentation.utils.toStringRes
-import com.nhuhuy.algidy.feature.inventory.presentation.model.FoodCardUiModel
+import com.nhuhuy.algidy.feature.inventory.presentation.model.FoodUiModel
 import com.nhuhuy.algidy.toReadableText
 import kotlin.math.abs
 
@@ -42,7 +42,7 @@ import kotlin.math.abs
 fun DetailMainContent(
     modifier: Modifier = Modifier,
     categoryUiModel: CategoryUiModel,
-    foodItem: FoodCardUiModel,
+    foodItem: FoodUiModel,
     onEditClick: () -> Unit,
 ) {
     val spacing = LocalAlgidySpacing.current

@@ -50,6 +50,7 @@ class FoodEntryViewModel(
     init {
         viewModelScope.launch {
             val foodItem = foodId?.let { getFoodByIdUseCase(it) }
+            foodItem?.let { setEntryData(it) }
             val category = foodItem?.categoryId?.let {
                 addCategoryUseCase.getCurrentCategory(it)
             }

@@ -32,13 +32,13 @@ import com.nhuhuy.algidy.core.presentation.component.FoodImage
 import com.nhuhuy.algidy.core.presentation.utils.toBackgroundColor
 import com.nhuhuy.algidy.core.presentation.utils.toContentColor
 import com.nhuhuy.algidy.core.presentation.utils.toStringRes
-import com.nhuhuy.algidy.feature.inventory.presentation.model.FoodCardUiModel
+import com.nhuhuy.algidy.feature.inventory.presentation.model.FoodUiModel
 import com.nhuhuy.algidy.feature.inventory.presentation.model.readableRemainDays
 
 @Composable
 fun InventoryFoodGridItem(
     modifier: Modifier = Modifier,
-    item: FoodCardUiModel,
+    item: FoodUiModel,
     isSelected: Boolean = false,
 ) {
     val localShape = LocalAlgidyShapes.current

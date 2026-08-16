@@ -6,9 +6,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
@@ -32,7 +30,7 @@ import com.nhuhuy.algidy.core.designsystem.R
 import com.nhuhuy.algidy.core.designsystem.theme.AlgidyTheme
 import com.nhuhuy.algidy.core.designsystem.tokens.LocalAlgidyShapes
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryResultState
-import com.nhuhuy.algidy.feature.inventory.presentation.model.FoodCardUiModel
+import com.nhuhuy.algidy.feature.inventory.presentation.model.FoodUiModel
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.ImmutableSet
 
@@ -40,10 +38,10 @@ import kotlinx.collections.immutable.ImmutableSet
 internal fun InventoryGridContent(
     inventoryResultState: InventoryResultState,
     selectedIds: ImmutableSet<String>,
-    onItemClick: (FoodCardUiModel) -> Unit,
-    onItemLongClick: (FoodCardUiModel) -> Unit,
+    onItemClick: (FoodUiModel) -> Unit,
+    onItemLongClick: (FoodUiModel) -> Unit,
     onAddManuallyClick: () -> Unit,
-    itemProvider: () -> ImmutableList<FoodCardUiModel>,
+    itemProvider: () -> ImmutableList<FoodUiModel>,
 ) {
     when (inventoryResultState) {
         InventoryResultState.Loading -> LoadingPage(modifier = Modifier.fillMaxSize())
@@ -75,11 +73,16 @@ internal fun InventoryGridContent(
 @Composable
 private fun InventoryGridList(
     modifier: Modifier = Modifier,
-    items: ImmutableList<FoodCardUiModel>,
+    items: ImmutableList<FoodUiModel>,
     selectedIds: ImmutableSet<String>,
-    onItemClick: (FoodCardUiModel) -> Unit,
-    onItemLongClick: (FoodCardUiModel) -> Unit = {},
-    contentPadding: PaddingValues = PaddingValues(16.dp)
+    onItemClick: (FoodUiModel) -> Unit,
+    onItemLongClick: (FoodUiModel) -> Unit = {},
+    contentPadding: PaddingValues = PaddingValues(
+        start = 16.dp,
+        top = 16.dp,
+        end = 16.dp,
+        bottom = 120.dp
+    )
 ) {
     LazyVerticalStaggeredGrid(
         columns = StaggeredGridCells.Fixed(2),
@@ -106,8 +109,6 @@ private fun InventoryGridList(
                     )
             )
         }
-
-        item { Spacer(modifier = Modifier.height(72.dp)) }
     }
 }
 

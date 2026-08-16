@@ -29,14 +29,14 @@ import com.nhuhuy.algidy.core.designsystem.icon.toImageVector
 import com.nhuhuy.algidy.core.designsystem.tokens.LocalAlgidySpacing
 import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.detail.DetailMainContent
-import com.nhuhuy.algidy.feature.inventory.presentation.model.FoodCardUiModel
+import com.nhuhuy.algidy.feature.inventory.presentation.model.FoodUiModel
 import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetailBottomSheetRoute(
-    foodItem: FoodCardUiModel,
+    foodItem: FoodUiModel,
     onDismiss: () -> Unit
 ) {
     val viewModelStoreOwner = rememberViewModelStoreOwner()

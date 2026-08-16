@@ -6,7 +6,7 @@ import com.nhuhuy.algidy.core.presentation.navigation.Navigator
 import com.nhuhuy.algidy.core.presentation.viewmodel.BaseViewModel
 import com.nhuhuy.algidy.feature.inventory.domain.usecase.GetHistoryResultUseCase
 import com.nhuhuy.algidy.feature.inventory.domain.usecase.food.SearchFoodUseCase
-import com.nhuhuy.algidy.feature.inventory.presentation.model.toFoodCardUiModel
+import com.nhuhuy.algidy.feature.inventory.presentation.model.toFoodUiModel
 import com.nhuhuy.algidy.feature.inventory.presentation.search.viewmodel.SearchUiSurface.DetailBottomSheet
 import com.nhuhuy.algidy.feature.inventory.presentation.search.viewmodel.SearchUiSurface.None
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -55,7 +55,7 @@ class SearchViewModel(
             is SearchAction.OnSearch -> viewModelScope.launch {
                 _uiState.product { copy(isLoading = true) }
 
-                val searchResults = searchFoodUseCase(currentState.query).toFoodCardUiModel()
+                val searchResults = searchFoodUseCase(currentState.query).toFoodUiModel()
 
                 _uiState.product {
                     copy(searchResults = searchResults, isLoading = false)

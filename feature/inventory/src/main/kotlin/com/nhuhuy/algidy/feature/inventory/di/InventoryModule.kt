@@ -16,7 +16,7 @@ import com.nhuhuy.algidy.feature.inventory.domain.usecase.food.MarkFoodAsWastedU
 import com.nhuhuy.algidy.feature.inventory.domain.usecase.food.ObserveFoodItemUseCase
 import com.nhuhuy.algidy.feature.inventory.domain.usecase.food.SearchFoodUseCase
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryViewModel
-import com.nhuhuy.algidy.feature.inventory.presentation.model.FoodCardUiModel
+import com.nhuhuy.algidy.feature.inventory.presentation.model.FoodUiModel
 import com.nhuhuy.algidy.feature.inventory.presentation.search.viewmodel.SearchViewModel
 import com.nhuhuy.algidy.feature.inventory.presentation.shared.DetailBottomSheetViewModel
 import org.koin.core.module.dsl.bind
@@ -46,7 +46,7 @@ val inventoryModule = module {
     //viewModel
     viewModelOf(::InventoryViewModel)
     viewModelOf(::SearchViewModel)
-    viewModel { (foodItem: FoodCardUiModel) ->
+    viewModel { (foodItem: FoodUiModel) ->
         DetailBottomSheetViewModel(
             foodItem = foodItem,
             markFoodAsConsumedUseCase = get(),

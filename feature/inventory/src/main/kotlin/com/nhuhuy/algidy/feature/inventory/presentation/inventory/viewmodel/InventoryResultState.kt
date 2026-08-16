@@ -6,16 +6,16 @@ import com.nhuhuy.algidy.core.datastore.model.GeneralPreferences
 import com.nhuhuy.algidy.core.model.VersionFeatures
 import com.nhuhuy.algidy.core.presentation.model.CategoryUiModel
 import com.nhuhuy.algidy.core.presentation.viewmodel.UiState
-import com.nhuhuy.algidy.feature.inventory.presentation.model.FoodCardUiModel
+import com.nhuhuy.algidy.feature.inventory.presentation.model.FoodUiModel
 
 @Stable
 sealed interface InventoryResultState {
     object Loading : InventoryResultState
-    data class Success(val items: List<FoodCardUiModel>) : InventoryResultState
+    data class Success(val items: List<FoodUiModel>) : InventoryResultState
     object Empty : InventoryResultState
 }
 
-fun InventoryResultState.getDataOrEmpty(): List<FoodCardUiModel> {
+fun InventoryResultState.getDataOrEmpty(): List<FoodUiModel> {
     return if (this is InventoryResultState.Success) {
         this.items
     } else {
@@ -36,7 +36,7 @@ data class InventoryUiState(
     val currentVersionCode: Int = 1,
     val expanded: Boolean = false,
     val currentCategory: CategoryUiModel = CategoryUiModel.All,
-    val currentFoodItem: FoodCardUiModel = FoodCardUiModel(),
+    val currentFoodItem: FoodUiModel = FoodUiModel(),
     val categoryInput: String = "",
     val overlay: InventoryOverlay = InventoryOverlay.None,
     val sortMode: InventorySortMode = InventorySortMode.NONE,

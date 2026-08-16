@@ -3,7 +3,7 @@ package com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel
 import androidx.compose.runtime.Stable
 import com.nhuhuy.algidy.core.presentation.model.CategoryUiModel
 import com.nhuhuy.algidy.core.presentation.viewmodel.UiAction
-import com.nhuhuy.algidy.feature.inventory.presentation.model.FoodCardUiModel
+import com.nhuhuy.algidy.feature.inventory.presentation.model.FoodUiModel
 
 @Stable
 sealed interface InventoryAction : UiAction {
@@ -28,7 +28,7 @@ sealed interface InventoryAction : UiAction {
     data object OnWasteConfirm : InventoryAction
     data object OnDeleteCategory : InventoryAction
     data object OnSearchClick : InventoryAction
-    data class OnItemClick(val item: FoodCardUiModel) : InventoryAction
+    data class OnItemClick(val item: FoodUiModel) : InventoryAction
     data object OnResetFilters : InventoryAction
     data object OnSortByExpiry : InventoryAction
     data object OnSortByName : InventoryAction

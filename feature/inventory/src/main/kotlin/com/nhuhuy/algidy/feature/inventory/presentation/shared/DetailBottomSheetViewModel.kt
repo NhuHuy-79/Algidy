@@ -1,23 +1,27 @@
 package com.nhuhuy.algidy.feature.inventory.presentation.shared
 
+import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.Stable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nhuhuy.algidy.core.presentation.navigation.Destination
 import com.nhuhuy.algidy.core.presentation.navigation.Navigator
 import com.nhuhuy.algidy.feature.inventory.domain.usecase.food.MarkFoodAsConsumedUseCase
 import com.nhuhuy.algidy.feature.inventory.domain.usecase.food.MarkFoodAsWastedUseCase
-import com.nhuhuy.algidy.feature.inventory.presentation.model.FoodCardUiModel
+import com.nhuhuy.algidy.feature.inventory.presentation.model.FoodUiModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
+@Immutable
 data class DetailBottomSheetUiState(
-    val foodItem: FoodCardUiModel,
+    val foodItem: FoodUiModel,
     val overlay: DetailOverlay = DetailOverlay.None
 )
 
+@Stable
 sealed interface DetailOverlay {
     data object None : DetailOverlay
     data object ConsumeConfirm : DetailOverlay
@@ -25,7 +29,7 @@ sealed interface DetailOverlay {
 }
 
 class DetailBottomSheetViewModel(
-    private val foodItem: FoodCardUiModel,
+    private val foodItem: FoodUiModel,
     private val markFoodAsConsumedUseCase: MarkFoodAsConsumedUseCase,
     private val markFoodAsWastedUseCase: MarkFoodAsWastedUseCase,
     private val navigator: Navigator

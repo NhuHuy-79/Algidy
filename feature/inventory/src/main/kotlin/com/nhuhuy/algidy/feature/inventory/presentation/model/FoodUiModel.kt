@@ -12,7 +12,7 @@ import com.nhuhuy.algidy.core.presentation.model.toUiModel
 import kotlin.math.abs
 
 @Immutable
-data class FoodCardUiModel(
+data class FoodUiModel(
     val id: String = "",
     val imageUri: String? = null,
     val categoryId: String? = null,
@@ -26,8 +26,8 @@ data class FoodCardUiModel(
     val categoryUiModel: CategoryUiModel = CategoryUiModel.Uncategorized
 )
 
-fun FoodItem.toFoodCardUiModel(): FoodCardUiModel {
-    return FoodCardUiModel(
+fun FoodItem.toFoodUiModel(): FoodUiModel {
+    return FoodUiModel(
         id = id,
         categoryId = categoryId,
         imageUri = imageUri,
@@ -43,14 +43,13 @@ fun FoodItem.toFoodCardUiModel(): FoodCardUiModel {
 }
 
 
-fun List<FoodItem>.toFoodCardUiModel(): List<FoodCardUiModel> {
-    return map { it.toFoodCardUiModel() }
+fun List<FoodItem>.toFoodUiModel(): List<FoodUiModel> {
+    return map { it.toFoodUiModel() }
 }
 
 @Composable
 fun readableRemainDays(remainingDays: Int): String {
     val remainingDaysText = when {
-        remainingDays == -1 -> stringResource(R.string.freshness_no_expiry)
         remainingDays < 0 -> stringResource(R.string.freshness_expired, abs(remainingDays))
         remainingDays == 0 -> stringResource(R.string.freshness_expires_today)
         remainingDays == 1 -> stringResource(R.string.freshness_one_day_left)

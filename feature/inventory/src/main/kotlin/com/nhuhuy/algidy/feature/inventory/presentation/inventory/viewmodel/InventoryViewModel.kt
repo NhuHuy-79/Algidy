@@ -20,7 +20,7 @@ import com.nhuhuy.algidy.feature.inventory.domain.usecase.food.MarkFoodAsConsume
 import com.nhuhuy.algidy.feature.inventory.domain.usecase.food.MarkFoodAsWastedUseCase
 import com.nhuhuy.algidy.feature.inventory.domain.usecase.food.ObserveFoodItemUseCase
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryOverlay.NewFeatureSheet
-import com.nhuhuy.algidy.feature.inventory.presentation.model.toFoodCardUiModel
+import com.nhuhuy.algidy.feature.inventory.presentation.model.toFoodUiModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -73,7 +73,7 @@ internal class InventoryViewModel(
     val resultState: StateFlow<InventoryResultState> = observerFoodItemUseCase()
         .map { items ->
             if (items.isEmpty()) InventoryResultState.Empty
-            else InventoryResultState.Success(items = items.toFoodCardUiModel())
+            else InventoryResultState.Success(items = items.toFoodUiModel())
         }
         .onStart { emit(InventoryResultState.Loading) }
         .stateIn(
