@@ -8,13 +8,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Edit
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -31,8 +26,8 @@ import com.nhuhuy.algidy.core.model.food.Freshness
 import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.core.presentation.component.toUiText
 import com.nhuhuy.algidy.core.presentation.model.CategoryUiModel
-import com.nhuhuy.algidy.core.presentation.utils.toBackgroundContainerColor
-import com.nhuhuy.algidy.core.presentation.utils.toContentContainerColor
+import com.nhuhuy.algidy.core.presentation.utils.toBackgroundColor
+import com.nhuhuy.algidy.core.presentation.utils.toContentColor
 import com.nhuhuy.algidy.core.presentation.utils.toStringRes
 import com.nhuhuy.algidy.feature.inventory.presentation.model.FoodUiModel
 import com.nhuhuy.algidy.toReadableText
@@ -54,8 +49,8 @@ fun DetailMainContent(
             .animateContentSize(),
         shape = shapes.extraLarge,
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
-            contentColor = MaterialTheme.colorScheme.onSurface
+            containerColor = MaterialTheme.colorScheme.secondary,
+            contentColor = MaterialTheme.colorScheme.onSecondary
         )
     ) {
         Column(
@@ -64,7 +59,6 @@ fun DetailMainContent(
                 .padding(20.dp),
             verticalArrangement = Arrangement.spacedBy(spacing.large)
         ) {
-
             DetailHeroSection(
                 imageUri = foodItem.imageUri,
                 name = foodItem.name,
@@ -155,12 +149,12 @@ private fun DetailHeroSection(
                 )
 
                 Surface(
-                    color = freshness.toBackgroundContainerColor(),
+                    color = freshness.toBackgroundColor(),
                     shape = MaterialTheme.shapes.large
                 ) {
                     Text(
                         text = remainingDaysText,
-                        color = freshness.toContentContainerColor(),
+                        color = freshness.toContentColor(),
                         style = MaterialTheme.typography.labelLarge,
                         modifier = Modifier.padding(
                             horizontal = 12.dp,
@@ -174,19 +168,6 @@ private fun DetailHeroSection(
                     style = MaterialTheme.typography.labelLarge.copy(
                         fontWeight = FontWeight.Medium
                     )
-                )
-            }
-
-            IconButton(
-                onClick = onEditClick,
-                colors = IconButtonDefaults.iconButtonColors(
-                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                    contentColor = MaterialTheme.colorScheme.onSecondaryContainer
-                )
-            ) {
-                Icon(
-                    imageVector = Icons.Rounded.Edit,
-                    contentDescription = null
                 )
             }
         }

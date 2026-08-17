@@ -1,35 +1,35 @@
 package com.nhuhuy.algidy.feature.inventory.presentation.shared
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ButtonGroup
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.rememberViewModelStoreOwner
 import com.nhuhuy.algidy.core.designsystem.component.AlgidyAlertDialog
 import com.nhuhuy.algidy.core.designsystem.component.AppBottomSheet
-import com.nhuhuy.algidy.core.designsystem.component.AppButton
 import com.nhuhuy.algidy.core.designsystem.icon.AlgidyIcons
+import com.nhuhuy.algidy.core.designsystem.icon.AppIcon
 import com.nhuhuy.algidy.core.designsystem.icon.toImageVector
 import com.nhuhuy.algidy.core.designsystem.tokens.LocalAlgidySpacing
 import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.detail.DetailMainContent
 import com.nhuhuy.algidy.feature.inventory.presentation.model.FoodUiModel
+import com.nhuhuy.algidy.toReadableText
 import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
 
@@ -62,6 +62,7 @@ fun DetailBottomSheetRoute(
     )
 }
 
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 private fun DetailBottomSheetContent(
     uiState: DetailBottomSheetUiState,
@@ -69,7 +70,7 @@ private fun DetailBottomSheetContent(
     onConsumedClick: () -> Unit,
     onWastedClick: () -> Unit
 ) {
-    val scheme = MaterialTheme.colorScheme
+    MaterialTheme.colorScheme
     val localSpacing = LocalAlgidySpacing.current
     val foodItem = uiState.foodItem
 
@@ -78,43 +79,53 @@ private fun DetailBottomSheetContent(
             .padding(horizontal = 16.dp)
             .padding(vertical = 24.dp)
             .verticalScroll(rememberScrollState()),
-        verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
+        Text(
+            text = foodItem.name,
+            style = MaterialTheme.typography.displaySmall,
+            fontWeight = FontWeight.SemiBold
+        )
+
+        Spacer(modifier = Modifier.height(localSpacing.extraSmall))
+
+        Text(
+            text = "${foodItem.purchaseDate.toReadableText()} - ${foodItem.expiryDate.toReadableText()}",
+            style = MaterialTheme.typography.labelLarge.copy(
+                fontWeight = FontWeight.Medium
+            )
+        )
+
+        Spacer(modifier = Modifier.height(localSpacing.medium))
+
         DetailMainContent(
             categoryUiModel = foodItem.categoryUiModel,
             foodItem = foodItem,
             onEditClick = onEditClick
         )
 
-        Row(
+        Spacer(modifier = Modifier.height(localSpacing.large))
+
+        ButtonGroup(
             modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(localSpacing.medium)
+            overflowIndicator = {},
+            expandedRatio = 0f
         ) {
-            AppButton(
-                onClick = onWastedClick,
-                modifier = Modifier
-                    .weight(1f)
-                    .height(56.dp),
-                icon = ImageVector.vectorResource(com.nhuhuy.algidy.core.designsystem.R.drawable.ic_delete),
-                text = stringResource(R.string.detail_fab_mark_as_wasted),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = scheme.errorContainer,
-                    contentColor = scheme.onErrorContainer
-                ),
+            clickableItem(
+                weight = 1f,
+                onClick = onEditClick,
+                label = "",
+                icon = {
+                    AppIcon(iconProvider = AlgidyIcons.Inventory.EditFood)
+                }
             )
 
-            AppButton(
+            clickableItem(
+                weight = 1f,
                 onClick = onConsumedClick,
-                modifier = Modifier
-                    .weight(1f)
-                    .height(56.dp),
-                icon = ImageVector.vectorResource(com.nhuhuy.algidy.core.designsystem.R.drawable.ic_fork_spoon),
-                text = stringResource(R.string.detail_fab_consume_this),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = scheme.primary,
-                    contentColor = scheme.onPrimary
-                ),
+                label = "",
+                icon = {
+                    AppIcon(iconProvider = AlgidyIcons.ConsumeFood)
+                }
             )
         }
     }

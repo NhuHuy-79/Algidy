@@ -1,6 +1,7 @@
 package com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.grid_list
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -118,8 +119,11 @@ private fun EmptyPage(
     onClick: () -> Unit = {},
 ) {
     val spacing = AlgidyTheme.spacing
+    val scheme = MaterialTheme.colorScheme
     Column(
-        modifier = modifier.padding(horizontal = spacing.medium),
+        modifier = modifier
+            .background(color = scheme.background)
+            .padding(horizontal = spacing.medium),
         verticalArrangement = Arrangement.spacedBy(
             space = spacing.small,
             alignment = Alignment.CenterVertically
@@ -135,14 +139,16 @@ private fun EmptyPage(
         Text(
             text = stringResource(com.nhuhuy.algidy.core.presentation.R.string.inventory_empty_title),
             style = MaterialTheme.typography.bodyLarge.copy(
-                fontWeight = FontWeight.Medium
-            )
+                fontWeight = FontWeight.Medium,
+            ),
+            color = scheme.onBackground,
         )
 
         Text(
             text = stringResource(com.nhuhuy.algidy.core.presentation.R.string.inventory_empty_content),
             style = MaterialTheme.typography.bodyMedium,
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Center,
+            color = scheme.onBackground
         )
 
         TextButton(

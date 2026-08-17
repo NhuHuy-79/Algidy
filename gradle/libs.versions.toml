@@ -57,6 +57,9 @@ androidxAppcompat = "1.7.1"
 aboutLibraries = "14.0.0"
 uiTextGoogleFonts = "1.7.0"
 
+# Vico for Glance, Compose
+vico = "3.2.3"
+
 [libraries]
 accompanist-permissions = { module = "com.google.accompanist:accompanist-permissions", version.ref = "accompanistPermissions" }
 androidx-biometric = { module = "androidx.biometric:biometric", version.ref = "biometric" }
@@ -145,6 +148,9 @@ compose-gradlePlugin = { group = "org.jetbrains.kotlin", name = "compose-compile
 #About library
 aboutlibraries-compose = { module = "com.mikepenz:aboutlibraries-compose-m3", version.ref = "aboutLibraries" }
 
+#Vico library
+vico-compose-m3 = { group = "com.patrykandpatrick.vico", name = "compose-m3", version.ref = "vico" }
+vico-compose-glance = { group = "com.patrykandpatrick.vico", name = "compose-glance", version.ref = "vico" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

@@ -10,4 +10,7 @@ dependencies{
     implementation(libs.androidx.material3.android)
     implementation(libs.compose.charts.v0110)
 
+    //Vico chart library
+    implementation(libs.vico.compose.m3)
+    implementation(libs.vico.compose.glance)
 }

@@ -1,22 +1,10 @@
 package com.nhuhuy.algidy.feature.settings.presentation.component
 
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.AlternateEmail
-import androidx.compose.material.icons.rounded.Apps
-import androidx.compose.material.icons.rounded.BuildCircle
-import androidx.compose.material.icons.rounded.Copyright
-import androidx.compose.material.icons.rounded.Download
-import androidx.compose.material.icons.rounded.Language
-import androidx.compose.material.icons.rounded.NewReleases
-import androidx.compose.material.icons.rounded.NotificationsActive
-import androidx.compose.material.icons.rounded.Policy
-import androidx.compose.material.icons.rounded.Upload
-import androidx.compose.material.icons.rounded.Widgets
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.res.vectorResource
+import com.nhuhuy.algidy.core.designsystem.icon.AlgidyIcons
+import com.nhuhuy.algidy.core.designsystem.icon.toImageVector
 import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.core.presentation.utils.ItemPosition
 import com.nhuhuy.algidy.feature.settings.presentation.model.ClickableType
@@ -30,19 +18,20 @@ fun ClickableItem(
     position: ItemPosition,
     onClick: (SettingClickableItem) -> Unit,
 ) {
+    val algidySettings = AlgidyIcons.Settings
     val icon = when (item.type) {
-        ClickableType.AboutApp -> Icons.Rounded.Apps
-        ClickableType.CopyRight -> Icons.Rounded.Copyright
-        ClickableType.DailyReminder -> Icons.Rounded.NotificationsActive
-        ClickableType.DeleteAll -> ImageVector.vectorResource(R.drawable.ic_delete)
-        ClickableType.Export -> Icons.Rounded.Upload
-        ClickableType.Feedback -> Icons.Rounded.AlternateEmail
-        ClickableType.Import -> Icons.Rounded.Download
-        ClickableType.NewFeatures -> Icons.Rounded.NewReleases
-        ClickableType.OpenSource -> Icons.Rounded.BuildCircle
-        ClickableType.PrivacyPolicy -> Icons.Rounded.Policy
-        is ClickableType.Language -> Icons.Rounded.Language
-        ClickableType.WidgetDebug -> Icons.Rounded.Widgets
+        ClickableType.AboutApp -> algidySettings.AboutApp
+        ClickableType.CopyRight -> algidySettings.License
+        ClickableType.DailyReminder -> algidySettings.Notifications
+        ClickableType.DeleteAll -> algidySettings.DeleteAll
+        ClickableType.Export -> algidySettings.ExportData
+        ClickableType.Feedback -> algidySettings.Feedback
+        ClickableType.Import -> algidySettings.ImportData
+        ClickableType.NewFeatures -> algidySettings.NewFeature
+        ClickableType.OpenSource -> algidySettings.OpenSource
+        ClickableType.PrivacyPolicy -> algidySettings.PrivatePolicy
+        is ClickableType.Language -> algidySettings.Language
+        ClickableType.WidgetDebug -> algidySettings.WidgetDebug
     }
 
     val title = when (item.type) {
@@ -78,7 +67,7 @@ fun ClickableItem(
     ClickableSettingItem(
         modifier = modifier,
         position = position,
-        icon = icon,
+        icon = icon.toImageVector(),
         description = desc,
         title = title,
         onClick = { onClick(item) },

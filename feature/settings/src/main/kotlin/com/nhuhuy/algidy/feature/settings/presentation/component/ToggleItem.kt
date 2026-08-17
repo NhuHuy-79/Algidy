@@ -38,8 +38,6 @@ fun ToggleItem(
         enabled = item.enable,
         text = desc,
         title = title,
-        onToggleClick = { enabled ->
-            onToggle(enabled, item)
-        }
+        onToggleClick = { enabled -> onToggle(enabled, item) }
     )
 }

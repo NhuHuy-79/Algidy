@@ -9,12 +9,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
-import androidx.compose.material.icons.rounded.Apps
-import androidx.compose.material.icons.rounded.ColorLens
-import androidx.compose.material.icons.rounded.NotificationsActive
-import androidx.compose.material.icons.rounded.Settings
-import androidx.compose.material.icons.rounded.Storage
-import androidx.compose.material.icons.rounded.Widgets
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.Icon
@@ -29,6 +23,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.nhuhuy.algidy.core.designsystem.icon.AlgidyIcons
+import com.nhuhuy.algidy.core.designsystem.icon.toImageVector
 import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.core.presentation.navigation.Destination
 import com.nhuhuy.algidy.core.presentation.navigation.SettingDestination
@@ -78,6 +74,7 @@ fun MainSettingsScreen(
             )
         }
     ) { padding ->
+        val algidyIconSettings = AlgidyIcons.Settings
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
@@ -89,7 +86,7 @@ fun MainSettingsScreen(
             item {
                 ClickableSettingItem(
                     position = ItemPosition.TOP,
-                    icon = Icons.Rounded.ColorLens,
+                    icon = algidyIconSettings.Appearance.toImageVector(),
                     title = stringResource(R.string.appearance_title),
                     description = stringResource(R.string.appearance_subtitle),
                     onClick = { onNavigate(Destination.Setting(SettingDestination.Appearance)) }
@@ -99,7 +96,7 @@ fun MainSettingsScreen(
             item {
                 ClickableSettingItem(
                     position = ItemPosition.MIDDLE,
-                    icon = Icons.Rounded.NotificationsActive,
+                    icon = algidyIconSettings.Notifications.toImageVector(),
                     title = stringResource(R.string.notification_settings_title),
                     description = stringResource(R.string.notification_settings_subtitle),
                     onClick = { onNavigate(Destination.Setting(SettingDestination.Notification)) }
@@ -109,7 +106,7 @@ fun MainSettingsScreen(
             item {
                 ClickableSettingItem(
                     position = ItemPosition.BOTTOM,
-                    icon = Icons.Rounded.Storage,
+                    icon = algidyIconSettings.YourData.toImageVector(),
                     title = stringResource(R.string.your_data_title),
                     description = stringResource(R.string.your_data_subtitle),
                     onClick = { onNavigate(Destination.Setting(SettingDestination.YourData)) }
@@ -123,7 +120,7 @@ fun MainSettingsScreen(
             item {
                 ClickableSettingItem(
                     position = ItemPosition.TOP,
-                    icon = Icons.Rounded.Settings,
+                    icon = algidyIconSettings.OtherSetting.toImageVector(),
                     title = stringResource(R.string.other_settings_title_page),
                     description = stringResource(R.string.other_settings_subtitle),
                     onClick = { onNavigate(Destination.Setting(SettingDestination.OtherSettings)) }
@@ -133,7 +130,7 @@ fun MainSettingsScreen(
             item {
                 ClickableSettingItem(
                     position = ItemPosition.MIDDLE,
-                    icon = Icons.Rounded.Widgets,
+                    icon = algidyIconSettings.WidgetDebug.toImageVector(),
                     title = stringResource(R.string.setting_widget_debug),
                     description = stringResource(R.string.setting_widget_debug_desc),
                     onClick = {
@@ -145,7 +142,7 @@ fun MainSettingsScreen(
             item {
                 ClickableSettingItem(
                     position = ItemPosition.BOTTOM,
-                    icon = Icons.Rounded.Apps,
+                    icon = algidyIconSettings.AboutApp.toImageVector(),
                     title = stringResource(R.string.setting_about_app),
                     description = stringResource(
                         R.string.setting_about_app_desc,

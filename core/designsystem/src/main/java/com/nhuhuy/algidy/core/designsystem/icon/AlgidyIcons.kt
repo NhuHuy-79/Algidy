@@ -11,12 +11,15 @@ import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.Alarm
 import androidx.compose.material.icons.rounded.Analytics
 import androidx.compose.material.icons.rounded.Apps
+import androidx.compose.material.icons.rounded.AutoMode
 import androidx.compose.material.icons.rounded.BarChart
+import androidx.compose.material.icons.rounded.Brightness5
 import androidx.compose.material.icons.rounded.CalendarMonth
 import androidx.compose.material.icons.rounded.CameraAlt
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.Code
 import androidx.compose.material.icons.rounded.ColorLens
+import androidx.compose.material.icons.rounded.DarkMode
 import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.DeleteForever
 import androidx.compose.material.icons.rounded.Edit
@@ -58,10 +61,8 @@ object AlgidyIcons {
     object BottomBar {
         val UnselectedInventory = IconProvider.ImageVectorIcon(Icons.Outlined.Inventory)
         val SelectedInventory = IconProvider.ImageVectorIcon(Icons.Rounded.Inventory)
-
         val UnselectedAnalytics = IconProvider.ImageVectorIcon(Icons.Outlined.Analytics)
         val SelectedAnalytics = IconProvider.ImageVectorIcon(Icons.Rounded.Analytics)
-
         val UnselectedSettings = IconProvider.ImageVectorIcon(Icons.Outlined.Settings)
         val SelectedSettings = IconProvider.ImageVectorIcon(Icons.Rounded.Settings)
     }
@@ -83,7 +84,6 @@ object AlgidyIcons {
         val SelectAll = IconProvider.ImageVectorIcon(Icons.Rounded.SelectAll)
         val AddCategory = IconProvider.ImageVectorIcon(Icons.Rounded.Add)
         val DeleteCategory = IconProvider.ImageVectorIcon(Icons.Rounded.Delete)
-
         val LastHistory = IconProvider.ImageVectorIcon(Icons.Rounded.History)
         val HistoryAction = IconProvider.ImageVectorIcon(Icons.AutoMirrored.Rounded.ArrowForward)
     }
@@ -97,13 +97,16 @@ object AlgidyIcons {
 
     object Settings {
         val Appearance = IconProvider.ImageVectorIcon(Icons.Rounded.ColorLens)
+
+        val DarkTheme = IconProvider.ImageVectorIcon(Icons.Rounded.DarkMode)
+        val LightTheme = IconProvider.ImageVectorIcon(Icons.Rounded.Brightness5)
+        val SystemTheme = IconProvider.ImageVectorIcon(Icons.Rounded.AutoMode)
         val Notifications = IconProvider.ImageVectorIcon(Icons.Rounded.NotificationsActive)
         val YourData = IconProvider.ImageVectorIcon(Icons.Rounded.Hive)
         val OtherSetting = IconProvider.ImageVectorIcon(Icons.Rounded.Language)
         val WidgetDebug = IconProvider.ImageVectorIcon(Icons.Rounded.Widgets)
         val AboutApp = IconProvider.ImageVectorIcon(Icons.Rounded.Apps)
         val ExpandSetting = IconProvider.ImageVectorIcon(Icons.AutoMirrored.Rounded.ArrowForward)
-
         val Language = IconProvider.ImageVectorIcon(Icons.Rounded.Language)
 
         val DailyReminder = IconProvider.ImageVectorIcon(Icons.Rounded.Alarm)

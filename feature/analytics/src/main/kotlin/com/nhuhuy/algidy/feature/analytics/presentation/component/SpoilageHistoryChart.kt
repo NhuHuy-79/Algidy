@@ -3,8 +3,6 @@ package com.nhuhuy.algidy.feature.analytics.presentation.component
 import androidx.compose.animation.core.EaseInOutCubic
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.StackedLineChart
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -12,6 +10,8 @@ import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.nhuhuy.algidy.core.designsystem.component.CardLayout
+import com.nhuhuy.algidy.core.designsystem.icon.AlgidyIcons
+import com.nhuhuy.algidy.core.designsystem.icon.toImageVector
 import com.nhuhuy.algidy.core.designsystem.theme.AlgidyTheme
 import com.nhuhuy.algidy.feature.analytics.presentation.viewmodel.SpoilageChartUiModel
 import ir.ehsannarmani.compose_charts.LineChart
@@ -32,7 +32,7 @@ fun SpoilageHistoryChart(
     CardLayout(
         modifier = modifier,
         title = stringResource(com.nhuhuy.algidy.core.presentation.R.string.analytics_card_spoilage_history),
-        icon = Icons.Rounded.StackedLineChart
+        icon = AlgidyIcons.Analytics.SpoilageChart.toImageVector()
     ) {
         LineChart(
             modifier = Modifier
@@ -88,7 +88,7 @@ fun SpoilageHistoryChart(
                     color = androidx.compose.material3.MaterialTheme.colorScheme.onSurfaceVariant
                 ),
             ),
-            animationMode = AnimationMode.Together()
+            animationMode = AnimationMode.OneByOne,
         )
     }
 }

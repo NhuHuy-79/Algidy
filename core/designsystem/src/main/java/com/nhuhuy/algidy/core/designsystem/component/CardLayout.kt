@@ -57,7 +57,7 @@ fun CardLayout(
                 Text(
                     text = title,
                     style = MaterialTheme.typography.titleLarge.copy(
-                        fontWeight = FontWeight.Black
+                        fontWeight = FontWeight.SemiBold
                     )
                 )
             }

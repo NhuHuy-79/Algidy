@@ -50,7 +50,10 @@ fun NotificationScreen(
 ) {
     Scaffold(
         snackbarHost = {
-            SnackbarHost(hostState = snackBarHost)
+            SnackbarHost(
+                hostState = snackBarHost,
+                modifier = Modifier.padding(bottom = 72.dp)
+            )
         },
         modifier = Modifier.fillMaxSize(),
         topBar = {

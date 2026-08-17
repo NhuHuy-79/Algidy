@@ -180,7 +180,7 @@ fun CircularChartData.toImageVector(): ImageVector {
 @Composable
 fun CircularChartData.toContainerColor(): Color {
     return when (this) {
-        CircularChartData.OTHERS -> MaterialTheme.colorScheme.secondaryContainer
+        CircularChartData.OTHERS -> MaterialTheme.colorScheme.tertiaryContainer
         CircularChartData.CONSUMED -> AlgidyTheme.extendedColors.consumedContainer
         CircularChartData.WASTED -> AlgidyTheme.extendedColors.wastedContainer
     }
@@ -189,7 +189,7 @@ fun CircularChartData.toContainerColor(): Color {
 @Composable
 fun CircularChartData.toContentColor(): Color {
     return when (this) {
-        CircularChartData.OTHERS -> MaterialTheme.colorScheme.onSecondaryContainer
+        CircularChartData.OTHERS -> MaterialTheme.colorScheme.onTertiaryContainer
         CircularChartData.CONSUMED -> AlgidyTheme.extendedColors.onConsumedContainer
         CircularChartData.WASTED -> AlgidyTheme.extendedColors.onWastedContainer
     }

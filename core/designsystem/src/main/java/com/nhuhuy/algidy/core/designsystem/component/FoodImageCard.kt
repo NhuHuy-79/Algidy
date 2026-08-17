@@ -1,5 +1,6 @@
 package com.nhuhuy.algidy.core.designsystem.component
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -35,7 +36,7 @@ fun FoodImageCard(
         modifier = modifier
             .fillMaxWidth()
             .height(260.dp),
-        color = MaterialTheme.colorScheme.secondaryContainer,
+        color = MaterialTheme.colorScheme.primaryContainer,
         shape = RoundedCornerShape(16.dp),
     ) {
         SubcomposeAsyncImage(
@@ -50,7 +51,7 @@ fun FoodImageCard(
                 Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                     CircularProgressIndicator(
                         modifier = Modifier.size(32.dp),
-                        color = MaterialTheme.colorScheme.onSecondaryContainer,
+                        color = MaterialTheme.colorScheme.onPrimaryContainer,
                         strokeWidth = 3.dp
                     )
                 }
@@ -59,12 +60,17 @@ fun FoodImageCard(
                 SubcomposeAsyncImageContent()
             },
             error = {
-                Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(color = MaterialTheme.colorScheme.primaryContainer),
+                    contentAlignment = Alignment.Center,
+                ) {
                     Icon(
                         imageVector = placeholderIcon,
                         contentDescription = null,
                         modifier = Modifier.size(56.dp),
-                        tint = MaterialTheme.colorScheme.onSecondaryContainer
+                        tint = MaterialTheme.colorScheme.onPrimaryContainer
                     )
                 }
             }

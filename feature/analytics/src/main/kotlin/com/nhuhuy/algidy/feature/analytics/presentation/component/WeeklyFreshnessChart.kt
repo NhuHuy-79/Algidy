@@ -7,8 +7,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.BarChart
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -20,6 +18,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.nhuhuy.algidy.core.designsystem.component.AppFilterButton
 import com.nhuhuy.algidy.core.designsystem.component.CardLayout
+import com.nhuhuy.algidy.core.designsystem.icon.AlgidyIcons
+import com.nhuhuy.algidy.core.designsystem.icon.toImageVector
 import com.nhuhuy.algidy.core.model.food.Freshness
 import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.core.presentation.utils.toBackgroundColor
@@ -50,7 +50,7 @@ fun WeeklyFreshnessChart(
     if (chartData.isNotEmpty()) {
         CardLayout(
             modifier = modifier,
-            icon = Icons.Rounded.BarChart,
+            icon = AlgidyIcons.Analytics.WeeklyChart.toImageVector(),
             title = stringResource(R.string.analytics_card_weekly_freshness)
         ) {
             FreshnessCategoryRow(
@@ -109,7 +109,7 @@ fun WeeklyFreshnessChart(
 }
 
 @Composable
-fun ExpiryChartUiModel.toBarData(filter: Freshness): List<Bars> {
+private fun ExpiryChartUiModel.toBarData(filter: Freshness): List<Bars> {
     val resource = LocalResources.current
     val color = filter.toBackgroundColor()
     val solid = SolidColor(color)
@@ -131,7 +131,7 @@ fun ExpiryChartUiModel.toBarData(filter: Freshness): List<Bars> {
 }
 
 @Composable
-fun FreshnessCategoryRow(
+private fun FreshnessCategoryRow(
     modifier: Modifier = Modifier,
     selectedFreshness: Freshness,
     onSelectFreshness: (freshness: Freshness) -> Unit
@@ -157,4 +157,5 @@ fun FreshnessCategoryRow(
         }
     }
 }
+
 

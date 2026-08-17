@@ -4,9 +4,7 @@ package com.nhuhuy.algidy.feature.analytics.presentation
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.BoxWithConstraints
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -34,18 +32,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.nhuhuy.algidy.core.model.food.Freshness
 import com.nhuhuy.algidy.core.presentation.R
-import com.nhuhuy.algidy.feature.analytics.presentation.component.OverallChartLabel
-import com.nhuhuy.algidy.feature.analytics.presentation.component.OverallCircularChart
 import com.nhuhuy.algidy.feature.analytics.presentation.component.SpoilageHistoryChart
 import com.nhuhuy.algidy.feature.analytics.presentation.component.WeeklyFreshnessChart
-import com.nhuhuy.algidy.feature.analytics.presentation.component.WeeklyProgressCard
-import com.nhuhuy.algidy.feature.analytics.presentation.component.toContainerColor
-import com.nhuhuy.algidy.feature.analytics.presentation.component.toContentColor
-import com.nhuhuy.algidy.feature.analytics.presentation.component.toImageVector
-import com.nhuhuy.algidy.feature.analytics.presentation.component.toStringRes
+import com.nhuhuy.algidy.feature.analytics.presentation.new_component.AnalyticsOverview
 import com.nhuhuy.algidy.feature.analytics.presentation.viewmodel.AnalyticsAction
 import com.nhuhuy.algidy.feature.analytics.presentation.viewmodel.AnalyticsUiState
-import com.nhuhuy.algidy.feature.analytics.presentation.viewmodel.CircularChartData
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
@@ -104,49 +95,22 @@ fun AnalyticsScreen(
             LazyVerticalStaggeredGrid(
                 columns = StaggeredGridCells.Fixed(2),
                 modifier = Modifier.fillMaxSize(),
-                contentPadding = PaddingValues(16.dp),
+                contentPadding = PaddingValues(
+                    start = 16.dp,
+                    top = 16.dp,
+                    end = 16.dp,
+                    bottom = 72.dp
+                ),
                 horizontalArrangement = Arrangement.spacedBy(16.dp),
                 verticalItemSpacing = itemSpacing
             ) {
                 item(span = StaggeredGridItemSpan.FullLine) {
-                    WeeklyProgressCard(
-                        contentColor = uiState.circularChartData.toContentColor(),
-                        activeBackgroundColor = uiState.circularChartData.toContainerColor(),
-                        disabledBackgroundColor = MaterialTheme.colorScheme.surfaceContainerHigh,
-                        modifier = Modifier.height(mainCardWeeklyHeight)
+                    AnalyticsOverview(
+                        foodCount = 12,
+                        expiringFoodCount = 4,
+                        expiredFoodCount = 8
                     )
                 }
-                item(span = StaggeredGridItemSpan.SingleLane) {
-                    OverallCircularChart(
-                        modifier = Modifier.height(overallChartHeight),
-                        value = uiState.getFloatByCircularChart(),
-                        containerColor = uiState.circularChartData.toContainerColor(),
-                        contentColor = uiState.circularChartData.toContentColor(),
-                    )
-                }
-
-                item(span = StaggeredGridItemSpan.SingleLane) {
-                    Column(
-                        modifier = Modifier.height(overallChartHeight),
-                        verticalArrangement = Arrangement.spacedBy(space = 4.dp)
-                    ) {
-                        CircularChartData.entries.forEach { data ->
-                            OverallChartLabel(
-                                modifier = Modifier.weight(1f),
-                                selected = data == uiState.circularChartData,
-                                icon = data.toImageVector(),
-                                label = data.toStringRes(),
-                                count = uiState.getCountByCircularChart(),
-                                backgroundColor = data.toContainerColor(),
-                                contentColor = data.toContentColor(),
-                                onClick = {
-                                    onAction(AnalyticsAction.OnChartDataSelect(data))
-                                }
-                            )
-                        }
-                    }
-                }
-
                 item(span = StaggeredGridItemSpan.FullLine) {
                     WeeklyFreshnessChart(
                         modifier = Modifier.height(newWeeklyFreshnessChart),
@@ -161,10 +125,6 @@ fun AnalyticsScreen(
                         modifier = Modifier.height(spoilageChartHeight),
                         uiModel = uiState.spoilageChartUiModel
                     )
-                }
-
-                item {
-                    Spacer(modifier = Modifier.height(72.dp))
                 }
             }
         }

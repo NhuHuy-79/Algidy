@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.DateRange
 import androidx.compose.material3.Icon
@@ -31,6 +30,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.nhuhuy.algidy.core.designsystem.tokens.LocalAlgidyShapes
 import com.nhuhuy.algidy.core.presentation.R
 import kotlinx.coroutines.delay
 import java.time.DayOfWeek
@@ -53,6 +53,8 @@ fun WeeklyProgressCard(
         monday.format(formatter)
     }
 
+    val localShape = LocalAlgidyShapes.current
+
     LaunchedEffect(Unit) {
         while (true) {
             progress = calculateWeekProgress()
@@ -64,7 +66,7 @@ fun WeeklyProgressCard(
     Box(
         modifier = modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(24.dp))
+            .clip(localShape.extraLarge)
             .background(disabledBackgroundColor)
     ) {
         Box(
@@ -72,7 +74,7 @@ fun WeeklyProgressCard(
                 .fillMaxHeight()
                 .fillMaxWidth(fraction = progress)
                 .background(activeBackgroundColor)
-                .clip(RoundedCornerShape(24.dp))
+                .clip(localShape.extraLarge)
         )
 
 

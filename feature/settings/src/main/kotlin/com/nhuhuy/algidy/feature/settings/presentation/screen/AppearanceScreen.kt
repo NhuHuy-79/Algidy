@@ -5,11 +5,13 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
+import androidx.compose.material3.ButtonGroup
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.Icon
@@ -17,12 +19,10 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MediumFlexibleTopAppBar
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SegmentedButton
-import androidx.compose.material3.SegmentedButtonDefaults
-import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalResources
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -41,6 +41,7 @@ fun AppearanceScreen(
     combineState: SettingsCombineState,
     onAction: (SettingsAction) -> Unit,
 ) {
+    val localResource = LocalResources.current
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
@@ -88,30 +89,23 @@ fun AppearanceScreen(
                             fontWeight = FontWeight.Black
                         )
                     )
-                    SingleChoiceSegmentedButtonRow(
-                        modifier = Modifier.fillMaxSize(),
+
+
+                    ButtonGroup(
+                        modifier = Modifier.fillMaxWidth(),
+                        overflowIndicator = {},
+                        expandedRatio = 0f,
+                        horizontalArrangement = Arrangement.spacedBy(4.dp)
                     ) {
-                        DarkMode.entries.forEachIndexed { index, darkMode ->
-                            SegmentedButton(
-                                icon = {
-                                    SegmentedButtonDefaults.Icon(active = combineState.appearancePreferences.darkMode == darkMode)
+                        DarkMode.entries.forEachIndexed { index, mode ->
+                            this.toggleableItem(
+                                weight = 1f,
+                                checked = combineState.appearancePreferences.darkMode == mode,
+                                onCheckedChange = {
+                                    onAction(SettingsAction.SetDarkMode(mode))
                                 },
-                                label = {
-                                    Text(
-                                        text = stringResource(darkMode.toStringRes()),
-                                        style = MaterialTheme.typography.labelLarge.copy(
-                                            fontWeight = FontWeight.Medium
-                                        )
-                                    )
-                                },
-                                selected = combineState.appearancePreferences.darkMode == darkMode,
-                                onClick = {
-                                    onAction(SettingsAction.SetDarkMode(darkMode))
-                                },
-                                shape = SegmentedButtonDefaults.itemShape(
-                                    index = index,
-                                    count = DarkMode.entries.size
-                                ),
+                                icon = {},
+                                label = localResource.getString(mode.toStringRes())
                             )
                         }
                     }
