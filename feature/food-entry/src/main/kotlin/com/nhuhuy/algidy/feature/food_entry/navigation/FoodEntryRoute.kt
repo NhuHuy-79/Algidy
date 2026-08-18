@@ -22,20 +22,17 @@ import com.nhuhuy.algidy.feature.food_entry.presentation.viewmodel.FoodEntryActi
 import com.nhuhuy.algidy.feature.food_entry.presentation.viewmodel.FoodEntryAction.OnCategoryQueryChange
 import com.nhuhuy.algidy.feature.food_entry.presentation.viewmodel.FoodEntryEvent
 import com.nhuhuy.algidy.feature.food_entry.presentation.viewmodel.FoodEntryOverlay
+import com.nhuhuy.algidy.feature.food_entry.presentation.viewmodel.FoodEntryUiState
 import com.nhuhuy.algidy.feature.food_entry.presentation.viewmodel.FoodEntryViewModel
 import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
 
 @Composable
 fun FoodEntryRoute(
-    foodId: String?,
-    onNavigateBack: () -> Unit
-) {
-    val viewModel: FoodEntryViewModel = koinViewModel(
-        parameters = { parametersOf(foodId) }
-    )
+    foodId: String?
+) = BoxLayout {
+    val viewModel: FoodEntryViewModel = koinViewModel(parameters = { parametersOf(foodId) })
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    val errorState by viewModel.entryError.collectAsStateWithLifecycle()
     val onAction = viewModel::onAction
 
     val notificationPermissionLauncher = rememberLauncherForActivityResult(
@@ -55,53 +52,60 @@ fun FoodEntryRoute(
         }
     }
 
-    BoxLayout {
-        FoodEntryScreen(
-            uiState = uiState,
-            errorState = errorState,
-            onAction = onAction
-        )
+    FoodEntryScreen(
+        uiState = uiState,
+        onAction = onAction
+    )
 
-        // Overlay handling
-        when (uiState.overlay) {
-            FoodEntryOverlay.NONE -> Unit
-            FoodEntryOverlay.PURCHASE_DATE_PICKER -> {
-                AppDatePickerDialog(
-                    initialDateMillis = uiState.purchaseDate,
-                    title = stringResource(R.string.confirm_label_purchase_date),
-                    onDateSelected = {
-                        onAction(FoodEntryAction.OnPurchaseDateChange(it))
-                        onAction(FoodEntryAction.OnDismissOverlay)
-                    },
-                    onDismiss = { onAction(FoodEntryAction.OnDismissOverlay) }
-                )
-            }
+    FoodEntryOverlayContainer(
+        state = uiState,
+        onAction = onAction
+    )
 
-            FoodEntryOverlay.EXPIRY_DATE_PICKER -> {
-                AppDatePickerDialog(
-                    initialDateMillis = if (uiState.expiryDate == -1L) null else uiState.expiryDate,
-                    title = stringResource(R.string.confirm_label_expiry_date),
-                    onDateSelected = {
-                        onAction(FoodEntryAction.OnExpiryDateChange(it))
-                        onAction(FoodEntryAction.OnDismissOverlay)
-                    },
-                    onDismiss = { onAction(FoodEntryAction.OnDismissOverlay) }
-                )
-            }
+}
 
-            FoodEntryOverlay.CATEGORY_ADD -> {
-                TextFieldDialog(
-                    modifier = Modifier.padding(horizontal = 16.dp),
-                    value = uiState.categoryQuery,
-                    title = stringResource(R.string.inventory_category_add),
-                    confirmText = stringResource(R.string.action_add),
-                    onValueChange = { onAction(OnCategoryQueryChange(it)) },
-                    onDismiss = { onAction(FoodEntryAction.OnDismissOverlay) },
-                    onConfirm = {
-                        onAction(OnCategoryConfirm)
-                    },
-                )
-            }
+@Composable
+private fun FoodEntryOverlayContainer(
+    state: FoodEntryUiState,
+    onAction: (FoodEntryAction) -> Unit
+) {
+    val onDismiss = { onAction(FoodEntryAction.OnDismissOverlay) }
+    when (state.overlay) {
+        FoodEntryOverlay.NONE -> Unit
+        FoodEntryOverlay.PURCHASE_DATE_PICKER -> {
+            AppDatePickerDialog(
+                initialDateMillis = state.purchaseDate,
+                title = stringResource(R.string.confirm_label_purchase_date),
+                onDateSelected = {
+                    onAction(FoodEntryAction.OnPurchaseDateChange(it))
+                    onDismiss()
+                },
+                onDismiss = onDismiss
+            )
+        }
+
+        FoodEntryOverlay.EXPIRY_DATE_PICKER -> {
+            AppDatePickerDialog(
+                initialDateMillis = if (state.expiryDate == -1L) null else state.expiryDate,
+                title = stringResource(R.string.confirm_label_expiry_date),
+                onDateSelected = {
+                    onAction(FoodEntryAction.OnExpiryDateChange(it))
+                    onDismiss()
+                },
+                onDismiss = onDismiss
+            )
+        }
+
+        FoodEntryOverlay.CATEGORY_ADD -> {
+            TextFieldDialog(
+                modifier = Modifier.padding(horizontal = 16.dp),
+                value = state.categoryQuery,
+                title = stringResource(R.string.inventory_category_add),
+                confirmText = stringResource(R.string.action_add),
+                onValueChange = { onAction(OnCategoryQueryChange(it)) },
+                onDismiss = onDismiss,
+                onConfirm = { onAction(OnCategoryConfirm) },
+            )
         }
     }
 }

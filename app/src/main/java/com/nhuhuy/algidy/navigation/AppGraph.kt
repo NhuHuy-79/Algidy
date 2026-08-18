@@ -132,8 +132,7 @@ fun AppGraph(
 
             entry<Destination.FoodEntry> { destination ->
                 FoodEntryRoute(
-                    foodId = destination.foodId,
-                    onNavigateBack = backStack::removeLastOrNull
+                    foodId = destination.foodId
                 )
             }
 

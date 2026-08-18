@@ -14,6 +14,12 @@ class ObserveCategoriesUseCase(
     operator fun invoke(): Flow<List<FoodCategory>> = categoryRepository.observeAllCategories()
 }
 
+class GetCategoriesUseCase(
+    private val categoryRepository: CategoryRepository
+) {
+    suspend operator fun invoke(): List<FoodCategory> = categoryRepository.getAllCategories()
+}
+
 class AddCategoryUseCase(
     private val categoryRepository: CategoryRepository
 ) {

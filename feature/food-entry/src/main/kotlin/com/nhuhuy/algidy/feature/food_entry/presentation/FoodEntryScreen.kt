@@ -27,19 +27,16 @@ import com.nhuhuy.algidy.core.presentation.PhotoPickerContainer
 import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.feature.food_entry.presentation.component.FoodEntryForm
 import com.nhuhuy.algidy.feature.food_entry.presentation.viewmodel.FoodEntryAction
-import com.nhuhuy.algidy.feature.food_entry.presentation.viewmodel.FoodEntryError
 import com.nhuhuy.algidy.feature.food_entry.presentation.viewmodel.FoodEntryUiState
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
 fun FoodEntryScreen(
     uiState: FoodEntryUiState,
-    errorState: FoodEntryError,
     onAction: (FoodEntryAction) -> Unit
 ) {
     Scaffold(
-        modifier = Modifier
-            .fillMaxSize(),
+        modifier = Modifier.fillMaxSize(),
         topBar = {
             TopAppBar(
                 title = {
@@ -76,8 +73,7 @@ fun FoodEntryScreen(
         }
     ) { innerPadding ->
         FoodEntryForm(
-            entryState = uiState,
-            errorState = errorState,
+            state = uiState,
             onAction = onAction,
             modifier = Modifier
                 .fillMaxSize()

@@ -12,33 +12,36 @@ object FoodValidator {
         }
     }
 
-    fun validatePurchaseDate(purchaseDate: Long): ValidationResult {
-        if (purchaseDate == -1L) return ValidationResult.EMPTY_FIELD
-        val todayEnd = Calendar.getInstance().apply {
-            set(Calendar.HOUR_OF_DAY, 23)
-            set(Calendar.MINUTE, 59)
-            set(Calendar.SECOND, 59)
-        }.timeInMillis
+    fun validatePurchaseDate(
+        purchaseDate: Long
+    ): ValidationResult {
+        if (purchaseDate == -1L) {
+            return ValidationResult.EMPTY_FIELD
+        }
+        val today = getStartOfDay(System.currentTimeMillis())
 
-        return if (purchaseDate > todayEnd) {
+        return if (purchaseDate > today) {
             ValidationResult.FUTURE_DATE
         } else {
             ValidationResult.SUCCESS
         }
     }
 
-    fun validateExpiryDate(expiryDate: Long, purchaseDate: Long = -1L): ValidationResult {
-        if (expiryDate == -1L) return ValidationResult.EMPTY_FIELD
-        if (purchaseDate != -1L) {
-            val purchaseStartOfDay = getStartOfDay(purchaseDate)
-            val expiryStartOfDay = getStartOfDay(expiryDate)
-
-            if (expiryStartOfDay < purchaseStartOfDay) {
-                return ValidationResult.INVALID_DATE_RANGE
-            }
+    fun validateExpiryDate(
+        expiryDate: Long,
+        purchaseDate: Long = -1L
+    ): ValidationResult {
+        if (expiryDate == -1L) {
+            return ValidationResult.EMPTY_FIELD
         }
-        val todayStart = getStartOfDay(System.currentTimeMillis())
-        return if (expiryDate < todayStart) {
+
+        if (purchaseDate != -1L && expiryDate < purchaseDate) {
+            return ValidationResult.INVALID_DATE_RANGE
+        }
+
+        val today = getStartOfDay(System.currentTimeMillis())
+
+        return if (expiryDate < today) {
             ValidationResult.PAST_DATE
         } else {
             ValidationResult.SUCCESS
@@ -66,5 +69,11 @@ enum class ValidationResult {
     PAST_DATE,
     TEXT_TOO_SHORT,
     FUTURE_DATE,
-    INVALID_DATE_RANGE
+    INVALID_DATE_RANGE;
+
+    companion object {
+        fun ValidationResult.isValid(): Boolean {
+            return this == SUCCESS
+        }
+    }
 }

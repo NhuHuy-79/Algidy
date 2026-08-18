@@ -16,6 +16,13 @@ fun FoodCategory?.toUiModel(): CategoryUiModel {
     } ?: CategoryUiModel.Uncategorized
 }
 
+fun CategoryUiModel.toFoodCategory(): FoodCategory? {
+    return when (this) {
+        CategoryUiModel.All -> null
+        is CategoryUiModel.ByCategory -> data
+        CategoryUiModel.Uncategorized -> null
+    }
+}
 
 fun List<FoodCategory>.toUiModel(): List<CategoryUiModel> {
     return listOf(CategoryUiModel.All) + this.map {
