@@ -7,4 +7,5 @@ plugins {
     alias(libs.plugins.ksp) apply false
     alias(libs.plugins.room) apply false
     alias(libs.plugins.aboutlibraries) apply false
+    alias(libs.plugins.jetbrains.kotlin.jvm) apply false
 }

@@ -41,7 +41,7 @@ fun FoodEntryScreen(
             TopAppBar(
                 title = {
                     Text(
-                        text = uiState.name.ifBlank { stringResource(R.string.food_entry_title) },
+                        text = uiState.entry.name.ifBlank { stringResource(R.string.food_entry_title) },
                         fontWeight = FontWeight.Black
                     )
                 },

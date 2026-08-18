@@ -59,6 +59,7 @@ uiTextGoogleFonts = "1.7.0"
 
 # Vico for Glance, Compose
 vico = "3.2.3"
+jetbrainsKotlinJvm = "2.4.10"
 
 [libraries]
 accompanist-permissions = { module = "com.google.accompanist:accompanist-permissions", version.ref = "accompanistPermissions" }
@@ -162,3 +163,4 @@ room = { id = "androidx.room", version.ref = "room" }
 #Serialization
 jetbrains-kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 aboutlibraries = { id = "com.mikepenz.aboutlibraries.plugin", version.ref = "aboutLibraries" }
+jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jetbrainsKotlinJvm" }

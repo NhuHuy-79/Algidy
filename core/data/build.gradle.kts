@@ -12,9 +12,9 @@ dependencies {
     implementation(project(":core:model"))
     implementation(project(":core:network"))
     implementation(project(":core:common"))
+    implementation(project(":core:domain"))
     implementation(libs.kotlinx.coroutines.android)
     api(libs.kotlinx.coroutines.play.services)
-
     /* //File Kit
     api(libs.filekit.core)
     api(libs.filekit.dialogs.compose)
