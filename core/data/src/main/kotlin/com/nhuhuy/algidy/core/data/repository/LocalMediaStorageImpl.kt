@@ -1,4 +1,4 @@
-package com.nhuhuy.algidy.core.data
+package com.nhuhuy.algidy.core.data.repository
 
 import android.content.Context
 import android.net.Uri
@@ -6,19 +6,12 @@ import android.webkit.MimeTypeMap
 import androidx.core.net.toUri
 import com.nhuhuy.algidy.core.data.util.AppDispatchers
 import com.nhuhuy.algidy.core.data.util.safeCall
+import com.nhuhuy.algidy.core.domain.repository.LocalMediaStorage
 import com.nhuhuy.algidy.core.model.error_handling.Resource
 import java.io.File
 import java.util.UUID
 
 const val FOLDER_IMAGE = "Algidy/Images"
-
-interface LocalMediaStorage {
-    suspend fun copyImageToInternalStorage(uriPath: String): Resource<String>
-    suspend fun deleteImageFromInternalStorage(uriPath: String): Resource<Unit>
-    fun deleteAllFromInternalStorage()
-    suspend fun getAllUriPath(): Resource<List<String>>
-
-}
 
 class LocalMediaStorageImpl(
     private val context: Context,

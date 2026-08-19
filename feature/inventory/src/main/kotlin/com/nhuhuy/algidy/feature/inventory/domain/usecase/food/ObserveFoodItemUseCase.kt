@@ -1,6 +1,6 @@
 package com.nhuhuy.algidy.feature.inventory.domain.usecase.food
 
-import com.nhuhuy.algidy.core.data.repository.FoodRepository
+import com.nhuhuy.algidy.core.domain.repository.FoodRepository
 import com.nhuhuy.algidy.core.model.food.FoodItem
 import kotlinx.coroutines.flow.Flow
 

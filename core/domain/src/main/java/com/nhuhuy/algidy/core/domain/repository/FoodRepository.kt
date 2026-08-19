@@ -1,4 +1,4 @@
-package com.nhuhuy.algidy.core.data.repository
+package com.nhuhuy.algidy.core.domain.repository
 
 import com.nhuhuy.algidy.core.model.error_handling.Resource
 import com.nhuhuy.algidy.core.model.food.FoodItem
@@ -21,7 +21,6 @@ interface FoodRepository {
     suspend fun updateFoodItem(item: FoodItem): Resource<Unit>
     suspend fun updateFoodStatus(id: String, newStatus: FoodStatus): Resource<String>
     suspend fun updateFoodStatusList(ids: List<String>, newStatus: FoodStatus): Resource<Unit>
-
     //DELETE
     suspend fun removeFoodItem(id: String)
     suspend fun deleteAllFoodItems(): Resource<Unit>

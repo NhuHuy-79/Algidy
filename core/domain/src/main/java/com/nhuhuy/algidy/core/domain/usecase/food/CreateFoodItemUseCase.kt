@@ -1,9 +1,9 @@
-package com.nhuhuy.algidy.feature.inventory.domain.usecase.food
+package com.nhuhuy.algidy.core.domain.usecase.food
 
-import com.nhuhuy.algidy.core.data.LocalMediaStorage
-import com.nhuhuy.algidy.core.data.repository.FoodRepository
-import com.nhuhuy.algidy.core.data.util.getDataOrNull
+import com.nhuhuy.algidy.core.domain.repository.FoodRepository
+import com.nhuhuy.algidy.core.domain.repository.LocalMediaStorage
 import com.nhuhuy.algidy.core.model.error_handling.Resource
+import com.nhuhuy.algidy.core.model.error_handling.getDataOrNull
 import com.nhuhuy.algidy.core.model.food.FoodItem
 
 class CreateFoodItemUseCase(

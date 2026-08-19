@@ -1,4 +1,4 @@
-package com.nhuhuy.algidy.core.data.repository
+package com.nhuhuy.algidy.core.domain.repository
 
 import com.nhuhuy.algidy.core.model.food.FoodCategory
 import kotlinx.coroutines.flow.Flow

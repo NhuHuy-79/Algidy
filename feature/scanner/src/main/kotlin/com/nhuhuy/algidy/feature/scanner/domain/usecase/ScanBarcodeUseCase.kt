@@ -1,8 +1,8 @@
 package com.nhuhuy.algidy.feature.scanner.domain.usecase
 
 import android.net.Uri
-import com.nhuhuy.algidy.core.data.LocalMediaStorage
-import com.nhuhuy.algidy.core.data.repository.FoodRepository
+import com.nhuhuy.algidy.core.domain.repository.FoodRepository
+import com.nhuhuy.algidy.core.domain.repository.LocalMediaStorage
 import com.nhuhuy.algidy.core.model.error_handling.Resource
 import com.nhuhuy.algidy.core.model.food.FoodItem
 import com.nhuhuy.algidy.feature.scanner.domain.BarcodeScanner

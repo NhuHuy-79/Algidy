@@ -5,7 +5,7 @@ import android.content.Context
 import android.os.Environment
 import android.provider.MediaStore
 import androidx.core.net.toUri
-import com.nhuhuy.algidy.core.data.FOLDER_IMAGE
+import com.nhuhuy.algidy.core.data.repository.FOLDER_IMAGE
 import com.nhuhuy.algidy.core.data.util.AppDispatchers
 import com.nhuhuy.algidy.core.data.util.safeCall
 import com.nhuhuy.algidy.core.model.error_handling.Resource

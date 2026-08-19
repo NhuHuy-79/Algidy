@@ -1,6 +1,6 @@
-package com.nhuhuy.algidy.feature.inventory.domain.usecase.category
+package com.nhuhuy.algidy.core.domain.usecase.category
 
-import com.nhuhuy.algidy.core.data.repository.CategoryRepository
+import com.nhuhuy.algidy.core.domain.repository.CategoryRepository
 import com.nhuhuy.algidy.core.model.food.FoodCategory
 import kotlinx.coroutines.flow.Flow
 

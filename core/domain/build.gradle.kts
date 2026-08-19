@@ -1,17 +1,13 @@
 plugins {
-    id("java-library")
-    alias(libs.plugins.jetbrains.kotlin.jvm)
+    id("algidy.android.library")
 }
-java {
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
-}
-kotlin {
-    compilerOptions {
-        jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_11
-    }
+
+android {
+    namespace = "com.nhuhuy.algidy.core.domain"
 }
 
 dependencies {
+    // Bây giờ bạn có thể sử dụng bản android
     implementation(libs.kotlinx.coroutines.android)
+    implementation(project(":core:model"))
 }

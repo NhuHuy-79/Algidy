@@ -1,6 +1,6 @@
 package com.nhuhuy.algidy.widget.usecase
 
-import com.nhuhuy.algidy.core.data.repository.FoodRepository
+import com.nhuhuy.algidy.core.domain.repository.FoodRepository
 import com.nhuhuy.algidy.core.model.food.FoodItem
 import com.nhuhuy.algidy.core.model.food.FoodStatus
 import com.nhuhuy.algidy.toLocalDate

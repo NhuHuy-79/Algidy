@@ -1,12 +1,9 @@
 package com.nhuhuy.algidy.di
 
 import com.nhuhuy.algidy.core.data.AppNewFeaturesReader
-import com.nhuhuy.algidy.core.data.LocalMediaStorage
-import com.nhuhuy.algidy.core.data.LocalMediaStorageImpl
-import com.nhuhuy.algidy.core.data.repository.CategoryRepository
 import com.nhuhuy.algidy.core.data.repository.CategoryRepositoryImpl
-import com.nhuhuy.algidy.core.data.repository.FoodRepository
 import com.nhuhuy.algidy.core.data.repository.FoodRepositoryImpl
+import com.nhuhuy.algidy.core.data.repository.LocalMediaStorageImpl
 import com.nhuhuy.algidy.core.data.util.AppDispatchers
 import com.nhuhuy.algidy.core.data.util.DefaultAppDispatchers
 import com.nhuhuy.algidy.core.datastore.dataStore
@@ -21,6 +18,9 @@ import com.nhuhuy.algidy.core.datastore.model.GeneralPreferences
 import com.nhuhuy.algidy.core.datastore.model.NotificationDataStore
 import com.nhuhuy.algidy.core.datastore.model.NotificationPreferences
 import com.nhuhuy.algidy.core.datastore.utils.BaseDataStore
+import com.nhuhuy.algidy.core.domain.repository.CategoryRepository
+import com.nhuhuy.algidy.core.domain.repository.FoodRepository
+import com.nhuhuy.algidy.core.domain.repository.LocalMediaStorage
 import com.nhuhuy.algidy.feature.scanner.data.MLKitBarcodeScanner
 import com.nhuhuy.algidy.feature.scanner.data.MLKitFoodDateScanner
 import com.nhuhuy.algidy.feature.scanner.domain.BarcodeScanner

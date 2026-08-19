@@ -1,6 +1,6 @@
 package com.nhuhuy.algidy.feature.food_entry.domain.usecase
 
-import com.nhuhuy.algidy.core.data.repository.FoodRepository
+import com.nhuhuy.algidy.core.domain.repository.FoodRepository
 import com.nhuhuy.algidy.core.model.food.FoodItem
 
 class GetFoodByIdUseCase(

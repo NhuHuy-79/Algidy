@@ -10,7 +10,7 @@ import coil3.disk.directory
 import coil3.memory.MemoryCache
 import coil3.network.okhttp.OkHttpNetworkFetcherFactory
 import coil3.request.crossfade
-import com.nhuhuy.algidy.core.data.FOLDER_IMAGE
+import com.nhuhuy.algidy.core.data.repository.FOLDER_IMAGE
 import com.nhuhuy.algidy.core.notifications.data.NotificationChannelManager
 import com.nhuhuy.algidy.core.notifications.di.notificationModule
 import com.nhuhuy.algidy.core.notifications.worker.WorkerScheduler

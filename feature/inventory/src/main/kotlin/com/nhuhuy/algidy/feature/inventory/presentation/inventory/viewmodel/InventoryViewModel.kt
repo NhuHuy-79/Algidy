@@ -3,6 +3,10 @@ package com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel
 import androidx.lifecycle.viewModelScope
 import com.nhuhuy.algidy.core.data.AppNewFeaturesReader
 import com.nhuhuy.algidy.core.data.util.product
+import com.nhuhuy.algidy.core.domain.usecase.category.AddCategoryUseCase
+import com.nhuhuy.algidy.core.domain.usecase.category.DeleteCategoryUseCase
+import com.nhuhuy.algidy.core.domain.usecase.category.EditCategoryUseCase
+import com.nhuhuy.algidy.core.domain.usecase.category.ObserveCategoriesUseCase
 import com.nhuhuy.algidy.core.presentation.model.CategoryUiModel
 import com.nhuhuy.algidy.core.presentation.model.toUiModel
 import com.nhuhuy.algidy.core.presentation.navigation.Destination
@@ -11,10 +15,6 @@ import com.nhuhuy.algidy.core.presentation.navigation.SettingDestination
 import com.nhuhuy.algidy.core.presentation.viewmodel.BaseViewModel
 import com.nhuhuy.algidy.feature.inventory.domain.usecase.GetInventoryPreferenceUseCase
 import com.nhuhuy.algidy.feature.inventory.domain.usecase.ObserveSettingDataUseCase
-import com.nhuhuy.algidy.feature.inventory.domain.usecase.category.AddCategoryUseCase
-import com.nhuhuy.algidy.feature.inventory.domain.usecase.category.DeleteCategoryUseCase
-import com.nhuhuy.algidy.feature.inventory.domain.usecase.category.EditCategoryUseCase
-import com.nhuhuy.algidy.feature.inventory.domain.usecase.category.ObserveCategoriesUseCase
 import com.nhuhuy.algidy.feature.inventory.domain.usecase.food.DeleteFoodItemUseCase
 import com.nhuhuy.algidy.feature.inventory.domain.usecase.food.MarkFoodAsConsumedUseCase
 import com.nhuhuy.algidy.feature.inventory.domain.usecase.food.MarkFoodAsWastedUseCase

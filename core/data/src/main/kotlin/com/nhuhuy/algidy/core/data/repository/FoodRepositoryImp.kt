@@ -8,6 +8,7 @@ import com.nhuhuy.algidy.core.database.TransactionRunner
 import com.nhuhuy.algidy.core.database.dao.CategoryDao
 import com.nhuhuy.algidy.core.database.dao.FoodDao
 import com.nhuhuy.algidy.core.database.dao.SearchDao
+import com.nhuhuy.algidy.core.domain.repository.FoodRepository
 import com.nhuhuy.algidy.core.model.error_handling.Resource
 import com.nhuhuy.algidy.core.model.food.FoodItem
 import com.nhuhuy.algidy.core.model.food.FoodStatus

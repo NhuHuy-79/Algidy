@@ -1,7 +1,7 @@
 package com.nhuhuy.algidy.feature.analytics.data.repository
 
 import app.cash.turbine.test
-import com.nhuhuy.algidy.core.data.repository.FoodRepository
+import com.nhuhuy.algidy.core.domain.repository.FoodRepository
 import com.nhuhuy.algidy.core.model.food.FoodItem
 import com.nhuhuy.algidy.core.model.food.FoodStatus
 import io.mockk.every
