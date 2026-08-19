@@ -74,7 +74,7 @@ private fun FoodEntryOverlayContainer(
         FoodEntryOverlay.NONE -> Unit
         FoodEntryOverlay.PURCHASE_DATE_PICKER -> {
             AppDatePickerDialog(
-                initialDateMillis = state.purchaseDate,
+                initialDateMillis = state.entry.purchaseDate,
                 title = stringResource(R.string.confirm_label_purchase_date),
                 onDateSelected = {
                     onAction(FoodEntryAction.OnPurchaseDateChange(it))
@@ -86,7 +86,7 @@ private fun FoodEntryOverlayContainer(
 
         FoodEntryOverlay.EXPIRY_DATE_PICKER -> {
             AppDatePickerDialog(
-                initialDateMillis = if (state.expiryDate == -1L) null else state.expiryDate,
+                initialDateMillis = if (state.entry.expiryDate == -1L) null else state.entry.expiryDate,
                 title = stringResource(R.string.confirm_label_expiry_date),
                 onDateSelected = {
                     onAction(FoodEntryAction.OnExpiryDateChange(it))

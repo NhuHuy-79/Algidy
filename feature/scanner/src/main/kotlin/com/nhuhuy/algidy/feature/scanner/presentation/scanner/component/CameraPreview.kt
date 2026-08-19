@@ -12,11 +12,6 @@ import androidx.camera.core.resolutionselector.ResolutionSelector
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.lifecycle.awaitInstance
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Add
-import androidx.compose.material.icons.rounded.DocumentScanner
-import androidx.compose.material.icons.rounded.ErrorOutline
-import androidx.compose.material.icons.rounded.PhotoCamera
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -30,15 +25,12 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalResources
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.nhuhuy.algidy.core.designsystem.component.AppLabel
+import com.nhuhuy.algidy.core.designsystem.icon.AlgidyIcons
+import com.nhuhuy.algidy.core.designsystem.icon.toImageVector
 import com.nhuhuy.algidy.core.presentation.R
-import com.nhuhuy.algidy.feature.scanner.domain.FoodDateScanner
-import com.nhuhuy.algidy.feature.scanner.domain.model.FoodDate
-import com.nhuhuy.algidy.feature.scanner.presentation.scanner.ScannerMode
 import com.nhuhuy.algidy.feature.scanner.presentation.scanner.component.analyzer.BarcodeAnalyzer
-import com.nhuhuy.algidy.feature.scanner.presentation.scanner.component.analyzer.FoodDateAnalyzer
 import com.nhuhuy.algidy.feature.scanner.presentation.scanner.viewmodel.LabelEvent
 import kotlinx.coroutines.delay
-import org.koin.compose.koinInject
 import java.util.concurrent.Executors
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
@@ -46,16 +38,13 @@ import kotlin.time.Duration.Companion.seconds
 @Composable
 fun CameraPreviewContent(
     modifier: Modifier = Modifier,
-    isAutoScanned: Boolean = true,
-    mode: ScannerMode,
+    isAutoScanned: Boolean,
     onCameraReady: (Camera) -> Unit,
-    onResultDetected: (String) -> Unit,
-    onDateDetected: (FoodDate) -> Unit,
+    onBarcodeDetected: (String) -> Unit,
 ) {
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
 
-    // Dedicated background executor for image analysis to avoid UI jank
     val analysisExecutor = remember { Executors.newSingleThreadExecutor() }
 
     val resolutionSelector = remember {
@@ -68,19 +57,6 @@ fun CameraPreviewContent(
             )
             .build()
     }
-    
-    // Modern SurfaceRequest handling for Compose
-    var surfaceRequest by remember { mutableStateOf<SurfaceRequest?>(null) }
-    
-    val foodDateScanner = koinInject<FoodDateScanner>()
-
-    val barcodeAnalyzer = remember {
-        BarcodeAnalyzer { barcode -> onResultDetected(barcode) }
-    }
-
-    val foodDateAnalyzer = remember(foodDateScanner) {
-        FoodDateAnalyzer(foodDateScanner) { date -> onDateDetected(date) }
-    }
 
     val imageAnalysis = remember {
         ImageAnalysis.Builder()
@@ -89,59 +65,48 @@ fun CameraPreviewContent(
             .build()
     }
 
-    // Update analyzer based on mode and auto-scan setting
-    LaunchedEffect(mode, isAutoScanned) {
-        if (!isAutoScanned) {
+    val barcodeAnalyzer = remember { BarcodeAnalyzer(onBarcodeDetected) }
+
+    var surfaceRequest by remember { mutableStateOf<SurfaceRequest?>(null) }
+
+    LaunchedEffect(isAutoScanned) {
+        if (isAutoScanned) {
+            imageAnalysis.setAnalyzer(analysisExecutor, barcodeAnalyzer)
+        } else {
             imageAnalysis.clearAnalyzer()
-            return@LaunchedEffect
-        }
-        imageAnalysis.setAnalyzer(analysisExecutor) { imageProxy ->
-            when (mode) {
-                ScannerMode.BARCODE_SCANNER -> barcodeAnalyzer.analyze(imageProxy)
-                ScannerMode.FOOD_SCANNER -> foodDateAnalyzer.analyze(imageProxy)
-            }
         }
     }
 
-    // Camera Provider and Binding
     LaunchedEffect(lifecycleOwner) {
         val cameraProvider = ProcessCameraProvider.awaitInstance(context)
 
         val preview = Preview.Builder()
             .setResolutionSelector(resolutionSelector)
-            .build().apply {
-            setSurfaceProvider { request ->
-                surfaceRequest = request
+            .build()
+            .apply {
+                setSurfaceProvider { request ->
+                    surfaceRequest = request
+                }
             }
-        }
 
-        val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
+        val camera = cameraProvider.bindToLifecycle(
+            lifecycleOwner,
+            CameraSelector.DEFAULT_BACK_CAMERA,
+            preview,
+            imageAnalysis
+        )
 
-        try {
-            cameraProvider.unbindAll()
-            val cameraInstance = cameraProvider.bindToLifecycle(
-                lifecycleOwner,
-                cameraSelector,
-                preview,
-                imageAnalysis
-            )
-            
-            onCameraReady(cameraInstance)
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
+        onCameraReady(camera)
     }
 
     DisposableEffect(Unit) {
         onDispose {
-            barcodeAnalyzer.release()
-            foodDateAnalyzer.release()
             imageAnalysis.clearAnalyzer()
+            barcodeAnalyzer.release()
             analysisExecutor.shutdown()
         }
     }
 
-    // Render using the modern CameraXViewfinder
     surfaceRequest?.let { request ->
         CameraXViewfinder(
             surfaceRequest = request,
@@ -158,6 +123,7 @@ fun LabelEventContainer(
 ) {
     var showLabel by remember { mutableStateOf(false) }
     val resource = LocalResources.current
+    val algidyIcons = AlgidyIcons.Scanner
     val text = remember(event) {
         when (event) {
             LabelEvent.NONE -> ""
@@ -170,10 +136,10 @@ fun LabelEventContainer(
     val icon = remember(event) {
         when (event) {
             LabelEvent.NONE -> null
-            LabelEvent.AUTO_OFF -> Icons.Rounded.PhotoCamera
-            LabelEvent.SCANNING -> Icons.Rounded.DocumentScanner
-            LabelEvent.FAILURE -> Icons.Rounded.ErrorOutline
-            LabelEvent.ADD_MANUALLY -> Icons.Outlined.Add
+            LabelEvent.AUTO_OFF -> algidyIcons.AutoOff
+            LabelEvent.SCANNING -> algidyIcons.Scanning
+            LabelEvent.FAILURE -> algidyIcons.Failure
+            LabelEvent.ADD_MANUALLY -> algidyIcons.AddManually
         }
     }
 
@@ -189,7 +155,7 @@ fun LabelEventContainer(
         icon?.let {
             AppLabel(
                 text = text,
-                icon = icon,
+                icon = icon.toImageVector(),
                 containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
                 contentColor = MaterialTheme.colorScheme.onSurface,
                 modifier = modifier

@@ -19,11 +19,6 @@ data class FoodItem(
     val resolvedDate: Long? = null,
     val category: FoodCategory? = null,
 ) {
-    init {
-        require(purchaseDate <= expiryDate) {
-            error("Expiry date cannot be earlier than purchase date.")
-        }
-    }
     fun getFreshnessStatus(): Freshness {
         val currentTime = System.currentTimeMillis()
         val diff = expiryDate - currentTime

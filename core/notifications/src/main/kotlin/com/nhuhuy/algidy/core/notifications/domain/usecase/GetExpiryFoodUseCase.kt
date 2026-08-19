@@ -1,7 +1,7 @@
 package com.nhuhuy.algidy.core.notifications.domain.usecase
 
-import com.nhuhuy.algidy.core.data.repository.FoodRepository
 import com.nhuhuy.algidy.core.datastore.model.NotificationDataStore
+import com.nhuhuy.algidy.core.domain.repository.FoodRepository
 import com.nhuhuy.algidy.core.model.food.FoodItem
 import kotlinx.coroutines.flow.first
 import timber.log.Timber

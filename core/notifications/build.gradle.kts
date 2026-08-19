@@ -12,6 +12,7 @@ dependencies {
     implementation(project(":core:data"))
     implementation(project(":core:common"))
     implementation(project(":core:presentation"))
+    implementation(project(":core:domain"))
 
     implementation(libs.koin.androidx.workmanager)
     implementation(libs.accompanist.permissions)

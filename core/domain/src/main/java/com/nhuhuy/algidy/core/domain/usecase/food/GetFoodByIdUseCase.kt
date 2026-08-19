@@ -1,4 +1,4 @@
-package com.nhuhuy.algidy.feature.food_entry.domain.usecase
+package com.nhuhuy.algidy.core.domain.usecase.food
 
 import com.nhuhuy.algidy.core.domain.repository.FoodRepository
 import com.nhuhuy.algidy.core.model.food.FoodItem

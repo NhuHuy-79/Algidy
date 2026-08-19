@@ -1,6 +1,6 @@
 package com.nhuhuy.algidy.core.notifications.domain.usecase
 
-import com.nhuhuy.algidy.core.data.repository.FoodRepository
+import com.nhuhuy.algidy.core.domain.repository.FoodRepository
 import com.nhuhuy.algidy.core.model.food.FoodStatus
 import java.time.DayOfWeek
 import java.time.LocalDate

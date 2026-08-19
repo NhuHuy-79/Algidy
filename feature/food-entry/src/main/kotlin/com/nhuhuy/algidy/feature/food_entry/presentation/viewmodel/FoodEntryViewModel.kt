@@ -2,6 +2,7 @@ package com.nhuhuy.algidy.feature.food_entry.presentation.viewmodel
 
 import androidx.lifecycle.viewModelScope
 import com.nhuhuy.algidy.core.data.util.product
+import com.nhuhuy.algidy.core.domain.usecase.food.GetFoodByIdUseCase
 import com.nhuhuy.algidy.core.model.food.FoodCategory
 import com.nhuhuy.algidy.core.presentation.model.CategoryUiModel
 import com.nhuhuy.algidy.core.presentation.model.toUiModel
@@ -11,7 +12,6 @@ import com.nhuhuy.algidy.feature.food_entry.domain.model.FoodEntryPreferences
 import com.nhuhuy.algidy.feature.food_entry.domain.usecase.AddCategoryUseCase
 import com.nhuhuy.algidy.feature.food_entry.domain.usecase.FoodEntryPreferencesUseCase
 import com.nhuhuy.algidy.feature.food_entry.domain.usecase.GetCategoriesUseCase
-import com.nhuhuy.algidy.feature.food_entry.domain.usecase.GetFoodByIdUseCase
 import com.nhuhuy.algidy.feature.food_entry.domain.usecase.SaveFoodItemUseCase
 import com.nhuhuy.algidy.feature.food_entry.presentation.model.EntryUiModel
 import com.nhuhuy.algidy.feature.food_entry.presentation.model.toEntryUiModel

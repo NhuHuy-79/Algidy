@@ -3,9 +3,9 @@ package com.nhuhuy.algidy.core.notifications.worker
 import android.content.Context
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
-import com.nhuhuy.algidy.core.data.LocalMediaStorage
-import com.nhuhuy.algidy.core.data.repository.FoodRepository
 import com.nhuhuy.algidy.core.data.util.AppDispatchers
+import com.nhuhuy.algidy.core.domain.repository.FoodRepository
+import com.nhuhuy.algidy.core.domain.repository.LocalMediaStorage
 import com.nhuhuy.algidy.core.model.error_handling.Resource
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.supervisorScope

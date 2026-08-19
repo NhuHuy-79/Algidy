@@ -7,11 +7,12 @@ import com.google.mlkit.vision.common.InputImage
 import com.nhuhuy.algidy.feature.scanner.domain.BarcodeScanner
 import kotlinx.coroutines.tasks.await
 import timber.log.Timber
+import java.io.Closeable
 
 
 class MLKitBarcodeScanner(
     private val context: Context
-) : BarcodeScanner {
+) : BarcodeScanner, Closeable {
     private val scanner = BarcodeScanning.getClient()
 
     override suspend fun scanFromImage(uri: Uri): String? {
@@ -22,8 +23,12 @@ class MLKitBarcodeScanner(
         } catch (e: kotlinx.coroutines.CancellationException) {
             throw e
         } catch (e: Exception) {
-            Timber.e(e, "Lỗi khi quét ảnh từ URI: $uri")
+            Timber.e(e)
             null
         }
+    }
+
+    override fun close() {
+        scanner.close()
     }
 }
