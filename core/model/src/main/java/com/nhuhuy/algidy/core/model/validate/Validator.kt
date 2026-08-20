@@ -73,7 +73,7 @@ enum class ValidationResult {
 
     companion object {
         fun ValidationResult.isValid(): Boolean {
-            return this == SUCCESS
+            return this == SUCCESS || this == IDLE
         }
     }
 }

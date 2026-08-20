@@ -34,7 +34,7 @@ data class InventoryCombineState(
 @Immutable
 data class InventoryUiState(
     val currentVersionCode: Int = 1,
-    val expanded: Boolean = false,
+    val visibility: Boolean = true,
     val currentCategory: CategoryUiModel = CategoryUiModel.All,
     val currentFoodItem: FoodUiModel = FoodUiModel(),
     val categoryInput: String = "",

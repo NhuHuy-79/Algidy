@@ -15,7 +15,6 @@ import androidx.compose.material.icons.rounded.AutoMode
 import androidx.compose.material.icons.rounded.BarChart
 import androidx.compose.material.icons.rounded.Brightness5
 import androidx.compose.material.icons.rounded.CalendarMonth
-import androidx.compose.material.icons.rounded.CameraAlt
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.Code
 import androidx.compose.material.icons.rounded.ColorLens
@@ -76,8 +75,9 @@ object AlgidyIcons {
         val AddFood = IconProvider.ImageVectorIcon(Icons.Rounded.Add)
         val EditFood = IconProvider.ImageVectorIcon(Icons.Rounded.Edit)
         val SearchFood = IconProvider.ImageVectorIcon(Icons.Rounded.Search)
-        val ScanFood = IconProvider.ImageVectorIcon(Icons.Rounded.CameraAlt)
+        val ScanFood = IconProvider.DrawableResourceIcon(R.drawable.ic_scan_barcode)
         val FilterFood = IconProvider.ImageVectorIcon(Icons.Rounded.FilterList)
+        val DetailFood = IconProvider.DrawableResourceIcon(R.drawable.food_detail)
         val SortByExpiry = IconProvider.ImageVectorIcon(Icons.Rounded.Today)
         val ExpiryOnly = IconProvider.ImageVectorIcon(Icons.Rounded.Warning)
         val SortByName = IconProvider.ImageVectorIcon(Icons.Rounded.SortByAlpha)
@@ -95,6 +95,8 @@ object AlgidyIcons {
 
     object Scanner {
         val FlashOn = IconProvider.ImageVectorIcon(Icons.Rounded.FlashOn)
+        val AddImage = IconProvider.DrawableResourceIcon(R.drawable.image_plus)
+        val AddBarcode = IconProvider.DrawableResourceIcon(R.drawable.circle_plus)
         val FlashOff = IconProvider.ImageVectorIcon(Icons.Rounded.FlashOff)
         val AutoOff = IconProvider.ImageVectorIcon(Icons.Rounded.PhotoCamera)
         val Scanning = IconProvider.ImageVectorIcon(Icons.Rounded.DocumentScanner)

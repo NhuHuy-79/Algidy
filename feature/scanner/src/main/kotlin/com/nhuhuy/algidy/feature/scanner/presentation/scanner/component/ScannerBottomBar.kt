@@ -16,7 +16,7 @@ import com.nhuhuy.algidy.core.presentation.PhotoPickerContainer
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
-fun ScannerControlBar(
+fun ScannerBottomBar(
     modifier: Modifier = Modifier,
     isAutoScanned: Boolean,
     onLaunch: () -> Unit,
@@ -24,7 +24,6 @@ fun ScannerControlBar(
     onAddManualBarcode: () -> Unit,
     onAutoScanChange: (Boolean) -> Unit
 ) {
-
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -39,8 +38,8 @@ fun ScannerControlBar(
             SelectImageButton(
                 modifier = Modifier.size(56.dp),
                 onClick = launcher,
-                containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                contentColor = MaterialTheme.colorScheme.onSecondaryContainer
+                containerColor = MaterialTheme.colorScheme.secondary,
+                contentColor = MaterialTheme.colorScheme.onSecondary
             )
         }
 

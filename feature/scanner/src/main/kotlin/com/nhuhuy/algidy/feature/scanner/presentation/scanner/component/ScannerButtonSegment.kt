@@ -9,11 +9,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.AddPhotoAlternate
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.FilledTonalIconButton
-import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.LoadingIndicator
 import androidx.compose.material3.MaterialTheme
@@ -22,10 +19,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
-import com.nhuhuy.algidy.core.designsystem.R
+import com.nhuhuy.algidy.core.designsystem.icon.AlgidyIcons
+import com.nhuhuy.algidy.core.designsystem.icon.AppIcon
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
@@ -45,10 +41,7 @@ fun SelectImageButton(
             containerColor = containerColor
         )
     ) {
-        Icon(
-            imageVector = Icons.Outlined.AddPhotoAlternate,
-            contentDescription = null
-        )
+        AppIcon(iconProvider = AlgidyIcons.Scanner.AddImage)
     }
 }
 
@@ -63,15 +56,13 @@ fun AutoScanButton(
         modifier = modifier
             .size(72.dp)
             .background(
-                color = MaterialTheme.colorScheme.onPrimaryContainer,
+                color = MaterialTheme.colorScheme.primary,
                 shape = CircleShape
             )
             .clickable(
                 interactionSource = remember { MutableInteractionSource() },
                 indication = null,
-                onClick = {
-                    onClick(!autoScanning)
-                }
+                onClick = { onClick(!autoScanning) }
             ),
         contentAlignment = Alignment.Center
     ) {
@@ -83,7 +74,7 @@ fun AutoScanButton(
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(2.dp),
-                    color = MaterialTheme.colorScheme.primaryContainer
+                    color = MaterialTheme.colorScheme.onPrimary
                 )
             } else {
                 Box(
@@ -91,7 +82,7 @@ fun AutoScanButton(
                         .fillMaxSize()
                         .padding(4.dp)
                         .background(
-                            color = MaterialTheme.colorScheme.primaryContainer,
+                            color = MaterialTheme.colorScheme.onPrimary,
                             shape = CircleShape
                         ),
                 )
@@ -111,11 +102,12 @@ fun AddManuallyBarcodeButton(
         enabled = enable,
         modifier = modifier,
         onClick = onClick,
-        shape = CircleShape
-    ) {
-        Icon(
-            imageVector = ImageVector.vectorResource(R.drawable.ic_barcode),
-            contentDescription = null
+        shape = CircleShape,
+        colors = IconButtonDefaults.iconButtonColors(
+            containerColor = MaterialTheme.colorScheme.secondary,
+            contentColor = MaterialTheme.colorScheme.onSecondary
         )
+    ) {
+        AppIcon(iconProvider = AlgidyIcons.Scanner.AddBarcode)
     }
 }

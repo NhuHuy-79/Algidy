@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.Label
-import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -18,6 +17,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.MediumTopAppBar
 import androidx.compose.material3.MenuDefaults
 import androidx.compose.material3.MenuItemShapes
 import androidx.compose.material3.Text
@@ -37,15 +37,22 @@ import com.nhuhuy.algidy.core.designsystem.tokens.LocalAlgidyShapes
 import com.nhuhuy.algidy.core.designsystem.tokens.LocalAlgidySpacing
 import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryAction
+import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryCombineState
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventorySortMode
+import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryUiState
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun InventoryTopBar(
+    modifier: Modifier = Modifier,
     title: String,
-    modifier: Modifier = Modifier
+    state: InventoryUiState,
+    combineState: InventoryCombineState,
+    onAction: (InventoryAction) -> Unit,
 ) {
-    CenterAlignedTopAppBar(
+    val algidyIcon = AlgidyIcons.Inventory
+
+    MediumTopAppBar(
         modifier = modifier,
         title = {
             Text(
@@ -53,6 +60,25 @@ fun InventoryTopBar(
                 style = MaterialTheme.typography.displaySmall.copy(
                     fontWeight = FontWeight.Black
                 )
+            )
+        },
+        actions = {
+            IconButton(
+                onClick = { onAction(InventoryAction.OnSearchClick) }
+            ) {
+                AppIcon(iconProvider = algidyIcon.SearchFood)
+            }
+
+
+            FilterSortMenu(
+                isExpiredOnlyActive = state.showExpiredOnly,
+                currentSortMode = state.sortMode,
+                onAction = onAction
+            )
+
+            CategoryActionMenu(
+                isCategoryEnabled = combineState.categoryEnabled,
+                onAction = onAction
             )
         }
     )
@@ -73,8 +99,8 @@ fun CategoryActionMenu(
         IconButton(
             shape = CircleShape,
             colors = IconButtonDefaults.iconButtonColors(
-                containerColor = if (expanded) scheme.primary else scheme.secondaryContainer,
-                contentColor = if (expanded) scheme.onPrimary else scheme.onSecondaryContainer
+                containerColor = if (expanded) scheme.primary else scheme.background,
+                contentColor = if (expanded) scheme.onPrimary else scheme.onBackground
             ),
             onClick = { expanded = true }
         ) {
@@ -138,8 +164,8 @@ fun FilterSortMenu(
         IconButton(
             shape = CircleShape,
             colors = IconButtonDefaults.iconButtonColors(
-                containerColor = if (expanded) scheme.primary else scheme.secondaryContainer,
-                contentColor = if (expanded) scheme.onPrimary else scheme.onSecondaryContainer
+                containerColor = if (expanded) scheme.primary else scheme.background,
+                contentColor = if (expanded) scheme.onPrimary else scheme.onBackground
             ),
             onClick = { expanded = true }
         ) {

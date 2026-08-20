@@ -46,18 +46,18 @@ fun InventoryVerticalToolbar(
             FilledIconButton(
                 onClick = onExpandChange,
                 colors = IconButtonDefaults.iconButtonColors(
-                    containerColor = if (!state.expanded) scheme.primary else scheme.secondary,
-                    contentColor = if (!state.expanded) scheme.onPrimary else scheme.onSecondary
+                    containerColor = if (!state.visibility) scheme.primary else scheme.secondary,
+                    contentColor = if (!state.visibility) scheme.onPrimary else scheme.onSecondary
                 )
             ) {
                 AppIcon(
-                    iconProvider = if (state.expanded) AlgidyIcons.Close else AlgidyIcons.Inventory.AddFood
+                    iconProvider = if (state.visibility) AlgidyIcons.Close else AlgidyIcons.Inventory.AddFood
                 )
             }
         }
     ) {
         AnimatedVisibility(
-            visible = state.expanded
+            visible = state.visibility
         ) {
             IconButton(
                 onClick = onBarcodeScanClick,
@@ -77,7 +77,7 @@ fun InventoryVerticalToolbar(
         }
 
         AnimatedVisibility(
-            visible = state.expanded
+            visible = state.visibility
         ) {
             IconButton(
                 onClick = onAddManuallyClick,

@@ -27,7 +27,7 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.nhuhuy.algidy.feature.scanner.presentation.canvas.ScannerBoundaryCorner
 import com.nhuhuy.algidy.feature.scanner.presentation.scanner.component.CameraPreviewContent
 import com.nhuhuy.algidy.feature.scanner.presentation.scanner.component.LabelEventContainer
-import com.nhuhuy.algidy.feature.scanner.presentation.scanner.component.ScannerControlBar
+import com.nhuhuy.algidy.feature.scanner.presentation.scanner.component.ScannerBottomBar
 import com.nhuhuy.algidy.feature.scanner.presentation.scanner.component.ScannerTopBar
 import com.nhuhuy.algidy.feature.scanner.presentation.scanner.viewmodel.ScannerAction
 import com.nhuhuy.algidy.feature.scanner.presentation.scanner.viewmodel.ScannerUiState
@@ -66,7 +66,7 @@ fun ScannerScreen(
             )
         },
         bottomBar = {
-            ScannerControlBar(
+            ScannerBottomBar(
                 modifier = Modifier.safeDrawingPadding(),
                 isAutoScanned = uiState.isAutoScanned,
                 onAddManualBarcode = { onAction(ScannerAction.OnBarcodeAddManual) },

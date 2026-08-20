@@ -13,12 +13,15 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.items
+import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState
 import androidx.compose.material3.CircularWavyProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -42,15 +45,16 @@ internal fun InventoryGridContent(
     onItemClick: (FoodUiModel) -> Unit,
     onItemLongClick: (FoodUiModel) -> Unit,
     onAddManuallyClick: () -> Unit,
+    onScroll: (Boolean) -> Unit,
     itemProvider: () -> ImmutableList<FoodUiModel>,
 ) {
     when (inventoryResultState) {
         InventoryResultState.Loading -> LoadingPage(modifier = Modifier.fillMaxSize())
 
         is InventoryResultState.Empty -> EmptyPage(
-                onClick = onAddManuallyClick,
-                modifier = Modifier.fillMaxSize()
-            )
+            onClick = onAddManuallyClick,
+            modifier = Modifier.fillMaxSize()
+        )
 
         is InventoryResultState.Success -> {
             val items = itemProvider()
@@ -65,6 +69,7 @@ internal fun InventoryGridContent(
                     selectedIds = selectedIds,
                     onItemClick = onItemClick,
                     onItemLongClick = onItemLongClick,
+                    onScroll = onScroll
                 )
             }
         }
@@ -78,6 +83,7 @@ private fun InventoryGridList(
     selectedIds: ImmutableSet<String>,
     onItemClick: (FoodUiModel) -> Unit,
     onItemLongClick: (FoodUiModel) -> Unit = {},
+    onScroll: (Boolean) -> Unit = {},
     contentPadding: PaddingValues = PaddingValues(
         start = 16.dp,
         top = 16.dp,
@@ -85,7 +91,15 @@ private fun InventoryGridList(
         bottom = 120.dp
     )
 ) {
+    val staggeredGridState = rememberLazyStaggeredGridState()
+
+    LaunchedEffect(staggeredGridState) {
+        snapshotFlow { staggeredGridState.firstVisibleItemIndex < 1 }
+            .collect { visible -> onScroll(visible) }
+    }
+
     LazyVerticalStaggeredGrid(
+        state = staggeredGridState,
         columns = StaggeredGridCells.Fixed(2),
         modifier = modifier.fillMaxSize(),
         contentPadding = contentPadding,

@@ -19,7 +19,8 @@ fun InventoryCategoryList(
     selectedIds: ImmutableSet<String>,
     onItemClick: (FoodUiModel) -> Unit,
     onItemLongClick: (FoodUiModel) -> Unit,
-    onAddManuallyClick: () -> Unit
+    onAddManuallyClick: () -> Unit,
+    onFabVisibilityChange: (Boolean) -> Unit,
 ) {
     InventoryGridContent(
         inventoryResultState = inventoryResultState,
@@ -33,6 +34,7 @@ fun InventoryCategoryList(
                 showExpiredOnly = showExpiredOnly,
                 sortMode = sortMode
             ).toImmutableList()
-        }
+        },
+        onScroll = onFabVisibilityChange
     )
 }

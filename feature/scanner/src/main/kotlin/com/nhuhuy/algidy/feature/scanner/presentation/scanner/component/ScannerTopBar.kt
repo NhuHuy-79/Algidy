@@ -33,7 +33,8 @@ fun ScannerTopBar(
         title = {
             Text(
                 text = stringResource(R.string.scanner_title_barcode),
-                style = MaterialTheme.typography.displaySmall.copy(fontWeight = FontWeight.SemiBold),
+                style = MaterialTheme.typography.titleLarge,
+                fontWeight = FontWeight.SemiBold,
                 modifier = Modifier.basicMarquee(),
                 maxLines = 1,
             )

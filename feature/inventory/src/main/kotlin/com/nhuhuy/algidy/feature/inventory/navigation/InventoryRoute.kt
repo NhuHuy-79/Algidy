@@ -5,7 +5,6 @@ import android.content.pm.PackageManager
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -17,11 +16,10 @@ import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.nhuhuy.algidy.core.designsystem.component.BoxLayout
-import com.nhuhuy.algidy.core.designsystem.motion.AlgidyMotion
 import com.nhuhuy.algidy.core.presentation.ObserveEffect
+import com.nhuhuy.algidy.feature.inventory.presentation.inventory.InventoryFabGroup
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.InventoryOverlayContainer
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.InventoryScreen
-import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.InventoryVerticalToolbar
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryAction
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryEvent
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryFabAction
@@ -47,6 +45,7 @@ fun InventoryRoute() = BoxLayout {
         }
     )
 
+
     ObserveEffect(flow = viewModel.uiEvent) { event ->
         when (event) {
             InventoryEvent.NavigateToScanner -> onAction(InventoryAction.OnCameraPermissionAccept)
@@ -66,8 +65,8 @@ fun InventoryRoute() = BoxLayout {
         }
     }
 
-    BackHandler(enabled = uiState.expanded || uiState.overlay != InventoryOverlay.None) {
-        if (uiState.expanded) {
+    BackHandler(enabled = uiState.visibility || uiState.overlay != InventoryOverlay.None) {
+        if (uiState.visibility) {
             onAction(InventoryFabAction.ToggleFabMenu(false))
         } else {
             onAction(InventoryAction.OnDismiss)
@@ -81,31 +80,21 @@ fun InventoryRoute() = BoxLayout {
         onAction = onAction
     )
 
-    AnimatedVisibility(
-        visible = !uiState.isSelectMode,
+    InventoryFabGroup(
         modifier = Modifier
             .align(Alignment.BottomEnd)
             .padding(horizontal = 16.dp)
             .padding(bottom = 144.dp),
-        enter = AlgidyMotion.verticalToolbar.enter,
-        exit = AlgidyMotion.verticalToolbar.exit
-    ) {
-        InventoryVerticalToolbar(
-            state = uiState,
-            onAction = onAction,
-            onExpandChange = { onAction(InventoryFabAction.ToggleFabMenu(!uiState.expanded)) },
-            onBarcodeScanClick = {
-                val isGranted = ContextCompat.checkSelfPermission(
-                    context,
-                    Manifest.permission.CAMERA
-                ) == PackageManager.PERMISSION_GRANTED
-                onAction(InventoryFabAction.BarcodeScan(isGranted))
-            },
-            onSearchClick = { onAction(InventoryAction.OnSearchClick) },
-            onAddManuallyClick = { onAction(InventoryFabAction.Manual) }
-        )
-    }
-
+        visible = uiState.visibility,
+        onCameraClick = {
+            val isGranted = ContextCompat.checkSelfPermission(
+                context,
+                Manifest.permission.CAMERA
+            ) == PackageManager.PERMISSION_GRANTED
+            onAction(InventoryFabAction.BarcodeScan(isGranted))
+        },
+        onAddClick = { onAction(InventoryFabAction.Manual) }
+    )
     InventoryOverlayContainer(
         uiState = uiState,
         onAction = onAction

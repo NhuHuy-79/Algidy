@@ -34,6 +34,7 @@ fun InventoryPager(
     onItemClick: (item: FoodUiModel) -> Unit,
     onItemLongClick: (item: FoodUiModel) -> Unit,
     onAddManuallyClick: () -> Unit,
+    onFabVisibilityChange: (Boolean) -> Unit,
 ) {
     HorizontalPager(
         state = pagerState,
@@ -52,7 +53,8 @@ fun InventoryPager(
                         sortMode = sortMode,
                         showExpiredOnly = showExpiredOnly
                     ).toImmutableList()
-            }
+            },
+            onScroll = onFabVisibilityChange
         )
     }
 }

@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
@@ -31,6 +30,7 @@ import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.grid
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.grid_list.InventoryTabRow
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryAction
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryCombineState
+import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryFabAction
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryResultState
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventorySelectAction
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryUiState
@@ -61,8 +61,11 @@ internal fun InventoryScreen(
                 ) { selectedMode ->
                     if (!selectedMode) {
                         InventoryTopBar(
+                            state = uiState,
+                            combineState = combineState,
                             title = stringResource(R.string.inventory_title),
                             modifier = Modifier.fillMaxWidth(),
+                            onAction = onAction
                         )
                     } else {
                         InventorySelectBar(
@@ -71,34 +74,8 @@ internal fun InventoryScreen(
                         )
                     }
                 }
-
-                Spacer(modifier = Modifier.height(localSpacing.large))
-
-                if (combineState.categoryEnabled) {
-                    CategoryFilterGroup(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 16.dp),
-                        selectedCategory = uiState.currentCategory,
-                        categories = combineState.categories.toImmutableList(),
-                        onCategoryClick = { onAction(InventoryAction.OnCategorySelect(it)) }
-                    )
-                } else {
-                    InventoryTabRow(
-                        categories = categories,
-                        selectedTabIndex = pagerState.currentPage,
-                        onTabSelected = { index ->
-                            scope.launch {
-                                pagerState.animateScrollToPage(index)
-                            }
-                        },
-                    )
-                }
             }
         },
-        containerColor = MaterialTheme.colorScheme.background.copy(
-            alpha = if (uiState.expanded) 0.2f else 1f
-        ),
     ) { paddingValues ->
         Column(
             modifier = Modifier
@@ -106,6 +83,29 @@ internal fun InventoryScreen(
                 .padding(paddingValues),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            if (combineState.categoryEnabled) {
+                CategoryFilterGroup(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp),
+                    selectedCategory = uiState.currentCategory,
+                    categories = combineState.categories.toImmutableList(),
+                    onCategoryClick = { onAction(InventoryAction.OnCategorySelect(it)) }
+                )
+            } else {
+                InventoryTabRow(
+                    categories = categories,
+                    selectedTabIndex = pagerState.currentPage,
+                    onTabSelected = { index ->
+                        scope.launch {
+                            pagerState.animateScrollToPage(index)
+                        }
+                    },
+                )
+            }
+
+            Spacer(modifier = Modifier.height(localSpacing.medium))
+
             if (combineState.categoryEnabled) {
                 InventoryCategoryList(
                     currentCategory = uiState.currentCategory,
@@ -123,7 +123,10 @@ internal fun InventoryScreen(
                     onAddManuallyClick = {
                         onAction(InventoryAction.OnEmptyPageClick)
                     },
-                    onItemLongClick = { item -> onAction(InventorySelectAction.OnLongClick(id = item.id)) }
+                    onItemLongClick = { item -> onAction(InventorySelectAction.OnLongClick(id = item.id)) },
+                    onFabVisibilityChange = { visibility ->
+                        onAction(InventoryFabAction.ToggleFabMenu(visibility))
+                    }
                 )
             } else {
                 InventoryPager(
@@ -140,7 +143,10 @@ internal fun InventoryScreen(
                         }
                     },
                     onAddManuallyClick = { onAction(InventoryAction.OnEmptyPageClick) },
-                    onItemLongClick = { item -> onAction(InventorySelectAction.OnLongClick(item.id)) }
+                    onItemLongClick = { item -> onAction(InventorySelectAction.OnLongClick(item.id)) },
+                    onFabVisibilityChange = { visibility ->
+                        onAction(InventoryFabAction.ToggleFabMenu(visibility))
+                    }
                 )
             }
         }

@@ -13,6 +13,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import com.nhuhuy.algidy.core.designsystem.icon.AlgidyIcons
+import com.nhuhuy.algidy.core.designsystem.icon.AppIcon
 import com.nhuhuy.algidy.core.designsystem.tokens.LocalAlgidySpacing
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
@@ -32,9 +34,10 @@ fun DetailTopBar(
             color = MaterialTheme.colorScheme.primary,
             shape = MaterialShapes.Pill.toShape()
         ) {
-            Text(
+            AppIcon(
                 modifier = Modifier.padding(localSpacing.small),
-                text = "\uD83E\uDD69",
+                iconProvider = AlgidyIcons.Inventory.DetailFood,
+                tint = MaterialTheme.colorScheme.onPrimary
             )
         }
 
