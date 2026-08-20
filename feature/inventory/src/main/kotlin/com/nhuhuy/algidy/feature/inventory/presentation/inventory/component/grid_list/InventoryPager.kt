@@ -1,10 +1,11 @@
 package com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.grid_list
 
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.SecondaryScrollableTabRow
+import androidx.compose.material3.PrimaryScrollableTabRow
 import androidx.compose.material3.Tab
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -66,7 +67,7 @@ fun InventoryTabRow(
     selectedTabIndex: Int,
     onTabSelected: (Int) -> Unit,
 ) {
-    SecondaryScrollableTabRow(
+    PrimaryScrollableTabRow(
         selectedTabIndex = selectedTabIndex,
         modifier = modifier,
         containerColor = Color.Transparent,
@@ -76,12 +77,13 @@ fun InventoryTabRow(
         categories.forEachIndexed { index, category ->
             val selected = selectedTabIndex == index
             Tab(
+                modifier = Modifier.animateContentSize(),
                 selected = selected,
                 onClick = { onTabSelected(index) },
                 text = {
                     Text(
                         text = stringResource(category.toStringRes()),
-                        style = MaterialTheme.typography.bodyMedium,
+                        style = MaterialTheme.typography.titleMedium,
                         color = if (selected) MaterialTheme.colorScheme.primary
                         else MaterialTheme.colorScheme.onSurfaceVariant,
                         maxLines = 1,

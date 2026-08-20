@@ -38,6 +38,7 @@ import androidx.compose.material.icons.rounded.History
 import androidx.compose.material.icons.rounded.Hive
 import androidx.compose.material.icons.rounded.Inventory
 import androidx.compose.material.icons.rounded.Language
+import androidx.compose.material.icons.rounded.ModeEdit
 import androidx.compose.material.icons.rounded.NewReleases
 import androidx.compose.material.icons.rounded.NotificationImportant
 import androidx.compose.material.icons.rounded.NotificationsActive
@@ -69,6 +70,14 @@ object AlgidyIcons {
         val SelectedAnalytics = IconProvider.ImageVectorIcon(Icons.Rounded.Analytics)
         val UnselectedSettings = IconProvider.ImageVectorIcon(Icons.Outlined.Settings)
         val SelectedSettings = IconProvider.ImageVectorIcon(Icons.Rounded.Settings)
+    }
+
+    object FoodEntry {
+        val AddFood = IconProvider.ImageVectorIcon(Icons.Rounded.Add)
+        val EditFood = IconProvider.ImageVectorIcon(Icons.Rounded.Edit)
+
+        val EditMode = IconProvider.ImageVectorIcon(Icons.Rounded.ModeEdit)
+        val ExpiryDate = IconProvider.ImageVectorIcon(Icons.Rounded.Timer)
     }
 
     object Inventory {

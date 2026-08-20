@@ -1,6 +1,5 @@
 package com.nhuhuy.algidy.core.presentation.component
 
-
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -17,6 +16,6 @@ fun FoodImage(
         model = imageUrl,
         contentDescription = null,
         contentScale = ContentScale.Crop,
-        alignment = Alignment.Center
+        alignment = Alignment.Center,
     )
 }

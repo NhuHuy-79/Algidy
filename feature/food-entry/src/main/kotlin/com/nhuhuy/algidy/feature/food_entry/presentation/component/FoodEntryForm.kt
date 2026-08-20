@@ -65,25 +65,16 @@ fun FoodEntryForm(
             }
         )
 
+        Spacer(modifier = Modifier.height(localSpacing.large))
+
         // Section: Purchase and Expiry date pickers
         DateSection(
-            purchaseDate = state.entry.purchaseDate,
             expiryDate = state.entry.expiryDate,
-            onPurchaseClick = {
-                onAction(FoodEntryAction.OnShowOverlay(FoodEntryOverlay.PURCHASE_DATE_PICKER))
-            },
-            onExpiryClick = {
+            onEditClick = {
                 onAction(FoodEntryAction.OnShowOverlay(FoodEntryOverlay.EXPIRY_DATE_PICKER))
             },
-            isPurchaseError = !state.purchaseDateValidateResult.isValid(),
-            purchaseErrorMessage = state.purchaseDateValidateResult.asString().orEmpty(),
             isExpiryError = !state.expiryDateValidateResult.isValid(),
             expiryErrorMessage = state.expiryDateValidateResult.asString().orEmpty()
-        )
-
-        NotesSection(
-            notes = state.entry.notes,
-            onNoteChange = { onAction(FoodEntryAction.OnNoteChange(it)) }
         )
 
         Spacer(modifier = Modifier.height(localSpacing.medium))

@@ -23,12 +23,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.nhuhuy.algidy.core.designsystem.component.FoodImageCard
 import com.nhuhuy.algidy.core.designsystem.icon.AlgidyIcons
 import com.nhuhuy.algidy.core.designsystem.icon.AppIcon
 import com.nhuhuy.algidy.core.designsystem.tokens.LocalAlgidyShapes
 import com.nhuhuy.algidy.core.designsystem.tokens.LocalAlgidySpacing
 import com.nhuhuy.algidy.core.model.food.Freshness
-import com.nhuhuy.algidy.core.presentation.component.FoodImage
 import com.nhuhuy.algidy.core.presentation.utils.toBackgroundColor
 import com.nhuhuy.algidy.core.presentation.utils.toContentColor
 import com.nhuhuy.algidy.core.presentation.utils.toStringRes
@@ -57,11 +57,11 @@ fun InventoryFoodGridItem(
         ) else null
     ) {
         Box {
-            FoodImage(
+            FoodImageCard(
                 modifier = Modifier
                     .fillMaxWidth()
                     .aspectRatio(1f),
-                imageUrl = item.imageUri,
+                imageUri = item.imageUri,
             )
 
             ExpiryLabel(

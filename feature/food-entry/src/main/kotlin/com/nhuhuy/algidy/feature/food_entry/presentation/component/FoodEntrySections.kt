@@ -1,19 +1,18 @@
 package com.nhuhuy.algidy.feature.food_entry.presentation.component
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.CalendarToday
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
+import androidx.compose.material3.FilledIconButton
+import androidx.compose.material3.ListItem
+import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.MaterialShapes
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -21,6 +20,7 @@ import androidx.compose.material3.toShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
@@ -31,11 +31,13 @@ import androidx.compose.ui.unit.dp
 import com.nhuhuy.algidy.core.designsystem.component.AppFilterButton
 import com.nhuhuy.algidy.core.designsystem.component.AppTextField
 import com.nhuhuy.algidy.core.designsystem.component.FoodImageCard
+import com.nhuhuy.algidy.core.designsystem.icon.AlgidyIcons
+import com.nhuhuy.algidy.core.designsystem.icon.AppIcon
+import com.nhuhuy.algidy.core.designsystem.tokens.LocalAlgidyShapes
 import com.nhuhuy.algidy.core.model.food.StorageLocation
 import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.core.presentation.utils.toStringRes
 import java.text.SimpleDateFormat
-import java.util.Date
 import java.util.Locale
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
@@ -78,55 +80,62 @@ fun BasicInfoSection(
     )
 }
 
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun DateSection(
-    purchaseDate: Long,
     expiryDate: Long,
-    onPurchaseClick: () -> Unit,
-    onExpiryClick: () -> Unit,
-    isPurchaseError: Boolean,
-    purchaseErrorMessage: String,
+    onEditClick: () -> Unit,
     isExpiryError: Boolean,
     expiryErrorMessage: String,
     modifier: Modifier = Modifier
 ) {
     val dateFormatter = remember { SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()) }
-
-    Row(
-        modifier = modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.spacedBy(12.dp)
+    val localShape = LocalAlgidyShapes.current
+    ListItem(
+        modifier = modifier,
+        colors = ListItemDefaults.colors(
+            containerColor = MaterialTheme.colorScheme.secondaryContainer,
+            contentColor = MaterialTheme.colorScheme.onSecondaryContainer
+        ),
+        verticalAlignment = Alignment.CenterVertically,
+        shapes = ListItemDefaults.shapes(shape = localShape.extraExtraLarge),
+        leadingContent = {
+            AppIcon(
+                iconProvider = AlgidyIcons.FoodEntry.ExpiryDate,
+                modifier = Modifier.size(24.dp)
+            )
+        },
+        onClick = onEditClick,
+        overlineContent = {
+            Text(
+                text = stringResource(R.string.inventory_expiry_date),
+                style = MaterialTheme.typography.labelLarge
+            )
+        },
+        supportingContent = {
+            if (isExpiryError) {
+                Text(
+                    text = expiryErrorMessage,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.error,
+                    fontWeight = FontWeight.SemiBold
+                )
+            }
+        },
+        trailingContent = {
+            FilledIconButton(
+                onClick = onEditClick
+            ) {
+                AppIcon(iconProvider = AlgidyIcons.FoodEntry.EditMode)
+            }
+        }
     ) {
-        Box(modifier = Modifier.weight(1f)) {
-            AppTextField(
-                value = dateFormatter.format(Date(purchaseDate)),
-                onValueChange = {},
-                label = stringResource(R.string.confirm_label_purchase_date),
-                leadingIcon = Icons.Rounded.CalendarToday,
-                readOnly = true,
-                isError = isPurchaseError,
-                errorMessage = purchaseErrorMessage,
-                modifier = Modifier.fillMaxWidth()
-            )
-            Box(modifier = Modifier
-                .matchParentSize()
-                .clickable { onPurchaseClick() })
-        }
-
-        Box(modifier = Modifier.weight(1f)) {
-            AppTextField(
-                value = if (expiryDate == -1L) stringResource(R.string.confirm_date_set) else dateFormatter.format(Date(expiryDate)),
-                onValueChange = {},
-                label = stringResource(R.string.confirm_label_expiry_date),
-                leadingIcon = Icons.Rounded.CalendarToday,
-                readOnly = true,
-                isError = isExpiryError,
-                errorMessage = expiryErrorMessage,
-                modifier = Modifier.fillMaxWidth()
-            )
-            Box(modifier = Modifier
-                .matchParentSize()
-                .clickable { onExpiryClick() })
-        }
+        Text(
+            text = if (expiryDate == -1L) dateFormatter.format(expiryDate)
+            else "",
+            style = MaterialTheme.typography.titleMedium,
+            fontWeight = FontWeight.SemiBold
+        )
     }
 }
 

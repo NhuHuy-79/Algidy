@@ -1,5 +1,6 @@
 package com.nhuhuy.algidy.feature.inventory.presentation.shared
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.aspectRatio
@@ -53,7 +54,8 @@ fun DetailMainContainer(
                 modifier = Modifier
                     .size(72.dp)
                     .aspectRatio(1f)
-                    .clip(CircleShape),
+                    .clip(CircleShape)
+                    .background(color = MaterialTheme.colorScheme.primaryContainer),
                 imageUrl = foodImageUri,
             )
         },

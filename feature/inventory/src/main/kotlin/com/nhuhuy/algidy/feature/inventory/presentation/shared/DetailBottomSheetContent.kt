@@ -64,15 +64,6 @@ fun DetailBottomSheetContent(
 
         Spacer(modifier = Modifier.height(localSpacing.large))
 
-        if (foodItem.note.isNotBlank()) {
-            DetailNote(
-                modifier = Modifier.fillMaxWidth(),
-                note = foodItem.note
-            )
-            Spacer(modifier = Modifier.height(localSpacing.large))
-        }
-
-
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(localSpacing.medium)
@@ -91,6 +82,15 @@ fun DetailBottomSheetContent(
                 text = foodItem.expiryDate.toReadableText(),
                 containerColor = MaterialTheme.colorScheme.surface,
                 contentColor = MaterialTheme.colorScheme.onSurface
+            )
+        }
+
+        if (foodItem.note.isNotBlank()) {
+            Spacer(modifier = Modifier.height(localSpacing.large))
+
+            DetailNote(
+                modifier = Modifier.fillMaxWidth(),
+                note = foodItem.note
             )
         }
 
