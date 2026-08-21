@@ -21,7 +21,7 @@ import com.nhuhuy.algidy.core.designsystem.component.AppBottomSheet
 import com.nhuhuy.algidy.core.model.setting.AppLanguage
 import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.core.presentation.utils.toItemPosition
-import com.nhuhuy.algidy.core.presentation.utils.toRoundedCornerShape
+import com.nhuhuy.algidy.core.presentation.utils.toVerticalSegmentedShape
 
 @Composable
 fun SelectLanguageBottomSheet(
@@ -60,7 +60,7 @@ fun SelectLanguageBottomSheet(
                     else MaterialTheme.colorScheme.surfaceContainerHigh,
                     contentColor = if (language == currentLanguage) MaterialTheme.colorScheme.onPrimary
                     else MaterialTheme.colorScheme.onSurface,
-                    shape = itemPosition.toRoundedCornerShape(),
+                    shape = itemPosition.toVerticalSegmentedShape(),
                     onClick = { onLanguageSelect(language) },
                 ) {
                     Text(

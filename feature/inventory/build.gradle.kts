@@ -8,4 +8,5 @@ android {
 
 dependencies {
     implementation(project(":core:datastore"))
+    implementation(project(":feature:food-entry"))
 }

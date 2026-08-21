@@ -8,6 +8,7 @@ import com.nhuhuy.algidy.core.designsystem.icon.toImageVector
 import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.core.presentation.component.AppNewFeatureBottomSheet
 import com.nhuhuy.algidy.core.presentation.component.TextFieldDialog
+import com.nhuhuy.algidy.feature.food_entry.navigation.FoodEntryRoute
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryAction
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryAction.OnEditCategorySheet.OnInputChange
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryAction.OnEditCategorySheet.Save
@@ -90,5 +91,7 @@ internal fun InventoryOverlayContainer(
             text = stringResource(R.string.camera_permission_description),
             confirmText = stringResource(R.string.camera_permission_confirm_btn),
         )
+
+        is InventoryOverlay.AddFoodBottomSheet -> FoodEntryRoute(foodId = overlay.food?.id)
     }
 }

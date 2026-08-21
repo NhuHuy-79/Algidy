@@ -27,7 +27,7 @@ import com.nhuhuy.algidy.core.designsystem.component.AppBottomSheet
 import com.nhuhuy.algidy.core.designsystem.component.AppButton
 import com.nhuhuy.algidy.core.model.VersionFeatures
 import com.nhuhuy.algidy.core.presentation.utils.toItemPosition
-import com.nhuhuy.algidy.core.presentation.utils.toRoundedCornerShape
+import com.nhuhuy.algidy.core.presentation.utils.toVerticalSegmentedShape
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
 @Composable
@@ -81,7 +81,7 @@ fun AppNewFeatureBottomSheet(
                         count = features.size,
                     ) { index ->
                         val feature = features[index]
-                        val shape = index.toItemPosition(features.size).toRoundedCornerShape()
+                        val shape = index.toItemPosition(features.size).toVerticalSegmentedShape()
                         ListItem(
                             colors = ListItemDefaults.colors(
                                 containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
@@ -123,7 +123,7 @@ fun AppNewFeatureBottomSheet(
                         count = fixItems.size
                     ) { index ->
                         val fixItem = fixItems[index]
-                        val shape = index.toItemPosition(features.size).toRoundedCornerShape()
+                        val shape = index.toItemPosition(features.size).toVerticalSegmentedShape()
                         ListItem(
                             colors = ListItemDefaults.colors(
                                 containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,

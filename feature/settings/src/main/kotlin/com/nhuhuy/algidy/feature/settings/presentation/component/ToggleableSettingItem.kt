@@ -25,7 +25,7 @@ import androidx.compose.ui.unit.dp
 import com.nhuhuy.algidy.core.designsystem.R
 import com.nhuhuy.algidy.core.designsystem.theme.AlgidyTheme
 import com.nhuhuy.algidy.core.presentation.utils.ItemPosition
-import com.nhuhuy.algidy.core.presentation.utils.toRoundedCornerShape
+import com.nhuhuy.algidy.core.presentation.utils.toVerticalSegmentedShape
 
 @Composable
 fun ToggleableSettingItem(
@@ -43,7 +43,7 @@ fun ToggleableSettingItem(
             contentColor = MaterialTheme.colorScheme.onSurfaceVariant
         ),
         modifier = modifier
-            .clip(position.toRoundedCornerShape()),
+            .clip(position.toVerticalSegmentedShape()),
         headlineContent = {
             Text(
                 text = title,
@@ -125,7 +125,7 @@ fun ClickableSettingItem(
         ),
         modifier = modifier
             .clip(
-                position.toRoundedCornerShape(
+                position.toVerticalSegmentedShape(
                     small = animatedShape
                 )
             )

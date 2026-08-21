@@ -21,7 +21,7 @@ import com.nhuhuy.algidy.core.designsystem.component.AppFilterButton
 import com.nhuhuy.algidy.core.model.setting.SeedColor
 import com.nhuhuy.algidy.core.presentation.utils.ItemPosition
 import com.nhuhuy.algidy.core.presentation.utils.toColor
-import com.nhuhuy.algidy.core.presentation.utils.toRoundedCornerShape
+import com.nhuhuy.algidy.core.presentation.utils.toVerticalSegmentedShape
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
@@ -34,7 +34,7 @@ fun ColorPresetPicker(
     ListItem(
         onClick = {},
         shapes = ListItemDefaults.shapes(
-            shape = ItemPosition.BOTTOM.toRoundedCornerShape()
+            shape = ItemPosition.BOTTOM.toVerticalSegmentedShape()
         ),
         modifier = modifier,
         colors = ListItemDefaults.colors(

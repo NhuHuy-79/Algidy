@@ -52,12 +52,12 @@ sealed interface InventoryOverlay {
     data object CategoryEdit : InventoryOverlay
     data object CategoryDelete : InventoryOverlay
     data object ItemDetail : InventoryOverlay
-
     data object CategoryAdd : InventoryOverlay
     data object ConsumeConfirm : InventoryOverlay
     data object WasteConfirm : InventoryOverlay
     data class NewFeatureSheet(val versionFeature: VersionFeatures) : InventoryOverlay
     data object CameraPolicySheet : InventoryOverlay
+    data class AddFoodBottomSheet(val food: FoodUiModel? = null) : InventoryOverlay
 }
 enum class InventorySortMode {
     BY_NAME, BY_EXPIRY, NONE,

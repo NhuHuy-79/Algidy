@@ -21,7 +21,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.core.presentation.utils.ItemPosition
-import com.nhuhuy.algidy.core.presentation.utils.toRoundedCornerShape
+import com.nhuhuy.algidy.core.presentation.utils.toVerticalSegmentedShape
 import com.nhuhuy.algidy.feature.settings.presentation.model.SettingSliderItem
 import kotlin.math.roundToInt
 
@@ -57,7 +57,7 @@ fun SliderItem(
     }
 
     SliderContent(
-        modifier = Modifier.clip(itemPosition.toRoundedCornerShape()),
+        modifier = Modifier.clip(itemPosition.toVerticalSegmentedShape()),
         icon = icon,
         headlineText = headlineText,
         selectedValue = currentValue,

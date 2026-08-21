@@ -95,6 +95,7 @@ fun InventoryRoute() = BoxLayout {
         },
         onAddClick = { onAction(InventoryFabAction.Manual) }
     )
+
     InventoryOverlayContainer(
         uiState = uiState,
         onAction = onAction

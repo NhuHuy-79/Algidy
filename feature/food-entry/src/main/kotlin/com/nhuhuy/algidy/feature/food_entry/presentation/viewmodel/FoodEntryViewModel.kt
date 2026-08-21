@@ -136,6 +136,14 @@ class FoodEntryViewModel(
                     foodEntryPreferencesUseCase.askNotificationPermission(true)
                 }
             }
+
+            FoodEntryAction.OnEditNameClick -> {
+                _uiState.product { copy(overlay = FoodEntryOverlay.FOOD_NAME_ADD) }
+            }
+
+            FoodEntryAction.OnNameConfirm -> {
+                _uiState.product { copy(overlay = FoodEntryOverlay.NONE) }
+            }
         }
     }
 

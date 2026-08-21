@@ -11,15 +11,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.nhuhuy.algidy.core.designsystem.component.BoxLayout
 import com.nhuhuy.algidy.core.presentation.ObserveEffect
 import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.core.presentation.component.AppDatePickerDialog
 import com.nhuhuy.algidy.core.presentation.component.TextFieldDialog
-import com.nhuhuy.algidy.feature.food_entry.presentation.FoodEntryScreen
+import com.nhuhuy.algidy.feature.food_entry.presentation.FoodEntryBottomSheet
 import com.nhuhuy.algidy.feature.food_entry.presentation.viewmodel.FoodEntryAction
 import com.nhuhuy.algidy.feature.food_entry.presentation.viewmodel.FoodEntryAction.OnCategoryConfirm
 import com.nhuhuy.algidy.feature.food_entry.presentation.viewmodel.FoodEntryAction.OnCategoryQueryChange
+import com.nhuhuy.algidy.feature.food_entry.presentation.viewmodel.FoodEntryAction.OnDismissOverlay
+import com.nhuhuy.algidy.feature.food_entry.presentation.viewmodel.FoodEntryAction.OnExpiryDateChange
+import com.nhuhuy.algidy.feature.food_entry.presentation.viewmodel.FoodEntryAction.OnNameChange
+import com.nhuhuy.algidy.feature.food_entry.presentation.viewmodel.FoodEntryAction.OnNameConfirm
+import com.nhuhuy.algidy.feature.food_entry.presentation.viewmodel.FoodEntryAction.OnNotificationGranted
+import com.nhuhuy.algidy.feature.food_entry.presentation.viewmodel.FoodEntryAction.OnPurchaseDateChange
 import com.nhuhuy.algidy.feature.food_entry.presentation.viewmodel.FoodEntryEvent
 import com.nhuhuy.algidy.feature.food_entry.presentation.viewmodel.FoodEntryOverlay
 import com.nhuhuy.algidy.feature.food_entry.presentation.viewmodel.FoodEntryUiState
@@ -30,15 +35,17 @@ import org.koin.core.parameter.parametersOf
 @Composable
 fun FoodEntryRoute(
     foodId: String?
-) = BoxLayout {
-    val viewModel: FoodEntryViewModel = koinViewModel(parameters = { parametersOf(foodId) })
+) {
+    val viewModel: FoodEntryViewModel = koinViewModel(
+        parameters = { parametersOf(foodId) }
+    )
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val onAction = viewModel::onAction
 
     val notificationPermissionLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestPermission(),
         onResult = { isGranted ->
-            onAction(FoodEntryAction.OnNotificationGranted(isGranted))
+            onAction(OnNotificationGranted(isGranted))
         }
     )
 
@@ -52,8 +59,8 @@ fun FoodEntryRoute(
         }
     }
 
-    FoodEntryScreen(
-        uiState = uiState,
+    FoodEntryBottomSheet(
+        state = uiState,
         onAction = onAction
     )
 
@@ -69,7 +76,7 @@ private fun FoodEntryOverlayContainer(
     state: FoodEntryUiState,
     onAction: (FoodEntryAction) -> Unit
 ) {
-    val onDismiss = { onAction(FoodEntryAction.OnDismissOverlay) }
+    val onDismiss = { onAction(OnDismissOverlay) }
     when (state.overlay) {
         FoodEntryOverlay.NONE -> Unit
         FoodEntryOverlay.PURCHASE_DATE_PICKER -> {
@@ -77,7 +84,7 @@ private fun FoodEntryOverlayContainer(
                 initialDateMillis = state.entry.purchaseDate,
                 title = stringResource(R.string.confirm_label_purchase_date),
                 onDateSelected = {
-                    onAction(FoodEntryAction.OnPurchaseDateChange(it))
+                    onAction(OnPurchaseDateChange(it))
                     onDismiss()
                 },
                 onDismiss = onDismiss
@@ -89,7 +96,7 @@ private fun FoodEntryOverlayContainer(
                 initialDateMillis = if (state.entry.expiryDate == -1L) null else state.entry.expiryDate,
                 title = stringResource(R.string.confirm_label_expiry_date),
                 onDateSelected = {
-                    onAction(FoodEntryAction.OnExpiryDateChange(it))
+                    onAction(OnExpiryDateChange(it))
                     onDismiss()
                 },
                 onDismiss = onDismiss
@@ -105,6 +112,20 @@ private fun FoodEntryOverlayContainer(
                 onValueChange = { onAction(OnCategoryQueryChange(it)) },
                 onDismiss = onDismiss,
                 onConfirm = { onAction(OnCategoryConfirm) },
+            )
+        }
+
+        FoodEntryOverlay.FOOD_NAME_ADD -> {
+            TextFieldDialog(
+                modifier = Modifier.padding(horizontal = 16.dp),
+                value = state.entry.name,
+                title = stringResource(R.string.food_entry_title),
+                confirmText = stringResource(R.string.action_add),
+                onValueChange = {
+                    onAction(OnNameChange(it))
+                },
+                onDismiss = onDismiss,
+                onConfirm = { onAction(OnNameConfirm) },
             )
         }
     }

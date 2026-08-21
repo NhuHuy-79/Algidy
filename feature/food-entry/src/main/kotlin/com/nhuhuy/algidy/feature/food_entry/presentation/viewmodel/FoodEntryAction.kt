@@ -15,6 +15,9 @@ sealed interface FoodEntryAction : UiAction {
     data class OnPurchaseDateChange(val purchaseDate: Long) : FoodEntryAction
     data class OnNoteChange(val note: String) : FoodEntryAction
     data class OnImagePick(val uri: Uri) : FoodEntryAction
+
+    data object OnEditNameClick : FoodEntryAction
+    data object OnNameConfirm : FoodEntryAction
     
     // Category related actions
     data class OnCategoryQueryChange(val query: String) : FoodEntryAction

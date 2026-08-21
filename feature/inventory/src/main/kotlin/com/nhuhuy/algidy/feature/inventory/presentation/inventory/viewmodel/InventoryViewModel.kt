@@ -266,7 +266,11 @@ internal class InventoryViewModel(
                 )
             }
 
-            InventoryAction.OnEmptyPageClick -> navigator.navigateTo(Destination.FoodEntry())
+            InventoryAction.OnEmptyPageClick -> {
+                _uiState.product {
+                    copy(overlay = InventoryOverlay.AddFoodBottomSheet())
+                }
+            }
         }
     }
 
@@ -346,8 +350,12 @@ internal class InventoryViewModel(
             }
 
             InventoryFabAction.Manual -> {
-                _uiState.product { copy(visibility = false) }
-                navigator.navigateTo(Destination.FoodEntry())
+                _uiState.product {
+                    copy(
+                        visibility = false,
+                        overlay = InventoryOverlay.AddFoodBottomSheet()
+                    )
+                }
             }
 
             InventoryFabAction.Setting -> {

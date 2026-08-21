@@ -31,7 +31,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.core.presentation.utils.ItemPosition
-import com.nhuhuy.algidy.core.presentation.utils.toRoundedCornerShape
+import com.nhuhuy.algidy.core.presentation.utils.toVerticalSegmentedShape
 import com.nhuhuy.algidy.feature.settings.presentation.component.SliderItem
 import com.nhuhuy.algidy.feature.settings.presentation.component.ToggleItem
 import com.nhuhuy.algidy.feature.settings.presentation.model.SettingSliderItem
@@ -135,7 +135,7 @@ fun NotificationScreen(
             item {
                 ListItem(
                     modifier = Modifier.clip(
-                        ItemPosition.TOP.toRoundedCornerShape()
+                        ItemPosition.TOP.toVerticalSegmentedShape()
                     ),
                     colors = ListItemDefaults.colors(
                         containerColor = MaterialTheme.colorScheme.surfaceContainer,
