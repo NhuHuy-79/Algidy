@@ -119,6 +119,8 @@
     <string name="food_entry_title">Thêm thực phẩm mới</string>
 
     <!-- Detail Screen -->
+    <string name="food_entry_add_name_placeholder">Thêm Tên Thực phẩm</string>
+    <string name="food_entry_storage_location">"Ngăn Tủ "</string>
     <string name="detail_personal_notes">Ghi chú cá nhân</string>
     <string name="detail_fab_consume_this">Đã ăn món này</string>
     <string name="detail_fab_mark_as_wasted">Bỏ đi (Lãng phí)</string>
@@ -333,4 +335,9 @@ Nếu bạn có bất kỳ câu hỏi hoặc đề xuất nào liên quan đến
     <string name="widget_weekly_food_description">Hiển thị  thực phẩm hết hạn trong tuần và các tính năng tức thời.</string>
     <string name="widget_weekly_freshness_title">Độ tươi Hàng tuần</string>
     <string name="widget_weekly_freshness_description">Hiển thị độ tươi của thực phẩm của bạn trong tuần.</string>
+    <string name="food_entry_name">Tên thực phẩm</string>
+    <string name="food_entry_add_btn">Thêm thực phẩm</string>
+    <string name="food_entry_expiry_date">Ngày Hết hạn</string>
+    <string name="food_entry_expiry_date_placeholder">Chọn Ngày Hết hạn</string>
+    <string name="food_entry_category">Danh mục</string>
 </resources>

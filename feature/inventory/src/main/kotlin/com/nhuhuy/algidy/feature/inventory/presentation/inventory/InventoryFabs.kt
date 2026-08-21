@@ -4,9 +4,9 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MediumFloatingActionButton
-import androidx.compose.material3.SmallFloatingActionButton
 import androidx.compose.material3.animateFloatingActionButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -32,7 +32,7 @@ fun InventoryFabGroup(
         horizontalAlignment = Alignment.End,
         verticalArrangement = Arrangement.spacedBy(localSpacing.medium)
     ) {
-        SmallFloatingActionButton(
+        FloatingActionButton(
             modifier = Modifier.animateFloatingActionButton(
                 visible = visible,
                 alignment = Alignment.BottomEnd

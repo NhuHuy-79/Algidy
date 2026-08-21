@@ -28,10 +28,10 @@ object FoodValidator {
     }
 
     fun validateExpiryDate(
-        expiryDate: Long,
+        expiryDate: Long?,
         purchaseDate: Long = -1L
     ): ValidationResult {
-        if (expiryDate == -1L) {
+        if (expiryDate == -1L || expiryDate == null) {
             return ValidationResult.EMPTY_FIELD
         }
 

@@ -3,6 +3,7 @@ package com.nhuhuy.algidy.core.presentation.component
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.FilledTonalIconButton
 import androidx.compose.runtime.Composable
@@ -14,6 +15,8 @@ import com.nhuhuy.algidy.core.designsystem.icon.AlgidyIcons
 import com.nhuhuy.algidy.core.designsystem.icon.AppIcon
 import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.core.presentation.model.CategoryUiModel
+import com.nhuhuy.algidy.core.presentation.utils.animatedHorizontalShape
+import com.nhuhuy.algidy.core.presentation.utils.toItemPosition
 import kotlinx.collections.immutable.ImmutableList
 
 @Composable
@@ -63,14 +66,17 @@ fun CategoryFilterGroup(
         modifier = modifier,
         horizontalArrangement = Arrangement.spacedBy(2.dp)
     ) {
-        items(
+        itemsIndexed(
             items = categories,
-        ) { category ->
+        ) { index, category ->
+            val itemPosition = index.toItemPosition(categories.size)
+            val selected = category == selectedCategory
             AppFilterButton(
                 selected = selectedCategory == category,
                 label = category.toUiText(),
                 onClick = { onCategoryClick(category) },
-                modifier = Modifier.animateItem()
+                modifier = Modifier.animateItem(),
+                shape = itemPosition.animatedHorizontalShape(selected = selected)
             )
         }
     }

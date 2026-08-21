@@ -15,7 +15,7 @@ data class EntryUiModel(
     val categoryUiModel: CategoryUiModel = CategoryUiModel.Uncategorized,
     val location: StorageLocation = StorageLocation.FRIDGE,
     val purchaseDate: Long = System.currentTimeMillis(),
-    val expiryDate: Long = -1,
+    val expiryDate: Long? = null,
     val imageUri: String? = null,
     val notes: String = "",
 )
@@ -41,7 +41,7 @@ fun EntryUiModel.toFoodItem(): FoodItem {
         category = categoryUiModel.toFoodCategory(),
         categoryId = categoryUiModel.toFoodCategory()?.id,
         purchaseDate = purchaseDate,
-        expiryDate = expiryDate,
+        expiryDate = expiryDate ?: -1,
         imageUri = imageUri,
         note = notes
     )

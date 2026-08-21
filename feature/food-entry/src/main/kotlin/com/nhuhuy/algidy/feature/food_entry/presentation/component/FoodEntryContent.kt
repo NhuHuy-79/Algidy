@@ -93,7 +93,9 @@ fun FoodEntryContent(
         Spacer(modifier = Modifier.height(localSpacing.extraExtraLarge))
 
         AddFoodButton(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(56.dp),
             enabled = state.isValid,
             onClick = {
                 onAction(FoodEntryAction.OnSaveClick)
@@ -120,7 +122,7 @@ private fun AddFoodButton(
         )
     ) {
         Text(
-            text = stringResource(R.string.action_add),
+            text = stringResource(R.string.food_entry_add_btn),
             style = MaterialTheme.typography.bodyLarge,
             fontWeight = FontWeight.SemiBold
         )

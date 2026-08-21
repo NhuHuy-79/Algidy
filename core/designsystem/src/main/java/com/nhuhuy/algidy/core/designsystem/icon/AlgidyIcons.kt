@@ -8,6 +8,7 @@ import androidx.compose.material.icons.outlined.Analytics
 import androidx.compose.material.icons.outlined.Inventory
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material.icons.rounded.Add
+import androidx.compose.material.icons.rounded.AddPhotoAlternate
 import androidx.compose.material.icons.rounded.Alarm
 import androidx.compose.material.icons.rounded.Analytics
 import androidx.compose.material.icons.rounded.Apps
@@ -36,7 +37,6 @@ import androidx.compose.material.icons.rounded.FlashOn
 import androidx.compose.material.icons.rounded.Gavel
 import androidx.compose.material.icons.rounded.History
 import androidx.compose.material.icons.rounded.Hive
-import androidx.compose.material.icons.rounded.Image
 import androidx.compose.material.icons.rounded.Inventory
 import androidx.compose.material.icons.rounded.Language
 import androidx.compose.material.icons.rounded.ModeEdit
@@ -75,11 +75,12 @@ object AlgidyIcons {
 
     object FoodEntry {
         val AddFood = IconProvider.ImageVectorIcon(Icons.Rounded.Add)
-        val AddCategory = IconProvider.ImageVectorIcon(Icons.Rounded.Add)
+        val AddCategory = IconProvider.DrawableResourceIcon(R.drawable.ic_new_label)
         val EditFood = IconProvider.ImageVectorIcon(Icons.Rounded.Edit)
         val EditMode = IconProvider.ImageVectorIcon(Icons.Rounded.ModeEdit)
+        val StorageLocation = IconProvider.DrawableResourceIcon(R.drawable.ic_fridge)
         val ExpiryDate = IconProvider.ImageVectorIcon(Icons.Rounded.Timer)
-        val PickImage = IconProvider.ImageVectorIcon(Icons.Rounded.Image)
+        val PickImage = IconProvider.ImageVectorIcon(Icons.Rounded.AddPhotoAlternate)
     }
 
     object Inventory {

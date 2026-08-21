@@ -35,7 +35,7 @@ fun ToggleListItem(
         modifier = modifier,
         shape = shape,
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceContainer,
+            containerColor = MaterialTheme.colorScheme.surface,
             contentColor = MaterialTheme.colorScheme.onSurface
         )
     ) {

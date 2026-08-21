@@ -119,6 +119,13 @@
 
     <!--Food Entry Screen-->
     <string name="food_entry_title">Add New Food</string>
+    <string name="food_entry_name">Food Name</string>
+    <string name="food_entry_add_btn">Add Food</string>
+    <string name="food_entry_expiry_date">Expiry Date</string>
+    <string name="food_entry_expiry_date_placeholder">Select Expiry Date</string>
+    <string name="food_entry_category">Category</string>
+    <string name="food_entry_add_name_placeholder">Add Your Food Name</string>
+    <string name="food_entry_storage_location">Storage Location</string>
 
     <!-- Detail Screen -->
     <string name="detail_personal_notes">Personal Notes</string>

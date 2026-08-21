@@ -12,15 +12,14 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.MaterialShapes
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
-import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.material3.toShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import com.nhuhuy.algidy.core.designsystem.component.AppBottomSheet
 import com.nhuhuy.algidy.core.designsystem.icon.AlgidyIcons
 import com.nhuhuy.algidy.core.designsystem.icon.AppIcon
 import com.nhuhuy.algidy.core.designsystem.tokens.LocalAlgidySpacing
@@ -36,9 +35,9 @@ fun FoodEntryBottomSheet(
     onDismiss: () -> Unit,
     onAction: (FoodEntryAction) -> Unit
 ) {
-    ModalBottomSheet(
-        onDismissRequest = onDismiss,
-        sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
+    AppBottomSheet(
+        onDismiss = onDismiss,
+        modifier = Modifier
     ) {
         val localSpacing = LocalAlgidySpacing.current
         val scheme = MaterialTheme.colorScheme
@@ -52,21 +51,22 @@ fun FoodEntryBottomSheet(
             Box(
                 modifier = Modifier.background(
                     shape = MaterialShapes.Pill.toShape(),
-                    color = scheme.primaryContainer
+                    color = scheme.primary
                 ),
                 contentAlignment = Alignment.Center
             ) {
                 AppIcon(
                     modifier = Modifier.padding(localSpacing.medium),
                     iconProvider = AlgidyIcons.FoodEntry.AddFood,
-                    tint = scheme.onPrimaryContainer
+                    tint = scheme.onPrimary
                 )
             }
 
             Text(
                 text = stringResource(R.string.food_entry_title),
                 style = MaterialTheme.typography.titleLarge,
-                fontWeight = FontWeight.SemiBold
+                fontWeight = FontWeight.SemiBold,
+                color = MaterialTheme.colorScheme.onSurface
             )
         }
 

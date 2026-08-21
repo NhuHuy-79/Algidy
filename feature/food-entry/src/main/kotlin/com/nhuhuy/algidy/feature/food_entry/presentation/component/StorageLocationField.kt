@@ -11,6 +11,7 @@ import com.nhuhuy.algidy.core.designsystem.icon.AlgidyIcons
 import com.nhuhuy.algidy.core.designsystem.icon.toImageVector
 import com.nhuhuy.algidy.core.designsystem.tokens.LocalAlgidySpacing
 import com.nhuhuy.algidy.core.model.food.StorageLocation
+import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.core.presentation.utils.ItemPosition
 import com.nhuhuy.algidy.core.presentation.utils.animatedHorizontalShape
 import com.nhuhuy.algidy.core.presentation.utils.toItemPosition
@@ -30,8 +31,8 @@ fun StorageLocationField(
         modifier = Modifier
             .fillMaxWidth(),
         shape = itemPosition.toVerticalSegmentedShape(),
-        title = "Storage Location",
-        icon = AlgidyIcons.Inventory.Category.toImageVector(),
+        title = stringResource(R.string.food_entry_storage_location),
+        icon = AlgidyIcons.FoodEntry.StorageLocation.toImageVector(),
     ) {
         FlowRow(
             modifier = Modifier.fillMaxWidth(),

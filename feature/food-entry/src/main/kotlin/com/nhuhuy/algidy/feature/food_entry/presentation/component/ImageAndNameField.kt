@@ -21,6 +21,7 @@ import androidx.compose.material3.toShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -45,9 +46,9 @@ fun ImageAndNameField(
         shapes = ListItemDefaults.shapes(shape = RoundedCornerShape(48.dp)),
         modifier = modifier,
         colors = ListItemDefaults.colors(
-            containerColor = scheme.primaryContainer,
-            headlineColor = scheme.onPrimaryContainer,
-            overlineColor = scheme.onPrimaryContainer,
+            containerColor = scheme.surface,
+            headlineColor = scheme.onSurface,
+            overlineColor = scheme.onSurface,
         ),
         onClick = onEditClick,
         leadingContent = {
@@ -61,7 +62,7 @@ fun ImageAndNameField(
                         .size(80.dp)
                         .background(
                             color = scheme.primary,
-                            shape = MaterialShapes.Sunny.toShape()
+                            shape = MaterialShapes.VerySunny.toShape()
                         ),
                     imageUri = imageUri,
                     onAddImageClick = launcher,
@@ -91,7 +92,7 @@ fun ImageAndNameField(
         }
     ) {
         Text(
-            text = name.ifBlank { "Click Edit to add your food name" },
+            text = name.ifBlank { stringResource(com.nhuhuy.algidy.core.presentation.R.string.food_entry_add_name_placeholder) },
             style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.SemiBold
         )
