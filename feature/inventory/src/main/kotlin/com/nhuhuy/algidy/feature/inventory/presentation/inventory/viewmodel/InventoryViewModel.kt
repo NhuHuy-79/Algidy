@@ -334,12 +334,10 @@ internal class InventoryViewModel(
         Timber.d("onFabAction: $action")
         when (action) {
             InventoryFabAction.Analytics -> {
-                _uiState.product { copy(visibility = false) }
                 navigator.navigateTo(Destination.Analytics)
             }
 
             is InventoryFabAction.BarcodeScan -> {
-                _uiState.product { copy(visibility = false) }
                 if (action.isPermissionGranted) {
                     emitEvent(InventoryEvent.NavigateToScanner)
                 } else if (combineState.value.generalPreferences.isCameraPolicyAccepted) {
@@ -351,19 +349,15 @@ internal class InventoryViewModel(
 
             InventoryFabAction.Manual -> {
                 _uiState.product {
-                    copy(
-                        visibility = false,
-                        overlay = InventoryOverlay.AddFoodBottomSheet()
-                    )
+                    copy(overlay = InventoryOverlay.AddFoodBottomSheet())
                 }
             }
 
             InventoryFabAction.Setting -> {
-                _uiState.product { copy(visibility = false) }
                 navigator.navigateTo(Destination.Setting(SettingDestination.Main))
             }
 
-            is InventoryFabAction.ToggleFabMenu -> {
+            is InventoryFabAction.OnChangeFabVisibility -> {
                 _uiState.product { copy(visibility = action.value) }
             }
         }

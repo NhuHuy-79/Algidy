@@ -75,6 +75,7 @@ object AlgidyIcons {
 
     object FoodEntry {
         val AddFood = IconProvider.ImageVectorIcon(Icons.Rounded.Add)
+        val AddCategory = IconProvider.ImageVectorIcon(Icons.Rounded.Add)
         val EditFood = IconProvider.ImageVectorIcon(Icons.Rounded.Edit)
         val EditMode = IconProvider.ImageVectorIcon(Icons.Rounded.ModeEdit)
         val ExpiryDate = IconProvider.ImageVectorIcon(Icons.Rounded.Timer)

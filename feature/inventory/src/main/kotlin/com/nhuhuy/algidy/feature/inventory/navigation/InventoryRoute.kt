@@ -66,11 +66,7 @@ fun InventoryRoute() = BoxLayout {
     }
 
     BackHandler(enabled = uiState.visibility || uiState.overlay != InventoryOverlay.None) {
-        if (uiState.visibility) {
-            onAction(InventoryFabAction.ToggleFabMenu(false))
-        } else {
-            onAction(InventoryAction.OnDismiss)
-        }
+        onAction(InventoryAction.OnDismiss)
     }
 
     InventoryScreen(

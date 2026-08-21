@@ -92,6 +92,9 @@ internal fun InventoryOverlayContainer(
             confirmText = stringResource(R.string.camera_permission_confirm_btn),
         )
 
-        is InventoryOverlay.AddFoodBottomSheet -> FoodEntryRoute(foodId = overlay.food?.id)
+        is InventoryOverlay.AddFoodBottomSheet -> FoodEntryRoute(
+            foodId = overlay.food?.id,
+            onDismiss = onDismiss
+        )
     }
 }

@@ -21,12 +21,11 @@ data class FoodEntryUiState(
     val purchaseDateValidateResult get() = FoodValidator.validatePurchaseDate(entry.purchaseDate)
     val expiryDateValidateResult
         get() = FoodValidator.validateExpiryDate(
-            expiryDate = entry.expiryDate, purchaseDate = entry.purchaseDate
+            expiryDate = entry.expiryDate, purchaseDate = System.currentTimeMillis()
         )
     val isValid
         get() : Boolean {
-            return nameValidateResult.isValid() && purchaseDateValidateResult.isValid()
-                    && expiryDateValidateResult.isValid()
+            return nameValidateResult.isValid() && expiryDateValidateResult.isValid()
         }
 }
 

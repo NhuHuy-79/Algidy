@@ -68,7 +68,7 @@ fun TextFieldDialog(
             Text(
                 text = title,
                 style = MaterialTheme.typography.titleLarge.copy(
-                    fontWeight = FontWeight.Medium
+                    fontWeight = FontWeight.Black
                 )
             )
         },

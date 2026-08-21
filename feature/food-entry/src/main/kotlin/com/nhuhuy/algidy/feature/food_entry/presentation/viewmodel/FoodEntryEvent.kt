@@ -4,4 +4,5 @@ import com.nhuhuy.algidy.core.presentation.viewmodel.UiEvent
 
 sealed interface FoodEntryEvent : UiEvent {
     data object AskNotificationPermission : FoodEntryEvent
+    data object OnNavigateBack : FoodEntryEvent
 }

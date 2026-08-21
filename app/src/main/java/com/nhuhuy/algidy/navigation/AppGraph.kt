@@ -93,8 +93,7 @@ fun AppGraph(
                 )
             }
             entry<Destination.Analytics> {
-                AnalyticsRoute(
-                )
+                AnalyticsRoute()
             }
 
             entry<Destination.Scanner>(

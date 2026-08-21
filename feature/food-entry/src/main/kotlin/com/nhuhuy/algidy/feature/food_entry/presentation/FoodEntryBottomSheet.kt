@@ -33,10 +33,11 @@ import com.nhuhuy.algidy.feature.food_entry.presentation.viewmodel.FoodEntryUiSt
 @Composable
 fun FoodEntryBottomSheet(
     state: FoodEntryUiState,
+    onDismiss: () -> Unit,
     onAction: (FoodEntryAction) -> Unit
 ) {
     ModalBottomSheet(
-        onDismissRequest = { onAction(FoodEntryAction.OnDismissOverlay) },
+        onDismissRequest = onDismiss,
         sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
     ) {
         val localSpacing = LocalAlgidySpacing.current

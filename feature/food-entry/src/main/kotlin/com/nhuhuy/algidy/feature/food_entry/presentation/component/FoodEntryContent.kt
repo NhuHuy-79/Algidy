@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
@@ -17,9 +18,11 @@ import androidx.compose.ui.unit.dp
 import com.nhuhuy.algidy.core.designsystem.tokens.LocalAlgidyShapes
 import com.nhuhuy.algidy.core.designsystem.tokens.LocalAlgidySpacing
 import com.nhuhuy.algidy.core.presentation.R
+import com.nhuhuy.algidy.core.presentation.component.toStringRes
 import com.nhuhuy.algidy.core.presentation.utils.ItemPosition
 import com.nhuhuy.algidy.feature.food_entry.presentation.model.EntryUiModel
 import com.nhuhuy.algidy.feature.food_entry.presentation.viewmodel.FoodEntryAction
+import com.nhuhuy.algidy.feature.food_entry.presentation.viewmodel.FoodEntryOverlay
 import com.nhuhuy.algidy.feature.food_entry.presentation.viewmodel.FoodEntryUiState
 import kotlinx.collections.immutable.toImmutableList
 
@@ -52,9 +55,14 @@ fun FoodEntryContent(
             itemPosition = ItemPosition.TOP,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(64.dp),
+                .heightIn(min = 64.dp),
             expiryDate = entry.expiryDate,
-            onEditClick = { }
+            errorMessage = state.expiryDateValidateResult.toStringRes()?.let {
+                stringResource(it)
+            },
+            onEditClick = {
+                onAction(FoodEntryAction.OnShowOverlay(FoodEntryOverlay.EXPIRY_DATE_PICKER))
+            }
         )
 
         Spacer(modifier = Modifier.height(localSpacing.extraSmall))
@@ -66,6 +74,9 @@ fun FoodEntryContent(
             categories = state.categories.toImmutableList(),
             onCategorySelect = { category ->
                 onAction(FoodEntryAction.OnCategorySelect(category))
+            },
+            onNewCategoryAdd = {
+                onAction(FoodEntryAction.OnShowOverlay(FoodEntryOverlay.CATEGORY_ADD))
             }
         )
 
@@ -83,6 +94,7 @@ fun FoodEntryContent(
 
         AddFoodButton(
             modifier = Modifier.fillMaxWidth(),
+            enabled = state.isValid,
             onClick = {
                 onAction(FoodEntryAction.OnSaveClick)
             }
@@ -94,12 +106,14 @@ fun FoodEntryContent(
 @Composable
 private fun AddFoodButton(
     modifier: Modifier = Modifier,
+    enabled: Boolean = true,
     onClick: () -> Unit
 ) {
     val localShapes = LocalAlgidyShapes.current
     Button(
         modifier = modifier,
         onClick = onClick,
+        enabled = enabled,
         shapes = ButtonDefaults.shapes(
             shape = localShapes.extraExtraLarge,
             pressedShape = localShapes.extraLarge

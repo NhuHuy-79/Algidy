@@ -10,7 +10,7 @@ fun Long.toReadableText(): String {
     val date = Instant.ofEpochMilli(this)
         .atZone(ZoneId.systemDefault())
         .toLocalDate()
-    val formatter = java.time.format.DateTimeFormatter.ofPattern("MMM dd")
+    val formatter = java.time.format.DateTimeFormatter.ofPattern("MMM dd yyyy")
     return date.format(formatter)
 }
 

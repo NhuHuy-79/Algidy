@@ -4,10 +4,12 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.material3.FilledTonalIconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.nhuhuy.algidy.core.designsystem.component.AppFilterButton
 import com.nhuhuy.algidy.core.designsystem.icon.AlgidyIcons
+import com.nhuhuy.algidy.core.designsystem.icon.AppIcon
 import com.nhuhuy.algidy.core.designsystem.icon.toImageVector
 import com.nhuhuy.algidy.core.designsystem.tokens.LocalAlgidySpacing
 import com.nhuhuy.algidy.core.presentation.model.CategoryUiModel
@@ -22,7 +24,8 @@ fun CategoryField(
     itemPosition: ItemPosition,
     currentCategory: CategoryUiModel,
     categories: ImmutableList<CategoryUiModel.ByCategory>,
-    onCategorySelect: (category: CategoryUiModel.ByCategory) -> Unit
+    onCategorySelect: (category: CategoryUiModel.ByCategory) -> Unit,
+    onNewCategoryAdd: () -> Unit
 ) {
     val localSpacing = LocalAlgidySpacing.current
     ToggleListItem(
@@ -46,6 +49,14 @@ fun CategoryField(
                     onClick = { onCategorySelect(category) },
                     shape = itemPosition.toHorizontalSegmentedShape()
                 )
+            }
+
+            item {
+                FilledTonalIconButton(
+                    onClick = onNewCategoryAdd
+                ) {
+                    AppIcon(iconProvider = AlgidyIcons.FoodEntry.AddCategory)
+                }
             }
         }
     }

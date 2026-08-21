@@ -58,7 +58,7 @@ sealed interface InventoryDetailAction : InventoryAction {
 
 @Stable
 sealed interface InventoryFabAction : InventoryAction {
-    data class ToggleFabMenu(val value: Boolean) : InventoryFabAction
+    data class OnChangeFabVisibility(val value: Boolean) : InventoryFabAction
     data object Manual : InventoryFabAction
     data object Analytics : InventoryFabAction
     data object Setting : InventoryFabAction

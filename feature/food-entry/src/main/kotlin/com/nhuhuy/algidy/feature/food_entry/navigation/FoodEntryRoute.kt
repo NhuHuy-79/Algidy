@@ -34,11 +34,10 @@ import org.koin.core.parameter.parametersOf
 
 @Composable
 fun FoodEntryRoute(
-    foodId: String?
+    foodId: String?,
+    onDismiss: () -> Unit,
 ) {
-    val viewModel: FoodEntryViewModel = koinViewModel(
-        parameters = { parametersOf(foodId) }
-    )
+    val viewModel: FoodEntryViewModel = koinViewModel(parameters = { parametersOf(foodId) })
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val onAction = viewModel::onAction
 
@@ -56,19 +55,21 @@ fun FoodEntryRoute(
                     notificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
                 }
             }
+
+            FoodEntryEvent.OnNavigateBack -> onDismiss()
         }
     }
 
     FoodEntryBottomSheet(
         state = uiState,
-        onAction = onAction
+        onAction = onAction,
+        onDismiss = onDismiss
     )
 
     FoodEntryOverlayContainer(
         state = uiState,
         onAction = onAction
     )
-
 }
 
 @Composable

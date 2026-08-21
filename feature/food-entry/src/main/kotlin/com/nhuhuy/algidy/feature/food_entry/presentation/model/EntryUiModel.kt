@@ -6,10 +6,11 @@ import com.nhuhuy.algidy.core.model.food.StorageLocation
 import com.nhuhuy.algidy.core.presentation.model.CategoryUiModel
 import com.nhuhuy.algidy.core.presentation.model.toFoodCategory
 import com.nhuhuy.algidy.core.presentation.model.toUiModel
+import java.util.UUID
 
 @Immutable
 data class EntryUiModel(
-    val id: String = "",
+    val id: String = UUID.randomUUID().toString(),
     val name: String = "",
     val categoryUiModel: CategoryUiModel = CategoryUiModel.Uncategorized,
     val location: StorageLocation = StorageLocation.FRIDGE,

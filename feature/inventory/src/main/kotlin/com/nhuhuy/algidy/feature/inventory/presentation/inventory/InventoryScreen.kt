@@ -125,7 +125,7 @@ internal fun InventoryScreen(
                     },
                     onItemLongClick = { item -> onAction(InventorySelectAction.OnLongClick(id = item.id)) },
                     onFabVisibilityChange = { visibility ->
-                        onAction(InventoryFabAction.ToggleFabMenu(visibility))
+                        onAction(InventoryFabAction.OnChangeFabVisibility(visibility))
                     }
                 )
             } else {
@@ -145,7 +145,7 @@ internal fun InventoryScreen(
                     onAddManuallyClick = { onAction(InventoryAction.OnEmptyPageClick) },
                     onItemLongClick = { item -> onAction(InventorySelectAction.OnLongClick(item.id)) },
                     onFabVisibilityChange = { visibility ->
-                        onAction(InventoryFabAction.ToggleFabMenu(visibility))
+                        onAction(InventoryFabAction.OnChangeFabVisibility(visibility))
                     }
                 )
             }

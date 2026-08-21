@@ -6,12 +6,11 @@ import com.nhuhuy.algidy.core.domain.usecase.food.GetFoodByIdUseCase
 import com.nhuhuy.algidy.core.model.food.FoodCategory
 import com.nhuhuy.algidy.core.presentation.model.CategoryUiModel
 import com.nhuhuy.algidy.core.presentation.model.toUiModel
-import com.nhuhuy.algidy.core.presentation.navigation.Navigator
 import com.nhuhuy.algidy.core.presentation.viewmodel.BaseViewModel
 import com.nhuhuy.algidy.feature.food_entry.domain.model.FoodEntryPreferences
 import com.nhuhuy.algidy.feature.food_entry.domain.usecase.AddCategoryUseCase
 import com.nhuhuy.algidy.feature.food_entry.domain.usecase.FoodEntryPreferencesUseCase
-import com.nhuhuy.algidy.feature.food_entry.domain.usecase.GetCategoriesUseCase
+import com.nhuhuy.algidy.feature.food_entry.domain.usecase.ObserveCategoriesUseCase
 import com.nhuhuy.algidy.feature.food_entry.domain.usecase.SaveFoodItemUseCase
 import com.nhuhuy.algidy.feature.food_entry.presentation.model.EntryUiModel
 import com.nhuhuy.algidy.feature.food_entry.presentation.model.toEntryUiModel
@@ -21,6 +20,8 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.WhileSubscribed
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlin.time.Duration.Companion.seconds
@@ -28,11 +29,10 @@ import kotlin.time.Duration.Companion.seconds
 class FoodEntryViewModel(
     foodId: String?,
     private val getFoodByIdUseCase: GetFoodByIdUseCase,
-    private val getCategoriesUseCase: GetCategoriesUseCase,
+    private val observeCategoriesUseCase: ObserveCategoriesUseCase,
     private val foodEntryPreferencesUseCase: FoodEntryPreferencesUseCase,
     private val saveFoodItemUseCase: SaveFoodItemUseCase,
     private val addCategoryUseCase: AddCategoryUseCase,
-    private val navigator: Navigator,
 ) : BaseViewModel<FoodEntryUiState, FoodEntryEvent, FoodEntryAction>() {
     private val _uiState = MutableStateFlow(FoodEntryUiState())
     override val uiState: StateFlow<FoodEntryUiState> = _uiState.asStateFlow()
@@ -43,8 +43,6 @@ class FoodEntryViewModel(
 
     init {
         viewModelScope.launch {
-            val currentCategories = getCategoriesUseCase().map { it.toUiModel() }
-                .filterIsInstance<CategoryUiModel.ByCategory>()
             val currentFoodItem = foodId?.let { getFoodByIdUseCase(it) }
             val currentEntry = currentFoodItem?.toEntryUiModel() ?: EntryUiModel()
 
@@ -52,11 +50,11 @@ class FoodEntryViewModel(
                 copy(
                     entry = currentEntry,
                     currentCategory = currentEntry.categoryUiModel,
-                    categories = currentCategories
                 )
             }
 
         }
+        observeCategories()
     }
 
     override fun onAction(action: FoodEntryAction) {
@@ -130,7 +128,9 @@ class FoodEntryViewModel(
             is FoodEntryAction.OnShowOverlay -> _uiState.product { copy(overlay = action.overlay) }
             FoodEntryAction.OnDismissOverlay -> _uiState.product { copy(overlay = FoodEntryOverlay.NONE) }
             FoodEntryAction.OnSaveClick -> saveFood()
-            FoodEntryAction.OnBackClick -> navigator.navigateBack()
+            FoodEntryAction.OnBackClick -> {
+
+            }
             is FoodEntryAction.OnNotificationGranted -> viewModelScope.launch {
                 if (!currentPreferences.hasAskNotificationPermission) {
                     foodEntryPreferencesUseCase.askNotificationPermission(true)
@@ -159,12 +159,24 @@ class FoodEntryViewModel(
         viewModelScope.launch {
             val foodItem = currentState.entry.toFoodItem()
             saveFoodItemUseCase(foodItem)
+            _uiState.product { copy(overlay = FoodEntryOverlay.NONE, entry = EntryUiModel()) }
             if (!currentPreferences.addItemFirst) {
                 foodEntryPreferencesUseCase.addItemFirst(true)
             }
-
-            navigator.navigateBack()
+            emitEvent(FoodEntryEvent.OnNavigateBack)
         }
+    }
+
+    private fun observeCategories() {
+        observeCategoriesUseCase()
+            .onEach { categories ->
+                val uiModel = categories.map { it.toUiModel() }
+                    .filterIsInstance<CategoryUiModel.ByCategory>()
+                _uiState.product {
+                    copy(categories = uiModel)
+                }
+            }
+            .launchIn(viewModelScope)
     }
 }
 
