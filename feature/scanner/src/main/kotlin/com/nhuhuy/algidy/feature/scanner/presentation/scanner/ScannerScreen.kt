@@ -24,6 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.LocalLifecycleOwner
+import com.nhuhuy.algidy.core.designsystem.theme.LocalCameraColorScheme
 import com.nhuhuy.algidy.feature.scanner.presentation.canvas.ScannerBoundaryCorner
 import com.nhuhuy.algidy.feature.scanner.presentation.scanner.component.CameraPreviewContent
 import com.nhuhuy.algidy.feature.scanner.presentation.scanner.component.LabelEventContainer
@@ -41,6 +42,7 @@ fun ScannerScreen(
 ) {
     var camera by remember { mutableStateOf<Camera?>(null) }
     val lifecycleOwner = LocalLifecycleOwner.current
+    val cameraScheme = LocalCameraColorScheme.current
 
     LaunchedEffect(camera) {
         camera?.cameraInfo?.torchState?.observe(lifecycleOwner) { state ->
@@ -50,7 +52,7 @@ fun ScannerScreen(
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
-        containerColor = MaterialTheme.colorScheme.surface,
+        containerColor = cameraScheme.background,
         topBar = {
             ScannerTopBar(
                 modifier = Modifier.fillMaxWidth(),

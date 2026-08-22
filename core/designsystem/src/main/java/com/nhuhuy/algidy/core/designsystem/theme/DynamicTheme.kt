@@ -31,7 +31,21 @@ fun AlgidyDynamicTheme(
     } else rememberDynamicColorScheme(
         seedColor = seedColor,
         isDark = darkTheme,
+        isAmoled = true
     )
+
+    val cameraColorScheme = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+        val darkScheme = dynamicDarkColorScheme(context)
+        val lightScheme = dynamicLightColorScheme(context)
+        CameraColorScheme(
+            background = darkScheme.surface,
+            foreground = darkScheme.onSurface,
+            primary = lightScheme.primary,
+            onPrimary = lightScheme.onPrimary,
+            secondaryContainer = lightScheme.secondary,
+            onSecondaryContainer = lightScheme.onSecondary
+        )
+    } else CameraColorScheme()
 
 
     val extendedColors = if (darkTheme) DarkFoodStateColors else LightFoodStateColors
@@ -49,6 +63,7 @@ fun AlgidyDynamicTheme(
 
     CompositionLocalProvider(
         LocalFoodStateColors provides extendedColors,
+        LocalCameraColorScheme provides cameraColorScheme
     ) {
         MaterialExpressiveTheme(
             typography = dynamicFontFamily,

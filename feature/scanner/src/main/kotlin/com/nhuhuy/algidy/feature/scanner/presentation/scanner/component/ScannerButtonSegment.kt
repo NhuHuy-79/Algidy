@@ -7,7 +7,6 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.FilledTonalIconButton
@@ -19,9 +18,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
 import com.nhuhuy.algidy.core.designsystem.icon.AlgidyIcons
 import com.nhuhuy.algidy.core.designsystem.icon.AppIcon
+import com.nhuhuy.algidy.core.designsystem.theme.LocalCameraColorScheme
+import com.nhuhuy.algidy.core.designsystem.tokens.LocalAlgidySpacing
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
@@ -30,12 +30,10 @@ fun SelectImageButton(
     onClick: () -> Unit,
     containerColor: Color = Color.White,
     contentColor: Color = Color.Gray
-){
+) {
     FilledTonalIconButton(
-        modifier = modifier
-            .size(56.dp),
+        modifier = modifier,
         onClick = onClick,
-        shape = CircleShape,
         colors = IconButtonDefaults.iconButtonColors(
             contentColor = contentColor,
             containerColor = containerColor
@@ -52,9 +50,10 @@ fun AutoScanButton(
     modifier: Modifier = Modifier,
     onClick: (Boolean) -> Unit,
 ) {
+    val localSpacing = LocalAlgidySpacing.current
+    val cameraScheme = LocalCameraColorScheme.current
     Box(
         modifier = modifier
-            .size(72.dp)
             .background(
                 color = MaterialTheme.colorScheme.primary,
                 shape = CircleShape
@@ -73,16 +72,16 @@ fun AutoScanButton(
                 LoadingIndicator(
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(2.dp),
-                    color = MaterialTheme.colorScheme.onPrimary
+                        .padding(localSpacing.small),
+                    color = cameraScheme.onPrimary
                 )
             } else {
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(4.dp)
+                        .padding(localSpacing.small)
                         .background(
-                            color = MaterialTheme.colorScheme.onPrimary,
+                            color = cameraScheme.onPrimary,
                             shape = CircleShape
                         ),
                 )
@@ -98,14 +97,14 @@ fun AddManuallyBarcodeButton(
     enable: Boolean = true,
     onClick: () -> Unit,
 ) {
+    val cameraScheme = LocalCameraColorScheme.current
     FilledTonalIconButton(
-        enabled = enable,
         modifier = modifier,
         onClick = onClick,
-        shape = CircleShape,
+        enabled = enable,
         colors = IconButtonDefaults.iconButtonColors(
-            containerColor = MaterialTheme.colorScheme.secondary,
-            contentColor = MaterialTheme.colorScheme.onSecondary
+            contentColor = cameraScheme.onSecondaryContainer,
+            containerColor = cameraScheme.secondaryContainer
         )
     ) {
         AppIcon(iconProvider = AlgidyIcons.Scanner.AddBarcode)

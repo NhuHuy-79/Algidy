@@ -7,11 +7,11 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.nhuhuy.algidy.core.designsystem.theme.LocalCameraColorScheme
 import com.nhuhuy.algidy.core.presentation.PhotoPickerContainer
 
 @OptIn(ExperimentalAnimationApi::class)
@@ -24,11 +24,13 @@ fun ScannerBottomBar(
     onAddManualBarcode: () -> Unit,
     onAutoScanChange: (Boolean) -> Unit
 ) {
+
+    val cameraScheme = LocalCameraColorScheme.current
     Row(
         modifier = modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp, vertical = 24.dp),
-        horizontalArrangement = Arrangement.SpaceBetween,
+        horizontalArrangement = Arrangement.SpaceEvenly,
         verticalAlignment = Alignment.CenterVertically
     ) {
         PhotoPickerContainer(
@@ -36,21 +38,21 @@ fun ScannerBottomBar(
             onLaunch = onLaunch
         ) { launcher ->
             SelectImageButton(
-                modifier = Modifier.size(56.dp),
+                modifier = Modifier.size(64.dp),
                 onClick = launcher,
-                containerColor = MaterialTheme.colorScheme.secondary,
-                contentColor = MaterialTheme.colorScheme.onSecondary
+                containerColor = cameraScheme.secondaryContainer,
+                contentColor = cameraScheme.onSecondaryContainer
             )
         }
 
         AutoScanButton(
-            modifier = Modifier.size(96.dp),
+            modifier = Modifier.size(104.dp),
             autoScanning = isAutoScanned,
             onClick = onAutoScanChange
         )
 
         AddManuallyBarcodeButton(
-            modifier = Modifier.size(56.dp),
+            modifier = Modifier.size(64.dp),
             onClick = onAddManualBarcode
         )
     }

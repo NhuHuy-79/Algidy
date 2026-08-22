@@ -15,6 +15,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.nhuhuy.algidy.core.designsystem.icon.AlgidyIcons
+import com.nhuhuy.algidy.core.designsystem.icon.AppIcon
 import com.nhuhuy.algidy.core.designsystem.tokens.LocalAlgidyShapes
 import com.nhuhuy.algidy.core.designsystem.tokens.LocalAlgidySpacing
 import com.nhuhuy.algidy.core.presentation.R
@@ -42,6 +44,9 @@ fun FoodEntryContent(
         ImageAndNameField(
             modifier = Modifier.fillMaxWidth(),
             imageUri = entry.imageUri,
+            errorMessage = state.nameValidateResult.toStringRes()?.let {
+                stringResource(it)
+            },
             name = entry.name,
             onImageUriChange = { uri -> onAction(FoodEntryAction.OnImagePick(uri)) },
             onEditClick = { onAction(FoodEntryAction.OnEditNameClick) }
@@ -121,6 +126,7 @@ private fun AddFoodButton(
             pressedShape = localShapes.extraLarge
         )
     ) {
+        AppIcon(iconProvider = AlgidyIcons.FoodEntry.AddFood)
         Text(
             text = stringResource(R.string.food_entry_add_btn),
             style = MaterialTheme.typography.bodyLarge,

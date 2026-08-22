@@ -4,6 +4,7 @@ import androidx.compose.foundation.basicMarquee
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilledTonalIconButton
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -14,6 +15,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import com.nhuhuy.algidy.core.designsystem.icon.AlgidyIcons
 import com.nhuhuy.algidy.core.designsystem.icon.AppIcon
+import com.nhuhuy.algidy.core.designsystem.theme.LocalCameraColorScheme
 import com.nhuhuy.algidy.core.presentation.R
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -24,11 +26,13 @@ fun ScannerTopBar(
     onFlashSwitch: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val cameraScheme = LocalCameraColorScheme.current
     TopAppBar(
         modifier = modifier,
         colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.9f),
-            titleContentColor = MaterialTheme.colorScheme.onSurface,
+            containerColor = cameraScheme.background,
+            titleContentColor = cameraScheme.foreground,
+            navigationIconContentColor = cameraScheme.foreground
         ),
         title = {
             Text(
@@ -46,13 +50,15 @@ fun ScannerTopBar(
         },
         actions = {
             FilledTonalIconButton(
-                onClick = onFlashSwitch
+                onClick = onFlashSwitch,
+                colors = IconButtonDefaults.iconButtonColors(
+                    containerColor = cameraScheme.secondaryContainer,
+                    contentColor = cameraScheme.onSecondaryContainer
+                )
             ) {
                 AppIcon(
                     iconProvider = if (isFlashOn) AlgidyIcons.Scanner.FlashOff
                     else AlgidyIcons.Scanner.FlashOn,
-                    tint = if (isFlashOn) MaterialTheme.colorScheme.primary
-                    else MaterialTheme.colorScheme.onSurface
                 )
             }
         }

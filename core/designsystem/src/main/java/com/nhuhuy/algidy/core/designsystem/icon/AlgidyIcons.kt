@@ -4,6 +4,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.automirrored.rounded.ArrowForward
 import androidx.compose.material.icons.automirrored.rounded.Label
+import androidx.compose.material.icons.automirrored.rounded.PlaylistAdd
 import androidx.compose.material.icons.outlined.Analytics
 import androidx.compose.material.icons.outlined.Inventory
 import androidx.compose.material.icons.outlined.Settings
@@ -74,7 +75,7 @@ object AlgidyIcons {
     }
 
     object FoodEntry {
-        val AddFood = IconProvider.ImageVectorIcon(Icons.Rounded.Add)
+        val AddFood = IconProvider.ImageVectorIcon(Icons.AutoMirrored.Rounded.PlaylistAdd)
         val AddCategory = IconProvider.DrawableResourceIcon(R.drawable.ic_new_label)
         val EditFood = IconProvider.ImageVectorIcon(Icons.Rounded.Edit)
         val EditMode = IconProvider.ImageVectorIcon(Icons.Rounded.ModeEdit)
@@ -107,8 +108,8 @@ object AlgidyIcons {
 
     object Scanner {
         val FlashOn = IconProvider.ImageVectorIcon(Icons.Rounded.FlashOn)
-        val AddImage = IconProvider.DrawableResourceIcon(R.drawable.image_plus)
-        val AddBarcode = IconProvider.DrawableResourceIcon(R.drawable.circle_plus)
+        val AddImage = IconProvider.ImageVectorIcon(Icons.Rounded.AddPhotoAlternate)
+        val AddBarcode = IconProvider.DrawableResourceIcon(R.drawable.ic_add_barcode)
         val FlashOff = IconProvider.ImageVectorIcon(Icons.Rounded.FlashOff)
         val AutoOff = IconProvider.ImageVectorIcon(Icons.Rounded.PhotoCamera)
         val Scanning = IconProvider.ImageVectorIcon(Icons.Rounded.DocumentScanner)

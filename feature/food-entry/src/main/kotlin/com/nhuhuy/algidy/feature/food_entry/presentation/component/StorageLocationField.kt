@@ -1,8 +1,9 @@
 package com.nhuhuy.algidy.feature.food_entry.presentation.component
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -34,18 +35,20 @@ fun StorageLocationField(
         title = stringResource(R.string.food_entry_storage_location),
         icon = AlgidyIcons.FoodEntry.StorageLocation.toImageVector(),
     ) {
-        FlowRow(
+        LazyRow(
             modifier = Modifier.fillMaxWidth(),
-            verticalArrangement = Arrangement.spacedBy(localSpacing.small),
             horizontalArrangement = Arrangement.spacedBy(localSpacing.extraSmall)
         ) {
-            entries.forEachIndexed { index, location ->
+            itemsIndexed(
+                items = entries,
+                key = { _, item -> item.ordinal }
+            ) { index: Int, item: StorageLocation ->
                 val itemPosition = index.toItemPosition(entries.size)
-                val selected = location == currentLocation
+                val selected = item == currentLocation
                 AppFilterButton(
-                    selected = location == currentLocation,
-                    label = stringResource(location.toStringRes()),
-                    onClick = { onLocationSelect(location) },
+                    selected = item == currentLocation,
+                    label = stringResource(item.toStringRes()),
+                    onClick = { onLocationSelect(item) },
                     shape = itemPosition.animatedHorizontalShape(selected = selected)
                 )
             }

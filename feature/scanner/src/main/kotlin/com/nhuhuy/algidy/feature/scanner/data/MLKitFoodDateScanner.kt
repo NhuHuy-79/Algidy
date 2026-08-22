@@ -1,3 +1,4 @@
+/*
 package com.nhuhuy.algidy.feature.scanner.data
 
 import android.content.Context
@@ -23,9 +24,11 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
+*/
 /**
  * Implementation of [FoodDateScanner] using Google ML Kit Text Recognition and Entity Extraction.
- */
+ *//*
+
 class MLKitFoodDateScanner(
     private val context: Context,
     private val dispatchers: AppDispatchers
@@ -112,3 +115,4 @@ class MLKitFoodDateScanner(
         return SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(date)
     }
 }
+*/

@@ -21,6 +21,7 @@ import androidx.compose.material3.toShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -37,6 +38,7 @@ import com.nhuhuy.algidy.core.presentation.component.FoodImage
 fun ImageAndNameField(
     modifier: Modifier = Modifier,
     imageUri: String? = null,
+    errorMessage: String? = null,
     name: String = "",
     onImageUriChange: (uri: Uri) -> Unit,
     onEditClick: () -> Unit,
@@ -60,6 +62,7 @@ fun ImageAndNameField(
                 ImagePickerIcon(
                     modifier = Modifier
                         .size(80.dp)
+                        .clip(MaterialShapes.VerySunny.toShape())
                         .background(
                             color = scheme.primary,
                             shape = MaterialShapes.VerySunny.toShape()
@@ -81,6 +84,15 @@ fun ImageAndNameField(
             ) {
                 AppIcon(
                     iconProvider = AlgidyIcons.FoodEntry.EditFood,
+                )
+            }
+        },
+        supportingContent = {
+            errorMessage?.let {
+                Text(
+                    text = errorMessage,
+                    color = MaterialTheme.colorScheme.error,
+                    style = MaterialTheme.typography.labelLarge
                 )
             }
         },
@@ -117,7 +129,7 @@ private fun ImagePickerIcon(
             )
         } else {
             FoodImage(
-                modifier = Modifier.padding(localSpacing.large),
+                modifier = Modifier.matchParentSize(),
                 imageUrl = imageUri
             )
         }

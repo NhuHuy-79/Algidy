@@ -13,6 +13,7 @@ import androidx.compose.ui.unit.dp
 import com.nhuhuy.algidy.core.designsystem.component.AppFilterButton
 import com.nhuhuy.algidy.core.designsystem.icon.AlgidyIcons
 import com.nhuhuy.algidy.core.designsystem.icon.AppIcon
+import com.nhuhuy.algidy.core.designsystem.tokens.LocalAlgidySpacing
 import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.core.presentation.model.CategoryUiModel
 import com.nhuhuy.algidy.core.presentation.utils.animatedHorizontalShape
@@ -62,9 +63,10 @@ fun CategoryFilterGroup(
     categories: ImmutableList<CategoryUiModel>,
     onCategoryClick: (CategoryUiModel) -> Unit,
 ) {
+    val localSpacing = LocalAlgidySpacing.current
     LazyRow(
         modifier = modifier,
-        horizontalArrangement = Arrangement.spacedBy(2.dp)
+        horizontalArrangement = Arrangement.spacedBy(localSpacing.extraSmall)
     ) {
         itemsIndexed(
             items = categories,

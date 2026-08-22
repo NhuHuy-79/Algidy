@@ -22,9 +22,7 @@ import com.nhuhuy.algidy.core.domain.repository.CategoryRepository
 import com.nhuhuy.algidy.core.domain.repository.FoodRepository
 import com.nhuhuy.algidy.core.domain.repository.LocalMediaStorage
 import com.nhuhuy.algidy.feature.scanner.data.MLKitBarcodeScanner
-import com.nhuhuy.algidy.feature.scanner.data.MLKitFoodDateScanner
 import com.nhuhuy.algidy.feature.scanner.domain.BarcodeScanner
-import com.nhuhuy.algidy.feature.scanner.domain.FoodDateScanner
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import org.koin.android.ext.koin.androidApplication
@@ -39,7 +37,6 @@ val dataModule = module {
     singleOf(::CategoryRepositoryImpl) { bind<CategoryRepository>() }
     singleOf(::DefaultAppDispatchers) { bind<AppDispatchers>() }
     single<BarcodeScanner> { MLKitBarcodeScanner(get()) }
-    single<FoodDateScanner> { MLKitFoodDateScanner(get(), get()) }
     singleOf(::LocalMediaStorageImpl) { bind<LocalMediaStorage>() }
 
     //Datastore

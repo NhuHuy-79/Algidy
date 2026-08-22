@@ -14,11 +14,6 @@ dependencies {
     implementation(libs.androidx.camera.extensions1)
     implementation(libs.androidx.camera.compose)
 
-    implementation(libs.play.services.mlkit.text.recognition)
-
     implementation(libs.play.services.mlkit.barcode.scanning)
-
     implementation(libs.guava)
-
-    implementation(libs.entity.extraction)
 }
