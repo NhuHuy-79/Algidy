@@ -266,6 +266,12 @@ internal class InventoryViewModel(
                 )
             }
 
+            is InventoryAction.OnEditFoodSheetOpen -> {
+                _uiState.product {
+                    copy(overlay = InventoryOverlay.EditFoodSheet(action.foodItem))
+                }
+            }
+
             InventoryAction.OnEmptyPageClick -> {
                 _uiState.product {
                     copy(overlay = InventoryOverlay.AddFoodBottomSheet())

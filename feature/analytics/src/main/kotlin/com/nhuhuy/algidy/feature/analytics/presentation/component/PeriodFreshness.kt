@@ -2,6 +2,8 @@
 
 package com.nhuhuy.algidy.feature.analytics.presentation.component
 
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.animateIntAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.layout.Arrangement
@@ -20,6 +22,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.toShape
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -39,65 +42,96 @@ import com.nhuhuy.algidy.core.presentation.utils.toBackgroundContainerColor
 import com.nhuhuy.algidy.core.presentation.utils.toContentContainerColor
 import com.nhuhuy.algidy.core.presentation.utils.toStringRes
 import com.nhuhuy.algidy.core.presentation.utils.toVerticalSegmentedShape
+import com.nhuhuy.algidy.feature.analytics.domain.model.AnalyticsPeriod
 import com.nhuhuy.algidy.feature.analytics.domain.model.FreshnessStatistic
 import com.nhuhuy.algidy.feature.analytics.domain.model.getStatistic
 
 @Composable
-fun WeeklyFreshness(
-    freshnessStatistic: FreshnessStatistic,
+fun PeriodFreshness(
+    period: AnalyticsPeriod,
+    statisticByWeek: FreshnessStatistic,
+    statisticByMonth: FreshnessStatistic,
     modifier: Modifier = Modifier,
     itemPosition: ItemPosition = ItemPosition.SINGLE,
 ) {
+    val isWeek = period == AnalyticsPeriod.WEEK
+    val titleRes = if (isWeek) R.string.analytics_card_weekly_freshness
+    else R.string.analytics_card_monthly_freshness
+
     CardLayout(
         modifier = modifier,
         icon = AlgidyIcons.Analytics.WeeklyChart.toImageVector(),
-        title = stringResource(R.string.analytics_card_weekly_freshness),
+        title = stringResource(titleRes),
         shape = itemPosition.toVerticalSegmentedShape(),
         cardColors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surface,
             contentColor = MaterialTheme.colorScheme.onSurface
         )
     ) {
-        WeeklyFreshnessContent(
+        FreshnessContent(
             modifier = Modifier.weight(1f),
-            freshnessStatistic = freshnessStatistic
+            weekStatistic = statisticByWeek,
+            monthStatistic = statisticByMonth,
+            isWeekPeriod = isWeek
         )
     }
 }
 
 @Composable
-private fun WeeklyFreshnessContent(
+private fun FreshnessContent(
     modifier: Modifier = Modifier,
-    freshnessStatistic: FreshnessStatistic,
+    isWeekPeriod: Boolean,
+    weekStatistic: FreshnessStatistic,
+    monthStatistic: FreshnessStatistic,
 ) {
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(4.dp)
     ) {
         Freshness.entries.forEach { freshness ->
-            val (count, fraction) = freshness.getStatistic(freshnessStatistic)
-            WeeklyFreshnessItem(
+            val (weekCount, weekFraction) = freshness.getStatistic(weekStatistic)
+            val (monthCount, monthFraction) = freshness.getStatistic(monthStatistic)
+            FreshnessItem(
                 label = stringResource(freshness.toStringRes()),
-                value = count,
-                fraction = fraction,
+                isAnimated = isWeekPeriod,
+                weekValue = weekCount,
+                weekFraction = weekFraction,
+                monthValue = monthCount,
+                monthFraction = monthFraction,
                 barColor = freshness.toBackgroundColor(),
                 labelSurfaceColor = freshness.toBackgroundContainerColor(),
-                labelColor = freshness.toContentContainerColor()
+                labelColor = freshness.toContentContainerColor(),
             )
         }
     }
 }
 
 @Composable
-private fun WeeklyFreshnessItem(
+private fun FreshnessItem(
     label: String,
     modifier: Modifier = Modifier,
-    value: Int,
-    fraction: Float,
+    weekValue: Int,
+    monthValue: Int,
+    isAnimated: Boolean = false,
+    weekFraction: Float,
+    monthFraction: Float,
     barColor: Color = MaterialTheme.colorScheme.primary,
     labelSurfaceColor: Color = MaterialTheme.colorScheme.primaryContainer,
     labelColor: Color = MaterialTheme.colorScheme.onPrimaryContainer,
 ) {
+    val animatedProgressBar by animateFloatAsState(
+        targetValue = if (isAnimated) weekFraction.coerceIn(0.2f, 1f) else monthFraction.coerceIn(
+            0.2f,
+            1f
+        ),
+        label = "Animated Progress Bar"
+    )
+
+    val animatedValue by animateIntAsState(
+        targetValue = if (isAnimated) weekValue else monthValue,
+        label = "Animated Value"
+    )
+
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -117,9 +151,9 @@ private fun WeeklyFreshnessItem(
         Box(
             modifier = Modifier.weight(1f),
         ) {
-            WeeklyFreshnessChartBar(
-                modifier = Modifier.fillMaxWidth(fraction.coerceIn(0.2f, 1f)),
-                label = value.toString(),
+            FreshnessChartBar(
+                modifier = Modifier.fillMaxWidth(animatedProgressBar),
+                label = animatedValue.toString(),
                 barColor = barColor,
                 labelSurfaceColor = labelSurfaceColor,
                 labelColor = labelColor,
@@ -129,7 +163,7 @@ private fun WeeklyFreshnessItem(
 }
 
 @Composable
-private fun WeeklyFreshnessChartBar(
+private fun FreshnessChartBar(
     label: String,
     modifier: Modifier = Modifier,
     barColor: Color = MaterialTheme.colorScheme.primary,

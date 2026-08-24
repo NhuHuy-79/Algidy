@@ -122,6 +122,8 @@ object AlgidyIcons {
         val Other = IconProvider.ImageVectorIcon(Icons.Rounded.Fastfood)
         val WeeklyChart = IconProvider.ImageVectorIcon(Icons.Rounded.BarChart)
         val SpoilageChart = IconProvider.ImageVectorIcon(Icons.Rounded.StackedLineChart)
+        val OpenPeriodFilter = IconProvider.ImageVectorIcon(Icons.Rounded.ExpandMore)
+        val ClosePeriodFilter = IconProvider.ImageVectorIcon(Icons.Rounded.ExpandLess)
     }
 
     object Settings {

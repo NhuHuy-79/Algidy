@@ -23,6 +23,8 @@ sealed interface InventoryAction : UiAction {
         data object Save : OnAddCategory
     }
 
+    data class OnEditFoodSheetOpen(val foodItem: FoodUiModel) : InventoryAction
+
     data object OnDeleteAlertConfirm: InventoryAction
     data object OnConsumeConfirm : InventoryAction
     data object OnWasteConfirm : InventoryAction

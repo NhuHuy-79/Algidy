@@ -170,12 +170,18 @@
 
     <!-- Analytics Screen -->
     <string name="analytics_title">Analytics</string>
+    <string name="analytics_period_week">This Week</string>
+    <string name="analytics_period_month">This Month</string>
+    <string name="analytics_expired">Expired</string>
+    <string name="analytics_expiring">Expiring</string>
     <string name="analytics_subtitle">Overview of waste and impact</string>
     <string name="analytics_card_consumed">Consumed</string>
     <string name="analytics_card_wasted">Wasted</string>
     <string name="analytics_card_others">Others</string>
     <string name="analytics_card_spoilage_history">Spoilage History</string>
     <string name="analytics_card_weekly_freshness">Weekly Freshness</string>
+    <string name="analytics_card_monthly_freshness">Monthly Freshness</string>
+    <string name="analytics_card_empty_state">No spoilage data yet</string>
 
     <string name="analytics_weekly_card">%1$s/7 days</string>
     <string name="analytics_weekly_card_content">Start from %1$s</string>

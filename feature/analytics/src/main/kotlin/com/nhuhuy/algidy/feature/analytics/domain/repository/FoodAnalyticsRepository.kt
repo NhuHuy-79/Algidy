@@ -1,6 +1,7 @@
 package com.nhuhuy.algidy.feature.analytics.domain.repository
 
 import com.nhuhuy.algidy.feature.analytics.domain.model.AnalyticsPeriod
+import com.nhuhuy.algidy.feature.analytics.domain.model.ExpiryOverviewStatistic
 import com.nhuhuy.algidy.feature.analytics.domain.model.FreshnessStatistic
 import com.nhuhuy.algidy.feature.analytics.domain.model.SpoilageStatistic
 
@@ -12,4 +13,6 @@ interface FoodAnalyticsRepository {
     suspend fun getSpoilageStatistic(
         period: AnalyticsPeriod,
     ): SpoilageStatistic
+
+    suspend fun getOverviewStatistic(): ExpiryOverviewStatistic
 }

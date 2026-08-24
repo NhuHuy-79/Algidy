@@ -50,8 +50,7 @@ val inventoryModule = module {
         DetailBottomSheetViewModel(
             foodItem = foodItem,
             markFoodAsConsumedUseCase = get(),
-            markFoodAsWastedUseCase = get(),
-            navigator = get()
+            markFoodAsWastedUseCase = get()
         )
     }
 }

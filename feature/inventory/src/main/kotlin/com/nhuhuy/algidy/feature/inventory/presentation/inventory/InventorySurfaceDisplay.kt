@@ -45,7 +45,14 @@ internal fun InventoryOverlayContainer(
 
         InventoryOverlay.ItemDetail -> DetailBottomSheetRoute(
             foodItem = uiState.currentFoodItem,
-            onDismiss = onDismiss
+            onDismiss = onDismiss,
+            onNavigateToEdit = { foodUiModel ->
+                onAction(
+                    InventoryAction.OnEditFoodSheetOpen(
+                        foodUiModel
+                    )
+                )
+            }
         )
 
         InventoryOverlay.CategoryAdd -> TextFieldDialog(
@@ -94,6 +101,11 @@ internal fun InventoryOverlayContainer(
 
         is InventoryOverlay.AddFoodBottomSheet -> FoodEntryRoute(
             foodId = overlay.food?.id,
+            onDismiss = onDismiss
+        )
+
+        is InventoryOverlay.EditFoodSheet -> FoodEntryRoute(
+            foodId = null,
             onDismiss = onDismiss
         )
     }

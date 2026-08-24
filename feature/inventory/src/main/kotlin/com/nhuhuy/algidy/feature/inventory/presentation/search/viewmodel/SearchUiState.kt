@@ -18,5 +18,6 @@ data class SearchUiState(
 
 sealed interface SearchUiSurface {
     data object None : SearchUiSurface
+    data class EditFoodSheet(val food: FoodUiModel) : SearchUiSurface
     data class DetailBottomSheet(val food: FoodUiModel) : SearchUiSurface
 }

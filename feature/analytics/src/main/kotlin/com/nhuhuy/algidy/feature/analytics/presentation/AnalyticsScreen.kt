@@ -4,6 +4,7 @@ package com.nhuhuy.algidy.feature.analytics.presentation
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -24,6 +25,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -31,12 +33,13 @@ import androidx.compose.ui.unit.dp
 import com.nhuhuy.algidy.core.designsystem.theme.AlgidyTheme
 import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.core.presentation.utils.ItemPosition
-import com.nhuhuy.algidy.feature.analytics.domain.model.fakeFreshnessStatistic
+import com.nhuhuy.algidy.feature.analytics.presentation.component.AnalyticsFilterButton
 import com.nhuhuy.algidy.feature.analytics.presentation.component.AnalyticsState
+import com.nhuhuy.algidy.feature.analytics.presentation.component.PeriodFreshness
 import com.nhuhuy.algidy.feature.analytics.presentation.component.SpoilageHistory
-import com.nhuhuy.algidy.feature.analytics.presentation.component.WeeklyFreshness
 import com.nhuhuy.algidy.feature.analytics.presentation.viewmodel.AnalyticsAction
 import com.nhuhuy.algidy.feature.analytics.presentation.viewmodel.AnalyticsUiState
+import kotlinx.collections.immutable.toImmutableList
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
@@ -94,10 +97,29 @@ fun AnalyticsScreen(
             ),
             horizontalArrangement = Arrangement.spacedBy(8.dp),
         ) {
+            item(span = StaggeredGridItemSpan.FullLine) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.End
+                ) {
+                    AnalyticsFilterButton(
+                        currentPeriod = uiState.period,
+                        onPeriodSelect = { period ->
+                            onAction(AnalyticsAction.OnPeriodSelect(period))
+                        }
+                    )
+                }
+            }
+
+            item(span = StaggeredGridItemSpan.FullLine) {
+                Spacer(modifier = Modifier.height(16.dp))
+            }
+
             item(span = StaggeredGridItemSpan.SingleLane) {
                 AnalyticsState(
-                    title = "Expired",
-                    content = "12",
+                    title = stringResource(R.string.analytics_expired),
+                    content = "${uiState.expiryCount}",
                     containerColor = extendColor.expired,
                     contentColor = extendColor.onExpired
                 )
@@ -105,8 +127,8 @@ fun AnalyticsScreen(
 
             item(span = StaggeredGridItemSpan.SingleLane) {
                 AnalyticsState(
-                    title = "Expiring",
-                    content = "12",
+                    title = stringResource(R.string.analytics_expiring),
+                    content = "${uiState.expiringSoon}",
                     containerColor = extendColor.notice,
                     contentColor = extendColor.onNotice
                 )
@@ -117,12 +139,14 @@ fun AnalyticsScreen(
             }
 
             item(span = StaggeredGridItemSpan.FullLine) {
-                WeeklyFreshness(
+                PeriodFreshness(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(300.dp),
                     itemPosition = ItemPosition.TOP,
-                    freshnessStatistic = fakeFreshnessStatistic
+                    period = uiState.period,
+                    statisticByWeek = uiState.freshnessStatisticByWeekend,
+                    statisticByMonth = uiState.freshnessStatisticByMonth,
                 )
             }
 
@@ -136,6 +160,9 @@ fun AnalyticsScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(320.dp),
+                    period = uiState.period,
+                    statisticByWeek = uiState.spoilageStatisticByWeekend.toImmutableList(),
+                    statisticByMonth = uiState.spoilageStatisticByMonth.toImmutableList(),
                 )
             }
         }

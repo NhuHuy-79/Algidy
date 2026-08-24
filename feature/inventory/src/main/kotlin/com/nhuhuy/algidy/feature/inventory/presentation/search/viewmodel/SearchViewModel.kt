@@ -52,6 +52,10 @@ class SearchViewModel(
                 _uiState.product { copy(query = action.newQuery) }
             }
 
+            is SearchAction.OnEditSheetOpen -> {
+                _uiState.product { copy(surface = SearchUiSurface.EditFoodSheet(action.food)) }
+            }
+
             is SearchAction.OnSearch -> viewModelScope.launch {
                 _uiState.product { copy(isLoading = true) }
 

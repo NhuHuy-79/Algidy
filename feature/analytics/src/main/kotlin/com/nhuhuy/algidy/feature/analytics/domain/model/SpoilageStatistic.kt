@@ -1,10 +1,11 @@
 package com.nhuhuy.algidy.feature.analytics.domain.model
 
+import com.nhuhuy.algidy.feature.analytics.presentation.model.toUiModel
 import java.time.LocalDate
 
 data class SpoilageStatistic(
-    val period: AnalyticsPeriod,
-    val points: List<SpoilagePoint>,
+    val period: AnalyticsPeriod = AnalyticsPeriod.WEEK,
+    val points: List<SpoilagePoint> = emptyList(),
 )
 
 data class SpoilagePoint(
@@ -13,9 +14,7 @@ data class SpoilagePoint(
     val consumed: Int,
 )
 
-val fakeWeeklySpoilageStatistic = SpoilageStatistic(
-    period = AnalyticsPeriod.WEEK,
-    points = listOf(
+val fakeWeeklySpoilageStatistic = listOf(
         SpoilagePoint(
             date = LocalDate.now().minusDays(6),
             waste = 1,
@@ -51,5 +50,4 @@ val fakeWeeklySpoilageStatistic = SpoilageStatistic(
             waste = 2,
             consumed = 4,
         ),
-    ),
-)
+).map { it.toUiModel() }

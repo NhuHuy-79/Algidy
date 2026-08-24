@@ -1,8 +1,10 @@
 package com.nhuhuy.algidy.feature.analytics.presentation.component
 
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
@@ -15,10 +17,10 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.nhuhuy.algidy.core.designsystem.component.CardLayout
 import com.nhuhuy.algidy.core.designsystem.icon.AlgidyIcons
@@ -28,8 +30,9 @@ import com.nhuhuy.algidy.core.designsystem.tokens.LocalAlgidySpacing
 import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.core.presentation.utils.ItemPosition
 import com.nhuhuy.algidy.core.presentation.utils.toVerticalSegmentedShape
-import com.nhuhuy.algidy.feature.analytics.domain.model.SpoilageStatistic
+import com.nhuhuy.algidy.feature.analytics.domain.model.AnalyticsPeriod
 import com.nhuhuy.algidy.feature.analytics.domain.model.fakeWeeklySpoilageStatistic
+import com.nhuhuy.algidy.feature.analytics.presentation.model.SpoilagePointUiModel
 import com.patrykandpatrick.vico.compose.cartesian.CartesianChartHost
 import com.patrykandpatrick.vico.compose.cartesian.axis.HorizontalAxis
 import com.patrykandpatrick.vico.compose.cartesian.axis.VerticalAxis
@@ -45,14 +48,16 @@ import com.patrykandpatrick.vico.compose.cartesian.marker.rememberDefaultCartesi
 import com.patrykandpatrick.vico.compose.cartesian.rememberCartesianChart
 import com.patrykandpatrick.vico.compose.common.Fill
 import com.patrykandpatrick.vico.compose.common.component.rememberTextComponent
-import java.time.format.TextStyle
-import java.util.Locale
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
 
 @Composable
 fun SpoilageHistory(
     modifier: Modifier = Modifier,
+    period: AnalyticsPeriod,
     itemPosition: ItemPosition = ItemPosition.SINGLE,
-    spoilageStatistic: SpoilageStatistic = fakeWeeklySpoilageStatistic
+    statisticByWeek: ImmutableList<SpoilagePointUiModel>,
+    statisticByMonth: ImmutableList<SpoilagePointUiModel>,
 ) {
     val extendColor = AlgidyTheme.extendedColors
     CardLayout(
@@ -81,10 +86,21 @@ fun SpoilageHistory(
             )
         }
 
-        SpoilageHistoryContent(
-            modifier = Modifier.weight(1f),
-            spoilageStatistic = spoilageStatistic
-        )
+        AnimatedContent(
+            targetState = period
+        ) { period ->
+            when (period) {
+                AnalyticsPeriod.WEEK -> SpoilageHistoryContainer(
+                    modifier = Modifier.weight(1f),
+                    spoilageStatistic = statisticByWeek
+                )
+
+                AnalyticsPeriod.MONTH -> SpoilageHistoryContainer(
+                    modifier = Modifier.weight(1f),
+                    spoilageStatistic = statisticByMonth
+                )
+            }
+        }
     }
 }
 
@@ -113,27 +129,46 @@ private fun LegendLabel(
 }
 
 @Composable
+private fun SpoilageHistoryContainer(
+    modifier: Modifier = Modifier,
+    spoilageStatistic: ImmutableList<SpoilagePointUiModel>
+) {
+    if (spoilageStatistic.isEmpty()) {
+        Column(
+            modifier = modifier,
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            Text(
+                text = stringResource(R.string.analytics_card_empty_state),
+                style = MaterialTheme.typography.bodyMedium,
+                fontWeight = FontWeight.SemiBold
+            )
+        }
+    } else {
+        SpoilageHistoryContent(
+            modifier = modifier,
+            spoilageStatistic = spoilageStatistic
+        )
+    }
+}
+
+@Composable
 fun SpoilageHistoryContent(
     modifier: Modifier = Modifier,
-    spoilageStatistic: SpoilageStatistic = fakeWeeklySpoilageStatistic,
+    spoilageStatistic: ImmutableList<SpoilagePointUiModel> = fakeWeeklySpoilageStatistic.toImmutableList(),
 ) {
     val modelProducer = remember { CartesianChartModelProducer() }
     MaterialTheme.colorScheme
     val extendColor = AlgidyTheme.extendedColors
     LocalAlgidySpacing.current
 
-    val dates = spoilageStatistic.points.map { it.date }
     val bottomAxisValueFormatter = CartesianValueFormatter { _, value, _ ->
         val index = value.toInt()
-        dates.getOrNull(index)?.dayOfWeek
-            ?.getDisplayName(
-                TextStyle.SHORT,
-                Locale.getDefault()
-            )
-            ?: ""
+        spoilageStatistic[index].label
     }
-    val wasteSeries = spoilageStatistic.points.map { it.waste }
-    val consumedSeries = spoilageStatistic.points.map { it.consumed }
+    val wasteSeries = spoilageStatistic.map { it.waste }
+    val consumedSeries = spoilageStatistic.map { it.consumed }
     val maxCount = maxOf(
         wasteSeries.maxOrNull() ?: 0,
         consumedSeries.maxOrNull() ?: 0,
@@ -252,27 +287,4 @@ private fun calculateStep(maxValue: Int): Int {
         maxValue <= 100 -> 10
         else -> 20
     }
-}
-
-fun dynamicGradient(
-    baseColor: Color,
-    startAlpha: Float = 0.35f,
-    endAlpha: Float = 0.0f,
-    isVertical: Boolean = true
-): Brush {
-    val start = Offset.Zero
-    val end = if (isVertical) Offset(0f, Float.POSITIVE_INFINITY) else Offset(
-        Float.POSITIVE_INFINITY,
-        Float.POSITIVE_INFINITY
-    )
-
-    return Brush.linearGradient(
-        colors = listOf(
-            baseColor.copy(alpha = startAlpha),
-            baseColor.copy(alpha = (startAlpha + endAlpha) / 2f),
-            baseColor.copy(alpha = endAlpha)
-        ),
-        start = start,
-        end = end
-    )
 }

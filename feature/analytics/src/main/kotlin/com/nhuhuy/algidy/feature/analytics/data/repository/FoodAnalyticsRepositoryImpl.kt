@@ -5,14 +5,17 @@ import com.nhuhuy.algidy.core.database.dao.FoodDao
 import com.nhuhuy.algidy.core.database.entity.FoodItemEntity
 import com.nhuhuy.algidy.core.model.food.FoodStatus
 import com.nhuhuy.algidy.feature.analytics.domain.model.AnalyticsPeriod
+import com.nhuhuy.algidy.feature.analytics.domain.model.ExpiryOverviewStatistic
 import com.nhuhuy.algidy.feature.analytics.domain.model.FreshnessStatistic
 import com.nhuhuy.algidy.feature.analytics.domain.model.SpoilagePoint
 import com.nhuhuy.algidy.feature.analytics.domain.model.SpoilageStatistic
 import com.nhuhuy.algidy.feature.analytics.domain.repository.FoodAnalyticsRepository
 import com.nhuhuy.algidy.toLocalDate
 import kotlinx.coroutines.withContext
+import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.temporal.ChronoUnit
+import java.time.temporal.TemporalAdjusters
 
 class FoodAnalyticsRepositoryImpl(
     private val dispatchers: AppDispatchers,
@@ -117,6 +120,36 @@ class FoodAnalyticsRepositoryImpl(
             SpoilageStatistic(
                 period = period,
                 points = points,
+            )
+        }
+    }
+
+    override suspend fun getOverviewStatistic(): ExpiryOverviewStatistic {
+        return withContext(dispatchers.io) {
+            val now = LocalDate.now()
+            val endOfWeek = now.with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY))
+
+            val activeFoods = foodDao
+                .getAllFoodItemEntities()
+                .filter { item ->
+                    item.status == FoodStatus.ACTIVE
+                }
+
+            val expiryCount = activeFoods.count { item ->
+                val expiryDate = item.expiryDate.toLocalDate()
+                expiryDate.isBefore(now)
+            }
+
+            val expiringCount = activeFoods.count { item ->
+                val expiryDate = item.expiryDate.toLocalDate()
+
+                !expiryDate.isBefore(now) &&
+                        !expiryDate.isAfter(endOfWeek)
+            }
+
+            ExpiryOverviewStatistic(
+                expiryCount = expiryCount,
+                expiringCount = expiringCount,
             )
         }
     }

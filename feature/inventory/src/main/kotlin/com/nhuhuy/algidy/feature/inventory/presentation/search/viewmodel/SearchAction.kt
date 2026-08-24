@@ -7,6 +7,7 @@ import com.nhuhuy.algidy.feature.inventory.presentation.model.FoodUiModel
 sealed interface SearchAction : UiAction {
     data object OnDismiss : SearchAction
     data class OnQueryChange(val newQuery: String) : SearchAction
+    data class OnEditSheetOpen(val food: FoodUiModel) : SearchAction
     data class OnSearch(val query: String) : SearchAction
     data class OnExpandedChange(val expanded: Boolean) : SearchAction
     data object OnClearQuery : SearchAction

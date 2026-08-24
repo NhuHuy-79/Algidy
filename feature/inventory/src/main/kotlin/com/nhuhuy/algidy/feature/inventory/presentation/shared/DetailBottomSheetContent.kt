@@ -28,19 +28,20 @@ import com.nhuhuy.algidy.core.designsystem.tokens.LocalAlgidyShapes
 import com.nhuhuy.algidy.core.designsystem.tokens.LocalAlgidySpacing
 import com.nhuhuy.algidy.core.presentation.component.toUiText
 import com.nhuhuy.algidy.core.presentation.utils.toStringRes
+import com.nhuhuy.algidy.feature.inventory.presentation.shared.viewmodel.DetailUiState
 import com.nhuhuy.algidy.toReadableText
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun DetailBottomSheetContent(
-    uiState: DetailBottomSheetUiState,
+    uiState: DetailUiState,
     onEditClick: () -> Unit,
     onConsumedClick: () -> Unit,
     onWastedClick: () -> Unit
 ) {
     val localShape = LocalAlgidyShapes.current
     val localSpacing = LocalAlgidySpacing.current
-    val foodItem = uiState.foodItem
+    val foodItem = uiState.currentFoodItem
 
     Column(
         modifier = Modifier

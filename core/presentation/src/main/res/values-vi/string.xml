@@ -163,13 +163,17 @@
 
     <!-- Analytics Screen -->
     <string name="analytics_title">Thống kê</string>
+    <string name="analytics_period_month">Trong Tháng</string>
+    <string name="analytics_expiring">Sắp hết hạn</string>
     <string name="analytics_subtitle">Tổng quan về lãng phí và tác động</string>
     <string name="analytics_card_consumed">Tiêu thụ</string>
     <string name="analytics_card_wasted">Lãng phí</string>
     <string name="analytics_card_others">Khác</string>
     <string name="analytics_card_spoilage_history">Lịch sử Lãng Phí</string>
     <string name="analytics_card_weekly_freshness">Độ tươi Tuần này</string>
+    <string name="analytics_card_monthly_freshness">Độ tươi Tháng này</string>
 
+    <string name="analytics_card_empty_state">Dữ liệu chưa đầy đủ</string>
     <string name="analytics_weekly_card">%1$s/7 ngày</string>
     <string name="analytics_weekly_card_content">Bắt đầu từ%1$s</string>
 
@@ -342,4 +346,6 @@
     <string name="food_entry_expiry_date">Ngày Hết hạn</string>
     <string name="food_entry_expiry_date_placeholder">Chọn Ngày Hết hạn</string>
     <string name="food_entry_category">Danh mục</string>
+    <string name="analytics_period_week">Trong Tuần</string>
+    <string name="analytics_expired">Hết hạn</string>
 </resources>

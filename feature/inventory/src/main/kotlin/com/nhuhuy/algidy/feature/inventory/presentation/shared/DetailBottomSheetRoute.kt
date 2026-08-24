@@ -5,13 +5,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.rememberViewModelStoreOwner
 import com.nhuhuy.algidy.core.designsystem.component.AlgidyAlertDialog
 import com.nhuhuy.algidy.core.designsystem.component.AppBottomSheet
 import com.nhuhuy.algidy.core.designsystem.icon.AlgidyIcons
 import com.nhuhuy.algidy.core.designsystem.icon.toImageVector
+import com.nhuhuy.algidy.core.presentation.ObserveEffect
 import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.feature.inventory.presentation.model.FoodUiModel
+import com.nhuhuy.algidy.feature.inventory.presentation.shared.viewmodel.DetailAction
+import com.nhuhuy.algidy.feature.inventory.presentation.shared.viewmodel.DetailEvent
+import com.nhuhuy.algidy.feature.inventory.presentation.shared.viewmodel.DetailOverlay
+import com.nhuhuy.algidy.feature.inventory.presentation.shared.viewmodel.DetailUiState
 import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
 
@@ -19,36 +23,42 @@ import org.koin.core.parameter.parametersOf
 @Composable
 fun DetailBottomSheetRoute(
     foodItem: FoodUiModel,
-    onDismiss: () -> Unit
+    onDismiss: () -> Unit,
+    onNavigateToEdit: (FoodUiModel) -> Unit,
 ) {
-    val viewModelStoreOwner = rememberViewModelStoreOwner()
-    val viewModel: DetailBottomSheetViewModel = koinViewModel(
-        viewModelStoreOwner = viewModelStoreOwner
-    ) { parametersOf(foodItem) }
+    val viewModel: DetailBottomSheetViewModel = koinViewModel { parametersOf(foodItem) }
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val onAction = viewModel::onAction
+
+    ObserveEffect(viewModel.uiEvent) { event ->
+        when (event) {
+            DetailEvent.OnDismiss -> onDismiss()
+            DetailEvent.NavigateToEdit -> onNavigateToEdit(foodItem)
+        }
+    }
 
     AppBottomSheet(
         onDismiss = onDismiss,
     ) {
         DetailBottomSheetContent(
             uiState = uiState,
-            onEditClick = { viewModel.onEditClick(onDismiss) },
-            onConsumedClick = viewModel::onConsumedClick,
-            onWastedClick = viewModel::onWastedClick
+            onEditClick = { onAction(DetailAction.OnEditClick) },
+            onConsumedClick = { onAction(DetailAction.OnConsumeClick) },
+            onWastedClick = { onAction(DetailAction.OnWasteClick) }
         )
     }
 
     DetailBottomSheetOverlays(
         uiState = uiState,
-        onDismissOverlay = viewModel::onDismissOverlay,
-        onConsumeConfirm = { viewModel.onConsumeConfirm(onDismiss) },
-        onWasteConfirm = { viewModel.onWasteConfirm(onDismiss) }
+        onDismissOverlay = { onAction(DetailAction.OnDismiss) },
+        onConsumeConfirm = { onAction(DetailAction.OnConsumeClick) },
+        onWasteConfirm = { onAction(DetailAction.OnWasteClick) }
     )
 }
 
 @Composable
 fun DetailBottomSheetOverlays(
-    uiState: DetailBottomSheetUiState,
+    uiState: DetailUiState,
     onDismissOverlay: () -> Unit,
     onConsumeConfirm: () -> Unit,
     onWasteConfirm: () -> Unit

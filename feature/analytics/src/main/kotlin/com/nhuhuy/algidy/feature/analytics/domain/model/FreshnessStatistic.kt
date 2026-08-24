@@ -3,16 +3,20 @@ package com.nhuhuy.algidy.feature.analytics.domain.model
 import com.nhuhuy.algidy.core.model.food.Freshness
 
 data class FreshnessStatistic(
-    val fresh: Int,
-    val urgent: Int,
-    val warning: Int,
-    val expiry: Int
+    val fresh: Int = 0,
+    val urgent: Int = 0,
+    val warning: Int = 0,
+    val expiry: Int = 0
 ) {
     val sum = fresh + urgent + warning + expiry
-    val freshPercent = fresh.toFloat() / sum
-    val urgentPercent = urgent.toFloat() / sum
-    val warningPercent = warning.toFloat() / sum
-    val expiryPercent = expiry.toFloat() / sum
+    val freshPercent = safePercent(fresh.toFloat(), sum)
+    val urgentPercent = safePercent(urgent.toFloat(), sum)
+    val warningPercent = safePercent(warning.toFloat(), sum)
+    val expiryPercent = safePercent(expiry.toFloat(), sum)
+}
+
+private fun safePercent(value: Float, sum: Int): Float {
+    return if (sum == 0) 0f else value / sum
 }
 
 val fakeFreshnessStatistic = FreshnessStatistic(
