@@ -8,10 +8,10 @@ import androidx.compose.ui.graphics.Color
 data class CameraColorScheme(
     val background: Color = surfaceDark,
     val foreground: Color = onSurfaceDark,
-    val primary: Color = primaryLightMediumContrast,
-    val onPrimary: Color = onPrimaryLightMediumContrast,
-    val secondaryContainer: Color = secondaryLight,
-    val onSecondaryContainer: Color = onSecondaryLight
+    val primaryContainer: Color = primaryContainerDark,
+    val onPrimaryContainer: Color = onPrimaryContainerDark,
+    val secondaryContainer: Color = secondaryDark,
+    val onSecondaryContainer: Color = onSecondaryDark
 )
 
 val LocalCameraColorScheme = staticCompositionLocalOf { CameraColorScheme() }

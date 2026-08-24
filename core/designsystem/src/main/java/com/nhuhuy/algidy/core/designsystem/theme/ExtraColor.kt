@@ -1,7 +1,9 @@
 package com.nhuhuy.algidy.core.designsystem.theme
 
+import androidx.compose.material3.ColorScheme
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
+import com.materialkolor.ktx.harmonize
 
 data class FoodStateColors(
     // --- FRESHNESS STATES ---
@@ -97,3 +99,26 @@ val DarkFoodStateColors = FoodStateColors(
 
 // Provider
 val LocalFoodStateColors = staticCompositionLocalOf { LightFoodStateColors }
+
+fun FoodStateColors.harmonize(colorScheme: ColorScheme): FoodStateColors {
+    return this.copy(
+        fresh = fresh.harmonize(colorScheme.primary),
+        notice = notice.harmonize(colorScheme.primary),
+        warning = warning.harmonize(colorScheme.primary),
+        expired = expired.harmonize(colorScheme.primary),
+        wasted = wasted.harmonize(colorScheme.primary),
+        consumed = consumed.harmonize(colorScheme.primary),
+        freshContainer = freshContainer.harmonize(colorScheme.primary),
+        noticeContainer = noticeContainer.harmonize(colorScheme.primary),
+        warningContainer = warningContainer.harmonize(colorScheme.primary),
+        expiredContainer = expiredContainer.harmonize(colorScheme.primary),
+        onFresh = onFresh.harmonize(colorScheme.onPrimary),
+        onNotice = onNotice.harmonize(colorScheme.onPrimary),
+        onWarning = onWarning.harmonize(colorScheme.onPrimary),
+        onExpired = onExpired.harmonize(colorScheme.onPrimary),
+        onFreshContainer = onFreshContainer.harmonize(colorScheme.onPrimaryContainer),
+        onNoticeContainer = onNoticeContainer.harmonize(colorScheme.onPrimaryContainer),
+        onWarningContainer = onWarningContainer.harmonize(colorScheme.onPrimaryContainer),
+        onExpiredContainer = onExpiredContainer.harmonize(colorScheme.onPrimaryContainer),
+    )
+}

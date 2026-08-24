@@ -25,6 +25,9 @@ interface FoodDao : BaseDao<FoodItemEntity> {
     @Query("SELECT * FROM food_items ORDER BY expiry_date ASC")
     fun getAllFoodItems(): List<FoodItemWithCategory>
 
+    @Query("SELECT * FROM food_items ORDER BY expiry_date ASC")
+    fun getAllFoodItemEntities(): List<FoodItemEntity>
+
     @Transaction
     @Query("SELECT * FROM food_items WHERE status = :status ORDER BY expiry_date ASC")
     fun observeAllFoodItemsByStatus(status: FoodStatus): Flow<List<FoodItemWithCategory>>

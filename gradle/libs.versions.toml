@@ -151,6 +151,7 @@ aboutlibraries-compose = { module = "com.mikepenz:aboutlibraries-compose-m3", ve
 
 #Vico library
 vico-compose-m3 = { group = "com.patrykandpatrick.vico", name = "compose-m3", version.ref = "vico" }
+vico-compose = { group = "com.patrykandpatrick.vico", name = "compose", version.ref = "vico" }
 vico-compose-glance = { group = "com.patrykandpatrick.vico", name = "compose-glance", version.ref = "vico" }
 
 [plugins]

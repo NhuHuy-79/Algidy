@@ -31,19 +31,20 @@ fun CardLayout(
         containerColor = MaterialTheme.colorScheme.surfaceContainer,
         contentColor = MaterialTheme.colorScheme.onSurface
     ),
+    shape: RoundedCornerShape = RoundedCornerShape(16.dp),
     content: @Composable ColumnScope.() -> Unit
 ) {
     Card(
         modifier = modifier
             .wrapContentHeight(),
-        shape = RoundedCornerShape(16.dp),
+        shape = shape,
         colors = cardColors
     ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
+            verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),

@@ -101,7 +101,10 @@ fun AlgidyTheme(
         else -> LightColorScheme
     }
 
-    val extendedColors = if (darkTheme) DarkFoodStateColors else LightFoodStateColors
+    val extendedColors = if (darkTheme) DarkFoodStateColors
+    else LightFoodStateColors
+
+
     val dynamicFontFamily = getTypographyForFont()
 
     val view = LocalView.current
@@ -115,7 +118,7 @@ fun AlgidyTheme(
     }
 
     CompositionLocalProvider(
-        LocalFoodStateColors provides extendedColors,
+        LocalFoodStateColors provides extendedColors.harmonize(colorScheme),
         LocalAlgidySpacing provides AlgidySpacing(),
         LocalAlgidyShapes provides AlgidyShapes(),
     ) {

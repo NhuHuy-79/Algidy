@@ -38,8 +38,8 @@ fun InventoryFabGroup(
                 alignment = Alignment.BottomEnd
             ),
             onClick = onCameraClick,
-            containerColor = scheme.primaryContainer,
-            contentColor = scheme.onPrimaryContainer
+            containerColor = scheme.tertiaryContainer,
+            contentColor = scheme.onTertiaryContainer
         ) {
             AppIcon(iconProvider = algidyIcon.ScanFood)
         }
@@ -49,8 +49,8 @@ fun InventoryFabGroup(
                 visible = visible,
                 alignment = Alignment.BottomEnd
             ),
-            containerColor = scheme.primary,
-            contentColor = scheme.onPrimary,
+            containerColor = scheme.primaryContainer,
+            contentColor = scheme.onPrimaryContainer,
             onClick = onAddClick
         ) {
             AppIcon(

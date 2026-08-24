@@ -13,7 +13,8 @@ dependencies {
     implementation(libs.androidx.camera.view)
     implementation(libs.androidx.camera.extensions1)
     implementation(libs.androidx.camera.compose)
-
     implementation(libs.play.services.mlkit.barcode.scanning)
     implementation(libs.guava)
+
+    implementation(project(":feature:food-entry"))
 }

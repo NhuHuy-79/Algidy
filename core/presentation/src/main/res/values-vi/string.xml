@@ -111,8 +111,7 @@
 
     <plurals name="inventory_selected_title">
         <item quantity="zero">mục đã chọn.</item>
-        <item quantity="one">mục đã chọn.</item>
-        <item quantity="many">các mục đã chọn.</item>
+        <item quantity="other">mục đã chọn.</item>
     </plurals>
 
     <!--Food Entry Screen-->
@@ -280,30 +279,33 @@
 
     <string name="main_settings_title_page">Cài đặt</string>
     <string name="main_settings_subtitle">Cài đặt ứng dụng chung</string>
-    <string name="privacy_policy_content">CHÍNH SÁCH BẢO MẬT CHO ALGIDY
-Cập nhật lần cuối: Tháng Sáu 2026
+    <string name="privacy_policy_content">
+    CHÍNH SÁCH BẢO MẬT CHO ALGIDY\n
+    Cập nhật lần cuối: Tháng Sáu 2026\n\n
 
-Chào mừng bạn đến với Algidy. Chúng tôi cam kết bảo vệ quyền riêng tư và dữ liệu cá nhân của bạn. Chính sách bảo mật này giải thích cách Algidy thu thập, sử dụng và bảo vệ thông tin của bạn khi bạn sử dụng ứng dụng của chúng tôi.
+    Chào mừng bạn đến với Algidy. Chúng tôi cam kết bảo vệ quyền riêng tư và dữ liệu cá nhân của bạn. Chính sách bảo mật này giải thích cách Algidy thu thập, sử dụng và bảo vệ thông tin của bạn khi bạn sử dụng ứng dụng của chúng tôi.\n\n
 
-1. Thu thập và sử dụng thông tin
-Algidy được thiết kế như một ứng dụng ưu tiên ngoại tuyến. Phần lớn dữ liệu của bạn liên quan đến quản lý thực phẩm và hàng tồn kho được lưu trữ cục bộ và an toàn trên thiết bị của bạn bằng cách sử dụng Cơ sở dữ liệu phòng.
+    1. Thu thập và sử dụng thông tin\n
+    Algidy được thiết kế như một ứng dụng ưu tiên ngoại tuyến. Phần lớn dữ liệu của bạn liên quan đến quản lý thực phẩm và hàng tồn kho được lưu trữ cục bộ và an toàn trên thiết bị của bạn bằng cách sử dụng Cơ sở dữ liệu phòng.\n\n
 
-Tuy nhiên, để cung cấp các chức năng cụ thể, chúng tôi có thể yêu cầu quyền truy cập vào các tính năng thiết bị sau:
+    Tuy nhiên, để cung cấp các chức năng cụ thể, chúng tôi có thể yêu cầu quyền truy cập vào các tính năng thiết bị sau:\n\n
 
-- Máy ảnh: Chúng tôi yêu cầu quyền Máy ảnh để bật các tính năng như quét mã vạch thực phẩm hoặc chụp ảnh hồ sơ sản phẩm. Tất cả quá trình xử lý hình ảnh được xử lý ngay lập tức trên thiết bị của bạn và không bao giờ được tải lên bất kỳ máy chủ từ xa nào mà không có sự đồng ý rõ ràng của bạn.
+    - Máy ảnh: Chúng tôi yêu cầu quyền Máy ảnh để bật các tính năng như quét mã vạch thực phẩm hoặc chụp ảnh hồ sơ sản phẩm. Tất cả quá trình xử lý hình ảnh được xử lý ngay lập tức trên thiết bị của bạn và không bao giờ được tải lên bất kỳ máy chủ từ xa nào mà không có sự đồng ý rõ ràng của bạn.\n\n
 
-- Thông báo: Ứng dụng yêu cầu quyền gửi thông báo nhắc nhở bạn về ngày hết hạn thực phẩm, giúp bạn giảm lãng phí thực phẩm.
+    - Thông báo: Ứng dụng yêu cầu quyền gửi thông báo nhắc nhở bạn về ngày hết hạn thực phẩm, giúp bạn giảm lãng phí thực phẩm.\n\n
 
-- Dữ liệu phân tích và truy cập Internet: Chúng tôi sử dụng các dịch vụ phân tích ẩn danh để thu thập dữ liệu kỹ thuật liên quan đến hiệu suất ứng dụng và nhật ký sự cố. Sự cho phép của Internet được sử dụng nghiêm ngặt để truyền các báo cáo chẩn đoán này.
+    - Dữ liệu phân tích và truy cập Internet: Chúng tôi sử dụng các dịch vụ phân tích ẩn danh để thu thập dữ liệu kỹ thuật liên quan đến hiệu suất ứng dụng và nhật ký sự cố. Sự cho phép của Internet được sử dụng nghiêm ngặt để truyền các báo cáo chẩn đoán này.\n\n
 
-2. Lưu trữ dữ liệu
-Tất cả nhật ký hàng tồn kho, danh mục thực phẩm và lịch sử sử dụng ứng dụng được chứa hoàn toàn trong bộ nhớ thiết bị cục bộ của bạn. Nếu bạn gỡ cài đặt ứng dụng, tất cả thông tin này sẽ bị xóa vĩnh viễn và không thể khôi phục được.
+    2. Lưu trữ dữ liệu\n
+    Tất cả nhật ký hàng tồn kho, danh mục thực phẩm và lịch sử sử dụng ứng dụng được chứa hoàn toàn trong bộ nhớ thiết bị cục bộ của bạn. Nếu bạn gỡ cài đặt ứng dụng, tất cả thông tin này sẽ bị xóa vĩnh viễn và không thể khôi phục được.\n\n
 
-3. Chia sẻ dữ liệu của bên thứ ba
-Chúng tôi không bán, trao đổi hoặc chuyển dữ liệu cá nhân hoặc nhật ký sử dụng của bạn cho bất kỳ bên ngoài nào.
+    3. Chia sẻ dữ liệu của bên thứ ba\n
+    Chúng tôi không bán, trao đổi hoặc chuyển dữ liệu cá nhân hoặc nhật ký sử dụng của bạn cho bất kỳ bên ngoài nào.\n\n
 
-4. Liên hệ với chúng tôi
-Nếu bạn có bất kỳ câu hỏi hoặc đề xuất nào liên quan đến Chính sách quyền riêng tư này, vui lòng liên hệ với nhà phát triển qua email tại: nhuhuy.dev\@gmail.com</string>
+    4. Liên hệ với chúng tôi\n
+    Nếu bạn có bất kỳ câu hỏi hoặc đề xuất nào liên quan đến Chính sách quyền riêng tư này, vui lòng liên hệ với nhà phát triển qua email tại: nhuhuy.dev@gmail.com
+</string>
+
     <!--Notification-->
 
     <!--Notification Features-->

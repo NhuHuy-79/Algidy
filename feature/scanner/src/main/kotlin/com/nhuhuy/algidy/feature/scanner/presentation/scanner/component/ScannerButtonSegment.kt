@@ -12,7 +12,6 @@ import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.FilledTonalIconButton
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.LoadingIndicator
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -55,7 +54,7 @@ fun AutoScanButton(
     Box(
         modifier = modifier
             .background(
-                color = MaterialTheme.colorScheme.primary,
+                color = cameraScheme.primaryContainer,
                 shape = CircleShape
             )
             .clickable(
@@ -72,16 +71,16 @@ fun AutoScanButton(
                 LoadingIndicator(
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(localSpacing.small),
-                    color = cameraScheme.onPrimary
+                        .padding(localSpacing.extraSmall),
+                    color = cameraScheme.onPrimaryContainer
                 )
             } else {
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(localSpacing.small)
+                        .padding(localSpacing.extraSmall)
                         .background(
-                            color = cameraScheme.onPrimary,
+                            color = cameraScheme.onPrimaryContainer,
                             shape = CircleShape
                         ),
                 )

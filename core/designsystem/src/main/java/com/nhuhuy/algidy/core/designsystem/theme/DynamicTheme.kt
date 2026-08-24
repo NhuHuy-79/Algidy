@@ -36,14 +36,13 @@ fun AlgidyDynamicTheme(
 
     val cameraColorScheme = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
         val darkScheme = dynamicDarkColorScheme(context)
-        val lightScheme = dynamicLightColorScheme(context)
         CameraColorScheme(
             background = darkScheme.surface,
             foreground = darkScheme.onSurface,
-            primary = lightScheme.primary,
-            onPrimary = lightScheme.onPrimary,
-            secondaryContainer = lightScheme.secondary,
-            onSecondaryContainer = lightScheme.onSecondary
+            primaryContainer = darkScheme.primaryContainer,
+            onPrimaryContainer = darkScheme.onPrimaryContainer,
+            secondaryContainer = darkScheme.secondaryContainer,
+            onSecondaryContainer = darkScheme.onSecondaryContainer
         )
     } else CameraColorScheme()
 

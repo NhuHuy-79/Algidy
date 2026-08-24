@@ -123,7 +123,7 @@ class ScannerViewModel(
             _uiState.product {
                 copy(
                     scanResult = UiResult.Loading,
-                    overlay = ScannerOverlay.LOADING_DIALOG
+                    overlay = ScannerOverlay.LoadingDialog
                 )
             }
 
@@ -169,7 +169,7 @@ class ScannerViewModel(
         viewModelScope.launch {
             _uiState.product {
                 copy(
-                    overlay = ScannerOverlay.LOADING_DIALOG,
+                    overlay = ScannerOverlay.LoadingDialog,
                     isAutoScanned = false,
                     labelEvent = LabelEvent.SCANNING,
                     scanResult = UiResult.Loading
@@ -218,7 +218,7 @@ class ScannerViewModel(
                 viewModelScope.launch {
                     _uiState.product {
                         copy(
-                            overlay = ScannerOverlay.LOADING_DIALOG
+                            overlay = ScannerOverlay.LoadingDialog
                         )
                     }
 
@@ -261,7 +261,7 @@ class ScannerViewModel(
         _uiState.product {
             copy(
                 labelEvent = LabelEvent.NONE,
-                overlay = ScannerOverlay.BARCODE_DIALOG,
+                overlay = ScannerOverlay.BarcodeScanningDialog,
                 isAutoScanned = false
             )
         }
@@ -273,7 +273,7 @@ class ScannerViewModel(
         when (action) {
             WarningDialogAction.Confirm -> {
                 _uiState.product {
-                    copy(overlay = ScannerOverlay.BARCODE_DIALOG)
+                    copy(overlay = ScannerOverlay.BarcodeScanningDialog)
                 }
             }
         }

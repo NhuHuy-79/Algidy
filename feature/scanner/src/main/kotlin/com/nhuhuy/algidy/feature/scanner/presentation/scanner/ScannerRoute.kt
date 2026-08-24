@@ -12,6 +12,7 @@ import com.nhuhuy.algidy.core.model.food.FoodItem
 import com.nhuhuy.algidy.core.presentation.ObserveEffect
 import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.core.presentation.component.TextFieldDialog
+import com.nhuhuy.algidy.feature.food_entry.navigation.FoodEntryRoute
 import com.nhuhuy.algidy.feature.scanner.presentation.scanner.component.dialog.ScannerLoadingDialog
 import com.nhuhuy.algidy.feature.scanner.presentation.scanner.viewmodel.AddBarcodeDialogAction.OnConfirm
 import com.nhuhuy.algidy.feature.scanner.presentation.scanner.viewmodel.AddBarcodeDialogAction.OnValueChange
@@ -54,11 +55,11 @@ fun ScannerRoute(
 
         when (uiState.overlay) {
             ScannerOverlay.NONE -> Unit
-            ScannerOverlay.LOADING_DIALOG -> {
+            ScannerOverlay.LoadingDialog -> {
                 ScannerLoadingDialog(onDismissRequest = { onAction(OnDismissRequest) })
             }
 
-            ScannerOverlay.BARCODE_DIALOG -> TextFieldDialog(
+            ScannerOverlay.BarcodeScanningDialog -> TextFieldDialog(
                 value = uiState.barCodeInput,
                 title = stringResource(R.string.scanner_barcode_dialog_title),
                 confirmText = stringResource(R.string.scanner_barcode_confirm),
@@ -67,7 +68,7 @@ fun ScannerRoute(
                 onConfirm = { onAction(OnConfirm) }
             )
 
-            ScannerOverlay.WARNING_DIALOG -> AlgidyAlertDialog(
+            ScannerOverlay.WarningDialog -> AlgidyAlertDialog(
                 onConfirm = { onAction(WarningDialogAction.Confirm) },
                 onDismissRequest = { onAction(OnDismissRequest) },
                 title = stringResource(R.string.scanner_warning_dialog_title),
@@ -75,6 +76,13 @@ fun ScannerRoute(
                 dismissText = stringResource(R.string.scanner_warning_dialog_dismiss),
                 confirmText = stringResource(R.string.scanner_warning_dialog_confirm)
             )
+
+            is ScannerOverlay.SuccessBottomSheet -> {
+                FoodEntryRoute(
+                    onDismiss = { onAction(OnDismissRequest) },
+                    foodId = "",
+                )
+            }
         }
     }
 }

@@ -19,7 +19,11 @@ enum class LabelEvent {
     NONE, AUTO_OFF, SCANNING, FAILURE, ADD_MANUALLY
 }
 
-enum class ScannerOverlay{
-    NONE, LOADING_DIALOG, BARCODE_DIALOG, WARNING_DIALOG
+sealed interface ScannerOverlay {
+    data object NONE : ScannerOverlay
+    data object LoadingDialog : ScannerOverlay
+    data object BarcodeScanningDialog : ScannerOverlay
+    data object WarningDialog : ScannerOverlay
+    data class SuccessBottomSheet(val result: FoodItem) : ScannerOverlay
 }
 

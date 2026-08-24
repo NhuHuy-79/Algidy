@@ -1,0 +1,278 @@
+package com.nhuhuy.algidy.feature.analytics.presentation.component
+
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
+import com.nhuhuy.algidy.core.designsystem.component.CardLayout
+import com.nhuhuy.algidy.core.designsystem.icon.AlgidyIcons
+import com.nhuhuy.algidy.core.designsystem.icon.toImageVector
+import com.nhuhuy.algidy.core.designsystem.theme.AlgidyTheme
+import com.nhuhuy.algidy.core.designsystem.tokens.LocalAlgidySpacing
+import com.nhuhuy.algidy.core.presentation.R
+import com.nhuhuy.algidy.core.presentation.utils.ItemPosition
+import com.nhuhuy.algidy.core.presentation.utils.toVerticalSegmentedShape
+import com.nhuhuy.algidy.feature.analytics.domain.model.SpoilageStatistic
+import com.nhuhuy.algidy.feature.analytics.domain.model.fakeWeeklySpoilageStatistic
+import com.patrykandpatrick.vico.compose.cartesian.CartesianChartHost
+import com.patrykandpatrick.vico.compose.cartesian.axis.HorizontalAxis
+import com.patrykandpatrick.vico.compose.cartesian.axis.VerticalAxis
+import com.patrykandpatrick.vico.compose.cartesian.axis.rememberAxisLabelComponent
+import com.patrykandpatrick.vico.compose.cartesian.data.CartesianChartModelProducer
+import com.patrykandpatrick.vico.compose.cartesian.data.CartesianValueFormatter
+import com.patrykandpatrick.vico.compose.cartesian.data.lineModel
+import com.patrykandpatrick.vico.compose.cartesian.layer.CartesianLayerPadding
+import com.patrykandpatrick.vico.compose.cartesian.layer.LineCartesianLayer
+import com.patrykandpatrick.vico.compose.cartesian.layer.rememberLineCartesianLayer
+import com.patrykandpatrick.vico.compose.cartesian.marker.DefaultCartesianMarker
+import com.patrykandpatrick.vico.compose.cartesian.marker.rememberDefaultCartesianMarker
+import com.patrykandpatrick.vico.compose.cartesian.rememberCartesianChart
+import com.patrykandpatrick.vico.compose.common.Fill
+import com.patrykandpatrick.vico.compose.common.component.rememberTextComponent
+import java.time.format.TextStyle
+import java.util.Locale
+
+@Composable
+fun SpoilageHistory(
+    modifier: Modifier = Modifier,
+    itemPosition: ItemPosition = ItemPosition.SINGLE,
+    spoilageStatistic: SpoilageStatistic = fakeWeeklySpoilageStatistic
+) {
+    val extendColor = AlgidyTheme.extendedColors
+    CardLayout(
+        modifier = modifier,
+        icon = AlgidyIcons.Analytics.SpoilageChart.toImageVector(),
+        title = stringResource(R.string.analytics_card_spoilage_history),
+        shape = itemPosition.toVerticalSegmentedShape(),
+        cardColors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surface,
+            contentColor = MaterialTheme.colorScheme.onSurface
+        )
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(16.dp, alignment = Alignment.End),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            LegendLabel(
+                color = extendColor.wasted,
+                legend = stringResource(R.string.analytics_card_wasted)
+            )
+
+            LegendLabel(
+                color = extendColor.consumed,
+                legend = stringResource(R.string.analytics_card_consumed)
+            )
+        }
+
+        SpoilageHistoryContent(
+            modifier = Modifier.weight(1f),
+            spoilageStatistic = spoilageStatistic
+        )
+    }
+}
+
+@Composable
+private fun LegendLabel(
+    modifier: Modifier = Modifier,
+    color: Color,
+    legend: String,
+) {
+    Row(
+        modifier = modifier,
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        Box(
+            modifier = Modifier
+                .size(8.dp)
+                .background(color = color, shape = CircleShape)
+        )
+
+        Text(
+            text = legend,
+            style = MaterialTheme.typography.labelMedium
+        )
+    }
+}
+
+@Composable
+fun SpoilageHistoryContent(
+    modifier: Modifier = Modifier,
+    spoilageStatistic: SpoilageStatistic = fakeWeeklySpoilageStatistic,
+) {
+    val modelProducer = remember { CartesianChartModelProducer() }
+    MaterialTheme.colorScheme
+    val extendColor = AlgidyTheme.extendedColors
+    LocalAlgidySpacing.current
+
+    val dates = spoilageStatistic.points.map { it.date }
+    val bottomAxisValueFormatter = CartesianValueFormatter { _, value, _ ->
+        val index = value.toInt()
+        dates.getOrNull(index)?.dayOfWeek
+            ?.getDisplayName(
+                TextStyle.SHORT,
+                Locale.getDefault()
+            )
+            ?: ""
+    }
+    val wasteSeries = spoilageStatistic.points.map { it.waste }
+    val consumedSeries = spoilageStatistic.points.map { it.consumed }
+    val maxCount = maxOf(
+        wasteSeries.maxOrNull() ?: 0,
+        consumedSeries.maxOrNull() ?: 0,
+    )
+    val chartStep = calculateStep(maxCount)
+
+
+    LaunchedEffect(Unit) {
+        modelProducer.runTransaction {
+            lineModel {
+                series(y = consumedSeries)
+                series(y = wasteSeries)
+            }
+        }
+    }
+
+    CartesianChartHost(
+        modifier = modifier,
+        chart = rememberCartesianChart(
+            rememberLineCartesianLayer(
+                lineProvider = LineCartesianLayer.LineProvider.series(
+                    LineCartesianLayer.Line(
+                        fill = LineCartesianLayer.LineFill.single(
+                            Fill(extendColor.consumed)
+                        ),
+                        areaFill = LineCartesianLayer.AreaFill.single(
+                            fill = Fill(
+                                brush = Brush.verticalGradient(
+                                    colors = listOf(
+                                        extendColor.consumed.copy(alpha = 0.24f),
+                                        extendColor.consumed.copy(alpha = 0.08f),
+                                        Color.Transparent
+                                    )
+                                )
+                            )
+                        ),
+                        interpolator = LineCartesianLayer.Interpolator.catmullRom(),
+                    ),
+                    LineCartesianLayer.Line(
+                        fill = LineCartesianLayer.LineFill.single(
+                            Fill(extendColor.wasted)
+                        ),
+                        areaFill = LineCartesianLayer.AreaFill.single(
+                            fill = Fill(
+                                brush = Brush.verticalGradient(
+                                    colors = listOf(
+                                        extendColor.wasted.copy(alpha = 0.24f),
+                                        extendColor.wasted.copy(alpha = 0.08f),
+                                        Color.Transparent
+                                    )
+                                )
+                            )
+                        ),
+                        interpolator = LineCartesianLayer.Interpolator.catmullRom(),
+                    )
+                ),
+            ),
+            marker = rememberDefaultCartesianMarker(
+                label = rememberTextComponent(style = MaterialTheme.typography.labelSmall),
+                valueFormatter = DefaultCartesianMarker.ValueFormatter.default(),
+            ),
+            markerVisibilityListener = null,
+            layerPadding = {
+                CartesianLayerPadding(
+                    /*scalableStart = localSpacing.extraSmall,
+                    scalableEnd = localSpacing.extraSmall,
+                    unscalableEnd = localSpacing.extraSmall,
+                    unscalableStart = localSpacing.extraSmall*/
+                )
+            },
+            startAxis = VerticalAxis.rememberStart(
+                line = null,
+                guideline = null,
+                tick = null,
+                label = rememberAxisLabelComponent(
+                    style = MaterialTheme.typography.labelMedium.copy(
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+                ),
+                valueFormatter = CartesianValueFormatter.decimal(),
+                itemPlacer = VerticalAxis.ItemPlacer.step(
+                    step = { chartStep.toDouble() }
+                )
+            ),
+            bottomAxis = HorizontalAxis.rememberBottom(
+                line = null,
+                tick = null,
+                guideline = null,
+                label = rememberAxisLabelComponent(
+                    style = MaterialTheme.typography.labelMedium.copy(
+                        color = MaterialTheme.colorScheme.onSurface
+                    ),
+
+                    ),
+                valueFormatter = bottomAxisValueFormatter,
+                itemPlacer = remember {
+                    HorizontalAxis.ItemPlacer.aligned(
+                        spacing = { 1 },
+                        offset = { 0 },
+                        shiftExtremeLines = true,
+                        addExtremeLabelPadding = true
+                    )
+                },
+            ),
+        ),
+        animateIn = false,
+        modelProducer = modelProducer,
+    )
+}
+
+private fun calculateStep(maxValue: Int): Int {
+    return when {
+        maxValue <= 10 -> 1
+        maxValue <= 20 -> 2
+        maxValue <= 50 -> 5
+        maxValue <= 100 -> 10
+        else -> 20
+    }
+}
+
+fun dynamicGradient(
+    baseColor: Color,
+    startAlpha: Float = 0.35f,
+    endAlpha: Float = 0.0f,
+    isVertical: Boolean = true
+): Brush {
+    val start = Offset.Zero
+    val end = if (isVertical) Offset(0f, Float.POSITIVE_INFINITY) else Offset(
+        Float.POSITIVE_INFINITY,
+        Float.POSITIVE_INFINITY
+    )
+
+    return Brush.linearGradient(
+        colors = listOf(
+            baseColor.copy(alpha = startAlpha),
+            baseColor.copy(alpha = (startAlpha + endAlpha) / 2f),
+            baseColor.copy(alpha = endAlpha)
+        ),
+        start = start,
+        end = end
+    )
+}

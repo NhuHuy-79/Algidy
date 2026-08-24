@@ -114,7 +114,6 @@
         <item quantity="zero">selected item.</item>
         <item quantity="other">selected item.</item>
         <item quantity="one">selected item.</item>
-        <item quantity="many">selected items.</item>
     </plurals>
 
     <!--Food Entry Screen-->

@@ -3,9 +3,10 @@
 package com.nhuhuy.algidy.feature.analytics.presentation
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
@@ -21,20 +22,19 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MediumFlexibleTopAppBar
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.nhuhuy.algidy.core.model.food.Freshness
+import com.nhuhuy.algidy.core.designsystem.theme.AlgidyTheme
 import com.nhuhuy.algidy.core.presentation.R
-import com.nhuhuy.algidy.feature.analytics.presentation.component.SpoilageHistoryChart
-import com.nhuhuy.algidy.feature.analytics.presentation.component.WeeklyFreshnessChart
-import com.nhuhuy.algidy.feature.analytics.presentation.new_component.AnalyticsOverview
+import com.nhuhuy.algidy.core.presentation.utils.ItemPosition
+import com.nhuhuy.algidy.feature.analytics.domain.model.fakeFreshnessStatistic
+import com.nhuhuy.algidy.feature.analytics.presentation.component.AnalyticsState
+import com.nhuhuy.algidy.feature.analytics.presentation.component.SpoilageHistory
+import com.nhuhuy.algidy.feature.analytics.presentation.component.WeeklyFreshness
 import com.nhuhuy.algidy.feature.analytics.presentation.viewmodel.AnalyticsAction
 import com.nhuhuy.algidy.feature.analytics.presentation.viewmodel.AnalyticsUiState
 
@@ -45,11 +45,16 @@ fun AnalyticsScreen(
     onBackPress: () -> Unit,
     onAction: (AnalyticsAction) -> Unit,
 ) {
-    var selectedFreshness by remember { mutableStateOf(Freshness.FRESH) }
+    val extendColor = AlgidyTheme.extendedColors
     Scaffold(
         modifier = Modifier.fillMaxSize(),
+        containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
         topBar = {
             MediumFlexibleTopAppBar(
+                modifier = Modifier.fillMaxWidth(),
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+                ),
                 navigationIcon = {
                     IconButton(
                         onClick = onBackPress
@@ -76,56 +81,62 @@ fun AnalyticsScreen(
             )
         }
     ) { paddingValues ->
-        BoxWithConstraints(
+        LazyVerticalStaggeredGrid(
+            columns = StaggeredGridCells.Fixed(2),
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues)
+                .padding(paddingValues),
+            contentPadding = PaddingValues(
+                start = 16.dp,
+                top = 16.dp,
+                end = 16.dp,
+                bottom = 96.dp
+            ),
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
         ) {
-            //First Page
-            val itemSpacing = 24.dp
-            val mainCardWeeklyHeight = 64.dp
-            val overallChartHeight = maxHeight * 0.25f
-            val newWeeklyFreshnessChart =
-                maxHeight - overallChartHeight - mainCardWeeklyHeight - itemSpacing * 3
+            item(span = StaggeredGridItemSpan.SingleLane) {
+                AnalyticsState(
+                    title = "Expired",
+                    content = "12",
+                    containerColor = extendColor.expired,
+                    contentColor = extendColor.onExpired
+                )
+            }
 
-            //Two Page
-            val bottomSpacing = 16.dp
-            val spoilageChartHeight = (maxHeight - bottomSpacing) * 0.55f
+            item(span = StaggeredGridItemSpan.SingleLane) {
+                AnalyticsState(
+                    title = "Expiring",
+                    content = "12",
+                    containerColor = extendColor.notice,
+                    contentColor = extendColor.onNotice
+                )
+            }
 
-            LazyVerticalStaggeredGrid(
-                columns = StaggeredGridCells.Fixed(2),
-                modifier = Modifier.fillMaxSize(),
-                contentPadding = PaddingValues(
-                    start = 16.dp,
-                    top = 16.dp,
-                    end = 16.dp,
-                    bottom = 72.dp
-                ),
-                horizontalArrangement = Arrangement.spacedBy(16.dp),
-                verticalItemSpacing = itemSpacing
-            ) {
-                item(span = StaggeredGridItemSpan.FullLine) {
-                    AnalyticsOverview(
-                        foodCount = 12,
-                        expiringFoodCount = 4,
-                        expiredFoodCount = 8
-                    )
-                }
-                item(span = StaggeredGridItemSpan.FullLine) {
-                    WeeklyFreshnessChart(
-                        modifier = Modifier.height(newWeeklyFreshnessChart),
-                        selectedFreshness = selectedFreshness,
-                        uiModel = uiState.expiryChartUiModel,
-                        onSelectFreshness = { freshness -> selectedFreshness = freshness }
-                    )
-                }
+            item(span = StaggeredGridItemSpan.FullLine) {
+                Spacer(modifier = Modifier.height(24.dp))
+            }
 
-                item(span = StaggeredGridItemSpan.FullLine) {
-                    SpoilageHistoryChart(
-                        modifier = Modifier.height(spoilageChartHeight),
-                        uiModel = uiState.spoilageChartUiModel
-                    )
-                }
+            item(span = StaggeredGridItemSpan.FullLine) {
+                WeeklyFreshness(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(300.dp),
+                    itemPosition = ItemPosition.TOP,
+                    freshnessStatistic = fakeFreshnessStatistic
+                )
+            }
+
+            item(span = StaggeredGridItemSpan.FullLine) {
+                Spacer(modifier = Modifier.height(4.dp))
+            }
+
+            item(span = StaggeredGridItemSpan.FullLine) {
+                SpoilageHistory(
+                    itemPosition = ItemPosition.BOTTOM,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(320.dp),
+                )
             }
         }
     }
