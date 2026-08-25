@@ -7,6 +7,8 @@ import java.time.LocalDateTime
 import java.time.ZoneId
 
 fun Long.toReadableText(): String {
+    if (this == -1L) return ""
+
     val date = Instant.ofEpochMilli(this)
         .atZone(ZoneId.systemDefault())
         .toLocalDate()

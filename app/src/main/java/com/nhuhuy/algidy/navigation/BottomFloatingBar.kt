@@ -64,7 +64,6 @@ enum class BottomBarItem(
 fun NavKey.toBottomBarItem(): BottomBarItem? {
     return when (this) {
         Destination.Analytics -> BottomBarItem.ANALYTICS
-        is Destination.FoodEntry -> null
         is Destination.Inventory, Destination.Scanner -> BottomBarItem.HOME
         is Destination.Setting -> BottomBarItem.SETTINGS
         else -> null
@@ -73,7 +72,6 @@ fun NavKey.toBottomBarItem(): BottomBarItem? {
 
 fun hideBottomBar(currentDestination: NavKey?): Boolean {
     return when (currentDestination) {
-        is Destination.FoodEntry -> true
         is Destination.Scanner -> true
         else -> false
     }

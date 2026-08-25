@@ -3,14 +3,13 @@ package com.nhuhuy.algidy.feature.analytics.presentation.component
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.height
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MenuItemShapes
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -39,21 +38,17 @@ fun AnalyticsFilterButton(
 
     Box(
         modifier = modifier,
-        contentAlignment = Alignment.Center
     ) {
-        Button(
+        TextButton(
             modifier = Modifier.height(48.dp),
             shape = localShape.extraLarge,
             onClick = { expand = !expand },
-            colors = ButtonDefaults.buttonColors(
-                containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                contentColor = MaterialTheme.colorScheme.onSecondaryContainer
-            )
         ) {
             Text(
                 text = stringResource(currentPeriod.getId()),
                 style = MaterialTheme.typography.bodyMedium,
-                fontWeight = FontWeight.SemiBold
+                fontWeight = FontWeight.SemiBold,
+                color = MaterialTheme.colorScheme.onSurface
             )
 
             AnimatedContent(
@@ -66,6 +61,7 @@ fun AnalyticsFilterButton(
 
 
         PeriodFilterDropdown(
+            modifier = Modifier.align(Alignment.Center),
             onDismiss = { expand = false },
             expand = expand,
             currentPeriod = currentPeriod,

@@ -9,6 +9,7 @@ import com.nhuhuy.algidy.core.model.food.StorageLocation
 import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.core.presentation.model.CategoryUiModel
 import com.nhuhuy.algidy.core.presentation.model.toUiModel
+import com.nhuhuy.algidy.feature.food_entry.presentation.model.EntryUiModel
 import kotlin.math.abs
 
 @Immutable
@@ -25,6 +26,19 @@ data class FoodUiModel(
     val note: String = "",
     val categoryUiModel: CategoryUiModel = CategoryUiModel.Uncategorized
 )
+
+fun FoodUiModel.toEntryUiModel(): EntryUiModel {
+    return EntryUiModel(
+        id = id,
+        imageUri = imageUri,
+        name = name,
+        expiryDate = expiryDate,
+        purchaseDate = purchaseDate,
+        categoryUiModel = categoryUiModel,
+        location = location,
+        notes = note
+    )
+}
 
 fun FoodItem.toFoodUiModel(): FoodUiModel {
     return FoodUiModel(

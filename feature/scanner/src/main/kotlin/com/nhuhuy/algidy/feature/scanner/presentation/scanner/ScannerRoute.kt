@@ -8,11 +8,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.nhuhuy.algidy.core.designsystem.component.AlgidyAlertDialog
 import com.nhuhuy.algidy.core.designsystem.component.BoxLayout
-import com.nhuhuy.algidy.core.model.food.FoodItem
 import com.nhuhuy.algidy.core.presentation.ObserveEffect
 import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.core.presentation.component.TextFieldDialog
 import com.nhuhuy.algidy.feature.food_entry.navigation.FoodEntryRoute
+import com.nhuhuy.algidy.feature.food_entry.presentation.model.toEntryUiModel
 import com.nhuhuy.algidy.feature.scanner.presentation.scanner.component.dialog.ScannerLoadingDialog
 import com.nhuhuy.algidy.feature.scanner.presentation.scanner.viewmodel.AddBarcodeDialogAction.OnConfirm
 import com.nhuhuy.algidy.feature.scanner.presentation.scanner.viewmodel.AddBarcodeDialogAction.OnValueChange
@@ -27,7 +27,6 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun ScannerRoute(
     onNavigateBack: () -> Unit,
-    onNavigateToFoodEntry: (FoodItem) -> Unit,
 ) {
     val localHapticFeedback = LocalHapticFeedback.current
     val viewModel: ScannerViewModel = koinViewModel()
@@ -37,7 +36,6 @@ fun ScannerRoute(
         when (event) {
             is ScannerEvent.OnSuccess -> {
                 localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
-                onNavigateToFoodEntry(event.foodItem)
             }
 
             is ScannerEvent.OnFailure -> {
@@ -53,7 +51,7 @@ fun ScannerRoute(
             onAction = onAction
         )
 
-        when (uiState.overlay) {
+        when (val overlay = uiState.overlay) {
             ScannerOverlay.NONE -> Unit
             ScannerOverlay.LoadingDialog -> {
                 ScannerLoadingDialog(onDismissRequest = { onAction(OnDismissRequest) })
@@ -80,7 +78,7 @@ fun ScannerRoute(
             is ScannerOverlay.SuccessBottomSheet -> {
                 FoodEntryRoute(
                     onDismiss = { onAction(OnDismissRequest) },
-                    foodId = "",
+                    currentFoodModel = overlay.result.toEntryUiModel(),
                 )
             }
         }

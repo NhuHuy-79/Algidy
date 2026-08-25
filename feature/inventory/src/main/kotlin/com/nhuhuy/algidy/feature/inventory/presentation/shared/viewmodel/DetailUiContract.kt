@@ -26,7 +26,7 @@ sealed interface DetailAction : UiAction {
 @Stable
 sealed interface DetailEvent : UiEvent {
     data object OnDismiss : DetailEvent
-    data object NavigateToEdit : DetailEvent
+    data class NavigateToEdit(val foodUiModel: FoodUiModel) : DetailEvent
 }
 
 @Stable

@@ -102,7 +102,9 @@ fun SearchInventoryScreen(
                 LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
             }
             SearchContent(
-                modifier = Modifier.padding(localSpacing.medium),
+                modifier = Modifier
+                    .background(color = MaterialTheme.colorScheme.surfaceContainerHigh)
+                    .padding(localSpacing.medium),
                 uiState = uiState,
                 onAction = onAction,
             )

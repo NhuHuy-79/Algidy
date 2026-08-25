@@ -5,6 +5,7 @@ import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.nhuhuy.algidy.core.designsystem.component.BoxLayout
 import com.nhuhuy.algidy.feature.food_entry.navigation.FoodEntryRoute
+import com.nhuhuy.algidy.feature.inventory.presentation.model.toEntryUiModel
 import com.nhuhuy.algidy.feature.inventory.presentation.search.SearchInventoryScreen
 import com.nhuhuy.algidy.feature.inventory.presentation.search.viewmodel.SearchAction
 import com.nhuhuy.algidy.feature.inventory.presentation.search.viewmodel.SearchUiSurface
@@ -36,8 +37,9 @@ fun SearchInventoryRoute(
         )
 
         SearchUiSurface.None -> Unit
+
         is SearchUiSurface.EditFoodSheet -> FoodEntryRoute(
-            foodId = surface.food.id,
+            currentFoodModel = surface.food.toEntryUiModel(),
             onDismiss = { onAction(SearchAction.OnDismiss) }
         )
     }

@@ -14,6 +14,7 @@ import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.Inve
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryAction.OnEditCategorySheet.Save
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryOverlay
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryUiState
+import com.nhuhuy.algidy.feature.inventory.presentation.model.toEntryUiModel
 import com.nhuhuy.algidy.feature.inventory.presentation.shared.DetailBottomSheetRoute
 
 @Composable
@@ -48,9 +49,7 @@ internal fun InventoryOverlayContainer(
             onDismiss = onDismiss,
             onNavigateToEdit = { foodUiModel ->
                 onAction(
-                    InventoryAction.OnEditFoodSheetOpen(
-                        foodUiModel
-                    )
+                    InventoryAction.OnEditFoodSheetOpen(foodUiModel)
                 )
             }
         )
@@ -100,12 +99,12 @@ internal fun InventoryOverlayContainer(
         )
 
         is InventoryOverlay.AddFoodBottomSheet -> FoodEntryRoute(
-            foodId = overlay.food?.id,
+            currentFoodModel = overlay.food?.toEntryUiModel(),
             onDismiss = onDismiss
         )
 
         is InventoryOverlay.EditFoodSheet -> FoodEntryRoute(
-            foodId = null,
+            currentFoodModel = overlay.food.toEntryUiModel(),
             onDismiss = onDismiss
         )
     }

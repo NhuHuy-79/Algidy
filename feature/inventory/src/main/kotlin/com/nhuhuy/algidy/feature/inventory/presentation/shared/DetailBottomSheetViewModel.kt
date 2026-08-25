@@ -32,13 +32,13 @@ class DetailBottomSheetViewModel(
         when (action) {
             DetailAction.OnConsumeClick -> {
                 _uiState.product { copy(overlay = DetailOverlay.ConsumeConfirm) }
-                emitEvent(DetailEvent.OnDismiss)
             }
 
             DetailAction.OnConsumeConfirm -> {
                 viewModelScope.launch {
                     markFoodAsConsumedUseCase(foodItem.id)
                     _uiState.product { copy(overlay = DetailOverlay.None) }
+                    emitEvent(DetailEvent.OnDismiss)
                 }
             }
 
@@ -48,17 +48,17 @@ class DetailBottomSheetViewModel(
 
             DetailAction.OnEditClick -> {
                 _uiState.product { copy(overlay = DetailOverlay.None) }
-                emitEvent(DetailEvent.NavigateToEdit)
+                emitEvent(DetailEvent.NavigateToEdit(foodItem))
             }
 
             DetailAction.OnWasteClick -> {
                 _uiState.product { copy(overlay = DetailOverlay.WasteConfirm) }
-                emitEvent(DetailEvent.OnDismiss)
             }
 
             DetailAction.OnWasteConfirm -> viewModelScope.launch {
                 markFoodAsWastedUseCase(foodItem.id)
                 _uiState.product { copy(overlay = DetailOverlay.None) }
+                emitEvent(DetailEvent.OnDismiss)
             }
         }
     }

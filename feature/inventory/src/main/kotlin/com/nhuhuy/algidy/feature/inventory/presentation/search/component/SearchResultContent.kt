@@ -74,7 +74,7 @@ private fun SearchResultListItem(
         ),
         verticalAlignment = Alignment.CenterVertically,
         colors = ListItemDefaults.colors(
-            containerColor = MaterialTheme.colorScheme.surfaceContainer,
+            containerColor = MaterialTheme.colorScheme.surface,
             contentColor = MaterialTheme.colorScheme.onSurface,
         ),
         leadingContent = {

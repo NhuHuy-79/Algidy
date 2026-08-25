@@ -84,6 +84,7 @@ fun ExpiryDateField(
     ) {
         Text(
             text = expiryDate?.toReadableText()
+                ?.ifBlank { stringResource(R.string.food_entry_expiry_date_placeholder) }
                 ?: stringResource(R.string.food_entry_expiry_date_placeholder),
             style = MaterialTheme.typography.titleLarge,
             fontWeight = FontWeight.SemiBold

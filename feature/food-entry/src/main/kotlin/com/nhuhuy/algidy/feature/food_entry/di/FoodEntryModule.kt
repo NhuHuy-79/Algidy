@@ -7,6 +7,7 @@ import com.nhuhuy.algidy.feature.food_entry.domain.usecase.FoodEntryPreferencesU
 import com.nhuhuy.algidy.feature.food_entry.domain.usecase.GetCategoriesUseCase
 import com.nhuhuy.algidy.feature.food_entry.domain.usecase.ObserveCategoriesUseCase
 import com.nhuhuy.algidy.feature.food_entry.domain.usecase.SaveFoodItemUseCase
+import com.nhuhuy.algidy.feature.food_entry.presentation.model.EntryUiModel
 import com.nhuhuy.algidy.feature.food_entry.presentation.viewmodel.FoodEntryViewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.module.dsl.factoryOf
@@ -26,14 +27,13 @@ val foodEntryModule = module {
     factoryOf(::GetFoodByIdUseCase)
 
     //viewModel
-    viewModel { (foodId: String) ->
+    viewModel { (foodId: EntryUiModel) ->
         FoodEntryViewModel(
-            foodId = foodId,
+            entryUiModel = get(),
             addCategoryUseCase = get(),
             saveFoodItemUseCase = get(),
             foodEntryPreferencesUseCase = get(),
             observeCategoriesUseCase = get(),
-            getFoodByIdUseCase = get(),
         )
     }
 }

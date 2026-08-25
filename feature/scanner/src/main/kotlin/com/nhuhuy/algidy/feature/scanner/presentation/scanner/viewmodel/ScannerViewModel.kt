@@ -134,7 +134,7 @@ class ScannerViewModel(
 
                     _uiState.product {
                         copy(
-                            overlay = ScannerOverlay.NONE,
+                            overlay = ScannerOverlay.SuccessBottomSheet(foodItem),
                             scanResult = UiResult.Idle
                         )
                     }
@@ -182,7 +182,7 @@ class ScannerViewModel(
                     _uiState.product {
                         copy(
                             labelEvent = LabelEvent.NONE,
-                            overlay = ScannerOverlay.NONE,
+                            overlay = ScannerOverlay.SuccessBottomSheet(foodItem),
                             scanResult = UiResult.Idle
                         )
                     }
@@ -227,7 +227,7 @@ class ScannerViewModel(
                         .onSuccess { foodItem ->
                             _uiState.product {
                                 copy(
-                                    overlay = ScannerOverlay.NONE,
+                                    overlay = ScannerOverlay.SuccessBottomSheet(foodItem),
                                     barCodeInput = ""
                                 )
                             }

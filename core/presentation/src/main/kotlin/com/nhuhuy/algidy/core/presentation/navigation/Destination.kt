@@ -21,9 +21,6 @@ sealed interface Destination : NavKey {
     data object Scanner : Destination
 
     @Serializable
-    data class FoodEntry(val foodId: String? = null) : Destination
-
-    @Serializable
     data class Setting(
         val destination: SettingDestination = SettingDestination.Main
     ) : Destination

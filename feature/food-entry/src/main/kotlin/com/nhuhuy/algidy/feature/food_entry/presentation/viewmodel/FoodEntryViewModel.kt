@@ -2,7 +2,6 @@ package com.nhuhuy.algidy.feature.food_entry.presentation.viewmodel
 
 import androidx.lifecycle.viewModelScope
 import com.nhuhuy.algidy.core.data.util.product
-import com.nhuhuy.algidy.core.domain.usecase.food.GetFoodByIdUseCase
 import com.nhuhuy.algidy.core.model.food.FoodCategory
 import com.nhuhuy.algidy.core.presentation.model.CategoryUiModel
 import com.nhuhuy.algidy.core.presentation.model.toUiModel
@@ -13,7 +12,6 @@ import com.nhuhuy.algidy.feature.food_entry.domain.usecase.FoodEntryPreferencesU
 import com.nhuhuy.algidy.feature.food_entry.domain.usecase.ObserveCategoriesUseCase
 import com.nhuhuy.algidy.feature.food_entry.domain.usecase.SaveFoodItemUseCase
 import com.nhuhuy.algidy.feature.food_entry.presentation.model.EntryUiModel
-import com.nhuhuy.algidy.feature.food_entry.presentation.model.toEntryUiModel
 import com.nhuhuy.algidy.feature.food_entry.presentation.model.toFoodItem
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -27,8 +25,7 @@ import kotlinx.coroutines.launch
 import kotlin.time.Duration.Companion.seconds
 
 class FoodEntryViewModel(
-    foodId: String?,
-    private val getFoodByIdUseCase: GetFoodByIdUseCase,
+    entryUiModel: EntryUiModel?,
     private val observeCategoriesUseCase: ObserveCategoriesUseCase,
     private val foodEntryPreferencesUseCase: FoodEntryPreferencesUseCase,
     private val saveFoodItemUseCase: SaveFoodItemUseCase,
@@ -43,8 +40,7 @@ class FoodEntryViewModel(
 
     init {
         viewModelScope.launch {
-            val currentFoodItem = foodId?.let { getFoodByIdUseCase(it) }
-            val currentEntry = currentFoodItem?.toEntryUiModel() ?: EntryUiModel()
+            val currentEntry = entryUiModel ?: EntryUiModel()
 
             _uiState.product {
                 copy(

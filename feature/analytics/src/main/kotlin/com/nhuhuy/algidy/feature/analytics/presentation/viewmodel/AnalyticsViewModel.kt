@@ -31,7 +31,7 @@ class AnalyticsViewModel(
             }
 
             AnalyticsAction.OnRefresh -> {
-                // Flow combination will automatically trigger updates when underlying data changes.
+                loadAnalytics()
             }
 
             is AnalyticsAction.OnPeriodSelect -> {

@@ -119,12 +119,7 @@ fun AppGraph(
                 }
             ) {
                 ScannerRoute(
-                    onNavigateBack = { backStack.removeLastOrNull() },
-                    onNavigateToFoodEntry = { item ->
-                        backStack.add(
-                            Destination.FoodEntry(foodId = item.id)
-                        )
-                    }
+                    onNavigateBack = { backStack.removeLastOrNull() }
                 )
             }
 

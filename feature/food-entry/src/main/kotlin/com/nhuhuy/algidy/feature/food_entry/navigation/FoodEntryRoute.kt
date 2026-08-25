@@ -16,6 +16,7 @@ import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.core.presentation.component.AppDatePickerDialog
 import com.nhuhuy.algidy.core.presentation.component.TextFieldDialog
 import com.nhuhuy.algidy.feature.food_entry.presentation.FoodEntryBottomSheet
+import com.nhuhuy.algidy.feature.food_entry.presentation.model.EntryUiModel
 import com.nhuhuy.algidy.feature.food_entry.presentation.viewmodel.FoodEntryAction
 import com.nhuhuy.algidy.feature.food_entry.presentation.viewmodel.FoodEntryAction.OnCategoryConfirm
 import com.nhuhuy.algidy.feature.food_entry.presentation.viewmodel.FoodEntryAction.OnCategoryQueryChange
@@ -34,10 +35,11 @@ import org.koin.core.parameter.parametersOf
 
 @Composable
 fun FoodEntryRoute(
-    foodId: String?,
+    currentFoodModel: EntryUiModel?,
     onDismiss: () -> Unit,
 ) {
-    val viewModel: FoodEntryViewModel = koinViewModel(parameters = { parametersOf(foodId) })
+    val viewModel: FoodEntryViewModel =
+        koinViewModel(parameters = { parametersOf(currentFoodModel) })
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val onAction = viewModel::onAction
 

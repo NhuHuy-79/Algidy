@@ -4,6 +4,7 @@ import com.nhuhuy.algidy.core.data.mapper.toDomain
 import com.nhuhuy.algidy.core.data.util.AppDispatchers
 import com.nhuhuy.algidy.core.database.dao.SearchDao
 import com.nhuhuy.algidy.core.model.food.FoodItem
+import com.nhuhuy.algidy.core.model.food.FoodStatus
 import com.nhuhuy.algidy.feature.inventory.data.mapper.toDomain
 import com.nhuhuy.algidy.feature.inventory.data.mapper.toSearchHistoryEntity
 import com.nhuhuy.algidy.feature.inventory.domain.model.SearchHistory
@@ -42,7 +43,7 @@ class SearchRepositoryImp(
         return withContext(appDispatchers.io) {
             searchDao.searchInventory(ftsQuery).map { foodItemEntity ->
                 foodItemEntity.toDomain()
-            }
+            }.filter { it.status == FoodStatus.ACTIVE }
         }
     }
 

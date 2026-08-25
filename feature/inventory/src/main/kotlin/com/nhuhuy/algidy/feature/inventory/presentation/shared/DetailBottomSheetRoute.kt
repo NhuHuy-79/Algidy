@@ -5,6 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.rememberViewModelStoreOwner
 import com.nhuhuy.algidy.core.designsystem.component.AlgidyAlertDialog
 import com.nhuhuy.algidy.core.designsystem.component.AppBottomSheet
 import com.nhuhuy.algidy.core.designsystem.icon.AlgidyIcons
@@ -26,14 +27,17 @@ fun DetailBottomSheetRoute(
     onDismiss: () -> Unit,
     onNavigateToEdit: (FoodUiModel) -> Unit,
 ) {
-    val viewModel: DetailBottomSheetViewModel = koinViewModel { parametersOf(foodItem) }
+    val rememberViewModelStoreOwner = rememberViewModelStoreOwner()
+    val viewModel: DetailBottomSheetViewModel = koinViewModel(
+        viewModelStoreOwner = rememberViewModelStoreOwner
+    ) { parametersOf(foodItem) }
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val onAction = viewModel::onAction
 
     ObserveEffect(viewModel.uiEvent) { event ->
         when (event) {
             DetailEvent.OnDismiss -> onDismiss()
-            DetailEvent.NavigateToEdit -> onNavigateToEdit(foodItem)
+            is DetailEvent.NavigateToEdit -> onNavigateToEdit(event.foodUiModel)
         }
     }
 
@@ -51,8 +55,8 @@ fun DetailBottomSheetRoute(
     DetailBottomSheetOverlays(
         uiState = uiState,
         onDismissOverlay = { onAction(DetailAction.OnDismiss) },
-        onConsumeConfirm = { onAction(DetailAction.OnConsumeClick) },
-        onWasteConfirm = { onAction(DetailAction.OnWasteClick) }
+        onConsumeConfirm = { onAction(DetailAction.OnConsumeConfirm) },
+        onWasteConfirm = { onAction(DetailAction.OnWasteConfirm) }
     )
 }
 
