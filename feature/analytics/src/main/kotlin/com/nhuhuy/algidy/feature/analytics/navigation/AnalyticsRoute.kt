@@ -1,4 +1,4 @@
-package com.nhuhuy.algidy.feature.analytics.presentation.navigation
+package com.nhuhuy.algidy.feature.analytics.navigation
 
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.runtime.Composable

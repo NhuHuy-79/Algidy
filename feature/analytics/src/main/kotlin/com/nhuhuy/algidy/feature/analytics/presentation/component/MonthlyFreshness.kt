@@ -41,25 +41,19 @@ import com.nhuhuy.algidy.core.presentation.utils.toBackgroundColor
 import com.nhuhuy.algidy.core.presentation.utils.toBackgroundContainerColor
 import com.nhuhuy.algidy.core.presentation.utils.toStringRes
 import com.nhuhuy.algidy.core.presentation.utils.toVerticalSegmentedShape
-import com.nhuhuy.algidy.feature.analytics.domain.model.AnalyticsPeriod
 import com.nhuhuy.algidy.feature.analytics.domain.model.FreshnessStatistic
 import com.nhuhuy.algidy.feature.analytics.domain.model.getStatistic
 
 @Composable
 fun MonthlyFreshness(
-    period: AnalyticsPeriod,
     statisticByMonth: FreshnessStatistic,
     modifier: Modifier = Modifier,
     itemPosition: ItemPosition = ItemPosition.SINGLE,
 ) {
-    val isWeek = period == AnalyticsPeriod.WEEK
-    val titleRes = if (isWeek) R.string.analytics_card_weekly_freshness
-    else R.string.analytics_card_monthly_freshness
-
     CardLayout(
         modifier = modifier.wrapContentHeight(),
         icon = AlgidyIcons.Analytics.WeeklyChart.toImageVector(),
-        title = stringResource(titleRes),
+        title = stringResource(R.string.analytics_card_monthly_freshness),
         shape = itemPosition.toVerticalSegmentedShape(),
         cardColors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surface,
@@ -109,7 +103,7 @@ private fun FreshnessContent(
                 modifier = Modifier,
                 label = stringResource(freshness.toStringRes()),
                 monthValue = count,
-                isPrimary = freshness == Freshness.URGENT,
+                isPrimary = freshness == Freshness.WARNING,
                 monthFraction = normalizedFraction,
                 barColor = freshness.toBackgroundColor(),
                 labelSurfaceColor = freshness.toBackgroundContainerColor(),
@@ -133,7 +127,7 @@ private fun FreshnessItem(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .height(56.dp),
+            .height(48.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(16.dp),
     ) {

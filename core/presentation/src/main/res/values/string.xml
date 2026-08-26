@@ -170,6 +170,7 @@
 
     <!-- Analytics Screen -->
     <string name="analytics_title">Analytics</string>
+    <string name="analytics_food_overview_title">Expiry Overview</string>
     <string name="analytics_period_week">This Week</string>
     <string name="analytics_period_month">This Month</string>
     <string name="analytics_expired">Expired</string>
@@ -196,6 +197,11 @@
         <item quantity="one">%1$d food was handled this month</item>
         <item quantity="other">%1$d foods were handled this month</item>
     </plurals>
+
+    <string name="analytics_spoilage_history_consumed_value">Consumed: %1$d</string>
+    <string name="analytics_spoilage_history_wasted_value">Wasted: %1$d</string>"
+
+
 
     <string name="analytics_weekly_card">%1$s/7 days</string>
     <string name="analytics_weekly_card_content">Start from %1$s</string>

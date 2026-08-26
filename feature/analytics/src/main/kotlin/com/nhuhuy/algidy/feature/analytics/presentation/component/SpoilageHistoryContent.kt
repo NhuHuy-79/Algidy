@@ -1,5 +1,8 @@
 package com.nhuhuy.algidy.feature.analytics.presentation.component
 
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -10,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -20,6 +24,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.platform.LocalResources
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -28,7 +34,6 @@ import com.nhuhuy.algidy.core.designsystem.component.CardLayout
 import com.nhuhuy.algidy.core.designsystem.icon.AlgidyIcons
 import com.nhuhuy.algidy.core.designsystem.icon.toImageVector
 import com.nhuhuy.algidy.core.designsystem.theme.AlgidyTheme
-import com.nhuhuy.algidy.core.designsystem.tokens.LocalAlgidySpacing
 import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.core.presentation.utils.ItemPosition
 import com.nhuhuy.algidy.core.presentation.utils.toVerticalSegmentedShape
@@ -46,9 +51,12 @@ import com.patrykandpatrick.vico.compose.cartesian.layer.CartesianLayerPadding
 import com.patrykandpatrick.vico.compose.cartesian.layer.LineCartesianLayer
 import com.patrykandpatrick.vico.compose.cartesian.layer.rememberLineCartesianLayer
 import com.patrykandpatrick.vico.compose.cartesian.marker.DefaultCartesianMarker
+import com.patrykandpatrick.vico.compose.cartesian.marker.LineCartesianLayerMarkerTarget
 import com.patrykandpatrick.vico.compose.cartesian.marker.rememberDefaultCartesianMarker
 import com.patrykandpatrick.vico.compose.cartesian.rememberCartesianChart
 import com.patrykandpatrick.vico.compose.common.Fill
+import com.patrykandpatrick.vico.compose.common.Insets
+import com.patrykandpatrick.vico.compose.common.component.ShapeComponent
 import com.patrykandpatrick.vico.compose.common.component.rememberTextComponent
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
@@ -174,9 +182,7 @@ fun SpoilageHistoryContent(
     onValueHide: () -> Unit
 ) {
     val modelProducer = remember { CartesianChartModelProducer() }
-    MaterialTheme.colorScheme
     val extendColor = AlgidyTheme.extendedColors
-    LocalAlgidySpacing.current
 
     val bottomAxisValueFormatter = CartesianValueFormatter { _, value, _ ->
         val index = value.toInt()
@@ -194,17 +200,66 @@ fun SpoilageHistoryContent(
         else -> kotlin.math.ceil(maxCount * 1.2)
     }
 
-    val rangeProvider = CartesianLayerRangeProvider.fixed(
-        minY = 0.0,
-        maxY = maxY,
-    )
-
+    val rangeProvider = CartesianLayerRangeProvider.fixed(minY = 0.0, maxY = maxY)
     val chartStep = calculateStep(maxCount)
     val markerListener = SpoilageHistoryMarker(
         onValueChange = onValueChange,
         onValueHide = onValueHide
     )
 
+    val scheme = MaterialTheme.colorScheme
+    val resource = LocalResources.current
+
+    val markerValueFormatter = DefaultCartesianMarker.ValueFormatter { _, targets ->
+        val points = (targets.first() as LineCartesianLayerMarkerTarget).points
+
+        val consumedPoint = points.getOrNull(0)?.entry?.y?.toInt() ?: 0
+        val wastedPoint = points.getOrNull(1)?.entry?.y?.toInt() ?: 0
+
+        val consumedPointText = resource.getString(
+            R.string.analytics_spoilage_history_consumed_value,
+            consumedPoint,
+        )
+
+        val wastedPointText = resource.getString(
+            R.string.analytics_spoilage_history_wasted_value,
+            wastedPoint,
+        )
+
+        val separator = " - "
+        val fullText = "$consumedPointText$separator$wastedPointText"
+
+        SpannableString(fullText).apply {
+            setSpan(
+                ForegroundColorSpan(extendColor.consumed.toArgb()),
+                0,
+                consumedPointText.length,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE,
+            )
+
+            val wastedStart = consumedPointText.length + separator.length
+
+            setSpan(
+                ForegroundColorSpan(extendColor.wasted.toArgb()),
+                wastedStart,
+                fullText.length,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE,
+            )
+        }
+    }
+
+    val marker = rememberDefaultCartesianMarker(
+        label = rememberTextComponent(
+            padding = Insets(8.dp),
+            background = ShapeComponent(
+                shape = RoundedCornerShape(24.dp),
+                fill = Fill(color = scheme.tertiary),
+            ),
+            style = MaterialTheme.typography.labelSmall,
+        ),
+        valueFormatter = markerValueFormatter,
+        labelPosition = DefaultCartesianMarker.LabelPosition.Top,
+    )
 
     LaunchedEffect(Unit) {
         modelProducer.runTransaction {
@@ -257,10 +312,7 @@ fun SpoilageHistoryContent(
                     )
                 ),
             ),
-            marker = rememberDefaultCartesianMarker(
-                label = rememberTextComponent(style = MaterialTheme.typography.labelSmall),
-                valueFormatter = DefaultCartesianMarker.ValueFormatter.default(),
-            ),
+            marker = marker,
             markerVisibilityListener = markerListener,
             layerPadding = {
                 CartesianLayerPadding(

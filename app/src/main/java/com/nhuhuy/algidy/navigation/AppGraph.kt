@@ -24,7 +24,7 @@ import com.nhuhuy.algidy.core.presentation.ObserveEffect
 import com.nhuhuy.algidy.core.presentation.navigation.Destination
 import com.nhuhuy.algidy.core.presentation.navigation.NavigateEvent
 import com.nhuhuy.algidy.core.presentation.navigation.Navigator
-import com.nhuhuy.algidy.feature.analytics.presentation.navigation.AnalyticsRoute
+import com.nhuhuy.algidy.feature.analytics.navigation.AnalyticsRoute
 import com.nhuhuy.algidy.feature.inventory.navigation.InventoryRoute
 import com.nhuhuy.algidy.feature.inventory.navigation.SearchInventoryRoute
 import com.nhuhuy.algidy.feature.scanner.presentation.scanner.ScannerRoute

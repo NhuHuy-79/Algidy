@@ -41,12 +41,13 @@ import kotlinx.collections.immutable.toImmutableList
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
-fun AnalyticsScreen(
+internal fun AnalyticsScreen(
     uiState: AnalyticsUiState,
     onBackPress: () -> Unit,
     onAction: (AnalyticsAction) -> Unit,
 ) {
     val extendColor = AlgidyTheme.extendedColors
+
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
@@ -137,7 +138,6 @@ fun AnalyticsScreen(
                         .fillMaxWidth()
                         .height(360.dp),
                     itemPosition = ItemPosition.MIDDLE,
-                    period = uiState.period,
                     statisticByMonth = uiState.freshnessStatisticByMonth,
                 )
             }

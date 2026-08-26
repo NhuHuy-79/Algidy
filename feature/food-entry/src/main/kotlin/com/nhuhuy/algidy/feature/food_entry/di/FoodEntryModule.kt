@@ -27,9 +27,9 @@ val foodEntryModule = module {
     factoryOf(::GetFoodByIdUseCase)
 
     //viewModel
-    viewModel { (foodId: EntryUiModel) ->
+    viewModel { (food: EntryUiModel) ->
         FoodEntryViewModel(
-            entryUiModel = get(),
+            entryUiModel = food,
             addCategoryUseCase = get(),
             saveFoodItemUseCase = get(),
             foodEntryPreferencesUseCase = get(),

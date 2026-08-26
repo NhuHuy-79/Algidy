@@ -17,12 +17,10 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
-class AnalyticsViewModel(
+internal class AnalyticsViewModel(
     private val foodAnalyticsRepository: FoodAnalyticsRepository,
     private val navigator: Navigator,
 ) : BaseViewModel<AnalyticsUiState, AnalyticsEvent, AnalyticsAction>() {
-
-    private val _period = MutableStateFlow(AnalyticsPeriod.WEEK)
     private val _uiState = MutableStateFlow(AnalyticsUiState())
     override val uiState: StateFlow<AnalyticsUiState> = _uiState.asStateFlow()
 
