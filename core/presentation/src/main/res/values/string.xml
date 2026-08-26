@@ -182,6 +182,20 @@
     <string name="analytics_card_weekly_freshness">Weekly Freshness</string>
     <string name="analytics_card_monthly_freshness">Monthly Freshness</string>
     <string name="analytics_card_empty_state">No spoilage data yet</string>
+    <string name="analytics_card_expiring_this_week">Expiring this week</string>
+    <string name="analytics_no_food_expiring_this_week">No food expiring this week</string>
+    <plurals name="analytics_foods_expiring_this_week">
+        <item quantity="one">%1$d food expiring this week</item>
+        <item quantity="other">%1$d foods expiring this week</item>
+    </plurals>
+    <plurals name="analytics_urgent_foods_need_attention">
+        <item quantity="one">%1$d food needs attention this month</item>
+        <item quantity="other">%1$d foods need attention this month</item>
+    </plurals>
+    <plurals name="analytics_total_foods_handled">
+        <item quantity="one">%1$d food was handled this month</item>
+        <item quantity="other">%1$d foods were handled this month</item>
+    </plurals>
 
     <string name="analytics_weekly_card">%1$s/7 days</string>
     <string name="analytics_weekly_card_content">Start from %1$s</string>

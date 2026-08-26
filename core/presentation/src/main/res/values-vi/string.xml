@@ -175,7 +175,18 @@
 
     <string name="analytics_card_empty_state">Dữ liệu chưa đầy đủ</string>
     <string name="analytics_weekly_card">%1$s/7 ngày</string>
-    <string name="analytics_weekly_card_content">Bắt đầu từ%1$s</string>
+    <string name="analytics_weekly_card_content">Bắt đầu từ %1$s</string>
+    <string name="analytics_card_expiring_this_week">Hết hạn trong tuần</string>
+    <string name="analytics_no_food_expiring_this_week">Không có thực phẩm hết hạn trong tuần</string>
+    <plurals name="analytics_foods_expiring_this_week">
+        <item quantity="other">%1$d thực phẩm hết hạn trong tuần này</item>
+    </plurals>
+    <plurals name="analytics_urgent_foods_need_attention">
+        <item quantity="other">%1$d thực phẩm cần chú ý trong tháng này</item>
+    </plurals>
+    <plurals name="analytics_total_foods_handled">
+        <item quantity="other">%1$d thực phẩm được xử lý trong tháng này</item>
+    </plurals>
 
     <!-- Settings Screen -->
     <string name="settings_title">Cài đặt</string>

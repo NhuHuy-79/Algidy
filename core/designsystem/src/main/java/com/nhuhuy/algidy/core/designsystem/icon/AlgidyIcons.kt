@@ -16,7 +16,6 @@ import androidx.compose.material.icons.rounded.Apps
 import androidx.compose.material.icons.rounded.AutoMode
 import androidx.compose.material.icons.rounded.BarChart
 import androidx.compose.material.icons.rounded.Brightness5
-import androidx.compose.material.icons.rounded.CalendarMonth
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.Code
 import androidx.compose.material.icons.rounded.ColorLens
@@ -118,7 +117,7 @@ object AlgidyIcons {
     }
 
     object Analytics {
-        val FoodStreak = IconProvider.ImageVectorIcon(Icons.Rounded.CalendarMonth)
+        val FoodStreak = IconProvider.ImageVectorIcon(Icons.Rounded.BarChart)
         val Other = IconProvider.ImageVectorIcon(Icons.Rounded.Fastfood)
         val WeeklyChart = IconProvider.ImageVectorIcon(Icons.Rounded.BarChart)
         val SpoilageChart = IconProvider.ImageVectorIcon(Icons.Rounded.StackedLineChart)

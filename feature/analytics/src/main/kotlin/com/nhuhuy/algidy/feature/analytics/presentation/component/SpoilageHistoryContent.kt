@@ -1,13 +1,14 @@
 package com.nhuhuy.algidy.feature.analytics.presentation.component
 
-import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
@@ -19,6 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -30,7 +32,6 @@ import com.nhuhuy.algidy.core.designsystem.tokens.LocalAlgidySpacing
 import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.core.presentation.utils.ItemPosition
 import com.nhuhuy.algidy.core.presentation.utils.toVerticalSegmentedShape
-import com.nhuhuy.algidy.feature.analytics.domain.model.AnalyticsPeriod
 import com.nhuhuy.algidy.feature.analytics.domain.model.fakeWeeklySpoilageStatistic
 import com.nhuhuy.algidy.feature.analytics.presentation.model.SpoilagePointUiModel
 import com.patrykandpatrick.vico.compose.cartesian.CartesianChartHost
@@ -38,6 +39,7 @@ import com.patrykandpatrick.vico.compose.cartesian.axis.HorizontalAxis
 import com.patrykandpatrick.vico.compose.cartesian.axis.VerticalAxis
 import com.patrykandpatrick.vico.compose.cartesian.axis.rememberAxisLabelComponent
 import com.patrykandpatrick.vico.compose.cartesian.data.CartesianChartModelProducer
+import com.patrykandpatrick.vico.compose.cartesian.data.CartesianLayerRangeProvider
 import com.patrykandpatrick.vico.compose.cartesian.data.CartesianValueFormatter
 import com.patrykandpatrick.vico.compose.cartesian.data.lineModel
 import com.patrykandpatrick.vico.compose.cartesian.layer.CartesianLayerPadding
@@ -54,12 +56,15 @@ import kotlinx.collections.immutable.toImmutableList
 @Composable
 fun SpoilageHistory(
     modifier: Modifier = Modifier,
-    period: AnalyticsPeriod,
+    consumedValue: Int = 0,
+    wastedValue: Int = 0,
     itemPosition: ItemPosition = ItemPosition.SINGLE,
-    statisticByWeek: ImmutableList<SpoilagePointUiModel>,
     statisticByMonth: ImmutableList<SpoilagePointUiModel>,
+    onLineSpotPressed: (consumedAndWasted: Pair<Int, Int>) -> Unit,
+    onLineSpotHide: () -> Unit
 ) {
     val extendColor = AlgidyTheme.extendedColors
+    val totalFoods = consumedValue + wastedValue
     CardLayout(
         modifier = modifier,
         icon = AlgidyIcons.Analytics.SpoilageChart.toImageVector(),
@@ -70,37 +75,41 @@ fun SpoilageHistory(
             contentColor = MaterialTheme.colorScheme.onSurface
         )
     ) {
+        Text(
+            text = pluralStringResource(
+                R.plurals.analytics_total_foods_handled,
+                totalFoods,
+                totalFoods
+            ),
+            style = MaterialTheme.typography.labelLarge,
+            fontWeight = FontWeight.Medium,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
+        )
+
         Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(16.dp, alignment = Alignment.End),
-            verticalAlignment = Alignment.CenterVertically
+            horizontalArrangement = Arrangement.End,
+            verticalAlignment = Alignment.Bottom
         ) {
-            LegendLabel(
-                color = extendColor.wasted,
-                legend = stringResource(R.string.analytics_card_wasted)
-            )
-
             LegendLabel(
                 color = extendColor.consumed,
                 legend = stringResource(R.string.analytics_card_consumed)
             )
+
+            Spacer(modifier = Modifier.width(16.dp))
+
+            LegendLabel(
+                color = extendColor.wasted,
+                legend = stringResource(R.string.analytics_card_wasted)
+            )
         }
 
-        AnimatedContent(
-            targetState = period
-        ) { period ->
-            when (period) {
-                AnalyticsPeriod.WEEK -> SpoilageHistoryContainer(
-                    modifier = Modifier.weight(1f),
-                    spoilageStatistic = statisticByWeek
-                )
-
-                AnalyticsPeriod.MONTH -> SpoilageHistoryContainer(
-                    modifier = Modifier.weight(1f),
-                    spoilageStatistic = statisticByMonth
-                )
-            }
-        }
+        SpoilageHistoryContainer(
+            modifier = Modifier.weight(1f),
+            spoilageStatistic = statisticByMonth,
+            onValueHide = onLineSpotHide,
+            onValueChange = onLineSpotPressed
+        )
     }
 }
 
@@ -131,7 +140,9 @@ private fun LegendLabel(
 @Composable
 private fun SpoilageHistoryContainer(
     modifier: Modifier = Modifier,
-    spoilageStatistic: ImmutableList<SpoilagePointUiModel>
+    spoilageStatistic: ImmutableList<SpoilagePointUiModel>,
+    onValueChange: (Pair<Int, Int>) -> Unit = {},
+    onValueHide: () -> Unit = {}
 ) {
     if (spoilageStatistic.isEmpty()) {
         Column(
@@ -148,7 +159,9 @@ private fun SpoilageHistoryContainer(
     } else {
         SpoilageHistoryContent(
             modifier = modifier,
-            spoilageStatistic = spoilageStatistic
+            spoilageStatistic = spoilageStatistic,
+            onValueChange = onValueChange,
+            onValueHide = onValueHide
         )
     }
 }
@@ -157,6 +170,8 @@ private fun SpoilageHistoryContainer(
 fun SpoilageHistoryContent(
     modifier: Modifier = Modifier,
     spoilageStatistic: ImmutableList<SpoilagePointUiModel> = fakeWeeklySpoilageStatistic.toImmutableList(),
+    onValueChange: (Pair<Int, Int>) -> Unit,
+    onValueHide: () -> Unit
 ) {
     val modelProducer = remember { CartesianChartModelProducer() }
     MaterialTheme.colorScheme
@@ -173,7 +188,22 @@ fun SpoilageHistoryContent(
         wasteSeries.maxOrNull() ?: 0,
         consumedSeries.maxOrNull() ?: 0,
     )
+
+    val maxY = when {
+        maxCount <= 5 -> 8.0
+        else -> kotlin.math.ceil(maxCount * 1.2)
+    }
+
+    val rangeProvider = CartesianLayerRangeProvider.fixed(
+        minY = 0.0,
+        maxY = maxY,
+    )
+
     val chartStep = calculateStep(maxCount)
+    val markerListener = SpoilageHistoryMarker(
+        onValueChange = onValueChange,
+        onValueHide = onValueHide
+    )
 
 
     LaunchedEffect(Unit) {
@@ -189,6 +219,7 @@ fun SpoilageHistoryContent(
         modifier = modifier,
         chart = rememberCartesianChart(
             rememberLineCartesianLayer(
+                rangeProvider = rangeProvider,
                 lineProvider = LineCartesianLayer.LineProvider.series(
                     LineCartesianLayer.Line(
                         fill = LineCartesianLayer.LineFill.single(
@@ -230,7 +261,7 @@ fun SpoilageHistoryContent(
                 label = rememberTextComponent(style = MaterialTheme.typography.labelSmall),
                 valueFormatter = DefaultCartesianMarker.ValueFormatter.default(),
             ),
-            markerVisibilityListener = null,
+            markerVisibilityListener = markerListener,
             layerPadding = {
                 CartesianLayerPadding(
                     /*scalableStart = localSpacing.extraSmall,
