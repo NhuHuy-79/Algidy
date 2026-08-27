@@ -37,10 +37,9 @@ fun AppFilterButton(
         shape = shape,
     ) {
         Row(
-            modifier = Modifier.padding(horizontal = 16.dp, vertical = 10.dp),
+            modifier = Modifier.padding(horizontal = 12.dp, vertical = 10.dp),
             horizontalArrangement = Arrangement.spacedBy(
-                8.dp,
-                alignment = Alignment.CenterHorizontally
+                8.dp, alignment = Alignment.CenterHorizontally
             ),
             verticalAlignment = Alignment.CenterVertically
         ) {

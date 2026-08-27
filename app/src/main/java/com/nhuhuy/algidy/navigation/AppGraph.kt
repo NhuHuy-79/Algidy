@@ -79,15 +79,7 @@ fun AppGraph(
                 ScannerRoute(onNavigateBack = { backStack.removeLastOrNull() })
             }
 
-            entry<Destination.Setting>(
-                metadata = NavDisplay.transitionSpec {
-                    AppTransitions.enterFromRight.toContentTransform()
-                } + NavDisplay.popTransitionSpec {
-                    AppTransitions.enterFromLeft.toContentTransform()
-                } + NavDisplay.predictivePopTransitionSpec {
-                    AppTransitions.enterFromLeft.toContentTransform()
-                }
-            ) { setting ->
+            entry<Destination.Setting> { setting ->
                 SettingRoute(
                     destination = setting.destination,
                     onNavigateToSettingRoute = { destination -> backStack.add(destination) },

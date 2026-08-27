@@ -67,6 +67,7 @@ fun FoodImageCard(
             when (state) {
                 is AsyncImagePainter.State.Loading -> {
                     CircularWavyProgressIndicator(
+                        progress = { 0.5f },
                         modifier = Modifier.size(32.dp),
                         color = MaterialTheme.colorScheme.onSecondaryContainer
                     )

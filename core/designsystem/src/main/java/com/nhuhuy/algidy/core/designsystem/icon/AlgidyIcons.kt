@@ -12,11 +12,14 @@ import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.AddPhotoAlternate
 import androidx.compose.material.icons.rounded.Alarm
+import androidx.compose.material.icons.rounded.AlternateEmail
 import androidx.compose.material.icons.rounded.Analytics
 import androidx.compose.material.icons.rounded.Apps
 import androidx.compose.material.icons.rounded.BarChart
 import androidx.compose.material.icons.rounded.BrightnessAuto
 import androidx.compose.material.icons.rounded.Close
+import androidx.compose.material.icons.rounded.CloudDownload
+import androidx.compose.material.icons.rounded.CloudUpload
 import androidx.compose.material.icons.rounded.Code
 import androidx.compose.material.icons.rounded.ColorLens
 import androidx.compose.material.icons.rounded.DarkMode
@@ -28,8 +31,6 @@ import androidx.compose.material.icons.rounded.ErrorOutline
 import androidx.compose.material.icons.rounded.ExpandLess
 import androidx.compose.material.icons.rounded.ExpandMore
 import androidx.compose.material.icons.rounded.Feedback
-import androidx.compose.material.icons.rounded.FileDownload
-import androidx.compose.material.icons.rounded.FileUpload
 import androidx.compose.material.icons.rounded.FilterList
 import androidx.compose.material.icons.rounded.FlashOff
 import androidx.compose.material.icons.rounded.FlashOn
@@ -142,8 +143,8 @@ object AlgidyIcons {
         val ExpiryReminder = IconProvider.ImageVectorIcon(Icons.Rounded.Warning)
         val DeleteReminder = IconProvider.DrawableResourceIcon(R.drawable.ic_delete)
 
-        val ExportData = IconProvider.ImageVectorIcon(Icons.Rounded.FileUpload)
-        val ImportData = IconProvider.ImageVectorIcon(Icons.Rounded.FileDownload)
+        val ExportData = IconProvider.ImageVectorIcon(Icons.Rounded.CloudUpload)
+        val ImportData = IconProvider.ImageVectorIcon(Icons.Rounded.CloudDownload)
         val DeleteAll = IconProvider.ImageVectorIcon(Icons.Rounded.DeleteForever)
 
         val NewFeature = IconProvider.ImageVectorIcon(Icons.Rounded.NewReleases)
@@ -152,6 +153,12 @@ object AlgidyIcons {
         val License = IconProvider.ImageVectorIcon(Icons.Rounded.Gavel)
         val OpenSource = IconProvider.ImageVectorIcon(Icons.Rounded.Code)
 
+        val Algidy = IconProvider.DrawableResourceIcon(R.drawable.ic_algidy)
+        val Email = IconProvider.ImageVectorIcon(Icons.Rounded.AlternateEmail)
+        val Github = IconProvider.DrawableResourceIcon(R.drawable.ic_github)
+        val Instagram = IconProvider.DrawableResourceIcon(R.drawable.ic_instagram)
+        val Discord = IconProvider.DrawableResourceIcon(R.drawable.ic_discord)
+        val LinkedIn = IconProvider.DrawableResourceIcon(R.drawable.ic_linkedln)
     }
 
 }

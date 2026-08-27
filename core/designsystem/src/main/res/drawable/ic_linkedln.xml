@@ -1,0 +1,45 @@
+<!--
+Font Awesome Free License
+––––––––––––––––––––––––-
+
+Font Awesome Free is free, open source, and GPL friendly. You can use it for
+commercial projects, open source projects, or really almost whatever you want.
+Full Font Awesome Free license: https://fontawesome.com/license/free.
+
+# Icons: CC BY 4.0 License (https://creativecommons.org/licenses/by/4.0/)
+In the Font Awesome Free download, the CC BY 4.0 license applies to all icons
+packaged as SVG and JS file types.
+
+# Fonts: SIL OFL 1.1 License (https://scripts.sil.org/OFL)
+In the Font Awesome Free download, the SIL OFL license applies to all icons
+packaged as web and desktop font files.
+
+# Code: MIT License (https://opensource.org/licenses/MIT)
+In the Font Awesome Free download, the MIT license applies to all non-font and
+non-icon files.
+
+# Attribution
+Attribution is required by MIT, SIL OFL, and CC BY licenses. Downloaded Font
+Awesome Free files already contain embedded comments with sufficient
+attribution, so you shouldn't need to do anything additional when using these
+files normally.
+
+We've kept attribution comments terse, so we ask that you do not actively work
+to remove them from files, especially code. They're a great way for folks to
+learn about Font Awesome.
+
+# Brand Icons
+All brand icons are trademarks of their respective owners. The use of these
+trademarks does not indicate endorsement of the trademark holder by Font
+Awesome, nor vice versa. **Please do not use brand logos for any purpose except
+to represent the company, product, or service to which they refer.**
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="448"
+    android:viewportHeight="512">
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M416,32H31.9C14.3,32 0,46.5 0,64.3v383.4C0,465.5 14.3,480 31.9,480H416c17.6,0 32,-14.5 32,-32.3V64.3c0,-17.8 -14.4,-32.3 -32,-32.3ZM135.4,416H69V202.2h66.5V416Zm-33.2,-243c-21.3,0 -38.5,-17.3 -38.5,-38.5S80.9,96 102.2,96c21.2,0 38.5,17.3 38.5,38.5c0,21.3 -17.2,38.5 -38.5,38.5Zm282.1,243h-66.4V312c0,-24.8 -0.5,-56.7 -34.5,-56.7c-34.6,0 -39.9,27 -39.9,54.9V416h-66.4V202.2h63.7v29.2h0.9c8.9,-16.8 30.6,-34.5 62.9,-34.5c67.2,0 79.7,44.3 79.7,101.9V416Z" />
+</vector>

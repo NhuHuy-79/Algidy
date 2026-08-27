@@ -38,7 +38,7 @@ fun Int.toItemPosition(sizeList: Int): ItemPosition =
     }
 
 fun ItemPosition.toHorizontalSegmentedShape(
-    large: Dp = 24.dp, small: Dp = 8.dp
+    large: Dp = 16.dp, small: Dp = 8.dp
 ): RoundedCornerShape {
     return when (this) {
         ItemPosition.TOP -> horizontalRoundedCornerShape(start = large, end = small)
@@ -50,7 +50,7 @@ fun ItemPosition.toHorizontalSegmentedShape(
 
 
 fun ItemPosition.toVerticalSegmentedShape(
-    large: Dp = 24.dp, small: Dp = 8.dp
+    large: Dp = 16.dp, small: Dp = 8.dp
 ): RoundedCornerShape {
     return when (this) {
         ItemPosition.TOP -> verticalRoundedCornerShape(top = large, bottom = small)
