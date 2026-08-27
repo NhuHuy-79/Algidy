@@ -28,8 +28,7 @@ import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.core.presentation.utils.toItemPosition
 import com.nhuhuy.algidy.feature.settings.presentation.component.ClickableItem
 import com.nhuhuy.algidy.feature.settings.presentation.component.about_app.AlgidyMainCard
-import com.nhuhuy.algidy.feature.settings.presentation.model.ClickableType
-import com.nhuhuy.algidy.feature.settings.presentation.model.SettingClickableItem
+import com.nhuhuy.algidy.feature.settings.presentation.model.SettingItems
 import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.SettingsAction
 import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.SettingsUiState
 
@@ -39,13 +38,7 @@ fun AboutAppScreen(
     uiState: SettingsUiState,
     onAction: (SettingsAction) -> Unit,
 ) {
-    val aboutAppItem = listOf(
-        ClickableType.NewFeatures,
-        ClickableType.Feedback,
-        ClickableType.PrivacyPolicy,
-        ClickableType.CopyRight,
-        ClickableType.OpenSource
-    )
+    val items = SettingItems.AboutScreen
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -97,14 +90,12 @@ fun AboutAppScreen(
             item { Spacer(modifier = Modifier.height(14.dp)) }
 
             itemsIndexed(
-                items = aboutAppItem
+                items = items
             ) { index, item ->
                 ClickableItem(
-                    item = SettingClickableItem(item),
-                    position = index.toItemPosition(aboutAppItem.size),
-                    onClick = {
-                        onAction(SettingsAction.ClickableAction(item))
-                    }
+                    item = item,
+                    position = index.toItemPosition(items.size),
+                    onClick = { onAction(SettingsAction.ClickableAction(it)) }
                 )
             }
         }

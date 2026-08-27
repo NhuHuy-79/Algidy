@@ -2,13 +2,13 @@ package com.nhuhuy.algidy.feature.settings.presentation.screen
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
-import androidx.compose.material.icons.rounded.Alarm
-import androidx.compose.material.icons.rounded.ModeEdit
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.FilledIconButton
@@ -29,13 +29,15 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.nhuhuy.algidy.core.designsystem.icon.AlgidyIcons
+import com.nhuhuy.algidy.core.designsystem.icon.AppIcon
 import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.core.presentation.utils.ItemPosition
 import com.nhuhuy.algidy.core.presentation.utils.toVerticalSegmentedShape
 import com.nhuhuy.algidy.feature.settings.presentation.component.SliderItem
 import com.nhuhuy.algidy.feature.settings.presentation.component.ToggleItem
-import com.nhuhuy.algidy.feature.settings.presentation.model.SettingSliderItem
-import com.nhuhuy.algidy.feature.settings.presentation.model.ToggleType
+import com.nhuhuy.algidy.feature.settings.presentation.model.SettingSliderType
+import com.nhuhuy.algidy.feature.settings.presentation.model.SettingToggleType
 import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.SettingsAction
 import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.SettingsCombineState
 import java.time.LocalTime
@@ -48,6 +50,7 @@ fun NotificationScreen(
     combineState: SettingsCombineState,
     onAction: (SettingsAction) -> Unit,
 ) {
+    val algidyIcons = AlgidyIcons.Settings
     Scaffold(
         snackbarHost = {
             SnackbarHost(
@@ -91,7 +94,7 @@ fun NotificationScreen(
                 .fillMaxSize()
                 .padding(padding),
             contentPadding = PaddingValues(16.dp),
-            verticalArrangement = Arrangement.spacedBy(4.dp)
+            verticalArrangement = Arrangement.spacedBy(2.dp)
         ) {
             item {
                 ToggleItem(
@@ -100,7 +103,7 @@ fun NotificationScreen(
                     onToggle = { enabled, _ ->
                         onAction(
                             SettingsAction.ToggleAction(
-                                type = ToggleType.NOTIFICATION,
+                                type = SettingToggleType.NOTIFICATION,
                                 enabled = enabled
                             )
                         )
@@ -121,29 +124,20 @@ fun NotificationScreen(
                 )
             }
 
-            item {
-                Text(
-                    text = "Expiry Reminder",
-                    style = MaterialTheme.typography.bodyMedium.copy(
-                        fontWeight = FontWeight.Medium
-                    ),
-                    color = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier.padding(vertical = 16.dp)
-                )
-            }
+            item { Spacer(modifier = Modifier.height(20.dp)) }
 
             item {
                 ListItem(
-                    modifier = Modifier.clip(
-                        ItemPosition.TOP.toVerticalSegmentedShape()
-                    ),
+                    modifier = Modifier.clip(ItemPosition.TOP.toVerticalSegmentedShape()),
                     colors = ListItemDefaults.colors(
-                        containerColor = MaterialTheme.colorScheme.surfaceContainer,
+                        containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
                         contentColor = MaterialTheme.colorScheme.onSurface
                     ),
                     headlineContent = {
                         Text(
-                            text = stringResource(R.string.setting_daily_reminder)
+                            text = stringResource(R.string.setting_daily_reminder),
+                            style = MaterialTheme.typography.titleMedium,
+                            fontWeight = FontWeight.Medium
                         )
                     },
                     supportingContent = {
@@ -155,21 +149,13 @@ fun NotificationScreen(
                         }
                     },
                     leadingContent = {
-                        Icon(
-                            imageVector = Icons.Rounded.Alarm,
-                            contentDescription = null
-                        )
+                        AppIcon(iconProvider = algidyIcons.DailyReminder)
                     },
                     trailingContent = {
                         FilledIconButton(
-                            onClick = {
-                                onAction(SettingsAction.SetNotifyTime.OpenPicker)
-                            }
+                            onClick = { onAction(SettingsAction.SetNotifyTime.OpenPicker) }
                         ) {
-                            Icon(
-                                imageVector = Icons.Rounded.ModeEdit,
-                                contentDescription = null
-                            )
+                            AppIcon(iconProvider = algidyIcons.EditReminder)
                         }
                     }
                 )
@@ -179,9 +165,9 @@ fun NotificationScreen(
                 SliderItem(
                     currentValue = combineState.notificationPreferences.warningFoodThresholdDays,
                     itemPosition = ItemPosition.MIDDLE,
-                    settingItem = SettingSliderItem.ExpiryWarningThreshold,
-                    onSliderChange = { sliderItem: SettingSliderItem, value: Int ->
-                        onAction(SettingsAction.SliderAction(value = value, type = sliderItem))
+                    settingItem = SettingSliderType.EXPIRY_WARNING_THRESHOLD,
+                    onSliderChange = { sliderType: SettingSliderType, value: Int ->
+                        onAction(SettingsAction.SliderAction(value = value, type = sliderType))
                     }
                 )
             }
@@ -190,9 +176,9 @@ fun NotificationScreen(
                 SliderItem(
                     currentValue = combineState.notificationPreferences.deleteFoodThresholdDayInWeek / 7,
                     itemPosition = ItemPosition.BOTTOM,
-                    settingItem = SettingSliderItem.ExpiredDeleteThreshold,
-                    onSliderChange = { sliderItem: SettingSliderItem, value: Int ->
-                        onAction(SettingsAction.SliderAction(value = value, type = sliderItem))
+                    settingItem = SettingSliderType.EXPIRED_DELETE_THRESHOLD,
+                    onSliderChange = { sliderType: SettingSliderType, value: Int ->
+                        onAction(SettingsAction.SliderAction(value = value, type = sliderType))
                     }
                 )
             }

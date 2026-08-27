@@ -1,75 +1,99 @@
 package com.nhuhuy.algidy.feature.settings.presentation.component
 
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsPressedAsState
+import androidx.compose.material3.Icon
+import androidx.compose.material3.ListItem
+import androidx.compose.material3.ListItemDefaults
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.dp
 import com.nhuhuy.algidy.core.designsystem.icon.AlgidyIcons
 import com.nhuhuy.algidy.core.designsystem.icon.toImageVector
-import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.core.presentation.utils.ItemPosition
-import com.nhuhuy.algidy.feature.settings.presentation.model.ClickableType
-import com.nhuhuy.algidy.feature.settings.presentation.model.SettingClickableItem
-import com.nhuhuy.algidy.feature.settings.utils.toStringRes
+import com.nhuhuy.algidy.core.presentation.utils.toVerticalSegmentedShape
+import com.nhuhuy.algidy.feature.settings.presentation.model.SettingClickableUiModel
 
 @Composable
 fun ClickableItem(
     modifier: Modifier = Modifier,
-    item: SettingClickableItem,
+    item: SettingClickableUiModel,
     position: ItemPosition,
-    onClick: (SettingClickableItem) -> Unit,
+    onClick: (SettingClickableUiModel) -> Unit,
 ) {
-    val algidySettings = AlgidyIcons.Settings
-    val icon = when (item.type) {
-        ClickableType.AboutApp -> algidySettings.AboutApp
-        ClickableType.CopyRight -> algidySettings.License
-        ClickableType.DailyReminder -> algidySettings.Notifications
-        ClickableType.DeleteAll -> algidySettings.DeleteAll
-        ClickableType.Export -> algidySettings.ExportData
-        ClickableType.Feedback -> algidySettings.Feedback
-        ClickableType.Import -> algidySettings.ImportData
-        ClickableType.NewFeatures -> algidySettings.NewFeature
-        ClickableType.OpenSource -> algidySettings.OpenSource
-        ClickableType.PrivacyPolicy -> algidySettings.PrivatePolicy
-        is ClickableType.Language -> algidySettings.Language
-        ClickableType.WidgetDebug -> algidySettings.WidgetDebug
-    }
-
-    val title = when (item.type) {
-        ClickableType.Export -> stringResource(R.string.setting_export)
-        is ClickableType.Import -> stringResource(R.string.setting_import)
-        ClickableType.DeleteAll -> stringResource(R.string.setting_clear_data)
-        ClickableType.AboutApp -> stringResource(R.string.setting_about_app)
-        ClickableType.DailyReminder -> stringResource(R.string.setting_daily_reminder)
-        ClickableType.NewFeatures -> stringResource(R.string.setting_new_features)
-        ClickableType.CopyRight -> stringResource(R.string.setting_copyright)
-        ClickableType.Feedback -> stringResource(R.string.setting_feedback)
-        ClickableType.OpenSource -> stringResource(R.string.setting_open_source)
-        ClickableType.PrivacyPolicy -> stringResource(R.string.setting_privacy_policy)
-        is ClickableType.Language -> stringResource(R.string.setting_language)
-        ClickableType.WidgetDebug -> stringResource(R.string.setting_widget_debug)
-    }
-
-    val desc = when (item.type) {
-        ClickableType.Export -> stringResource(R.string.setting_export_desc)
-        is ClickableType.Import -> stringResource(R.string.setting_import_desc)
-        ClickableType.DeleteAll -> stringResource(R.string.setting_clear_data_desc)
-        ClickableType.AboutApp -> stringResource(R.string.setting_about_app_desc)
-        ClickableType.DailyReminder -> stringResource(R.string.setting_daily_reminder_desc)
-        ClickableType.NewFeatures -> stringResource(R.string.setting_new_features_desc)
-        ClickableType.CopyRight -> stringResource(R.string.setting_copyright_desc)
-        ClickableType.Feedback -> stringResource(R.string.setting_feedback_desc)
-        ClickableType.OpenSource -> stringResource(R.string.setting_open_source_desc)
-        ClickableType.PrivacyPolicy -> stringResource(R.string.setting_privacy_policy_desc)
-        is ClickableType.Language -> stringResource(item.type.currentLanguage.toStringRes())
-        ClickableType.WidgetDebug -> stringResource(R.string.setting_widget_debug_desc)
-    }
-
     ClickableSettingItem(
         modifier = modifier,
         position = position,
-        icon = icon.toImageVector(),
-        description = desc,
-        title = title,
+        icon = item.icon.toImageVector(),
+        description = if (item.description != 0) stringResource(item.description) else "",
+        title = stringResource(item.title),
         onClick = { onClick(item) },
+    )
+}
+
+@Composable
+private fun ClickableSettingItem(
+    position: ItemPosition,
+    modifier: Modifier = Modifier,
+    icon: ImageVector,
+    description: String,
+    title: String,
+    onClick: () -> Unit
+) {
+    val interactionSource = remember { MutableInteractionSource() }
+    val isPressed by interactionSource.collectIsPressedAsState()
+    val animatedShape by animateDpAsState(
+        targetValue = if (isPressed) 24.dp else 8.dp
+    )
+    ListItem(
+        colors = ListItemDefaults.colors(
+            containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+            contentColor = MaterialTheme.colorScheme.onSurface
+        ),
+        modifier = modifier
+            .clip(
+                position.toVerticalSegmentedShape(small = animatedShape)
+            )
+            .clickable(
+                interactionSource = interactionSource,
+                onClick = onClick
+            ),
+        leadingContent = {
+            Icon(
+                imageVector = icon,
+                contentDescription = null
+            )
+        },
+        headlineContent = {
+            Text(
+                text = title,
+                style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Medium)
+            )
+        },
+        trailingContent = {
+            Icon(
+                imageVector = AlgidyIcons.Settings.ArrowForward.toImageVector(),
+                contentDescription = null
+            )
+        },
+        supportingContent = {
+            Text(
+                text = description,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                style = MaterialTheme.typography.labelLarge
+            )
+        },
     )
 }

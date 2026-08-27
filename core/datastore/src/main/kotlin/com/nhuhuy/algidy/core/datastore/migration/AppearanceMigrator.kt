@@ -29,7 +29,7 @@ class AppearanceMigrator(
         val oldPrefs = dataStore.data.first()
         val currentData = appearanceDataStore.getPreferences()
         val newData = AppearancePreferences(
-            darkMode = oldPrefs[UserPreferencesKeys.DARK_MODE].toDarkMode(),
+            themeMode = oldPrefs[UserPreferencesKeys.DARK_MODE].toDarkMode(),
             enableDynamicColor = oldPrefs[UserPreferencesKeys.DYNAMIC_COLOR]
                 ?: currentData.enableDynamicColor,
             appLanguage = oldPrefs[UserPreferencesKeys.LANGUAGE].toAppLanguage(),

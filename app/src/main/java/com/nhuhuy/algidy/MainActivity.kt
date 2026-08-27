@@ -19,7 +19,7 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation3.runtime.rememberNavBackStack
 import com.nhuhuy.algidy.core.designsystem.theme.AlgidyDynamicTheme
-import com.nhuhuy.algidy.core.model.setting.DarkMode
+import com.nhuhuy.algidy.core.model.setting.ThemeMode
 import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.core.presentation.navigation.Destination
 import com.nhuhuy.algidy.core.presentation.utils.toColor
@@ -112,10 +112,10 @@ class MainActivity : AppCompatActivity() {
             AlgidyDynamicTheme(
                 seedColor = uiState.seedColor.toColor(),
                 dynamicColor = uiState.isDynamicColors,
-                darkTheme = when (uiState.darkMode) {
-                    DarkMode.DARK -> true
-                    DarkMode.LIGHT -> false
-                    DarkMode.SYSTEM -> isSystemInDarkTheme()
+                darkTheme = when (uiState.themeMode) {
+                    ThemeMode.DARK -> true
+                    ThemeMode.LIGHT -> false
+                    ThemeMode.SYSTEM -> isSystemInDarkTheme()
                 }
             ) {
                 FloatingBottomBarScaffold(

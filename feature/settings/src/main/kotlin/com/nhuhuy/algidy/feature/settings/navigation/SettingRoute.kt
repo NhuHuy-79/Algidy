@@ -28,7 +28,6 @@ import com.nhuhuy.algidy.core.presentation.ObserveEffect
 import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.core.presentation.component.AppNewFeatureBottomSheet
 import com.nhuhuy.algidy.core.presentation.component.AppTimePickerDialog
-import com.nhuhuy.algidy.core.presentation.navigation.Destination
 import com.nhuhuy.algidy.core.presentation.navigation.Destination.Setting
 import com.nhuhuy.algidy.core.presentation.navigation.SettingDestination
 import com.nhuhuy.algidy.feature.settings.presentation.component.WidgetDebugBottomSheet
@@ -209,8 +208,6 @@ fun SettingRoute(
         )
 
         SettingDestination.Main -> MainSettingsScreen(
-            uiState = uiState,
-            onNavigate = onNavigateToSettingRoute,
             onAction = onAction,
             onBackClick = onNavigateBack
         )

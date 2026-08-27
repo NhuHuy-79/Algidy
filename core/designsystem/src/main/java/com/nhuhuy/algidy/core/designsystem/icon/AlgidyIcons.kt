@@ -3,6 +3,7 @@ package com.nhuhuy.algidy.core.designsystem.icon
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.automirrored.rounded.ArrowForward
+import androidx.compose.material.icons.automirrored.rounded.ArrowForwardIos
 import androidx.compose.material.icons.automirrored.rounded.Label
 import androidx.compose.material.icons.automirrored.rounded.PlaylistAdd
 import androidx.compose.material.icons.outlined.Analytics
@@ -13,9 +14,8 @@ import androidx.compose.material.icons.rounded.AddPhotoAlternate
 import androidx.compose.material.icons.rounded.Alarm
 import androidx.compose.material.icons.rounded.Analytics
 import androidx.compose.material.icons.rounded.Apps
-import androidx.compose.material.icons.rounded.AutoMode
 import androidx.compose.material.icons.rounded.BarChart
-import androidx.compose.material.icons.rounded.Brightness5
+import androidx.compose.material.icons.rounded.BrightnessAuto
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.Code
 import androidx.compose.material.icons.rounded.ColorLens
@@ -40,7 +40,6 @@ import androidx.compose.material.icons.rounded.Inventory
 import androidx.compose.material.icons.rounded.Language
 import androidx.compose.material.icons.rounded.ModeEdit
 import androidx.compose.material.icons.rounded.NewReleases
-import androidx.compose.material.icons.rounded.Notifications
 import androidx.compose.material.icons.rounded.NotificationsActive
 import androidx.compose.material.icons.rounded.PhotoCamera
 import androidx.compose.material.icons.rounded.Policy
@@ -53,6 +52,7 @@ import androidx.compose.material.icons.rounded.StackedLineChart
 import androidx.compose.material.icons.rounded.Timer
 import androidx.compose.material.icons.rounded.Today
 import androidx.compose.material.icons.rounded.Warning
+import androidx.compose.material.icons.rounded.WbSunny
 import androidx.compose.material.icons.rounded.Widgets
 import com.nhuhuy.algidy.core.designsystem.R
 
@@ -123,11 +123,12 @@ object AlgidyIcons {
     }
 
     object Settings {
+        val ArrowForward = IconProvider.ImageVectorIcon(Icons.AutoMirrored.Rounded.ArrowForwardIos)
         val Appearance = IconProvider.ImageVectorIcon(Icons.Rounded.ColorLens)
 
         val DarkTheme = IconProvider.ImageVectorIcon(Icons.Rounded.DarkMode)
-        val LightTheme = IconProvider.ImageVectorIcon(Icons.Rounded.Brightness5)
-        val SystemTheme = IconProvider.ImageVectorIcon(Icons.Rounded.AutoMode)
+        val LightTheme = IconProvider.ImageVectorIcon(Icons.Rounded.WbSunny)
+        val SystemTheme = IconProvider.ImageVectorIcon(Icons.Rounded.BrightnessAuto)
         val Notifications = IconProvider.ImageVectorIcon(Icons.Rounded.NotificationsActive)
         val YourData = IconProvider.ImageVectorIcon(Icons.Rounded.Hive)
         val OtherSetting = IconProvider.ImageVectorIcon(Icons.Rounded.Language)
@@ -137,9 +138,9 @@ object AlgidyIcons {
         val Language = IconProvider.ImageVectorIcon(Icons.Rounded.Language)
 
         val DailyReminder = IconProvider.ImageVectorIcon(Icons.Rounded.Alarm)
-        val EditReminder = IconProvider.ImageVectorIcon(Icons.Rounded.Edit)
-        val ExpiryReminder = IconProvider.ImageVectorIcon(Icons.Rounded.Notifications)
-        val DeleteReminder = IconProvider.ImageVectorIcon(Icons.Rounded.Delete)
+        val EditReminder = IconProvider.ImageVectorIcon(Icons.Rounded.ModeEdit)
+        val ExpiryReminder = IconProvider.ImageVectorIcon(Icons.Rounded.Warning)
+        val DeleteReminder = IconProvider.DrawableResourceIcon(R.drawable.ic_delete)
 
         val ExportData = IconProvider.ImageVectorIcon(Icons.Rounded.FileUpload)
         val ImportData = IconProvider.ImageVectorIcon(Icons.Rounded.FileDownload)

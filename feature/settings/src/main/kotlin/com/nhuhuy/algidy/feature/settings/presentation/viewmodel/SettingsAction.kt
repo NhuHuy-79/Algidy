@@ -3,12 +3,12 @@ package com.nhuhuy.algidy.feature.settings.presentation.viewmodel
 import android.net.Uri
 import com.nhuhuy.algidy.core.model.setting.AppFont
 import com.nhuhuy.algidy.core.model.setting.AppLanguage
-import com.nhuhuy.algidy.core.model.setting.DarkMode
 import com.nhuhuy.algidy.core.model.setting.SeedColor
+import com.nhuhuy.algidy.core.model.setting.ThemeMode
 import com.nhuhuy.algidy.core.presentation.viewmodel.UiAction
-import com.nhuhuy.algidy.feature.settings.presentation.model.ClickableType
-import com.nhuhuy.algidy.feature.settings.presentation.model.SettingSliderItem
-import com.nhuhuy.algidy.feature.settings.presentation.model.ToggleType
+import com.nhuhuy.algidy.feature.settings.presentation.model.SettingClickableUiModel
+import com.nhuhuy.algidy.feature.settings.presentation.model.SettingSliderType
+import com.nhuhuy.algidy.feature.settings.presentation.model.SettingToggleType
 
 sealed interface SettingsAction : UiAction {
     data object OnDismiss : SettingsAction
@@ -18,7 +18,7 @@ sealed interface SettingsAction : UiAction {
     }
 
     data class OnNotificationGranted(val granted: Boolean) : SettingsAction
-    data class SetDarkMode(val darkMode: DarkMode) : SettingsAction
+    data class SetDarkMode(val themeMode: ThemeMode) : SettingsAction
     data class ChangeLanguage(val language: AppLanguage) : SettingsAction
     data class ChangeFont(val font: AppFont) : SettingsAction
     data class SetWarningDays(val days: Int) : SettingsAction
@@ -36,18 +36,18 @@ sealed interface SettingsAction : UiAction {
     data class ImportData(val uri: Uri) : SettingsAction
 
     data class ClickableAction(
-        val type: ClickableType
+        val type: SettingClickableUiModel
     ) : SettingsAction
 
 
     data class ToggleAction(
-        val type: ToggleType,
+        val type: SettingToggleType,
         val enabled: Boolean
     ) : SettingsAction
 
     data class SliderAction(
         val value: Int,
-        val type: SettingSliderItem
+        val type: SettingSliderType
     ) : SettingsAction
 
     data object ClearLog : SettingsAction

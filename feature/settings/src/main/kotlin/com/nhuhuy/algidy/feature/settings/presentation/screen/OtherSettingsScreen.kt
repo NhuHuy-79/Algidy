@@ -25,8 +25,7 @@ import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.core.presentation.utils.ItemPosition
 import com.nhuhuy.algidy.feature.settings.presentation.component.ClickableItem
 import com.nhuhuy.algidy.feature.settings.presentation.component.ToggleItem
-import com.nhuhuy.algidy.feature.settings.presentation.model.ClickableType
-import com.nhuhuy.algidy.feature.settings.presentation.model.SettingClickableItem
+import com.nhuhuy.algidy.feature.settings.presentation.model.SettingClickableUiModel
 import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.SettingsAction
 import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.SettingsCombineState
 
@@ -77,13 +76,9 @@ fun OtherSettingsScreen(
         ) {
             item {
                 ClickableItem(
-                    item = SettingClickableItem(
-                        type = ClickableType.Language(currentLanguage = combineState.appearancePreferences.appLanguage)
-                    ),
+                    item = SettingClickableUiModel.LANGUAGE,
                     position = ItemPosition.SINGLE,
-                    onClick = { settingClickableItem ->
-                        onAction(SettingsAction.ClickableAction(settingClickableItem.type))
-                    }
+                    onClick = { onAction(SettingsAction.ClickableAction(it)) }
                 )
             }
 
@@ -92,10 +87,10 @@ fun OtherSettingsScreen(
                     ToggleItem(
                         item = combineState.biometricSetting,
                         position = ItemPosition.TOP,
-                        onToggle = { enabled, _ ->
+                        onToggle = { enabled, item ->
                             onAction(
                                 SettingsAction.ToggleAction(
-                                    type = combineState.biometricSetting.type,
+                                    type = item.type,
                                     enabled = enabled
                                 )
                             )
@@ -104,10 +99,10 @@ fun OtherSettingsScreen(
                     ToggleItem(
                         item = combineState.categorySetting,
                         position = ItemPosition.BOTTOM,
-                        onToggle = { enabled, _ ->
+                        onToggle = { enabled, item ->
                             onAction(
                                 SettingsAction.ToggleAction(
-                                    type = combineState.categorySetting.type,
+                                    type = item.type,
                                     enabled = enabled
                                 )
                             )

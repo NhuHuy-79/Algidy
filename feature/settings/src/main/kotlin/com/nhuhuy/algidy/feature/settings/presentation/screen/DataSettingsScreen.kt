@@ -27,8 +27,7 @@ import androidx.compose.ui.unit.dp
 import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.core.presentation.utils.toItemPosition
 import com.nhuhuy.algidy.feature.settings.presentation.component.ClickableItem
-import com.nhuhuy.algidy.feature.settings.presentation.model.ClickableType
-import com.nhuhuy.algidy.feature.settings.presentation.model.SettingClickableItem
+import com.nhuhuy.algidy.feature.settings.presentation.model.SettingItems
 import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.SettingsAction
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
@@ -37,11 +36,7 @@ fun DataSettingsScreen(
     snackBarHost: SnackbarHostState,
     onAction: (SettingsAction) -> Unit,
 ) {
-    val listOfClickableItems = listOf(
-        SettingClickableItem(type = ClickableType.Export),
-        SettingClickableItem(type = ClickableType.Import),
-        SettingClickableItem(type = ClickableType.DeleteAll),
-    )
+    val items = SettingItems.DataScreen
     Scaffold(
         snackbarHost = {
             SnackbarHost(hostState = snackBarHost)
@@ -86,13 +81,13 @@ fun DataSettingsScreen(
             verticalArrangement = Arrangement.spacedBy(2.dp)
         ) {
             itemsIndexed(
-                items = listOfClickableItems,
+                items = items,
             ) { index, item ->
                 ClickableItem(
                     modifier = Modifier.fillMaxWidth(),
                     item = item,
-                    position = index.toItemPosition(listOfClickableItems.size),
-                    onClick = { onAction(SettingsAction.ClickableAction(item.type)) }
+                    position = index.toItemPosition(items.size),
+                    onClick = { onAction(SettingsAction.ClickableAction(it)) }
                 )
             }
         }

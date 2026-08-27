@@ -6,6 +6,7 @@ import com.nhuhuy.algidy.core.data.util.onFailure
 import com.nhuhuy.algidy.core.data.util.onSuccess
 import com.nhuhuy.algidy.core.data.util.product
 import com.nhuhuy.algidy.core.notifications.worker.WorkerScheduler
+import com.nhuhuy.algidy.core.presentation.navigation.Destination
 import com.nhuhuy.algidy.core.presentation.navigation.Destination.Setting
 import com.nhuhuy.algidy.core.presentation.navigation.Navigator
 import com.nhuhuy.algidy.core.presentation.navigation.SettingDestination
@@ -16,9 +17,9 @@ import com.nhuhuy.algidy.feature.settings.domain.usecase.DeleteAllDataUseCase
 import com.nhuhuy.algidy.feature.settings.domain.usecase.ManageDataUseCase
 import com.nhuhuy.algidy.feature.settings.domain.usecase.ObserveSettingStateUseCase
 import com.nhuhuy.algidy.feature.settings.domain.usecase.UpdatePreferencesUseCase
-import com.nhuhuy.algidy.feature.settings.presentation.model.ClickableType
-import com.nhuhuy.algidy.feature.settings.presentation.model.SettingSliderItem
-import com.nhuhuy.algidy.feature.settings.presentation.model.ToggleType
+import com.nhuhuy.algidy.feature.settings.presentation.model.SettingClickableUiModel
+import com.nhuhuy.algidy.feature.settings.presentation.model.SettingSliderType
+import com.nhuhuy.algidy.feature.settings.presentation.model.SettingToggleType
 import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.SettingsEvent.ShowSnackBar
 import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.SettingsOverlay.LanguageSheet
 import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.SettingsOverlay.NewFeatureSheet
@@ -87,7 +88,7 @@ class SettingsViewModel(
             is SettingsAction.SetDarkMode -> viewModelScope.launch {
                 updatePreferencesUseCase.updateAppearance(
                     currentCombineState.appearancePreferences.copy(
-                        darkMode = action.darkMode
+                        themeMode = action.themeMode
                     )
                 )
             }
@@ -171,27 +172,23 @@ class SettingsViewModel(
     private fun onClickableAction(action: SettingsAction.ClickableAction) {
         viewModelScope.launch {
             when (action.type) {
-                ClickableType.Export -> {
+                SettingClickableUiModel.EXPORT -> {
                     manageDataUseCase.exportData()
                         .onSuccess { emitEvent(SettingsEvent.ExportData.SUCCESS) }
                         .onFailure { emitEvent(SettingsEvent.ExportData.FAILURE) }
                 }
 
-                is ClickableType.Import -> emitEvent(SettingsEvent.ImportData.PickUri)
-                ClickableType.DeleteAll -> _uiState.product { copy(overlay = SettingsOverlay.DeleteAlertDialog) }
-                ClickableType.AboutApp -> {
-                    currentState.versionFeatures?.let { newFeatures ->
-                        _uiState.product {
-                            copy(overlay = NewFeatureSheet(newFeatures))
-                        }
-                    }
+                SettingClickableUiModel.IMPORT -> emitEvent(SettingsEvent.ImportData.PickUri)
+                SettingClickableUiModel.DELETE_ALL -> _uiState.product { copy(overlay = SettingsOverlay.DeleteAlertDialog) }
+                SettingClickableUiModel.ABOUT -> {
+                    navigator.navigateTo(Setting(SettingDestination.AboutApp))
                 }
 
-                ClickableType.DailyReminder -> {
+                SettingClickableUiModel.DAILY_REMINDER -> {
                     _uiState.product { copy(overlay = SettingsOverlay.TimePicker) }
                 }
 
-                ClickableType.NewFeatures -> {
+                SettingClickableUiModel.NEW_FEATURES -> {
                     currentState.versionFeatures?.let {
                         _uiState.product {
                             copy(overlay = NewFeatureSheet(it))
@@ -199,33 +196,52 @@ class SettingsViewModel(
                     }
                 }
 
-                ClickableType.CopyRight -> _uiState.product {
+                SettingClickableUiModel.COPYRIGHT -> _uiState.product {
                     copy(overlay = SettingsOverlay.CopyrightSheet)
                 }
 
-                ClickableType.Feedback -> {
+                SettingClickableUiModel.FEEDBACK -> {
                     emitEvent(SettingsEvent.SendFeedBackEmail)
                 }
 
-                ClickableType.OpenSource -> navigator.navigateTo(
+                SettingClickableUiModel.OPEN_SOURCE -> navigator.navigateTo(
                     Setting(
                         SettingDestination.OpenSource
                     )
                 )
 
-                ClickableType.PrivacyPolicy -> _uiState.product {
+                SettingClickableUiModel.PRIVACY_POLICY -> _uiState.product {
                     copy(overlay = SettingsOverlay.PolicySheet)
                 }
 
-                is ClickableType.Language -> _uiState.product {
+                SettingClickableUiModel.LANGUAGE -> _uiState.product {
                     copy(
-                        overlay = LanguageSheet(currentLanguage = action.type.currentLanguage)
+                        overlay = LanguageSheet(currentLanguage = currentCombineState.appearancePreferences.appLanguage)
                     )
                 }
 
-                ClickableType.WidgetDebug -> _uiState.product {
+                SettingClickableUiModel.DEBUG -> _uiState.product {
                     copy(overlay = WidgetDebugSheet)
                 }
+
+                SettingClickableUiModel.APPEARANCE -> navigator.navigateTo(
+                    Setting(
+                        SettingDestination.Appearance
+                    )
+                )
+
+                SettingClickableUiModel.NOTIFICATION -> navigator.navigateTo(
+                    Setting(
+                        SettingDestination.Notification
+                    )
+                )
+
+                SettingClickableUiModel.YOUR_DATA -> navigator.navigateTo(Setting(SettingDestination.YourData))
+                SettingClickableUiModel.OTHER_SETTING -> navigator.navigateTo(
+                    Setting(
+                        SettingDestination.OtherSettings
+                    )
+                )
             }
         }
     }
@@ -233,11 +249,11 @@ class SettingsViewModel(
     private fun onToggleAction(action: SettingsAction.ToggleAction) {
         viewModelScope.launch {
             when (action.type) {
-                ToggleType.BIOMETRIC_AUTH -> {
+                SettingToggleType.BIOMETRIC_AUTH -> {
                     updatePreferencesUseCase.updateBiometric(action.enabled)
                 }
 
-                ToggleType.DYNAMIC_COLOR -> {
+                SettingToggleType.DYNAMIC_COLOR -> {
                     updatePreferencesUseCase.updateAppearance(
                         currentCombineState.appearancePreferences.copy(
                             enableDynamicColor = action.enabled
@@ -245,14 +261,15 @@ class SettingsViewModel(
                     )
                 }
 
-                ToggleType.CATEGORY_GROUP -> {
+                SettingToggleType.CATEGORY_GROUP -> {
                     updatePreferencesUseCase.updateAppearance(
                         currentCombineState.appearancePreferences.copy(
                             enableCategoryGroup = action.enabled
                         )
                     )
                 }
-                ToggleType.NOTIFICATION -> {
+
+                SettingToggleType.NOTIFICATION -> {
                     if (action.enabled && !currentCombineState.notificationGranted) {
                         emitEvent(SettingsEvent.RequestNotificationPermission)
                     } else {
@@ -265,7 +282,7 @@ class SettingsViewModel(
                     }
                 }
 
-                ToggleType.WEEKLY_REPORT -> {
+                SettingToggleType.WEEKLY_REPORT -> {
                     updatePreferencesUseCase.updateNotification(
                         currentCombineState.notificationPreferences.copy(
                             enableWeeklyReport = action.enabled
@@ -279,7 +296,7 @@ class SettingsViewModel(
     private fun onSliderAction(action: SettingsAction.SliderAction) {
         viewModelScope.launch {
             when (action.type) {
-                is SettingSliderItem.ExpiredDeleteThreshold -> {
+                SettingSliderType.EXPIRED_DELETE_THRESHOLD -> {
                     updatePreferencesUseCase.updateNotification(
                         currentCombineState.notificationPreferences.copy(
                             //Threshold Weeks
@@ -288,7 +305,7 @@ class SettingsViewModel(
                     )
                 }
 
-                is SettingSliderItem.ExpiryWarningThreshold -> {
+                SettingSliderType.EXPIRY_WARNING_THRESHOLD -> {
                     updatePreferencesUseCase.updateNotification(
                         currentCombineState.notificationPreferences.copy(
                             warningFoodThresholdDays = action.value

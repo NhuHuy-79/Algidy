@@ -5,10 +5,10 @@ import com.nhuhuy.algidy.core.model.setting.SeedColor
 
 fun SeedColor.toColor(): Color {
     return when (this) {
-        SeedColor.SAPPHIRE -> Color(0xFF1565C0)
-        SeedColor.RUBY -> Color(0xFFC62828)
-        SeedColor.TOPAZ -> Color(0xFFFF8F00)
-        SeedColor.EMERALD -> Color(0xFF2E7D32)
-        SeedColor.AMETHYST -> Color(0xFF6750A4)
+        SeedColor.SAPPHIRE -> Color(0xFF3F7FC4)
+        SeedColor.RUBY -> Color(0xFFC95656)
+        SeedColor.TOPAZ -> Color(0xFFD99A32)
+        SeedColor.EMERALD -> Color(0xFF4F8A52)
+        SeedColor.AMETHYST -> Color(0xFF7B6AA8)
     }
 }

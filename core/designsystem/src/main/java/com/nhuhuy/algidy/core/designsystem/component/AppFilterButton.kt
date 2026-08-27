@@ -38,7 +38,10 @@ fun AppFilterButton(
     ) {
         Row(
             modifier = Modifier.padding(horizontal = 16.dp, vertical = 10.dp),
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            horizontalArrangement = Arrangement.spacedBy(
+                8.dp,
+                alignment = Alignment.CenterHorizontally
+            ),
             verticalAlignment = Alignment.CenterVertically
         ) {
             leadingContent?.invoke()
@@ -46,7 +49,7 @@ fun AppFilterButton(
                 text = label,
                 modifier = Modifier,
                 style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.SemiBold),
-                color = if (selected) activeContentColor else disabledContentColor
+                color = if (selected) activeContentColor else disabledContentColor,
             )
         }
     }

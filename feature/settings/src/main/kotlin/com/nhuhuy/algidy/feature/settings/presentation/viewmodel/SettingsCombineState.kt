@@ -5,12 +5,14 @@ import androidx.compose.runtime.Stable
 import com.nhuhuy.algidy.core.datastore.model.AppearancePreferences
 import com.nhuhuy.algidy.core.datastore.model.GeneralPreferences
 import com.nhuhuy.algidy.core.datastore.model.NotificationPreferences
+import com.nhuhuy.algidy.core.designsystem.icon.AlgidyIcons
 import com.nhuhuy.algidy.core.model.VersionFeatures
 import com.nhuhuy.algidy.core.model.setting.AppLanguage
+import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.core.presentation.viewmodel.UiState
 import com.nhuhuy.algidy.feature.settings.domain.model.SettingDataPreferences
-import com.nhuhuy.algidy.feature.settings.presentation.model.SettingToggleItem
-import com.nhuhuy.algidy.feature.settings.presentation.model.ToggleType
+import com.nhuhuy.algidy.feature.settings.presentation.model.SettingToggleType
+import com.nhuhuy.algidy.feature.settings.presentation.model.SettingToggleUiModel
 
 @Immutable
 data class SettingsCombineState(
@@ -25,38 +27,53 @@ data class SettingsCombineState(
     val generalPreferences: GeneralPreferences = GeneralPreferences(),
     val exceptionLog: String? = null,
 ) {
-    val dynamicColorSetting: SettingToggleItem
-        get() = SettingToggleItem(
-            type = ToggleType.DYNAMIC_COLOR,
-            enable = dynamicColorSupported,
+    val dynamicColorSetting: SettingToggleUiModel
+        get() = SettingToggleUiModel(
+            type = SettingToggleType.DYNAMIC_COLOR,
+            title = R.string.settings_dynamic_color,
+            description = R.string.settings_dynamic_mode_desc,
+            icon = AlgidyIcons.Settings.Appearance,
+            enabled = dynamicColorSupported,
             checked = appearancePreferences.enableDynamicColor
         )
 
-    val biometricSetting: SettingToggleItem
-        get() = SettingToggleItem(
-            type = ToggleType.BIOMETRIC_AUTH,
-            enable = biometricSupported,
+    val biometricSetting: SettingToggleUiModel
+        get() = SettingToggleUiModel(
+            type = SettingToggleType.BIOMETRIC_AUTH,
+            title = R.string.setting_biometric,
+            description = R.string.setting_biometric_desc,
+            icon = AlgidyIcons.Settings.YourData,
+            enabled = biometricSupported,
             checked = biometricEnabled
         )
 
-    val notificationSetting: SettingToggleItem
-        get() = SettingToggleItem(
-            type = ToggleType.NOTIFICATION,
-            enable = true,
+    val notificationSetting: SettingToggleUiModel
+        get() = SettingToggleUiModel(
+            type = SettingToggleType.NOTIFICATION,
+            title = R.string.settings_notifications,
+            description = R.string.settings_notifications_desc,
+            icon = AlgidyIcons.Settings.Notifications,
+            enabled = true,
             checked = notificationGranted && notificationPreferences.enableNotification
         )
 
-    val categorySetting: SettingToggleItem
-        get() = SettingToggleItem(
-            type = ToggleType.CATEGORY_GROUP,
-            enable = true,
+    val categorySetting: SettingToggleUiModel
+        get() = SettingToggleUiModel(
+            type = SettingToggleType.CATEGORY_GROUP,
+            title = R.string.setting_use_category,
+            description = R.string.setting_use_category_des,
+            icon = AlgidyIcons.Settings.OtherSetting,
+            enabled = true,
             checked = appearancePreferences.enableCategoryGroup
         )
 
-    val weekendReportSetting: SettingToggleItem
-        get() = SettingToggleItem(
-            type = ToggleType.WEEKLY_REPORT,
-            enable = true,
+    val weekendReportSetting: SettingToggleUiModel
+        get() = SettingToggleUiModel(
+            type = SettingToggleType.WEEKLY_REPORT,
+            title = R.string.setting_weekly_report,
+            description = R.string.setting_weekly_report_desc,
+            icon = AlgidyIcons.Settings.Notifications,
+            enabled = true,
             checked = notificationPreferences.enableWeeklyReport
         )
 }
@@ -79,5 +96,3 @@ sealed interface SettingsOverlay {
     data object OpenSourceSheet : SettingsOverlay
     data object WidgetDebugSheet : SettingsOverlay
 }
-
-

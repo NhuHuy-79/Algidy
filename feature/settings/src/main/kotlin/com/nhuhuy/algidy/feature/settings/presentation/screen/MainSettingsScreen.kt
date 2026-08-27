@@ -1,12 +1,12 @@
 package com.nhuhuy.algidy.feature.settings.presentation.screen
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -23,23 +23,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.nhuhuy.algidy.core.designsystem.icon.AlgidyIcons
-import com.nhuhuy.algidy.core.designsystem.icon.toImageVector
 import com.nhuhuy.algidy.core.presentation.R
-import com.nhuhuy.algidy.core.presentation.navigation.Destination
-import com.nhuhuy.algidy.core.presentation.navigation.SettingDestination
-import com.nhuhuy.algidy.core.presentation.utils.ItemPosition
-import com.nhuhuy.algidy.feature.settings.presentation.component.ClickableSettingItem
-import com.nhuhuy.algidy.feature.settings.presentation.model.ClickableType
+import com.nhuhuy.algidy.core.presentation.utils.toItemPosition
+import com.nhuhuy.algidy.feature.settings.presentation.component.ClickableItem
+import com.nhuhuy.algidy.feature.settings.presentation.model.SettingClickableUiModel
+import com.nhuhuy.algidy.feature.settings.presentation.model.SettingItems
 import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.SettingsAction
-import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.SettingsUiState
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun MainSettingsScreen(
-    uiState: SettingsUiState,
     onAction: (SettingsAction) -> Unit,
-    onNavigate: (Destination.Setting) -> Unit,
     onBackClick: () -> Unit,
 ) {
     Scaffold(
@@ -74,82 +68,39 @@ fun MainSettingsScreen(
             )
         }
     ) { padding ->
-        val algidyIconSettings = AlgidyIcons.Settings
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padding),
             contentPadding = PaddingValues(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(2.dp)
         ) {
-            item {
-                ClickableSettingItem(
-                    position = ItemPosition.TOP,
-                    icon = algidyIconSettings.Appearance.toImageVector(),
-                    title = stringResource(R.string.appearance_title),
-                    description = stringResource(R.string.appearance_subtitle),
-                    onClick = { onNavigate(Destination.Setting(SettingDestination.Appearance)) }
+            val section1 = SettingItems.MainScreenSection1
+            val section2 = SettingItems.MainScreenSection2
+            itemsIndexed(section1) { index: Int, item: SettingClickableUiModel ->
+                ClickableItem(
+                    item = item,
+                    position = index.toItemPosition(section1.size),
+                    onClick = { onAction(SettingsAction.ClickableAction(it)) }
                 )
+
+                if (index != section1.lastIndex) {
+                    Spacer(modifier = Modifier.height(2.dp))
+                }
             }
 
-            item {
-                ClickableSettingItem(
-                    position = ItemPosition.MIDDLE,
-                    icon = algidyIconSettings.Notifications.toImageVector(),
-                    title = stringResource(R.string.notification_settings_title),
-                    description = stringResource(R.string.notification_settings_subtitle),
-                    onClick = { onNavigate(Destination.Setting(SettingDestination.Notification)) }
-                )
-            }
+            item { Spacer(modifier = Modifier.height(24.dp)) }
 
-            item {
-                ClickableSettingItem(
-                    position = ItemPosition.BOTTOM,
-                    icon = algidyIconSettings.YourData.toImageVector(),
-                    title = stringResource(R.string.your_data_title),
-                    description = stringResource(R.string.your_data_subtitle),
-                    onClick = { onNavigate(Destination.Setting(SettingDestination.YourData)) }
+            itemsIndexed(section2) { index: Int, item: SettingClickableUiModel ->
+                ClickableItem(
+                    item = item,
+                    position = index.toItemPosition(section2.size),
+                    onClick = { onAction(SettingsAction.ClickableAction(it)) }
                 )
-            }
 
-            item {
-                Spacer(modifier = Modifier.height(16.dp))
-            }
-
-            item {
-                ClickableSettingItem(
-                    position = ItemPosition.TOP,
-                    icon = algidyIconSettings.OtherSetting.toImageVector(),
-                    title = stringResource(R.string.other_settings_title_page),
-                    description = stringResource(R.string.other_settings_subtitle),
-                    onClick = { onNavigate(Destination.Setting(SettingDestination.OtherSettings)) }
-                )
-            }
-
-            item {
-                ClickableSettingItem(
-                    position = ItemPosition.MIDDLE,
-                    icon = algidyIconSettings.WidgetDebug.toImageVector(),
-                    title = stringResource(R.string.setting_widget_debug),
-                    description = stringResource(R.string.setting_widget_debug_desc),
-                    onClick = {
-                        onAction(SettingsAction.ClickableAction(ClickableType.WidgetDebug))
-                    }
-                )
-            }
-
-            item {
-                ClickableSettingItem(
-                    position = ItemPosition.BOTTOM,
-                    icon = algidyIconSettings.AboutApp.toImageVector(),
-                    title = stringResource(R.string.setting_about_app),
-                    description = stringResource(
-                        R.string.setting_about_app_desc,
-                        uiState.versionName
-                    ),
-                    onClick = { onNavigate(Destination.Setting(SettingDestination.AboutApp)) }
-                )
+                if (index != section1.lastIndex) {
+                    Spacer(modifier = Modifier.height(2.dp))
+                }
             }
         }
     }
