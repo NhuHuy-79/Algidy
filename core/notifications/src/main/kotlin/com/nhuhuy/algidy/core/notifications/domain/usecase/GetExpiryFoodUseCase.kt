@@ -31,9 +31,7 @@ class GetExpiryFoodUseCase(
                 today,
                 expiryDate
             )
-            Timber.d(
-                "Food=${foodItem.name}, expiry=$expiryDate, today=$today, daysLeft=$daysLeft"
-            )
+            Timber.d("Food=${foodItem.name}, expiry=$expiryDate, today=$today, daysLeft=$daysLeft")
             daysLeft in 0..warningDays.toLong()
         }
 

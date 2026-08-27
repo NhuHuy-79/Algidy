@@ -9,7 +9,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Image
-import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.CircularWavyProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -27,6 +28,7 @@ import coil3.compose.rememberAsyncImagePainter
 import coil3.request.ImageRequest
 import coil3.request.crossfade
 
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun FoodImageCard(
     modifier: Modifier = Modifier,
@@ -64,10 +66,9 @@ fun FoodImageCard(
 
             when (state) {
                 is AsyncImagePainter.State.Loading -> {
-                    CircularProgressIndicator(
+                    CircularWavyProgressIndicator(
                         modifier = Modifier.size(32.dp),
-                        color = MaterialTheme.colorScheme.onSecondaryContainer,
-                        strokeWidth = 3.dp
+                        color = MaterialTheme.colorScheme.onSecondaryContainer
                     )
                 }
 

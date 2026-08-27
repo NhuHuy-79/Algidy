@@ -174,7 +174,7 @@
     <string name="analytics_card_monthly_freshness">Độ tươi Tháng này</string>
 
     <string name="analytics_card_empty_state">Dữ liệu chưa đầy đủ</string>
-    <string name="analytics_spoilage_history_wasted_value">Lãng phí</string>
+    <string name="analytics_spoilage_history_wasted_value">Lãng phí: %1$d</string>
     <string name="analytics_weekly_card">%1$s/7 ngày</string>
     <string name="analytics_weekly_card_content">Bắt đầu từ %1$s</string>
     <string name="analytics_card_expiring_this_week">Hết hạn trong tuần</string>
@@ -361,5 +361,5 @@
     <string name="analytics_food_overview_title">Tổng Quan Hết hạn</string>
     <string name="analytics_period_week">Trong Tuần</string>
     <string name="analytics_expired">Hết hạn</string>
-    <string name="analytics_spoilage_history_consumed_value">Đã sử dụng</string>
+    <string name="analytics_spoilage_history_consumed_value">Đã sử dụng: %1$d</string>
 </resources>

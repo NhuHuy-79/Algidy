@@ -52,7 +52,7 @@ fun MonthlyFreshness(
 ) {
     CardLayout(
         modifier = modifier.wrapContentHeight(),
-        icon = AlgidyIcons.Analytics.WeeklyChart.toImageVector(),
+        icon = AlgidyIcons.Analytics.MonthlyFreshness.toImageVector(),
         title = stringResource(R.string.analytics_card_monthly_freshness),
         shape = itemPosition.toVerticalSegmentedShape(),
         cardColors = CardDefaults.cardColors(

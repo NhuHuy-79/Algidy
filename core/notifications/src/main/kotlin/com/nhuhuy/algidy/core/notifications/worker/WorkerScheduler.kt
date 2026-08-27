@@ -28,7 +28,7 @@ object WorkerStrings {
 }
 
 interface WorkerScheduler {
-    fun scheduleCheckExpiryWorker()
+    fun scheduleCheckExpiryWorker(forceReplace: Boolean = false)
     fun scheduleWeeklyReportWorker()
     fun scheduleWeeklyCleanUpFileWorker()
     fun scheduleWeeklyDeleteFoodWorker()
@@ -41,9 +41,14 @@ class WorkerSchedulerImp(
     private val scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
     private val workManager by lazy { WorkManager.getInstance(context) }
 
-    override fun scheduleCheckExpiryWorker() {
+    override fun scheduleCheckExpiryWorker(forceReplace: Boolean) {
         scope.launch {
             val prefs = notificationDataStore.preferencesFlow.first()
+            if (!prefs.enableNotification) {
+                workManager.cancelUniqueWork(WorkerStrings.DAILY_WORKER)
+                return@launch
+            }
+
             val hour = prefs.hour
             val minute = prefs.minutes
 
@@ -54,11 +59,12 @@ class WorkerSchedulerImp(
 
             val request = OneTimeWorkRequestBuilder<CheckExpirationWorker>()
                 .setInitialDelay(delay, TimeUnit.MILLISECONDS)
+                .addTag(WorkerStrings.DAILY_WORKER)
                 .build()
 
             workManager.enqueueUniqueWork(
                 WorkerStrings.DAILY_WORKER,
-                ExistingWorkPolicy.REPLACE,
+                if (forceReplace) ExistingWorkPolicy.REPLACE else ExistingWorkPolicy.KEEP,
                 request
             )
         }
@@ -75,12 +81,13 @@ class WorkerSchedulerImp(
                 initialDelayMillis,
                 TimeUnit.MILLISECONDS
             )
+            .addTag(WorkerStrings.WEEKLY_WORKER)
             .build()
 
 
         workManager.enqueueUniquePeriodicWork(
             uniqueWorkName = WorkerStrings.WEEKLY_WORKER,
-            existingPeriodicWorkPolicy = ExistingPeriodicWorkPolicy.UPDATE,
+            existingPeriodicWorkPolicy = ExistingPeriodicWorkPolicy.KEEP,
             request = weeklyRequest
         )
     }
@@ -92,14 +99,17 @@ class WorkerSchedulerImp(
             .build()
         val initialDelayMillis = calculateDelayUntilNextSunday9AM()
 
-        val cleanUpRequest = OneTimeWorkRequestBuilder<CleanUpFileWorker>()
+        val cleanUpRequest = PeriodicWorkRequestBuilder<CleanUpFileWorker>(
+            7, TimeUnit.DAYS
+        )
             .setConstraints(constraints)
             .setInitialDelay(initialDelayMillis, TimeUnit.MILLISECONDS)
+            .addTag(WorkerStrings.CLEAN_FILE_WORKER)
             .build()
 
-        workManager.enqueueUniqueWork(
-            WorkerStrings.DELETE_OLD_FOOD_WORKER,
-            ExistingWorkPolicy.KEEP,
+        workManager.enqueueUniquePeriodicWork(
+            WorkerStrings.CLEAN_FILE_WORKER,
+            ExistingPeriodicWorkPolicy.KEEP,
             cleanUpRequest
         )
     }
@@ -112,17 +122,18 @@ class WorkerSchedulerImp(
 
         val initialDelayMillis = calculateDelayUntilNextSunday9AM()
 
-        val cleanUpRequest = PeriodicWorkRequestBuilder<DeleteOldFoodWorker>(
+        val deleteRequest = PeriodicWorkRequestBuilder<DeleteOldFoodWorker>(
             7, TimeUnit.DAYS
         )
             .setConstraints(constraints)
             .setInitialDelay(initialDelayMillis, TimeUnit.MILLISECONDS)
+            .addTag(WorkerStrings.DELETE_OLD_FOOD_WORKER)
             .build()
 
         workManager.enqueueUniquePeriodicWork(
             WorkerStrings.DELETE_OLD_FOOD_WORKER,
-            ExistingPeriodicWorkPolicy.UPDATE,
-            cleanUpRequest
+            ExistingPeriodicWorkPolicy.KEEP,
+            deleteRequest
         )
     }
 

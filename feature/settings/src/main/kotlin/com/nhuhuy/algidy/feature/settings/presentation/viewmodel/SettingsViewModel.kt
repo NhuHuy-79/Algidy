@@ -5,6 +5,7 @@ import com.nhuhuy.algidy.core.data.AppNewFeaturesReader
 import com.nhuhuy.algidy.core.data.util.onFailure
 import com.nhuhuy.algidy.core.data.util.onSuccess
 import com.nhuhuy.algidy.core.data.util.product
+import com.nhuhuy.algidy.core.notifications.worker.WorkerScheduler
 import com.nhuhuy.algidy.core.presentation.navigation.Destination.Setting
 import com.nhuhuy.algidy.core.presentation.navigation.Navigator
 import com.nhuhuy.algidy.core.presentation.navigation.SettingDestination
@@ -39,8 +40,8 @@ class SettingsViewModel(
     private val manageDataUseCase: ManageDataUseCase,
     private val checkCapabilityUseCase: CheckCapabilityUseCase,
     private val deleteDataUseCase: DeleteAllDataUseCase,
-    //refactor
     private val updatePreferencesUseCase: UpdatePreferencesUseCase,
+    private val workerScheduler: WorkerScheduler,
 ) : BaseViewModel<SettingsUiState, SettingsEvent, SettingsAction>() {
     private val _uiState = MutableStateFlow(
         SettingsUiState(
@@ -129,6 +130,7 @@ class SettingsViewModel(
                         enableNotification = action.granted
                     )
                 )
+                workerScheduler.scheduleCheckExpiryWorker(forceReplace = true)
                 if (!action.granted) {
                     emitEvent(ShowSnackBar("Permission denied. Notifications disabled."))
                 }
@@ -259,6 +261,7 @@ class SettingsViewModel(
                                 enableNotification = action.enabled
                             )
                         )
+                        workerScheduler.scheduleCheckExpiryWorker(forceReplace = true)
                     }
                 }
 
@@ -308,6 +311,7 @@ class SettingsViewModel(
                         minutes = action.minutes
                     )
                 )
+                workerScheduler.scheduleCheckExpiryWorker(forceReplace = true)
                 emitEvent(NotifyTimerEvent.Success)
             }
         }

@@ -140,7 +140,9 @@ private fun LegendLabel(
 
         Text(
             text = legend,
-            style = MaterialTheme.typography.labelMedium
+            style = MaterialTheme.typography.labelLarge,
+            fontWeight = FontWeight.SemiBold,
+            color = color
         )
     }
 }
@@ -255,7 +257,9 @@ fun SpoilageHistoryContent(
                 shape = RoundedCornerShape(24.dp),
                 fill = Fill(color = scheme.tertiary),
             ),
-            style = MaterialTheme.typography.labelSmall,
+            style = MaterialTheme.typography.labelSmall.copy(
+                color = scheme.onTertiary
+            ),
         ),
         valueFormatter = markerValueFormatter,
         labelPosition = DefaultCartesianMarker.LabelPosition.Top,

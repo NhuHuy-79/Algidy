@@ -27,7 +27,6 @@ import androidx.compose.material.icons.rounded.Edit
 import androidx.compose.material.icons.rounded.ErrorOutline
 import androidx.compose.material.icons.rounded.ExpandLess
 import androidx.compose.material.icons.rounded.ExpandMore
-import androidx.compose.material.icons.rounded.Fastfood
 import androidx.compose.material.icons.rounded.Feedback
 import androidx.compose.material.icons.rounded.FileDownload
 import androidx.compose.material.icons.rounded.FileUpload
@@ -41,7 +40,7 @@ import androidx.compose.material.icons.rounded.Inventory
 import androidx.compose.material.icons.rounded.Language
 import androidx.compose.material.icons.rounded.ModeEdit
 import androidx.compose.material.icons.rounded.NewReleases
-import androidx.compose.material.icons.rounded.NotificationImportant
+import androidx.compose.material.icons.rounded.Notifications
 import androidx.compose.material.icons.rounded.NotificationsActive
 import androidx.compose.material.icons.rounded.PhotoCamera
 import androidx.compose.material.icons.rounded.Policy
@@ -117,12 +116,10 @@ object AlgidyIcons {
     }
 
     object Analytics {
-        val FoodStreak = IconProvider.ImageVectorIcon(Icons.Rounded.BarChart)
-        val Other = IconProvider.ImageVectorIcon(Icons.Rounded.Fastfood)
-        val WeeklyChart = IconProvider.ImageVectorIcon(Icons.Rounded.BarChart)
+        val WeeklyFoodChart = IconProvider.ImageVectorIcon(Icons.Rounded.BarChart)
+        val MonthlyFreshness =
+            IconProvider.DrawableResourceIcon(R.drawable.phosphor_chart_bar_horizontal)
         val SpoilageChart = IconProvider.ImageVectorIcon(Icons.Rounded.StackedLineChart)
-        val OpenPeriodFilter = IconProvider.ImageVectorIcon(Icons.Rounded.ExpandMore)
-        val ClosePeriodFilter = IconProvider.ImageVectorIcon(Icons.Rounded.ExpandLess)
     }
 
     object Settings {
@@ -141,7 +138,7 @@ object AlgidyIcons {
 
         val DailyReminder = IconProvider.ImageVectorIcon(Icons.Rounded.Alarm)
         val EditReminder = IconProvider.ImageVectorIcon(Icons.Rounded.Edit)
-        val ExpiryReminder = IconProvider.ImageVectorIcon(Icons.Rounded.NotificationImportant)
+        val ExpiryReminder = IconProvider.ImageVectorIcon(Icons.Rounded.Notifications)
         val DeleteReminder = IconProvider.ImageVectorIcon(Icons.Rounded.Delete)
 
         val ExportData = IconProvider.ImageVectorIcon(Icons.Rounded.FileUpload)

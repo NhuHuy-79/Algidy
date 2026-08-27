@@ -10,7 +10,6 @@ import com.nhuhuy.algidy.core.notifications.domain.usecase.GetExpiryFoodUseCase
 import com.nhuhuy.algidy.core.notifications.domain.usecase.GetNotificationPreferenceUseCase
 import kotlinx.coroutines.withContext
 import timber.log.Timber
-import java.util.concurrent.TimeUnit
 
 class CheckExpirationWorker(
     appContext: Context,
@@ -38,17 +37,8 @@ class CheckExpirationWorker(
                     return@withContext Result.success()
                 }
 
-                val currentTime = System.currentTimeMillis()
-
-                val expiredToday = expiringFoods.filter { food ->
-                    val diff = food.expiryDate - currentTime
-                    TimeUnit.MILLISECONDS.toDays(diff) < 1
-                }
-
-                val expiringSoon = expiringFoods.filter { food ->
-                    val diff = food.expiryDate - currentTime
-                    TimeUnit.MILLISECONDS.toDays(diff) >= 1
-                }
+                val expiredToday = expiringFoods.filter { it.getRemainingDays() == 0 }
+                val expiringSoon = expiringFoods.filter { it.getRemainingDays() > 0 }
 
                 expiredToday.forEach { food ->
                     notifier.showActionableExpiryPrompt(
@@ -75,7 +65,7 @@ class CheckExpirationWorker(
                 Timber.e(e)
                 Result.retry()
             } finally {
-                workerScheduler.scheduleCheckExpiryWorker()
+                workerScheduler.scheduleCheckExpiryWorker(forceReplace = true)
             }
         }
     }

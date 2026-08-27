@@ -41,7 +41,7 @@ fun WeeklyExpiryAnalytics(
 ) {
     LocalAlgidySpacing.current
     CardLayout(
-        icon = AlgidyIcons.Analytics.FoodStreak.toImageVector(),
+        icon = AlgidyIcons.Analytics.WeeklyFoodChart.toImageVector(),
         title = stringResource(R.string.analytics_card_expiring_this_week),
         modifier = modifier,
         cardColors = CardDefaults.cardColors(

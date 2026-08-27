@@ -1,17 +1,5 @@
 package com.nhuhuy.algidy.navigation
 
-import androidx.compose.animation.EnterTransition
-import androidx.compose.animation.core.EaseInCubic
-import androidx.compose.animation.core.EaseOutQuart
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.scaleIn
-import androidx.compose.animation.slideInHorizontally
-import androidx.compose.animation.slideInVertically
-import androidx.compose.animation.slideOutHorizontally
-import androidx.compose.animation.slideOutVertically
-import androidx.compose.animation.togetherWith
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
@@ -29,6 +17,8 @@ import com.nhuhuy.algidy.feature.inventory.navigation.InventoryRoute
 import com.nhuhuy.algidy.feature.inventory.navigation.SearchInventoryRoute
 import com.nhuhuy.algidy.feature.scanner.presentation.scanner.ScannerRoute
 import com.nhuhuy.algidy.feature.settings.navigation.SettingRoute
+import com.nhuhuy.algidy.transition.AppTransitions
+import com.nhuhuy.algidy.transition.toContentTransform
 import org.koin.compose.koinInject
 
 @Composable
@@ -40,15 +30,11 @@ fun AppGraph(
 
     ObserveEffect(navigator.event) { event ->
         when (event) {
-            NavigateEvent.NavigateBack -> {
-                if (backStack.isNotEmpty()) backStack.removeLastOrNull()
-            }
-
-            is NavigateEvent.NavigateTo -> {
-                backStack.add(event.destination)
-            }
+            NavigateEvent.NavigateBack -> if (backStack.isNotEmpty()) backStack.removeLastOrNull()
+            is NavigateEvent.NavigateTo -> backStack.add(event.destination)
         }
     }
+
     NavDisplay(
         modifier = modifier,
         backStack = backStack,
@@ -57,34 +43,18 @@ fun AppGraph(
             rememberViewModelStoreNavEntryDecorator(),
         ),
         transitionSpec = {
-            (slideInHorizontally(
-                initialOffsetX = { it },
-                animationSpec = tween(400, easing = EaseOutQuart)
-            ) + fadeIn()) togetherWith
-                    (slideOutHorizontally(
-                        targetOffsetX = { -it / 3 },
-                        animationSpec = tween(400)
-                    ) + fadeOut())
+            AppTransitions.bottomBarExpressive.toContentTransform()
         },
         popTransitionSpec = {
-            (slideInHorizontally(
-                initialOffsetX = { -it / 3 },
-                animationSpec = tween(400)
-            ) + fadeIn()) togetherWith
-                    (slideOutHorizontally(
-                        targetOffsetX = { it },
-                        animationSpec = tween(400, easing = EaseOutQuart)
-                    ) + fadeOut())
+            AppTransitions.bottomBarExpressive.toContentTransform()
         },
         predictivePopTransitionSpec = {
-            (slideInHorizontally(initialOffsetX = { -it / 3 }) + fadeIn() + scaleIn(initialScale = 0.9f)) togetherWith
-                    (slideOutHorizontally(targetOffsetX = { it }) + fadeOut())
+            AppTransitions.bottomBarExpressive.toContentTransform()
         },
         onBack = { if (backStack.isNotEmpty()) backStack.removeLastOrNull() },
         entryProvider = entryProvider {
             entry<Destination.Inventory.Home> {
-                InventoryRoute(
-                )
+                InventoryRoute()
             }
 
             entry<Destination.Inventory.Search> {
@@ -92,58 +62,30 @@ fun AppGraph(
                     onNavigateBack = backStack::removeLastOrNull
                 )
             }
+
             entry<Destination.Analytics> {
                 AnalyticsRoute()
             }
 
             entry<Destination.Scanner>(
                 metadata = NavDisplay.transitionSpec {
-                    slideInVertically(
-                        initialOffsetY = { it },
-                        animationSpec = tween(400, easing = EaseOutQuart)
-                    ) + fadeIn(animationSpec = tween(300)) togetherWith
-                            fadeOut(animationSpec = tween(300))
-
+                    AppTransitions.enterFromBottom.toContentTransform()
                 } + NavDisplay.popTransitionSpec {
-                    EnterTransition.None togetherWith slideOutVertically(
-                        targetOffsetY = { it },
-                        animationSpec = tween(400, easing = EaseInCubic)
-                    ) + fadeOut(
-                        animationSpec = tween(300)
-                    )
+                    AppTransitions.enterFromTop.toContentTransform()
                 } + NavDisplay.predictivePopTransitionSpec {
-                    EnterTransition.None togetherWith slideOutVertically(
-                        targetOffsetY = { it },
-                        animationSpec = tween(400, easing = EaseInCubic)
-                    ) + fadeOut(animationSpec = tween(300))
+                    AppTransitions.enterFromTop.toContentTransform()
                 }
             ) {
-                ScannerRoute(
-                    onNavigateBack = { backStack.removeLastOrNull() }
-                )
+                ScannerRoute(onNavigateBack = { backStack.removeLastOrNull() })
             }
 
             entry<Destination.Setting>(
                 metadata = NavDisplay.transitionSpec {
-                    slideInHorizontally(
-                        initialOffsetX = { it }, 
-                        animationSpec = tween(400, easing = EaseOutQuart)
-                    ) + fadeIn(animationSpec = tween(300)) togetherWith
-                            fadeOut(animationSpec = tween(300))
-
+                    AppTransitions.enterFromRight.toContentTransform()
                 } + NavDisplay.popTransitionSpec {
-                    EnterTransition.None togetherWith
-                            slideOutHorizontally(
-                                targetOffsetX = { it },
-                                animationSpec = tween(400, easing = EaseOutQuart)
-                            ) + fadeOut(animationSpec = tween(300))
-
+                    AppTransitions.enterFromLeft.toContentTransform()
                 } + NavDisplay.predictivePopTransitionSpec {
-                    EnterTransition.None togetherWith
-                            slideOutHorizontally(
-                                targetOffsetX = { it },
-                                animationSpec = tween(400, easing = EaseOutQuart)
-                            ) + fadeOut(animationSpec = tween(300))
+                    AppTransitions.enterFromLeft.toContentTransform()
                 }
             ) { setting ->
                 SettingRoute(
