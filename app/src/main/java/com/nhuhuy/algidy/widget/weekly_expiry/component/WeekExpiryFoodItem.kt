@@ -41,7 +41,7 @@ fun WeekExpirySmallFoodItem(
 
     Row(
         modifier = modifier
-            .wrapContentHeight()
+            .height(48.dp)
             .background(
                 imageProvider = ImageProvider(resId),
                 colorFilter = ColorFilter.tint(

@@ -5,12 +5,12 @@ import androidx.glance.GlanceId
 import androidx.glance.action.ActionParameters
 import androidx.glance.appwidget.action.ActionCallback
 
-class RefreshWeeklyFreshnessWiget : ActionCallback {
+class RefreshWeeklyFreshnessWidget : ActionCallback {
     override suspend fun onAction(
         context: Context,
         glanceId: GlanceId,
         parameters: ActionParameters
     ) {
-        WeeklyFreshnessWidget().update(context, glanceId)
+        TotalFoodWidget().update(context, glanceId)
     }
 }

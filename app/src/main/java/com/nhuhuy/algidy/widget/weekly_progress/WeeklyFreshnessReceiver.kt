@@ -5,5 +5,5 @@ import androidx.glance.appwidget.GlanceAppWidgetReceiver
 
 class WeeklyFreshnessReceiver : GlanceAppWidgetReceiver() {
     override val glanceAppWidget: GlanceAppWidget
-        get() = WeeklyFreshnessWidget()
+        get() = TotalFoodWidget()
 }

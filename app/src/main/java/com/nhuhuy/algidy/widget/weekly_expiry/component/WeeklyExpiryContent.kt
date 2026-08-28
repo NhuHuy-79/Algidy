@@ -34,7 +34,6 @@ fun WeeklySmallExpiryContent(
                     item = item,
                     itemPosition = itemPosition,
                     modifier = GlanceModifier.fillMaxWidth()
-
                 )
             }
         }

@@ -10,13 +10,9 @@ import java.time.LocalDate
 class GetFoodsUseCase(
     private val foodRepository: FoodRepository
 ) {
-    suspend fun getToday(): List<FoodItem> {
-        val today = LocalDate.now()
 
+    suspend operator fun invoke(): List<FoodItem> {
         return foodRepository.getAllFoodItems()
-            .filter { food ->
-                food.expiryDate.toLocalDate() == today && food.status == FoodStatus.ACTIVE
-            }
     }
 
     suspend fun getThisWeek(): List<FoodItem> {

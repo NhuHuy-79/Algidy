@@ -16,16 +16,6 @@ class RefreshWeeklyExpiryWidget : ActionCallback {
     }
 }
 
-class WasteAllFoodsCallback : ActionCallback {
-    override suspend fun onAction(
-        context: Context,
-        glanceId: GlanceId,
-        parameters: ActionParameters
-    ) {
-        CallbackScheduler(context).scheduleWasteWeeklyAllFoodsWorker()
-    }
-}
-
 class ConsumeFoodCallBack : ActionCallback {
     override suspend fun onAction(
         context: Context,

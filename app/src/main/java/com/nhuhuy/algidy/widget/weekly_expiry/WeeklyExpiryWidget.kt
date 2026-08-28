@@ -7,9 +7,11 @@ import androidx.glance.GlanceModifier
 import androidx.glance.GlanceTheme
 import androidx.glance.LocalSize
 import androidx.glance.action.ActionParameters
+import androidx.glance.action.actionParametersOf
 import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.PreviewSizeMode
 import androidx.glance.appwidget.SizeMode
+import androidx.glance.appwidget.action.actionRunCallback
 import androidx.glance.appwidget.components.Scaffold
 import androidx.glance.appwidget.provideContent
 import androidx.glance.layout.fillMaxSize
@@ -19,6 +21,7 @@ import com.nhuhuy.algidy.widget.model.ExpiryFoodModel
 import com.nhuhuy.algidy.widget.model.fakeExpiryFoodList
 import com.nhuhuy.algidy.widget.model.toFoodWidgetModelList
 import com.nhuhuy.algidy.widget.usecase.GetFoodsUseCase
+import com.nhuhuy.algidy.widget.utils.WidgetColorScheme
 import com.nhuhuy.algidy.widget.utils.WidgetColors
 import com.nhuhuy.algidy.widget.utils.WidgetLayoutConfig
 import com.nhuhuy.algidy.widget.utils.toColorProvider
@@ -44,7 +47,7 @@ class WeeklyExpiryWidget : GlanceAppWidget(), KoinComponent {
     private val widgetExceptionLogger: WidgetExceptionLogger by inject()
 
     override val sizeMode: SizeMode
-        get() = WidgetLayoutConfig.defaultSizeMode
+        get() = SizeMode.Exact
 
     override val previewSizeMode: PreviewSizeMode
         get() = WidgetLayoutConfig.defaultSizeMode
@@ -58,17 +61,25 @@ class WeeklyExpiryWidget : GlanceAppWidget(), KoinComponent {
             val size = LocalSize.current
             Timber.tag("AlgidyWidget").d("size=${size.width} x ${size.height}")
 
-            when (WidgetLayoutConfig.getModeForSize(size)) {
-                WidgetLayoutConfig.WidgetMode.COMPACT -> WeekExpirySmallWidget(expiryFoodModels)
-                WidgetLayoutConfig.WidgetMode.MEDIUM -> WeekExpiryMediumWidget(
-                    expiryFoodModels = expiryFoodModels,
-                    onConsume = {}
-                )
+            GlanceTheme(WidgetColorScheme.colors) {
+                when (WidgetLayoutConfig.getModeForSize(size)) {
+                    WidgetLayoutConfig.WidgetMode.COMPACT -> WeekExpirySmallWidget(expiryFoodModels)
+                    WidgetLayoutConfig.WidgetMode.MEDIUM -> WeekExpiryMediumWidget(
+                        expiryFoodModels = expiryFoodModels,
+                        onConsume = { id ->
+                            val actionParameters = actionParametersOf(foodIdKey to id)
+                            actionRunCallback<ConsumeFoodCallBack>(parameters = actionParameters)
+                        }
+                    )
 
-                WidgetLayoutConfig.WidgetMode.EXPANDED -> WeekExpiryLargeWidget(
-                    expiryFoodModels = expiryFoodModels,
-                    onConsume = {}
-                )
+                    WidgetLayoutConfig.WidgetMode.EXPANDED -> WeekExpiryLargeWidget(
+                        expiryFoodModels = expiryFoodModels,
+                        onConsume = { id ->
+                            val actionParameters = actionParametersOf(foodIdKey to id)
+                            actionRunCallback<ConsumeFoodCallBack>(parameters = actionParameters)
+                        }
+                    )
+                }
             }
         }
     }
@@ -77,7 +88,7 @@ class WeeklyExpiryWidget : GlanceAppWidget(), KoinComponent {
         val expiryFoodModels = fakeExpiryFoodList
         provideContent {
             val size = LocalSize.current
-            GlanceTheme {
+            GlanceTheme(WidgetColorScheme.colors) {
                 when (WidgetLayoutConfig.getModeForSize(size)) {
                     WidgetLayoutConfig.WidgetMode.COMPACT -> WeekExpirySmallWidget(expiryFoodModels)
                     WidgetLayoutConfig.WidgetMode.MEDIUM -> WeekExpiryMediumWidget(
@@ -116,6 +127,7 @@ class WeeklyExpiryWidget : GlanceAppWidget(), KoinComponent {
 fun WeekExpirySmallWidget(
     expiryFoodModels: ImmutableList<ExpiryFoodModel>,
 ) {
+    Timber.tag("ExpiryWidget").d("Small")
     Scaffold(
         modifier = GlanceModifier.fillMaxSize(),
         titleBar = {
@@ -137,6 +149,7 @@ fun WeekExpiryMediumWidget(
     expiryFoodModels: ImmutableList<ExpiryFoodModel>,
     onConsume: (id: String) -> Unit
 ) {
+    Timber.tag("ExpiryWidget").d("Medium")
     Scaffold(
         modifier = GlanceModifier.fillMaxSize(),
         titleBar = {
@@ -159,6 +172,7 @@ fun WeekExpiryLargeWidget(
     expiryFoodModels: ImmutableList<ExpiryFoodModel>,
     onConsume: (id: String) -> Unit
 ) {
+    Timber.tag("ExpiryWidget").d("Large")
     Scaffold(
         modifier = GlanceModifier.fillMaxSize(),
         titleBar = {

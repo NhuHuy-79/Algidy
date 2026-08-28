@@ -7,12 +7,15 @@ import androidx.glance.GlanceModifier
 import androidx.glance.Image
 import androidx.glance.ImageProvider
 import androidx.glance.LocalContext
+import androidx.glance.action.clickable
+import androidx.glance.appwidget.action.actionRunCallback
 import androidx.glance.appwidget.components.TitleBar
 import androidx.glance.layout.padding
 import com.nhuhuy.algidy.core.designsystem.icon.AlgidyIcons
 import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.widget.utils.WidgetColors
 import com.nhuhuy.algidy.widget.utils.toColorProvider
+import com.nhuhuy.algidy.widget.weekly_expiry.RefreshWeeklyExpiryWidget
 
 @Composable
 fun WeeklyExpirySmallTopBar(
@@ -39,6 +42,9 @@ fun WeeklyExpiryMediumTopBar(
         textColor = WidgetColors.ON_BACKGROUND.toColorProvider(),
     ) {
         Image(
+            modifier = GlanceModifier.clickable(
+                onClick = actionRunCallback<RefreshWeeklyExpiryWidget>()
+            ),
             provider = ImageProvider(AlgidyIcons.Widget.RefreshData.id),
             contentDescription = null,
             colorFilter = ColorFilter.tint(WidgetColors.ON_BACKGROUND.toColorProvider())
