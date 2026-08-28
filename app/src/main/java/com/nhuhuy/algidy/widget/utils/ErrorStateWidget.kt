@@ -1,4 +1,4 @@
-package com.nhuhuy.algidy.widget
+package com.nhuhuy.algidy.widget.utils
 
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text

@@ -50,8 +50,6 @@ fun OtherSettingsScreen(
                 subtitle = {
                     Text(
                         text = stringResource(R.string.other_settings_subtitle),
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 },
                 navigationIcon = {

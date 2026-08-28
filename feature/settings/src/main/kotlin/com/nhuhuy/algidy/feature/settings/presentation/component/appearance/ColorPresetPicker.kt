@@ -1,4 +1,4 @@
-package com.nhuhuy.algidy.feature.settings.presentation.component
+package com.nhuhuy.algidy.feature.settings.presentation.component.appearance
 
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.background
@@ -18,11 +18,13 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.materialkolor.ktx.harmonize
 import com.nhuhuy.algidy.capitalize
 import com.nhuhuy.algidy.core.designsystem.component.AppFilterButton
 import com.nhuhuy.algidy.core.model.setting.SeedColor
+import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.core.presentation.utils.ItemPosition
 import com.nhuhuy.algidy.core.presentation.utils.animatedHorizontalShape
 import com.nhuhuy.algidy.core.presentation.utils.toColor
@@ -44,14 +46,14 @@ fun ColorPresetPicker(
         shapes = ListItemDefaults.shapes(shape = itemPosition.toVerticalSegmentedShape()),
         modifier = modifier,
         colors = ListItemDefaults.colors(
-            containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+            containerColor = MaterialTheme.colorScheme.surfaceContainerHighest,
             headlineColor = MaterialTheme.colorScheme.onSurface,
             leadingIconColor = MaterialTheme.colorScheme.onSurface
         ),
         supportingContent = {
             LazyRow(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                horizontalArrangement = Arrangement.spacedBy(4.dp),
                 contentPadding = PaddingValues(vertical = 16.dp)
             ) {
                 itemsIndexed(
@@ -92,13 +94,13 @@ fun ColorPresetPicker(
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             Text(
-                text = "Color Preset",
+                text = stringResource(R.string.setting_accent_color),
                 style = MaterialTheme.typography.titleMedium,
                 color = MaterialTheme.colorScheme.onSurface
             )
 
             Text(
-                text = "You must disable dynamic color to select color accent!",
+                text = stringResource(R.string.setting_accent_color_warning),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSecondaryContainer
             )

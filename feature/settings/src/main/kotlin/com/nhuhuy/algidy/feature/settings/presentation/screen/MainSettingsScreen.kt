@@ -51,8 +51,6 @@ fun MainSettingsScreen(
                 subtitle = {
                     Text(
                         text = stringResource(R.string.main_settings_subtitle),
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 },
                 navigationIcon = {
@@ -72,7 +70,7 @@ fun MainSettingsScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padding),
-            contentPadding = PaddingValues(16.dp),
+            contentPadding = PaddingValues(top = 16.dp, start = 16.dp, end = 16.dp, bottom = 96.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             val section1 = SettingItems.MainScreenSection1

@@ -13,6 +13,7 @@ object SettingItems {
     )
 
     val MainScreenSection2 = listOf(
+        SettingClickableUiModel.NEW_FEATURES,
         SettingClickableUiModel.ABOUT,
         SettingClickableUiModel.DEBUG
     )
@@ -24,8 +25,8 @@ object SettingItems {
     )
 
     val AboutScreen = listOf(
-        SettingClickableUiModel.NEW_FEATURES,
-        SettingClickableUiModel.FEEDBACK,
+        /*  SettingClickableUiModel.NEW_FEATURES,
+          SettingClickableUiModel.FEEDBACK,*/
         SettingClickableUiModel.PRIVACY_POLICY,
         SettingClickableUiModel.COPYRIGHT,
         SettingClickableUiModel.OPEN_SOURCE

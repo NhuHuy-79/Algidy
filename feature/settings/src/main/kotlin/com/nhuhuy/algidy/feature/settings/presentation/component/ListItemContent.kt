@@ -29,7 +29,7 @@ fun ListItemContent(
         shapes = ListItemDefaults.shapes(shape = shape),
         onClick = {},
         colors = ListItemDefaults.colors(
-            containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+            containerColor = MaterialTheme.colorScheme.surfaceContainerHighest,
             headlineColor = MaterialTheme.colorScheme.onSurface,
             leadingIconColor = MaterialTheme.colorScheme.onSurface
         ),

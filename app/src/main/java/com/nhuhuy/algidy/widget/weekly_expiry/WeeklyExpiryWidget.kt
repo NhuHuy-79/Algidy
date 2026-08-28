@@ -2,47 +2,34 @@ package com.nhuhuy.algidy.widget.weekly_expiry
 
 import android.content.Context
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import androidx.glance.ColorFilter
 import androidx.glance.GlanceId
 import androidx.glance.GlanceModifier
 import androidx.glance.GlanceTheme
-import androidx.glance.Image
-import androidx.glance.ImageProvider
-import androidx.glance.LocalContext
-import androidx.glance.action.Action
+import androidx.glance.LocalSize
 import androidx.glance.action.ActionParameters
-import androidx.glance.action.actionParametersOf
-import androidx.glance.action.clickable
 import androidx.glance.appwidget.GlanceAppWidget
-import androidx.glance.appwidget.action.actionRunCallback
-import androidx.glance.appwidget.cornerRadius
-import androidx.glance.appwidget.lazy.LazyColumn
-import androidx.glance.appwidget.lazy.items
+import androidx.glance.appwidget.PreviewSizeMode
+import androidx.glance.appwidget.SizeMode
+import androidx.glance.appwidget.components.Scaffold
 import androidx.glance.appwidget.provideContent
-import androidx.glance.background
-import androidx.glance.layout.Alignment
-import androidx.glance.layout.Box
-import androidx.glance.layout.Column
-import androidx.glance.layout.Row
-import androidx.glance.layout.Spacer
 import androidx.glance.layout.fillMaxSize
 import androidx.glance.layout.fillMaxWidth
-import androidx.glance.layout.height
-import androidx.glance.layout.padding
-import androidx.glance.layout.width
-import androidx.glance.text.FontWeight
-import androidx.glance.text.Text
-import androidx.glance.text.TextStyle
-import com.nhuhuy.algidy.R
-import com.nhuhuy.algidy.core.presentation.utils.toStringRes
 import com.nhuhuy.algidy.feature.settings.data.WidgetExceptionLogger
-import com.nhuhuy.algidy.widget.ErrorStateWidget
-import com.nhuhuy.algidy.widget.state.FoodWidgetModel
-import com.nhuhuy.algidy.widget.state.toFoodWidgetModelList
+import com.nhuhuy.algidy.widget.model.ExpiryFoodModel
+import com.nhuhuy.algidy.widget.model.fakeExpiryFoodList
+import com.nhuhuy.algidy.widget.model.toFoodWidgetModelList
 import com.nhuhuy.algidy.widget.usecase.GetFoodsUseCase
+import com.nhuhuy.algidy.widget.utils.WidgetColors
+import com.nhuhuy.algidy.widget.utils.WidgetLayoutConfig
+import com.nhuhuy.algidy.widget.utils.toColorProvider
+import com.nhuhuy.algidy.widget.weekly_expiry.component.WeeklyExpiryLargeTopBar
+import com.nhuhuy.algidy.widget.weekly_expiry.component.WeeklyExpiryMediumTopBar
+import com.nhuhuy.algidy.widget.weekly_expiry.component.WeeklyExpirySmallTopBar
+import com.nhuhuy.algidy.widget.weekly_expiry.component.WeeklyLargeExpiryContent
+import com.nhuhuy.algidy.widget.weekly_expiry.component.WeeklyMediumExpiryContent
+import com.nhuhuy.algidy.widget.weekly_expiry.component.WeeklySmallExpiryContent
 import com.nhuhuy.algidy.widget.worker.CallbackScheduler
+import kotlinx.collections.immutable.ImmutableList
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -52,24 +39,57 @@ import timber.log.Timber
 
 val foodIdKey = ActionParameters.Key<String>(CallbackScheduler.FOOD_ID)
 
-
 class WeeklyExpiryWidget : GlanceAppWidget(), KoinComponent {
     private val getThisWeekFoods: GetFoodsUseCase by inject()
     private val widgetExceptionLogger: WidgetExceptionLogger by inject()
+
+    override val sizeMode: SizeMode
+        get() = WidgetLayoutConfig.defaultSizeMode
+
+    override val previewSizeMode: PreviewSizeMode
+        get() = WidgetLayoutConfig.defaultSizeMode
 
     override suspend fun provideGlance(
         context: Context,
         id: GlanceId
     ) {
-        try {
-            val foods = getThisWeekFoods.getThisWeek().toFoodWidgetModelList()
-            provideContent {
-                WeeklyExpiryContent(foods = foods)
+        val expiryFoodModels = getThisWeekFoods.getThisWeek().toFoodWidgetModelList()
+        provideContent {
+            val size = LocalSize.current
+            Timber.tag("AlgidyWidget").d("size=${size.width} x ${size.height}")
+
+            when (WidgetLayoutConfig.getModeForSize(size)) {
+                WidgetLayoutConfig.WidgetMode.COMPACT -> WeekExpirySmallWidget(expiryFoodModels)
+                WidgetLayoutConfig.WidgetMode.MEDIUM -> WeekExpiryMediumWidget(
+                    expiryFoodModels = expiryFoodModels,
+                    onConsume = {}
+                )
+
+                WidgetLayoutConfig.WidgetMode.EXPANDED -> WeekExpiryLargeWidget(
+                    expiryFoodModels = expiryFoodModels,
+                    onConsume = {}
+                )
             }
-        } catch (e: Exception) {
-            widgetExceptionLogger.log(e, glanceId = "$id")
-            provideContent {
-                ErrorStateWidget()
+        }
+    }
+
+    override suspend fun providePreview(context: Context, widgetCategory: Int) {
+        val expiryFoodModels = fakeExpiryFoodList
+        provideContent {
+            val size = LocalSize.current
+            GlanceTheme {
+                when (WidgetLayoutConfig.getModeForSize(size)) {
+                    WidgetLayoutConfig.WidgetMode.COMPACT -> WeekExpirySmallWidget(expiryFoodModels)
+                    WidgetLayoutConfig.WidgetMode.MEDIUM -> WeekExpiryMediumWidget(
+                        expiryFoodModels = expiryFoodModels,
+                        onConsume = {}
+                    )
+
+                    WidgetLayoutConfig.WidgetMode.EXPANDED -> WeekExpiryLargeWidget(
+                        expiryFoodModels = expiryFoodModels,
+                        onConsume = {}
+                    )
+                }
             }
         }
     }
@@ -80,7 +100,6 @@ class WeeklyExpiryWidget : GlanceAppWidget(), KoinComponent {
         appWidgetId: Int,
         throwable: Throwable
     ) {
-        Timber.e(throwable)
         CoroutineScope(Dispatchers.IO).launch {
             widgetExceptionLogger.log(throwable, "$glanceId")
         }
@@ -94,149 +113,65 @@ class WeeklyExpiryWidget : GlanceAppWidget(), KoinComponent {
 }
 
 @Composable
-fun WeeklyExpiryContent(
-    foods: List<FoodWidgetModel>,
+fun WeekExpirySmallWidget(
+    expiryFoodModels: ImmutableList<ExpiryFoodModel>,
 ) {
-    val context = LocalContext.current
-    Column(
-        modifier = GlanceModifier
-            .fillMaxSize()
-            .background(GlanceTheme.colors.surface)
-            .padding(16.dp)
+    Scaffold(
+        modifier = GlanceModifier.fillMaxSize(),
+        titleBar = {
+            WeeklyExpirySmallTopBar(
+                modifier = GlanceModifier
+            )
+        },
+        backgroundColor = WidgetColors.BACKGROUND.toColorProvider()
     ) {
-        Row(
-            modifier = GlanceModifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            Text(
-                text = context.getString(com.nhuhuy.algidy.core.presentation.R.string.widget_weekly_food_title),
-                style = TextStyle(
-                    fontWeight = FontWeight.Medium,
-                    fontSize = 18.sp,
-                    color = GlanceTheme.colors.onSurface
-                )
-            )
-
-            Spacer(modifier = GlanceModifier.defaultWeight())
-
-            Image(
-                provider = ImageProvider(com.nhuhuy.algidy.core.designsystem.R.drawable.ic_delete),
-                contentDescription = null,
-                colorFilter = ColorFilter.tint(
-                    colorProvider = GlanceTheme.colors.onPrimaryContainer
-                ),
-                modifier = GlanceModifier
-                    .clickable(onClick = actionRunCallback<WasteAllFoodsCallback>())
-            )
-
-            Spacer(modifier = GlanceModifier.width(16.dp))
-
-            Image(
-                provider = ImageProvider(R.drawable.ic_refresh),
-                contentDescription = null,
-                colorFilter = ColorFilter.tint(
-                    colorProvider = GlanceTheme.colors.onPrimaryContainer
-                ),
-                modifier = GlanceModifier
-                    .clickable(
-                        onClick = actionRunCallback<RefreshWeeklyExpiryWidget>()
-                    )
-            )
-        }
-
-        Spacer(modifier = GlanceModifier.height(24.dp))
-
-        LazyColumn(
-            modifier = GlanceModifier.fillMaxSize(),
-        ) {
-            if (foods.isNotEmpty()) {
-                items(
-                    items = foods,
-                    itemId = { it.hashCode().toLong() }
-                ) { item: FoodWidgetModel ->
-                    Box(
-                        modifier = GlanceModifier
-                            .padding(bottom = 8.dp)
-                    ) {
-                        WidgetFoodItem(
-                            itemName = item.name,
-                            itemLocalStorage = context.getString(item.storageLocation.toStringRes()),
-                            onConsume = actionRunCallback<ConsumeFoodCallBack>(
-                                parameters = actionParametersOf(
-                                    foodIdKey to item.id
-                                )
-                            )
-
-                        )
-                    }
-                }
-            } else {
-                item {
-                    Box(
-                        modifier = GlanceModifier.fillMaxSize(),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Text(
-                            text = context.getString(com.nhuhuy.algidy.core.presentation.R.string.widget_weekly_empty_food),
-                            style = TextStyle(
-                                fontSize = 14.sp,
-                                fontWeight = FontWeight.Medium,
-                                color = GlanceTheme.colors.onSurface
-                            )
-                        )
-                    }
-                }
-            }
-        }
+        WeeklySmallExpiryContent(
+            expiryFoodModels = expiryFoodModels,
+            modifier = GlanceModifier.fillMaxWidth()
+        )
     }
 }
 
 @Composable
-fun WidgetFoodItem(
-    itemName: String,
-    itemLocalStorage: String,
-    onConsume: Action
+fun WeekExpiryMediumWidget(
+    expiryFoodModels: ImmutableList<ExpiryFoodModel>,
+    onConsume: (id: String) -> Unit
 ) {
-    Box(
-        modifier = GlanceModifier.fillMaxWidth()
-            .cornerRadius(8.dp)
-            .background(GlanceTheme.colors.secondaryContainer)
-            .padding(horizontal = 16.dp, vertical = 8.dp),
-    ) {
-        Row(
-            modifier = GlanceModifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Spacer(modifier = GlanceModifier.height(16.dp))
-            Column {
-                Text(
-                    text = itemName,
-                    style = TextStyle(
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.Medium,
-                        color = GlanceTheme.colors.onSecondaryContainer
-                    )
-                )
-                Spacer(modifier = GlanceModifier.height(4.dp))
-                Text(
-                    text = itemLocalStorage,
-                    style = TextStyle(
-                        fontSize = 12.sp,
-                        fontWeight = FontWeight.Medium,
-                        color = GlanceTheme.colors.onSecondaryContainer
-                    )
-                )
-            }
-            Spacer(modifier = GlanceModifier.defaultWeight())
-
-            Image(
-                provider = ImageProvider(R.drawable.ic_restaurant),
-                contentDescription = null,
-                colorFilter = ColorFilter.tint(
-                    colorProvider = GlanceTheme.colors.onSurface
-                ),
-                modifier = GlanceModifier.clickable(onConsume)
+    Scaffold(
+        modifier = GlanceModifier.fillMaxSize(),
+        titleBar = {
+            WeeklyExpiryMediumTopBar(
+                modifier = GlanceModifier
             )
-        }
+        },
+        backgroundColor = WidgetColors.BACKGROUND.toColorProvider()
+    ) {
+        WeeklyMediumExpiryContent(
+            expiryFoodModels = expiryFoodModels,
+            modifier = GlanceModifier.fillMaxWidth(),
+            onConsume = onConsume
+        )
+    }
+}
+
+@Composable
+fun WeekExpiryLargeWidget(
+    expiryFoodModels: ImmutableList<ExpiryFoodModel>,
+    onConsume: (id: String) -> Unit
+) {
+    Scaffold(
+        modifier = GlanceModifier.fillMaxSize(),
+        titleBar = {
+            WeeklyExpiryLargeTopBar(
+                modifier = GlanceModifier
+            )
+        },
+        backgroundColor = WidgetColors.BACKGROUND.toColorProvider()
+    ) {
+        WeeklyLargeExpiryContent(
+            expiryFoodModels = expiryFoodModels,
+            modifier = GlanceModifier.fillMaxWidth(),
+            onConsume = onConsume
+        )
     }
 }

@@ -73,6 +73,16 @@ object AlgidyIcons {
         val SelectedSettings = IconProvider.ImageVectorIcon(Icons.Rounded.Settings)
     }
 
+
+    object Widget {
+        val RefreshData = IconProvider.DrawableResourceIcon(R.drawable.ic_refresh)
+        val WeekExpiryIcon = IconProvider.DrawableResourceIcon(R.drawable.ic_fridge)
+        val ConsumedFood = IconProvider.DrawableResourceIcon(R.drawable.ic_fork_spoon)
+
+        val TotalFood = IconProvider.DrawableResourceIcon(R.drawable.ic_pizza)
+
+    }
+
     object FoodEntry {
         val AddFood = IconProvider.ImageVectorIcon(Icons.AutoMirrored.Rounded.PlaylistAdd)
         val AddCategory = IconProvider.DrawableResourceIcon(R.drawable.ic_new_label)

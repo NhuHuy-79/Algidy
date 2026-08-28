@@ -1,4 +1,4 @@
-package com.nhuhuy.algidy.widget.state
+package com.nhuhuy.algidy.widget.model
 
 import com.nhuhuy.algidy.core.model.food.FoodItem
 import com.nhuhuy.algidy.core.model.food.Freshness

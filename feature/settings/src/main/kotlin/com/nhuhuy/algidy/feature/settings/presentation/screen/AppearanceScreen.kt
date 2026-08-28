@@ -23,8 +23,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.core.presentation.utils.ItemPosition
-import com.nhuhuy.algidy.feature.settings.presentation.component.ColorPresetPicker
 import com.nhuhuy.algidy.feature.settings.presentation.component.ToggleItem
+import com.nhuhuy.algidy.feature.settings.presentation.component.appearance.ColorPresetPicker
 import com.nhuhuy.algidy.feature.settings.presentation.component.appearance.ThemePicker
 import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.SettingsAction
 import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.SettingsCombineState
@@ -51,8 +51,6 @@ fun AppearanceScreen(
                 subtitle = {
                     Text(
                         text = stringResource(R.string.appearance_subtitle),
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 },
                 navigationIcon = {

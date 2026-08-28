@@ -21,16 +21,22 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.nhuhuy.algidy.core.presentation.R
+import com.nhuhuy.algidy.core.presentation.utils.ItemPosition
 import com.nhuhuy.algidy.core.presentation.utils.toItemPosition
+import com.nhuhuy.algidy.feature.settings.data.AuthorConstant
 import com.nhuhuy.algidy.feature.settings.presentation.component.ClickableItem
-import com.nhuhuy.algidy.feature.settings.presentation.component.about_app.AlgidyMainCard
+import com.nhuhuy.algidy.feature.settings.presentation.component.about_app.AlgidyMainContent
+import com.nhuhuy.algidy.feature.settings.presentation.component.about_app.AuthorContent
 import com.nhuhuy.algidy.feature.settings.presentation.model.SettingItems
 import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.SettingsAction
 import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.SettingsUiState
+import com.nhuhuy.algidy.feature.settings.utils.openUrl
+import com.nhuhuy.algidy.feature.settings.utils.sendEmail
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
 @Composable
@@ -39,6 +45,7 @@ fun AboutAppScreen(
     onAction: (SettingsAction) -> Unit,
 ) {
     val items = SettingItems.AboutScreen
+    val context = LocalContext.current
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -55,8 +62,6 @@ fun AboutAppScreen(
                 subtitle = {
                     Text(
                         text = "Algidy v${uiState.versionName}",
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 },
                 navigationIcon = {
@@ -75,19 +80,33 @@ fun AboutAppScreen(
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(padding),
-            contentPadding = PaddingValues(16.dp),
+                .padding(padding)
+                .padding(horizontal = 16.dp)
+                .padding(top = 16.dp),
+            contentPadding = PaddingValues(bottom = 120.dp),
             verticalArrangement = Arrangement.spacedBy(2.dp)
         ) {
             item {
-                AlgidyMainCard(
+                AlgidyMainContent(
                     modifier = Modifier.fillMaxWidth(),
+                    itemPosition = ItemPosition.TOP,
                     appVersion = uiState.versionName,
-                    onGithubClick = { onAction(SettingsAction.OnGithubClick) }
+                    onGithubClick = { onAction(SettingsAction.OnGithubClick) },
+                    onDiscordClick = {}
                 )
             }
 
-            item { Spacer(modifier = Modifier.height(14.dp)) }
+            item {
+                AuthorContent(
+                    itemPosition = ItemPosition.BOTTOM,
+                    modifier = Modifier.fillMaxWidth(),
+                    onGithubClick = { context.openUrl(AuthorConstant.GITHUB) },
+                    onEmailClick = { context.sendEmail(AuthorConstant.EMAIL) },
+                    onLinkedlnClick = { context.openUrl(AuthorConstant.LINKEDIN) },
+                )
+            }
+
+            item { Spacer(modifier = Modifier.height(22.dp)) }
 
             itemsIndexed(
                 items = items

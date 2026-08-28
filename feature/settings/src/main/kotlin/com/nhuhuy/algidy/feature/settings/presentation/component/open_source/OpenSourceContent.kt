@@ -69,8 +69,6 @@ fun OpenSourceContent(
                 subtitle = {
                     Text(
                         text = stringResource(R.string.setting_open_source_desc),
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 },
             )

@@ -54,11 +54,7 @@ fun DataSettingsScreen(
                     )
                 },
                 subtitle = {
-                    Text(
-                        text = stringResource(R.string.your_data_subtitle),
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
+                    Text(text = stringResource(R.string.your_data_subtitle))
                 },
                 navigationIcon = {
                     IconButton(

@@ -58,7 +58,7 @@ private fun ClickableSettingItem(
     )
     ListItem(
         colors = ListItemDefaults.colors(
-            containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+            containerColor = MaterialTheme.colorScheme.surfaceContainerHighest,
             contentColor = MaterialTheme.colorScheme.onSurface
         ),
         modifier = modifier

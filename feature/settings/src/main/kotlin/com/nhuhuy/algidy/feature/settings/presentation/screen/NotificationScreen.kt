@@ -72,8 +72,6 @@ fun NotificationScreen(
                 subtitle = {
                     Text(
                         text = stringResource(R.string.notification_settings_subtitle),
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 },
                 navigationIcon = {

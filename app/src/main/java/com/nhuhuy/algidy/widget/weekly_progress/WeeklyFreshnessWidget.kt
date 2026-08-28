@@ -23,8 +23,8 @@ import com.nhuhuy.algidy.MainActivity
 import com.nhuhuy.algidy.core.designsystem.R
 import com.nhuhuy.algidy.core.model.food.Freshness
 import com.nhuhuy.algidy.feature.settings.data.WidgetExceptionLogger
-import com.nhuhuy.algidy.widget.state.WeeklyFreshnessModel
-import com.nhuhuy.algidy.widget.state.toWeeklyFreshnessModel
+import com.nhuhuy.algidy.widget.model.WeeklyFreshnessModel
+import com.nhuhuy.algidy.widget.model.toWeeklyFreshnessModel
 import com.nhuhuy.algidy.widget.usecase.GetFoodsUseCase
 import com.nhuhuy.algidy.widget.weekly_progress.component.FreshnessColumn
 import kotlinx.coroutines.CoroutineScope
