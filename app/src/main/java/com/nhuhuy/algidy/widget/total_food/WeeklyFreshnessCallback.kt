@@ -1,4 +1,4 @@
-package com.nhuhuy.algidy.widget.weekly_progress
+package com.nhuhuy.algidy.widget.total_food
 
 import android.content.Context
 import androidx.glance.GlanceId

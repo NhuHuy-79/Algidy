@@ -1,4 +1,4 @@
-package com.nhuhuy.algidy.widget.weekly_progress.component
+package com.nhuhuy.algidy.widget.total_food.component
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.dp
@@ -15,10 +15,10 @@ import androidx.glance.layout.width
 import androidx.glance.text.Text
 import com.nhuhuy.algidy.R
 import com.nhuhuy.algidy.core.model.food.Freshness
+import com.nhuhuy.algidy.widget.total_food.utils.TotalFoodWidgetUtils
+import com.nhuhuy.algidy.widget.total_food.utils.toColor
+import com.nhuhuy.algidy.widget.total_food.utils.toContainerColor
 import com.nhuhuy.algidy.widget.utils.WidgetTypography
-import com.nhuhuy.algidy.widget.weekly_progress.utils.TotalFoodWidgetUtils
-import com.nhuhuy.algidy.widget.weekly_progress.utils.toColor
-import com.nhuhuy.algidy.widget.weekly_progress.utils.toContainerColor
 
 @Composable
 fun TotalFoodItem(

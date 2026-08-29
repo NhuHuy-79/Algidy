@@ -1,4 +1,4 @@
-package com.nhuhuy.algidy.widget.weekly_progress.utils
+package com.nhuhuy.algidy.widget.total_food.utils
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.dp

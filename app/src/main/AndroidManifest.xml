@@ -82,7 +82,7 @@
 
         <!--Weekly Freshness Widget-->
         <receiver
-            android:name=".widget.weekly_progress.WeeklyFreshnessReceiver"
+            android:name=".widget.total_food.WeeklyFreshnessReceiver"
             android:description="@string/widget_weekly_freshness_description"
             android:exported="false"
             android:label="@string/widget_weekly_freshness_title">

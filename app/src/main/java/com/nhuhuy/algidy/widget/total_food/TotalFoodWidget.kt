@@ -1,4 +1,4 @@
-package com.nhuhuy.algidy.widget.weekly_progress
+package com.nhuhuy.algidy.widget.total_food
 
 import android.content.Context
 import androidx.compose.runtime.Composable
@@ -19,13 +19,13 @@ import com.nhuhuy.algidy.feature.settings.data.WidgetExceptionLogger
 import com.nhuhuy.algidy.widget.model.FreshnessStatisticModel
 import com.nhuhuy.algidy.widget.model.fakeFreshnessStats
 import com.nhuhuy.algidy.widget.model.toFreshnessStats
+import com.nhuhuy.algidy.widget.total_food.component.TotalFoodContent
+import com.nhuhuy.algidy.widget.total_food.component.TotalFoodTopBar
 import com.nhuhuy.algidy.widget.usecase.GetFoodsUseCase
 import com.nhuhuy.algidy.widget.utils.ErrorStateWidget
 import com.nhuhuy.algidy.widget.utils.WidgetColorScheme
 import com.nhuhuy.algidy.widget.utils.WidgetColors
 import com.nhuhuy.algidy.widget.utils.toColorProvider
-import com.nhuhuy.algidy.widget.weekly_progress.component.TotalFoodContent
-import com.nhuhuy.algidy.widget.weekly_progress.component.TotalFoodTopBar
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

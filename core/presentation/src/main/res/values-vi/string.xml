@@ -351,8 +351,8 @@
     <string name="widget_weekly_food_title">Trong Tuần</string>
     <string name="widget_weekly_empty_food">Tuần này không có thực phẩm hết hạn.</string>
     <string name="widget_weekly_food_description">Hiển thị  thực phẩm hết hạn trong tuần và các tính năng tức thời.</string>
-    <string name="widget_weekly_freshness_title">Độ tươi Hàng tuần</string>
-    <string name="widget_weekly_freshness_description">Hiển thị độ tươi của thực phẩm của bạn trong tuần.</string>
+    <string name="widget_weekly_freshness_title">Thực phẩm của bạn</string>
+    <string name="widget_weekly_freshness_description">Hiển thị độ tươi toàn bộ thực phẩm của bạn</string>
     <string name="food_entry_name">Tên thực phẩm</string>
     <string name="food_entry_add_btn">Thêm thực phẩm</string>
     <string name="food_entry_expiry_date">Ngày Hết hạn</string>

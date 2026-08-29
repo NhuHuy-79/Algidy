@@ -1,0 +1,40 @@
+[
+  {
+    "versionCode": 7,
+    "versionName": "v2.0.0",
+    "features": [
+      {
+        "title": "Material 3 Expressive UI",
+        "description": "Refined the app's Material 3 Expressive interface across screens for a cleaner and more enjoyable user experience.",
+        "icon": "✨"
+      },
+      {
+        "title": "Simplified Experience",
+        "description": "Removed unnecessary features, including notes and OCR scanning, to keep the app focused, minimal, and straightforward.",
+        "icon": "🧹"
+      },
+      {
+        "title": "About & Contact",
+        "description": "Added additional information about the author and the product.",
+        "icon": "👋"
+      },
+      {
+        "title": "Improved Widgets",
+        "description": "Refined widget interfaces and preview images for a more polished and consistent experience.",
+        "icon": "🧩"
+      }
+    ],
+    "fixes": [
+      {
+        "title": "Missing Food Notifications",
+        "description": "Fixed an issue where food expiry notifications could temporarily disappear.",
+        "icon": "🔔"
+      },
+      {
+        "title": "Update Notifications",
+        "description": "Fixed an issue where update notifications could unexpectedly disappear.",
+        "icon": "📢"
+      }
+    ]
+  }
+]

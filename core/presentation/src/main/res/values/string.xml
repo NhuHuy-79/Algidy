@@ -352,6 +352,6 @@
     <string name="widget_weekly_food_description">Shows foods expiring this week and quick actions.
     </string>
 
-    <string name="widget_weekly_freshness_title">Weekly Freshness</string>
-    <string name="widget_weekly_freshness_description">Show your freshness of foods this week.</string>
+    <string name="widget_weekly_freshness_title">Total Food</string>
+    <string name="widget_weekly_freshness_description">Show the freshness of all your food.</string>
 </resources>
