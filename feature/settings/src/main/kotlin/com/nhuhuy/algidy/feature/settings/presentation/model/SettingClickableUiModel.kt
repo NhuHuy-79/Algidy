@@ -67,8 +67,8 @@ enum class SettingClickableUiModel(
     ),
 
     LANGUAGE(
-        title = R.string.setting_language,
-        description = 0,
+        title = R.string.setting_language_title,
+        description = R.string.setting_language_desc,
         icon = AlgidyIcons.Settings.Language
     ),
 

@@ -40,7 +40,7 @@ fun SelectLanguageBottomSheet(
         ) {
             item {
                 Text(
-                    text = stringResource(R.string.setting_language),
+                    text = stringResource(R.string.setting_language_title),
                     style = MaterialTheme.typography.titleMedium.copy(
                         fontWeight = FontWeight.Black
                     )
