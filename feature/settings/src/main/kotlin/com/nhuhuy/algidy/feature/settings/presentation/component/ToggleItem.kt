@@ -64,7 +64,7 @@ private fun ToggleableSettingItem(
         supportingContent = {
             Text(
                 text = text,
-                style = MaterialTheme.typography.labelLarge
+                style = MaterialTheme.typography.bodyMedium
             )
         },
         trailingContent = {

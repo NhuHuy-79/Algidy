@@ -10,9 +10,10 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.CheckCircle
 import androidx.compose.material.icons.outlined.CloudOff
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ContainedLoadingIndicator
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
-import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -21,6 +22,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.nhuhuy.algidy.core.designsystem.icon.AlgidyIcons
@@ -42,18 +44,20 @@ fun CheckUpdateDialog(
             Text(
                 modifier = Modifier.fillMaxWidth(),
                 text = stringResource(R.string.setting_check_update_title),
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Center,
+                fontWeight = FontWeight.Medium
             )
         },
         icon = {
-            AppIcon(iconProvider = AlgidyIcons.Settings.CheckUpdate)
+            AppIcon(
+                iconProvider = AlgidyIcons.Settings.CheckUpdate,
+                tint = MaterialTheme.colorScheme.primary
+            )
         },
         text = {
             UiResultContainer(
                 state = uiState,
-                loading = {
-                    CheckUpdateLoading()
-                },
+                loading = { CheckUpdateLoading() },
                 success = { version ->
                     if (version != null) {
                         CheckUpdateSuccessResult(
@@ -76,13 +80,15 @@ fun CheckUpdateDialog(
                     if (uiState.data != null &&
                         uiState.data != currentVersion
                     ) {
-                        FilledTonalButton(
-                            onClick = onConfirm
+                        Button(
+                            onClick = onConfirm,
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = MaterialTheme.colorScheme.primary,
+                                contentColor = MaterialTheme.colorScheme.onPrimary
+                            )
                         ) {
                             Text(
-                                text = stringResource(
-                                    R.string.check_update_dialog_success_updated
-                                )
+                                text = stringResource(R.string.check_update_dialog_update_confirm_btn)
                             )
                         }
                     } else {
@@ -93,16 +99,6 @@ fun CheckUpdateDialog(
                                 text = stringResource(R.string.action_cancel)
                             )
                         }
-                    }
-                }
-
-                is UiResult.Failure -> {
-                    FilledTonalButton(
-                        onClick = onConfirm
-                    ) {
-                        Text(
-                            text = stringResource(R.string.check_update_dialog_error)
-                        )
                     }
                 }
 
@@ -117,6 +113,16 @@ fun CheckUpdateDialog(
                     ) {
                         Text(
                             text = stringResource(R.string.action_cancel)
+                        )
+                    }
+                }
+
+                is UiResult.Success -> {
+                    TextButton(
+                        onClick = onDismiss
+                    ) {
+                        Text(
+                            text = stringResource(R.string.check_update_dialog_update_dismiss_btn)
                         )
                     }
                 }
@@ -152,7 +158,7 @@ private fun CheckUpdateSuccessResult(
                 if (isUpdateAvailable) {
                     R.string.check_update_dialog_update_available
                 } else {
-                    R.string.check_update_dialog_update_confirm_btn
+                    R.string.check_update_dialog_success_updated
                 }
             ),
             style = MaterialTheme.typography.titleMedium,
@@ -165,19 +171,19 @@ private fun CheckUpdateSuccessResult(
             ) {
                 Text(
                     text = currentVersion,
-                    style = MaterialTheme.typography.bodyMedium,
+                    style = MaterialTheme.typography.bodyLarge,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
 
                 Text(
                     text = "→",
-                    style = MaterialTheme.typography.bodyMedium,
+                    style = MaterialTheme.typography.bodyLarge,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
 
                 Text(
                     text = newVersion,
-                    style = MaterialTheme.typography.labelLarge,
+                    style = MaterialTheme.typography.bodyLarge,
                     color = MaterialTheme.colorScheme.primary,
                 )
             }
@@ -211,7 +217,7 @@ private fun CheckUpdateErrorResult(
             text = stringResource(
                 R.string.check_update_dialog_error
             ),
-            style = MaterialTheme.typography.bodyMedium,
+            style = MaterialTheme.typography.bodyLarge,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
     }
@@ -233,7 +239,7 @@ private fun CheckUpdateLoading(
 
         Text(
             text = stringResource(R.string.check_update_dialog_loading),
-            style = MaterialTheme.typography.bodyMedium,
+            style = MaterialTheme.typography.bodyLarge,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
     }

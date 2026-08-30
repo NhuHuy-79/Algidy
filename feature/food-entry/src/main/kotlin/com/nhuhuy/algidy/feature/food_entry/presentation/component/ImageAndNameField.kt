@@ -99,7 +99,8 @@ fun ImageAndNameField(
         overlineContent = {
             Text(
                 text = "Food Name",
-                fontWeight = FontWeight.SemiBold
+                fontWeight = FontWeight.SemiBold,
+                style = MaterialTheme.typography.bodyMedium
             )
         }
     ) {

@@ -19,6 +19,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.nhuhuy.algidy.core.designsystem.tokens.LocalAlgidySpacing
@@ -35,6 +36,7 @@ import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.Inve
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryResultState
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventorySelectAction
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryUiState
+import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.getDataOrEmpty
 import com.nhuhuy.algidy.feature.inventory.utils.GridCategory
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.collections.immutable.toImmutableSet
@@ -52,6 +54,10 @@ internal fun InventoryScreen(
     val pagerState = rememberPagerState(pageCount = { categories.size })
     val scope = rememberCoroutineScope()
     val localSpacing = LocalAlgidySpacing.current
+    val foods = inventoryResultState.getDataOrEmpty()
+    val subTitle = if (foods.isEmpty()) {
+        stringResource(R.string.inventory_no_foods)
+    } else pluralStringResource(R.plurals.inventory_subtitle, foods.size, foods.size)
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -64,6 +70,7 @@ internal fun InventoryScreen(
                         InventoryTopBar(
                             state = uiState,
                             combineState = combineState,
+                            subTitle = subTitle,
                             title = stringResource(R.string.inventory_title),
                             modifier = Modifier.fillMaxWidth(),
                             onAction = onAction
@@ -85,6 +92,8 @@ internal fun InventoryScreen(
                 .padding(paddingValues),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            Spacer(modifier = Modifier.height(localSpacing.large))
+
             if (combineState.categoryEnabled) {
                 CategoryFilterGroup(
                     modifier = Modifier
@@ -106,7 +115,7 @@ internal fun InventoryScreen(
                 )
             }
 
-            Spacer(modifier = Modifier.height(localSpacing.medium))
+            Spacer(modifier = Modifier.height(localSpacing.small))
 
             if (combineState.categoryEnabled) {
                 InventoryCategoryList(

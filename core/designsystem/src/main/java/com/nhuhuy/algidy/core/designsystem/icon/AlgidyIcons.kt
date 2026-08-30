@@ -24,7 +24,6 @@ import androidx.compose.material.icons.rounded.Code
 import androidx.compose.material.icons.rounded.ColorLens
 import androidx.compose.material.icons.rounded.DarkMode
 import androidx.compose.material.icons.rounded.Delete
-import androidx.compose.material.icons.rounded.DeleteForever
 import androidx.compose.material.icons.rounded.DocumentScanner
 import androidx.compose.material.icons.rounded.Edit
 import androidx.compose.material.icons.rounded.ErrorOutline
@@ -41,6 +40,7 @@ import androidx.compose.material.icons.rounded.Inventory
 import androidx.compose.material.icons.rounded.Language
 import androidx.compose.material.icons.rounded.ModeEdit
 import androidx.compose.material.icons.rounded.NewReleases
+import androidx.compose.material.icons.rounded.Notifications
 import androidx.compose.material.icons.rounded.NotificationsActive
 import androidx.compose.material.icons.rounded.PhotoCamera
 import androidx.compose.material.icons.rounded.Policy
@@ -153,12 +153,12 @@ object AlgidyIcons {
 
         val DailyReminder = IconProvider.ImageVectorIcon(Icons.Rounded.Alarm)
         val EditReminder = IconProvider.ImageVectorIcon(Icons.Rounded.ModeEdit)
-        val ExpiryReminder = IconProvider.ImageVectorIcon(Icons.Rounded.Warning)
+        val ExpiryReminder = IconProvider.ImageVectorIcon(Icons.Rounded.Notifications)
         val DeleteReminder = IconProvider.DrawableResourceIcon(R.drawable.ic_delete)
 
         val ExportData = IconProvider.ImageVectorIcon(Icons.Rounded.CloudUpload)
         val ImportData = IconProvider.ImageVectorIcon(Icons.Rounded.CloudDownload)
-        val DeleteAll = IconProvider.ImageVectorIcon(Icons.Rounded.DeleteForever)
+        val DeleteAll = IconProvider.DrawableResourceIcon(R.drawable.ic_delete)
 
         val NewFeature = IconProvider.ImageVectorIcon(Icons.Rounded.NewReleases)
         val Feedback = IconProvider.ImageVectorIcon(Icons.Rounded.Feedback)

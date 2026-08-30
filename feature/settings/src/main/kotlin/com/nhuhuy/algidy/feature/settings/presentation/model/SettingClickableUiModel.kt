@@ -85,8 +85,8 @@ enum class SettingClickableUiModel(
     ),
 
     COPYRIGHT(
-        title = R.string.setting_copyright,
-        description = R.string.setting_copyright_desc,
+        title = R.string.setting_license,
+        description = R.string.setting_license_desc,
         icon = AlgidyIcons.Settings.License
     ),
 

@@ -12,7 +12,7 @@ class UpdateRepositoryImpl(
 ) : UpdateRepository {
     override suspend fun getTagName(): Resource<String?> {
         return safeCall(appDispatchers.io) {
-            githubApi.fetchTagName().tagName
+            githubApi.fetchTagName().tagName?.removePrefix("v")
         }
     }
 }

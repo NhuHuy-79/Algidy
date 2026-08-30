@@ -17,7 +17,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.MediumTopAppBar
+import androidx.compose.material3.MediumFlexibleTopAppBar
 import androidx.compose.material3.MenuDefaults
 import androidx.compose.material3.MenuItemShapes
 import androidx.compose.material3.Text
@@ -46,13 +46,14 @@ import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.Inve
 fun InventoryTopBar(
     modifier: Modifier = Modifier,
     title: String,
+    subTitle: String,
     state: InventoryUiState,
     combineState: InventoryCombineState,
     onAction: (InventoryAction) -> Unit,
 ) {
     val algidyIcon = AlgidyIcons.Inventory
 
-    MediumTopAppBar(
+    MediumFlexibleTopAppBar(
         modifier = modifier,
         title = {
             Text(
@@ -60,6 +61,11 @@ fun InventoryTopBar(
                 style = MaterialTheme.typography.displaySmall.copy(
                     fontWeight = FontWeight.Black
                 )
+            )
+        },
+        subtitle = {
+            Text(
+                text = subTitle
             )
         },
         actions = {

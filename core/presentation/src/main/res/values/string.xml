@@ -66,7 +66,12 @@
 
     <!-- Inventory Screen -->
     <string name="inventory_title">Inventory</string>
-    <string name="inventory_subtitle">Welcome!</string>
+    <plurals name="inventory_subtitle">
+        <item quantity="one">%d item in your inventory</item>
+        <item quantity="other">%d items in your inventory</item>
+    </plurals>
+
+    <string name="inventory_no_foods">Your inventory is empty</string>
     <string name="inventory_empty_title">Your pantry is empty</string>
     <string name="inventory_empty_content">Keep track of your groceries and never let food go to waste. Start adding item now!</string>
     <string name="inventory_scanner_btn">Scan Barcode</string>
@@ -268,8 +273,8 @@
     <string name="setting_about_app_desc">App info and version</string>
     <string name="setting_new_features">New Features</string>
     <string name="setting_new_features_desc">Check latest updates</string>
-    <string name="setting_copyright">Copyright</string>
-    <string name="setting_copyright_desc">Legal and license info</string>
+    <string name="setting_license">License</string>
+    <string name="setting_license_desc">Legal and license info</string>
     <string name="setting_feedback">Feedback</string>
     <string name="setting_feedback_desc">Help us improve</string>
     <string name="setting_open_source">Open Source</string>
@@ -288,6 +293,7 @@
     <string name="check_update_dialog_success_updated">You\'re up-to-date</string>
     <string name="check_update_dialog_update_available">Update available</string>
     <string name="check_update_dialog_update_confirm_btn">Update now</string>
+    <string name="check_update_dialog_update_dismiss_btn">Not now</string>
 
     <string name="setting_action_clear">Clear Log</string>
     <string name="setting_action_copy_to_clipboard">Copy to Clipboard</string>

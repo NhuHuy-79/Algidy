@@ -65,7 +65,11 @@
 
     <!-- Inventory Screen -->
     <string name="inventory_title">Kho lưu trữ</string>
-    <string name="inventory_subtitle">Xin chào!</string>
+    <plurals name="inventory_subtitle">
+        <item quantity="other">Bạn có %d thực phẩm</item>
+    </plurals>
+
+    <string name="inventory_no_foods">Bạn chưa có thực phẩm nào</string>
     <string name="inventory_empty_title">Tủ đồ của bạn đang trống</string>
     <string name="inventory_empty_content">Hãy theo dõi thực phẩm của bạn để không lãng phí chúng. Thêm món mới ngay nào!</string>
     <string name="inventory_scanner_btn">Quét mã vạch</string>
@@ -249,8 +253,8 @@
     <string name="setting_about_app_desc">Algidy</string>
     <string name="setting_new_features">Tính năng mới</string>
     <string name="setting_new_features_desc">Kiểm tra các bản cập nhật mới nhất</string>
-    <string name="setting_copyright">Bản quyền</string>
-    <string name="setting_copyright_desc">Thông tin pháp lý và giấy phép</string>
+    <string name="setting_license">Bản quyền</string>
+    <string name="setting_license_desc">Thông tin pháp lý và giấy phép</string>
     <string name="setting_feedback">Phản hồi</string>
     <string name="setting_feedback_desc">Giúp chúng tôi cải thiện</string>
     <string name="setting_open_source">Mã nguồn mở</string>
@@ -265,6 +269,7 @@
 
     <string name="setting_check_update_desc">Kiểm tra phiên bản mới và luôn cập nhật với những tính năng mới nhất cùng các bản sửa lỗi</string>
     <string name="check_update_dialog_update_confirm_btn">Cập nhật ngay</string>
+    <string name="check_update_dialog_update_dismiss_btn">Để sau</string>
     <string name="setting_action_clear">Xóa Log</string>
     <string name="setting_action_copy_to_clipboard">Chép vào Clipboard</string>
 

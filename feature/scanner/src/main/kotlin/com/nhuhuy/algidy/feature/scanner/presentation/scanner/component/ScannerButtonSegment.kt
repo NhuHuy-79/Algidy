@@ -12,6 +12,8 @@ import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.FilledTonalIconButton
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.LoadingIndicator
+import androidx.compose.material3.MaterialShapes
+import androidx.compose.material3.toShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -36,7 +38,8 @@ fun SelectImageButton(
         colors = IconButtonDefaults.iconButtonColors(
             contentColor = contentColor,
             containerColor = containerColor
-        )
+        ),
+        shape = MaterialShapes.Square.toShape()
     ) {
         AppIcon(iconProvider = AlgidyIcons.Scanner.AddImage)
     }
@@ -104,7 +107,8 @@ fun AddManuallyBarcodeButton(
         colors = IconButtonDefaults.iconButtonColors(
             contentColor = cameraScheme.onSecondaryContainer,
             containerColor = cameraScheme.secondaryContainer
-        )
+        ),
+        shape = MaterialShapes.Square.toShape()
     ) {
         AppIcon(iconProvider = AlgidyIcons.Scanner.AddBarcode)
     }

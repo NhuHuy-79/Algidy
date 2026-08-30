@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
@@ -31,11 +32,11 @@ import com.nhuhuy.algidy.core.presentation.R
 fun CopyrightBottomSheet(
     onDismiss: () -> Unit,
 ) {
+    val localSpacing = LocalAlgidySpacing.current
     AppBottomSheetColumn(
-        modifier = Modifier.padding(8.dp),
+        modifier = Modifier.padding(horizontal = localSpacing.large),
         onDismiss = onDismiss,
     ) {
-        val localSpacing = LocalAlgidySpacing.current
         Row(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
@@ -45,7 +46,7 @@ fun CopyrightBottomSheet(
                 modifier = Modifier
                     .background(
                         color = MaterialTheme.colorScheme.primary,
-                        shape = MaterialShapes.Pill.toShape()
+                        shape = MaterialShapes.Cookie12Sided.toShape()
                     ),
                 contentAlignment = Alignment.Center
             ) {
@@ -57,10 +58,9 @@ fun CopyrightBottomSheet(
             }
 
             Text(
-                text = stringResource(R.string.setting_copyright),
-                style = MaterialTheme.typography.titleLarge.copy(
-                    fontWeight = FontWeight.Black
-                )
+                text = stringResource(R.string.setting_license),
+                style = MaterialTheme.typography.headlineSmall,
+                fontWeight = FontWeight.Bold
             )
         }
 
@@ -68,15 +68,13 @@ fun CopyrightBottomSheet(
 
         LazyColumn(
             modifier = Modifier
-                .weight(1f, fill = false)
-                .padding(16.dp)
+                .fillMaxWidth()
+                .heightIn(max = 500.dp)
         ) {
             item {
                 Text(
                     text = stringResource(com.nhuhuy.algidy.feature.settings.R.string.apache_license_2_0_content),
-                    style = MaterialTheme.typography.bodyLarge.copy(
-                        fontWeight = FontWeight.Medium
-                    ),
+                    style = MaterialTheme.typography.bodyLarge
                 )
             }
         }

@@ -2,7 +2,6 @@ package com.nhuhuy.algidy.feature.analytics.presentation.viewmodel
 
 import androidx.lifecycle.viewModelScope
 import com.nhuhuy.algidy.core.data.util.product
-import com.nhuhuy.algidy.core.presentation.navigation.Navigator
 import com.nhuhuy.algidy.core.presentation.viewmodel.BaseViewModel
 import com.nhuhuy.algidy.feature.analytics.domain.mapper.toFreshnessStatistic
 import com.nhuhuy.algidy.feature.analytics.domain.mapper.toOverviewStatistic
@@ -19,7 +18,6 @@ import kotlinx.coroutines.flow.onEach
 
 internal class AnalyticsViewModel(
     private val foodAnalyticsRepository: FoodAnalyticsRepository,
-    private val navigator: Navigator,
 ) : BaseViewModel<AnalyticsUiState, AnalyticsEvent, AnalyticsAction>() {
     private val _uiState = MutableStateFlow(AnalyticsUiState())
     override val uiState: StateFlow<AnalyticsUiState> = _uiState.asStateFlow()
@@ -30,18 +28,6 @@ internal class AnalyticsViewModel(
 
     override fun onAction(action: AnalyticsAction) {
         when (action) {
-            AnalyticsAction.OnBackClick -> {
-                navigator.navigateBack()
-            }
-
-            AnalyticsAction.OnRefresh -> {
-                // Flow based, updates automatically.
-            }
-
-            is AnalyticsAction.OnPeriodSelect -> {
-                _uiState.product { copy(period = action.period) }
-            }
-
             AnalyticsAction.OnSpoilageChartHide -> {
                 /* _uiState.product { copy(wastedValue = 0, consumedValue = 0) }*/
             }

@@ -12,8 +12,8 @@ import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.FilledIconButton
+import androidx.compose.material3.FilledTonalIconButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.MaterialTheme
@@ -75,7 +75,7 @@ fun NotificationScreen(
                     )
                 },
                 navigationIcon = {
-                    IconButton(
+                    FilledTonalIconButton(
                         onClick = { onAction(SettingsAction.OnBackClick) }
                     ) {
                         Icon(
@@ -162,25 +162,13 @@ fun NotificationScreen(
             item {
                 SliderItem(
                     currentValue = combineState.notificationPreferences.warningFoodThresholdDays,
-                    itemPosition = ItemPosition.MIDDLE,
+                    itemPosition = ItemPosition.BOTTOM,
                     settingItem = SettingSliderType.EXPIRY_WARNING_THRESHOLD,
                     onSliderChange = { sliderType: SettingSliderType, value: Int ->
                         onAction(SettingsAction.SliderAction(value = value, type = sliderType))
                     }
                 )
             }
-
-            item {
-                SliderItem(
-                    currentValue = combineState.notificationPreferences.deleteFoodThresholdDayInWeek / 7,
-                    itemPosition = ItemPosition.BOTTOM,
-                    settingItem = SettingSliderType.EXPIRED_DELETE_THRESHOLD,
-                    onSliderChange = { sliderType: SettingSliderType, value: Int ->
-                        onAction(SettingsAction.SliderAction(value = value, type = sliderType))
-                    }
-                )
-            }
-
         }
     }
 }

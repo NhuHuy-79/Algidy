@@ -1,11 +1,14 @@
 package com.nhuhuy.algidy.feature.food_entry.presentation.component
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.FilledTonalIconButton
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.nhuhuy.algidy.core.designsystem.component.AppFilterButton
@@ -36,30 +39,44 @@ fun CategoryField(
         title = stringResource(R.string.food_entry_category),
         icon = AlgidyIcons.Inventory.Category.toImageVector(),
     ) {
-        LazyRow(
+        Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(localSpacing.extraSmall),
+            verticalAlignment = Alignment.CenterVertically,
         ) {
-            itemsIndexed(
-                items = categories,
-                key = { _, category: CategoryUiModel.ByCategory -> category.data.id }
-            ) { index: Int, category: CategoryUiModel.ByCategory ->
-                val itemPosition = index.toItemPosition(categories.size)
-                val selected = category == currentCategory
-                AppFilterButton(
-                    selected = category == currentCategory,
-                    label = category.data.name,
-                    onClick = { onCategorySelect(category) },
-                    shape = itemPosition.animatedHorizontalShape(selected = selected)
-                )
+            LazyRow(
+                modifier = Modifier.weight(1f),
+                horizontalArrangement = Arrangement.spacedBy(
+                    localSpacing.extraSmall
+                ),
+                contentPadding = PaddingValues(end = localSpacing.extraSmall),
+            ) {
+                itemsIndexed(
+                    items = categories,
+                    key = { _, category -> category.data.id }
+                ) { index, category ->
+
+                    val itemPosition = index.toItemPosition(categories.size)
+                    val selected = category == currentCategory
+
+                    AppFilterButton(
+                        selected = selected,
+                        label = category.data.name,
+                        onClick = {
+                            onCategorySelect(category)
+                        },
+                        shape = itemPosition.animatedHorizontalShape(
+                            selected = selected
+                        )
+                    )
+                }
             }
 
-            item {
-                FilledTonalIconButton(
-                    onClick = onNewCategoryAdd
-                ) {
-                    AppIcon(iconProvider = AlgidyIcons.FoodEntry.AddCategory)
-                }
+            FilledTonalIconButton(
+                onClick = onNewCategoryAdd,
+            ) {
+                AppIcon(
+                    iconProvider = AlgidyIcons.FoodEntry.AddCategory
+                )
             }
         }
     }

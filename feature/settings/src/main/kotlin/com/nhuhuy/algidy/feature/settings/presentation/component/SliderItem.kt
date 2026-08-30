@@ -7,6 +7,7 @@ import androidx.compose.material3.ListItem
 import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Slider
+import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -99,12 +100,17 @@ private fun SliderContent(
         supportingContent = {
             Slider(
                 modifier = Modifier
-                    .height(36.dp)
+                    .height(48.dp)
                     .padding(vertical = 8.dp),
                 value = selectedValue.toFloat(),
                 onValueChange = {
                     onSliderChange(it.roundToInt())
                 },
+                colors = SliderDefaults.colors(
+                    thumbColor = MaterialTheme.colorScheme.primary,
+                    activeTrackColor = MaterialTheme.colorScheme.primary,
+                    inactiveTrackColor = MaterialTheme.colorScheme.surface
+                ),
                 valueRange = values.first().toFloat()..values.last().toFloat(),
                 steps = steps
             )

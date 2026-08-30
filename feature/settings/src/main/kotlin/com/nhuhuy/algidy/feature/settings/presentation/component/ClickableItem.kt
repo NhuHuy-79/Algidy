@@ -1,6 +1,7 @@
 package com.nhuhuy.algidy.feature.settings.presentation.component
 
 import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
@@ -92,7 +93,8 @@ private fun ClickableSettingItem(
                 text = description,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
-                style = MaterialTheme.typography.labelLarge
+                style = MaterialTheme.typography.bodyMedium,
+                modifier = Modifier.basicMarquee()
             )
         },
     )
