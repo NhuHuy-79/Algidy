@@ -27,6 +27,7 @@ val settingModule = module {
     singleOf(::ImageBackUpManagerImpl) { bind<ImageBackUpManager>() }
     singleOf(::DataBackUpManger)
 
+
     factoryOf(::ObserveSettingStateUseCase)
     factoryOf(::ManageDataUseCase)
     factoryOf(::ImportDataUseCase)

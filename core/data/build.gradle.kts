@@ -15,9 +15,10 @@ dependencies {
     implementation(project(":core:domain"))
     implementation(libs.kotlinx.coroutines.android)
     api(libs.kotlinx.coroutines.play.services)
-    /* //File Kit
-    api(libs.filekit.core)
-    api(libs.filekit.dialogs.compose)
 
-}*/
+    //Filkit
+    api("io.github.vinceglb:filekit-core:0.15.0")
+    api("io.github.vinceglb:filekit-dialogs-compose:0.15.0")
+
+
 }

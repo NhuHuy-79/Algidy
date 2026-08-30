@@ -1,6 +1,6 @@
 package com.nhuhuy.algidy.core.network.data_source
 
-import com.nhuhuy.algidy.core.network.api.FoodDetailService
+import com.nhuhuy.algidy.core.network.api.FoodApi
 import com.nhuhuy.algidy.core.network.model.FoodApiResponse
 
 interface FoodRemoteDataSource {
@@ -9,9 +9,9 @@ interface FoodRemoteDataSource {
 }
 
 class FoodRemoteDataSourceImpl(
-    private val foodDetailService: FoodDetailService
+    private val foodApi: FoodApi
 ) : FoodRemoteDataSource {
     override suspend fun fetchFoodApiResponse(barcodeString: String): FoodApiResponse {
-        return foodDetailService.fetchFoodDetail(barcodeString)
+        return foodApi.fetchFoodDetail(barcodeString)
     }
 }

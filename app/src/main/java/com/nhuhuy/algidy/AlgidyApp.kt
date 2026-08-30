@@ -17,6 +17,7 @@ import com.nhuhuy.algidy.core.notifications.worker.WorkerScheduler
 import com.nhuhuy.algidy.di.appModule
 import com.nhuhuy.algidy.di.dataModule
 import com.nhuhuy.algidy.di.databaseModule
+import com.nhuhuy.algidy.di.domainModule
 import com.nhuhuy.algidy.di.networkModule
 import com.nhuhuy.algidy.feature.analytics.di.analyticsModule
 import com.nhuhuy.algidy.feature.food_entry.di.foodEntryModule
@@ -77,6 +78,7 @@ class AlgidyApp : Application(), KoinComponent, SingletonImageLoader.Factory,
                     appModule,
                     databaseModule,
                     dataModule,
+                    domainModule,
                     networkModule,
                     inventoryModule,
                     analyticsModule,

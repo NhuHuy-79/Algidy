@@ -4,6 +4,7 @@ import com.nhuhuy.algidy.core.data.AppNewFeaturesReader
 import com.nhuhuy.algidy.core.data.repository.CategoryRepositoryImpl
 import com.nhuhuy.algidy.core.data.repository.FoodRepositoryImpl
 import com.nhuhuy.algidy.core.data.repository.LocalMediaStorageImpl
+import com.nhuhuy.algidy.core.data.repository.UpdateRepositoryImpl
 import com.nhuhuy.algidy.core.data.util.AppDispatchers
 import com.nhuhuy.algidy.core.data.util.DefaultAppDispatchers
 import com.nhuhuy.algidy.core.datastore.dataStore
@@ -21,6 +22,7 @@ import com.nhuhuy.algidy.core.datastore.utils.BaseDataStore
 import com.nhuhuy.algidy.core.domain.repository.CategoryRepository
 import com.nhuhuy.algidy.core.domain.repository.FoodRepository
 import com.nhuhuy.algidy.core.domain.repository.LocalMediaStorage
+import com.nhuhuy.algidy.core.domain.repository.UpdateRepository
 import com.nhuhuy.algidy.feature.scanner.data.MLKitBarcodeScanner
 import com.nhuhuy.algidy.feature.scanner.domain.BarcodeScanner
 import kotlinx.serialization.ExperimentalSerializationApi
@@ -38,6 +40,7 @@ val dataModule = module {
     singleOf(::DefaultAppDispatchers) { bind<AppDispatchers>() }
     single<BarcodeScanner> { MLKitBarcodeScanner(get()) }
     singleOf(::LocalMediaStorageImpl) { bind<LocalMediaStorage>() }
+    singleOf(::UpdateRepositoryImpl) { bind<UpdateRepository>() }
 
     //Datastore
     single { androidApplication().dataStore }

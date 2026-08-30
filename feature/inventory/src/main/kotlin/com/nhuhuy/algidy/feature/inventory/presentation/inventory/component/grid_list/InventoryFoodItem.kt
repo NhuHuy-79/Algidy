@@ -53,7 +53,7 @@ fun InventoryFoodGridItem(
         ),
         border = if (isSelected) BorderStroke(
             width = 4.dp,
-            color = scheme.onPrimaryContainer
+            color = scheme.primary
         ) else null
     ) {
         Box {

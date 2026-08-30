@@ -5,7 +5,7 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
 
-interface FoodDetailService {
+interface FoodApi {
 
     // OFF dùng cấu trúc: api/v2/product/{barcode}.json
     @GET("api/v2/product/{barcode}.json")
