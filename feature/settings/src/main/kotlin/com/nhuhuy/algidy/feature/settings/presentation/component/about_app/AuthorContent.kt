@@ -10,8 +10,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
-import androidx.compose.material3.FilledIconButton
-import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.MaterialShapes
@@ -27,8 +25,9 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.nhuhuy.algidy.core.designsystem.SquaredIconButton
 import com.nhuhuy.algidy.core.designsystem.icon.AlgidyIcons
-import com.nhuhuy.algidy.core.designsystem.icon.AppIcon
+import com.nhuhuy.algidy.core.designsystem.icon.toImageVector
 import com.nhuhuy.algidy.core.presentation.utils.ItemPosition
 import com.nhuhuy.algidy.core.presentation.utils.toVerticalSegmentedShape
 import com.nhuhuy.algidy.feature.settings.R
@@ -123,43 +122,21 @@ private fun ButtonsContent(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(8.dp, alignment = Alignment.End)
     ) {
-        FilledIconButton(
+        SquaredIconButton(
             onClick = onGithubClick,
-            colors = IconButtonDefaults.iconButtonColors(
-                containerColor = MaterialTheme.colorScheme.secondary,
-                contentColor = MaterialTheme.colorScheme.onSecondary
-            )
-        ) {
-            AppIcon(
-                modifier = Modifier.size(20.dp),
-                iconProvider = algidyIcons.Github,
-            )
-        }
+            icon = algidyIcons.Github.toImageVector()
+        )
 
-        FilledIconButton(
+        SquaredIconButton(
             onClick = onEmailClick,
-            colors = IconButtonDefaults.iconButtonColors(
-                containerColor = MaterialTheme.colorScheme.secondary,
-                contentColor = MaterialTheme.colorScheme.onSecondary
-            )
-        ) {
-            AppIcon(
-                modifier = Modifier.size(20.dp),
-                iconProvider = algidyIcons.Email
-            )
-        }
+            icon = algidyIcons.Email.toImageVector()
+        )
 
-        FilledIconButton(
+
+        SquaredIconButton(
             onClick = onLinkedlnClick,
-            colors = IconButtonDefaults.iconButtonColors(
-                containerColor = MaterialTheme.colorScheme.secondary,
-                contentColor = MaterialTheme.colorScheme.onSecondary
-            )
-        ) {
-            AppIcon(
-                modifier = Modifier.size(20.dp),
-                iconProvider = algidyIcons.LinkedIn
-            )
-        }
+            icon = algidyIcons.LinkedIn.toImageVector()
+        )
     }
 }
+

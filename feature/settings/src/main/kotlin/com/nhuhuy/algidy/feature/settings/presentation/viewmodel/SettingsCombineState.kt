@@ -9,6 +9,7 @@ import com.nhuhuy.algidy.core.designsystem.icon.AlgidyIcons
 import com.nhuhuy.algidy.core.model.VersionFeatures
 import com.nhuhuy.algidy.core.model.setting.AppLanguage
 import com.nhuhuy.algidy.core.presentation.R
+import com.nhuhuy.algidy.core.presentation.UiResult
 import com.nhuhuy.algidy.core.presentation.viewmodel.UiState
 import com.nhuhuy.algidy.feature.settings.domain.model.SettingDataPreferences
 import com.nhuhuy.algidy.feature.settings.presentation.model.SettingToggleType
@@ -82,7 +83,8 @@ data class SettingsCombineState(
 data class SettingsUiState(
     val versionFeatures: VersionFeatures? = null,
     val versionName: String = "1.0.0",
-    val overlay: SettingsOverlay = SettingsOverlay.None
+    val checkUpdateResult: UiResult<String?> = UiResult.Idle,
+    val overlay: SettingsOverlay = SettingsOverlay.None,
 ) : UiState
 
 sealed interface SettingsOverlay {
@@ -95,4 +97,5 @@ sealed interface SettingsOverlay {
     data object CopyrightSheet : SettingsOverlay
     data object OpenSourceSheet : SettingsOverlay
     data object WidgetDebugSheet : SettingsOverlay
+    data object CheckUpdateDialog : SettingsOverlay
 }

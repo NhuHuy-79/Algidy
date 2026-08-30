@@ -107,4 +107,10 @@ enum class SettingClickableUiModel(
         description = R.string.setting_open_source_desc,
         icon = AlgidyIcons.Settings.OpenSource
     ),
+
+    CHECK_UPDATE(
+        title = R.string.setting_check_update_title,
+        description = R.string.setting_check_update_desc,
+        icon = AlgidyIcons.Settings.CheckUpdate
+    )
 }

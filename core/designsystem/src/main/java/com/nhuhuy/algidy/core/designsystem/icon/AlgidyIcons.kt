@@ -52,6 +52,7 @@ import androidx.compose.material.icons.rounded.SortByAlpha
 import androidx.compose.material.icons.rounded.StackedLineChart
 import androidx.compose.material.icons.rounded.Timer
 import androidx.compose.material.icons.rounded.Today
+import androidx.compose.material.icons.rounded.Update
 import androidx.compose.material.icons.rounded.Warning
 import androidx.compose.material.icons.rounded.WbSunny
 import androidx.compose.material.icons.rounded.Widgets
@@ -147,6 +148,8 @@ object AlgidyIcons {
         val AboutApp = IconProvider.ImageVectorIcon(Icons.Rounded.Apps)
         val ExpandSetting = IconProvider.ImageVectorIcon(Icons.AutoMirrored.Rounded.ArrowForward)
         val Language = IconProvider.ImageVectorIcon(Icons.Rounded.Language)
+
+        val CheckUpdate = IconProvider.ImageVectorIcon(Icons.Rounded.Update)
 
         val DailyReminder = IconProvider.ImageVectorIcon(Icons.Rounded.Alarm)
         val EditReminder = IconProvider.ImageVectorIcon(Icons.Rounded.ModeEdit)

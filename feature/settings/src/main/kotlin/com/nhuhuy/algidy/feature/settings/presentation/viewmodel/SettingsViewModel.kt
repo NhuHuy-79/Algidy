@@ -5,10 +5,13 @@ import com.nhuhuy.algidy.core.data.AppNewFeaturesReader
 import com.nhuhuy.algidy.core.data.util.onFailure
 import com.nhuhuy.algidy.core.data.util.onSuccess
 import com.nhuhuy.algidy.core.data.util.product
+import com.nhuhuy.algidy.core.domain.usecase.CheckUpdateUseCase
 import com.nhuhuy.algidy.core.notifications.worker.WorkerScheduler
+import com.nhuhuy.algidy.core.presentation.UiResult
 import com.nhuhuy.algidy.core.presentation.navigation.Destination.Setting
 import com.nhuhuy.algidy.core.presentation.navigation.Navigator
 import com.nhuhuy.algidy.core.presentation.navigation.SettingDestination
+import com.nhuhuy.algidy.core.presentation.toUiResult
 import com.nhuhuy.algidy.core.presentation.viewmodel.BaseViewModel
 import com.nhuhuy.algidy.feature.settings.data.WidgetExceptionLogger
 import com.nhuhuy.algidy.feature.settings.domain.usecase.CheckCapabilityUseCase
@@ -42,6 +45,7 @@ class SettingsViewModel(
     private val deleteDataUseCase: DeleteAllDataUseCase,
     private val updatePreferencesUseCase: UpdatePreferencesUseCase,
     private val workerScheduler: WorkerScheduler,
+    private val checkUpdateUseCase: CheckUpdateUseCase,
 ) : BaseViewModel<SettingsUiState, SettingsEvent, SettingsAction>() {
     private val _uiState = MutableStateFlow(
         SettingsUiState(
@@ -79,7 +83,7 @@ class SettingsViewModel(
         when (action) {
             SettingsAction.OnDismiss,
             SettingsAction.DeleteAlertDialog.Dismiss -> _uiState.product {
-                copy(overlay = None)
+                copy(overlay = None, checkUpdateResult = UiResult.Idle)
             }
 
             SettingsAction.OnBackClick -> navigator.navigateBack()
@@ -241,6 +245,19 @@ class SettingsViewModel(
                         SettingDestination.OtherSettings
                     )
                 )
+
+                SettingClickableUiModel.CHECK_UPDATE -> {
+                    _uiState.product {
+                        copy(
+                            overlay = SettingsOverlay.CheckUpdateDialog,
+                            checkUpdateResult = UiResult.Loading
+                        )
+                    }
+                    val uiResult = checkUpdateUseCase()
+                    _uiState.product {
+                        copy(checkUpdateResult = uiResult.toUiResult())
+                    }
+                }
             }
         }
     }

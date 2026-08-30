@@ -263,6 +263,8 @@
     <string name="setting_widget_debug_desc">Kiểm tra và phân tích các lỗi widget.</string>
     <string name="setting_widget_debug_empty">Chưa tìm ra lỗi!</string>
 
+    <string name="setting_check_update_desc">Kiểm tra phiên bản mới và luôn cập nhật với những tính năng mới nhất cùng các bản sửa lỗi</string>
+    <string name="check_update_dialog_update_confirm_btn">Cập nhật ngay</string>
     <string name="setting_action_clear">Xóa Log</string>
     <string name="setting_action_copy_to_clipboard">Chép vào Clipboard</string>
 
@@ -362,4 +364,9 @@
     <string name="analytics_period_week">Trong Tuần</string>
     <string name="analytics_expired">Hết hạn</string>
     <string name="analytics_spoilage_history_consumed_value">Đã sử dụng: %1$d</string>
+    <string name="setting_check_update_title">Kiểm tra Phiên bản</string>
+    <string name="check_update_dialog_loading">Kiểm tra phiên bản mới nhất của Algidy</string>
+    <string name="check_update_dialog_error">Không thể kiểm tra cập nhật</string>
+    <string name="check_update_dialog_success_updated">Phiên bản đã được cập nhật</string>
+    <string name="check_update_dialog_update_available">Đã có bản cập nhật</string>
 </resources>

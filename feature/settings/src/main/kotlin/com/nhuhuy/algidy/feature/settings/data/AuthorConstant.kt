@@ -7,4 +7,5 @@ object AuthorConstant {
     const val INSTAGRAM = ""
     const val EMAIL = "nguyennhuhuy42@gmail.com"
     const val LINKEDIN = "https://www.linkedin.com/in/huy-nguyen-nhu-22013b403/"
+    const val RELEASE_GITHUB = "https://github.com/NhuHuy-79/Algidy/releases"
 }

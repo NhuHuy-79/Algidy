@@ -8,6 +8,6 @@ interface GithubApi {
     suspend fun fetchTagName(): GithubApiResponse
 
     companion object {
-        const val GITHUB_API = "https://api.github.com/repos/NhuHuy-79/Algidy/"
+        const val GITHUB_RELEASE = "https://api.github.com/repos/NhuHuy-79/Algidy/"
     }
 }

@@ -281,6 +281,13 @@
     <string name="setting_widget_debug">Widget Debug</string>
     <string name="setting_widget_debug_desc">View widget errors and diagnostics</string>
     <string name="setting_widget_debug_empty">No error found!</string>
+    <string name="setting_check_update_title">Check Update</string>
+    <string name="setting_check_update_desc">See whether a newer version is available and stay up to date with the latest features and bug fixes</string>
+    <string name="check_update_dialog_loading">Checking newest Algidy version</string>
+    <string name="check_update_dialog_error">Unable to check for updates</string>
+    <string name="check_update_dialog_success_updated">You\'re up-to-date</string>
+    <string name="check_update_dialog_update_available">Update available</string>
+    <string name="check_update_dialog_update_confirm_btn">Update now</string>
 
     <string name="setting_action_clear">Clear Log</string>
     <string name="setting_action_copy_to_clipboard">Copy to Clipboard</string>

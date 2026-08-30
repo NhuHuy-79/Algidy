@@ -3,6 +3,7 @@ package com.nhuhuy.algidy.di
 import com.nhuhuy.algidy.core.network.api.FoodApi
 import com.nhuhuy.algidy.core.network.api.FoodApi.Companion.BASE_URL
 import com.nhuhuy.algidy.core.network.api.GithubApi
+import com.nhuhuy.algidy.core.network.api.GithubApi.Companion.GITHUB_RELEASE
 import com.nhuhuy.algidy.core.network.data_source.FoodRemoteDataSource
 import com.nhuhuy.algidy.core.network.data_source.FoodRemoteDataSourceImpl
 import kotlinx.serialization.json.Json
@@ -40,7 +41,7 @@ val networkModule = module {
         val contentType = "application/json".toMediaType()
 
         Retrofit.Builder()
-            .baseUrl(GITHUB_API)
+            .baseUrl(GITHUB_RELEASE)
             .addConverterFactory(json.asConverterFactory(contentType))
             .build()
     }

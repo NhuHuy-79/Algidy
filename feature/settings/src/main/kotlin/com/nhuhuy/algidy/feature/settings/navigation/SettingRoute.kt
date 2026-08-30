@@ -1,7 +1,6 @@
 package com.nhuhuy.algidy.feature.settings.navigation
 
 import android.Manifest
-import android.content.ClipData
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
@@ -12,29 +11,16 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.platform.ClipEntry
-import androidx.compose.ui.platform.LocalClipboard
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalResources
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.res.vectorResource
 import androidx.core.net.toUri
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.nhuhuy.algidy.core.designsystem.component.AlgidyAlertDialog
 import com.nhuhuy.algidy.core.designsystem.component.BoxLayout
 import com.nhuhuy.algidy.core.presentation.ObserveEffect
 import com.nhuhuy.algidy.core.presentation.R
-import com.nhuhuy.algidy.core.presentation.component.AppNewFeatureBottomSheet
-import com.nhuhuy.algidy.core.presentation.component.AppTimePickerDialog
 import com.nhuhuy.algidy.core.presentation.navigation.Destination.Setting
 import com.nhuhuy.algidy.core.presentation.navigation.SettingDestination
-import com.nhuhuy.algidy.feature.settings.presentation.component.WidgetDebugBottomSheet
-import com.nhuhuy.algidy.feature.settings.presentation.component.about_app.CopyrightBottomSheet
-import com.nhuhuy.algidy.feature.settings.presentation.component.about_app.PolicyBottomSheet
 import com.nhuhuy.algidy.feature.settings.presentation.component.open_source.OpenSourceContent
-import com.nhuhuy.algidy.feature.settings.presentation.component.other_setting.SelectLanguageBottomSheet
 import com.nhuhuy.algidy.feature.settings.presentation.screen.AboutAppScreen
 import com.nhuhuy.algidy.feature.settings.presentation.screen.AppearanceScreen
 import com.nhuhuy.algidy.feature.settings.presentation.screen.DataSettingsScreen
@@ -44,12 +30,8 @@ import com.nhuhuy.algidy.feature.settings.presentation.screen.OtherSettingsScree
 import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.DeleteAll
 import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.NotifyTimerEvent
 import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.SettingsAction
-import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.SettingsAction.ChangeLanguage
-import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.SettingsAction.SetNotifyTime.SetHourAndMinutes
 import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.SettingsEvent
-import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.SettingsOverlay
 import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.SettingsViewModel
-import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -78,10 +60,8 @@ fun SettingRoute(
             onAction(SettingsAction.OnNotificationGranted(granted))
         }
     )
-
     val context = LocalContext.current
-    val clipboardManager = LocalClipboard.current
-    val scope = rememberCoroutineScope()
+
 
     ObserveEffect(viewModel.uiEvent) { event ->
         when (event) {
@@ -248,79 +228,11 @@ fun SettingRoute(
         }
     }
 
-    when (val overlay = uiState.overlay) {
-        SettingsOverlay.None -> Unit
-        SettingsOverlay.DeleteAlertDialog -> AlgidyAlertDialog(
-            icon = ImageVector.vectorResource(R.drawable.ic_delete),
-            confirmText = stringResource(R.string.delete_data_dialog_confirm),
-            dismissText = stringResource(R.string.delete_data_dialog_cancel),
-            onDismissRequest = {
-                onAction(SettingsAction.DeleteAlertDialog.Dismiss)
-            },
-            onConfirm = {
-                onAction(SettingsAction.DeleteAlertDialog.Confirm)
-            },
-            title = stringResource(R.string.delete_data_dialog_title),
-            text = stringResource(R.string.delete_data_dialog_content),
-        )
+    SettingsOverlayContainer(
+        uiState = uiState,
+        combineState = combineState,
+        onAction = onAction
+    )
 
-        SettingsOverlay.TimePicker -> AppTimePickerDialog(
-            hour = combineState.notificationPreferences.hour,
-            minutes = combineState.notificationPreferences.minutes,
-            title = stringResource(R.string.settings_set_time),
-            confirmText = stringResource(R.string.settings_set_time_confirm),
-            onDateSelected = { hour, min ->
-                onAction(
-                    SetHourAndMinutes(
-                        hour = hour,
-                        minutes = min
-                    )
-                )
-            },
-            onDismiss = {
-                onAction(SettingsAction.OnDismiss)
-            }
-        )
-
-        is SettingsOverlay.NewFeatureSheet -> AppNewFeatureBottomSheet(
-            versionFeatures = overlay.versionFeatures,
-            onDismiss = { onAction(SettingsAction.OnDismiss) }
-        )
-
-        SettingsOverlay.CopyrightSheet -> CopyrightBottomSheet(
-            onDismiss = { onAction(SettingsAction.OnDismiss) }
-        )
-
-        SettingsOverlay.OpenSourceSheet -> OpenSourceContent(
-            onBack = { onAction(SettingsAction.OnDismiss) }
-        )
-
-        SettingsOverlay.PolicySheet -> PolicyBottomSheet(
-            onDismiss = { onAction(SettingsAction.OnDismiss) }
-        )
-
-        is SettingsOverlay.LanguageSheet -> SelectLanguageBottomSheet(
-            currentLanguage = combineState.appearancePreferences.appLanguage,
-            onLanguageSelect = { language -> onAction(ChangeLanguage(language)) },
-            onDismiss = { onAction(SettingsAction.OnDismiss) }
-        )
-
-        SettingsOverlay.WidgetDebugSheet -> WidgetDebugBottomSheet(
-            log = combineState.exceptionLog,
-            onDismiss = { onAction(SettingsAction.OnDismiss) },
-            onCopyToClipboard = { log ->
-                scope.launch {
-                    clipboardManager.setClipEntry(
-                        ClipEntry(
-                            ClipData.newPlainText(
-                                "Widget Log",
-                                log
-                            )
-                        )
-                    )
-                }
-            },
-            onClear = { onAction(SettingsAction.ClearLog) }
-        )
-    }
 }
+
