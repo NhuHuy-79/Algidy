@@ -7,6 +7,7 @@ import android.content.Intent
 import androidx.core.net.toUri
 import com.nhuhuy.algidy.core.notifications.domain.AlgidyNotifier
 import com.nhuhuy.algidy.core.notifications.domain.NotificationFoodItem
+import com.nhuhuy.algidy.core.presentation.R
 
 class AlgidyNotifierImp(
     private val context: Context,
@@ -18,6 +19,7 @@ class AlgidyNotifierImp(
     }
 
     companion object {
+        private const val NORMAL_NOTIFICATION = 1003
         private const val EXPIRY_ALERT_ID = 1001
         private const val WEEKLY_SUMMARY_ID = 1002
         const val ACTION_CONSUME = "com.nhuhuy.algidy.ACTION_CONSUME"
@@ -25,10 +27,18 @@ class AlgidyNotifierImp(
         const val EXTRA_FOOD_ID = "EXTRA_FOOD_ID"
     }
 
+    override suspend fun showNewUpdateVersion() {
+        val notification = notificationFactory.createSimpleNotification(
+            titleId = R.string.notif_new_update_title,
+            contentId = R.string.notif_new_update_content
+        )
+        notificationManager.notify(NORMAL_NOTIFICATION, notification)
+    }
+
     override suspend fun showExpiringItemsAlert(items: List<NotificationFoodItem>) {
         if (items.isEmpty()) return
         val intent = Intent(Intent.ACTION_VIEW, "algidy://home".toUri()).apply {
-            setPackage(context.packageName) // Đảm bảo chỉ app Algidy mới mở được intent này
+            setPackage(context.packageName)
         }
 
         val pendingIntent = PendingIntent.getActivity(

@@ -1,112 +1,99 @@
 package com.nhuhuy.algidy.feature.inventory.presentation.search
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.LinearProgressIndicator
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.SearchBar
-import androidx.compose.material3.SearchBarDefaults
-import androidx.compose.material3.Text
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
-import androidx.compose.ui.focus.focusRequester
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.nhuhuy.algidy.core.designsystem.tokens.LocalAlgidySpacing
-import com.nhuhuy.algidy.core.presentation.R
-import com.nhuhuy.algidy.feature.inventory.presentation.search.component.SearchContent
+import com.nhuhuy.algidy.core.presentation.component.CategoryFilterGroup
+import com.nhuhuy.algidy.core.presentation.model.CategoryUiModel
+import com.nhuhuy.algidy.feature.inventory.presentation.model.FoodUiModel
+import com.nhuhuy.algidy.feature.inventory.presentation.search.component.RecentSearchContent
+import com.nhuhuy.algidy.feature.inventory.presentation.search.component.SearchEmpty
+import com.nhuhuy.algidy.feature.inventory.presentation.search.component.SearchResultContent
+import com.nhuhuy.algidy.feature.inventory.presentation.search.component.SearchTopBar
 import com.nhuhuy.algidy.feature.inventory.presentation.search.viewmodel.SearchAction
 import com.nhuhuy.algidy.feature.inventory.presentation.search.viewmodel.SearchUiState
+import kotlinx.collections.immutable.ImmutableList
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun SearchInventoryScreen(
+    foodItems: ImmutableList<FoodUiModel>,
     uiState: SearchUiState,
-    onBackClick: () -> Unit,
     onAction: (SearchAction) -> Unit,
 ) {
     val focusRequester = remember { FocusRequester() }
-    LaunchedEffect(Unit) {
-        focusRequester.requestFocus()
-    }
-    Box(
+    val localSpacing = LocalAlgidySpacing.current
+    LaunchedEffect(Unit) { focusRequester.requestFocus() }
+
+    Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(color = MaterialTheme.colorScheme.background),
-        contentAlignment = Alignment.TopCenter
+            .padding(top = localSpacing.large),
     ) {
-        SearchBar(
-            modifier = Modifier.padding(top = if (uiState.isExpanded) 0.dp else 8.dp),
-            expanded = uiState.isExpanded,
-            onExpandedChange = { onAction(SearchAction.OnExpandedChange(it)) },
-            shape = if (uiState.isExpanded) SearchBarDefaults.fullScreenShape else SearchBarDefaults.inputFieldShape,
-            colors = SearchBarDefaults.colors(
-                containerColor = MaterialTheme.colorScheme.surfaceContainerHigh
-            ),
-            inputField = {
-                SearchBarDefaults.InputField(
-                    modifier = Modifier.focusRequester(focusRequester),
-                    query = uiState.query,
-                    onQueryChange = { query ->
-                        onAction(SearchAction.OnQueryChange(query))
-                    },
-                    onSearch = { search ->
-                        onAction(SearchAction.OnSearch(search))
-                    },
-                    expanded = uiState.isExpanded,
-                    onExpandedChange = { expand -> onAction(SearchAction.OnExpandedChange(expand)) },
-                    placeholder = {
-                        Text(
-                            text = stringResource(R.string.search_placeholder)
-                        )
-                    },
-                    leadingIcon = {
-                        IconButton(
-                            onClick = {
-                                if (uiState.isExpanded) {
-                                    onAction(SearchAction.OnExpandedChange(false))
-                                } else onBackClick()
-                            }
-                        ) {
-                            Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
-                        }
-                    },
-                    trailingIcon = {
-                        if (uiState.query.isNotEmpty()) {
-                            IconButton(onClick = { onAction(SearchAction.OnClearQuery) }) {
-                                Icon(Icons.Default.Clear, contentDescription = "Clear")
-                            }
-                        }
-                    }
-                )
-            }
+        SearchTopBar(
+            modifier = Modifier.fillMaxWidth(),
+            query = uiState.query,
+            onBackClick = { onAction(SearchAction.OnBack) },
+            onQueryChange = { query -> onAction(SearchAction.OnQueryChange(query)) },
+            onClearQuery = { onAction(SearchAction.OnClearQuery) }
+        )
+
+        Spacer(modifier = Modifier.height(localSpacing.medium))
+
+        CategoryFilterGroup(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = localSpacing.large),
+            selectedCategory = uiState.currentCategory,
+            categories = uiState.categories,
+            onCategoryClick = { category -> onAction(SearchAction.OnCategorySelect(category)) }
+        )
+
+        AnimatedVisibility(
+            visible = uiState.query.isBlank() && uiState.currentCategory == CategoryUiModel.All,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = localSpacing.large)
+                .padding(top = localSpacing.medium)
         ) {
-            val localSpacing = LocalAlgidySpacing.current
-            AnimatedVisibility(
-                visible = uiState.isLoading
-            ) {
-                LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
-            }
-            SearchContent(
+            RecentSearchContent(
                 modifier = Modifier
-                    .background(color = MaterialTheme.colorScheme.surfaceContainerHigh)
-                    .padding(localSpacing.medium),
-                uiState = uiState,
-                onAction = onAction,
+                    .fillMaxWidth()
+                    .heightIn(max = 240.dp),
+                searchHistories = uiState.searchHistories,
+                onItemClick = { item ->
+                    onAction(SearchAction.OnHistoryClick(item.name))
+                }
+            )
+        }
+
+        Spacer(modifier = Modifier.height(localSpacing.extraLarge))
+
+        if (foodItems.isEmpty()) {
+            SearchEmpty(modifier = Modifier.fillMaxSize())
+        } else {
+            SearchResultContent(
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(horizontal = localSpacing.large),
+                searchResults = foodItems,
+                onItemClick = { item ->
+                    onAction(SearchAction.OnSearchResultClick(item))
+                }
             )
         }
     }

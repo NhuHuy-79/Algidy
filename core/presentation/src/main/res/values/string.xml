@@ -73,7 +73,7 @@
 
     <string name="inventory_no_foods">Your inventory is empty</string>
     <string name="inventory_empty_title">Your pantry is empty</string>
-    <string name="inventory_empty_content">Keep track of your groceries and never let food go to waste. Start adding item now!</string>
+    <string name="inventory_empty_content">Start adding item now!</string>
     <string name="inventory_scanner_btn">Scan Barcode</string>
     <string name="inventory_manually_btn">Add manually</string>
     <string name="inventory_menu_sort_expiry">Sort by Expiry</string>
@@ -111,9 +111,10 @@
     <string name="category_pantry">Pantry</string>
     <string name="category_other">Other</string>
     <!-- Search Screen -->
-    <string name="search_placeholder">Search your product in fridge…</string>
-    <string name="search_history_title">Recent</string>
-    <string name="search_no_results">No items found.</string>
+    <string name="search_placeholder">Search foods</string>
+    <string name="search_history_title">Recent searches</string>
+    <string name="search_result_title">Result</string>
+    <string name="search_no_results">No foods found.</string>
 
     <plurals name="inventory_selected_title">
         <item quantity="zero">selected item.</item>
@@ -228,7 +229,8 @@
     <string name="settings_delete_success">Delete data successfully!</string>
     <string name="settings_delete_failure">Delete data fail!</string>
 
-    <string name="setting_language">Language</string>
+    <string name="setting_language_title">Language</string>
+    <string name="setting_language_desc">Choose the language used throughout the app.</string>
     <string name="setting_lang_english" translatable="false">English</string>
     <string name="setting_lang_vietnamese" translatable="false">Tiếng Việt</string>
     <string name="setting_lang_spanish" translatable="false">Español</string>
@@ -238,7 +240,7 @@
     <string name="setting_lang_indonesian" translatable="false">Bahasa Indonesia</string>
     <string name="setting_lang_italian" translatable="false">Italiano</string>
 
-    <string name="setting_font">Font</string>
+    <string name="setting_font_title">Font</string>
     <string name="setting_color_source">Color Source</string>
     <string name="settings_dynamic_color">Dynamic Color</string>
     <string name="settings_dynamic_mode_desc">Enable dynamic color for the app</string>
@@ -340,6 +342,8 @@
         <item quantity="one">Attention: %1$d item expiring soon!</item>
         <item quantity="other">Attention: %1$d items expiring soon!</item>
     </plurals>
+    <string name="notif_new_update_title">New Update Available</string>
+    <string name="notif_new_update_content">Please update Algidy to enjoy the latest features.</string>
     <string name="notif_expiry_review_before_expire">Please review your items before they expire.</string>
     <string name="notif_expiry_next_item_one_day">Next up: %1$s expires tomorrow!</string>
     <string name="notif_expiry_next_item_days">Next up: %1$s in %2$d days</string>
@@ -349,6 +353,8 @@
     <string name="review_foods">Review Foods</string>
 
     <string name="notif_weekly_title">Algidy Weekly Summary</string>
+    <string name="notif_general_title">General Notifications</string>
+    <string name="notif_general_content">Stay informed about updates and other important information.</string>
     <string name="notif_weekly_short">You consumed %1$d items and wasted %2$d items.</string>
     <string name="notif_weekly_detail">Last week, you successfully consumed %1$d items. Unfortunately, %2$d items were wasted. Let\'s plan your groceries better with Algidy for the upcoming week!</string>
 

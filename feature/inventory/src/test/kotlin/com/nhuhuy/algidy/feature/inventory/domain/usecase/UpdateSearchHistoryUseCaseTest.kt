@@ -2,7 +2,7 @@ package com.nhuhuy.algidy.feature.inventory.domain.usecase
 
 import com.nhuhuy.algidy.core.model.food.FoodItem
 import com.nhuhuy.algidy.feature.inventory.domain.repository.SearchRepository
-import com.nhuhuy.algidy.feature.inventory.domain.usecase.food.SearchFoodUseCase
+import com.nhuhuy.algidy.feature.inventory.domain.usecase.food.UpdateSearchHistoryUseCase
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
@@ -11,15 +11,15 @@ import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 
-class SearchFoodUseCaseTest {
+class UpdateSearchHistoryUseCaseTest {
 
     private lateinit var searchRepository: SearchRepository
-    private lateinit var searchFoodUseCase: SearchFoodUseCase
+    private lateinit var updateSearchHistoryUseCase: UpdateSearchHistoryUseCase
 
     @Before
     fun setUp() {
         searchRepository = mockk()
-        searchFoodUseCase = SearchFoodUseCase(searchRepository)
+        updateSearchHistoryUseCase = UpdateSearchHistoryUseCase(searchRepository)
     }
 
     @Test
@@ -30,7 +30,7 @@ class SearchFoodUseCaseTest {
         coEvery { searchRepository.getFoodItemListByQuery(any()) } returns mockItems
         coEvery { searchRepository.addHistoryResult(any()) } returns Unit
 
-        val result = searchFoodUseCase(query)
+        val result = updateSearchHistoryUseCase(query)
 
         assertEquals(mockItems, result)
         coVerify(exactly = 1) { searchRepository.getFoodItemListByQuery(any()) }

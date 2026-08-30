@@ -71,7 +71,7 @@
 
     <string name="inventory_no_foods">Bạn chưa có thực phẩm nào</string>
     <string name="inventory_empty_title">Tủ đồ của bạn đang trống</string>
-    <string name="inventory_empty_content">Hãy theo dõi thực phẩm của bạn để không lãng phí chúng. Thêm món mới ngay nào!</string>
+    <string name="inventory_empty_content">Thêm món mới ngay nào!</string>
     <string name="inventory_scanner_btn">Quét mã vạch</string>
     <string name="inventory_manually_btn">Nhập thủ công</string>
     <string name="inventory_menu_sort_expiry">Sắp xếp theo thời hạn</string>
@@ -109,10 +109,10 @@
     <string name="category_pantry">Tủ đồ khô</string>
     <string name="category_other">Khác</string>
     <!-- Search Screen -->
-    <string name="search_placeholder">Tìm kiếm thực phẩm trong tủ của bạn…</string>
-    <string name="search_history_title">Gần đây</string>
+    <string name="search_placeholder">Tìm kiếm thực phẩm</string>
+    <string name="search_history_title">Kết quả gần đây</string>
+    <string name="search_result_title">Kết quả tìm kiếm</string>
     <string name="search_no_results">Không tìm thấy thực phẩm nào.</string>
-
     <plurals name="inventory_selected_title">
         <item quantity="zero">mục đã chọn.</item>
         <item quantity="other">mục đã chọn.</item>
@@ -210,17 +210,10 @@
     <string name="settings_delete_success">Xóa dữ liệu thành công</string>
     <string name="settings_delete_failure">Xóa dữ liệu không thành công!</string>
 
-    <string name="setting_language">Ngôn ngữ</string>
-    
-    
-    
-    
-    
-    
-    
-    
+    <string name="setting_language_title">Ngôn ngữ</string>
 
-    <string name="setting_font">Font chữ</string>
+
+    <string name="setting_font_title">Font chữ</string>
     <string name="setting_color_source">Chọn Nguồn màu</string>
     <string name="settings_dynamic_color">Màu Tự Động</string>
     <string name="settings_dynamic_mode_desc">Bật màu sắc động theo hệ thống cho ứng dụng</string>
@@ -338,6 +331,7 @@
         <item quantity="one">Chú ý: Mặt hàng %1$d sắp hết hạn!</item>
         <item quantity="other">Chú ý: Các mặt hàng %1$d sắp hết hạn!</item>
     </plurals>
+    <string name="notif_new_update_content">Cập nhật Algidy ngay để trải nghiệm phiên bản mới nhất.</string>
     <string name="notif_expiry_review_before_expire">Vui lòng xem lại các mặt hàng của bạn trước khi chúng hết hạn.</string>
     <string name="notif_expiry_next_item_one_day">Tiếp theo: %1$s sẽ hết hạn vào ngày mai!</string>
     <string name="notif_expiry_next_item_days">Tiếp theo: %1$s trong %2$d ngày</string>
@@ -347,6 +341,7 @@
     <string name="review_foods">Đánh giá thực phẩm</string>
 
     <string name="notif_weekly_title">Tóm tắt hàng tuần của Algidy</string>
+    <string name="notif_general_content">Thông báo chung và các bản cập nhật từ Algidy.</string>
     <string name="notif_weekly_short">Bạn đã tiêu thụ %1$d mặt hàng và lãng phí %2$d mặt hàng.</string>
     <string name="notif_weekly_detail">Tuần trước, bạn đã tiêu thụ thành công %1$d mặt hàng. Thật không may, %2$d mục đã bị lãng phí. Hãy lên kế hoạch đi chợ của bạn tốt hơn cùng Algidy cho tuần sắp tới nhé!</string>
 
@@ -374,4 +369,7 @@
     <string name="check_update_dialog_error">Không thể kiểm tra cập nhật</string>
     <string name="check_update_dialog_success_updated">Phiên bản đã được cập nhật</string>
     <string name="check_update_dialog_update_available">Đã có bản cập nhật</string>
+    <string name="notif_new_update_title">Bản cập nhật mới đã sẵn sàng</string>
+    <string name="notif_general_title">Thông báo Chung</string>
+    <string name="setting_language_desc">Chọn ngôn ngữ trong ứng dụng.</string>
 </resources>

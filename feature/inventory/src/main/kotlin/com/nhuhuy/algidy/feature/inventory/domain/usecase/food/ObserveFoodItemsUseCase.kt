@@ -4,7 +4,7 @@ import com.nhuhuy.algidy.core.domain.repository.FoodRepository
 import com.nhuhuy.algidy.core.model.food.FoodItem
 import kotlinx.coroutines.flow.Flow
 
-class ObserveFoodItemUseCase(
+class ObserveFoodItemsUseCase(
     private val foodRepository: FoodRepository
 ) {
     operator fun invoke(): Flow<List<FoodItem>> {

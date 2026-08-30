@@ -15,6 +15,7 @@ import androidx.compose.material.icons.rounded.Alarm
 import androidx.compose.material.icons.rounded.AlternateEmail
 import androidx.compose.material.icons.rounded.Analytics
 import androidx.compose.material.icons.rounded.Apps
+import androidx.compose.material.icons.rounded.ArrowOutward
 import androidx.compose.material.icons.rounded.BarChart
 import androidx.compose.material.icons.rounded.BrightnessAuto
 import androidx.compose.material.icons.rounded.Close
@@ -27,7 +28,6 @@ import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.DocumentScanner
 import androidx.compose.material.icons.rounded.Edit
 import androidx.compose.material.icons.rounded.ErrorOutline
-import androidx.compose.material.icons.rounded.ExpandLess
 import androidx.compose.material.icons.rounded.ExpandMore
 import androidx.compose.material.icons.rounded.Feedback
 import androidx.compose.material.icons.rounded.FilterList
@@ -38,6 +38,7 @@ import androidx.compose.material.icons.rounded.History
 import androidx.compose.material.icons.rounded.Hive
 import androidx.compose.material.icons.rounded.Inventory
 import androidx.compose.material.icons.rounded.Language
+import androidx.compose.material.icons.rounded.LibraryAdd
 import androidx.compose.material.icons.rounded.ModeEdit
 import androidx.compose.material.icons.rounded.NewReleases
 import androidx.compose.material.icons.rounded.Notifications
@@ -46,6 +47,7 @@ import androidx.compose.material.icons.rounded.PhotoCamera
 import androidx.compose.material.icons.rounded.Policy
 import androidx.compose.material.icons.rounded.Restore
 import androidx.compose.material.icons.rounded.Search
+import androidx.compose.material.icons.rounded.SearchOff
 import androidx.compose.material.icons.rounded.SelectAll
 import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.material.icons.rounded.SortByAlpha
@@ -107,13 +109,16 @@ object AlgidyIcons {
         val ResetFilter = IconProvider.ImageVectorIcon(Icons.Rounded.Restore)
         val Category = IconProvider.ImageVectorIcon(Icons.AutoMirrored.Rounded.Label)
         val ExpandToolbar = IconProvider.ImageVectorIcon(Icons.Rounded.ExpandMore)
-        val CloseToolbar = IconProvider.ImageVectorIcon(Icons.Rounded.ExpandLess)
+        val ClearQuery = IconProvider.ImageVectorIcon(Icons.Rounded.Close)
         val RemainDays = IconProvider.ImageVectorIcon(Icons.Rounded.Timer)
         val SelectAll = IconProvider.ImageVectorIcon(Icons.Rounded.SelectAll)
         val AddCategory = IconProvider.ImageVectorIcon(Icons.Rounded.Add)
         val DeleteCategory = IconProvider.ImageVectorIcon(Icons.Rounded.Delete)
         val LastHistory = IconProvider.ImageVectorIcon(Icons.Rounded.History)
-        val HistoryAction = IconProvider.ImageVectorIcon(Icons.AutoMirrored.Rounded.ArrowForward)
+        val HistoryAction = IconProvider.ImageVectorIcon(Icons.Rounded.ArrowOutward)
+
+        val EmptyState = IconProvider.ImageVectorIcon(Icons.Rounded.LibraryAdd)
+        val SearchEmpty = IconProvider.ImageVectorIcon(Icons.Rounded.SearchOff)
     }
 
     object Scanner {

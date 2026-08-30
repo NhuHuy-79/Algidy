@@ -84,6 +84,7 @@ fun InventoryTopBar(
 
             CategoryActionMenu(
                 isCategoryEnabled = combineState.categoryEnabled,
+                isFoodCategoryEnabled = state.showCategoryEdit,
                 onAction = onAction
             )
         }
@@ -95,6 +96,7 @@ fun InventoryTopBar(
 fun CategoryActionMenu(
     modifier: Modifier = Modifier,
     isCategoryEnabled: Boolean,
+    isFoodCategoryEnabled: Boolean = false,
     onAction: (InventoryAction) -> Unit
 ) {
     var expanded by remember { mutableStateOf(false) }
@@ -121,9 +123,16 @@ fun CategoryActionMenu(
             shape = LocalAlgidyShapes.current.medium,
             onDismissRequest = { expanded = false },
             modifier = Modifier.background(MaterialTheme.colorScheme.surfaceContainer)
-
         ) {
-            if (isCategoryEnabled) {
+            DropdownMenuItem(
+                shape = LocalAlgidyShapes.current.medium,
+                text = { Text(stringResource(R.string.inventory_category_add)) },
+                onClick = {
+                    onAction(InventoryAction.OnAddCategory.Open)
+                    expanded = false
+                }
+            )
+            if (isCategoryEnabled && isFoodCategoryEnabled) {
                 DropdownMenuItem(
                     shape = LocalAlgidyShapes.current.medium,
                     text = { Text(stringResource(R.string.inventory_category_edit)) },
@@ -137,15 +146,6 @@ fun CategoryActionMenu(
                     text = { Text(stringResource(R.string.inventory_category_delete)) },
                     onClick = {
                         onAction(InventoryAction.OnDeleteCategory)
-                        expanded = false
-                    }
-                )
-            } else {
-                DropdownMenuItem(
-                    shape = LocalAlgidyShapes.current.medium,
-                    text = { Text(stringResource(R.string.inventory_category_add)) },
-                    onClick = {
-                        onAction(InventoryAction.OnAddCategory.Open)
                         expanded = false
                     }
                 )

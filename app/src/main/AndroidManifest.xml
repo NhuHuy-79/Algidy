@@ -42,8 +42,7 @@
             android:name=".MainActivity"
             android:exported="true"
             android:windowSoftInputMode="adjustResize"
-            android:configChanges="locale|layoutDirection|screenLayout"
-            android:theme="@style/Splash">
+            android:configChanges="locale|layoutDirection|screenLayout">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -52,7 +51,7 @@
 
         <meta-data
             android:name="com.google.mlkit.vision.DEPENDENCIES"
-            android:value="barcode,ocr" />
+            android:value="barcode" />
 
         <!-- Save app locales -->
         <service

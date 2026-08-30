@@ -1,19 +1,22 @@
 package com.nhuhuy.algidy.feature.inventory.presentation.search.viewmodel
 
 import androidx.compose.runtime.Immutable
+import com.nhuhuy.algidy.core.presentation.model.CategoryUiModel
 import com.nhuhuy.algidy.core.presentation.viewmodel.UiState
 import com.nhuhuy.algidy.feature.inventory.domain.model.SearchHistory
 import com.nhuhuy.algidy.feature.inventory.presentation.model.FoodUiModel
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 
 @Immutable
 data class SearchUiState(
     val query: String = "",
-    val isExpanded: Boolean = false,
-    val isLoading: Boolean = false,
-    val searchHistory: List<String> = emptyList(),
-    val searchHistories: List<SearchHistory> = emptyList(),
-    val searchResults: List<FoodUiModel> = emptyList(),
-    val surface: SearchUiSurface = SearchUiSurface.None
+    val searchHistories: ImmutableList<SearchHistory> = persistentListOf(),
+    val surface: SearchUiSurface = SearchUiSurface.None,
+    val currentCategory: CategoryUiModel = CategoryUiModel.All,
+    val categories: ImmutableList<CategoryUiModel> = persistentListOf(
+        CategoryUiModel.All, CategoryUiModel.Uncategorized,
+    ),
 ) : UiState
 
 sealed interface SearchUiSurface {

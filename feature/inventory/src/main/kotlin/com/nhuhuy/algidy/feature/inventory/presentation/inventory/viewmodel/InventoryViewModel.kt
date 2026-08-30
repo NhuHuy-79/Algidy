@@ -18,7 +18,7 @@ import com.nhuhuy.algidy.feature.inventory.domain.usecase.ObserveSettingDataUseC
 import com.nhuhuy.algidy.feature.inventory.domain.usecase.food.DeleteFoodItemUseCase
 import com.nhuhuy.algidy.feature.inventory.domain.usecase.food.MarkFoodAsConsumedUseCase
 import com.nhuhuy.algidy.feature.inventory.domain.usecase.food.MarkFoodAsWastedUseCase
-import com.nhuhuy.algidy.feature.inventory.domain.usecase.food.ObserveFoodItemUseCase
+import com.nhuhuy.algidy.feature.inventory.domain.usecase.food.ObserveFoodItemsUseCase
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryOverlay.NewFeatureSheet
 import com.nhuhuy.algidy.feature.inventory.presentation.model.toFoodUiModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -33,7 +33,7 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 
 internal class InventoryViewModel(
-    observerFoodItemUseCase: ObserveFoodItemUseCase,
+    observerFoodItemUseCase: ObserveFoodItemsUseCase,
     observeSettingDataUseCase: ObserveSettingDataUseCase,
     observeCategoriesUseCase: ObserveCategoriesUseCase,
     private val addCategoryUseCase: AddCategoryUseCase,

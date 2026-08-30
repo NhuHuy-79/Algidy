@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.work.Constraints
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.ExistingWorkPolicy
+import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
@@ -32,6 +33,7 @@ interface WorkerScheduler {
     fun scheduleWeeklyReportWorker()
     fun scheduleWeeklyCleanUpFileWorker()
     fun scheduleWeeklyDeleteFoodWorker()
+    fun scheduleCheckUpdateWorker()
 }
 
 class WorkerSchedulerImp(
@@ -134,6 +136,24 @@ class WorkerSchedulerImp(
             WorkerStrings.DELETE_OLD_FOOD_WORKER,
             ExistingPeriodicWorkPolicy.KEEP,
             deleteRequest
+        )
+    }
+
+    override fun scheduleCheckUpdateWorker() {
+        val checkUpdateRequest = PeriodicWorkRequestBuilder<CheckUpdateVersionWorker>(
+            repeatInterval = 1,
+            repeatIntervalTimeUnit = TimeUnit.DAYS
+        )
+            .setConstraints(
+                Constraints.Builder()
+                    .setRequiredNetworkType(NetworkType.CONNECTED)
+                    .build()
+            )
+            .build()
+        workManager.enqueueUniquePeriodicWork(
+            uniqueWorkName = CheckUpdateVersionWorker::class.java.name,
+            existingPeriodicWorkPolicy = ExistingPeriodicWorkPolicy.KEEP,
+            request = checkUpdateRequest
         )
     }
 

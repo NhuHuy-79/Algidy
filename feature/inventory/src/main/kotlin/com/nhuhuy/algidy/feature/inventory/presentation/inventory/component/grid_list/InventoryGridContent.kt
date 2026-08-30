@@ -7,7 +7,11 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
@@ -31,8 +35,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.nhuhuy.algidy.core.designsystem.R
+import com.nhuhuy.algidy.core.designsystem.icon.AlgidyIcons
+import com.nhuhuy.algidy.core.designsystem.icon.AppIcon
 import com.nhuhuy.algidy.core.designsystem.theme.AlgidyTheme
 import com.nhuhuy.algidy.core.designsystem.tokens.LocalAlgidyShapes
+import com.nhuhuy.algidy.core.designsystem.tokens.LocalAlgidySpacing
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryResultState
 import com.nhuhuy.algidy.feature.inventory.presentation.model.FoodUiModel
 import kotlinx.collections.immutable.ImmutableList
@@ -51,25 +58,27 @@ internal fun InventoryGridContent(
     when (inventoryResultState) {
         InventoryResultState.Loading -> LoadingPage(modifier = Modifier.fillMaxSize())
 
-        is InventoryResultState.Empty -> EmptyPage(
-            onClick = onAddManuallyClick,
-            modifier = Modifier.fillMaxSize()
+        is InventoryResultState.Empty -> EmptyScreen(
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight(0.8f)
         )
 
         is InventoryResultState.Success -> {
             val items = itemProvider()
-            if (items.isEmpty()) {
-                EmptyPage(
-                    onClick = onAddManuallyClick,
-                    modifier = Modifier.fillMaxSize()
-                )
-            } else {
+            if (items.isNotEmpty()) {
                 InventoryGridList(
                     items = items,
                     selectedIds = selectedIds,
                     onItemClick = onItemClick,
                     onItemLongClick = onItemLongClick,
                     onScroll = onScroll
+                )
+            } else {
+                EmptyScreen(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .fillMaxHeight(0.8f)
                 )
             }
         }
@@ -124,6 +133,33 @@ private fun InventoryGridList(
                     )
             )
         }
+    }
+}
+
+@Composable
+private fun EmptyScreen(
+    modifier: Modifier = Modifier,
+) {
+    val localSpacing = LocalAlgidySpacing.current
+    Column(
+        modifier = modifier,
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        AppIcon(
+            iconProvider = AlgidyIcons.Inventory.EmptyState,
+            modifier = Modifier.size(56.dp),
+            tint = MaterialTheme.colorScheme.secondary
+        )
+
+        Spacer(modifier = Modifier.height(localSpacing.small))
+
+        Text(
+            text = stringResource(com.nhuhuy.algidy.core.presentation.R.string.inventory_empty_content),
+            style = MaterialTheme.typography.bodyLarge,
+            fontWeight = FontWeight.Medium,
+            color = MaterialTheme.colorScheme.secondary
+        )
     }
 }
 

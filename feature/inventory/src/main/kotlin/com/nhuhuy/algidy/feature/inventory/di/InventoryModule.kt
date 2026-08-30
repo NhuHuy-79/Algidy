@@ -13,8 +13,8 @@ import com.nhuhuy.algidy.feature.inventory.domain.usecase.ObserveSettingDataUseC
 import com.nhuhuy.algidy.feature.inventory.domain.usecase.food.DeleteFoodItemUseCase
 import com.nhuhuy.algidy.feature.inventory.domain.usecase.food.MarkFoodAsConsumedUseCase
 import com.nhuhuy.algidy.feature.inventory.domain.usecase.food.MarkFoodAsWastedUseCase
-import com.nhuhuy.algidy.feature.inventory.domain.usecase.food.ObserveFoodItemUseCase
-import com.nhuhuy.algidy.feature.inventory.domain.usecase.food.SearchFoodUseCase
+import com.nhuhuy.algidy.feature.inventory.domain.usecase.food.ObserveFoodItemsUseCase
+import com.nhuhuy.algidy.feature.inventory.domain.usecase.food.UpdateSearchHistoryUseCase
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryViewModel
 import com.nhuhuy.algidy.feature.inventory.presentation.model.FoodUiModel
 import com.nhuhuy.algidy.feature.inventory.presentation.search.viewmodel.SearchViewModel
@@ -34,11 +34,11 @@ val inventoryModule = module {
     factoryOf(::DeleteCategoryUseCase)
     factoryOf(::EditCategoryUseCase)
     factoryOf(::GetHistoryResultUseCase)
-    factoryOf(::SearchFoodUseCase)
+    factoryOf(::UpdateSearchHistoryUseCase)
     factoryOf(::CreateFoodItemUseCase)
     factoryOf(::AddCategoryUseCase)
     factoryOf(::DeleteFoodItemUseCase)
-    factoryOf(::ObserveFoodItemUseCase)
+    factoryOf(::ObserveFoodItemsUseCase)
     factoryOf(::ObserveCategoriesUseCase)
     factoryOf(::ObserveSettingDataUseCase)
     factoryOf(::MarkFoodAsConsumedUseCase)

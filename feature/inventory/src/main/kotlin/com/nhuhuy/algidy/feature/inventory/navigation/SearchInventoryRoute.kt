@@ -14,16 +14,15 @@ import com.nhuhuy.algidy.feature.inventory.presentation.shared.DetailBottomSheet
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun SearchInventoryRoute(
-    onNavigateBack: () -> Unit,
-) = BoxLayout {
+fun SearchInventoryRoute() = BoxLayout {
     val viewModel: SearchViewModel = koinViewModel()
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val foodItems by viewModel.foodResult.collectAsStateWithLifecycle()
     val onAction = viewModel::onAction
 
     SearchInventoryScreen(
+        foodItems = foodItems,
         uiState = uiState,
-        onBackClick = onNavigateBack,
         onAction = onAction,
     )
 

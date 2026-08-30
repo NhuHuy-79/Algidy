@@ -99,6 +99,7 @@ class AlgidyApp : Application(), KoinComponent, SingletonImageLoader.Factory,
             scheduleCheckExpiryWorker()
             scheduleWeeklyReportWorker()
             scheduleWeeklyCleanUpFileWorker()
+            scheduleCheckUpdateWorker()
         }
 
     }

@@ -23,6 +23,26 @@ class AlgidyNotificationFactory(
     private val context: Context
 ) {
 
+    fun createSimpleNotification(
+        titleId: Int,
+        contentId: Int,
+    ): Notification {
+        val title = context.getString(titleId)
+        val content = context.getString(contentId)
+        return NotificationCompat.Builder(
+            context,
+            NotificationChannelManager.CHANNEL_ALERT_ID
+        )
+            .setSmallIcon(
+                com.nhuhuy.algidy.core.notifications.R.drawable.ic_notification
+            )
+            .setContentTitle(title)
+            .setContentText(content)
+            .setAutoCancel(true)
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .build()
+    }
+
     suspend fun createExpiringItemsAlert(
         items: List<NotificationFoodItem>,
         pendingIntent: PendingIntent
