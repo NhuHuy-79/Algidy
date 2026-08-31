@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
@@ -26,7 +27,6 @@ import com.nhuhuy.algidy.core.designsystem.component.CardLayout
 import com.nhuhuy.algidy.core.designsystem.icon.AlgidyIcons
 import com.nhuhuy.algidy.core.designsystem.icon.toImageVector
 import com.nhuhuy.algidy.core.designsystem.tokens.LocalAlgidyShapes
-import com.nhuhuy.algidy.core.designsystem.tokens.LocalAlgidySpacing
 import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.core.presentation.utils.ItemPosition
 import com.nhuhuy.algidy.core.presentation.utils.toVerticalSegmentedShape
@@ -39,7 +39,6 @@ fun WeeklyExpiryAnalytics(
     weeklyExpiryStatistics: ImmutableList<WeeklyExpiryStatisticUiModel>,
     modifier: Modifier = Modifier,
 ) {
-    LocalAlgidySpacing.current
     CardLayout(
         icon = AlgidyIcons.Analytics.WeeklyFoodChart.toImageVector(),
         title = stringResource(R.string.analytics_card_expiring_this_week),
@@ -83,7 +82,7 @@ private fun NoExpiryFoodContent(
     ) {
         Text(
             text = stringResource(R.string.analytics_no_food_expiring_this_week),
-            style = MaterialTheme.typography.bodyLarge,
+            style = MaterialTheme.typography.bodySmall,
             fontWeight = FontWeight.SemiBold
         )
     }
@@ -137,12 +136,21 @@ private fun WeeklyExpiryChartItem(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        if (fraction > 0f) {
-            ChartBar(
-                modifier = Modifier.weight(safePercent),
-                value = value,
-                isPrimary = isPrimary,
-            )
+        Box(
+            modifier = Modifier
+                .weight(1f)
+                .fillMaxWidth(),
+            contentAlignment = Alignment.BottomCenter
+        ) {
+            if (fraction > 0f) {
+                ChartBar(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .fillMaxHeight(safePercent),
+                    value = value,
+                    isPrimary = isPrimary,
+                )
+            }
         }
 
         Text(

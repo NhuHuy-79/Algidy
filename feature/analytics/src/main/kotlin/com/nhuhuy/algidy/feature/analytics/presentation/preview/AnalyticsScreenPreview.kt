@@ -19,7 +19,8 @@ fun AnalyticsScreenPreview() {
                 "Consumption Report"
             ),
             backgroundColor = MaterialTheme.colorScheme.primaryContainer,
-            textColor = MaterialTheme.colorScheme.onPrimaryContainer
+            textColor = MaterialTheme.colorScheme.onPrimaryContainer,
+            screenColor = MaterialTheme.colorScheme.surfaceContainerHigh
         ) {
             AnalyticsScreen(
                 uiState = FakeData.mockAnalyticsUiState,

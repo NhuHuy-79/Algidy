@@ -26,7 +26,7 @@ internal object FakeData {
     )
 
     val mockFreshness = FreshnessStatistic(
-        fresh = 32,
+        fresh = 0,
         warning = 10,
         urgent = 5,
         expiry = 3
