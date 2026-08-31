@@ -1,7 +1,9 @@
 package com.nhuhuy.algidy.feature.analytics.domain.model
 
+import androidx.compose.runtime.Immutable
 import com.nhuhuy.algidy.core.model.food.Freshness
 
+@Immutable
 data class FreshnessStatistic(
     val fresh: Int = 0,
     val urgent: Int = 0,

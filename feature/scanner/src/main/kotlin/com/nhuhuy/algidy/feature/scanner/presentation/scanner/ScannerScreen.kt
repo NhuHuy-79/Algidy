@@ -1,7 +1,9 @@
 package com.nhuhuy.algidy.feature.scanner.presentation.scanner
 
+import androidx.annotation.DrawableRes
 import androidx.camera.core.Camera
 import androidx.camera.core.TorchState
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -21,7 +23,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.platform.LocalWindowInfo
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.nhuhuy.algidy.core.designsystem.theme.LocalCameraColorScheme
@@ -38,15 +42,19 @@ import com.nhuhuy.algidy.feature.scanner.presentation.scanner.viewmodel.ScannerU
 fun ScannerScreen(
     uiState: ScannerUiState,
     onAction: (ScannerAction) -> Unit,
+    @DrawableRes previewPlaceholder: Int? = null,
     onClosePress: () -> Unit
 ) {
     var camera by remember { mutableStateOf<Camera?>(null) }
     val lifecycleOwner = LocalLifecycleOwner.current
     val cameraScheme = LocalCameraColorScheme.current
+    val isInPreviewMode = LocalInspectionMode.current
 
     LaunchedEffect(camera) {
-        camera?.cameraInfo?.torchState?.observe(lifecycleOwner) { state ->
-            onAction(ScannerAction.OnFlashChange(state == TorchState.ON))
+        if (!isInPreviewMode) {
+            camera?.cameraInfo?.torchState?.observe(lifecycleOwner) { state ->
+                onAction(ScannerAction.OnFlashChange(state == TorchState.ON))
+            }
         }
     }
 
@@ -95,16 +103,27 @@ fun ScannerScreen(
                 contentAlignment = Alignment.Center
             ) {
                 val screenWidth = LocalWindowInfo.current.containerDpSize.width
-                CameraPreviewContent(
-                    isAutoScanned = uiState.isAutoScanned,
-                    modifier = Modifier.fillMaxSize(),
-                    onCameraReady = { cameraInstance -> camera = cameraInstance },
-                    onBarcodeDetected = { result ->
-                        if (uiState.isAutoScanned) {
-                            onAction(ScannerAction.OnBarcodeDetected(result))
-                        }
-                    },
-                )
+
+                if (isInPreviewMode) {
+                    previewPlaceholder?.let {
+                        Image(
+                            modifier = Modifier.fillMaxSize(),
+                            painter = painterResource(id = it),
+                            contentDescription = null
+                        )
+                    }
+                } else {
+                    CameraPreviewContent(
+                        isAutoScanned = uiState.isAutoScanned,
+                        modifier = Modifier.fillMaxSize(),
+                        onCameraReady = { cameraInstance -> camera = cameraInstance },
+                        onBarcodeDetected = { result ->
+                            if (uiState.isAutoScanned) {
+                                onAction(ScannerAction.OnBarcodeDetected(result))
+                            }
+                        },
+                    )
+                }
 
                 if (uiState.isAutoScanned) {
                     ScannerBoundaryCorner(

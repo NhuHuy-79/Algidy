@@ -8,14 +8,16 @@ import com.nhuhuy.algidy.core.model.food.Freshness
 import com.nhuhuy.algidy.core.model.food.StorageLocation
 import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.core.presentation.model.CategoryUiModel
+import com.nhuhuy.algidy.core.presentation.model.ImageProvider
 import com.nhuhuy.algidy.core.presentation.model.toUiModel
+import com.nhuhuy.algidy.core.presentation.model.toUriOrNull
 import com.nhuhuy.algidy.feature.food_entry.presentation.model.EntryUiModel
 import kotlin.math.abs
 
 @Immutable
 data class FoodUiModel(
     val id: String = "",
-    val imageUri: String? = null,
+    val imageProvider: ImageProvider = ImageProvider.Uri(),
     val categoryId: String? = null,
     val name: String = "",
     val remainDays: Int = 0,
@@ -25,12 +27,14 @@ data class FoodUiModel(
     val location: StorageLocation = StorageLocation.OTHER,
     val note: String = "",
     val categoryUiModel: CategoryUiModel = CategoryUiModel.Uncategorized
-)
+) {
+    val imageUri get() = imageProvider.toUriOrNull()
+}
 
 fun FoodUiModel.toEntryUiModel(): EntryUiModel {
     return EntryUiModel(
         id = id,
-        imageUri = imageUri,
+        imageUri = imageProvider.toUriOrNull(),
         name = name,
         expiryDate = expiryDate,
         purchaseDate = purchaseDate,
@@ -44,7 +48,7 @@ fun FoodItem.toFoodUiModel(): FoodUiModel {
     return FoodUiModel(
         id = id,
         categoryId = categoryId,
-        imageUri = imageUri,
+        imageProvider = ImageProvider.Uri(imageUri),
         categoryUiModel = category.toUiModel(),
         name = name,
         remainDays = getRemainingDays(),

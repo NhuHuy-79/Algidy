@@ -1,5 +1,6 @@
 package com.nhuhuy.algidy.core.designsystem.component
 
+import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -33,14 +34,16 @@ import coil3.request.crossfade
 fun FoodImageCard(
     modifier: Modifier = Modifier,
     imageUri: String?,
+    @DrawableRes drawable: Int? = null,
     placeholderIcon: ImageVector = Icons.Rounded.Image,
 ) {
     val context = LocalContext.current
 
     val painter = rememberAsyncImagePainter(
         model = ImageRequest.Builder(context)
-            .data(imageUri?.takeIf(String::isNotEmpty))
-            .crossfade(true)
+            .data(imageUri ?: drawable)
+            .size(512, 512)
+            .crossfade(false)
             .build()
     )
 

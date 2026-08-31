@@ -44,7 +44,7 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3ExpressiveApi::class)
 @Composable
-internal fun InventoryScreen(
+fun InventoryScreen(
     uiState: InventoryUiState,
     combineState: InventoryCombineState,
     inventoryResultState: InventoryResultState,

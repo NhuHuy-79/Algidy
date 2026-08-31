@@ -29,6 +29,7 @@ import com.nhuhuy.algidy.core.designsystem.icon.AppIcon
 import com.nhuhuy.algidy.core.designsystem.tokens.LocalAlgidyShapes
 import com.nhuhuy.algidy.core.designsystem.tokens.LocalAlgidySpacing
 import com.nhuhuy.algidy.core.model.food.Freshness
+import com.nhuhuy.algidy.core.presentation.model.toDrawableOrNull
 import com.nhuhuy.algidy.core.presentation.utils.toBackgroundColor
 import com.nhuhuy.algidy.core.presentation.utils.toContentColor
 import com.nhuhuy.algidy.core.presentation.utils.toStringRes
@@ -62,6 +63,7 @@ fun InventoryFoodGridItem(
                     .fillMaxWidth()
                     .aspectRatio(1f),
                 imageUri = item.imageUri,
+                drawable = item.imageProvider.toDrawableOrNull()
             )
 
             ExpiryLabel(

@@ -99,6 +99,7 @@ private fun SearchResultListItem(
         leadingContent = {
             FoodImage(
                 imageUrl = item.imageUri,
+                imageProvider = item.imageProvider,
                 modifier = Modifier
                     .size(56.dp)
                     .clip(MaterialShapes.Square.toShape())
