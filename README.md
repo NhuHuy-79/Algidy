@@ -12,7 +12,7 @@
 
 ## 📷 Screenshots
 
-<div align="center"> <img src="screenshot/home_screen.png" width="220" alt="Home Screen"/> <img src="screenshot/analytics_screen.png" width="220" alt="Analytics Screen"/> <img src="screenshot/search_screen.png" width="220" alt="Search Screen"/> <img src="screenshot/scanner_screen.png" width="220" alt="Scanner Screen"/> </div>
+<div align="center"> <img src="screenshot/home_screen.png" width="210" alt="Home Screen"/><img src="screenshot/analytics_screen.png" width="210" alt="Analytics Screen"/><img src="screenshot/search_screen.png" width="210" alt="Search Screen"/><img src="screenshot/scanner_screen.png" width="210" alt="Scanner Screen"/> </div>
 
 ---
 
