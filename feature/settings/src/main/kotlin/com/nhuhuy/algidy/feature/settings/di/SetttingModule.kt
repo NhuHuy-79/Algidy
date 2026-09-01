@@ -23,6 +23,7 @@ import com.nhuhuy.algidy.feature.settings.domain.repository.DatabaseDataImporter
 import com.nhuhuy.algidy.feature.settings.domain.repository.ExportDataProvider
 import com.nhuhuy.algidy.feature.settings.domain.usecase.CheckCapabilityUseCase
 import com.nhuhuy.algidy.feature.settings.domain.usecase.DeleteAllDataUseCase
+import com.nhuhuy.algidy.feature.settings.domain.usecase.ExportDataUseCase
 import com.nhuhuy.algidy.feature.settings.domain.usecase.ImportDataUseCase
 import com.nhuhuy.algidy.feature.settings.domain.usecase.ManageDataUseCase
 import com.nhuhuy.algidy.feature.settings.domain.usecase.ObserveSettingStateUseCase
@@ -52,7 +53,7 @@ val settingModule = module {
     singleOf(::JsonDataImporter) { bind<DataImporter>() }
 
 
-    //Usecase
+    //Use case
 
     factoryOf(::ObserveSettingStateUseCase)
     factoryOf(::ManageDataUseCase)
@@ -60,6 +61,7 @@ val settingModule = module {
     factoryOf(::DeleteAllDataUseCase)
     factoryOf(::CheckCapabilityUseCase)
     factoryOf(::UpdatePreferencesUseCase)
+    factoryOf(::ExportDataUseCase)
 
     viewModelOf(::SettingsViewModel)
 }
