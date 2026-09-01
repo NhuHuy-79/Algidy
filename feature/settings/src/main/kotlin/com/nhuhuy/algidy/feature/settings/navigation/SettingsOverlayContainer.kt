@@ -13,7 +13,7 @@ import com.nhuhuy.algidy.core.designsystem.component.AlgidyAlertDialog
 import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.core.presentation.component.AppNewFeatureBottomSheet
 import com.nhuhuy.algidy.core.presentation.component.AppTimePickerDialog
-import com.nhuhuy.algidy.feature.settings.data.AuthorConstant
+import com.nhuhuy.algidy.feature.settings.data.constant.AuthorConstant
 import com.nhuhuy.algidy.feature.settings.presentation.component.WidgetDebugBottomSheet
 import com.nhuhuy.algidy.feature.settings.presentation.component.about_app.CopyrightBottomSheet
 import com.nhuhuy.algidy.feature.settings.presentation.component.about_app.PolicyBottomSheet

@@ -4,6 +4,7 @@ import androidx.room.withTransaction
 import com.nhuhuy.algidy.core.data.util.AppDispatchers
 import com.nhuhuy.algidy.core.database.AppDatabase
 import com.nhuhuy.algidy.core.database.DatabaseConstant
+import com.nhuhuy.algidy.feature.settings.data.model.ExportData
 import com.nhuhuy.algidy.feature.settings.mapper.toCategoryEntity
 import com.nhuhuy.algidy.feature.settings.mapper.toFlattenCategoryData
 import com.nhuhuy.algidy.feature.settings.mapper.toFlattenFood
@@ -41,30 +42,30 @@ class DatabaseBackUpManagerImpl(
                 categoryEntity.toFlattenCategoryData()
             }
 
-            val flattenExportData = FlattenExportData(
-                foodDataVersion = DatabaseConstant.SCHEMA_VERSION,
-                foodData = flattenFoodData,
-                category = flattenCategoryData
+            val exportData = ExportData(
+                schemaVersion = DatabaseConstant.SCHEMA_VERSION,
+                foods = flattenFoodData,
+                categories = flattenCategoryData
             )
 
-            json.encodeToString(flattenExportData)
+            json.encodeToString(exportData)
         }
     }
 
     override suspend fun importFromJson(jsonString: String) {
         withContext(appDispatchers.io) {
-            val flattenExportData =
-                json.decodeFromString<FlattenExportData>(jsonString)
+            val exportData =
+                json.decodeFromString<ExportData>(jsonString)
 
             database.withTransaction {
                 val foodDeferred = async {
-                    flattenExportData.foodData.map {
+                    exportData.foods.map {
                         it.toFoodItemEntity()
                     }
                 }
 
                 val categoryDeferred = async {
-                    flattenExportData.category.map {
+                    exportData.categories.map {
                         it.toCategoryEntity()
                     }
                 }

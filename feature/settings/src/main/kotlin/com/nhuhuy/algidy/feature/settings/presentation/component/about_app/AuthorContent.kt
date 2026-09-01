@@ -31,7 +31,7 @@ import com.nhuhuy.algidy.core.designsystem.icon.toImageVector
 import com.nhuhuy.algidy.core.presentation.utils.ItemPosition
 import com.nhuhuy.algidy.core.presentation.utils.toVerticalSegmentedShape
 import com.nhuhuy.algidy.feature.settings.R
-import com.nhuhuy.algidy.feature.settings.data.AuthorConstant
+import com.nhuhuy.algidy.feature.settings.data.constant.AuthorConstant
 
 @Composable
 fun AuthorContent(

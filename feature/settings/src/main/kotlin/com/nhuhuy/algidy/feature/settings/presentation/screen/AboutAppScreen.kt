@@ -28,7 +28,7 @@ import androidx.compose.ui.unit.dp
 import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.core.presentation.utils.ItemPosition
 import com.nhuhuy.algidy.core.presentation.utils.toItemPosition
-import com.nhuhuy.algidy.feature.settings.data.AuthorConstant
+import com.nhuhuy.algidy.feature.settings.data.constant.AuthorConstant
 import com.nhuhuy.algidy.feature.settings.presentation.component.ClickableItem
 import com.nhuhuy.algidy.feature.settings.presentation.component.about_app.AlgidyMainContent
 import com.nhuhuy.algidy.feature.settings.presentation.component.about_app.AuthorContent

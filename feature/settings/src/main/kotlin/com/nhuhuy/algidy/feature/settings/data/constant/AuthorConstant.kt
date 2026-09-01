@@ -1,4 +1,4 @@
-package com.nhuhuy.algidy.feature.settings.data
+package com.nhuhuy.algidy.feature.settings.data.constant
 
 object AuthorConstant {
     const val NAME = "NhuHuy-79"

@@ -7,6 +7,20 @@ import com.nhuhuy.algidy.feature.settings.data.DatabaseBackUpManager
 import com.nhuhuy.algidy.feature.settings.data.DatabaseBackUpManagerImpl
 import com.nhuhuy.algidy.feature.settings.data.ImageBackUpManager
 import com.nhuhuy.algidy.feature.settings.data.ImageBackUpManagerImpl
+import com.nhuhuy.algidy.feature.settings.data.ImageZipHandler
+import com.nhuhuy.algidy.feature.settings.data.ImageZipHandlerImpl
+import com.nhuhuy.algidy.feature.settings.data.export.CsvDataExporter
+import com.nhuhuy.algidy.feature.settings.data.export.JsonDataExporter
+import com.nhuhuy.algidy.feature.settings.data.export.ZipDataExporter
+import com.nhuhuy.algidy.feature.settings.data.import.ImageZipImporter
+import com.nhuhuy.algidy.feature.settings.data.import.ImageZipImporterImpl
+import com.nhuhuy.algidy.feature.settings.data.import.JsonDataImporter
+import com.nhuhuy.algidy.feature.settings.data.repository.DatabaseDataImporterImpl
+import com.nhuhuy.algidy.feature.settings.data.repository.ExportDataProviderImpl
+import com.nhuhuy.algidy.feature.settings.domain.DataExporter
+import com.nhuhuy.algidy.feature.settings.domain.DataImporter
+import com.nhuhuy.algidy.feature.settings.domain.repository.DatabaseDataImporter
+import com.nhuhuy.algidy.feature.settings.domain.repository.ExportDataProvider
 import com.nhuhuy.algidy.feature.settings.domain.usecase.CheckCapabilityUseCase
 import com.nhuhuy.algidy.feature.settings.domain.usecase.DeleteAllDataUseCase
 import com.nhuhuy.algidy.feature.settings.domain.usecase.ImportDataUseCase
@@ -27,6 +41,18 @@ val settingModule = module {
     singleOf(::ImageBackUpManagerImpl) { bind<ImageBackUpManager>() }
     singleOf(::DataBackUpManger)
 
+    //New version
+    singleOf(::ExportDataProviderImpl) { bind<ExportDataProvider>() }
+    singleOf(::CsvDataExporter) { bind<DataExporter>() }
+    singleOf(::JsonDataExporter) { bind<DataExporter>() }
+    singleOf(::ZipDataExporter) { bind<DataExporter>() }
+    singleOf(::ImageZipHandlerImpl) { bind<ImageZipHandler>() }
+    singleOf(::ImageZipImporterImpl) { bind<ImageZipImporter>() }
+    singleOf(::DatabaseDataImporterImpl) { bind<DatabaseDataImporter>() }
+    singleOf(::JsonDataImporter) { bind<DataImporter>() }
+
+
+    //Usecase
 
     factoryOf(::ObserveSettingStateUseCase)
     factoryOf(::ManageDataUseCase)

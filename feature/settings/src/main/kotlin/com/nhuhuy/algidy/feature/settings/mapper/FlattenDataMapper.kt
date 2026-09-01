@@ -3,11 +3,11 @@ package com.nhuhuy.algidy.feature.settings.mapper
 import com.nhuhuy.algidy.core.database.entity.CategoryEntity
 import com.nhuhuy.algidy.core.database.entity.FoodItemEntity
 import com.nhuhuy.algidy.core.database.entity.FoodItemWithCategory
-import com.nhuhuy.algidy.feature.settings.data.FlattenCategoryData
-import com.nhuhuy.algidy.feature.settings.data.FlattenFoodData
+import com.nhuhuy.algidy.feature.settings.data.model.CategoryExportData
+import com.nhuhuy.algidy.feature.settings.data.model.FoodExportData
 
-fun FoodItemWithCategory.toFlattenFood(): FlattenFoodData {
-    return FlattenFoodData(
+fun FoodItemWithCategory.toFlattenFood(): FoodExportData {
+    return FoodExportData(
         id = foodItem.id,
         name = foodItem.name,
         normalizedName = foodItem.normalizedName,
@@ -16,14 +16,14 @@ fun FoodItemWithCategory.toFlattenFood(): FlattenFoodData {
         purchaseDate = foodItem.purchaseDate,
         expiryDate = foodItem.expiryDate,
         imageUri = foodItem.imageUri,
-        notes = foodItem.notes,
         status = foodItem.status,
-        resolvedDate = foodItem.resolvedDate
+        resolvedDate = foodItem.resolvedDate,
+        category = category?.toFlattenCategoryData()
     )
 }
 
 
-fun FlattenFoodData.toFoodItemEntity(): FoodItemEntity {
+fun FoodExportData.toFoodItemEntity(): FoodItemEntity {
     return FoodItemEntity(
         id = id,
         name = name,
@@ -33,20 +33,18 @@ fun FlattenFoodData.toFoodItemEntity(): FoodItemEntity {
         purchaseDate = purchaseDate,
         expiryDate = expiryDate,
         imageUri = imageUri,
-        notes = notes,
+        notes = "",
         status = status,
         resolvedDate = resolvedDate,
     )
 }
 
-fun FlattenCategoryData.toCategoryEntity() = CategoryEntity(
+fun CategoryExportData.toCategoryEntity() = CategoryEntity(
     id = id,
     name = name,
-    description = description
 )
 
-fun CategoryEntity.toFlattenCategoryData() = FlattenCategoryData(
+fun CategoryEntity.toFlattenCategoryData() = CategoryExportData(
     id = id,
     name = name,
-    description = description
 )
