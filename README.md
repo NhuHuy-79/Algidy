@@ -2,7 +2,7 @@
   <img src="app/src/main/res/drawable/app_icon.png" width="120"/>
   <h1>Algidy</h1>
   <p>
-    Algidy is a Material You food expiry tracker app built with modern Android technologies.
+    Algidy is a Material 3 Expressive food expiry tracker app built with modern Android technologies.
     <br>
     It helps users track their groceries, reduce food waste, and maintain freshness through barcode scanning and colorful analytics.
   </p>
@@ -12,9 +12,7 @@
 
 ## 📷 Screenshots
 
-<div align="center">
-  <img src="screenshot/algidy_banner.png" width="1920" alt="Algidy Banner"/>
-</div>
+<div align="center"> <img src="screenshot/home_screen.png" width="220" alt="Home Screen"/> <img src="screenshot/analytics_screen.png" width="220" alt="Analytics Screen"/> <img src="screenshot/search_screen.png" width="220" alt="Search Screen"/> <img src="screenshot/scanner_screen.png" width="220" alt="Scanner Screen"/> </div>
 
 ---
 
@@ -36,7 +34,7 @@
 * **Database:** Room Database.
 * **Networking:** Retrofit + OkHttp.
 * **Image Loading:** Coil 3.
-* **Camera / ML:** CameraX, Google ML Kit (Barcode, OCR, Entity Extraction).
+* **Camera / ML:** CameraX, Google ML Kit.
 * **Concurrency:** Kotlin Coroutines & Flow.
 * **Home Screen Widgets:** Monitor expiring foods and weekly freshness progress directly from your home screen.
 ---
@@ -47,7 +45,7 @@
 
 * Android Studio Narwhal or newer
 * JDK 17
-* Android SDK 37
+* Android SDK 36
 
 ### Clone Repository
 
@@ -92,7 +90,7 @@ Users remain in full control of their data.
 Used for:
 
 * Barcode scanning
-* OCR-based food information extraction
+
 
 ### Notifications
 
@@ -100,6 +98,7 @@ Used for:
 
 * Expiry reminders
 * Food freshness alerts
+* New Update available
 
 ### Biometric Authentication
 
