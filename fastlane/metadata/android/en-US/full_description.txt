@@ -1,0 +1,2 @@
+Algidy is a Material 3 Expressive food expiry tracker app built with modern Android technologies.
+It helps users track their groceries, reduce food waste, and maintain freshness through barcode scanning and colorful analytics.

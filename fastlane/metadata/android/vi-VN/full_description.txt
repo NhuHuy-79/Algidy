@@ -1,0 +1,2 @@
+Algidy là ứng dụng quản lý hạn sử dụng thực phẩm với giao diện Material 3 Expressive, được xây dựng trên nền tảng các công nghệ Android hiện đại.
+Ứng dụng giúp người dùng theo dõi thực phẩm, quản lý hạn sử dụng, giảm lãng phí và duy trì độ tươi ngon của thực phẩm thông qua tính năng quét mã vạch và các biểu đồ thống kê trực quan.
