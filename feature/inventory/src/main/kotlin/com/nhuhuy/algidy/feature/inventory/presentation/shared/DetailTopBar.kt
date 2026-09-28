@@ -12,10 +12,12 @@ import androidx.compose.material3.toShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import com.nhuhuy.algidy.core.designsystem.icon.AlgidyIcons
 import com.nhuhuy.algidy.core.designsystem.icon.AppIcon
 import com.nhuhuy.algidy.core.designsystem.tokens.LocalAlgidySpacing
+import com.nhuhuy.algidy.core.presentation.R
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
@@ -44,7 +46,7 @@ fun DetailTopBar(
 
         Text(
             modifier = Modifier.weight(1f),
-            text = "Food Detail",
+            text = stringResource(R.string.detail_title),
             style = MaterialTheme.typography.titleLarge.copy(
                 fontWeight = FontWeight.Black
             )

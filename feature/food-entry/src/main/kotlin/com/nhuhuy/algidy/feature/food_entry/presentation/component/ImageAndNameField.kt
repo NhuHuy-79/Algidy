@@ -98,7 +98,7 @@ fun ImageAndNameField(
         },
         overlineContent = {
             Text(
-                text = "Food Name",
+                text = stringResource(com.nhuhuy.algidy.core.presentation.R.string.food_entry_name),
                 fontWeight = FontWeight.SemiBold,
                 style = MaterialTheme.typography.bodyMedium
             )

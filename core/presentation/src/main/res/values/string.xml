@@ -131,8 +131,13 @@
     <string name="food_entry_category">Category</string>
     <string name="food_entry_add_name_placeholder">Add Your Food Name</string>
     <string name="food_entry_storage_location">Storage Location</string>
+    <string name="food_entry_save_as_template">Save as template</string>
+    <string name="food_template_title">Quick Add Templates</string>
+    <string name="food_template_no_templates">No templates found</string>
+    <string name="food_template_supporting_info">%1$s • %2$s • %3$d days</string>
 
     <!-- Detail Screen -->
+    <string name="detail_title">Food Detail</string>
     <string name="detail_personal_notes">Personal Notes</string>
     <string name="detail_fab_consume_this">Consumed</string>
     <string name="detail_fab_mark_as_wasted">Wasted</string>

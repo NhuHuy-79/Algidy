@@ -113,7 +113,7 @@ fun FoodEntryContent(
             )
 
             Text(
-                text = "Save as template",
+                text = stringResource(R.string.food_entry_save_as_template),
                 style = MaterialTheme.typography.bodyMedium.copy(
                     fontWeight = FontWeight.SemiBold
                 )

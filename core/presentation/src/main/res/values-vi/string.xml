@@ -120,8 +120,13 @@
 
     <!--Food Entry Screen-->
     <string name="food_entry_title">Thêm thực phẩm mới</string>
+    <string name="food_entry_save_as_template">Lưu thành mẫu</string>
+    <string name="food_template_title">Mẫu thêm nhanh</string>
+    <string name="food_template_no_templates">Không tìm thấy mẫu nào</string>
+    <string name="food_template_supporting_info">%1$s • %2$s • %3$d ngày</string>
 
     <!-- Detail Screen -->
+    <string name="detail_title">Chi tiết thực phẩm</string>
     <string name="food_entry_add_name_placeholder">Thêm Tên Thực phẩm</string>
     <string name="food_entry_storage_location">"Ngăn Tủ "</string>
     <string name="detail_personal_notes">Ghi chú cá nhân</string>

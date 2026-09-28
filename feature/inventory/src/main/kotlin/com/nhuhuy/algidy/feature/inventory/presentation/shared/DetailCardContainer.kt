@@ -22,12 +22,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.nhuhuy.algidy.core.designsystem.icon.AlgidyIcons
 import com.nhuhuy.algidy.core.designsystem.icon.AppIcon
 import com.nhuhuy.algidy.core.designsystem.tokens.LocalAlgidyShapes
 import com.nhuhuy.algidy.core.designsystem.tokens.LocalAlgidySpacing
+import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.core.presentation.component.FoodImage
 import com.nhuhuy.algidy.feature.inventory.presentation.model.readableRemainDays
 
@@ -117,7 +119,7 @@ fun DetailNote(
             verticalArrangement = Arrangement.spacedBy(localSpacing.small)
         ) {
             Text(
-                text = "Your Note",
+                text = stringResource(R.string.inventory_note),
                 style = MaterialTheme.typography.labelLarge,
                 fontWeight = FontWeight.Medium
             )

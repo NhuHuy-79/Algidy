@@ -26,6 +26,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.nhuhuy.algidy.core.designsystem.tokens.LocalAlgidyShapes
 import com.nhuhuy.algidy.core.designsystem.tokens.LocalAlgidySpacing
+import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.core.presentation.component.toUiText
 import com.nhuhuy.algidy.core.presentation.utils.toStringRes
 import com.nhuhuy.algidy.feature.inventory.presentation.shared.viewmodel.DetailUiState
@@ -71,7 +72,7 @@ fun DetailBottomSheetContent(
         ) {
             DetailInfoCard(
                 modifier = Modifier.weight(1f),
-                title = "Purchase Date",
+                title = stringResource(R.string.inventory_purchase_date),
                 text = foodItem.purchaseDate.toReadableText(),
                 containerColor = MaterialTheme.colorScheme.surface,
                 contentColor = MaterialTheme.colorScheme.onSurface
@@ -79,7 +80,7 @@ fun DetailBottomSheetContent(
 
             DetailInfoCard(
                 modifier = Modifier.weight(1f),
-                title = "Expired Date",
+                title = stringResource(R.string.inventory_expiry_date),
                 text = foodItem.expiryDate.toReadableText(),
                 containerColor = MaterialTheme.colorScheme.surface,
                 contentColor = MaterialTheme.colorScheme.onSurface
@@ -109,7 +110,7 @@ fun DetailBottomSheetContent(
                 )
             ) {
                 Text(
-                    text = "Waste Food",
+                    text = stringResource(R.string.detail_fab_mark_as_wasted),
                     style = MaterialTheme.typography.bodyMedium,
                     fontWeight = FontWeight.SemiBold
                 )
@@ -124,7 +125,7 @@ fun DetailBottomSheetContent(
                 )
             ) {
                 Text(
-                    text = "Edit Food",
+                    text = stringResource(R.string.action_edit),
                     style = MaterialTheme.typography.bodyMedium,
                     fontWeight = FontWeight.SemiBold
                 )

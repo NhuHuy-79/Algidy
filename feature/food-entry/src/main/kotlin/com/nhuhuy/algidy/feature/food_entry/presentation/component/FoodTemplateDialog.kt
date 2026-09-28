@@ -31,6 +31,7 @@ import com.nhuhuy.algidy.core.designsystem.icon.AlgidyIcons
 import com.nhuhuy.algidy.core.designsystem.icon.AppIcon
 import com.nhuhuy.algidy.core.designsystem.tokens.LocalAlgidyShapes
 import com.nhuhuy.algidy.core.designsystem.tokens.LocalAlgidySpacing
+import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.core.presentation.component.toUiText
 import com.nhuhuy.algidy.core.presentation.utils.ItemPosition
 import com.nhuhuy.algidy.core.presentation.utils.toItemPosition
@@ -79,7 +80,7 @@ fun FoodTemplateDialog(
             }
 
             Text(
-                text = "Quick Add Templates",
+                text = stringResource(R.string.food_template_title),
                 style = MaterialTheme.typography.headlineSmall.copy(
                     fontWeight = FontWeight.SemiBold,
                     color = MaterialTheme.colorScheme.onSurface
@@ -95,7 +96,7 @@ fun FoodTemplateDialog(
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
-                        text = "No templates found",
+                        text = stringResource(R.string.food_template_no_templates),
                         style = MaterialTheme.typography.bodyLarge.copy(
                             fontWeight = FontWeight.Medium,
                             color = MaterialTheme.colorScheme.onSurface
@@ -168,7 +169,12 @@ private fun FoodTemplateItem(
         supportingContent = {
             Text(
                 modifier = Modifier.basicMarquee(),
-                text = "${item.category.toUiText()} • ${stringResource(item.storageLocation.toStringRes())} • ${item.defaultExpiryDays} days",
+                text = stringResource(
+                    R.string.food_template_supporting_info,
+                    item.category.toUiText(),
+                    stringResource(item.storageLocation.toStringRes()),
+                    item.defaultExpiryDays
+                ),
                 style = MaterialTheme.typography.labelMedium,
             )
         }
