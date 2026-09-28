@@ -2,7 +2,9 @@ package com.nhuhuy.algidy.feature.food_entry.presentation.viewmodel
 
 import androidx.lifecycle.viewModelScope
 import com.nhuhuy.algidy.core.data.util.product
+import com.nhuhuy.algidy.core.domain.repository.FoodTemplateRepository
 import com.nhuhuy.algidy.core.model.food.FoodCategory
+import com.nhuhuy.algidy.core.model.food.FoodTemplate
 import com.nhuhuy.algidy.core.presentation.model.CategoryUiModel
 import com.nhuhuy.algidy.core.presentation.model.toUiModel
 import com.nhuhuy.algidy.core.presentation.viewmodel.BaseViewModel
@@ -12,7 +14,10 @@ import com.nhuhuy.algidy.feature.food_entry.domain.usecase.FoodEntryPreferencesU
 import com.nhuhuy.algidy.feature.food_entry.domain.usecase.ObserveCategoriesUseCase
 import com.nhuhuy.algidy.feature.food_entry.domain.usecase.SaveFoodItemUseCase
 import com.nhuhuy.algidy.feature.food_entry.presentation.model.EntryUiModel
+import com.nhuhuy.algidy.feature.food_entry.presentation.model.applyFoodTemplate
 import com.nhuhuy.algidy.feature.food_entry.presentation.model.toFoodItem
+import com.nhuhuy.algidy.feature.food_entry.presentation.model.toUiModel
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -30,6 +35,9 @@ class FoodEntryViewModel(
     private val foodEntryPreferencesUseCase: FoodEntryPreferencesUseCase,
     private val saveFoodItemUseCase: SaveFoodItemUseCase,
     private val addCategoryUseCase: AddCategoryUseCase,
+
+    //migrate to repository,
+    private val foodTemplateRepository: FoodTemplateRepository,
 ) : BaseViewModel<FoodEntryUiState, FoodEntryEvent, FoodEntryAction>() {
     private val _uiState = MutableStateFlow(FoodEntryUiState())
     override val uiState: StateFlow<FoodEntryUiState> = _uiState.asStateFlow()
@@ -41,9 +49,13 @@ class FoodEntryViewModel(
     init {
         viewModelScope.launch {
             val currentEntry = entryUiModel ?: EntryUiModel()
+            val foodTemplates = foodTemplateRepository.getFoodTemplates()
+                .mapNotNull { it.toUiModel() }
+                .toImmutableList()
 
             _uiState.product {
                 copy(
+                    foodTemplates = foodTemplates,
                     entry = currentEntry,
                     currentCategory = currentEntry.categoryUiModel,
                 )
@@ -127,6 +139,7 @@ class FoodEntryViewModel(
             FoodEntryAction.OnBackClick -> {
 
             }
+
             is FoodEntryAction.OnNotificationGranted -> viewModelScope.launch {
                 if (!currentPreferences.hasAskNotificationPermission) {
                     foodEntryPreferencesUseCase.askNotificationPermission(true)
@@ -139,6 +152,37 @@ class FoodEntryViewModel(
 
             FoodEntryAction.OnNameConfirm -> {
                 _uiState.product { copy(overlay = FoodEntryOverlay.NONE) }
+            }
+
+            FoodEntryAction.OnTemplateApply -> {
+                _uiState.product {
+                    copy(
+                        overlay = FoodEntryOverlay.NONE,
+                        entry = currentFoodTemplate?.let { template ->
+                            entry.applyFoodTemplate(template)
+                        } ?: entry
+                    )
+                }
+            }
+
+            is FoodEntryAction.OnTemplateSelect -> {
+                _uiState.product {
+                    copy(
+                        currentFoodTemplate = action.template,
+                        entry = entry.applyFoodTemplate(action.template),
+                        overlay = FoodEntryOverlay.NONE
+                    )
+                }
+            }
+
+            is FoodEntryAction.OnSaveAsTemplateToggled -> {
+                _uiState.product {
+                    copy(enableSavingAsTemplate = action.enabled)
+                }
+            }
+
+            is FoodEntryAction.OnTemplateDelete -> viewModelScope.launch {
+                foodTemplateRepository.deleteFoodTemplate(action.template.id)
             }
         }
     }
@@ -155,10 +199,25 @@ class FoodEntryViewModel(
         viewModelScope.launch {
             val foodItem = currentState.entry.toFoodItem()
             saveFoodItemUseCase(foodItem)
+
+            if (currentState.enableSavingAsTemplate) {
+                //add new template
+                val newFoodTemplate = FoodTemplate(
+                    name = foodItem.name,
+                    defaultExpiryDays = foodItem.getRemainingDays(),
+                    storageLocation = foodItem.location,
+                    category = foodItem.category
+                )
+                foodTemplateRepository.addOrUpdateTemplate(newFoodTemplate)
+            }
+
+
             _uiState.product { copy(overlay = FoodEntryOverlay.NONE, entry = EntryUiModel()) }
+
             if (!currentPreferences.addItemFirst) {
                 foodEntryPreferencesUseCase.addItemFirst(true)
             }
+
             emitEvent(FoodEntryEvent.OnNavigateBack)
         }
     }

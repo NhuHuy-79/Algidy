@@ -6,6 +6,8 @@ import com.nhuhuy.algidy.core.model.food.StorageLocation
 import com.nhuhuy.algidy.core.presentation.model.CategoryUiModel
 import com.nhuhuy.algidy.core.presentation.model.toFoodCategory
 import com.nhuhuy.algidy.core.presentation.model.toUiModel
+import java.time.Instant
+import java.time.ZoneId
 import java.util.UUID
 
 @Immutable
@@ -33,6 +35,18 @@ fun FoodItem.toEntryUiModel(): EntryUiModel {
     )
 }
 
+fun EntryUiModel.applyFoodTemplate(template: FoodTemplateUiModel): EntryUiModel {
+    return this.copy(
+        name = template.name,
+        categoryUiModel = template.category ?: CategoryUiModel.Uncategorized,
+        location = template.storageLocation,
+        expiryDate = calculateExpiryDate(
+            purchaseDateMillis = purchaseDate,
+            expiryDays = template.defaultExpiryDays
+        )
+    )
+}
+
 fun EntryUiModel.toFoodItem(): FoodItem {
     return FoodItem(
         id = id,
@@ -45,4 +59,18 @@ fun EntryUiModel.toFoodItem(): FoodItem {
         imageUri = imageUri,
         note = notes
     )
+}
+
+fun calculateExpiryDate(
+    purchaseDateMillis: Long,
+    expiryDays: Int
+): Long {
+    return Instant
+        .ofEpochMilli(purchaseDateMillis)
+        .atZone(ZoneId.systemDefault())
+        .toLocalDate()
+        .plusDays(expiryDays.toLong())
+        .atStartOfDay(ZoneId.systemDefault())
+        .toInstant()
+        .toEpochMilli()
 }

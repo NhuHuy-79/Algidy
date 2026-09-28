@@ -34,6 +34,7 @@ val foodEntryModule = module {
             saveFoodItemUseCase = get(),
             foodEntryPreferencesUseCase = get(),
             observeCategoriesUseCase = get(),
+            foodTemplateRepository = get()
         )
     }
 }

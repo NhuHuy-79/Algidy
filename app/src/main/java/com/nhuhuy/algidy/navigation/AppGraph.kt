@@ -43,13 +43,13 @@ fun AppGraph(
             rememberViewModelStoreNavEntryDecorator(),
         ),
         transitionSpec = {
-            AppTransitions.bottomBarExpressive.toContentTransform()
+            AppTransitions.mainTransition.toContentTransform()
         },
         popTransitionSpec = {
-            AppTransitions.bottomBarExpressive.toContentTransform()
+            AppTransitions.mainTransition.toContentTransform()
         },
         predictivePopTransitionSpec = {
-            AppTransitions.bottomBarExpressive.toContentTransform()
+            AppTransitions.mainTransition.toContentTransform()
         },
         onBack = { if (backStack.isNotEmpty()) backStack.removeLastOrNull() },
         entryProvider = entryProvider {

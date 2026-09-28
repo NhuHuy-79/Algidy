@@ -4,6 +4,7 @@ import android.net.Uri
 import com.nhuhuy.algidy.core.model.food.StorageLocation
 import com.nhuhuy.algidy.core.presentation.model.CategoryUiModel
 import com.nhuhuy.algidy.core.presentation.viewmodel.UiAction
+import com.nhuhuy.algidy.feature.food_entry.presentation.model.FoodTemplateUiModel
 
 /**
  * Actions that can be performed within the food entry form.
@@ -24,6 +25,12 @@ sealed interface FoodEntryAction : UiAction {
     data class OnCategorySelect(val category: CategoryUiModel.ByCategory) : FoodEntryAction
     data class OnCategorySelectById(val id: String) : FoodEntryAction
     data object OnCategoryConfirm : FoodEntryAction
+
+    // Food Templates
+    data class OnTemplateDelete(val template: FoodTemplateUiModel) : FoodEntryAction
+    data class OnSaveAsTemplateToggled(val enabled: Boolean) : FoodEntryAction
+    data class OnTemplateSelect(val template: FoodTemplateUiModel) : FoodEntryAction
+    data object OnTemplateApply : FoodEntryAction
 
     // Overlay control
     data class OnShowOverlay(val overlay: FoodEntryOverlay) : FoodEntryAction

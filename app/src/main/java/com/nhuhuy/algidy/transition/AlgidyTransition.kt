@@ -6,7 +6,6 @@ import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.animation.scaleIn
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutHorizontally
@@ -93,24 +92,16 @@ object AppTransitions {
         ),
     )
 
-    val bottomBarExpressive = NavigationTransition(
+    val mainTransition = NavigationTransition(
         enter = fadeIn(
             animationSpec = tween(
-                durationMillis = 220,
-                easing = FastOutSlowInEasing,
+                durationMillis = 250
             )
-        ) + scaleIn(
-            initialScale = 0.96f,
-            animationSpec = tween(
-                durationMillis = 220,
-                easing = FastOutSlowInEasing,
-            ),
         ),
         exit = fadeOut(
             animationSpec = tween(
-                durationMillis = 100,
-                easing = FastOutLinearInEasing,
-            ),
-        ),
+                durationMillis = 200
+            )
+        )
     )
 }

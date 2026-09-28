@@ -16,6 +16,7 @@ import androidx.compose.material.icons.rounded.AlternateEmail
 import androidx.compose.material.icons.rounded.Analytics
 import androidx.compose.material.icons.rounded.Apps
 import androidx.compose.material.icons.rounded.ArrowOutward
+import androidx.compose.material.icons.rounded.AutoAwesome
 import androidx.compose.material.icons.rounded.BarChart
 import androidx.compose.material.icons.rounded.BrightnessAuto
 import androidx.compose.material.icons.rounded.Close
@@ -90,10 +91,11 @@ object AlgidyIcons {
         val AddFood = IconProvider.ImageVectorIcon(Icons.AutoMirrored.Rounded.PlaylistAdd)
         val AddCategory = IconProvider.DrawableResourceIcon(R.drawable.ic_new_label)
         val EditFood = IconProvider.ImageVectorIcon(Icons.Rounded.Edit)
-        val EditMode = IconProvider.ImageVectorIcon(Icons.Rounded.ModeEdit)
+        val QuickPreset = IconProvider.ImageVectorIcon(Icons.Rounded.AutoAwesome)
         val StorageLocation = IconProvider.DrawableResourceIcon(R.drawable.ic_fridge)
         val ExpiryDate = IconProvider.ImageVectorIcon(Icons.Rounded.Timer)
         val PickImage = IconProvider.ImageVectorIcon(Icons.Rounded.AddPhotoAlternate)
+        val Delete = IconProvider.DrawableResourceIcon(R.drawable.ic_delete)
     }
 
     object Inventory {

@@ -16,6 +16,7 @@ import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.core.presentation.component.AppDatePickerDialog
 import com.nhuhuy.algidy.core.presentation.component.TextFieldDialog
 import com.nhuhuy.algidy.feature.food_entry.presentation.FoodEntryBottomSheet
+import com.nhuhuy.algidy.feature.food_entry.presentation.component.FoodTemplateDialog
 import com.nhuhuy.algidy.feature.food_entry.presentation.model.EntryUiModel
 import com.nhuhuy.algidy.feature.food_entry.presentation.viewmodel.FoodEntryAction
 import com.nhuhuy.algidy.feature.food_entry.presentation.viewmodel.FoodEntryAction.OnCategoryConfirm
@@ -129,6 +130,19 @@ private fun FoodEntryOverlayContainer(
                 },
                 onDismiss = onDismiss,
                 onConfirm = { onAction(OnNameConfirm) },
+            )
+        }
+
+        FoodEntryOverlay.FOOD_TEMPLATE_ADD -> {
+            FoodTemplateDialog(
+                onDismiss = onDismiss,
+                onConfirm = { templateUiModel ->
+                    onAction(FoodEntryAction.OnTemplateSelect(templateUiModel))
+                },
+                onDelete = { templateUiModel ->
+                    onAction(FoodEntryAction.OnTemplateDelete(templateUiModel))
+                },
+                templates = state.foodTemplates
             )
         }
     }

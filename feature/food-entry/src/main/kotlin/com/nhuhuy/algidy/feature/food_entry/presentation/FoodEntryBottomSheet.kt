@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialShapes
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -26,6 +27,7 @@ import com.nhuhuy.algidy.core.designsystem.tokens.LocalAlgidySpacing
 import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.feature.food_entry.presentation.component.FoodEntryContent
 import com.nhuhuy.algidy.feature.food_entry.presentation.viewmodel.FoodEntryAction
+import com.nhuhuy.algidy.feature.food_entry.presentation.viewmodel.FoodEntryOverlay
 import com.nhuhuy.algidy.feature.food_entry.presentation.viewmodel.FoodEntryUiState
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
@@ -63,11 +65,24 @@ fun FoodEntryBottomSheet(
             }
 
             Text(
+                modifier = Modifier.weight(1f),
                 text = stringResource(R.string.food_entry_title),
                 style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.SemiBold,
                 color = MaterialTheme.colorScheme.onSurface
             )
+
+            IconButton(
+                onClick = {
+                    onAction(
+                        FoodEntryAction.OnShowOverlay(overlay = FoodEntryOverlay.FOOD_TEMPLATE_ADD)
+                    )
+                }
+            ) {
+                AppIcon(
+                    iconProvider = AlgidyIcons.FoodEntry.QuickPreset,
+                )
+            }
         }
 
         Spacer(modifier = Modifier.height(localSpacing.large))

@@ -4,5 +4,6 @@ data class FoodTemplate(
     val id: Long? = null,
     val name: String,
     val defaultExpiryDays: Int,
-    val categoryId: String? = null,
+    val storageLocation: StorageLocation,
+    val category: FoodCategory? = null,
 )

@@ -6,6 +6,9 @@ import com.nhuhuy.algidy.core.model.validate.ValidationResult.Companion.isValid
 import com.nhuhuy.algidy.core.presentation.model.CategoryUiModel
 import com.nhuhuy.algidy.core.presentation.viewmodel.UiState
 import com.nhuhuy.algidy.feature.food_entry.presentation.model.EntryUiModel
+import com.nhuhuy.algidy.feature.food_entry.presentation.model.FoodTemplateUiModel
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 
 @Immutable
 data class FoodEntryUiState(
@@ -15,7 +18,10 @@ data class FoodEntryUiState(
     // Current selected category model
     val currentCategory: CategoryUiModel = CategoryUiModel.All,
     // UI Overlay state
-    val overlay: FoodEntryOverlay = FoodEntryOverlay.NONE
+    val overlay: FoodEntryOverlay = FoodEntryOverlay.NONE,
+    val foodTemplates: ImmutableList<FoodTemplateUiModel> = persistentListOf(),
+    val currentFoodTemplate: FoodTemplateUiModel? = null,
+    val enableSavingAsTemplate: Boolean = false,
 ) : UiState {
     val nameValidateResult get() = FoodValidator.validateName(entry.name)
     val purchaseDateValidateResult get() = FoodValidator.validatePurchaseDate(entry.purchaseDate)
@@ -35,6 +41,7 @@ enum class FoodEntryOverlay {
     EXPIRY_DATE_PICKER,
     CATEGORY_ADD,
     FOOD_NAME_ADD,
+    FOOD_TEMPLATE_ADD
 }
 
 

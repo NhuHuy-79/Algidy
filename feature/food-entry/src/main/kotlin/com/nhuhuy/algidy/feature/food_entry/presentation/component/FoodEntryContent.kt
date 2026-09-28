@@ -1,16 +1,20 @@
 package com.nhuhuy.algidy.feature.food_entry.presentation.component
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -95,7 +99,29 @@ fun FoodEntryContent(
             }
         )
 
-        Spacer(modifier = Modifier.height(localSpacing.extraExtraLarge))
+        Spacer(modifier = Modifier.height(localSpacing.extraSmall))
+
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(localSpacing.extraSmall)
+        ) {
+            Checkbox(
+                checked = state.enableSavingAsTemplate,
+                onCheckedChange = {
+                    onAction(FoodEntryAction.OnSaveAsTemplateToggled(it))
+                }
+            )
+
+            Text(
+                text = "Save as template",
+                style = MaterialTheme.typography.bodyMedium.copy(
+                    fontWeight = FontWeight.SemiBold
+                )
+            )
+        }
+
+        Spacer(modifier = Modifier.height(localSpacing.large))
+
 
         AddFoodButton(
             modifier = Modifier
