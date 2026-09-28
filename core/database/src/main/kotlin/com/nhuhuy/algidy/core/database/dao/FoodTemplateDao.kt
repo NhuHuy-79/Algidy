@@ -5,9 +5,14 @@ import androidx.room.Query
 import androidx.room.Transaction
 import com.nhuhuy.algidy.core.database.entity.FoodTemplateEntity
 import com.nhuhuy.algidy.core.database.entity.FoodTemplateWithCategory
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface FoodTemplateDao : BaseDao<FoodTemplateEntity> {
+    @Transaction
+    @Query("SELECT * FROM food_templates")
+    fun observeFoodTemplates(): Flow<List<FoodTemplateWithCategory>>
+
 
     @Transaction
     @Query("SELECT * FROM food_templates")

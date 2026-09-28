@@ -39,6 +39,7 @@ fun WeeklyExpiryAnalytics(
     weeklyExpiryStatistics: ImmutableList<WeeklyExpiryStatisticUiModel>,
     modifier: Modifier = Modifier,
 ) {
+    val allFoodCount = weeklyExpiryStatistics.sumOf { it.count }
     CardLayout(
         icon = AlgidyIcons.Analytics.WeeklyFoodChart.toImageVector(),
         title = stringResource(R.string.analytics_card_expiring_this_week),
@@ -49,7 +50,6 @@ fun WeeklyExpiryAnalytics(
         ),
         shape = itemPosition.toVerticalSegmentedShape()
     ) {
-        val allFoodCount = weeklyExpiryStatistics.sumOf { it.count }
         Text(
             text = pluralStringResource(
                 R.plurals.analytics_foods_expiring_this_week,
@@ -61,8 +61,12 @@ fun WeeklyExpiryAnalytics(
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
 
-        if (allFoodCount == 0) {
-            NoExpiryFoodContent(modifier = Modifier.weight(1f))
+        if (weeklyExpiryStatistics.isEmpty()) {
+            NoExpiryFoodContent(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f)
+            )
         } else {
             WeeklyExpiryAnalyticsContent(
                 weeklyExpiryStatistics = weeklyExpiryStatistics,
@@ -82,7 +86,7 @@ private fun NoExpiryFoodContent(
     ) {
         Text(
             text = stringResource(R.string.analytics_no_food_expiring_this_week),
-            style = MaterialTheme.typography.bodySmall,
+            style = MaterialTheme.typography.bodyLarge,
             fontWeight = FontWeight.SemiBold
         )
     }

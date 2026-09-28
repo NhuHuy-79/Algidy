@@ -21,7 +21,7 @@ data class FoodEntryUiState(
     val overlay: FoodEntryOverlay = FoodEntryOverlay.NONE,
     val foodTemplates: ImmutableList<FoodTemplateUiModel> = persistentListOf(),
     val currentFoodTemplate: FoodTemplateUiModel? = null,
-    val enableSavingAsTemplate: Boolean = false,
+    val enableSavingAsTemplate: Boolean = true,
 ) : UiState {
     val nameValidateResult get() = FoodValidator.validateName(entry.name)
     val purchaseDateValidateResult get() = FoodValidator.validatePurchaseDate(entry.purchaseDate)

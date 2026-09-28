@@ -24,4 +24,5 @@ abstract class BaseViewModel<S : UiState, E : UiEvent, A : UiAction> : ViewModel
     protected fun emitEvent(event: E) {
         _uiEvent.trySend(event)
     }
+
 }

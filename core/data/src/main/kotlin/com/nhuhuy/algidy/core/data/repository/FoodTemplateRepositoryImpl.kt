@@ -6,12 +6,24 @@ import com.nhuhuy.algidy.core.data.util.AppDispatchers
 import com.nhuhuy.algidy.core.database.dao.FoodTemplateDao
 import com.nhuhuy.algidy.core.domain.repository.FoodTemplateRepository
 import com.nhuhuy.algidy.core.model.food.FoodTemplate
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 
 class FoodTemplateRepositoryImpl(
     private val dispatchers: AppDispatchers,
     private val foodTemplateDao: FoodTemplateDao
 ) : FoodTemplateRepository {
+    override fun observeFoodTemplates(): Flow<List<FoodTemplate>> {
+        return foodTemplateDao.observeFoodTemplates().map {
+            it.map { it.toDomain() }
+        }
+            .distinctUntilChanged()
+            .flowOn(dispatchers.io)
+    }
+
     override suspend fun getFoodTemplates(): List<FoodTemplate> {
         return withContext(dispatchers.io) {
             foodTemplateDao.getFoodTemplates().map { it.toDomain() }

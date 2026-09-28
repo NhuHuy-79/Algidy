@@ -19,6 +19,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -38,8 +39,20 @@ fun CheckUpdateDialog(
     onConfirm: () -> Unit,
     onDismiss: () -> Unit,
 ) {
+    val hasUpdate = remember(uiState, currentVersion) {
+        uiState is UiResult.Success &&
+                uiState.data != null &&
+                uiState.data != currentVersion
+    }
+
     AlertDialog(
         onDismissRequest = onDismiss,
+        icon = {
+            AppIcon(
+                iconProvider = AlgidyIcons.Settings.CheckUpdate,
+                tint = MaterialTheme.colorScheme.primary
+            )
+        },
         title = {
             Text(
                 modifier = Modifier.fillMaxWidth(),
@@ -48,21 +61,17 @@ fun CheckUpdateDialog(
                 fontWeight = FontWeight.Medium
             )
         },
-        icon = {
-            AppIcon(
-                iconProvider = AlgidyIcons.Settings.CheckUpdate,
-                tint = MaterialTheme.colorScheme.primary
-            )
-        },
         text = {
             UiResultContainer(
                 state = uiState,
-                loading = { CheckUpdateLoading() },
+                loading = {
+                    CheckUpdateLoading()
+                },
                 success = { version ->
                     if (version != null) {
                         CheckUpdateSuccessResult(
                             newVersion = version,
-                            currentVersion = currentVersion,
+                            currentVersion = currentVersion
                         )
                     } else {
                         CheckUpdateErrorResult()
@@ -71,65 +80,46 @@ fun CheckUpdateDialog(
                 error = {
                     CheckUpdateErrorResult()
                 },
-                idle = {},
+                idle = {}
             )
         },
         confirmButton = {
-            when (uiState) {
-                is UiResult.Success -> {
-                    if (uiState.data != null &&
-                        uiState.data != currentVersion
-                    ) {
-                        Button(
-                            onClick = onConfirm,
-                            colors = ButtonDefaults.buttonColors(
-                                containerColor = MaterialTheme.colorScheme.primary,
-                                contentColor = MaterialTheme.colorScheme.onPrimary
-                            )
-                        ) {
-                            Text(
-                                text = stringResource(R.string.check_update_dialog_update_confirm_btn)
-                            )
-                        }
-                    } else {
-                        TextButton(
-                            onClick = onDismiss
-                        ) {
-                            Text(
-                                text = stringResource(R.string.action_cancel)
-                            )
-                        }
-                    }
+            if (hasUpdate) {
+                Button(
+                    onClick = onConfirm,
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.primary,
+                        contentColor = MaterialTheme.colorScheme.onPrimary
+                    )
+                ) {
+                    Text(
+                        text = stringResource(
+                            R.string.check_update_dialog_update_confirm_btn
+                        )
+                    )
                 }
-
-                else -> Unit
             }
         },
         dismissButton = {
-            when (uiState) {
-                is UiResult.Failure -> {
-                    TextButton(
-                        onClick = onDismiss
-                    ) {
-                        Text(
-                            text = stringResource(R.string.action_cancel)
-                        )
-                    }
-                }
+            TextButton(
+                onClick = onDismiss
+            ) {
+                Text(
+                    text = when {
+                        hasUpdate ->
+                            stringResource(
+                                R.string.check_update_dialog_update_dismiss_btn
+                            )
 
-                is UiResult.Success -> {
-                    TextButton(
-                        onClick = onDismiss
-                    ) {
-                        Text(
-                            text = stringResource(R.string.check_update_dialog_update_dismiss_btn)
-                        )
-                    }
-                }
+                        uiState is UiResult.Loading ->
+                            stringResource(R.string.action_cancel)
 
-                else -> Unit
+                        else ->
+                            stringResource(R.string.action_ok)
+                    }
+                )
             }
-        },
+        }
     )
 }
 

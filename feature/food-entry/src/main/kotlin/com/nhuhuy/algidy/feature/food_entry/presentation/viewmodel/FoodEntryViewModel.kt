@@ -49,10 +49,6 @@ class FoodEntryViewModel(
     init {
         viewModelScope.launch {
             val currentEntry = entryUiModel ?: EntryUiModel()
-            val foodTemplates = foodTemplateRepository.getFoodTemplates()
-                .mapNotNull { it.toUiModel() }
-                .toImmutableList()
-
             _uiState.product {
                 copy(
                     foodTemplates = foodTemplates,
@@ -63,6 +59,7 @@ class FoodEntryViewModel(
 
         }
         observeCategories()
+        observeFoodTemplates()
     }
 
     override fun onAction(action: FoodEntryAction) {
@@ -220,6 +217,18 @@ class FoodEntryViewModel(
 
             emitEvent(FoodEntryEvent.OnNavigateBack)
         }
+    }
+
+    private fun observeFoodTemplates() {
+        foodTemplateRepository.observeFoodTemplates()
+            .onEach { foodTemplates ->
+                val templateUiModels = foodTemplateRepository.getFoodTemplates()
+                    .mapNotNull { it.toUiModel() }
+                    .toImmutableList()
+                _uiState.product {
+                    copy(foodTemplates = templateUiModels)
+                }
+            }.launchIn(viewModelScope)
     }
 
     private fun observeCategories() {

@@ -6,7 +6,6 @@ import android.text.style.ForegroundColorSpan
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -94,30 +93,46 @@ fun SpoilageHistory(
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
 
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.End,
-            verticalAlignment = Alignment.Bottom
-        ) {
-            LegendLabel(
-                color = extendColor.consumed,
-                legend = stringResource(R.string.analytics_card_consumed)
-            )
 
-            Spacer(modifier = Modifier.width(16.dp))
+        if (statisticByMonth.isEmpty()) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = stringResource(R.string.analytics_card_empty_state),
+                    style = MaterialTheme.typography.bodyLarge,
+                    fontWeight = FontWeight.SemiBold
+                )
+            }
+        } else {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.End,
+                verticalAlignment = Alignment.Bottom
+            ) {
+                LegendLabel(
+                    color = extendColor.consumed,
+                    legend = stringResource(R.string.analytics_card_consumed)
+                )
 
-            LegendLabel(
-                color = extendColor.wasted,
-                legend = stringResource(R.string.analytics_card_wasted)
+                Spacer(modifier = Modifier.width(16.dp))
+
+                LegendLabel(
+                    color = extendColor.wasted,
+                    legend = stringResource(R.string.analytics_card_wasted)
+                )
+            }
+
+            SpoilageHistoryContainer(
+                modifier = Modifier.weight(1f),
+                spoilageStatistic = statisticByMonth,
+                onValueHide = onLineSpotHide,
+                onValueChange = onLineSpotPressed
             )
         }
-
-        SpoilageHistoryContainer(
-            modifier = Modifier.weight(1f),
-            spoilageStatistic = statisticByMonth,
-            onValueHide = onLineSpotHide,
-            onValueChange = onLineSpotPressed
-        )
     }
 }
 
@@ -154,26 +169,12 @@ private fun SpoilageHistoryContainer(
     onValueChange: (Pair<Int, Int>) -> Unit = {},
     onValueHide: () -> Unit = {}
 ) {
-    if (spoilageStatistic.isEmpty()) {
-        Column(
-            modifier = modifier,
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            Text(
-                text = stringResource(R.string.analytics_card_empty_state),
-                style = MaterialTheme.typography.bodyMedium,
-                fontWeight = FontWeight.SemiBold
-            )
-        }
-    } else {
-        SpoilageHistoryContent(
-            modifier = modifier,
-            spoilageStatistic = spoilageStatistic,
-            onValueChange = onValueChange,
-            onValueHide = onValueHide
-        )
-    }
+    SpoilageHistoryContent(
+        modifier = modifier,
+        spoilageStatistic = spoilageStatistic,
+        onValueChange = onValueChange,
+        onValueHide = onValueHide
+    )
 }
 
 @Composable
