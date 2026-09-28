@@ -37,7 +37,7 @@ class CategoryRepositoryImpl(
 
     override suspend fun updateCategory(category: FoodCategory) {
         withContext(appDispatchers.io) {
-            categoryDao.update(category.toEntity())
+            categoryDao.upsert(category.toEntity())
         }
     }
 

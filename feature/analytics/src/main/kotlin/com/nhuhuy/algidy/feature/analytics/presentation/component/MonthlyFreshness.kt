@@ -39,7 +39,6 @@ import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.core.presentation.utils.ItemPosition
 import com.nhuhuy.algidy.core.presentation.utils.toBackgroundColor
 import com.nhuhuy.algidy.core.presentation.utils.toBackgroundContainerColor
-import com.nhuhuy.algidy.core.presentation.utils.toStringRes
 import com.nhuhuy.algidy.core.presentation.utils.toVerticalSegmentedShape
 import com.nhuhuy.algidy.feature.analytics.domain.model.FreshnessStatistic
 import com.nhuhuy.algidy.feature.analytics.domain.model.getStatistic

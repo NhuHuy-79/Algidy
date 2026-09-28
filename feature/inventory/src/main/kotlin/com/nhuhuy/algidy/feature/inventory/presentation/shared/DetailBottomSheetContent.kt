@@ -27,7 +27,6 @@ import androidx.compose.ui.unit.dp
 import com.nhuhuy.algidy.core.designsystem.tokens.LocalAlgidyShapes
 import com.nhuhuy.algidy.core.designsystem.tokens.LocalAlgidySpacing
 import com.nhuhuy.algidy.core.presentation.component.toUiText
-import com.nhuhuy.algidy.core.presentation.utils.toStringRes
 import com.nhuhuy.algidy.feature.inventory.presentation.shared.viewmodel.DetailUiState
 import com.nhuhuy.algidy.toReadableText
 

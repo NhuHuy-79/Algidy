@@ -3,6 +3,7 @@ package com.nhuhuy.algidy.di
 import com.nhuhuy.algidy.core.data.AppNewFeaturesReader
 import com.nhuhuy.algidy.core.data.repository.CategoryRepositoryImpl
 import com.nhuhuy.algidy.core.data.repository.FoodRepositoryImpl
+import com.nhuhuy.algidy.core.data.repository.FoodTemplateRepositoryImpl
 import com.nhuhuy.algidy.core.data.repository.LocalMediaStorageImpl
 import com.nhuhuy.algidy.core.data.repository.UpdateRepositoryImpl
 import com.nhuhuy.algidy.core.data.util.AppDispatchers
@@ -21,6 +22,7 @@ import com.nhuhuy.algidy.core.datastore.model.NotificationPreferences
 import com.nhuhuy.algidy.core.datastore.utils.BaseDataStore
 import com.nhuhuy.algidy.core.domain.repository.CategoryRepository
 import com.nhuhuy.algidy.core.domain.repository.FoodRepository
+import com.nhuhuy.algidy.core.domain.repository.FoodTemplateRepository
 import com.nhuhuy.algidy.core.domain.repository.LocalMediaStorage
 import com.nhuhuy.algidy.core.domain.repository.UpdateRepository
 import com.nhuhuy.algidy.feature.scanner.data.MLKitBarcodeScanner
@@ -36,6 +38,7 @@ import org.koin.dsl.module
 val dataModule = module {
     singleOf(::AppNewFeaturesReader)
     singleOf(::FoodRepositoryImpl) { bind<FoodRepository>() }
+    singleOf(::FoodTemplateRepositoryImpl) { bind<FoodTemplateRepository>() }
     singleOf(::CategoryRepositoryImpl) { bind<CategoryRepository>() }
     singleOf(::DefaultAppDispatchers) { bind<AppDispatchers>() }
     single<BarcodeScanner> { MLKitBarcodeScanner(get()) }

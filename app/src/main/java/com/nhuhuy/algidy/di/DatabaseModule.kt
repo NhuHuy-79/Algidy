@@ -25,5 +25,7 @@ val databaseModule = module {
     single { get<AppDatabase>().foodDao() }
     single { get<AppDatabase>().searchDao() }
     single { get<AppDatabase>().categoryDao() }
+    single { get<AppDatabase>().foodTemplateDao() }
+
     single<TransactionRunner> { RoomTransactionRunner(get<AppDatabase>()) }
 }

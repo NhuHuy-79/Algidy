@@ -7,5 +7,5 @@ interface BaseDao<T> {
     suspend fun upsertAll(list: List<T>)
 
     @Upsert
-    suspend fun update(entity: T)
+    suspend fun upsert(entity: T)
 }

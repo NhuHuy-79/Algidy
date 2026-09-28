@@ -19,7 +19,6 @@ import androidx.glance.text.Text
 import com.nhuhuy.algidy.core.designsystem.icon.AlgidyIcons
 import com.nhuhuy.algidy.core.model.food.StorageLocation
 import com.nhuhuy.algidy.core.presentation.utils.ItemPosition
-import com.nhuhuy.algidy.core.presentation.utils.toStringRes
 import com.nhuhuy.algidy.widget.model.ExpiryFoodModel
 import com.nhuhuy.algidy.widget.utils.MAX_LENGTH_LARGE
 import com.nhuhuy.algidy.widget.utils.MAX_LENGTH_MEDIUM

@@ -1,24 +1,10 @@
 package com.nhuhuy.algidy.core.presentation.utils
 
 import androidx.annotation.StringRes
-import com.nhuhuy.algidy.core.model.food.DefaultFoodCategory
-import com.nhuhuy.algidy.core.model.food.DefaultFoodCategory.*
 import com.nhuhuy.algidy.core.model.food.Freshness
 import com.nhuhuy.algidy.core.model.food.ItemUnit
 import com.nhuhuy.algidy.core.model.food.StorageLocation
 import com.nhuhuy.algidy.core.presentation.R
-
-@StringRes
-fun DefaultFoodCategory.toStringRes(): Int {
-    return when (this) {
-        VEGETABLES -> R.string.category_vegetables
-        FRUITS -> R.string.category_fruits
-        MEAT -> R.string.category_meat
-        SEAFOOD -> R.string.category_seafood
-        DAIRY_EGGS -> R.string.category_dairy_eggs
-        OTHERS -> R.string.category_others
-    }
-}
 
 @StringRes
 fun Freshness.toStringRes(): Int {

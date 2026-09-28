@@ -7,9 +7,11 @@ import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.nhuhuy.algidy.core.database.dao.CategoryDao
 import com.nhuhuy.algidy.core.database.dao.FoodDao
+import com.nhuhuy.algidy.core.database.dao.FoodTemplateDao
 import com.nhuhuy.algidy.core.database.dao.SearchDao
 import com.nhuhuy.algidy.core.database.entity.CategoryEntity
 import com.nhuhuy.algidy.core.database.entity.FoodItemEntity
+import com.nhuhuy.algidy.core.database.entity.FoodTemplateEntity
 import com.nhuhuy.algidy.core.database.entity.InventoryItemFtsEntity
 import com.nhuhuy.algidy.core.database.entity.SearchHistoryEntity
 
@@ -18,20 +20,24 @@ import com.nhuhuy.algidy.core.database.entity.SearchHistoryEntity
         FoodItemEntity::class,
         SearchHistoryEntity::class,
         InventoryItemFtsEntity::class,
-        CategoryEntity::class
+        CategoryEntity::class,
+        //New table
+        FoodTemplateEntity::class
     ],
     version = DatabaseConstant.SCHEMA_VERSION,
     exportSchema = true,
     autoMigrations = [
         AutoMigration(from = 4, to = 5),
         AutoMigration(from = 8, to = 9),
-        AutoMigration(from = 9, to = 10)
+        AutoMigration(from = 9, to = 10),
+        AutoMigration(from = 15, to = 16),
     ]
 )
 abstract class AppDatabase : RoomDatabase() {
     abstract fun foodDao(): FoodDao
     abstract fun searchDao(): SearchDao
     abstract fun categoryDao(): CategoryDao
+    abstract fun foodTemplateDao(): FoodTemplateDao
 
     companion object {
         val MIGRATION_12_13 = object : Migration(12, 13) {
@@ -103,5 +109,5 @@ abstract class AppDatabase : RoomDatabase() {
 }
 
 object DatabaseConstant {
-    const val SCHEMA_VERSION = 15
+    const val SCHEMA_VERSION = 16
 }

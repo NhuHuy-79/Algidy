@@ -4,7 +4,6 @@ import androidx.annotation.Keep
 import kotlinx.coroutines.flow.StateFlow
 
 interface AppCapabilityManager {
-
     fun isNotificationGranted(): Boolean
     fun isDynamicColorSupported(): Boolean
     fun isBiometricSupported(): Boolean
