@@ -1,11 +1,15 @@
 package com.nhuhuy.algidy.widget.weekly_expiry.component
 
+import android.content.Intent
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.dp
+import androidx.core.net.toUri
 import androidx.glance.ColorFilter
 import androidx.glance.GlanceModifier
 import androidx.glance.ImageProvider
 import androidx.glance.LocalContext
+import androidx.glance.action.clickable
+import androidx.glance.appwidget.action.actionStartActivity
 import androidx.glance.appwidget.components.SquareIconButton
 import androidx.glance.background
 import androidx.glance.layout.Alignment
@@ -16,6 +20,7 @@ import androidx.glance.layout.height
 import androidx.glance.layout.padding
 import androidx.glance.layout.wrapContentHeight
 import androidx.glance.text.Text
+import com.nhuhuy.algidy.MainActivity
 import com.nhuhuy.algidy.core.designsystem.icon.AlgidyIcons
 import com.nhuhuy.algidy.core.model.food.StorageLocation
 import com.nhuhuy.algidy.core.presentation.utils.ItemPosition
@@ -38,10 +43,21 @@ fun WeekExpirySmallFoodItem(
     itemPosition: ItemPosition,
 ) {
     val resId = itemPosition.toVerticalDrawable()
+    val context = LocalContext.current
+    val intent = Intent(
+        Intent.ACTION_VIEW,
+        "https://algidy.app/food/${item.id}".toUri()
+    ).apply {
+        setClass(
+            context,
+            MainActivity::class.java
+        )
+    }
 
     Row(
         modifier = modifier
             .height(48.dp)
+            .clickable(actionStartActivity(intent))
             .background(
                 imageProvider = ImageProvider(resId),
                 colorFilter = ColorFilter.tint(
@@ -67,10 +83,21 @@ fun WeekExpiryMediumFoodItem(
     onConsume: () -> Unit
 ) {
     val resId = itemPosition.toVerticalDrawable()
+    val context = LocalContext.current
+    val intent = Intent(
+        Intent.ACTION_VIEW,
+        "https://algidy.app/food/${item.id}".toUri()
+    ).apply {
+        setClass(
+            context,
+            MainActivity::class.java
+        )
+    }
 
     Row(
         modifier = modifier
             .wrapContentHeight()
+            .clickable(actionStartActivity(intent))
             .background(
                 imageProvider = ImageProvider(resId),
                 colorFilter = ColorFilter.tint(
@@ -106,10 +133,23 @@ fun WeekExpiryLargeFoodItem(
     onConsume: () -> Unit
 ) {
     val resId = itemPosition.toVerticalDrawable()
+    val context = LocalContext.current
+    val intent = Intent(
+        Intent.ACTION_VIEW,
+        "https://algidy.app/food/${item.id}".toUri()
+    ).apply {
+        setClass(
+            context,
+            MainActivity::class.java
+        )
+    }
 
     Row(
         modifier = modifier
             .wrapContentHeight()
+            .clickable(
+                actionStartActivity(intent)
+            )
             .background(
                 imageProvider = ImageProvider(resId),
                 colorFilter = ColorFilter.tint(

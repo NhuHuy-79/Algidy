@@ -23,6 +23,7 @@ import com.nhuhuy.algidy.core.model.setting.ThemeMode
 import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.core.presentation.navigation.Destination
 import com.nhuhuy.algidy.core.presentation.utils.toColor
+import com.nhuhuy.algidy.deeplink.DeepLinkDispatcher
 import com.nhuhuy.algidy.navigation.AppGraph
 import com.nhuhuy.algidy.navigation.BottomBarItem
 import com.nhuhuy.algidy.navigation.BottomFloatingBar
@@ -35,19 +36,22 @@ import com.nhuhuy.algidy.utils.BiometricResult
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
+    private val deepLinkDispatcher = DeepLinkDispatcher()
     private val viewModel: AppViewModel by viewModel()
     private val biometricHandler by lazy { BiometricHandler(this) }
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()
-        splashScreen.setKeepOnScreenCondition {
-            viewModel.appUiState.value.isSplashScreen
-        }
+        splashScreen.setKeepOnScreenCondition { viewModel.appUiState.value.isSplashScreen }
+
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge(
-            navigationBarStyle = SystemBarStyle.dark(scrim = Color.TRANSPARENT)
-        )
+
+        enableEdgeToEdge(navigationBarStyle = SystemBarStyle.dark(scrim = Color.TRANSPARENT))
+
+        //Deeplink
+        val deepLinkResult = deepLinkDispatcher.dispatch(intent?.dataString)
+
         setContent {
-            val backStack = rememberNavBackStack(Destination.Inventory.Home)
+            val backStack = rememberNavBackStack(Destination.Inventory.Home())
             val uiState: AppUiState by viewModel.appUiState.collectAsStateWithLifecycle()
             val onAction = viewModel::onAction
             val isUnlocked by viewModel.isUnlocked.collectAsStateWithLifecycle()
@@ -109,6 +113,7 @@ class MainActivity : AppCompatActivity() {
                     AppCompatDelegate.setApplicationLocales(appLocale)
                 }
             }
+
             AlgidyDynamicTheme(
                 seedColor = uiState.seedColor.toColor(),
                 dynamicColor = uiState.isDynamicColors,
@@ -140,6 +145,7 @@ class MainActivity : AppCompatActivity() {
                     AppGraph(
                         modifier = Modifier,
                         backStack = backStack,
+                        deepLinkResult = deepLinkResult
                     )
                 }
             }

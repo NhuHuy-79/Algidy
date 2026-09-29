@@ -80,7 +80,7 @@ fun hideBottomBar(currentDestination: NavKey?): Boolean {
 fun BottomBarItem.toDestination(): Destination {
     return when (this) {
         BottomBarItem.ANALYTICS -> Destination.Analytics
-        BottomBarItem.HOME -> Destination.Inventory.Home
+        BottomBarItem.HOME -> Destination.Inventory.Home()
         BottomBarItem.SETTINGS -> Destination.Setting(destination = SettingDestination.Main)
     }
 }

@@ -16,7 +16,7 @@ data class FoodEntryUiState(
     val categoryQuery: String = "",
     val categories: List<CategoryUiModel.ByCategory> = emptyList(),
     // Current selected category model
-    val currentCategory: CategoryUiModel = CategoryUiModel.All,
+    val currentCategory: CategoryUiModel = CategoryUiModel.Uncategorized,
     // UI Overlay state
     val overlay: FoodEntryOverlay = FoodEntryOverlay.NONE,
     val foodTemplates: ImmutableList<FoodTemplateUiModel> = persistentListOf(),

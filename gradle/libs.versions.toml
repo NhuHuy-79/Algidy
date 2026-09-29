@@ -60,6 +60,8 @@ uiTextGoogleFonts = "1.7.0"
 # Vico for Glance, Compose
 vico = "3.2.3"
 jetbrainsKotlinJvm = "2.4.10"
+preference = "1.2.0"
+material = "1.4.0"
 
 [libraries]
 accompanist-permissions = { module = "com.google.accompanist:accompanist-permissions", version.ref = "accompanistPermissions" }
@@ -153,6 +155,8 @@ aboutlibraries-compose = { module = "com.mikepenz:aboutlibraries-compose-m3", ve
 vico-compose-m3 = { group = "com.patrykandpatrick.vico", name = "compose-m3", version.ref = "vico" }
 vico-compose = { group = "com.patrykandpatrick.vico", name = "compose", version.ref = "vico" }
 vico-compose-glance = { group = "com.patrykandpatrick.vico", name = "compose-glance", version.ref = "vico" }
+androidx-preference = { group = "androidx.preference", name = "preference", version.ref = "preference" }
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

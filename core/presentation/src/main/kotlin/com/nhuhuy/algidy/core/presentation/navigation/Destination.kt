@@ -8,7 +8,7 @@ sealed interface Destination : NavKey {
     @Serializable
     sealed interface Inventory : Destination {
         @Serializable
-        data object Home : Inventory
+        data class Home(val foodId: String? = null) : Inventory
 
         @Serializable
         data object Search : Inventory

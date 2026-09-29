@@ -1,6 +1,7 @@
 package com.nhuhuy.algidy.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
 import androidx.navigation3.runtime.NavBackStack
@@ -12,6 +13,7 @@ import com.nhuhuy.algidy.core.presentation.ObserveEffect
 import com.nhuhuy.algidy.core.presentation.navigation.Destination
 import com.nhuhuy.algidy.core.presentation.navigation.NavigateEvent
 import com.nhuhuy.algidy.core.presentation.navigation.Navigator
+import com.nhuhuy.algidy.deeplink.DeepLinkResult
 import com.nhuhuy.algidy.feature.analytics.navigation.AnalyticsRoute
 import com.nhuhuy.algidy.feature.inventory.navigation.InventoryRoute
 import com.nhuhuy.algidy.feature.inventory.navigation.SearchInventoryRoute
@@ -23,6 +25,7 @@ import org.koin.compose.koinInject
 
 @Composable
 fun AppGraph(
+    deepLinkResult: DeepLinkResult,
     backStack: NavBackStack<NavKey>,
     modifier: Modifier = Modifier,
 ) {
@@ -32,6 +35,17 @@ fun AppGraph(
         when (event) {
             NavigateEvent.NavigateBack -> if (backStack.isNotEmpty()) backStack.removeLastOrNull()
             is NavigateEvent.NavigateTo -> backStack.add(event.destination)
+        }
+    }
+
+    LaunchedEffect(deepLinkResult) {
+        when (deepLinkResult) {
+            DeepLinkResult.OpenHome -> Unit
+
+            is DeepLinkResult.OpenFood -> {
+                backStack.clear()
+                backStack.add(Destination.Inventory.Home(deepLinkResult.foodId))
+            }
         }
     }
 
