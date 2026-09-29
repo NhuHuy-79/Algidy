@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -19,11 +20,13 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation3.runtime.rememberNavBackStack
 import com.nhuhuy.algidy.core.designsystem.theme.AlgidyDynamicTheme
+import com.nhuhuy.algidy.core.model.setting.AppLanguage
 import com.nhuhuy.algidy.core.model.setting.ThemeMode
 import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.core.presentation.navigation.Destination
 import com.nhuhuy.algidy.core.presentation.utils.toColor
 import com.nhuhuy.algidy.deeplink.DeepLinkDispatcher
+import com.nhuhuy.algidy.deeplink.DeepLinkResult
 import com.nhuhuy.algidy.navigation.AppGraph
 import com.nhuhuy.algidy.navigation.BottomBarItem
 import com.nhuhuy.algidy.navigation.BottomFloatingBar
@@ -40,15 +43,14 @@ class MainActivity : AppCompatActivity() {
     private val viewModel: AppViewModel by viewModel()
     private val biometricHandler by lazy { BiometricHandler(this) }
     override fun onCreate(savedInstanceState: Bundle?) {
-        val splashScreen = installSplashScreen()
-        splashScreen.setKeepOnScreenCondition { viewModel.appUiState.value.isSplashScreen }
+        handleSplashScreen()
 
         super.onCreate(savedInstanceState)
 
         enableEdgeToEdge(navigationBarStyle = SystemBarStyle.dark(scrim = Color.TRANSPARENT))
 
         //Deeplink
-        val deepLinkResult = deepLinkDispatcher.dispatch(intent?.dataString)
+        handleDeepLink(uri = intent?.dataString, onAction = viewModel::onAction)
 
         setContent {
             val backStack = rememberNavBackStack(Destination.Inventory.Home())
@@ -56,63 +58,17 @@ class MainActivity : AppCompatActivity() {
             val onAction = viewModel::onAction
             val isUnlocked by viewModel.isUnlocked.collectAsStateWithLifecycle()
             val biometricTriggerCount by viewModel.biometricTrigger.collectAsStateWithLifecycle()
-            LaunchedEffect(uiState.isSplashScreen, biometricTriggerCount) {
-                if (!uiState.isSplashScreen) {
-                    if (!uiState.isBiometricLock) {
-                        onAction(AppAction.UpdateAppUnlock(true))
-                    } else if (!isUnlocked) {
-                        biometricHandler.authenticate().collect { result ->
-                            when (result) {
-                                BiometricResult.Success -> {
-                                    onAction(AppAction.UpdateAppUnlock(true))
-                                }
 
-                                BiometricResult.Failed -> {
-                                    Toast.makeText(
-                                        this@MainActivity, this@MainActivity.getString(
-                                            R.string.biometric_auth_failed
-                                        ), Toast.LENGTH_SHORT
-                                    ).show()
-                                    onAction(AppAction.UpdateAppUnlock(false))
-                                }
+            LocaleEffect(language = uiState.language)
 
-                                is BiometricResult.Error -> {
-                                    Toast.makeText(
-                                        this@MainActivity, this@MainActivity.getString(
-                                            R.string.biometric_auth_failed
-                                        ), Toast.LENGTH_SHORT
-                                    ).show()
-                                    onAction(AppAction.UpdateAppUnlock(false))
-                                    when (result) {
-                                        BiometricResult.Error.NotSupported -> {
-                                            onAction(AppAction.UpdateBiometricSupported(false))
-                                        }
+            BiometricEffect(
+                isSplashScreen = uiState.isSplashScreen,
+                biometricTriggerCount = biometricTriggerCount,
+                isBiometricLock = uiState.isBiometricLock,
+                isUnlocked = isUnlocked,
+                onAction = onAction
+            )
 
-                                        else -> {
-                                            Toast.makeText(
-                                                this@MainActivity, this@MainActivity.getString(
-                                                    R.string.biometric_auth_failed
-                                                ), Toast.LENGTH_SHORT
-                                            ).show()
-                                        }
-                                    }
-                                }
-
-                                BiometricResult.Idle -> Unit
-                            }
-                        }
-                    }
-                }
-            }
-
-            LaunchedEffect(uiState.language) {
-                val currentLocales = AppCompatDelegate.getApplicationLocales()
-                if (currentLocales.isEmpty || currentLocales[0]?.language != uiState.language.isoCode) {
-                    val appLocale: LocaleListCompat =
-                        LocaleListCompat.forLanguageTags(uiState.language.isoCode)
-                    AppCompatDelegate.setApplicationLocales(appLocale)
-                }
-            }
 
             AlgidyDynamicTheme(
                 seedColor = uiState.seedColor.toColor(),
@@ -144,17 +100,107 @@ class MainActivity : AppCompatActivity() {
                 ) {
                     AppGraph(
                         modifier = Modifier,
-                        backStack = backStack,
-                        deepLinkResult = deepLinkResult
+                        backStack = backStack
                     )
                 }
             }
         }
     }
 
+
     override fun onResume() {
         viewModel.onAction(AppAction.TriggerBiometric)
         super.onResume()
+    }
+
+    private fun handleSplashScreen() {
+        val splashScreen = installSplashScreen()
+        splashScreen.setKeepOnScreenCondition { viewModel.appUiState.value.isSplashScreen }
+    }
+
+    private fun handleDeepLink(
+        uri: String?,
+        onAction: (AppAction) -> Unit,
+    ) {
+        when (val deepLinkResult = deepLinkDispatcher.dispatch(uri)) {
+            is DeepLinkResult.OpenFood -> {
+                onAction(AppAction.UpdateFoodId(deepLinkResult.foodId))
+            }
+
+            DeepLinkResult.OpenHome -> Unit
+        }
+    }
+
+    @Composable
+    private fun LocaleEffect(
+        language: AppLanguage
+    ) {
+        LaunchedEffect(language) {
+            val currentLocales = AppCompatDelegate.getApplicationLocales()
+            if (currentLocales.isEmpty || currentLocales[0]?.language != language.isoCode) {
+                val appLocale: LocaleListCompat =
+                    LocaleListCompat.forLanguageTags(language.isoCode)
+                AppCompatDelegate.setApplicationLocales(appLocale)
+            }
+        }
+    }
+
+    @Composable
+    private fun BiometricEffect(
+        isSplashScreen: Boolean,
+        biometricTriggerCount: Int,
+        isBiometricLock: Boolean,
+        isUnlocked: Boolean,
+        onAction: (AppAction) -> Unit,
+    ) {
+        LaunchedEffect(isSplashScreen, biometricTriggerCount) {
+            if (!isSplashScreen) {
+                if (!isBiometricLock) {
+                    onAction(AppAction.UpdateAppUnlock(true))
+                } else if (!isUnlocked) {
+                    biometricHandler.authenticate().collect { result ->
+                        when (result) {
+                            BiometricResult.Success -> {
+                                onAction(AppAction.UpdateAppUnlock(true))
+                            }
+
+                            BiometricResult.Failed -> {
+                                Toast.makeText(
+                                    this@MainActivity, this@MainActivity.getString(
+                                        R.string.biometric_auth_failed
+                                    ), Toast.LENGTH_SHORT
+                                ).show()
+                                onAction(AppAction.UpdateAppUnlock(false))
+                            }
+
+                            is BiometricResult.Error -> {
+                                Toast.makeText(
+                                    this@MainActivity, this@MainActivity.getString(
+                                        R.string.biometric_auth_failed
+                                    ), Toast.LENGTH_SHORT
+                                ).show()
+                                onAction(AppAction.UpdateAppUnlock(false))
+                                when (result) {
+                                    BiometricResult.Error.NotSupported -> {
+                                        onAction(AppAction.UpdateBiometricSupported(false))
+                                    }
+
+                                    else -> {
+                                        Toast.makeText(
+                                            this@MainActivity, this@MainActivity.getString(
+                                                R.string.biometric_auth_failed
+                                            ), Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
+                                }
+                            }
+
+                            BiometricResult.Idle -> Unit
+                        }
+                    }
+                }
+            }
+        }
     }
 }
 

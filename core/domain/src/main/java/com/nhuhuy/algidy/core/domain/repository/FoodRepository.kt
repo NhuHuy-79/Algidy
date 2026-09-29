@@ -22,7 +22,7 @@ interface FoodRepository {
     suspend fun updateFoodStatus(id: String, newStatus: FoodStatus): Resource<String>
     suspend fun updateFoodStatusList(ids: List<String>, newStatus: FoodStatus): Resource<Unit>
     //DELETE
-    suspend fun removeFoodItem(id: String)
+    suspend fun deleteFoodById(id: String)
     suspend fun deleteAllFoodItems(): Resource<Unit>
     suspend fun deleteFoodAfterDay(day: Long): Resource<Unit>
 }

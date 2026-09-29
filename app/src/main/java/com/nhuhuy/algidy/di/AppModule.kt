@@ -4,6 +4,7 @@ import com.nhuhuy.algidy.AppViewModel
 import com.nhuhuy.algidy.core.data.AppCapabilityManager
 import com.nhuhuy.algidy.core.datastore.DeviceCapableDataStore
 import com.nhuhuy.algidy.core.datastore.DeviceCapableDataStoreImpl
+import com.nhuhuy.algidy.core.presentation.deeplink.DeepLinkStore
 import com.nhuhuy.algidy.core.presentation.navigation.Navigator
 import com.nhuhuy.algidy.core.presentation.navigation.NavigatorImpl
 import com.nhuhuy.algidy.feature.settings.data.WidgetExceptionLogger
@@ -36,4 +37,7 @@ val appModule = module {
     //Worker
     workerOf(::ConsumeFoodWorker)
     workerOf(::WasteWeeklyAllFoodsWorker)
+
+    //DeepLink
+    singleOf(::DeepLinkStore)
 }

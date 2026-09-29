@@ -6,6 +6,6 @@ class DeleteFoodItemUseCase(
     private val foodRepository: FoodRepository
 ) {
     suspend operator fun invoke(id: String) {
-        return foodRepository.removeFoodItem(id)
+        return foodRepository.deleteFoodById(id)
     }
 }

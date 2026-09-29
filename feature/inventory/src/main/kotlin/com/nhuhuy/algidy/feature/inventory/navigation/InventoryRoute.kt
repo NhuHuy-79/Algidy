@@ -56,12 +56,17 @@ fun InventoryRoute() = BoxLayout {
     }
 
     LaunchedEffect(
-        key1 = uiState.currentVersionCode,
-        key2 = combineState.generalPreferences.appVersionToNotify,
-        key3 = combineState.isLoaded
+        uiState.currentVersionCode,
+        combineState.generalPreferences.appVersionToNotify,
+        combineState.isLoaded,
+        uiState.deepLinkFoodDetailId
     ) {
-        if (combineState.isLoaded && uiState.currentVersionCode > combineState.generalPreferences.appVersionToNotify) {
+        if (combineState.isLoaded && uiState.currentVersionCode > combineState.generalPreferences.appVersionToNotify && uiState.deepLinkFoodDetailId == null) {
             onAction(InventoryAction.ShowAppFeature)
+        }
+
+        if (uiState.deepLinkFoodDetailId != null && combineState.isLoaded) {
+            onAction(InventoryAction.ShowDeepLinkResult)
         }
     }
 

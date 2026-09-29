@@ -7,7 +7,6 @@ internal object FoodDetailMatcher : DeepLinkMatcher {
         if (uri.isNullOrBlank()) return DeepLinkResult.OpenHome
 
         return foodDetailRegex.find(uri)?.let { result ->
-
             val foodId = result.groupValues[1]
             DeepLinkResult.OpenFood(foodId = foodId)
         } ?: DeepLinkResult.OpenHome

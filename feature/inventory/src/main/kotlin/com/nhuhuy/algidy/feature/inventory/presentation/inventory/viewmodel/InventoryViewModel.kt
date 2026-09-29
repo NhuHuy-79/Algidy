@@ -3,10 +3,11 @@ package com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel
 import androidx.lifecycle.viewModelScope
 import com.nhuhuy.algidy.core.data.AppNewFeaturesReader
 import com.nhuhuy.algidy.core.data.util.product
-import com.nhuhuy.algidy.core.domain.usecase.category.AddCategoryUseCase
-import com.nhuhuy.algidy.core.domain.usecase.category.DeleteCategoryUseCase
-import com.nhuhuy.algidy.core.domain.usecase.category.EditCategoryUseCase
-import com.nhuhuy.algidy.core.domain.usecase.category.ObserveCategoriesUseCase
+import com.nhuhuy.algidy.core.domain.repository.CategoryRepository
+import com.nhuhuy.algidy.core.domain.repository.FoodRepository
+import com.nhuhuy.algidy.core.model.food.FoodCategory
+import com.nhuhuy.algidy.core.model.food.FoodStatus
+import com.nhuhuy.algidy.core.presentation.deeplink.DeepLinkStore
 import com.nhuhuy.algidy.core.presentation.model.CategoryUiModel
 import com.nhuhuy.algidy.core.presentation.model.toUiModel
 import com.nhuhuy.algidy.core.presentation.navigation.Destination
@@ -15,11 +16,11 @@ import com.nhuhuy.algidy.core.presentation.navigation.SettingDestination
 import com.nhuhuy.algidy.core.presentation.viewmodel.BaseViewModel
 import com.nhuhuy.algidy.feature.inventory.domain.usecase.GetInventoryPreferenceUseCase
 import com.nhuhuy.algidy.feature.inventory.domain.usecase.ObserveSettingDataUseCase
-import com.nhuhuy.algidy.feature.inventory.domain.usecase.food.DeleteFoodItemUseCase
-import com.nhuhuy.algidy.feature.inventory.domain.usecase.food.MarkFoodAsConsumedUseCase
-import com.nhuhuy.algidy.feature.inventory.domain.usecase.food.MarkFoodAsWastedUseCase
-import com.nhuhuy.algidy.feature.inventory.domain.usecase.food.ObserveFoodItemsUseCase
+import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryOverlay.AddFoodBottomSheet
+import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryOverlay.EditFoodSheet
+import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryOverlay.ItemDetail
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryOverlay.NewFeatureSheet
+import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryOverlay.None
 import com.nhuhuy.algidy.feature.inventory.presentation.model.toFoodUiModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -30,21 +31,15 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 internal class InventoryViewModel(
-    observerFoodItemUseCase: ObserveFoodItemsUseCase,
     observeSettingDataUseCase: ObserveSettingDataUseCase,
-    observeCategoriesUseCase: ObserveCategoriesUseCase,
-    private val addCategoryUseCase: AddCategoryUseCase,
-    private val deleteFoodItemUseCase: DeleteFoodItemUseCase,
-    private val deleteCategoryUseCase: DeleteCategoryUseCase,
-    private val editCategoryUseCase: EditCategoryUseCase,
-    private val markFoodAsConsumedUseCase: MarkFoodAsConsumedUseCase,
-    private val markFoodAsWastedUseCase: MarkFoodAsWastedUseCase,
+    private val foodRepository: FoodRepository,
+    private val categoryRepository: CategoryRepository,
     private val getInventoryPreferenceUseCase: GetInventoryPreferenceUseCase,
     private val navigator: Navigator,
-    private val appNewFeaturesReader: AppNewFeaturesReader
+    private val appNewFeaturesReader: AppNewFeaturesReader,
+    private val deepLinkStore: DeepLinkStore
 ) : BaseViewModel<InventoryUiState, InventoryEvent, InventoryAction>() {
     private val _uiState = MutableStateFlow(
         InventoryUiState(currentVersionCode = appNewFeaturesReader.currentVersionCode.toInt())
@@ -53,7 +48,7 @@ internal class InventoryViewModel(
 
     val combineState: StateFlow<InventoryCombineState> = combine(
         observeSettingDataUseCase.getCategoryEnabled(),
-        observeCategoriesUseCase(),
+        categoryRepository.observeAllCategories(),
         getInventoryPreferenceUseCase.observe(),
     ) { categoryEnabled, categories, generaPreferences ->
         InventoryCombineState(
@@ -70,7 +65,7 @@ internal class InventoryViewModel(
 
     private val currentCombineState get() = combineState.value
 
-    val resultState: StateFlow<InventoryResultState> = observerFoodItemUseCase()
+    val resultState: StateFlow<InventoryResultState> = foodRepository.observeAllActiveFoodItems()
         .map { items ->
             if (items.isEmpty()) InventoryResultState.Empty
             else InventoryResultState.Success(items = items.toFoodUiModel())
@@ -82,108 +77,21 @@ internal class InventoryViewModel(
             initialValue = InventoryResultState.Loading
         )
 
+    init {
+        deepLinkStore.consumeFood()?.let { foodId ->
+            _uiState.product {
+                copy(deepLinkFoodDetailId = foodId)
+            }
+        }
+    }
+
     override fun onAction(action: InventoryAction) {
         when (action) {
-            is InventoryAction.RemoveItem -> {
-                viewModelScope.launch {
-                    deleteFoodItemUseCase(id = action.id)
-                }
-            }
 
-            InventoryAction.OnDismiss -> _uiState.product { copy(overlay = InventoryOverlay.None) }
-            is InventoryAction.OnCategorySelect -> _uiState.product {
-                copy(currentCategory = action.categoryUiModel)
-            }
-
-            is InventoryAction.OnCreateCategory -> {
-                viewModelScope.launch {
-                    addCategoryUseCase(action.name)
-                }
-            }
-
-            is InventoryAction.OnEditCategorySheet.OnInputChange -> {
-                _uiState.product { copy(categoryInput = action.value) }
-            }
-
-            InventoryAction.OnEditCategorySheet.Open -> {
-                val currentCategory = currentState.currentCategory
-                if (currentCategory is CategoryUiModel.ByCategory) {
-                    _uiState.product {
-                        copy(
-                            overlay = InventoryOverlay.CategoryEdit,
-                            categoryInput = currentCategory.data.name
-                        )
-                    }
-                }
-            }
-
-            InventoryAction.OnEditCategorySheet.Save -> {
-                viewModelScope.launch {
-                    val category = currentState.currentCategory
-                    val text = currentState.categoryInput
-                    if (category is CategoryUiModel.ByCategory) {
-                        val newCategory = category.data.copy(name = text)
-                        editCategoryUseCase(category = newCategory)
-                        _uiState.product { copy(overlay = InventoryOverlay.None) }
-                    }
-                }
-            }
-
-            InventoryAction.OnDeleteAlertConfirm -> {
-                viewModelScope.launch {
-                    val category = currentState.currentCategory
-                    if (category is CategoryUiModel.ByCategory) {
-                        deleteCategoryUseCase(category.data.id)
-                        _uiState.product { copy(overlay = InventoryOverlay.None) }
-                    }
-                }
-            }
-
-            InventoryAction.OnConsumeConfirm -> {
-                viewModelScope.launch {
-                    val ids = if (currentState.isSelectMode) currentState.selectedFoodIds.toList()
-                    else listOf(currentState.currentFoodItem.id)
-
-                    _uiState.product {
-                        copy(
-                            overlay = InventoryOverlay.None,
-                            selectedFoodIds = emptySet()
-                        )
-                    }
-                    markFoodAsConsumedUseCase.executeWithList(foodIds = ids)
-                }
-            }
-
-            InventoryAction.OnWasteConfirm -> {
-                viewModelScope.launch {
-                    val ids = if (currentState.isSelectMode) currentState.selectedFoodIds.toList()
-                    else listOf(currentState.currentFoodItem.id)
-
-                    _uiState.product {
-                        copy(
-                            overlay = InventoryOverlay.None,
-                            selectedFoodIds = emptySet()
-                        )
-                    }
-                    markFoodAsWastedUseCase.executeWithList(foodIds = ids)
-                }
-            }
-
-            InventoryAction.OnDeleteCategory -> {
-                _uiState.product { copy(overlay = InventoryOverlay.CategoryDelete) }
-            }
+            InventoryAction.OnDismiss -> _uiState.product { copy(overlay = None) }
 
             InventoryAction.OnSearchClick -> {
                 navigator.navigateTo(Destination.Inventory.Search)
-            }
-
-            is InventoryAction.OnItemClick -> {
-                _uiState.product {
-                    copy(
-                        currentFoodItem = action.item,
-                        overlay = InventoryOverlay.ItemDetail
-                    )
-                }
             }
 
             InventoryAction.OnResetFilters -> {
@@ -211,7 +119,7 @@ internal class InventoryViewModel(
             }
 
             InventoryAction.OnConfirmCameraPolicy -> {
-                _uiState.product { copy(overlay = InventoryOverlay.None) }
+                _uiState.product { copy(overlay = None) }
                 emitEvent(InventoryEvent.RequestCameraPermission)
                 viewModelScope.launch {
                     getInventoryPreferenceUseCase.updatePreferences(
@@ -223,27 +131,6 @@ internal class InventoryViewModel(
             }
 
             is InventoryFabAction -> onFabAction(action)
-            is InventoryDetailAction -> Unit
-            is InventoryAction.OnAddCategory.OnInputChange -> {
-                _uiState.product {
-                    copy(categoryInput = action.value)
-                }
-            }
-
-            InventoryAction.OnAddCategory.Open -> {
-                _uiState.product {
-                    copy(overlay = InventoryOverlay.CategoryAdd)
-                }
-            }
-
-            InventoryAction.OnAddCategory.Save -> {
-                _uiState.product {
-                    copy(overlay = InventoryOverlay.None)
-                }
-                viewModelScope.launch {
-                    addCategoryUseCase(currentState.categoryInput)
-                }
-            }
 
             is InventoryAction.OnCameraPermissionAccept -> {
                 navigator.navigateTo(Destination.Scanner)
@@ -266,16 +153,80 @@ internal class InventoryViewModel(
                 )
             }
 
-            is InventoryAction.OnEditFoodSheetOpen -> {
+            InventoryAction.OnEmptyPageClick -> {
                 _uiState.product {
-                    copy(overlay = InventoryOverlay.EditFoodSheet(action.foodItem))
+                    copy(overlay = AddFoodBottomSheet())
                 }
             }
 
-            InventoryAction.OnEmptyPageClick -> {
-                _uiState.product {
-                    copy(overlay = InventoryOverlay.AddFoodBottomSheet())
+            InventoryAction.ShowDeepLinkResult -> {
+                val foodId = currentState.deepLinkFoodDetailId ?: return
+                viewModelScope.launch {
+                    val currentFoodUiModel = foodRepository.getFoodById(foodId)?.toFoodUiModel()
+                    currentFoodUiModel?.let { foodUiModel ->
+                        _uiState.product {
+                            copy(
+                                overlay = ItemDetail,
+                                currentFoodItem = foodUiModel
+                            )
+                        }
+                    }
                 }
+            }
+
+            is InventoryAction.ShowOverlay -> {
+                _uiState.product { copy(overlay = action.overlay) }
+            }
+
+            is InventoryCategoryAction -> onCategoryAction(action)
+            is InventoryFoodAction -> onFoodAction(action)
+        }
+    }
+
+    private fun onFoodAction(action: InventoryFoodAction) {
+        when (action) {
+            is InventoryFoodAction.Click -> {
+                _uiState.product {
+                    copy(currentFoodItem = action.food, overlay = ItemDetail)
+                }
+            }
+
+            InventoryFoodAction.Consume -> {
+                viewModelScope.launch {
+                    val ids = if (currentState.isSelectMode) currentState.selectedFoodIds.toList()
+                    else listOf(currentState.currentFoodItem.id)
+
+                    _uiState.product {
+                        copy(
+                            overlay = None,
+                            selectedFoodIds = emptySet()
+                        )
+                    }
+                    foodRepository.updateFoodStatusList(ids = ids, newStatus = FoodStatus.CONSUMED)
+                }
+            }
+
+            is InventoryFoodAction.DeleteFood -> viewModelScope.launch {
+                foodRepository.deleteFoodById(action.id)
+            }
+
+            InventoryFoodAction.Waste -> {
+                viewModelScope.launch {
+                    val ids = if (currentState.isSelectMode) currentState.selectedFoodIds.toList()
+                    else listOf(currentState.currentFoodItem.id)
+
+                    _uiState.product {
+                        copy(
+                            overlay = None,
+                            selectedFoodIds = emptySet()
+                        )
+                    }
+                    foodRepository.updateFoodStatusList(ids = ids, newStatus = FoodStatus.WASTED)
+                }
+            }
+
+            is InventoryFoodAction.Edit -> _uiState.product {
+                copy(overlay = EditFoodSheet(action.food))
             }
         }
     }
@@ -333,11 +284,77 @@ internal class InventoryViewModel(
             InventorySelectAction.WasteAll -> _uiState.product {
                 copy(overlay = InventoryOverlay.WasteConfirm)
             }
+
+        }
+    }
+
+    private fun onCategoryAction(action: InventoryCategoryAction) {
+        when (action) {
+            is InventoryCategoryAction.Select -> {
+                _uiState.product {
+                    copy(currentCategory = action.categoryUiModel)
+                }
+            }
+
+            InventoryCategoryAction.AddCategory -> {
+                _uiState.product {
+                    copy(overlay = None)
+                }
+                viewModelScope.launch {
+                    val newCategory = FoodCategory(name = currentState.categoryInput)
+                    categoryRepository.addCategory(newCategory)
+                }
+            }
+
+            InventoryCategoryAction.Delete -> {
+                viewModelScope.launch {
+                    val category = currentState.currentCategory
+                    if (category is CategoryUiModel.ByCategory) {
+                        categoryRepository.deleteCategory(category.data.id)
+                        _uiState.product { copy(overlay = None) }
+                    }
+                }
+            }
+
+            InventoryCategoryAction.EditCategory -> {
+                viewModelScope.launch {
+                    val category = currentState.currentCategory
+                    val text = currentState.categoryInput
+                    if (category is CategoryUiModel.ByCategory) {
+                        val newCategory = category.data.copy(name = text)
+                        categoryRepository.updateCategory(category = newCategory)
+                        _uiState.product { copy(overlay = None) }
+                    }
+                }
+            }
+
+            is InventoryCategoryAction.InputChange -> {
+                _uiState.product {
+                    copy(categoryInput = action.input)
+                }
+            }
+
+            InventoryCategoryAction.OpenCreate -> {
+                _uiState.product {
+                    copy(overlay = InventoryOverlay.CategoryAdd)
+                }
+            }
+
+            InventoryCategoryAction.OpenEdit -> {
+                val currentCategory = currentState.currentCategory
+                if (currentCategory is CategoryUiModel.ByCategory) {
+                    _uiState.product {
+                        copy(
+                            overlay = InventoryOverlay.CategoryEdit,
+                            categoryInput = currentCategory.data.name
+                        )
+                    }
+                }
+            }
         }
     }
 
     private fun onFabAction(action: InventoryFabAction) {
-        Timber.d("onFabAction: $action")
         when (action) {
             InventoryFabAction.Analytics -> {
                 navigator.navigateTo(Destination.Analytics)
@@ -355,7 +372,7 @@ internal class InventoryViewModel(
 
             InventoryFabAction.Manual -> {
                 _uiState.product {
-                    copy(overlay = InventoryOverlay.AddFoodBottomSheet())
+                    copy(overlay = AddFoodBottomSheet())
                 }
             }
 

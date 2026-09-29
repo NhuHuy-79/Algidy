@@ -11,6 +11,6 @@ interface DeepLinkMatcher {
 
 @Stable
 sealed interface DeepLinkResult {
-    data class OpenFood(val foodId: String?) : DeepLinkResult
+    data class OpenFood(val foodId: String) : DeepLinkResult
     data object OpenHome : DeepLinkResult
 }

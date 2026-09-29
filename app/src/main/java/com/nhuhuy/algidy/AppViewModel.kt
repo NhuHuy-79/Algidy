@@ -7,6 +7,7 @@ import com.nhuhuy.algidy.core.model.setting.AppFont
 import com.nhuhuy.algidy.core.model.setting.AppLanguage
 import com.nhuhuy.algidy.core.model.setting.SeedColor
 import com.nhuhuy.algidy.core.model.setting.ThemeMode
+import com.nhuhuy.algidy.core.presentation.deeplink.DeepLinkStore
 import com.nhuhuy.algidy.feature.settings.domain.usecase.CheckCapabilityUseCase
 import com.nhuhuy.algidy.feature.settings.domain.usecase.ObserveSettingStateUseCase
 import com.nhuhuy.algidy.utils.AppInitializer
@@ -31,6 +32,7 @@ data class AppUiState(
 )
 
 sealed interface AppAction {
+    data class UpdateFoodId(val foodId: String) : AppAction
     data class UpdateBiometricSupported(val value: Boolean) : AppAction
     data class UpdateAppUnlock(val unlock: Boolean) : AppAction
     data class OnAddFabExchange(val exchange: Boolean) : AppAction
@@ -41,6 +43,7 @@ class AppViewModel(
     observeSettingStateUseCase: ObserveSettingStateUseCase,
     private val checkCapabilityUseCase: CheckCapabilityUseCase,
     private val appInitializer: AppInitializer,
+    private val deepLinkStore: DeepLinkStore
 ) : ViewModel() {
     private val _isUnLocked = MutableStateFlow(false)
     val isUnlocked = _isUnLocked.asStateFlow()
@@ -84,6 +87,9 @@ class AppViewModel(
 
             is AppAction.UpdateAppUnlock -> _isUnLocked.update { action.unlock }
             is AppAction.OnAddFabExchange -> _isAddFabExpanded.update { action.exchange }
+            is AppAction.UpdateFoodId -> {
+                deepLinkStore.submitFood(action.foodId)
+            }
         }
     }
 }

@@ -10,8 +10,8 @@ import com.nhuhuy.algidy.core.presentation.component.AppNewFeatureBottomSheet
 import com.nhuhuy.algidy.core.presentation.component.TextFieldDialog
 import com.nhuhuy.algidy.feature.food_entry.navigation.FoodEntryRoute
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryAction
-import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryAction.OnEditCategorySheet.OnInputChange
-import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryAction.OnEditCategorySheet.Save
+import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryCategoryAction
+import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryFoodAction
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryOverlay
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryUiState
 import com.nhuhuy.algidy.feature.inventory.presentation.model.toEntryUiModel
@@ -30,15 +30,15 @@ internal fun InventoryOverlayContainer(
             title = stringResource(R.string.category_edit_dialog_title),
             value = uiState.categoryInput,
             confirmText = stringResource(R.string.inventory_category_edit_btn),
-            onValueChange = { category -> onAction(OnInputChange(category)) },
+            onValueChange = { value -> onAction(InventoryCategoryAction.InputChange(value)) },
             onDismiss = onDismiss,
-            onConfirm = { onAction(Save) }
+            onConfirm = { onAction(InventoryCategoryAction.EditCategory) }
         )
 
         InventoryOverlay.CategoryDelete -> AlgidyAlertDialog(
             icon = AlgidyIcons.Inventory.DeleteCategory.toImageVector(),
             onDismissRequest = onDismiss,
-            onConfirm = { onAction(InventoryAction.OnDeleteAlertConfirm) },
+            onConfirm = { onAction(InventoryCategoryAction.Delete) },
             title = stringResource(R.string.delete_category_dialog_title),
             text = stringResource(R.string.delete_category_dialog_content),
             confirmText = stringResource(R.string.delete_category_dialog_confirm)
@@ -48,9 +48,7 @@ internal fun InventoryOverlayContainer(
             foodItem = uiState.currentFoodItem,
             onDismiss = onDismiss,
             onNavigateToEdit = { foodUiModel ->
-                onAction(
-                    InventoryAction.OnEditFoodSheetOpen(foodUiModel)
-                )
+                onAction(InventoryFoodAction.Edit(foodUiModel))
             }
         )
 
@@ -58,11 +56,11 @@ internal fun InventoryOverlayContainer(
             value = uiState.categoryInput,
             title = stringResource(R.string.inventory_category_add),
             confirmText = stringResource(R.string.inventory_category_add_btn),
-            onValueChange = {
-                onAction(InventoryAction.OnAddCategory.OnInputChange(it))
+            onValueChange = { value ->
+                onAction(InventoryCategoryAction.InputChange(value))
             },
             onDismiss = onDismiss,
-            onConfirm = { onAction(InventoryAction.OnAddCategory.Save) }
+            onConfirm = { onAction(InventoryCategoryAction.AddCategory) }
         )
 
         is InventoryOverlay.NewFeatureSheet -> AppNewFeatureBottomSheet(
@@ -73,7 +71,7 @@ internal fun InventoryOverlayContainer(
         InventoryOverlay.ConsumeConfirm -> AlgidyAlertDialog(
             icon = AlgidyIcons.ConsumeFood.toImageVector(),
             onDismissRequest = onDismiss,
-            onConfirm = { onAction(InventoryAction.OnConsumeConfirm) },
+            onConfirm = { onAction(InventoryFoodAction.Consume) },
             title = stringResource(R.string.detail_dialog_consume_title),
             text = stringResource(R.string.detail_dialog_consume_content),
             confirmText = stringResource(R.string.detail_fab_consume_this)
@@ -82,7 +80,7 @@ internal fun InventoryOverlayContainer(
         InventoryOverlay.WasteConfirm -> AlgidyAlertDialog(
             icon = AlgidyIcons.WasteFood.toImageVector(),
             onDismissRequest = onDismiss,
-            onConfirm = { onAction(InventoryAction.OnWasteConfirm) },
+            onConfirm = { onAction(InventoryFoodAction.Waste) },
             title = stringResource(R.string.detail_dialog_waste_title),
             text = stringResource(R.string.detail_dialog_waste_content),
             confirmText = stringResource(R.string.detail_fab_mark_as_wasted),

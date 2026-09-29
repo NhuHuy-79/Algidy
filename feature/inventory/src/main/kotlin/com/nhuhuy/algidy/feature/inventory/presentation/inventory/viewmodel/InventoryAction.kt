@@ -1,36 +1,15 @@
 package com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel
 
 import androidx.compose.runtime.Stable
-import com.nhuhuy.algidy.core.presentation.model.CategoryUiModel
 import com.nhuhuy.algidy.core.presentation.viewmodel.UiAction
-import com.nhuhuy.algidy.feature.inventory.presentation.model.FoodUiModel
 
 @Stable
 sealed interface InventoryAction : UiAction {
+    data class ShowOverlay(val overlay: InventoryOverlay) : InventoryAction
     data object ShowAppFeature : InventoryAction
-    data class OnCategorySelect(val categoryUiModel: CategoryUiModel) : InventoryAction
-    data class RemoveItem(val id: String) : InventoryAction
+    data object ShowDeepLinkResult : InventoryAction
     data object OnDismiss : InventoryAction
-    data class OnCreateCategory(val name: String) : InventoryAction
-    sealed interface OnEditCategorySheet : InventoryAction {
-        data object Open : OnEditCategorySheet
-        data class OnInputChange(val value: String) : OnEditCategorySheet
-        data object Save : OnEditCategorySheet
-    }
-    sealed interface OnAddCategory : InventoryAction {
-        data object Open : OnAddCategory
-        data class OnInputChange(val value: String) : OnAddCategory
-        data object Save : OnAddCategory
-    }
-
-    data class OnEditFoodSheetOpen(val foodItem: FoodUiModel) : InventoryAction
-
-    data object OnDeleteAlertConfirm: InventoryAction
-    data object OnConsumeConfirm : InventoryAction
-    data object OnWasteConfirm : InventoryAction
-    data object OnDeleteCategory : InventoryAction
     data object OnSearchClick : InventoryAction
-    data class OnItemClick(val item: FoodUiModel) : InventoryAction
     data object OnResetFilters : InventoryAction
     data object OnSortByExpiry : InventoryAction
     data object OnSortByName : InventoryAction
@@ -46,16 +25,8 @@ sealed interface InventorySelectAction : InventoryAction {
     data class OnLongClick(val id: String) : InventorySelectAction
     data object SelectAll : InventorySelectAction
     data object ClearSelection : InventorySelectAction
-
     data object ConsumeAll : InventorySelectAction
     data object WasteAll : InventorySelectAction
-}
-@Stable
-sealed interface InventoryDetailAction : InventoryAction {
-    data object Open : InventoryDetailAction
-    data object OnEditClick : InventoryDetailAction
-    data object OnConsumedClick : InventoryDetailAction
-    data object OnWastedClick : InventoryDetailAction
 }
 
 @Stable

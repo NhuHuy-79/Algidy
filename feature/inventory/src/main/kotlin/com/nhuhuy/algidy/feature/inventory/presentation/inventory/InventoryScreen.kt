@@ -31,8 +31,10 @@ import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.grid
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.grid_list.InventoryPager
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.component.grid_list.InventoryTabRow
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryAction
+import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryCategoryAction
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryCombineState
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryFabAction
+import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryFoodAction
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryResultState
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventorySelectAction
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryUiState
@@ -101,7 +103,9 @@ fun InventoryScreen(
                         .padding(horizontal = 16.dp),
                     selectedCategory = uiState.currentCategory,
                     categories = combineState.categories.toImmutableList(),
-                    onCategoryClick = { onAction(InventoryAction.OnCategorySelect(it)) }
+                    onCategoryClick = { category ->
+                        onAction(InventoryCategoryAction.Select(category))
+                    }
                 )
             } else {
                 InventoryTabRow(
@@ -128,7 +132,7 @@ fun InventoryScreen(
                         if (uiState.isSelectMode) {
                             onAction(InventorySelectAction.OnClick(item.id))
                         } else {
-                            onAction(InventoryAction.OnItemClick(item))
+                            onAction(InventoryFoodAction.Click(item))
                         }
                     },
                     onAddManuallyClick = {
@@ -150,7 +154,7 @@ fun InventoryScreen(
                         if (uiState.isSelectMode) {
                             onAction(InventorySelectAction.OnClick(item.id))
                         } else {
-                            onAction(InventoryAction.OnItemClick(item))
+                            onAction(InventoryFoodAction.Click(item))
                         }
                     },
                     onAddManuallyClick = { onAction(InventoryAction.OnEmptyPageClick) },

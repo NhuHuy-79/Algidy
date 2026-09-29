@@ -37,7 +37,9 @@ import com.nhuhuy.algidy.core.designsystem.tokens.LocalAlgidyShapes
 import com.nhuhuy.algidy.core.designsystem.tokens.LocalAlgidySpacing
 import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryAction
+import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryCategoryAction
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryCombineState
+import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryOverlay
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventorySortMode
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryUiState
 
@@ -128,7 +130,7 @@ fun CategoryActionMenu(
                 shape = LocalAlgidyShapes.current.medium,
                 text = { Text(stringResource(R.string.inventory_category_add)) },
                 onClick = {
-                    onAction(InventoryAction.OnAddCategory.Open)
+                    onAction(InventoryCategoryAction.AddCategory)
                     expanded = false
                 }
             )
@@ -137,7 +139,7 @@ fun CategoryActionMenu(
                     shape = LocalAlgidyShapes.current.medium,
                     text = { Text(stringResource(R.string.inventory_category_edit)) },
                     onClick = {
-                        onAction(InventoryAction.OnEditCategorySheet.Open)
+                        onAction(InventoryCategoryAction.EditCategory)
                         expanded = false
                     }
                 )
@@ -145,7 +147,8 @@ fun CategoryActionMenu(
                     shape = LocalAlgidyShapes.current.medium,
                     text = { Text(stringResource(R.string.inventory_category_delete)) },
                     onClick = {
-                        onAction(InventoryAction.OnDeleteCategory)
+                        //showDelete
+                        onAction(InventoryAction.ShowOverlay(InventoryOverlay.CategoryDelete))
                         expanded = false
                     }
                 )

@@ -24,12 +24,12 @@ class DeleteFoodItemUseCaseTest {
     fun `invoke should call removeFoodItem on repository`() = runTest {
         // Given
         val foodId = "test_id"
-        coEvery { foodRepository.removeFoodItem(foodId) } returns Unit
+        coEvery { foodRepository.deleteFoodById(foodId) } returns Unit
 
         // When
         deleteFoodItemUseCase(foodId)
 
         // Then
-        coVerify(exactly = 1) { foodRepository.removeFoodItem(foodId) }
+        coVerify(exactly = 1) { foodRepository.deleteFoodById(foodId) }
     }
 }
