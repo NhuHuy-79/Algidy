@@ -1,7 +1,6 @@
 package com.nhuhuy.algidy.core.designsystem.icon
 
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.automirrored.rounded.ArrowForward
 import androidx.compose.material.icons.automirrored.rounded.ArrowForwardIos
 import androidx.compose.material.icons.automirrored.rounded.Label
@@ -63,7 +62,6 @@ import com.nhuhuy.algidy.core.designsystem.R
 
 object AlgidyIcons {
 
-    val NavigateBack = IconProvider.ImageVectorIcon(Icons.AutoMirrored.Rounded.ArrowBack)
     val Close = IconProvider.ImageVectorIcon(Icons.Rounded.Close)
     val ConsumeFood = IconProvider.DrawableResourceIcon(R.drawable.ic_fork_spoon)
     val WasteFood = IconProvider.DrawableResourceIcon(R.drawable.ic_delete)

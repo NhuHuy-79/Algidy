@@ -2,20 +2,24 @@
 
 package com.nhuhuy.algidy.feature.inventory.presentation.search.component
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Image
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
+import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.ListItemDefaults
-import androidx.compose.material3.MaterialShapes
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.toShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -97,13 +101,31 @@ private fun SearchResultListItem(
             contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
         ),
         leadingContent = {
-            FoodImage(
-                imageUrl = item.imageUri,
-                imageProvider = item.imageProvider,
-                modifier = Modifier
-                    .size(56.dp)
-                    .clip(MaterialShapes.Square.toShape())
-            )
+            if (item.imageUri.isNullOrBlank()) {
+                Box(
+                    modifier = Modifier
+                        .size(56.dp)
+                        .background(
+                            shape = CircleShape,
+                            color = MaterialTheme.colorScheme.secondary,
+                        ),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Icon(
+                        imageVector = Icons.Rounded.Image,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.onSecondary
+                    )
+                }
+            } else {
+                FoodImage(
+                    imageUrl = item.imageUri,
+                    imageProvider = item.imageProvider,
+                    modifier = Modifier
+                        .size(56.dp)
+                        .clip(CircleShape)
+                )
+            }
         },
         trailingContent = {
             AppIcon(iconProvider = AlgidyIcons.Inventory.HistoryAction)
