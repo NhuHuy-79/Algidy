@@ -1,5 +1,6 @@
 package com.nhuhuy.algidy
 
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.widget.Toast
@@ -37,12 +38,16 @@ import com.nhuhuy.algidy.navigation.toDestination
 import com.nhuhuy.algidy.utils.BiometricHandler
 import com.nhuhuy.algidy.utils.BiometricResult
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import timber.log.Timber
 
 class MainActivity : AppCompatActivity() {
     private val deepLinkDispatcher = DeepLinkDispatcher()
     private val viewModel: AppViewModel by viewModel()
     private val biometricHandler by lazy { BiometricHandler(this) }
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
+
         handleSplashScreen()
 
         super.onCreate(savedInstanceState)
@@ -113,6 +118,15 @@ class MainActivity : AppCompatActivity() {
         super.onResume()
     }
 
+    override fun onNewIntent(intent: Intent) {
+
+        setIntent(intent)
+
+        handleDeepLink(intent.dataString, onAction = viewModel::onAction)
+
+        super.onNewIntent(intent)
+    }
+
     private fun handleSplashScreen() {
         val splashScreen = installSplashScreen()
         splashScreen.setKeepOnScreenCondition { viewModel.appUiState.value.isSplashScreen }
@@ -124,6 +138,7 @@ class MainActivity : AppCompatActivity() {
     ) {
         when (val deepLinkResult = deepLinkDispatcher.dispatch(uri)) {
             is DeepLinkResult.OpenFood -> {
+                Timber.d("FoodId: ${deepLinkResult.foodId}")
                 onAction(AppAction.UpdateFoodId(deepLinkResult.foodId))
             }
 

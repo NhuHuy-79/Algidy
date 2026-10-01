@@ -52,6 +52,9 @@ fun WeekExpirySmallFoodItem(
             context,
             MainActivity::class.java
         )
+        addFlags(
+            Intent.FLAG_ACTIVITY_SINGLE_TOP
+        )
     }
 
     Row(
@@ -92,6 +95,11 @@ fun WeekExpiryMediumFoodItem(
             context,
             MainActivity::class.java
         )
+
+        addFlags(
+            Intent.FLAG_ACTIVITY_SINGLE_TOP
+        )
+
     }
 
     Row(

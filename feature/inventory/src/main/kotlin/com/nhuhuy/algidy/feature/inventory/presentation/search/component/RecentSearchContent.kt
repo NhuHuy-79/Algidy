@@ -37,14 +37,18 @@ internal fun RecentSearchContent(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(2.dp)
     ) {
-        item {
-            Text(
-                text = stringResource(R.string.search_history_title),
-                style = MaterialTheme.typography.bodyMedium.copy(
-                    fontWeight = FontWeight.SemiBold
-                ),
-                color = MaterialTheme.colorScheme.primary
-            )
+
+        if (searchHistories.isNotEmpty()) {
+            item {
+                Text(
+                    text = stringResource(R.string.search_history_title),
+                    style = MaterialTheme.typography.bodyMedium.copy(
+                        fontWeight = FontWeight.SemiBold
+                    ),
+                    color = MaterialTheme.colorScheme.primary
+                )
+            }
+
         }
 
         item {

@@ -21,16 +21,20 @@ import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.Inve
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryOverlay.ItemDetail
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryOverlay.NewFeatureSheet
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryOverlay.None
+import com.nhuhuy.algidy.feature.inventory.presentation.model.FoodUiModel
 import com.nhuhuy.algidy.feature.inventory.presentation.model.toFoodUiModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 internal class InventoryViewModel(
     observeSettingDataUseCase: ObserveSettingDataUseCase,
@@ -78,11 +82,14 @@ internal class InventoryViewModel(
         )
 
     init {
-        deepLinkStore.consumeFood()?.let { foodId ->
+        Timber.d("InventoryViewModel init ${hashCode()}")
+        deepLinkStore.foodId.onEach { foodId ->
+            val currentFoodUiModel =
+                foodRepository.getFoodById(foodId)?.toFoodUiModel() ?: FoodUiModel()
             _uiState.product {
-                copy(deepLinkFoodDetailId = foodId)
+                copy(deepLinkFoodDetailId = foodId, currentFoodItem = currentFoodUiModel)
             }
-        }
+        }.launchIn(viewModelScope)
     }
 
     override fun onAction(action: InventoryAction) {
@@ -164,10 +171,12 @@ internal class InventoryViewModel(
                 viewModelScope.launch {
                     val currentFoodUiModel = foodRepository.getFoodById(foodId)?.toFoodUiModel()
                     currentFoodUiModel?.let { foodUiModel ->
+                        Timber.d("Show Detail Food")
                         _uiState.product {
                             copy(
                                 overlay = ItemDetail,
                                 currentFoodItem = foodUiModel
+
                             )
                         }
                     }
@@ -384,5 +393,10 @@ internal class InventoryViewModel(
                 _uiState.product { copy(visibility = action.value) }
             }
         }
+    }
+
+    override fun onCleared() {
+        Timber.d("InventoryViewModel cleared ${hashCode()}")
+        super.onCleared()
     }
 }

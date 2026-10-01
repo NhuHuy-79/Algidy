@@ -37,6 +37,7 @@ fun SearchInventoryScreen(
 ) {
     val focusRequester = remember { FocusRequester() }
     val localSpacing = LocalAlgidySpacing.current
+
     LaunchedEffect(Unit) { focusRequester.requestFocus() }
 
     Column(

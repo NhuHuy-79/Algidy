@@ -88,7 +88,7 @@ class AppViewModel(
             is AppAction.UpdateAppUnlock -> _isUnLocked.update { action.unlock }
             is AppAction.OnAddFabExchange -> _isAddFabExpanded.update { action.exchange }
             is AppAction.UpdateFoodId -> {
-                deepLinkStore.submitFood(action.foodId)
+                deepLinkStore.updateFoodId(action.foodId)
             }
         }
     }

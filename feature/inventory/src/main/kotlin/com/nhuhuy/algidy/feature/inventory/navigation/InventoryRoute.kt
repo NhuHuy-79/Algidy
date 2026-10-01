@@ -24,8 +24,10 @@ import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.Inve
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryEvent
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryFabAction
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryOverlay
+import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryResultState
 import com.nhuhuy.algidy.feature.inventory.presentation.inventory.viewmodel.InventoryViewModel
 import org.koin.androidx.compose.koinViewModel
+import timber.log.Timber
 
 @Composable
 fun InventoryRoute() = BoxLayout {
@@ -45,7 +47,6 @@ fun InventoryRoute() = BoxLayout {
         }
     )
 
-
     ObserveEffect(flow = viewModel.uiEvent) { event ->
         when (event) {
             InventoryEvent.NavigateToScanner -> onAction(InventoryAction.OnCameraPermissionAccept)
@@ -55,18 +56,20 @@ fun InventoryRoute() = BoxLayout {
         }
     }
 
+    LaunchedEffect(uiState.deepLinkFoodDetailId, inventoryResultState) {
+        if (uiState.deepLinkFoodDetailId != null && inventoryResultState is InventoryResultState.Success) {
+            Timber.d("Call food")
+            onAction(InventoryAction.ShowDeepLinkResult)
+        }
+    }
+
     LaunchedEffect(
         uiState.currentVersionCode,
         combineState.generalPreferences.appVersionToNotify,
         combineState.isLoaded,
-        uiState.deepLinkFoodDetailId
     ) {
         if (combineState.isLoaded && uiState.currentVersionCode > combineState.generalPreferences.appVersionToNotify && uiState.deepLinkFoodDetailId == null) {
             onAction(InventoryAction.ShowAppFeature)
-        }
-
-        if (uiState.deepLinkFoodDetailId != null && combineState.isLoaded) {
-            onAction(InventoryAction.ShowDeepLinkResult)
         }
     }
 

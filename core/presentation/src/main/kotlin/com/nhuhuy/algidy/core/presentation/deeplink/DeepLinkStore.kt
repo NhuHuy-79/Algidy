@@ -1,16 +1,21 @@
 package com.nhuhuy.algidy.core.presentation.deeplink
 
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
+
 class DeepLinkStore {
 
-    private var pendingFoodId: String? = null
+    private val _foodId = MutableSharedFlow<String>(replay = 1)
+    val foodId = _foodId.asSharedFlow()
 
-    fun submitFood(foodId: String) {
-        pendingFoodId = foodId
+    fun updateFoodId(foodId: String) {
+        _foodId.tryEmit(foodId)
     }
 
-    fun consumeFood(): String? {
-        val result = pendingFoodId
-        pendingFoodId = null
-        return result
+    @OptIn(ExperimentalCoroutinesApi::class)
+    fun reset() {
+        _foodId.resetReplayCache()
     }
+
 }

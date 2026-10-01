@@ -47,6 +47,7 @@
             android:name=".MainActivity"
             android:configChanges="locale|layoutDirection|screenLayout"
             android:exported="true"
+            android:launchMode="singleTop"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
