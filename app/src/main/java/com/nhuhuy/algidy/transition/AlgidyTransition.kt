@@ -95,12 +95,12 @@ object AppTransitions {
     val mainTransition = NavigationTransition(
         enter = fadeIn(
             animationSpec = tween(
-                durationMillis = 350
+                durationMillis = 400
             )
         ),
         exit = fadeOut(
             animationSpec = tween(
-                durationMillis = 350
+                durationMillis = 400
             )
         )
     )
