@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.ListItem
@@ -23,6 +22,7 @@ import androidx.compose.material3.toShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -33,11 +33,11 @@ import com.nhuhuy.algidy.core.designsystem.tokens.LocalAlgidyShapes
 import com.nhuhuy.algidy.core.designsystem.tokens.LocalAlgidySpacing
 import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.core.presentation.component.toUiText
-import com.nhuhuy.algidy.core.presentation.utils.ItemPosition
-import com.nhuhuy.algidy.core.presentation.utils.toItemPosition
 import com.nhuhuy.algidy.core.presentation.utils.toStringRes
-import com.nhuhuy.algidy.core.presentation.utils.toVerticalSegmentedShape
 import com.nhuhuy.algidy.feature.food_entry.presentation.model.FoodTemplateUiModel
+import com.nhuhuy.segmented_shape.constant.SegmentedDirection
+import com.nhuhuy.segmented_shape.lazy_list.segmentedItems
+import com.nhuhuy.segmented_shape.toSegmentedShape
 import kotlinx.collections.immutable.ImmutableList
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
@@ -111,16 +111,18 @@ fun FoodTemplateDialog(
                         .heightIn(max = 400.dp),
                     verticalArrangement = Arrangement.spacedBy(2.dp)
                 ) {
-                    itemsIndexed(
+                    segmentedItems(
                         items = templates,
                         key = { _: Int, template: FoodTemplateUiModel -> template.id }
-                    ) { index: Int, item: FoodTemplateUiModel ->
+                    ) { item: FoodTemplateUiModel, position: com.nhuhuy.segmented_shape.ItemPosition ->
                         FoodTemplateItem(
                             modifier = Modifier
                                 .animateItem()
                                 .fillMaxWidth(),
                             item = item,
-                            position = index.toItemPosition(templates.size),
+                            shape = position.toSegmentedShape(
+                                direction = SegmentedDirection.VERTICAL
+                            ),
                             onClick = { onConfirm(item) },
                             onDelete = { onDelete(item) }
                         )
@@ -137,14 +139,14 @@ fun FoodTemplateDialog(
 private fun FoodTemplateItem(
     modifier: Modifier = Modifier,
     item: FoodTemplateUiModel,
-    position: ItemPosition = ItemPosition.SINGLE,
+    shape: Shape,
     onClick: () -> Unit,
     onDelete: () -> Unit
 
 ) {
     ListItem(
         shapes = ListItemDefaults.shapes(
-            shape = position.toVerticalSegmentedShape(),
+            shape = shape,
             pressedShape = LocalAlgidyShapes.current.medium
         ),
         colors = ListItemDefaults.colors(

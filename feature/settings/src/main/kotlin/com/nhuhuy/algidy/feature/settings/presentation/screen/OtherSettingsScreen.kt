@@ -22,12 +22,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.nhuhuy.algidy.core.presentation.R
-import com.nhuhuy.algidy.core.presentation.utils.ItemPosition
 import com.nhuhuy.algidy.feature.settings.presentation.component.ClickableItem
 import com.nhuhuy.algidy.feature.settings.presentation.component.ToggleItem
 import com.nhuhuy.algidy.feature.settings.presentation.model.SettingClickableUiModel
 import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.SettingsAction
 import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.SettingsCombineState
+import com.nhuhuy.segmented_shape.verticalRoundedCornerShape
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
 @Composable
@@ -75,8 +75,8 @@ fun OtherSettingsScreen(
             item {
                 ClickableItem(
                     item = SettingClickableUiModel.LANGUAGE,
-                    position = ItemPosition.SINGLE,
-                    onClick = { onAction(SettingsAction.ClickableAction(it)) }
+                    onClick = { onAction(SettingsAction.ClickableAction(it)) },
+                    shape = verticalRoundedCornerShape(top = 16.dp, bottom = 8.dp)
                 )
             }
 
@@ -84,7 +84,7 @@ fun OtherSettingsScreen(
                 Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
                     ToggleItem(
                         item = combineState.biometricSetting,
-                        position = ItemPosition.TOP,
+                        shape = verticalRoundedCornerShape(top = 16.dp, bottom = 8.dp),
                         onToggle = { enabled, item ->
                             onAction(
                                 SettingsAction.ToggleAction(
@@ -96,7 +96,7 @@ fun OtherSettingsScreen(
                     )
                     ToggleItem(
                         item = combineState.categorySetting,
-                        position = ItemPosition.BOTTOM,
+                        shape = verticalRoundedCornerShape(top = 8.dp, bottom = 16.dp),
                         onToggle = { enabled, item ->
                             onAction(
                                 SettingsAction.ToggleAction(

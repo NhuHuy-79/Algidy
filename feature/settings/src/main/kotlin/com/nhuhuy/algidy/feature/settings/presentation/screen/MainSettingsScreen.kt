@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.MaterialTheme
@@ -20,17 +19,18 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.nhuhuy.algidy.core.presentation.R
-import com.nhuhuy.algidy.core.presentation.utils.toItemPosition
 import com.nhuhuy.algidy.feature.settings.presentation.component.ClickableItem
 import com.nhuhuy.algidy.feature.settings.presentation.model.SettingClickableUiModel
 import com.nhuhuy.algidy.feature.settings.presentation.model.SettingItems
 import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.SettingsAction
+import com.nhuhuy.segmented_shape.ItemPosition
+import com.nhuhuy.segmented_shape.lazy_list.segmentedItemIndexed
+import com.nhuhuy.segmented_shape.toSegmentedShape
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun MainSettingsScreen(
     onAction: (SettingsAction) -> Unit,
-    onBackClick: () -> Unit,
 ) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -61,10 +61,10 @@ fun MainSettingsScreen(
         ) {
             val section1 = SettingItems.MainScreenSection1
             val section2 = SettingItems.MainScreenSection2
-            itemsIndexed(section1) { index: Int, item: SettingClickableUiModel ->
+            segmentedItemIndexed(section1) { index: Int, item: SettingClickableUiModel, position ->
                 ClickableItem(
                     item = item,
-                    position = index.toItemPosition(section1.size),
+                    shape = position.toSegmentedShape(),
                     onClick = { onAction(SettingsAction.ClickableAction(it)) }
                 )
 
@@ -75,10 +75,10 @@ fun MainSettingsScreen(
 
             item { Spacer(modifier = Modifier.height(24.dp)) }
 
-            itemsIndexed(section2) { index: Int, item: SettingClickableUiModel ->
+            segmentedItemIndexed(section2) { index: Int, item: SettingClickableUiModel, position: ItemPosition ->
                 ClickableItem(
                     item = item,
-                    position = index.toItemPosition(section2.size),
+                    shape = position.toSegmentedShape(),
                     onClick = { onAction(SettingsAction.ClickableAction(it)) }
                 )
 

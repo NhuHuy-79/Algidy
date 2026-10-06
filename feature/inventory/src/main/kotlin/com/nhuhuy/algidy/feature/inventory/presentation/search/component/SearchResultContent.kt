@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Image
@@ -24,6 +23,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -33,10 +33,10 @@ import com.nhuhuy.algidy.core.designsystem.tokens.LocalAlgidyShapes
 import com.nhuhuy.algidy.core.designsystem.tokens.LocalAlgidySpacing
 import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.core.presentation.component.FoodImage
-import com.nhuhuy.algidy.core.presentation.utils.toItemPosition
-import com.nhuhuy.algidy.core.presentation.utils.toVerticalSegmentedShape
 import com.nhuhuy.algidy.feature.inventory.presentation.model.FoodUiModel
 import com.nhuhuy.algidy.feature.inventory.presentation.model.readableRemainDays
+import com.nhuhuy.segmented_shape.lazy_list.segmentedItems
+import com.nhuhuy.segmented_shape.toSegmentedShape
 import kotlinx.collections.immutable.ImmutableList
 
 @Composable
@@ -64,15 +64,14 @@ internal fun SearchResultContent(
 
         item { Spacer(modifier = Modifier.height(localSpacing.extraSmall)) }
 
-        itemsIndexed(
+        segmentedItems(
             items = searchResults,
             key = { _, item -> item.id }
-        ) { index, item ->
+        ) { item, position ->
             SearchResultListItem(
                 modifier = Modifier.fillMaxWidth(),
                 item = item,
-                index = index,
-                count = searchResults.size,
+                shape = position.toSegmentedShape(),
                 onClick = { onItemClick(item) }
             )
         }
@@ -81,10 +80,9 @@ internal fun SearchResultContent(
 
 @Composable
 private fun SearchResultListItem(
-    index: Int,
-    count: Int,
     item: FoodUiModel,
     modifier: Modifier = Modifier,
+    shape: Shape,
     onClick: () -> Unit
 ) {
     val localShape = LocalAlgidyShapes.current
@@ -92,7 +90,7 @@ private fun SearchResultListItem(
         modifier = modifier,
         onClick = onClick,
         shapes = ListItemDefaults.shapes(
-            shape = index.toItemPosition(count).toVerticalSegmentedShape(),
+            shape = shape,
             pressedShape = localShape.extraLarge
         ),
         verticalAlignment = Alignment.CenterVertically,

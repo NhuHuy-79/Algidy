@@ -44,6 +44,7 @@ navigation3 = "2.9.0-alpha05"
 robolectric = "4.14.1"
 mockk = "1.13.16"
 coroutines = "1.10.1"
+segmentedshape = "1.1.0"
 sqliteKtx = "2.7.0-alpha01"
 turbine = "1.2.0"
 coil = "3.1.0"
@@ -118,6 +119,7 @@ room-compiler = { group = "androidx.room", name = "room-compiler", version.ref =
 retrofit-core = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
 retrofit-kotlin-serialization = { group = "com.squareup.retrofit2", name = "converter-kotlinx-serialization", version.ref = "retrofit" }
 okhttp-logging = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp" }
+segmentedshape = { module = "com.github.NhuHuy-79:SegmentedShape", version.ref = "segmentedshape" }
 timber = { group = "com.jakewharton.timber", name = "timber", version.ref = "timber" }
 
 #Navigation 3 (extra)

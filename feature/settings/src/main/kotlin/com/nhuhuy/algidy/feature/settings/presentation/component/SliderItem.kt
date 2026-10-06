@@ -12,6 +12,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
@@ -20,8 +21,6 @@ import androidx.compose.ui.unit.dp
 import com.nhuhuy.algidy.core.designsystem.icon.AlgidyIcons
 import com.nhuhuy.algidy.core.designsystem.icon.toImageVector
 import com.nhuhuy.algidy.core.presentation.R
-import com.nhuhuy.algidy.core.presentation.utils.ItemPosition
-import com.nhuhuy.algidy.core.presentation.utils.toVerticalSegmentedShape
 import com.nhuhuy.algidy.feature.settings.presentation.model.SettingSliderType
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
@@ -30,7 +29,7 @@ import kotlin.math.roundToInt
 @Composable
 fun SliderItem(
     currentValue: Int,
-    itemPosition: ItemPosition = ItemPosition.SINGLE,
+    shape: Shape,
     settingItem: SettingSliderType,
     onSliderChange: (SettingSliderType, value: Int) -> Unit
 ) {
@@ -60,7 +59,7 @@ fun SliderItem(
     }
 
     SliderContent(
-        modifier = Modifier.clip(itemPosition.toVerticalSegmentedShape()),
+        modifier = Modifier.clip(shape),
         icon = icon.toImageVector(),
         headlineText = headlineText,
         selectedValue = currentValue,

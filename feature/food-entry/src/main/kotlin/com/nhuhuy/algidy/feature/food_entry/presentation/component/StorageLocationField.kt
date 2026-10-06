@@ -3,7 +3,6 @@ package com.nhuhuy.algidy.feature.food_entry.presentation.component
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -14,10 +13,11 @@ import com.nhuhuy.algidy.core.designsystem.tokens.LocalAlgidySpacing
 import com.nhuhuy.algidy.core.model.food.StorageLocation
 import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.core.presentation.utils.ItemPosition
-import com.nhuhuy.algidy.core.presentation.utils.animatedHorizontalShape
-import com.nhuhuy.algidy.core.presentation.utils.toItemPosition
 import com.nhuhuy.algidy.core.presentation.utils.toStringRes
 import com.nhuhuy.algidy.core.presentation.utils.toVerticalSegmentedShape
+import com.nhuhuy.segmented_shape.animation.toAnimatedSegmentedShape
+import com.nhuhuy.segmented_shape.constant.SegmentedDirection
+import com.nhuhuy.segmented_shape.lazy_list.segmentedItems
 
 @Composable
 fun StorageLocationField(
@@ -39,17 +39,19 @@ fun StorageLocationField(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(localSpacing.extraSmall)
         ) {
-            itemsIndexed(
+            segmentedItems(
                 items = entries,
-                key = { _, item -> item.ordinal }
-            ) { index: Int, item: StorageLocation ->
-                val itemPosition = index.toItemPosition(entries.size)
+                key = { _: Int, item: StorageLocation -> item.ordinal }
+            ) { item: StorageLocation, position: com.nhuhuy.segmented_shape.ItemPosition ->
                 val selected = item == currentLocation
                 AppFilterButton(
                     selected = item == currentLocation,
                     label = stringResource(item.toStringRes()),
                     onClick = { onLocationSelect(item) },
-                    shape = itemPosition.animatedHorizontalShape(selected = selected)
+                    shape = position.toAnimatedSegmentedShape(
+                        animatedToSelected = selected,
+                        direction = SegmentedDirection.HORIZONTAL
+                    )
                 )
             }
         }

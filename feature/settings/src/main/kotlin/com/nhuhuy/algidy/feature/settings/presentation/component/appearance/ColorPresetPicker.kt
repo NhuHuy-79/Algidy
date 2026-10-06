@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.ListItem
@@ -18,6 +17,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.materialkolor.ktx.harmonize
@@ -25,25 +25,24 @@ import com.nhuhuy.algidy.capitalize
 import com.nhuhuy.algidy.core.designsystem.component.AppFilterButton
 import com.nhuhuy.algidy.core.model.setting.SeedColor
 import com.nhuhuy.algidy.core.presentation.R
-import com.nhuhuy.algidy.core.presentation.utils.ItemPosition
-import com.nhuhuy.algidy.core.presentation.utils.animatedHorizontalShape
 import com.nhuhuy.algidy.core.presentation.utils.toColor
-import com.nhuhuy.algidy.core.presentation.utils.toItemPosition
-import com.nhuhuy.algidy.core.presentation.utils.toVerticalSegmentedShape
+import com.nhuhuy.segmented_shape.animation.toAnimatedSegmentedShape
+import com.nhuhuy.segmented_shape.constant.SegmentedDirection
+import com.nhuhuy.segmented_shape.lazy_list.segmentedItems
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun ColorPresetPicker(
     modifier: Modifier = Modifier,
-    itemPosition: ItemPosition,
     seedColor: SeedColor,
+    shape: Shape,
     enabled: Boolean = true,
     onSeedColorSelect: (color: SeedColor) -> Unit
 ) {
     val entries = SeedColor.entries
     ListItem(
         onClick = {},
-        shapes = ListItemDefaults.shapes(shape = itemPosition.toVerticalSegmentedShape()),
+        shapes = ListItemDefaults.shapes(shape = shape),
         modifier = modifier,
         colors = ListItemDefaults.colors(
             containerColor = MaterialTheme.colorScheme.surfaceContainerHighest,
@@ -56,11 +55,10 @@ fun ColorPresetPicker(
                 horizontalArrangement = Arrangement.spacedBy(4.dp),
                 contentPadding = PaddingValues(vertical = 16.dp)
             ) {
-                itemsIndexed(
+                segmentedItems(
                     items = entries,
-                    key = { _, color: SeedColor -> color.name }
-                ) { index: Int, item: SeedColor ->
-                    val itemPosition = index.toItemPosition(entries.size)
+                    key = { _: Int, color: SeedColor -> color.name }
+                ) { item: SeedColor, position: com.nhuhuy.segmented_shape.ItemPosition ->
                     val selected = enabled && item == seedColor
                     AppFilterButton(
                         modifier = Modifier.animateContentSize(),
@@ -80,7 +78,10 @@ fun ColorPresetPicker(
                         selected = selected,
                         label = item.name.capitalize(),
                         onClick = { onSeedColorSelect(item) },
-                        shape = itemPosition.animatedHorizontalShape(selected),
+                        shape = position.toAnimatedSegmentedShape(
+                            animatedToSelected = selected,
+                            direction = SegmentedDirection.HORIZONTAL
+                        ),
                         disabledContainerColor = MaterialTheme.colorScheme.surface,
                         disabledContentColor = MaterialTheme.colorScheme.onSurface,
                         activeContainerColor = MaterialTheme.colorScheme.primaryContainer,

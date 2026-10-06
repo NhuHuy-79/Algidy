@@ -32,14 +32,13 @@ import androidx.compose.ui.unit.dp
 import com.nhuhuy.algidy.core.designsystem.icon.AlgidyIcons
 import com.nhuhuy.algidy.core.designsystem.icon.AppIcon
 import com.nhuhuy.algidy.core.presentation.R
-import com.nhuhuy.algidy.core.presentation.utils.ItemPosition
-import com.nhuhuy.algidy.core.presentation.utils.toVerticalSegmentedShape
 import com.nhuhuy.algidy.feature.settings.presentation.component.SliderItem
 import com.nhuhuy.algidy.feature.settings.presentation.component.ToggleItem
 import com.nhuhuy.algidy.feature.settings.presentation.model.SettingSliderType
 import com.nhuhuy.algidy.feature.settings.presentation.model.SettingToggleType
 import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.SettingsAction
 import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.SettingsCombineState
+import com.nhuhuy.segmented_shape.verticalRoundedCornerShape
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 
@@ -97,7 +96,7 @@ fun NotificationScreen(
             item {
                 ToggleItem(
                     item = combineState.notificationSetting,
-                    position = ItemPosition.TOP,
+                    shape = verticalRoundedCornerShape(top = 16.dp, bottom = 8.dp),
                     onToggle = { enabled, _ ->
                         onAction(
                             SettingsAction.ToggleAction(
@@ -113,7 +112,7 @@ fun NotificationScreen(
             item {
                 ToggleItem(
                     item = combineState.weekendReportSetting,
-                    position = ItemPosition.BOTTOM,
+                    shape = verticalRoundedCornerShape(top = 8.dp, bottom = 16.dp),
                     onToggle = { enabled, item ->
                         onAction(
                             SettingsAction.ToggleAction(type = item.type, enabled = enabled)
@@ -126,7 +125,12 @@ fun NotificationScreen(
 
             item {
                 ListItem(
-                    modifier = Modifier.clip(ItemPosition.TOP.toVerticalSegmentedShape()),
+                    modifier = Modifier.clip(
+                        shape = verticalRoundedCornerShape(
+                            top = 16.dp,
+                            bottom = 8.dp
+                        )
+                    ),
                     colors = ListItemDefaults.colors(
                         containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
                         contentColor = MaterialTheme.colorScheme.onSurface
@@ -162,11 +166,11 @@ fun NotificationScreen(
             item {
                 SliderItem(
                     currentValue = combineState.notificationPreferences.warningFoodThresholdDays,
-                    itemPosition = ItemPosition.BOTTOM,
                     settingItem = SettingSliderType.EXPIRY_WARNING_THRESHOLD,
                     onSliderChange = { sliderType: SettingSliderType, value: Int ->
                         onAction(SettingsAction.SliderAction(value = value, type = sliderType))
-                    }
+                    },
+                    shape = verticalRoundedCornerShape(top = 8.dp, bottom = 16.dp)
                 )
             }
         }

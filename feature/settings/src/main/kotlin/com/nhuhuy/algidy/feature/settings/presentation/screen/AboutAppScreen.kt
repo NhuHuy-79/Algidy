@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -27,7 +26,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.core.presentation.utils.ItemPosition
-import com.nhuhuy.algidy.core.presentation.utils.toItemPosition
 import com.nhuhuy.algidy.feature.settings.data.constant.AuthorConstant
 import com.nhuhuy.algidy.feature.settings.presentation.component.ClickableItem
 import com.nhuhuy.algidy.feature.settings.presentation.component.about_app.AlgidyMainContent
@@ -37,6 +35,8 @@ import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.SettingsAction
 import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.SettingsUiState
 import com.nhuhuy.algidy.feature.settings.utils.openUrl
 import com.nhuhuy.algidy.feature.settings.utils.sendEmail
+import com.nhuhuy.segmented_shape.lazy_list.segmentedItems
+import com.nhuhuy.segmented_shape.toSegmentedShape
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
 @Composable
@@ -108,12 +108,12 @@ fun AboutAppScreen(
 
             item { Spacer(modifier = Modifier.height(22.dp)) }
 
-            itemsIndexed(
+            segmentedItems(
                 items = items
-            ) { index, item ->
+            ) { item, position ->
                 ClickableItem(
                     item = item,
-                    position = index.toItemPosition(items.size),
+                    shape = position.toSegmentedShape(),
                     onClick = { onAction(SettingsAction.ClickableAction(it)) }
                 )
             }

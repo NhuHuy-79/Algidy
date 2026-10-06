@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.FilledTonalIconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -19,9 +18,10 @@ import com.nhuhuy.algidy.core.designsystem.tokens.LocalAlgidySpacing
 import com.nhuhuy.algidy.core.presentation.R
 import com.nhuhuy.algidy.core.presentation.model.CategoryUiModel
 import com.nhuhuy.algidy.core.presentation.utils.ItemPosition
-import com.nhuhuy.algidy.core.presentation.utils.animatedHorizontalShape
-import com.nhuhuy.algidy.core.presentation.utils.toItemPosition
 import com.nhuhuy.algidy.core.presentation.utils.toVerticalSegmentedShape
+import com.nhuhuy.segmented_shape.animation.toAnimatedSegmentedShape
+import com.nhuhuy.segmented_shape.constant.SegmentedDirection
+import com.nhuhuy.segmented_shape.lazy_list.segmentedItems
 import kotlinx.collections.immutable.ImmutableList
 
 @Composable
@@ -50,22 +50,20 @@ fun CategoryField(
                 ),
                 contentPadding = PaddingValues(end = localSpacing.extraSmall),
             ) {
-                itemsIndexed(
+                segmentedItems(
                     items = categories,
                     key = { _, category -> category.data.id }
-                ) { index, category ->
-
-                    val itemPosition = index.toItemPosition(categories.size)
+                ) { category, position ->
                     val selected = category == currentCategory
-
                     AppFilterButton(
                         selected = selected,
                         label = category.data.name,
                         onClick = {
                             onCategorySelect(category)
                         },
-                        shape = itemPosition.animatedHorizontalShape(
-                            selected = selected
+                        shape = position.toAnimatedSegmentedShape(
+                            animatedToSelected = selected,
+                            direction = SegmentedDirection.HORIZONTAL
                         )
                     )
                 }
@@ -74,9 +72,7 @@ fun CategoryField(
             FilledTonalIconButton(
                 onClick = onNewCategoryAdd,
             ) {
-                AppIcon(
-                    iconProvider = AlgidyIcons.FoodEntry.AddCategory
-                )
+                AppIcon(iconProvider = AlgidyIcons.FoodEntry.AddCategory)
             }
         }
     }

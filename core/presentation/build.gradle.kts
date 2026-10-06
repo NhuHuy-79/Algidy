@@ -28,5 +28,6 @@ dependencies {
     api(libs.androidx.navigationevent)
 
     //KotlinSerialization
-    api(libs.kotlinx.serialization.json)
+
+    api(libs.segmentedshape)
 }

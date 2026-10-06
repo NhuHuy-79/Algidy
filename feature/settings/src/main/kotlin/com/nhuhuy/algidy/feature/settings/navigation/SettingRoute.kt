@@ -188,8 +188,7 @@ fun SettingRoute(
         )
 
         SettingDestination.Main -> MainSettingsScreen(
-            onAction = onAction,
-            onBackClick = onNavigateBack
+            onAction = onAction
         )
 
         SettingDestination.OtherSettings -> {

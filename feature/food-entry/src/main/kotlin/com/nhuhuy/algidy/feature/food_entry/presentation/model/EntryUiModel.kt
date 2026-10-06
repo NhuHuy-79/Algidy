@@ -38,7 +38,7 @@ fun FoodItem.toEntryUiModel(): EntryUiModel {
 fun EntryUiModel.applyFoodTemplate(template: FoodTemplateUiModel): EntryUiModel {
     return this.copy(
         name = template.name,
-        categoryUiModel = template.category ?: CategoryUiModel.Uncategorized,
+        categoryUiModel = template.category,
         location = template.storageLocation,
         expiryDate = calculateExpiryDate(
             purchaseDateMillis = purchaseDate,

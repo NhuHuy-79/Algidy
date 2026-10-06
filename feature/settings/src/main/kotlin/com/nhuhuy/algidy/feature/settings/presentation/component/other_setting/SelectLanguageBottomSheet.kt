@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -20,8 +19,9 @@ import com.nhuhuy.algidy.capitalize
 import com.nhuhuy.algidy.core.designsystem.component.AppBottomSheet
 import com.nhuhuy.algidy.core.model.setting.AppLanguage
 import com.nhuhuy.algidy.core.presentation.R
-import com.nhuhuy.algidy.core.presentation.utils.toItemPosition
-import com.nhuhuy.algidy.core.presentation.utils.toVerticalSegmentedShape
+import com.nhuhuy.segmented_shape.ItemPosition
+import com.nhuhuy.segmented_shape.lazy_list.segmentedItems
+import com.nhuhuy.segmented_shape.toSegmentedShape
 
 @Composable
 fun SelectLanguageBottomSheet(
@@ -49,18 +49,16 @@ fun SelectLanguageBottomSheet(
 
             item { Spacer(modifier = Modifier.height(16.dp)) }
 
-            itemsIndexed(
+            segmentedItems(
                 items = AppLanguage.entries,
-                key = { _: Int, item: AppLanguage -> item.name },
-            ) { index: Int, language: AppLanguage ->
-                val itemPosition = index.toItemPosition(AppLanguage.entries.size)
+            ) { language: AppLanguage, position: ItemPosition ->
                 Surface(
                     modifier = Modifier.fillMaxWidth(),
                     color = if (language == currentLanguage) MaterialTheme.colorScheme.primary
                     else MaterialTheme.colorScheme.surfaceContainerHigh,
                     contentColor = if (language == currentLanguage) MaterialTheme.colorScheme.onPrimary
                     else MaterialTheme.colorScheme.onSurface,
-                    shape = itemPosition.toVerticalSegmentedShape(),
+                    shape = position.toSegmentedShape(),
                     onClick = { onLanguageSelect(language) },
                 ) {
                     Text(

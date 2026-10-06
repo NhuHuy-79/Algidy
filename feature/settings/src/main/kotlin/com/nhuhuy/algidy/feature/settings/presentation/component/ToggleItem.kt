@@ -9,36 +9,35 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import com.nhuhuy.algidy.core.designsystem.R
-import com.nhuhuy.algidy.core.presentation.utils.ItemPosition
-import com.nhuhuy.algidy.core.presentation.utils.toVerticalSegmentedShape
 import com.nhuhuy.algidy.feature.settings.presentation.model.SettingToggleUiModel
 
 @Composable
 fun ToggleItem(
     modifier: Modifier = Modifier,
     item: SettingToggleUiModel,
-    position: ItemPosition,
+    shape: Shape,
     onToggle: (enable: Boolean, item: SettingToggleUiModel) -> Unit
 ) {
     ToggleableSettingItem(
         modifier = modifier,
-        position = position,
         checked = item.checked,
         enabled = item.enabled,
         text = stringResource(item.description),
         title = stringResource(item.title),
+        shape = shape,
         onToggleClick = { enabled -> onToggle(enabled, item) }
     )
 }
 
 @Composable
 private fun ToggleableSettingItem(
-    position: ItemPosition,
+    shape: Shape,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     checked: Boolean = false,
@@ -51,8 +50,7 @@ private fun ToggleableSettingItem(
             containerColor = MaterialTheme.colorScheme.surfaceContainerHighest,
             contentColor = MaterialTheme.colorScheme.onSurface
         ),
-        modifier = modifier
-            .clip(position.toVerticalSegmentedShape()),
+        modifier = modifier.clip(shape),
         headlineContent = {
             Text(
                 text = title,

@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -25,10 +24,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.nhuhuy.algidy.core.presentation.R
-import com.nhuhuy.algidy.core.presentation.utils.toItemPosition
 import com.nhuhuy.algidy.feature.settings.presentation.component.ClickableItem
 import com.nhuhuy.algidy.feature.settings.presentation.model.SettingItems
 import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.SettingsAction
+import com.nhuhuy.segmented_shape.lazy_list.segmentedItems
+import com.nhuhuy.segmented_shape.toSegmentedShape
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
 @Composable
@@ -79,13 +79,13 @@ fun DataSettingsScreen(
             contentPadding = PaddingValues(16.dp),
             verticalArrangement = Arrangement.spacedBy(2.dp)
         ) {
-            itemsIndexed(
+            segmentedItems(
                 items = items,
-            ) { index, item ->
+            ) { item, position ->
                 ClickableItem(
                     modifier = Modifier.fillMaxWidth(),
                     item = item,
-                    position = index.toItemPosition(items.size),
+                    shape = position.toSegmentedShape(),
                     onClick = { onAction(SettingsAction.ClickableAction(it)) }
                 )
             }

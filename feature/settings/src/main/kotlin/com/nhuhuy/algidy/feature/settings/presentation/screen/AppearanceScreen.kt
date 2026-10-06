@@ -22,12 +22,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.nhuhuy.algidy.core.presentation.R
-import com.nhuhuy.algidy.core.presentation.utils.ItemPosition
 import com.nhuhuy.algidy.feature.settings.presentation.component.ToggleItem
 import com.nhuhuy.algidy.feature.settings.presentation.component.appearance.ColorPresetPicker
 import com.nhuhuy.algidy.feature.settings.presentation.component.appearance.ThemePicker
 import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.SettingsAction
 import com.nhuhuy.algidy.feature.settings.presentation.viewmodel.SettingsCombineState
+import com.nhuhuy.segmented_shape.verticalRoundedCornerShape
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
 @Composable
@@ -75,7 +75,9 @@ fun AppearanceScreen(
         ) {
             item {
                 ThemePicker(
-                    itemPosition = ItemPosition.TOP,
+                    shape = verticalRoundedCornerShape(
+                        top = 16.dp, bottom = 8.dp
+                    ),
                     themeMode = combineState.appearancePreferences.themeMode,
                     onThemeModeChange = { mode ->
                         onAction(SettingsAction.SetDarkMode(mode))
@@ -86,7 +88,7 @@ fun AppearanceScreen(
             item {
                 ToggleItem(
                     item = combineState.dynamicColorSetting,
-                    position = ItemPosition.MIDDLE,
+                    shape = verticalRoundedCornerShape(top = 8.dp, bottom = 8.dp),
                     onToggle = { enabled, item ->
                         onAction(
                             SettingsAction.ToggleAction(type = item.type, enabled = enabled)
@@ -97,12 +99,15 @@ fun AppearanceScreen(
 
             item {
                 ColorPresetPicker(
-                    itemPosition = ItemPosition.BOTTOM,
                     enabled = !combineState.appearancePreferences.enableDynamicColor,
                     seedColor = combineState.appearancePreferences.seedColor,
                     onSeedColorSelect = { color ->
                         onAction(SettingsAction.SetSeedColorPreset(color))
-                    }
+                    },
+                    shape = verticalRoundedCornerShape(
+                        top = 16.dp,
+                        bottom = 8.dp
+                    )
                 )
             }
         }

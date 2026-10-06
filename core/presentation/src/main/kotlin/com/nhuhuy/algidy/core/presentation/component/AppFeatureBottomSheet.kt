@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.TaskAlt
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -35,8 +34,9 @@ import com.nhuhuy.algidy.core.designsystem.tokens.LocalAlgidySpacing
 import com.nhuhuy.algidy.core.model.AppNewFeature
 import com.nhuhuy.algidy.core.model.FixItem
 import com.nhuhuy.algidy.core.model.VersionFeatures
-import com.nhuhuy.algidy.core.presentation.utils.toItemPosition
-import com.nhuhuy.algidy.core.presentation.utils.toVerticalSegmentedShape
+import com.nhuhuy.segmented_shape.ItemPosition
+import com.nhuhuy.segmented_shape.lazy_list.segmentedItems
+import com.nhuhuy.segmented_shape.toSegmentedShape
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
 @Composable
@@ -102,10 +102,9 @@ fun AppNewFeatureBottomSheet(
                 }
 
                 versionFeatures.apply {
-                    itemsIndexed(
-                        items = features,
-                    ) { index: Int, appNewFeature: AppNewFeature ->
-                        val shape = index.toItemPosition(features.size).toVerticalSegmentedShape()
+                    segmentedItems(
+                        items = features
+                    ) { appNewFeature: AppNewFeature, position: ItemPosition ->
                         ListItem(
                             colors = ListItemDefaults.colors(
                                 containerColor = MaterialTheme.colorScheme.surface,
@@ -113,7 +112,7 @@ fun AppNewFeatureBottomSheet(
                             ),
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .clip(shape),
+                                .clip(position.toSegmentedShape()),
                             headlineContent = {
                                 Text(
                                     text = appNewFeature.title,
@@ -126,6 +125,7 @@ fun AppNewFeatureBottomSheet(
                                 )
                             }
                         )
+
                     }
                 }
 
@@ -143,10 +143,9 @@ fun AppNewFeatureBottomSheet(
                 }
 
                 versionFeatures.apply {
-                    itemsIndexed(
+                    segmentedItems(
                         items = fixItems,
-                    ) { index: Int, fixItem: FixItem ->
-                        val shape = index.toItemPosition(fixItems.size).toVerticalSegmentedShape()
+                    ) { fixItem: FixItem, position: ItemPosition ->
                         ListItem(
                             colors = ListItemDefaults.colors(
                                 containerColor = MaterialTheme.colorScheme.surface,
@@ -154,7 +153,7 @@ fun AppNewFeatureBottomSheet(
                             ),
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .clip(shape),
+                                .clip(position.toSegmentedShape()),
                             headlineContent = {
                                 Text(
                                     text = fixItem.title,
