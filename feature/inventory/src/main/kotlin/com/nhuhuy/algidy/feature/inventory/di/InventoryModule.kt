@@ -1,6 +1,5 @@
 package com.nhuhuy.algidy.feature.inventory.di
 
-import com.nhuhuy.algidy.core.domain.usecase.food.CreateFoodItemUseCase
 import com.nhuhuy.algidy.feature.inventory.data.repository.SearchRepositoryImp
 import com.nhuhuy.algidy.feature.inventory.domain.repository.SearchRepository
 import com.nhuhuy.algidy.feature.inventory.domain.usecase.GetInventoryPreferenceUseCase
@@ -23,7 +22,6 @@ val inventoryModule = module {
     //usecase
     factoryOf(::GetInventoryPreferenceUseCase)
     factoryOf(::UpdateSearchHistoryUseCase)
-    factoryOf(::CreateFoodItemUseCase)
     factoryOf(::ObserveSettingDataUseCase)
     //viewModel
     viewModelOf(::InventoryViewModel)
