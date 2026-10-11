@@ -5,7 +5,10 @@ import com.nhuhuy.algidy.core.data.AppNewFeaturesReader
 import com.nhuhuy.algidy.core.data.util.onFailure
 import com.nhuhuy.algidy.core.data.util.onSuccess
 import com.nhuhuy.algidy.core.data.util.product
-import com.nhuhuy.algidy.core.domain.usecase.CheckUpdateUseCase
+import com.nhuhuy.algidy.core.datastore.SettingsDataStore
+import com.nhuhuy.algidy.core.datastore.model.AppearanceDataStore
+import com.nhuhuy.algidy.core.datastore.model.NotificationDataStore
+import com.nhuhuy.algidy.core.domain.repository.UpdateRepository
 import com.nhuhuy.algidy.core.notifications.worker.WorkerScheduler
 import com.nhuhuy.algidy.core.presentation.UiResult
 import com.nhuhuy.algidy.core.presentation.navigation.Destination.Setting
@@ -18,7 +21,6 @@ import com.nhuhuy.algidy.feature.settings.domain.usecase.CheckCapabilityUseCase
 import com.nhuhuy.algidy.feature.settings.domain.usecase.DeleteAllDataUseCase
 import com.nhuhuy.algidy.feature.settings.domain.usecase.ManageDataUseCase
 import com.nhuhuy.algidy.feature.settings.domain.usecase.ObserveSettingStateUseCase
-import com.nhuhuy.algidy.feature.settings.domain.usecase.UpdatePreferencesUseCase
 import com.nhuhuy.algidy.feature.settings.presentation.model.SettingClickableUiModel
 import com.nhuhuy.algidy.feature.settings.presentation.model.SettingSliderType
 import com.nhuhuy.algidy.feature.settings.presentation.model.SettingToggleType
@@ -43,9 +45,11 @@ class SettingsViewModel(
     private val manageDataUseCase: ManageDataUseCase,
     private val checkCapabilityUseCase: CheckCapabilityUseCase,
     private val deleteDataUseCase: DeleteAllDataUseCase,
-    private val updatePreferencesUseCase: UpdatePreferencesUseCase,
+    private val appearanceDataStore: AppearanceDataStore,
+    private val notificationDataStore: NotificationDataStore,
+    private val settingsDataStore: SettingsDataStore,
     private val workerScheduler: WorkerScheduler,
-    private val checkUpdateUseCase: CheckUpdateUseCase,
+    private val updateRepository: UpdateRepository,
 ) : BaseViewModel<SettingsUiState, SettingsEvent, SettingsAction>() {
     private val _uiState = MutableStateFlow(
         SettingsUiState(
@@ -89,7 +93,7 @@ class SettingsViewModel(
             SettingsAction.OnBackClick -> navigator.navigateBack()
 
             is SettingsAction.SetDarkMode -> viewModelScope.launch {
-                updatePreferencesUseCase.updateAppearance(
+                appearanceDataStore.setPreference(
                     currentCombineState.appearancePreferences.copy(
                         themeMode = action.themeMode
                     )
@@ -97,7 +101,7 @@ class SettingsViewModel(
             }
 
             is SettingsAction.ChangeLanguage -> viewModelScope.launch {
-                updatePreferencesUseCase.updateAppearance(
+                appearanceDataStore.setPreference(
                     currentCombineState.appearancePreferences.copy(
                         appLanguage = action.language
                     )
@@ -109,7 +113,7 @@ class SettingsViewModel(
             }
 
             is SettingsAction.SetWarningDays -> viewModelScope.launch {
-                updatePreferencesUseCase.updateNotification(
+                notificationDataStore.setPreference(
                     currentCombineState.notificationPreferences.copy(
                         warningFoodThresholdDays = action.days
                     )
@@ -129,7 +133,7 @@ class SettingsViewModel(
 
             is SettingsAction.OnNotificationGranted -> viewModelScope.launch {
                 checkCapabilityUseCase.updateNotification(action.granted)
-                updatePreferencesUseCase.updateNotification(
+                notificationDataStore.setPreference(
                     currentCombineState.notificationPreferences.copy(
                         enableNotification = action.granted
                     )
@@ -148,7 +152,7 @@ class SettingsViewModel(
             }
 
             is SettingsAction.SetDeleteThresholdDays -> viewModelScope.launch {
-                updatePreferencesUseCase.updateNotification(
+                notificationDataStore.setPreference(
                     currentCombineState.notificationPreferences.copy(
                         deleteFoodThresholdDayInWeek = action.thresholdDays
                     )
@@ -157,7 +161,7 @@ class SettingsViewModel(
 
             is SettingsAction.SliderAction -> onSliderAction(action)
             is SettingsAction.SetSeedColorPreset -> viewModelScope.launch {
-                updatePreferencesUseCase.updateAppearance(
+                appearanceDataStore.setPreference(
                     currentCombineState.appearancePreferences.copy(
                         seedColor = action.seedColor
                     )
@@ -253,7 +257,7 @@ class SettingsViewModel(
                             checkUpdateResult = UiResult.Loading
                         )
                     }
-                    val uiResult = checkUpdateUseCase()
+                    val uiResult = updateRepository.getTagName()
                     _uiState.product {
                         copy(checkUpdateResult = uiResult.toUiResult())
                     }
@@ -266,11 +270,11 @@ class SettingsViewModel(
         viewModelScope.launch {
             when (action.type) {
                 SettingToggleType.BIOMETRIC_AUTH -> {
-                    updatePreferencesUseCase.updateBiometric(action.enabled)
+                    settingsDataStore.setBiometricLock(action.enabled)
                 }
 
                 SettingToggleType.DYNAMIC_COLOR -> {
-                    updatePreferencesUseCase.updateAppearance(
+                    appearanceDataStore.setPreference(
                         currentCombineState.appearancePreferences.copy(
                             enableDynamicColor = action.enabled
                         )
@@ -278,7 +282,7 @@ class SettingsViewModel(
                 }
 
                 SettingToggleType.CATEGORY_GROUP -> {
-                    updatePreferencesUseCase.updateAppearance(
+                    appearanceDataStore.setPreference(
                         currentCombineState.appearancePreferences.copy(
                             enableCategoryGroup = action.enabled
                         )
@@ -289,7 +293,7 @@ class SettingsViewModel(
                     if (action.enabled && !currentCombineState.notificationGranted) {
                         emitEvent(SettingsEvent.RequestNotificationPermission)
                     } else {
-                        updatePreferencesUseCase.updateNotification(
+                        notificationDataStore.setPreference(
                             currentCombineState.notificationPreferences.copy(
                                 enableNotification = action.enabled
                             )
@@ -299,7 +303,7 @@ class SettingsViewModel(
                 }
 
                 SettingToggleType.WEEKLY_REPORT -> {
-                    updatePreferencesUseCase.updateNotification(
+                    notificationDataStore.setPreference(
                         currentCombineState.notificationPreferences.copy(
                             enableWeeklyReport = action.enabled
                         )
@@ -313,7 +317,7 @@ class SettingsViewModel(
         viewModelScope.launch {
             when (action.type) {
                 SettingSliderType.EXPIRED_DELETE_THRESHOLD -> {
-                    updatePreferencesUseCase.updateNotification(
+                    notificationDataStore.setPreference(
                         currentCombineState.notificationPreferences.copy(
                             //Threshold Weeks
                             deleteFoodThresholdDayInWeek = action.value * 7
@@ -322,7 +326,7 @@ class SettingsViewModel(
                 }
 
                 SettingSliderType.EXPIRY_WARNING_THRESHOLD -> {
-                    updatePreferencesUseCase.updateNotification(
+                    notificationDataStore.setPreference(
                         currentCombineState.notificationPreferences.copy(
                             warningFoodThresholdDays = action.value
                         )
@@ -338,7 +342,7 @@ class SettingsViewModel(
             SettingsAction.SetNotifyTime.OpenPicker -> _uiState.product { copy(overlay = SettingsOverlay.TimePicker) }
             is SettingsAction.SetNotifyTime.SetHourAndMinutes -> viewModelScope.launch {
                 _uiState.product { copy(overlay = None) }
-                updatePreferencesUseCase.updateNotification(
+                notificationDataStore.setPreference(
                     currentCombineState.notificationPreferences.copy(
                         hour = action.hour,
                         minutes = action.minutes

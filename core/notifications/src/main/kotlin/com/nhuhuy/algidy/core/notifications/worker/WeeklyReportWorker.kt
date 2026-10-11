@@ -4,8 +4,8 @@ import android.content.Context
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.nhuhuy.algidy.core.data.util.AppDispatchers
+import com.nhuhuy.algidy.core.datastore.model.NotificationDataStore
 import com.nhuhuy.algidy.core.notifications.domain.AlgidyNotifier
-import com.nhuhuy.algidy.core.notifications.domain.usecase.GetNotificationPreferenceUseCase
 import com.nhuhuy.algidy.core.notifications.domain.usecase.GetWeeklySummaryUseCase
 import kotlinx.coroutines.withContext
 import timber.log.Timber
@@ -14,14 +14,15 @@ class WeeklyReportWorker(
     appContext: Context,
     params: WorkerParameters,
     private val notifier: AlgidyNotifier,
-    private val getNotificationPreferenceUseCase: GetNotificationPreferenceUseCase,
+    private val notificationDataStore: NotificationDataStore,
     private val getWeeklySummaryUseCase: GetWeeklySummaryUseCase,
     private val appDispatchers: AppDispatchers
 ) : CoroutineWorker(appContext, params) {
     override suspend fun doWork(): Result {
         return withContext(appDispatchers.io) {
             try {
-                if (getNotificationPreferenceUseCase.getWeeklyReportEnabled() && getNotificationPreferenceUseCase.getNotificationEnabled()) {
+                val prefs = notificationDataStore.getPreferences()
+                if (prefs.enableWeeklyReport && prefs.enableNotification) {
                     return@withContext Result.success()
                 }
                 if (runAttemptCount >= 5) {

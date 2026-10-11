@@ -1,6 +1,5 @@
 package com.nhuhuy.algidy.feature.food_entry.di
 
-import com.nhuhuy.algidy.core.domain.usecase.food.GetFoodByIdUseCase
 import com.nhuhuy.algidy.feature.food_entry.data.FoodEntryDataStore
 import com.nhuhuy.algidy.feature.food_entry.domain.usecase.FoodEntryPreferencesUseCase
 import com.nhuhuy.algidy.feature.food_entry.domain.usecase.SaveFoodItemUseCase
@@ -18,7 +17,6 @@ val foodEntryModule = module {
     //usecase
     factoryOf(::SaveFoodItemUseCase)
     factoryOf(::FoodEntryPreferencesUseCase)
-    factoryOf(::GetFoodByIdUseCase)
 
     //viewModel
     viewModel { (food: EntryUiModel) ->

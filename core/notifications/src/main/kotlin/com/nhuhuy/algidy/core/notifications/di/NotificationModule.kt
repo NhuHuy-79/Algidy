@@ -6,9 +6,7 @@ import com.nhuhuy.algidy.core.notifications.data.AlgidyNotifierImp
 import com.nhuhuy.algidy.core.notifications.domain.AlgidyNotifier
 import com.nhuhuy.algidy.core.notifications.domain.usecase.DeleteOldFoodUseCase
 import com.nhuhuy.algidy.core.notifications.domain.usecase.GetExpiryFoodUseCase
-import com.nhuhuy.algidy.core.notifications.domain.usecase.GetNotificationPreferenceUseCase
 import com.nhuhuy.algidy.core.notifications.domain.usecase.GetWeeklySummaryUseCase
-import com.nhuhuy.algidy.core.notifications.domain.usecase.UpdateFoodStatusUseCase
 import com.nhuhuy.algidy.core.notifications.worker.CheckExpirationWorker
 import com.nhuhuy.algidy.core.notifications.worker.CheckUpdateVersionWorker
 import com.nhuhuy.algidy.core.notifications.worker.CleanUpFileWorker
@@ -30,11 +28,8 @@ val notificationModule = module {
         ImageLoader(context = get())
     }
 
-
     // UseCase
-    factoryOf(::GetNotificationPreferenceUseCase)
     factoryOf(::GetExpiryFoodUseCase)
-    factoryOf(::UpdateFoodStatusUseCase)
     factoryOf(::GetWeeklySummaryUseCase)
     factoryOf(::DeleteOldFoodUseCase)
 

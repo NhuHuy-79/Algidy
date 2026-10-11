@@ -4,17 +4,17 @@ import android.content.Context
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.nhuhuy.algidy.core.data.util.AppDispatchers
+import com.nhuhuy.algidy.core.datastore.model.NotificationDataStore
 import com.nhuhuy.algidy.core.notifications.domain.AlgidyNotifier
 import com.nhuhuy.algidy.core.notifications.domain.NotificationFoodItem
 import com.nhuhuy.algidy.core.notifications.domain.usecase.GetExpiryFoodUseCase
-import com.nhuhuy.algidy.core.notifications.domain.usecase.GetNotificationPreferenceUseCase
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 
 class CheckExpirationWorker(
     appContext: Context,
     params: WorkerParameters,
-    private val getNotificationPreferenceUseCase: GetNotificationPreferenceUseCase,
+    private val notificationDataStore: NotificationDataStore,
     private val getExpiryFoodUseCase: GetExpiryFoodUseCase,
     private val workerScheduler: WorkerScheduler,
     private val notifier: AlgidyNotifier,
@@ -24,7 +24,7 @@ class CheckExpirationWorker(
         return withContext(appDispatchers.io) {
             Timber.d("Expiration Worker Check!")
             try {
-                if (!getNotificationPreferenceUseCase()) {
+                if (!notificationDataStore.getPreferences().enableNotification) {
                     return@withContext Result.success()
                 }
 

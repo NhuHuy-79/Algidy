@@ -4,9 +4,9 @@ import android.app.NotificationManager
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import com.nhuhuy.algidy.core.domain.repository.FoodRepository
 import com.nhuhuy.algidy.core.model.food.FoodStatus
 import com.nhuhuy.algidy.core.notifications.data.AlgidyNotifierImp
-import com.nhuhuy.algidy.core.notifications.domain.usecase.UpdateFoodStatusUseCase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -16,7 +16,7 @@ import org.koin.core.component.inject
 
 class NotificationActionReceiver : BroadcastReceiver(), KoinComponent {
 
-    private val updateFoodStatusUseCase: UpdateFoodStatusUseCase by inject()
+    private val foodRepository: FoodRepository by inject()
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
     override fun onReceive(context: Context, intent: Intent) {
@@ -25,13 +25,13 @@ class NotificationActionReceiver : BroadcastReceiver(), KoinComponent {
         when (intent.action) {
             AlgidyNotifierImp.ACTION_CONSUME -> {
                 scope.launch {
-                    updateFoodStatusUseCase(foodId, status = FoodStatus.CONSUMED)
+                    foodRepository.updateFoodStatus(foodId, newStatus = FoodStatus.CONSUMED)
                 }
             }
 
             AlgidyNotifierImp.ACTION_WASTE -> {
                 scope.launch {
-                    updateFoodStatusUseCase(foodId, status = FoodStatus.WASTED)
+                    foodRepository.updateFoodStatus(foodId, newStatus = FoodStatus.WASTED)
                 }
             }
         }

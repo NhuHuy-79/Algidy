@@ -6,14 +6,14 @@ import androidx.work.WorkerParameters
 import com.nhuhuy.algidy.core.data.AppNewFeaturesReader
 import com.nhuhuy.algidy.core.data.util.AppDispatchers
 import com.nhuhuy.algidy.core.data.util.onSuccess
-import com.nhuhuy.algidy.core.domain.usecase.CheckUpdateUseCase
+import com.nhuhuy.algidy.core.domain.repository.UpdateRepository
 import com.nhuhuy.algidy.core.notifications.domain.AlgidyNotifier
 import kotlinx.coroutines.withContext
 
 class CheckUpdateVersionWorker(
     context: Context,
     workerParams: WorkerParameters,
-    private val checkUpdateUseCase: CheckUpdateUseCase,
+    private val updateRepository: UpdateRepository,
     private val appNewFeaturesReader: AppNewFeaturesReader,
     private val appDispatchers: AppDispatchers,
     private val notifier: AlgidyNotifier,
@@ -22,7 +22,7 @@ class CheckUpdateVersionWorker(
         return withContext(appDispatchers.io) {
             try {
                 val currentVersion = appNewFeaturesReader.currentVersionName
-                checkUpdateUseCase()
+                updateRepository.getTagName()
                     .onSuccess { newVersion ->
                         if (newVersion != null && newVersion != currentVersion) {
                             notifier.showNewUpdateVersion()
