@@ -1,34 +1,9 @@
 package com.nhuhuy.algidy.feature.food_entry.domain.usecase
 
 import com.nhuhuy.algidy.core.data.util.getDataOrNull
-import com.nhuhuy.algidy.core.domain.repository.CategoryRepository
 import com.nhuhuy.algidy.core.domain.repository.FoodRepository
 import com.nhuhuy.algidy.core.domain.repository.LocalMediaStorage
-import com.nhuhuy.algidy.core.model.food.FoodCategory
 import com.nhuhuy.algidy.core.model.food.FoodItem
-import kotlinx.coroutines.flow.Flow
-
-class ObserveCategoriesUseCase(
-    private val categoryRepository: CategoryRepository
-) {
-    operator fun invoke(): Flow<List<FoodCategory>> = categoryRepository.observeAllCategories()
-}
-
-class GetCategoriesUseCase(
-    private val categoryRepository: CategoryRepository
-) {
-    suspend operator fun invoke(): List<FoodCategory> = categoryRepository.getAllCategories()
-}
-
-class AddCategoryUseCase(
-    private val categoryRepository: CategoryRepository
-) {
-    suspend operator fun invoke(category: FoodCategory) = categoryRepository.addCategory(category)
-
-    suspend fun getCurrentCategory(categoryId: String): FoodCategory? {
-        return categoryRepository.getCategoryById(categoryId)
-    }
-}
 
 class SaveFoodItemUseCase(
     private val foodRepository: FoodRepository,

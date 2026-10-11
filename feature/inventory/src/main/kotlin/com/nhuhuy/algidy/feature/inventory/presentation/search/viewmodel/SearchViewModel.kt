@@ -2,14 +2,14 @@ package com.nhuhuy.algidy.feature.inventory.presentation.search.viewmodel
 
 import androidx.lifecycle.viewModelScope
 import com.nhuhuy.algidy.core.data.util.product
+import com.nhuhuy.algidy.core.domain.repository.CategoryRepository
+import com.nhuhuy.algidy.core.domain.repository.FoodRepository
 import com.nhuhuy.algidy.core.presentation.model.CategoryUiModel
 import com.nhuhuy.algidy.core.presentation.model.toFoodCategory
 import com.nhuhuy.algidy.core.presentation.model.toUiModel
 import com.nhuhuy.algidy.core.presentation.navigation.Navigator
 import com.nhuhuy.algidy.core.presentation.viewmodel.BaseViewModel
-import com.nhuhuy.algidy.feature.food_entry.domain.usecase.GetCategoriesUseCase
-import com.nhuhuy.algidy.feature.inventory.domain.usecase.GetHistoryResultUseCase
-import com.nhuhuy.algidy.feature.inventory.domain.usecase.food.ObserveFoodItemsUseCase
+import com.nhuhuy.algidy.feature.inventory.domain.repository.SearchRepository
 import com.nhuhuy.algidy.feature.inventory.domain.usecase.food.UpdateSearchHistoryUseCase
 import com.nhuhuy.algidy.feature.inventory.presentation.model.FoodUiModel
 import com.nhuhuy.algidy.feature.inventory.presentation.model.toFoodUiModel
@@ -29,11 +29,11 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 internal class SearchViewModel(
-    private val getHistoryResultUseCase: GetHistoryResultUseCase,
+    private val searchRepository: SearchRepository,
     private val updateSearchHistoryUseCase: UpdateSearchHistoryUseCase,
     private val navigator: Navigator,
-    private val getCategoriesUseCase: GetCategoriesUseCase,
-    private val observeFoodItemsUseCase: ObserveFoodItemsUseCase,
+    private val categoryRepository: CategoryRepository,
+    private val foodRepository: FoodRepository,
 ) : BaseViewModel<SearchUiState, SearchEvent, SearchAction>() {
     private val _uiState = MutableStateFlow(SearchUiState())
     override val uiState: StateFlow<SearchUiState>
@@ -41,18 +41,18 @@ internal class SearchViewModel(
 
     init {
         viewModelScope.launch {
-            val historyResults = getHistoryResultUseCase()
+            val historyResults = searchRepository.getHistoryResultList()
                 .sortedByDescending { historyResult -> historyResult.timeStamp }
                 .distinctBy { it.name }
                 .toImmutableList()
-            val categories = getCategoriesUseCase().toUiModel().toImmutableList()
+            val categories = categoryRepository.getAllCategories().toUiModel().toImmutableList()
             _uiState.product { copy(searchHistories = historyResults, categories = categories) }
         }
     }
 
     val foodResult: StateFlow<ImmutableList<FoodUiModel>> = combine(
         _uiState.map { it.currentCategory to it.query },
-        observeFoodItemsUseCase()
+        foodRepository.observeAllActiveFoodItems()
     ) { (category, query), foodItems ->
         foodItems
             .asSequence()

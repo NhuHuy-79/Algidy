@@ -2,6 +2,7 @@ package com.nhuhuy.algidy.feature.food_entry.presentation.viewmodel
 
 import androidx.lifecycle.viewModelScope
 import com.nhuhuy.algidy.core.data.util.product
+import com.nhuhuy.algidy.core.domain.repository.CategoryRepository
 import com.nhuhuy.algidy.core.domain.repository.FoodTemplateRepository
 import com.nhuhuy.algidy.core.model.food.FoodCategory
 import com.nhuhuy.algidy.core.model.food.FoodTemplate
@@ -9,9 +10,7 @@ import com.nhuhuy.algidy.core.presentation.model.CategoryUiModel
 import com.nhuhuy.algidy.core.presentation.model.toUiModel
 import com.nhuhuy.algidy.core.presentation.viewmodel.BaseViewModel
 import com.nhuhuy.algidy.feature.food_entry.domain.model.FoodEntryPreferences
-import com.nhuhuy.algidy.feature.food_entry.domain.usecase.AddCategoryUseCase
 import com.nhuhuy.algidy.feature.food_entry.domain.usecase.FoodEntryPreferencesUseCase
-import com.nhuhuy.algidy.feature.food_entry.domain.usecase.ObserveCategoriesUseCase
 import com.nhuhuy.algidy.feature.food_entry.domain.usecase.SaveFoodItemUseCase
 import com.nhuhuy.algidy.feature.food_entry.presentation.model.EntryUiModel
 import com.nhuhuy.algidy.feature.food_entry.presentation.model.applyFoodTemplate
@@ -31,10 +30,9 @@ import kotlin.time.Duration.Companion.seconds
 
 class FoodEntryViewModel(
     entryUiModel: EntryUiModel?,
-    private val observeCategoriesUseCase: ObserveCategoriesUseCase,
+    private val categoryRepository: CategoryRepository,
     private val foodEntryPreferencesUseCase: FoodEntryPreferencesUseCase,
     private val saveFoodItemUseCase: SaveFoodItemUseCase,
-    private val addCategoryUseCase: AddCategoryUseCase,
 
     //migrate to repository,
     private val foodTemplateRepository: FoodTemplateRepository,
@@ -126,7 +124,7 @@ class FoodEntryViewModel(
             }
 
             FoodEntryAction.OnCategoryConfirm -> viewModelScope.launch {
-                addCategoryUseCase(category = FoodCategory(name = currentState.categoryQuery))
+                categoryRepository.addCategory(category = FoodCategory(name = currentState.categoryQuery))
                 _uiState.product { copy(overlay = FoodEntryOverlay.NONE) }
             }
 
@@ -232,7 +230,7 @@ class FoodEntryViewModel(
     }
 
     private fun observeCategories() {
-        observeCategoriesUseCase()
+        categoryRepository.observeAllCategories()
             .onEach { categories ->
                 val uiModel = categories.map { it.toUiModel() }
                     .filterIsInstance<CategoryUiModel.ByCategory>()

@@ -2,10 +2,7 @@ package com.nhuhuy.algidy.feature.food_entry.di
 
 import com.nhuhuy.algidy.core.domain.usecase.food.GetFoodByIdUseCase
 import com.nhuhuy.algidy.feature.food_entry.data.FoodEntryDataStore
-import com.nhuhuy.algidy.feature.food_entry.domain.usecase.AddCategoryUseCase
 import com.nhuhuy.algidy.feature.food_entry.domain.usecase.FoodEntryPreferencesUseCase
-import com.nhuhuy.algidy.feature.food_entry.domain.usecase.GetCategoriesUseCase
-import com.nhuhuy.algidy.feature.food_entry.domain.usecase.ObserveCategoriesUseCase
 import com.nhuhuy.algidy.feature.food_entry.domain.usecase.SaveFoodItemUseCase
 import com.nhuhuy.algidy.feature.food_entry.presentation.model.EntryUiModel
 import com.nhuhuy.algidy.feature.food_entry.presentation.viewmodel.FoodEntryViewModel
@@ -19,9 +16,6 @@ val foodEntryModule = module {
     single { FoodEntryDataStore(androidContext()) }
 
     //usecase
-    factoryOf(::ObserveCategoriesUseCase)
-    factoryOf(::AddCategoryUseCase)
-    factoryOf(::GetCategoriesUseCase)
     factoryOf(::SaveFoodItemUseCase)
     factoryOf(::FoodEntryPreferencesUseCase)
     factoryOf(::GetFoodByIdUseCase)
@@ -30,10 +24,9 @@ val foodEntryModule = module {
     viewModel { (food: EntryUiModel) ->
         FoodEntryViewModel(
             entryUiModel = food,
-            addCategoryUseCase = get(),
+            categoryRepository = get(),
             saveFoodItemUseCase = get(),
             foodEntryPreferencesUseCase = get(),
-            observeCategoriesUseCase = get(),
             foodTemplateRepository = get()
         )
     }

@@ -2,9 +2,9 @@ package com.nhuhuy.algidy.feature.inventory.presentation.shared
 
 import androidx.lifecycle.viewModelScope
 import com.nhuhuy.algidy.core.data.util.product
+import com.nhuhuy.algidy.core.domain.repository.FoodRepository
+import com.nhuhuy.algidy.core.model.food.FoodStatus
 import com.nhuhuy.algidy.core.presentation.viewmodel.BaseViewModel
-import com.nhuhuy.algidy.feature.inventory.domain.usecase.food.MarkFoodAsConsumedUseCase
-import com.nhuhuy.algidy.feature.inventory.domain.usecase.food.MarkFoodAsWastedUseCase
 import com.nhuhuy.algidy.feature.inventory.presentation.model.FoodUiModel
 import com.nhuhuy.algidy.feature.inventory.presentation.shared.viewmodel.DetailAction
 import com.nhuhuy.algidy.feature.inventory.presentation.shared.viewmodel.DetailEvent
@@ -17,8 +17,7 @@ import kotlinx.coroutines.launch
 
 class DetailBottomSheetViewModel(
     private val foodItem: FoodUiModel,
-    private val markFoodAsConsumedUseCase: MarkFoodAsConsumedUseCase,
-    private val markFoodAsWastedUseCase: MarkFoodAsWastedUseCase
+    private val foodRepository: FoodRepository
 ) : BaseViewModel<DetailUiState, DetailEvent, DetailAction>() {
     private val _uiState = MutableStateFlow(
         DetailUiState(
@@ -36,7 +35,7 @@ class DetailBottomSheetViewModel(
 
             DetailAction.OnConsumeConfirm -> {
                 viewModelScope.launch {
-                    markFoodAsConsumedUseCase(foodItem.id)
+                    foodRepository.updateFoodStatus(foodItem.id, FoodStatus.CONSUMED)
                     _uiState.product { copy(overlay = DetailOverlay.None) }
                     emitEvent(DetailEvent.OnDismiss)
                 }
@@ -56,7 +55,7 @@ class DetailBottomSheetViewModel(
             }
 
             DetailAction.OnWasteConfirm -> viewModelScope.launch {
-                markFoodAsWastedUseCase(foodItem.id)
+                foodRepository.updateFoodStatus(foodItem.id, FoodStatus.WASTED)
                 _uiState.product { copy(overlay = DetailOverlay.None) }
                 emitEvent(DetailEvent.OnDismiss)
             }
