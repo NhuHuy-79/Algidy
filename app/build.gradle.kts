@@ -9,7 +9,7 @@ android {
     namespace = "com.nhuhuy.algidy"
     defaultConfig {
         applicationId = "com.nhuhuy.algidy"
-        targetSdk = 36
+        targetSdk = 37
         versionCode = 7
         versionName = "2.0.0"
     }
